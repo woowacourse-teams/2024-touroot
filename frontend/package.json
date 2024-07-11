@@ -5,7 +5,7 @@
   "repository": "https://github.com/woowacourse-teams/2024-touroot",
   "scripts": {
     "dev": "webpack serve --config webpack.common.js",
-    "build": "webpack --config webpack.common.js"
+    "build": "NODE_ENV=production webpack --config webpack.common.js"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -14,7 +14,13 @@
   "devDependencies": {
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "typescript": "^5.5.3"
+    "html-webpack-plugin": "^5.6.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.5.3",
+    "webpack": "^5.92.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4",
+    "webpack-merge": "^6.0.1"
   },
   "contributors": [
     {

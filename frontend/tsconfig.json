@@ -9,7 +9,6 @@
     "isolatedModules": false,
     "noEmit": false,
     "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react",
 
     "strict": true,
     "noUnusedLocals": true,
