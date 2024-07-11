@@ -1,0 +1,46 @@
+{
+  "name": "2024-touroot",
+  "version": "1.0.0",
+  "description": "to your route, 투룻!",
+  "repository": "https://github.com/woowacourse-teams/2024-touroot",
+  "scripts": {
+    "dev": "webpack serve --config webpack.common.js",
+    "build": "webpack --config webpack.common.js"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.5.3"
+  },
+  "contributors": [
+    {
+      "name": "Jinyoung Son",
+      "email": "sm099@naver.com",
+      "url": "https://github.com/jinyoung234"
+    },
+    {
+      "name": "Horim Sim",
+      "email": "hori5020@gmail.com",
+      "url": "https://github.com/simorimi"
+    },
+    {
+      "name": "Jaehee Choi",
+      "email": "jenn0.6n@gmail.com",
+      "url": "https://github.com/0jenn0"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "typescript",
+    "webpack"
+  ],
+  "engines": {
+    "npm": ">=10.7.0",
+    "node": ">=20.15.1"
+  }
+}
