@@ -9,17 +9,15 @@
     "isolatedModules": false,
     "noEmit": false,
     "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
 
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "baseUrl": "./src",
+    "baseUrl": "src",
     "paths": {
-      "@components/*": ["components/*"],
-      "@styles/*": ["styles/*"],
-      "@constants/*": ["constants/*"],
-      "@types/*": ["types/*"]
+      "@styles/*": ["styles/*"]
     }
   },
   "include": ["src"],
