@@ -63,7 +63,7 @@
     "node": ">=20.15.1"
   },
   "browserslist": [
-    ">1%",
+    ">5%",
     "not dead"
   ]
 }
