@@ -24,7 +24,7 @@ public class TravelogueService {
     public TravelogueResponse findTravelogueById(Long id) {
         Travelogue travelogue = travelogueRepository.findById(id).get();
 
-        return new TravelogueResponse(getDayResponses(travelogue));
+        return new TravelogueResponse(travelogue.getTitle(), travelogue.getThumbnail(), getDayResponses(travelogue));
     }
 
     private List<TravelogueDayResponse> getDayResponses(Travelogue travelogue) {
