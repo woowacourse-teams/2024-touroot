@@ -23,7 +23,7 @@ public class TraveloguePlace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "PLACE_ORDER", nullable = false)
     private Integer order;
 
     private String description;
@@ -34,8 +34,8 @@ public class TraveloguePlace {
 
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private TravelogueDay day;
+    private TravelogueDay travelogueDay;
 
     @OneToMany(mappedBy = "traveloguePlace")
-    private List<TraveloguePhoto> photos;
+    private List<TraveloguePhoto> traveloguePhotos;
 }
