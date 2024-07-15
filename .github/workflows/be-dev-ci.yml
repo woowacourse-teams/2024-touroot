@@ -1,0 +1,31 @@
+name: BE-DEV-CI
+
+on:
+  push:
+    branches: [ develop/be ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./backend
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew clean build
+
+      - name: Build the Docker image
+        run: docker build -f ./backend/Dockerfile --no-cache -t touroot/touroot-api .
