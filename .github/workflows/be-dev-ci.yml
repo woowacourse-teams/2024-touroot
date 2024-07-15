@@ -36,10 +36,8 @@ jobs:
           username: ${{secrets.DOCKER_USERNAME}}
           password: ${{secrets.DOCKER_PASSWORD}}
 
+      - name: Build the Docker image
+        run: docker build -f ./Dockerfile --no-cache -t touroot/touroot-api .
+
       - name: Push the Docker Image to Dockerhub
-        uses: docker/build-push-action@v1
-        with:
-          context: .
-          file: ./Dockerfile
-          platforms: linux/arm64
-          push: true
+        run: docker push touroot/touroot-api
