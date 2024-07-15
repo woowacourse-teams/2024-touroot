@@ -25,5 +25,5 @@ public class Travelogue {
     private String thumbnail;
 
     @OneToMany(mappedBy = "travelogue")
-    private List<TravelogueDay> days;
+    private List<TravelogueDay> travelogueDays;
 }

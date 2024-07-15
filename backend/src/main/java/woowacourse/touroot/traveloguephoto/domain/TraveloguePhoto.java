@@ -19,13 +19,13 @@ public class TraveloguePhoto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "PHOTO_KEY", nullable = false)
     private String key;
 
-    @Column(nullable = false)
+    @Column(name = "PHOTO_ORDER", nullable = false)
     private Integer order;
 
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private TraveloguePlace place;
+    private TraveloguePlace traveloguePlace;
 }
