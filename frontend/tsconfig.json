@@ -17,7 +17,9 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "src",
     "paths": {
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@assets/*": ["assets/*"],
+      "@components/*": ["components/*"]
     }
   },
   "include": ["src"],
