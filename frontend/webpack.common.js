@@ -26,6 +26,10 @@ module.exports = {
           loader: "ts-loader",
         },
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|woff)$/i,
+        type: "asset/resource",
+      },
     ],
   },
   plugins: [

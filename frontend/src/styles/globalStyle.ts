@@ -1,6 +1,69 @@
 import { css } from "@emotion/react";
 
 export const globalStyle = css`
+  @font-face {
+    font-family: "Pretendard";
+    font-weight: 900;
+    font-display: swap;
+    src: url("@assets/fonts/woff-subset/Pretendard-Black.subset.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "Pretendard";
+    font-weight: 800;
+    font-display: swap;
+    src: url("@assets/fonts/woff-subset/Pretendard-ExtraBold.subset.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "Pretendard";
+    font-weight: 700;
+    font-display: swap;
+    src: url("@assets/fonts/woff-subset/Pretendard-Bold.subset.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "Pretendard";
+    font-weight: 600;
+    font-display: swap;
+    src: url("@assets/fonts/woff-subset/Pretendard-SemiBold.subset.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "Pretendard";
+    font-weight: 500;
+    font-display: swap;
+    src: url("@assets/fonts/woff-subset/Pretendard-Medium.subset.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "Pretendard";
+    font-weight: 400;
+    font-display: swap;
+    src: url("@assets/fonts/woff-subset/Pretendard-Regular.subset.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "Pretendard";
+    font-weight: 300;
+    font-display: swap;
+    src: url("@assets/fonts/woff-subset/Pretendard-Light.subset.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "Pretendard";
+    font-weight: 200;
+    font-display: swap;
+    src: url("@assets/fonts/woff-subset/Pretendard-ExtraLight.subset.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "Pretendard";
+    font-weight: 100;
+    font-display: swap;
+    src: url("@assets/fonts/woff-subset/Pretendard-Thin.subset.woff") format("woff");
+  }
+
   html,
   body,
   div,
@@ -105,9 +168,6 @@ export const globalStyle = css`
   * {
     user-select: none;
   }
-  body {
-    font-family: sans-serif;
-  }
   ol,
   ul,
   li {
@@ -160,13 +220,7 @@ export const globalStyle = css`
     background-color: white;
     color: black;
     font-size: 1.6rem;
-    font-family:
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      "Open Sans",
-      "Helvetica Neue",
-      sans-serif;
+    font-family: "Pretendard";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -196,9 +250,7 @@ export const globalStyle = css`
 
     background-color: white;
     min-width: 28rem;
-
     max-width: 48rem;
-
     min-height: 100vh;
   }
 `;
