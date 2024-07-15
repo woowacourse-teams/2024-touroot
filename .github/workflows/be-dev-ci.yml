@@ -37,7 +37,7 @@ jobs:
           password: ${{secrets.DOCKER_PASSWORD}}
 
       - name: Build the Docker image
-        run: docker build -f ./Dockerfile --no-cache -t touroot/touroot-api .
+        run: docker build -f ./Dockerfile --platform linux/arm64 --no-cache -t touroot/touroot-api .
 
       - name: Push the Docker Image to Dockerhub
         run: docker push touroot/touroot-api
