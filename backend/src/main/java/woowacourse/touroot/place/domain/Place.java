@@ -19,10 +19,10 @@ public class Place {
     private String name;
 
     @Column(nullable = false)
-    private Double latitude;
+    private String latitude;
 
     @Column(nullable = false)
-    private Double longitude;
+    private String longitude;
 
     private String googlePlaceId;
 }
