@@ -22,7 +22,7 @@ public class TravelogueDay {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "DAY_ORDER", nullable = false)
     private Integer order;
 
     @JoinColumn(nullable = false)
@@ -30,5 +30,5 @@ public class TravelogueDay {
     private Travelogue travelogue;
 
     @OneToMany(mappedBy = "travelogueDay")
-    private List<TraveloguePlace> places;
+    private List<TraveloguePlace> traveloguePlaces;
 }
