@@ -47,5 +47,11 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Pull the Docker Image and deploy
-        run: ../deploy.sh
+      - name: Docker Image pull
+        run: sudo docker pull touroot/touroot-api
+
+      - name: Move to Docker directory
+        run: cd ~/docker
+
+      - name: Docker Compose up
+        run: sudo docker compose -f touroot-docker.yml up -d
