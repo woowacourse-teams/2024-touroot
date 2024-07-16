@@ -1,4 +1,4 @@
-name: BE-DEV-CI
+name: BE DEV CI/CD
 
 on:
   push:
@@ -41,3 +41,11 @@ jobs:
 
       - name: Push the Docker Image to Dockerhub
         run: docker push touroot/touroot-api
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+
+    steps:
+      - name: Pull the Docker Image and deploy
+        run: ../deploy.sh
