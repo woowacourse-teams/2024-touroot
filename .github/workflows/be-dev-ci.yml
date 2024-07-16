@@ -43,10 +43,9 @@ jobs:
         run: docker push touroot/touroot-api
 
   deploy:
+    needs: build
     runs-on: self-hosted
 
     steps:
-      - run: pwd
-
       - name: Pull the Docker Image and deploy
         run: ../deploy.sh
