@@ -18,7 +18,6 @@ const theme: Theme = {
       line-height: 2.17rem;
     `,
     detail: `
-      font-family: Pretendard-Regular;
       font-weight: 400;
       font-size: 1.2rem;
       line-height: 1.25rem;
