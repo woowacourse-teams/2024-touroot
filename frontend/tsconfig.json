@@ -19,7 +19,8 @@
     "paths": {
       "@styles/*": ["styles/*"],
       "@assets/*": ["assets/*"],
-      "@components/*": ["components/*"]
+      "@components/*": ["components/*"],
+      "@apis/*": ["apis/*"]
     }
   },
   "include": ["src"],
