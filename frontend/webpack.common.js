@@ -29,8 +29,26 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif|woff)$/i,
+        test: /\.svg$/i,
+        type: "asset",
+        resourceQuery: /url/,
+      },
+      {
+        test: /\.svg$/i,
+        issuer: /\.[jt]sx?$/,
+        resourceQuery: { not: [/url/] },
+        use: ["@svgr/webpack"],
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|woff)$/i,
         type: "asset/resource",
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "assets/fonts/[name][ext]",
+        },
       },
     ],
   },
