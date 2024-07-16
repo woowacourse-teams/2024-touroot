@@ -5,4 +5,5 @@ export { default as PrevArrow } from "./prev-arrow.svg";
 export { default as UpArrow } from "./up-arrow.svg";
 export { default as DownArrow } from "./down-arrow.svg";
 export { default as Marker } from "./marker.svg";
+export { default as markerUrl } from "./marker.svg?url";
 export { default as EmptyHeart } from "./empty-heart.svg";
