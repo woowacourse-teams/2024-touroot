@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const DotenvWebpack = require("dotenv-webpack");
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -43,18 +44,14 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif|woff)$/i,
         type: "asset/resource",
       },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: "asset/resource",
-        generator: {
-          filename: "assets/fonts/[name][ext]",
-        },
-      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./public/index.html",
+    }),
+    new DotenvWebpack({
+      path: path.resolve(__dirname, isDevelopment ? ".env.development" : ".env.production"),
     }),
   ],
   devServer: {
