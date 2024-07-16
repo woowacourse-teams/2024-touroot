@@ -1,4 +1,4 @@
-name: BE PULL REQUEST TEST
+name: BE CI
 
 on:
   pull_request:
