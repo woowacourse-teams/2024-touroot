@@ -11,7 +11,7 @@ interface CarouselProps {
 }
 
 const carouselImageListStyling = (currentIndex: number) => css`
-  max-width: translateX(-${currentIndex * 100}%);
+  transform: translateX(-${currentIndex * 100}%);
 `;
 
 const Carousel = ({ imageUrls }: CarouselProps) => {
