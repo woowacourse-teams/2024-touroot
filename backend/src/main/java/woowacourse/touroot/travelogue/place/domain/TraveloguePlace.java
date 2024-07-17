@@ -11,13 +11,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 import lombok.Getter;
+import woowacourse.touroot.entity.BaseEntity;
 import woowacourse.touroot.place.domain.Place;
 import woowacourse.touroot.travelogue.day.domain.TravelogueDay;
 import woowacourse.touroot.travelogue.photo.domain.TraveloguePhoto;
 
 @Getter
 @Entity
-public class TraveloguePlace {
+public class TraveloguePlace extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
