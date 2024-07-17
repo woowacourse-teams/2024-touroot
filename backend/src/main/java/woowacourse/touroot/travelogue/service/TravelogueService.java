@@ -5,14 +5,14 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import woowacourse.touroot.travelogue.day.domain.TravelogueDay;
+import woowacourse.touroot.travelogue.day.dto.TravelogueDayResponse;
 import woowacourse.touroot.travelogue.domain.Travelogue;
 import woowacourse.touroot.travelogue.dto.TravelogueResponse;
+import woowacourse.touroot.travelogue.photo.domain.TraveloguePhoto;
+import woowacourse.touroot.travelogue.place.domain.TraveloguePlace;
+import woowacourse.touroot.travelogue.place.dto.TraveloguePlaceResponse;
 import woowacourse.touroot.travelogue.repository.TravelogueRepository;
-import woowacourse.touroot.travelogueday.domain.TravelogueDay;
-import woowacourse.touroot.travelogueday.dto.TravelogueDayResponse;
-import woowacourse.touroot.traveloguephoto.domain.TraveloguePhoto;
-import woowacourse.touroot.travelogueplace.domain.TraveloguePlace;
-import woowacourse.touroot.travelogueplace.dto.TraveloguePlaceResponse;
 
 @RequiredArgsConstructor
 @Service

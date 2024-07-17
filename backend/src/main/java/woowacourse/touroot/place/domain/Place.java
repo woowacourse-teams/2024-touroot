@@ -6,10 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
+import woowacourse.touroot.entity.BaseEntity;
 
 @Getter
 @Entity
-public class Place {
+public class Place extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

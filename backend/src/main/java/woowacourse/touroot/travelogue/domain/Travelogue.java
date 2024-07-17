@@ -8,11 +8,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 import lombok.Getter;
-import woowacourse.touroot.travelogueday.domain.TravelogueDay;
+import woowacourse.touroot.entity.BaseEntity;
+import woowacourse.touroot.travelogue.day.domain.TravelogueDay;
 
 @Getter
 @Entity
-public class Travelogue {
+public class Travelogue extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
