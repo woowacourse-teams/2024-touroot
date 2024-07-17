@@ -1,4 +1,4 @@
-package woowacourse.touroot.travelogueplace.domain;
+package woowacourse.touroot.travelogue.place.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,8 +12,8 @@ import jakarta.persistence.OneToMany;
 import java.util.List;
 import lombok.Getter;
 import woowacourse.touroot.place.domain.Place;
-import woowacourse.touroot.travelogueday.domain.TravelogueDay;
-import woowacourse.touroot.traveloguephoto.domain.TraveloguePhoto;
+import woowacourse.touroot.travelogue.day.domain.TravelogueDay;
+import woowacourse.touroot.travelogue.photo.domain.TraveloguePhoto;
 
 @Getter
 @Entity

@@ -1,4 +1,4 @@
-package woowacourse.touroot.travelogueplace.dto;
+package woowacourse.touroot.travelogue.place.dto;
 
 import java.util.List;
 
