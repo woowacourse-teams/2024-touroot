@@ -32,31 +32,37 @@ public class TravelPlanService {
         travelPlan.validateStartDate();
 
         TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);
-
-        for (PlanDayCreateRequest dayRequest : request.days()) {
-            TravelPlanDay travelPlanDay = travelPlanDayRepository.save(dayRequest.toPlanDay(savedTravelPlan));
-            createPlanPlace(dayRequest.places(), travelPlanDay);
-        }
+        createPlanDay(request, savedTravelPlan);
 
         return new TravelPlanCreateResponse(savedTravelPlan.getId());
     }
 
+    private void createPlanDay(TravelPlanCreateRequest request, TravelPlan savedTravelPlan) {
+        for (PlanDayCreateRequest dayRequest : request.days()) {
+            TravelPlanDay travelPlanDay = travelPlanDayRepository.save(dayRequest.toPlanDay(savedTravelPlan));
+            createPlanPlace(dayRequest.places(), travelPlanDay);
+        }
+    }
+
     private void createPlanPlace(List<PlanPlaceCreateRequest> request, TravelPlanDay travelPlanDay) {
         for (PlanPlaceCreateRequest planRequest : request) {
-            Place place = placeRepository.findByNameAndLatitudeAndLongitude(
-                    planRequest.placeName(),
-                    planRequest.location().lat(),
-                    planRequest.location().lng()
-            ).orElseGet(() -> placeRepository.save(
-                            new Place(
-                                    planRequest.placeName(),
-                                    planRequest.location().lat(),
-                                    planRequest.location().lng()
-                            )
-                    )
-            );
-
+            Place place = getPlace(planRequest);
             travelPlanPlaceRepository.save(planRequest.toPlanPlace(travelPlanDay, place));
         }
+    }
+
+    private Place getPlace(PlanPlaceCreateRequest planRequest) {
+        return placeRepository.findByNameAndLatitudeAndLongitude(
+                planRequest.placeName(),
+                planRequest.location().lat(),
+                planRequest.location().lng()
+        ).orElseGet(() -> placeRepository.save(
+                        new Place(
+                                planRequest.placeName(),
+                                planRequest.location().lat(),
+                                planRequest.location().lng()
+                        )
+                )
+        );
     }
 }
