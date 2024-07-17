@@ -8,7 +8,7 @@ import woowacourse.touroot.place.repository.PlaceRepository;
 import woowacourse.touroot.travelplan.domain.TravelPlan;
 import woowacourse.touroot.travelplan.domain.TravelPlanDay;
 import woowacourse.touroot.travelplan.dto.PlanDayCreateRequest;
-import woowacourse.touroot.travelplan.dto.PlanPlaceRequest;
+import woowacourse.touroot.travelplan.dto.PlanPlaceCreateRequest;
 import woowacourse.touroot.travelplan.dto.TravelPlanCreateRequest;
 import woowacourse.touroot.travelplan.dto.TravelPlanCreateResponse;
 import woowacourse.touroot.travelplan.repository.TravelPlanDayRepository;
@@ -38,8 +38,8 @@ public class TravelPlanService {
         return new TravelPlanCreateResponse(travelPlan.getId());
     }
 
-    private void createPlanPlace(List<PlanPlaceRequest> request, TravelPlanDay travelPlanDay) {
-        for (PlanPlaceRequest planRequest : request) {
+    private void createPlanPlace(List<PlanPlaceCreateRequest> request, TravelPlanDay travelPlanDay) {
+        for (PlanPlaceCreateRequest planRequest : request) {
             Place place = placeRepository.findByNameAndLatitudeAndLongitude(
                     planRequest.placeName(),
                     planRequest.location().lat(),
