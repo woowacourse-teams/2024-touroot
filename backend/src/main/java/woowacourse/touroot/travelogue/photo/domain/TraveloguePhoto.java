@@ -1,4 +1,4 @@
-package woowacourse.touroot.traveloguephoto.domain;
+package woowacourse.touroot.travelogue.photo.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,11 +9,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
-import woowacourse.touroot.travelogueplace.domain.TraveloguePlace;
+import woowacourse.touroot.entity.BaseEntity;
+import woowacourse.touroot.travelogue.place.domain.TraveloguePlace;
 
 @Getter
 @Entity
-public class TraveloguePhoto {
+public class TraveloguePhoto extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
