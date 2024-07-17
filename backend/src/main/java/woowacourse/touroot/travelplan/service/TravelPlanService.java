@@ -28,14 +28,17 @@ public class TravelPlanService {
 
     @Transactional
     public TravelPlanCreateResponse createTravelPlan(TravelPlanCreateRequest request) {
-        TravelPlan travelPlan = travelPlanRepository.save(request.toTravelPlan());
+        TravelPlan travelPlan = request.toTravelPlan();
+        travelPlan.validateStartDate();
+
+        TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);
 
         for (PlanDayCreateRequest dayRequest : request.days()) {
-            TravelPlanDay travelPlanDay = travelPlanDayRepository.save(dayRequest.toPlanDay(travelPlan));
+            TravelPlanDay travelPlanDay = travelPlanDayRepository.save(dayRequest.toPlanDay(savedTravelPlan));
             createPlanPlace(dayRequest.places(), travelPlanDay);
         }
 
-        return new TravelPlanCreateResponse(travelPlan.getId());
+        return new TravelPlanCreateResponse(savedTravelPlan.getId());
     }
 
     private void createPlanPlace(List<PlanPlaceCreateRequest> request, TravelPlanDay travelPlanDay) {

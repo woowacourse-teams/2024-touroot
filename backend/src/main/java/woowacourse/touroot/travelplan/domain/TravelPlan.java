@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import woowacourse.touroot.entity.BaseEntity;
+import woowacourse.touroot.global.exception.BadRequestException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,5 +32,11 @@ public class TravelPlan extends BaseEntity {
 
     public TravelPlan(String title, LocalDate startDate) {
         this(null, title, startDate, null);
+    }
+
+    public void validateStartDate() {
+        if (startDate.isBefore(LocalDate.now())) {
+            throw new BadRequestException("지난 날짜에 대한 계획은 작성할 수 없습니다.");
+        }
     }
 }
