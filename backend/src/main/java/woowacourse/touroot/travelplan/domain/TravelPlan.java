@@ -2,15 +2,17 @@ package woowacourse.touroot.travelplan.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import woowacourse.touroot.entity.BaseEntity;
-import woowacourse.touroot.travelplan.day.domain.PlanDay;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class TravelPlan extends BaseEntity {
 
@@ -19,8 +21,15 @@ public class TravelPlan extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    String title;
+    private String title;
+
+    @Column(nullable = false)
+    private LocalDate startDate;
 
     @OneToMany(mappedBy = "plan")
-    List<PlanDay> days;
+    private List<TravelPlanDay> days;
+
+    public TravelPlan(String title, LocalDate startDate) {
+        this(null, title, startDate, null);
+    }
 }
