@@ -1,7 +1,7 @@
 package woowacourse.touroot.travelogue.dto;
 
-import java.util.List;
-import woowacourse.touroot.travelogue.day.dto.TravelogueDayResponse;
+import lombok.Builder;
 
-public record TravelogueResponse(String title, String thumbnail, List<TravelogueDayResponse> days) {
+@Builder
+public record TravelogueResponse(Long id, String title, String thumbnail) {
 }
