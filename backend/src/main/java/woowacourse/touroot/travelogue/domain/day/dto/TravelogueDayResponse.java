@@ -1,7 +1,4 @@
 package woowacourse.touroot.travelogue.domain.day.dto;
 
-import java.util.List;
-import woowacourse.touroot.travelogue.place.dto.TraveloguePlaceResponse;
-
-public record TravelogueDayResponse(List<TraveloguePlaceResponse> places) {
+public record TravelogueDayResponse(Long id) {
 }

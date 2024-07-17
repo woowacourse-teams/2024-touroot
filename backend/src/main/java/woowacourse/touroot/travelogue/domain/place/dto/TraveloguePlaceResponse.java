@@ -1,12 +1,13 @@
 package woowacourse.touroot.travelogue.domain.place.dto;
 
-import java.util.List;
+import lombok.Builder;
 
+@Builder
 public record TraveloguePlaceResponse(
+        Long id,
         String name,
-        List<String> photoUrls,
         String description,
-        String latitude,
-        String longitude
+        String lat,
+        String lng
 ) {
 }

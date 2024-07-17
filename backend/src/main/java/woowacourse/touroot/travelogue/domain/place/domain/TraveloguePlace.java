@@ -8,8 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import java.util.List;
 import lombok.Getter;
 import woowacourse.touroot.entity.BaseEntity;
 import woowacourse.touroot.place.domain.Place;
@@ -36,6 +34,15 @@ public class TraveloguePlace extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelogueDay travelogueDay;
 
-    @OneToMany(mappedBy = "traveloguePlace")
-    private List<TraveloguePhoto> traveloguePhotos;
+    public String getName() {
+        return place.getName();
+    }
+
+    public String getLatitude() {
+        return place.getLatitude();
+    }
+
+    public String getLongitude() {
+        return place.getLongitude();
+    }
 }
