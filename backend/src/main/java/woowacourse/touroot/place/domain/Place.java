@@ -1,10 +1,6 @@
 package woowacourse.touroot.place.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,5 +30,9 @@ public class Place extends BaseEntity {
 
     public Place(String name, String latitude, String longitude, String googlePlaceId) {
         this(null, name, latitude, longitude, googlePlaceId);
+    }
+    
+    public Place(String name, String latitude, String longitude) {
+        this(null, name, latitude, longitude, null);
     }
 }
