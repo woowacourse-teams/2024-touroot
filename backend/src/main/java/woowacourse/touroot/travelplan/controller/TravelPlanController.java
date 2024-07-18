@@ -10,7 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import woowacourse.touroot.global.exception.dto.ErrorResponse;
+import woowacourse.touroot.global.exception.dto.ExceptionResponse;
 import woowacourse.touroot.travelplan.dto.request.TravelPlanCreateRequest;
 import woowacourse.touroot.travelplan.dto.response.TravelPlanCreateResponse;
 import woowacourse.touroot.travelplan.dto.response.TravelPlanResponse;
@@ -30,7 +30,7 @@ public class TravelPlanController {
                     @ApiResponse(
                             responseCode = "400",
                             description = "Body에 유효하지 않은 값이 존재하거나 지난 날짜에 대한 계획을 생성할 때",
-                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+                            content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
                     )
             }
     )
@@ -48,7 +48,7 @@ public class TravelPlanController {
                     @ApiResponse(
                             responseCode = "400",
                             description = "존재하지 않은 여행 계획을 조회할 때",
-                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+                            content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
                     )
             }
     )
