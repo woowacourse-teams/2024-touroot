@@ -25,6 +25,7 @@ public class TravelPlanController {
     @PostMapping
     public ResponseEntity<TravelPlanCreateResponse> createTravelPlan(@Valid @RequestBody TravelPlanCreateRequest request) {
         TravelPlanCreateResponse data = travelPlanService.createTravelPlan(request);
-        return ResponseEntity.ok().body(data);
+        return ResponseEntity.ok()
+                .body(data);
     }
 }
