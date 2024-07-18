@@ -28,7 +28,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew clean build -Pjasypt.encryptor.password=${{secrets.JASYPT_SECRET_KEY}}
 
       - name: Sign in Dockerhub
         uses: docker/login-action@v1
