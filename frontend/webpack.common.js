@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const DotenvWebpack = require("dotenv-webpack");
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -14,6 +15,9 @@ module.exports = {
   resolve: {
     alias: {
       "@styles": path.resolve(__dirname, "src/styles/"),
+      "@assets": path.resolve(__dirname, "src/assets/"),
+      "@components": path.resolve(__dirname, "src/components/"),
+      "@apis": path.resolve(__dirname, "src/apis/"),
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
@@ -26,11 +30,29 @@ module.exports = {
           loader: "ts-loader",
         },
       },
+      {
+        test: /\.svg$/i,
+        type: "asset",
+        resourceQuery: /url/,
+      },
+      {
+        test: /\.svg$/i,
+        issuer: /\.[jt]sx?$/,
+        resourceQuery: { not: [/url/] },
+        use: ["@svgr/webpack"],
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|woff)$/i,
+        type: "asset/resource",
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./public/index.html",
+    }),
+    new DotenvWebpack({
+      path: path.resolve(__dirname, isDevelopment ? ".env.development" : ".env.production"),
     }),
   ],
   devServer: {
