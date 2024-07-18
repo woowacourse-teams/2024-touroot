@@ -1,4 +1,4 @@
-package woowacourse.touroot.travelogue.day.domain;
+package woowacourse.touroot.travelogue.domain.day.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,14 +8,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import java.util.List;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import woowacourse.touroot.entity.BaseEntity;
 import woowacourse.touroot.travelogue.domain.Travelogue;
-import woowacourse.touroot.travelogue.place.domain.TraveloguePlace;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class TravelogueDay extends BaseEntity {
 
@@ -30,6 +32,7 @@ public class TravelogueDay extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Travelogue travelogue;
 
-    @OneToMany(mappedBy = "travelogueDay")
-    private List<TraveloguePlace> traveloguePlaces;
+    public TravelogueDay(Integer order, Travelogue travelogue) {
+        this(null, order, travelogue);
+    }
 }

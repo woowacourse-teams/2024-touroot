@@ -28,6 +28,10 @@ public class Place extends BaseEntity {
 
     private String googlePlaceId;
 
+    public Place(String name, String latitude, String longitude, String googlePlaceId) {
+        this(null, name, latitude, longitude, googlePlaceId);
+    }
+    
     public Place(String name, String latitude, String longitude) {
         this(null, name, latitude, longitude, null);
     }

@@ -1,4 +1,4 @@
-package woowacourse.touroot.travelogue.place.domain;
+package woowacourse.touroot.travelogue.domain.place.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,15 +8,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import java.util.List;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import woowacourse.touroot.entity.BaseEntity;
 import woowacourse.touroot.place.domain.Place;
-import woowacourse.touroot.travelogue.day.domain.TravelogueDay;
-import woowacourse.touroot.travelogue.photo.domain.TraveloguePhoto;
+import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class TraveloguePlace extends BaseEntity {
 
@@ -37,6 +39,19 @@ public class TraveloguePlace extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelogueDay travelogueDay;
 
-    @OneToMany(mappedBy = "traveloguePlace")
-    private List<TraveloguePhoto> traveloguePhotos;
+    public TraveloguePlace(Integer order, String description, Place place, TravelogueDay travelogueDay) {
+        this(null, order, description, place, travelogueDay);
+    }
+
+    public String getName() {
+        return place.getName();
+    }
+
+    public String getLatitude() {
+        return place.getLatitude();
+    }
+
+    public String getLongitude() {
+        return place.getLongitude();
+    }
 }
