@@ -1,6 +1,7 @@
 package woowacourse.touroot.travelplan.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,18 @@ public class TravelPlanController {
 
     @Operation(summary = "여행 계획 생성")
     @PostMapping
-    public ResponseEntity<TravelPlanCreateResponse> createTravelPlan(@Valid @RequestBody TravelPlanCreateRequest request) {
+    public ResponseEntity<TravelPlanCreateResponse> createTravelPlan(
+            @Valid @RequestBody TravelPlanCreateRequest request
+    ) {
         TravelPlanCreateResponse data = travelPlanService.createTravelPlan(request);
         return ResponseEntity.ok(data);
     }
 
+    @Operation(summary = "여행 계획 상세 조회")
     @GetMapping("/{id}")
-    public ResponseEntity<TravelPlanResponse> readTravelPlan(@PathVariable Long id) {
+    public ResponseEntity<TravelPlanResponse> readTravelPlan(
+            @Parameter(description = "여행 계획 id") @PathVariable Long id
+    ) {
         TravelPlanResponse data = travelPlanService.readTravelPlan(id);
         return ResponseEntity.ok(data);
     }

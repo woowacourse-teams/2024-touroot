@@ -1,5 +1,6 @@
 package woowacourse.touroot.travelplan.dto.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import woowacourse.touroot.travelplan.domain.TravelPlanDay;
 
@@ -7,7 +8,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Builder
-public record TravelPlanDayResponse(LocalDate date, List<TravelPlanPlaceResponse> places) {
+public record TravelPlanDayResponse(
+        @Schema(description = "여행 일자") LocalDate date,
+        @Schema(description = "여행 장소별 정보") List<TravelPlanPlaceResponse> places
+) {
 
     public static TravelPlanDayResponse of(
             TravelPlanDay planDay,
