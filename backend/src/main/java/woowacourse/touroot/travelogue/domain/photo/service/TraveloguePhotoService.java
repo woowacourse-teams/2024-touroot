@@ -13,8 +13,8 @@ import woowacourse.touroot.travelogue.domain.place.repsitory.TraveloguePlaceRepo
 @Service
 public class TraveloguePhotoService {
 
-    private TraveloguePhotoRepository traveloguePhotoRepository;
-    private TraveloguePlaceRepository traveloguePlaceRepository;
+    private final TraveloguePhotoRepository traveloguePhotoRepository;
+    private final TraveloguePlaceRepository traveloguePlaceRepository;
 
     public List<String> findPhotoUrlsByPlaceId(Long traveloguePlaceId) {
         TraveloguePlace traveloguePlace = traveloguePlaceRepository.findById(traveloguePlaceId)

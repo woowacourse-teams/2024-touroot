@@ -5,10 +5,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import woowacourse.touroot.entity.BaseEntity;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class Travelogue extends BaseEntity {
 
@@ -21,4 +26,8 @@ public class Travelogue extends BaseEntity {
 
     @Column(nullable = false)
     private String thumbnail;
+
+    public Travelogue(String title, String thumbnail) {
+        this(null, title, thumbnail);
+    }
 }

@@ -12,8 +12,8 @@ import woowacourse.touroot.travelogue.domain.place.repsitory.TraveloguePlaceRepo
 @Service
 public class TraveloguePlaceService {
 
-    private TraveloguePlaceRepository traveloguePlaceRepository;
-    private TravelogueDayRepository travelogueDayRepository;
+    private final TraveloguePlaceRepository traveloguePlaceRepository;
+    private final TravelogueDayRepository travelogueDayRepository;
 
     public List<TraveloguePlace> findTraveloguePlaceByDayId(Long travelogueDayId) {
         TravelogueDay travelogueDay = travelogueDayRepository.findById(travelogueDayId)

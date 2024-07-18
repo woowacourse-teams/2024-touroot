@@ -18,10 +18,10 @@ import woowacourse.touroot.travelogue.dto.TravelogueResponse;
 @Service
 public class TravelogueFacade {
 
-    private TravelogueService travelogueService;
-    private TravelogueDayService travelogueDayService;
-    private TraveloguePlaceService traveloguePlaceService;
-    private TraveloguePhotoService traveloguePhotoService;
+    private final TravelogueService travelogueService;
+    private final TravelogueDayService travelogueDayService;
+    private final TraveloguePlaceService traveloguePlaceService;
+    private final TraveloguePhotoService traveloguePhotoService;
 
     public TravelogueResponse findTravelogueById(Long id) {
         Travelogue travelogue = travelogueService.findTravelogueById(id);

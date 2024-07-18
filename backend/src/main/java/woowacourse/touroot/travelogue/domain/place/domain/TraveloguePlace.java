@@ -8,12 +8,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import woowacourse.touroot.entity.BaseEntity;
 import woowacourse.touroot.place.domain.Place;
 import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class TraveloguePlace extends BaseEntity {
 
@@ -33,6 +38,10 @@ public class TraveloguePlace extends BaseEntity {
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelogueDay travelogueDay;
+
+    public TraveloguePlace(Integer order, String description, Place place, TravelogueDay travelogueDay) {
+        this(null, order, description, place, travelogueDay);
+    }
 
     public String getName() {
         return place.getName();

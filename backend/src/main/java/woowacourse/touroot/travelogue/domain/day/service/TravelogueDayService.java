@@ -13,8 +13,8 @@ import woowacourse.touroot.travelogue.repository.TravelogueRepository;
 @Service
 public class TravelogueDayService {
 
-    private TravelogueRepository travelogueRepository;
-    private TravelogueDayRepository travelogueDayRepository;
+    private final TravelogueRepository travelogueRepository;
+    private final TravelogueDayRepository travelogueDayRepository;
 
     @Transactional(readOnly = true)
     public List<TravelogueDay> findDaysByTravelogueId(Long travelogueId) {
