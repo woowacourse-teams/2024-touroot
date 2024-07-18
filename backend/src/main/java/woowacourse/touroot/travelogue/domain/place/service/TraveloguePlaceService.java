@@ -3,6 +3,7 @@ package woowacourse.touroot.travelogue.domain.place.service;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import woowacourse.touroot.global.exception.BadRequestException;
 import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
 import woowacourse.touroot.travelogue.domain.day.repository.TravelogueDayRepository;
 import woowacourse.touroot.travelogue.domain.place.domain.TraveloguePlace;
@@ -17,7 +18,7 @@ public class TraveloguePlaceService {
 
     public List<TraveloguePlace> findTraveloguePlaceByDayId(Long travelogueDayId) {
         TravelogueDay travelogueDay = travelogueDayRepository.findById(travelogueDayId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 여행일입니다."));
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 여행일입니다."));
 
         return traveloguePlaceRepository.findByTravelogueDay(travelogueDay);
     }

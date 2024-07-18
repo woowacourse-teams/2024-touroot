@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import woowacourse.touroot.global.exception.BadRequestException;
 import woowacourse.touroot.travelogue.domain.photo.domain.TraveloguePhoto;
 import woowacourse.touroot.travelogue.domain.photo.repository.TraveloguePhotoRepository;
 import woowacourse.touroot.travelogue.domain.place.domain.TraveloguePlace;
@@ -18,7 +19,7 @@ public class TraveloguePhotoService {
 
     public List<String> findPhotoUrlsByPlaceId(Long traveloguePlaceId) {
         TraveloguePlace traveloguePlace = traveloguePlaceRepository.findById(traveloguePlaceId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 여행 장소입니다."));
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 여행 장소입니다."));
 
         List<TraveloguePhoto> photos = traveloguePhotoRepository.findByTraveloguePlace(traveloguePlace);
 
