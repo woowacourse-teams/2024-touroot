@@ -1,13 +1,11 @@
 package woowacourse.touroot.travelogue.domain.day.service;
 
-import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import woowacourse.touroot.travelogue.domain.Travelogue;
 import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
-import woowacourse.touroot.travelogue.domain.day.dto.TravelogueDayResponse;
 import woowacourse.touroot.travelogue.domain.day.repository.TravelogueDayRepository;
 import woowacourse.touroot.travelogue.repository.TravelogueRepository;
 
@@ -19,15 +17,10 @@ public class TravelogueDayService {
     private TravelogueDayRepository travelogueDayRepository;
 
     @Transactional(readOnly = true)
-    public List<TravelogueDayResponse> findDaysByTravelogueId(Long travelogueId) {
+    public List<TravelogueDay> findDaysByTravelogueId(Long travelogueId) {
         Travelogue travelogue = travelogueRepository.findById(travelogueId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 여행기입니다."));
 
-        List<TravelogueDay> days = travelogueDayRepository.findByTravelogue(travelogue);
-
-        return days.stream()
-                .sorted(Comparator.comparing(TravelogueDay::getOrder))
-                .map(travelogueDay -> new TravelogueDayResponse(travelogueDay.getId()))
-                .toList();
+        return travelogueDayRepository.findByTravelogue(travelogue);
     }
 }

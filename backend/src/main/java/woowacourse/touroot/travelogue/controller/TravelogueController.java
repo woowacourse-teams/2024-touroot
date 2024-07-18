@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import woowacourse.touroot.travelogue.dto.TravelogueResponse;
-import woowacourse.touroot.travelogue.service.TravelogueService;
+import woowacourse.touroot.travelogue.service.TravelogueFacade;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/travelogues")
 public class TravelogueController {
 
-    private final TravelogueService travelogueService;
+    private final TravelogueFacade travelogueFacade;
 
     @GetMapping("/{id}")
     public ResponseEntity<TravelogueResponse> findTravelogue(@PathVariable Long id) {
-        return ResponseEntity.ok(travelogueService.findTravelogueById(id));
+        return ResponseEntity.ok(travelogueFacade.findTravelogueById(id));
     }
 }

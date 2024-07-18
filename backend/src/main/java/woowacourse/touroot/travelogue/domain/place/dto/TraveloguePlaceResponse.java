@@ -1,5 +1,6 @@
 package woowacourse.touroot.travelogue.domain.place.dto;
 
+import java.util.List;
 import lombok.Builder;
 
 @Builder
@@ -8,6 +9,7 @@ public record TraveloguePlaceResponse(
         String name,
         String description,
         String lat,
-        String lng
+        String lng,
+        List<String> photoUrls
 ) {
 }
