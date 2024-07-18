@@ -35,15 +35,13 @@ public class KakaoOauthClient {
                 .withReadTimeout(Duration.ofSeconds(3));
         ClientHttpRequestFactory requestFactory = ClientHttpRequestFactories.get(settings);
 
-        System.out.println("restApiKey = " + restApiKey);
-        
-        this.restClient = RestClient.builder()
-                .requestFactory(requestFactory)
-                .build();
         this.userInformationRequestUri = userInformationRequestUri;
         this.accessTokenRequestUri = accessTokenRequestUri;
         this.restApiKey = restApiKey;
         this.redirectUri = redirectUri;
+        this.restClient = RestClient.builder()
+                .requestFactory(requestFactory)
+                .build();
     }
 
     public OauthUserInformationResponse requestUserInformation(String authorizationCode) {
