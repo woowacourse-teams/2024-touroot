@@ -8,6 +8,11 @@ jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
+security:
+  jwt:
+    token:
+      secret-key: ENC(SNwFG2NQDZkmIK3nNoZFdwQ0ZxKuoe+qcw10ljdW941YEx/Qky9PEEl+wvAN9S1KR26D3a83SnU=)
+      expire-length: 1800000
 ---
 spring:
   config:

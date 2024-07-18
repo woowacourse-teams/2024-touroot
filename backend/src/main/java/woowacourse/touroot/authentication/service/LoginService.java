@@ -1,9 +1,10 @@
 package woowacourse.touroot.authentication.service;
 
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import woowacourse.touroot.authentication.dto.LoginResponse;
 import woowacourse.touroot.authentication.dto.OauthUserInformationResponse;
+import woowacourse.touroot.authentication.infrastructure.JwtTokenProvider;
 import woowacourse.touroot.authentication.infrastructure.KakaoOauthProvider;
 import woowacourse.touroot.member.domain.Member;
 import woowacourse.touroot.member.repository.MemberRepository;
@@ -14,13 +15,14 @@ public class LoginService {
 
     private final MemberRepository memberRepository;
     private final KakaoOauthProvider oauthProvider;
+    private final JwtTokenProvider tokenProvider;
 
-    public String login(String code) {
+    public LoginResponse login(String code) {
         OauthUserInformationResponse userInformation = oauthProvider.getUserInformation(code);
         Member member = memberRepository.findByKakaoId(userInformation.socialLoginId())
                 .orElseGet(() -> signUp(userInformation));
 
-        return userInformation.profileImage();
+        return new LoginResponse(tokenProvider.createToken(member));
     }
 
     private Member signUp(OauthUserInformationResponse userInformation) {

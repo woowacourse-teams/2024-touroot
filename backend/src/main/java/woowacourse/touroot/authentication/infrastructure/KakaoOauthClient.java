@@ -35,6 +35,8 @@ public class KakaoOauthClient {
                 .withReadTimeout(Duration.ofSeconds(3));
         ClientHttpRequestFactory requestFactory = ClientHttpRequestFactories.get(settings);
 
+        System.out.println("restApiKey = " + restApiKey);
+        
         this.restClient = RestClient.builder()
                 .requestFactory(requestFactory)
                 .build();
