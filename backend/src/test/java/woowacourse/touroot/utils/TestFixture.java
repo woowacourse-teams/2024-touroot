@@ -29,6 +29,7 @@ public class TestFixture {
 
     @Autowired
     TraveloguePhotoRepository traveloguePhotoRepository;
+    
     @Autowired
     private PlaceRepository placeRepository;
 
