@@ -1,0 +1,8 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.stylelint": "explicit"
+  },
+  "stylelint.validate": ["typescriptreact", "typescript"],
+  "stylelint.configFile": "./frontend/.stylelintrc.json",
+  "stylelint.packageManager": "yarn"
+}
