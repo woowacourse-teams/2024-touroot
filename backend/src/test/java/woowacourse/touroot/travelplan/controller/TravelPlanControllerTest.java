@@ -69,7 +69,7 @@ class TravelPlanControllerTest {
 
     @DisplayName("여행 계획 컨트롤러는 지난 날짜로 생성 요청이 들어올 때 400을 응답한다.")
     @Test
-    void validatePlanStartDate() {
+    void createTravelPlanWithInvalidStartDate() {
         // given
         PlanLocationCreateRequest locationRequest = new PlanLocationCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = new PlanPlaceCreateRequest(
