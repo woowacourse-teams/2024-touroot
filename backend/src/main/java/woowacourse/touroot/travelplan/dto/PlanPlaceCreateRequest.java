@@ -23,4 +23,8 @@ public record PlanPlaceCreateRequest(
     public TravelPlanPlace toPlanPlace(TravelPlanDay day, Place place) {
         return new TravelPlanPlace(description, order, day, place);
     }
+
+    public Place toPlace() {
+        return new Place(placeName, location.lat(), location.lng());
+    }
 }

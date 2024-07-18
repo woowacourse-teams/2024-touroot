@@ -56,13 +56,6 @@ public class TravelPlanService {
                 planRequest.placeName(),
                 planRequest.location().lat(),
                 planRequest.location().lng()
-        ).orElseGet(() -> placeRepository.save(
-                        new Place(
-                                planRequest.placeName(),
-                                planRequest.location().lat(),
-                                planRequest.location().lng()
-                        )
-                )
-        );
+        ).orElseGet(() -> placeRepository.save(planRequest.toPlace()));
     }
 }
