@@ -8,6 +8,7 @@ import woowacourse.touroot.place.domain.Place;
 import woowacourse.touroot.place.repository.PlaceRepository;
 import woowacourse.touroot.travelplan.domain.TravelPlan;
 import woowacourse.touroot.travelplan.domain.TravelPlanDay;
+import woowacourse.touroot.travelplan.domain.TravelPlanPlace;
 import woowacourse.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.TravelPlanCreateRequest;
@@ -19,6 +20,7 @@ import woowacourse.touroot.travelplan.repository.TravelPlanDayRepository;
 import woowacourse.touroot.travelplan.repository.TravelPlanPlaceRepository;
 import woowacourse.touroot.travelplan.repository.TravelPlanRepository;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -78,12 +80,14 @@ public class TravelPlanService {
 
     private List<TravelPlanDayResponse> getTravelPlanDayResponses(TravelPlan travelPlan) {
         return travelPlan.getDays().stream()
+                .sorted(Comparator.comparing(TravelPlanDay::getOrder))
                 .map(day -> TravelPlanDayResponse.of(day, getTravelPlanPlaceResponses(day)))
                 .toList();
     }
 
     private List<TravelPlanPlaceResponse> getTravelPlanPlaceResponses(TravelPlanDay day) {
         return day.getPlaces().stream()
+                .sorted(Comparator.comparing(TravelPlanPlace::getOrder))
                 .map(TravelPlanPlaceResponse::from)
                 .toList();
     }
