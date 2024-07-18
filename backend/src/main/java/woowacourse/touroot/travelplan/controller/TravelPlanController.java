@@ -13,7 +13,7 @@ import woowacourse.touroot.travelplan.dto.TravelPlanCreateRequest;
 import woowacourse.touroot.travelplan.dto.TravelPlanCreateResponse;
 import woowacourse.touroot.travelplan.service.TravelPlanService;
 
-@Tag(name = "여행기")
+@Tag(name = "여행 계획")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/travel-plans")
@@ -21,7 +21,7 @@ public class TravelPlanController {
 
     private final TravelPlanService travelPlanService;
 
-    @Operation(summary = "여행기 생성")
+    @Operation(summary = "여행 계획 생성")
     @PostMapping
     public ResponseEntity<TravelPlanCreateResponse> createTravelPlan(@Valid @RequestBody TravelPlanCreateRequest request) {
         TravelPlanCreateResponse data = travelPlanService.createTravelPlan(request);
