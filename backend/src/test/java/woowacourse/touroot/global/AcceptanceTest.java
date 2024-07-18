@@ -1,4 +1,4 @@
-package woowacourse.touroot.travelogue.controller;
+package woowacourse.touroot.global;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
