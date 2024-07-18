@@ -8,20 +8,21 @@ import woowacourse.touroot.global.exception.BadRequestException;
 import woowacourse.touroot.travelogue.domain.Travelogue;
 import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
 import woowacourse.touroot.travelogue.domain.day.repository.TravelogueDayRepository;
-import woowacourse.touroot.travelogue.repository.TravelogueRepository;
 
 @RequiredArgsConstructor
 @Service
 public class TravelogueDayService {
 
-    private final TravelogueRepository travelogueRepository;
     private final TravelogueDayRepository travelogueDayRepository;
 
     @Transactional(readOnly = true)
-    public List<TravelogueDay> findDaysByTravelogueId(Long travelogueId) {
-        Travelogue travelogue = travelogueRepository.findById(travelogueId)
-                .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기입니다."));
-
+    public List<TravelogueDay> findDaysByTravelogue(Travelogue travelogue) {
         return travelogueDayRepository.findByTravelogue(travelogue);
+    }
+
+    @Transactional(readOnly = true)
+    public TravelogueDay findDayById(Long id) {
+        return travelogueDayRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 여행 일자입니다."));
     }
 }

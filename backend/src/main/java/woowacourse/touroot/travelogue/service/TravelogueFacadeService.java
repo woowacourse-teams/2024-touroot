@@ -35,7 +35,7 @@ public class TravelogueFacadeService {
     }
 
     private List<TravelogueDayResponse> findDaysOfTravelogue(Travelogue travelogue) {
-        List<TravelogueDay> travelogueDays = travelogueDayService.findDaysByTravelogueId(travelogue.getId());
+        List<TravelogueDay> travelogueDays = travelogueDayService.findDaysByTravelogue(travelogue);
 
         return travelogueDays.stream()
                 .sorted(Comparator.comparing(TravelogueDay::getOrder))
@@ -43,7 +43,7 @@ public class TravelogueFacadeService {
                 .toList();
     }
 
-    private TravelogueDayResponse getTravelogueDayResponse(final TravelogueDay day) {
+    private TravelogueDayResponse getTravelogueDayResponse(TravelogueDay day) {
         return TravelogueDayResponse.builder()
                 .id(day.getId())
                 .places(findPlacesOfTravelogueDay(day))
@@ -51,7 +51,7 @@ public class TravelogueFacadeService {
     }
 
     private List<TraveloguePlaceResponse> findPlacesOfTravelogueDay(TravelogueDay travelogueDay) {
-        List<TraveloguePlace> places = traveloguePlaceService.findTraveloguePlaceByDayId(travelogueDay.getId());
+        List<TraveloguePlace> places = traveloguePlaceService.findTraveloguePlaceByDay(travelogueDay);
 
         return places.stream()
                 .sorted(Comparator.comparing(TraveloguePlace::getOrder))
@@ -59,7 +59,7 @@ public class TravelogueFacadeService {
                 .toList();
     }
 
-    private TraveloguePlaceResponse getTraveloguePlaceResponse(final TraveloguePlace place) {
+    private TraveloguePlaceResponse getTraveloguePlaceResponse(TraveloguePlace place) {
         return TraveloguePlaceResponse.builder()
                 .id(place.getId())
                 .name(place.getName())
@@ -70,7 +70,7 @@ public class TravelogueFacadeService {
                 .build();
     }
 
-    private List<String> findPhotoUrlsOfTraveloguePlace(TraveloguePlace traveloguePlace) {
-        return traveloguePhotoService.findPhotoUrlsByPlaceId(traveloguePlace.getId());
+    private List<String> findPhotoUrlsOfTraveloguePlace(TraveloguePlace place) {
+        return traveloguePhotoService.findPhotoUrlsByPlace(place);
     }
 }
