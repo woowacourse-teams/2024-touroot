@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import woowacourse.touroot.travelogue.dto.TravelogueResponse;
-import woowacourse.touroot.travelogue.service.TravelogueFacade;
+import woowacourse.touroot.travelogue.service.TravelogueFacadeService;
 
 @Tag(name = "여행기")
 @RequiredArgsConstructor
@@ -18,11 +18,11 @@ import woowacourse.touroot.travelogue.service.TravelogueFacade;
 @RequestMapping("api/v1/travelogues")
 public class TravelogueController {
 
-    private final TravelogueFacade travelogueFacade;
+    private final TravelogueFacadeService travelogueFacadeService;
 
     @Operation(description = "여행기 상세 조회")
     @GetMapping("/{id}")
     public ResponseEntity<TravelogueResponse> findTravelogue(@Valid @PathVariable Long id) {
-        return ResponseEntity.ok(travelogueFacade.findTravelogueById(id));
+        return ResponseEntity.ok(travelogueFacadeService.findTravelogueById(id));
     }
 }

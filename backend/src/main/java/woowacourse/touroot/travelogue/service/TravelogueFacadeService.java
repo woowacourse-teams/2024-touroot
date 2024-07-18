@@ -16,7 +16,7 @@ import woowacourse.touroot.travelogue.dto.TravelogueResponse;
 
 @RequiredArgsConstructor
 @Service
-public class TravelogueFacade {
+public class TravelogueFacadeService {
 
     private final TravelogueService travelogueService;
     private final TravelogueDayService travelogueDayService;
@@ -24,7 +24,7 @@ public class TravelogueFacade {
     private final TraveloguePhotoService traveloguePhotoService;
 
     public TravelogueResponse findTravelogueById(Long id) {
-        Travelogue travelogue = travelogueService.findTravelogueById(id);
+        Travelogue travelogue = travelogueService.getTravelogueById(id);
 
         return TravelogueResponse.builder()
                 .id(travelogue.getId())
