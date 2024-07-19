@@ -1,4 +1,5 @@
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 
 import { Global, ThemeProvider } from "@emotion/react";
 
@@ -23,7 +24,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <ReactQueryDevtools initialIsOpen={true} />
     <ThemeProvider theme={theme}>
       <Global styles={globalStyle} />
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ThemeProvider>
   </QueryClientProvider>,
 );
