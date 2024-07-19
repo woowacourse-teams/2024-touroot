@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import woowacourse.touroot.entity.BaseEntity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -31,5 +32,10 @@ public class TravelPlanDay extends BaseEntity {
 
     public TravelPlanDay(int order, TravelPlan plan) {
         this(null, order, plan, null);
+    }
+
+    public LocalDate getCurrentDate() {
+        LocalDate startDate = plan.getStartDate();
+        return startDate.plusDays(order);
     }
 }

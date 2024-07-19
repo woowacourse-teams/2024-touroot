@@ -1,4 +1,4 @@
-package woowacourse.touroot.travelplan.dto;
+package woowacourse.touroot.travelplan.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
