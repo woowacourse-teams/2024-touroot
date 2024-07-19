@@ -1,19 +1,45 @@
 package woowacourse.touroot.travelogue.domain.place.service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import woowacourse.touroot.global.exception.BadRequestException;
+import woowacourse.touroot.place.domain.Place;
+import woowacourse.touroot.place.repository.PlaceRepository;
 import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
 import woowacourse.touroot.travelogue.domain.place.domain.TraveloguePlace;
 import woowacourse.touroot.travelogue.domain.place.repsitory.TraveloguePlaceRepository;
+import woowacourse.touroot.travelogue.dto.TraveloguePhotoRequest;
+import woowacourse.touroot.travelogue.dto.TraveloguePlaceRequest;
 
 @RequiredArgsConstructor
 @Service
 public class TraveloguePlaceService {
 
+    private final PlaceRepository placeRepository;
     private final TraveloguePlaceRepository traveloguePlaceRepository;
+
+    @Transactional
+    public Map<TraveloguePlace, List<TraveloguePhotoRequest>> createPlaces(
+            List<TraveloguePlaceRequest> requests,
+            TravelogueDay day
+    ) {
+        Map<TraveloguePlace, List<TraveloguePhotoRequest>> places = new LinkedHashMap<>();
+
+        for (int i = 0; i < requests.size(); i++) {
+            TraveloguePlaceRequest request = requests.get(i);
+            Place place = request.toPlace();
+            placeRepository.save(place);
+
+            TraveloguePlace traveloguePlace = request.toTraveloguePlace(i, place, day);
+            places.put(traveloguePlaceRepository.save(traveloguePlace), request.photos());
+        }
+
+        return places;
+    }
 
     @Transactional(readOnly = true)
     public List<TraveloguePlace> findTraveloguePlaceByDay(TravelogueDay travelogueDay) {

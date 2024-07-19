@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import woowacourse.touroot.global.exception.BadRequestException;
 import woowacourse.touroot.travelogue.domain.Travelogue;
+import woowacourse.touroot.travelogue.dto.TravelogueRequest;
 import woowacourse.touroot.travelogue.repository.TravelogueRepository;
 
 @RequiredArgsConstructor
@@ -12,6 +13,12 @@ import woowacourse.touroot.travelogue.repository.TravelogueRepository;
 public class TravelogueService {
 
     private final TravelogueRepository travelogueRepository;
+
+    @Transactional
+    public Travelogue createTravelogue(TravelogueRequest request) {
+        Travelogue travelogue = request.toTravelogue();
+        return travelogueRepository.save(travelogue);
+    }
 
     @Transactional(readOnly = true)
     public Travelogue getTravelogueById(Long id) {
