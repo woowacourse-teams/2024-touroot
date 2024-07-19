@@ -1,7 +1,7 @@
 package woowacourse.touroot.travelplan.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -15,14 +15,12 @@ public record PlanPlaceCreateRequest(
         @NotBlank(message = "장소명은 비어있을 수 없습니다.") String placeName,
         @Schema(description = "여행 장소 설명", example = "신나는 여행 장소")
         String description,
-        @Schema(description = "여행 장소 순서", example = "1")
-        @NotNull
-        @Min(value = 0, message = "순서는 1 이상이어야 합니다.")
-        int order,
-        @NotNull PlanLocationCreateRequest location
+        @Valid
+        @NotNull(message = "위치는 비어있을 수 없습니다.")
+        PlanLocationCreateRequest location
 ) {
 
-    public TravelPlanPlace toPlanPlace(TravelPlanDay day, Place place) {
+    public TravelPlanPlace toPlanPlace(int order, TravelPlanDay day, Place place) {
         return new TravelPlanPlace(description, order, day, place);
     }
 

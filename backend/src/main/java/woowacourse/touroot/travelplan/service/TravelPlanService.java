@@ -38,24 +38,24 @@ public class TravelPlanService {
         travelPlan.validateStartDate();
 
         TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);
-        createPlanDay(request, savedTravelPlan);
+        createPlanDay(request.days(), savedTravelPlan);
 
         return new TravelPlanCreateResponse(savedTravelPlan.getId());
     }
 
-    private void createPlanDay(TravelPlanCreateRequest request, TravelPlan savedTravelPlan) {
-        for (PlanDayCreateRequest dayRequest : request.days()) {
-            // TODO: order는 배열 index로 변경
-            TravelPlanDay travelPlanDay = travelPlanDayRepository.save(dayRequest.toPlanDay(savedTravelPlan));
+    private void createPlanDay(List<PlanDayCreateRequest> request, TravelPlan savedTravelPlan) {
+        for (int order = 0; order < request.size(); order++) {
+            PlanDayCreateRequest dayRequest = request.get(order);
+            TravelPlanDay travelPlanDay = travelPlanDayRepository.save(dayRequest.toPlanDay(order, savedTravelPlan));
             createPlanPlace(dayRequest.places(), travelPlanDay);
         }
     }
 
     private void createPlanPlace(List<PlanPlaceCreateRequest> request, TravelPlanDay travelPlanDay) {
-        for (PlanPlaceCreateRequest planRequest : request) {
-            // TODO: order는 배열 index로 변경
+        for (int order = 0; order < request.size(); order++) {
+            PlanPlaceCreateRequest planRequest = request.get(order);
             Place place = getPlace(planRequest);
-            travelPlanPlaceRepository.save(planRequest.toPlanPlace(travelPlanDay, place));
+            travelPlanPlaceRepository.save(planRequest.toPlanPlace(order, travelPlanDay, place));
         }
     }
 

@@ -1,8 +1,10 @@
 package woowacourse.touroot.travelplan.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import woowacourse.touroot.travelplan.domain.TravelPlan;
 
@@ -18,6 +20,8 @@ public record TravelPlanCreateRequest(
         @NotNull(message = "시작일은 비어있을 수 없습니다.")
         LocalDate startDate,
         @Schema(description = "여행 날짜 정보")
+        @Valid
+        @Size(min = 1, message = "여행 날짜는 하루 이상 있어야 합니다.")
         @NotNull(message = "여행 날짜 정보는 비어있을 수 없습니다.")
         List<PlanDayCreateRequest> days
 ) {
