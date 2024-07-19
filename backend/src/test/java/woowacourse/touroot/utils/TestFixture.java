@@ -29,7 +29,7 @@ public class TestFixture {
 
     @Autowired
     TraveloguePhotoRepository traveloguePhotoRepository;
-    
+
     @Autowired
     private PlaceRepository placeRepository;
 
@@ -51,7 +51,7 @@ public class TestFixture {
     }
 
     public static TraveloguePhoto getTraveloguePhoto(String key, Integer order, TraveloguePlace traveloguePlace) {
-        return new TraveloguePhoto(key, order, traveloguePlace);
+        return new TraveloguePhoto(order, key, traveloguePlace);
     }
 
     public void initTravelogueTestData() {

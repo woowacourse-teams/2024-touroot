@@ -35,7 +35,7 @@ public class TraveloguePhoto extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private TraveloguePlace traveloguePlace;
 
-    public TraveloguePhoto(String key, Integer order, TraveloguePlace traveloguePlace) {
+    public TraveloguePhoto(Integer order, String key, TraveloguePlace traveloguePlace) {
         this(null, key, order, traveloguePlace);
     }
 }
