@@ -7,11 +7,9 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.metamodel.EntityType;
 import jakarta.transaction.Transactional;
 import java.util.List;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("test")
 public class DatabaseCleaner {
 
     public static final String CAMEL_CASE = "([a-z])([A-Z])";

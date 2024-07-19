@@ -1,7 +1,6 @@
 package woowacourse.touroot.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import woowacourse.touroot.place.domain.Place;
 import woowacourse.touroot.place.repository.PlaceRepository;
@@ -15,7 +14,6 @@ import woowacourse.touroot.travelogue.domain.place.repsitory.TraveloguePlaceRepo
 import woowacourse.touroot.travelogue.repository.TravelogueRepository;
 
 @Component
-@Profile("test")
 public class TestFixture {
 
     @Autowired
@@ -29,7 +27,7 @@ public class TestFixture {
 
     @Autowired
     TraveloguePhotoRepository traveloguePhotoRepository;
-    
+
     @Autowired
     private PlaceRepository placeRepository;
 
