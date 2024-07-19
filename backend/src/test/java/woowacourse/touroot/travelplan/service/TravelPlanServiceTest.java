@@ -27,30 +27,38 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class TravelPlanServiceTest {
 
+    private final TravelPlanService travelPlanService;
+    private final DatabaseCleaner databaseCleaner;
+    private final TestFixture testFixture;
+
     @Autowired
-    private TravelPlanService travelPlanService;
-    @Autowired
-    private DatabaseCleaner databaseCleaner;
-    @Autowired
-    private TestFixture testFixture;
+    public TravelPlanServiceTest(
+            TravelPlanService travelPlanService,
+            DatabaseCleaner databaseCleaner,
+            TestFixture testFixture
+    ) {
+        this.travelPlanService = travelPlanService;
+        this.databaseCleaner = databaseCleaner;
+        this.testFixture = testFixture;
+    }
 
     @DisplayName("여행 계획 서비스는 여행 계획 생성 시 생성된 id를 응답한다.")
     @Test
     void createTravelPlan() {
         // given
         PlanLocationCreateRequest locationRequest = new PlanLocationCreateRequest("37.5175896", "127.0867236");
-        PlanPlaceCreateRequest planPlaceCreateRequest = new PlanPlaceCreateRequest(
-                "잠실한강공원",
-                "신나는 여행 장소",
-                0,
-                locationRequest
-        );
+        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+                .placeName("잠실한강공원")
+                .description("신나는 여행 장소")
+                .order(0)
+                .location(locationRequest)
+                .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(0, List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = new TravelPlanCreateRequest(
-                "신나는 한강 여행",
-                LocalDate.MAX,
-                List.of(planDayCreateRequest)
-        );
+        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+                .title("신나는 한강 여행")
+                .startDate(LocalDate.MAX)
+                .days(List.of(planDayCreateRequest))
+                .build();
 
         // when
         TravelPlanCreateResponse actual = travelPlanService.createTravelPlan(request);
@@ -64,18 +72,18 @@ class TravelPlanServiceTest {
     void createTravelPlanWithInvalidStartDate() {
         // given
         PlanLocationCreateRequest locationRequest = new PlanLocationCreateRequest("37.5175896", "127.0867236");
-        PlanPlaceCreateRequest planPlaceCreateRequest = new PlanPlaceCreateRequest(
-                "잠실한강공원",
-                "신나는 여행 장소",
-                0,
-                locationRequest
-        );
+        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+                .placeName("잠실한강공원")
+                .description("신나는 여행 장소")
+                .order(0)
+                .location(locationRequest)
+                .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(0, List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = new TravelPlanCreateRequest(
-                "신나는 한강 여행",
-                LocalDate.MIN,
-                List.of(planDayCreateRequest)
-        );
+        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+                .title("신나는 한강 여행")
+                .startDate(LocalDate.MIN)
+                .days(List.of(planDayCreateRequest))
+                .build();
 
         // when & then=
         assertThatThrownBy(() -> travelPlanService.createTravelPlan(request))

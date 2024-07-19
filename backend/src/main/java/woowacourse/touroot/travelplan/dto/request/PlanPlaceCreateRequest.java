@@ -4,10 +4,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import woowacourse.touroot.place.domain.Place;
 import woowacourse.touroot.travelplan.domain.TravelPlanDay;
 import woowacourse.touroot.travelplan.domain.TravelPlanPlace;
 
+@Builder
 public record PlanPlaceCreateRequest(
         @Schema(description = "여행 장소 이름", example = "잠실한강공원")
         @NotBlank(message = "장소명은 비어있을 수 없습니다.") String placeName,

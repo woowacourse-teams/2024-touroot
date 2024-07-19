@@ -26,15 +26,18 @@ class TravelPlanControllerTest {
 
     @LocalServerPort
     private int port;
+    private final DatabaseCleaner databaseCleaner;
+    private final TestFixture testFixture;
+
     @Autowired
-    private DatabaseCleaner databaseCleaner;
-    @Autowired
-    private TestFixture testFixture;
+    public TravelPlanControllerTest(DatabaseCleaner databaseCleaner, TestFixture testFixture) {
+        this.databaseCleaner = databaseCleaner;
+        this.testFixture = testFixture;
+    }
 
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
-
         databaseCleaner.executeTruncate();
     }
 
@@ -43,18 +46,18 @@ class TravelPlanControllerTest {
     void createTravelPlan() {
         // given
         PlanLocationCreateRequest locationRequest = new PlanLocationCreateRequest("37.5175896", "127.0867236");
-        PlanPlaceCreateRequest planPlaceCreateRequest = new PlanPlaceCreateRequest(
-                "잠실한강공원",
-                "신나는 여행 장소",
-                0,
-                locationRequest
-        );
+        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+                .placeName("잠실한강공원")
+                .description("신나는 여행 장소")
+                .order(0)
+                .location(locationRequest)
+                .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(0, List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = new TravelPlanCreateRequest(
-                "신나는 한강 여행",
-                LocalDate.MAX,
-                List.of(planDayCreateRequest)
-        );
+        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+                .title("신나는 한강 여행")
+                .startDate(LocalDate.MAX)
+                .days(List.of(planDayCreateRequest))
+                .build();
 
         // when & then
         RestAssured.given().log().all()
@@ -72,18 +75,18 @@ class TravelPlanControllerTest {
     void createTravelPlanWithInvalidStartDate() {
         // given
         PlanLocationCreateRequest locationRequest = new PlanLocationCreateRequest("37.5175896", "127.0867236");
-        PlanPlaceCreateRequest planPlaceCreateRequest = new PlanPlaceCreateRequest(
-                "잠실한강공원",
-                "신나는 여행 장소",
-                0,
-                locationRequest
-        );
+        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+                .placeName("잠실한강공원")
+                .description("신나는 여행 장소")
+                .order(0)
+                .location(locationRequest)
+                .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(0, List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = new TravelPlanCreateRequest(
-                "신나는 한강 여행",
-                LocalDate.MIN,
-                List.of(planDayCreateRequest)
-        );
+        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+                .title("신나는 한강 여행")
+                .startDate(LocalDate.MIN)
+                .days(List.of(planDayCreateRequest))
+                .build();
 
         // when & then
         RestAssured.given().log().all()
@@ -101,7 +104,7 @@ class TravelPlanControllerTest {
     void readTravelPlan() {
         // given
         testFixture.initTravelPlanTestData();
-        Long id = 1L;
+        long id = 1L;
 
         // when & then
         RestAssured.given().log().all()
@@ -117,7 +120,7 @@ class TravelPlanControllerTest {
     @Test
     void readTravelPlanWithNonExist() {
         // given
-        Long id = 1L;
+        long id = 1L;
 
         // when & then
         RestAssured.given().log().all()
