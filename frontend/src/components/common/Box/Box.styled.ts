@@ -20,6 +20,7 @@ export const PlaceName = styled.span`
 export const TagList = styled.ul`
   display: flex;
   gap: 0.4rem;
+
   color: #616161;
 `;
 

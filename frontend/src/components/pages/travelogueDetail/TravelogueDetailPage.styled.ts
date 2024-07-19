@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 
 export const TitleLayout = styled.section`
-  margin-top: 5.7rem;
   display: flex;
+  margin-top: 5.7rem;
   flex-direction: column;
   gap: 1.6rem;
 `;

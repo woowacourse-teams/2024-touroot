@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 
 export const CarouselContainer = styled.div`
+  overflow: hidden;
   position: relative;
 
   width: 100%;
   height: 233px;
-  overflow: hidden;
 `;
 
 export const CarouselImageList = styled.ul`
@@ -46,7 +46,7 @@ export const CarouselButton = styled.button`
   border-radius: 50%;
   border: none;
 
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgb(0 0 0 / 50%);
 
   cursor: pointer;
 
@@ -72,7 +72,7 @@ export const CarouselImageBadge = styled.div`
   border-radius: 20px;
   padding: 6px 10px;
 
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgb(0 0 0 / 50%);
 
   color: #fff;
   font-size: 12px;
