@@ -1,13 +1,15 @@
-package woowacourse.touroot.travelplan.dto;
+package woowacourse.touroot.travelplan.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import woowacourse.touroot.travelplan.domain.TravelPlan;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Builder
 public record TravelPlanCreateRequest(
         @Schema(description = "여행 계획 제목", example = "신나는 잠실 한강 여행")
         @NotBlank(message = "여행 계획 제목은 비어있을 수 없습니다.")
