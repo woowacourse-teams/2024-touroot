@@ -1,6 +1,8 @@
 package woowacourse.touroot.travelogue.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import woowacourse.touroot.global.exception.BadRequestException;
@@ -24,5 +26,9 @@ public class TravelogueService {
     public Travelogue getTravelogueById(Long id) {
         return travelogueRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기입니다."));
+    }
+
+    public Page<Travelogue> findAll(final Pageable pageable) {
+        return travelogueRepository.findAll(pageable);
     }
 }

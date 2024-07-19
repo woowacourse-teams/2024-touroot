@@ -31,14 +31,21 @@ public class TraveloguePlaceService {
 
         for (int i = 0; i < requests.size(); i++) {
             TraveloguePlaceRequest request = requests.get(i);
-            Place place = request.toPlace();
-            placeRepository.save(place);
+            Place place = getPlace(request);
 
             TraveloguePlace traveloguePlace = request.toTraveloguePlace(i, place, day);
             places.put(traveloguePlaceRepository.save(traveloguePlace), request.photos());
         }
 
         return places;
+    }
+
+    private Place getPlace(TraveloguePlaceRequest request) {
+        return placeRepository.findByNameAndLatitudeAndLongitude(
+                request.name(),
+                request.location().lat(),
+                request.location().lng()
+        ).orElseGet(() -> placeRepository.save(request.toPlace()));
     }
 
     @Transactional(readOnly = true)

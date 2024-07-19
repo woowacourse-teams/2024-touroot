@@ -4,6 +4,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import woowacourse.touroot.travelogue.domain.Travelogue;
 import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
@@ -80,6 +83,10 @@ public class TravelogueFacadeService {
     public TravelogueResponse findTravelogueById(Long id) {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
 
+        return getTravelogueResponse(travelogue);
+    }
+
+    private TravelogueResponse getTravelogueResponse(final Travelogue travelogue) {
         return TravelogueResponse.builder()
                 .id(travelogue.getId())
                 .title(travelogue.getTitle())
@@ -132,5 +139,13 @@ public class TravelogueFacadeService {
 
     private List<String> findPhotoUrlsOfTraveloguePlace(TraveloguePlace place) {
         return traveloguePhotoService.findPhotoUrlsByPlace(place);
+    }
+
+    public Page<TravelogueResponse> findTravelogues(final Pageable pageable) {
+        Page<Travelogue> travelogues = travelogueService.findAll(pageable);
+
+        return new PageImpl<>(travelogues.stream()
+                .map(this::getTravelogueResponse)
+                .toList());
     }
 }
