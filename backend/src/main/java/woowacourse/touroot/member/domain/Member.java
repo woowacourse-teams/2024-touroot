@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import woowacourse.touroot.entity.BaseEntity;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Entity
 public class Member extends BaseEntity {
