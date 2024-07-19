@@ -7,12 +7,12 @@ jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
+---
 security:
   jwt:
     token:
       secret-key: ENC(SNwFG2NQDZkmIK3nNoZFdwQ0ZxKuoe+qcw10ljdW941YEx/Qky9PEEl+wvAN9S1KR26D3a83SnU=)
       expire-length: 1800000
----
 spring:
   config:
     activate:
@@ -37,6 +37,11 @@ oauth:
   kakao:
     redirect-uri: http://localhost:8080/api/v1/login/oauth/kakao
 ---
+security:
+  jwt:
+    token:
+      secret-key: ENC(L36WWjoZtP2nHHkqxDGlYLsMHMp+EBL2Fnl+X2de2KHk+PIfViyVM7rCYcbcFpo7yB4MaP++atU=)
+      expire-length: 1800000
 spring:
   config:
     activate:
