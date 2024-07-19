@@ -1,0 +1,31 @@
+oauth:
+  kakao:
+    user-information-request-uri: https://kapi.kakao.com/v2/user/me
+    access-token-request-uri: https://kauth.kakao.com/oauth/token
+    redirect-uri: http://localhost:8080/api/v1/login/oauth/kakao
+    rest-api-key: test-api-key
+security:
+  jwt:
+    token:
+      secret-key: test-TADG67STFSDAGSDFSG4567UTKJHFHSDFGSR231DF
+      expire-length: 1800000
+server:
+  port: 8081
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: never

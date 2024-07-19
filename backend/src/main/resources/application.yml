@@ -1,3 +1,18 @@
+oauth:
+  kakao:
+    user-information-request-uri: https://kapi.kakao.com/v2/user/me
+    access-token-request-uri: https://kauth.kakao.com/oauth/token
+    rest-api-key: ENC(i6J7NWUsDpXVbJrbSUcNFI3h0oc6v8PxuHShU9UA7EVuUNLtQN/ANII+8j5HjhGO)
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+---
+security:
+  jwt:
+    token:
+      secret-key: ENC(SNwFG2NQDZkmIK3nNoZFdwQ0ZxKuoe+qcw10ljdW941YEx/Qky9PEEl+wvAN9S1KR26D3a83SnU=)
+      expire-length: 1800000
 spring:
   config:
     activate:
@@ -18,7 +33,15 @@ spring:
     hibernate:
       ddl-auto: create-drop
     defer-datasource-initialization: true
+oauth:
+  kakao:
+    redirect-uri: http://localhost:8080/api/v1/login/oauth/kakao
 ---
+security:
+  jwt:
+    token:
+      secret-key: ENC(L36WWjoZtP2nHHkqxDGlYLsMHMp+EBL2Fnl+X2de2KHk+PIfViyVM7rCYcbcFpo7yB4MaP++atU=)
+      expire-length: 1800000
 spring:
   config:
     activate:
@@ -28,9 +51,9 @@ spring:
       enabled: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ENC(FgbVXdH4a5/EkMxdmYfPhFKAOwn1w+/CnmWDcN9p6fOVP6mP9coMEYezCPCNf95h)
+    username: ENC(SJznQPqjlZuw3qf8kv9IJQ==)
+    password: ENC(HsOo6wWp//egPPsSG6Wf40eF1Q2sVKfGuH4zGTL81Mw=)
   jpa:
     show-sql: true
     properties:
@@ -39,27 +62,6 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: none
----
-server:
-  port: 8081
-spring:
-  config:
-    activate:
-      on-profile: test
-  datasource:
-    url: jdbc:h2:mem:test
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-  jpa:
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-    hibernate:
-      ddl-auto: create
-    defer-datasource-initialization: true
-  sql:
-    init:
-      mode: never
+oauth:
+  kakao:
+    redirect-uri: http://api-dev.touroot.kr/api/v1/login/oauth/kakao
