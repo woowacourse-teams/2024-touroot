@@ -9,7 +9,7 @@ import { client } from "@apis/client";
 import { Header, Tab, TransformBottomSheet } from "@components/common";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
 
-import { EmptyHeart } from "@assets/svg";
+import { BackIcon, EmptyHeart, Hamburger } from "@assets/svg";
 
 import * as S from "./TravelogueDetailPage.styled";
 
@@ -44,7 +44,10 @@ const TravelogueDetailPage = () => {
 
   return (
     <>
-      <Header />
+      <Header>
+        <BackIcon />
+        <Hamburger />
+      </Header>
       <S.TitleLayout>
         <S.Thumbnail src={data?.data?.thumbnail} />
         <S.TitleContainer>
@@ -59,7 +62,7 @@ const TravelogueDetailPage = () => {
           </S.LikesContainer>
           <S.Title
             css={css`
-              margin: 1.6rem 0 3.2rem 0;
+              margin: 1.6rem 0 3.2rem;
             `}
           >
             {daysAndNights} 여행 한눈에 보기
