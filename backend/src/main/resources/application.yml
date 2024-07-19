@@ -2,7 +2,6 @@ oauth:
   kakao:
     user-information-request-uri: https://kapi.kakao.com/v2/user/me
     access-token-request-uri: https://kauth.kakao.com/oauth/token
-    redirect-uri: http://localhost:8080/api/v1/login/oauth/kakao
     rest-api-key: ENC(i6J7NWUsDpXVbJrbSUcNFI3h0oc6v8PxuHShU9UA7EVuUNLtQN/ANII+8j5HjhGO)
 jasypt:
   encryptor:
@@ -34,6 +33,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
     defer-datasource-initialization: true
+oauth:
+  kakao:
+    redirect-uri: http://localhost:8080/api/v1/login/oauth/kakao
 ---
 spring:
   config:
@@ -55,6 +57,9 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: none
+oauth:
+  kakao:
+    redirect-uri: http://api-dev.touroot.kr/api/v1/login/oauth/kakao
 ---
 server:
   port: 8081
@@ -79,3 +84,6 @@ spring:
   sql:
     init:
       mode: never
+oauth:
+  kakao:
+    redirect-uri: http://localhost:8081/api/v1/login/oauth/kakao
