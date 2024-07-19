@@ -1,4 +1,4 @@
-package woowacourse.touroot.travelplan.dto;
+package woowacourse.touroot.travelplan.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
