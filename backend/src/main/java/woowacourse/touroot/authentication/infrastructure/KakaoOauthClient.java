@@ -4,6 +4,7 @@ import java.time.Duration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.ClientHttpRequestFactories;
 import org.springframework.boot.web.client.ClientHttpRequestFactorySettings;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
@@ -52,7 +53,7 @@ public class KakaoOauthClient {
 
         return restClient.get()
                 .uri(userInformationRequestUri)
-                .header("Authorization", "Bearer " + kakaoAccessTokenResponse.accessToken())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + kakaoAccessTokenResponse.accessToken())
                 .retrieve()
                 .toEntity(OauthUserInformationResponse.class)
                 .getBody();
