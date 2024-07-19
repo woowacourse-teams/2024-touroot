@@ -20,7 +20,6 @@ public class KakaoOauthClient {
     private final String accessTokenRequestUri;
     private final String restApiKey;
     private final String redirectUri;
-
     private final RestClient restClient;
 
     public KakaoOauthClient(
