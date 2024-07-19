@@ -9,7 +9,6 @@ export const Box = styled.div`
   height: 3.98rem;
   padding-left: 1.6rem;
   border: 1px solid ${(props) => props.theme.color.borderGray};
-
   border-radius: 4px;
 `;
 
@@ -20,6 +19,7 @@ export const PlaceName = styled.span`
 export const TagList = styled.ul`
   display: flex;
   gap: 0.4rem;
+
   color: #616161;
 `;
 

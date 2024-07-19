@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 
 export const CarouselContainer = styled.div`
+  overflow: hidden;
   position: relative;
 
   width: 100%;
   height: 233px;
-  overflow: hidden;
 `;
 
 export const CarouselImageList = styled.ul`
@@ -38,15 +38,15 @@ export const CarouselButton = styled.button`
   align-items: center;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
   z-index: 1;
 
   width: 32px;
   height: 32px;
-  border-radius: 50%;
   border: none;
+  border-radius: 50%;
 
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgb(0 0 0 / 50%);
+  transform: translateY(-50%);
 
   cursor: pointer;
 
@@ -68,11 +68,10 @@ export const CarouselImageBadge = styled.div`
   position: absolute;
   top: 10px;
   right: 10px;
-
-  border-radius: 20px;
   padding: 6px 10px;
+  border-radius: 20px;
 
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgb(0 0 0 / 50%);
 
   color: #fff;
   font-size: 12px;
