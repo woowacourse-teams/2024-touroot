@@ -3,6 +3,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "skipLibCheck": true,
+    "types": ["jest", "node"],
 
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
@@ -23,6 +24,6 @@
       "@apis/*": ["apis/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "__tests__/example.test.tsx"],
   "exclude": ["node_modules"]
 }
