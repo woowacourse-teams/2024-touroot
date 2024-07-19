@@ -49,10 +49,9 @@ class TravelPlanControllerTest {
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
                 .description("신나는 여행 장소")
-                .order(0)
                 .location(locationRequest)
                 .build();
-        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(0, List.of(planPlaceCreateRequest));
+        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
         TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MAX)
@@ -78,10 +77,9 @@ class TravelPlanControllerTest {
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
                 .description("신나는 여행 장소")
-                .order(0)
                 .location(locationRequest)
                 .build();
-        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(0, List.of(planPlaceCreateRequest));
+        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
         TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MIN)
