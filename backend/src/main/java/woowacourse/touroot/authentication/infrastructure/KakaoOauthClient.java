@@ -28,17 +28,21 @@ public class KakaoOauthClient {
             @Value("${oauth.kakao.rest-api-key}") String restApiKey,
             @Value("${oauth.kakao.redirect-uri}") String redirectUri
     ) {
-
-        ClientHttpRequestFactorySettings settings = ClientHttpRequestFactorySettings.DEFAULTS
-                .withConnectTimeout(Duration.ofSeconds(1))
-                .withReadTimeout(Duration.ofSeconds(3));
-        ClientHttpRequestFactory requestFactory = ClientHttpRequestFactories.get(settings);
-
         this.userInformationRequestUri = userInformationRequestUri;
         this.accessTokenRequestUri = accessTokenRequestUri;
         this.restApiKey = restApiKey;
         this.redirectUri = redirectUri;
-        this.restClient = RestClient.builder()
+        this.restClient = buildRestClient();
+    }
+
+    private RestClient buildRestClient() {
+        ClientHttpRequestFactorySettings settings = ClientHttpRequestFactorySettings.DEFAULTS
+                .withConnectTimeout(Duration.ofSeconds(1))
+                .withReadTimeout(Duration.ofSeconds(3));
+
+        ClientHttpRequestFactory requestFactory = ClientHttpRequestFactories.get(settings);
+
+        return RestClient.builder()
                 .requestFactory(requestFactory)
                 .build();
     }
