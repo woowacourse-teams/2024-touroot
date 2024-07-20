@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { client } from "@apis/client";
 
-import { Header, Tab, TransformBottomSheet } from "@components/common";
+import { Tab, TransformBottomSheet } from "@components/common";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
 
 import { EmptyHeart } from "@assets/svg";
@@ -44,7 +44,6 @@ const TravelogueDetailPage = () => {
 
   return (
     <>
-      <Header />
       <S.TitleLayout>
         <S.Thumbnail src={data?.data?.thumbnail} />
         <S.TitleContainer>
@@ -59,7 +58,7 @@ const TravelogueDetailPage = () => {
           </S.LikesContainer>
           <S.Title
             css={css`
-              margin: 1.6rem 0 3.2rem 0;
+              margin: 1.6rem 0 3.2rem;
             `}
           >
             {daysAndNights} 여행 한눈에 보기
