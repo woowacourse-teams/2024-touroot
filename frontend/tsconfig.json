@@ -20,7 +20,8 @@
       "@styles/*": ["styles/*"],
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
-      "@apis/*": ["apis/*"]
+      "@apis/*": ["apis/*"],
+      "@constants/*": ["constants/*"]
     }
   },
   "include": ["src"],

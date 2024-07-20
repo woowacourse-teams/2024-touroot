@@ -1,7 +1,9 @@
-import TravelogueDetailPage from "@components/pages/travelogueDetail/TravelogueDetailPage";
+import { RouterProvider } from "react-router-dom";
+
+import { router } from "./router";
 
 const App = () => {
-  return <TravelogueDetailPage />;
+  return <RouterProvider router={router} />;
 };
 
 export default App;
