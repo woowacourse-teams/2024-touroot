@@ -20,9 +20,9 @@
       "@styles/*": ["styles/*"],
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
-      "@apis/*": ["apis/*"]
+      "@apis/*": ["apis/*"],
+      "@mocks/*": ["mocks/*"]
     }
   },
-  "include": ["src"],
   "exclude": ["node_modules"]
 }
