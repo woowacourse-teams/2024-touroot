@@ -4013,6 +4013,11 @@ commondir@^1.0.1:
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
   integrity sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==
 
+compare-versions@^6.0.0:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/compare-versions/-/compare-versions-6.1.1.tgz#7af3cc1099ba37d244b3145a9af5201b629148a9"
+  integrity sha512-4hm4VPpIecmlg59CHXnRDnqGplJFrbLG4aFEl5vl6cK1u76ws3LLvX7ikFnTDl5vo39sjWD6AaDPYodJp/NNHg==
+
 compressible@~2.0.16:
   version "2.0.18"
   resolved "https://registry.yarnpkg.com/compressible/-/compressible-2.0.18.tgz#af53cca6b070d4c3c0750fbd77286a6d7cc46fba"
@@ -8042,6 +8047,11 @@ react-element-to-jsx-string@^15.0.0:
     is-plain-object "5.0.0"
     react-is "18.1.0"
 
+react-inspector@6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/react-inspector/-/react-inspector-6.0.2.tgz#aa3028803550cb6dbd7344816d5c80bf39d07e9d"
+  integrity sha512-x+b7LxhmHXjHoU/VrFAzw5iutsILRoYyDq97EDYdFpPLcvqtEzk4ZSZSQjnFPbr5T57tLXnHcqFYoN1pI6u8uQ==
+
 react-is@18.1.0:
   version "18.1.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.1.0.tgz#61aaed3096d30eacf2a2127118b5b41387d32a67"
@@ -8701,6 +8711,14 @@ statuses@2.0.1:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha512-OpZ3zP+jT1PI7I8nemJX4AKmAX070ZkYPVWV/AaKTJl+tXCTGyVdC1a4SL8RUQYEwk/f34ZX8UTykN68FwrqAA==
+
+storybook-addon-remix-react-router@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/storybook-addon-remix-react-router/-/storybook-addon-remix-react-router-3.0.0.tgz#e31e3b1ba51481de7c3daaac9f43f72e9c4f00bc"
+  integrity sha512-0D7VDVf6uX6vgegpCb3v1/TIADxRWomycyj0ZNuVjrCO6w6FwfZ9CHlCK7k9v6CB2uqKjPiaBwmT7odHyy1qYA==
+  dependencies:
+    compare-versions "^6.0.0"
+    react-inspector "6.0.2"
 
 storybook@^8.2.4:
   version "8.2.4"
