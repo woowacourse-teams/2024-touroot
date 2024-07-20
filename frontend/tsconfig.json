@@ -22,7 +22,11 @@
       "@components/*": ["components/*"],
       "@apis/*": ["apis/*"],
       "@mocks/*": ["mocks/*"]
-    }
+    },
+    "types": ["jest"],
+    "esModuleInterop": true
   },
+
+  "include": ["src", "jest-setup.ts", "__tests__"],
   "exclude": ["node_modules"]
 }
