@@ -101,5 +101,10 @@
   "browserslist": [
     ">5%",
     "not dead"
-  ]
+  ],
+  "msw": {
+    "workerDirectory": [
+      "./public"
+    ]
+  }
 }
