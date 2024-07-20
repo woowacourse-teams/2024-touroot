@@ -9,7 +9,8 @@
     "lint:styled": "stylelint './src/**/*.styled.ts' --fix",
     "test": "jest --watchAll",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "bash ./chromatic_publish.sh"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
