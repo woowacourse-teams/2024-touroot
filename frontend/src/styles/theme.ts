@@ -34,6 +34,7 @@ const theme: Theme = {
     darkGray: "#616161",
     borderGray: "#d9d9d9",
     white: "#ffffff",
+    yellow: "#FEE500",
   },
 };
 
