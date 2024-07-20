@@ -1,7 +1,7 @@
-import Login from "@components/pages/login/Login";
+import LoginPage from "@components/pages/login/LoginPage";
 
 const App = () => {
-  return <Login />;
+  return <LoginPage />;
 };
 
 export default App;

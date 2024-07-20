@@ -41,3 +41,29 @@ export const GreetingSubText = styled.span`
   ${({ theme }) => theme.typography.mainTextBold};
   color: ${({ theme }) => theme.color.darkGray};
 `;
+
+export const LoginButtonWrapper = styled.div`
+  position: absolute;
+  bottom: 0;
+
+  width: 100%;
+  padding: 2.4rem;
+`;
+
+export const LoginButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+
+  width: 100%;
+  height: 6rem;
+  border-radius: 12px;
+
+  background-color: ${({ theme }) => theme.color.yellow};
+`;
+
+export const LoginLabel = styled.span`
+  ${({ theme }) => theme.typography.mainTextBold};
+  opacity: 0.85;
+`;
