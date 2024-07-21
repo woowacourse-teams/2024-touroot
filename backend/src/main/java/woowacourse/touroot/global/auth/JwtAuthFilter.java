@@ -46,7 +46,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (token == null) {
-            sendUnauthorizedResponse(response, "인증이 필요한 요청입니다.");
+            sendUnauthorizedResponse(response, "로그인을 해주세요.");
         } else {
             token = token.split("Bearer|bearer")[1];
             try {
