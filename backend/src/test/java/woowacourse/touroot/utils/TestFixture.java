@@ -1,16 +1,17 @@
 package woowacourse.touroot.utils;
 
+import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import woowacourse.touroot.place.domain.Place;
 import woowacourse.touroot.place.repository.PlaceRepository;
 import woowacourse.touroot.travelogue.domain.Travelogue;
-import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
-import woowacourse.touroot.travelogue.domain.day.repository.TravelogueDayRepository;
-import woowacourse.touroot.travelogue.domain.photo.domain.TraveloguePhoto;
-import woowacourse.touroot.travelogue.domain.photo.repository.TraveloguePhotoRepository;
-import woowacourse.touroot.travelogue.domain.place.domain.TraveloguePlace;
-import woowacourse.touroot.travelogue.domain.place.repsitory.TraveloguePlaceRepository;
+import woowacourse.touroot.travelogue.domain.TravelogueDay;
+import woowacourse.touroot.travelogue.domain.TraveloguePhoto;
+import woowacourse.touroot.travelogue.domain.TraveloguePlace;
+import woowacourse.touroot.travelogue.repository.TravelogueDayRepository;
+import woowacourse.touroot.travelogue.repository.TraveloguePhotoRepository;
+import woowacourse.touroot.travelogue.repository.TraveloguePlaceRepository;
 import woowacourse.touroot.travelogue.repository.TravelogueRepository;
 import woowacourse.touroot.travelplan.domain.TravelPlan;
 import woowacourse.touroot.travelplan.domain.TravelPlanDay;
@@ -18,8 +19,6 @@ import woowacourse.touroot.travelplan.domain.TravelPlanPlace;
 import woowacourse.touroot.travelplan.repository.TravelPlanDayRepository;
 import woowacourse.touroot.travelplan.repository.TravelPlanPlaceRepository;
 import woowacourse.touroot.travelplan.repository.TravelPlanRepository;
-
-import java.time.LocalDate;
 
 @Component
 public class TestFixture {
@@ -65,7 +64,7 @@ public class TestFixture {
     }
 
     public static TraveloguePhoto getTraveloguePhoto(String key, Integer order, TraveloguePlace traveloguePlace) {
-        return new TraveloguePhoto(key, order, traveloguePlace);
+        return new TraveloguePhoto(order, key, traveloguePlace);
     }
 
     public static TravelPlan getTravelPlan(String title, LocalDate startDate) {

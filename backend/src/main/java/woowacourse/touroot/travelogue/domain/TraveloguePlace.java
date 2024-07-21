@@ -1,4 +1,4 @@
-package woowacourse.touroot.travelogue.domain.place.domain;
+package woowacourse.touroot.travelogue.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import woowacourse.touroot.entity.BaseEntity;
 import woowacourse.touroot.place.domain.Place;
-import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

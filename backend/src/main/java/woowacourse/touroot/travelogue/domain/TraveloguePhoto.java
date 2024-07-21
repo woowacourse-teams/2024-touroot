@@ -1,4 +1,4 @@
-package woowacourse.touroot.travelogue.domain.photo.domain;
+package woowacourse.touroot.travelogue.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import woowacourse.touroot.entity.BaseEntity;
-import woowacourse.touroot.travelogue.domain.place.domain.TraveloguePlace;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,7 +34,7 @@ public class TraveloguePhoto extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private TraveloguePlace traveloguePlace;
 
-    public TraveloguePhoto(String key, Integer order, TraveloguePlace traveloguePlace) {
+    public TraveloguePhoto(Integer order, String key, TraveloguePlace traveloguePlace) {
         this(null, key, order, traveloguePlace);
     }
 }
