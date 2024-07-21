@@ -32,6 +32,9 @@ jobs:
         if: ${{ always() }}
         with:
           files: ${{ github.workspace }}/build/test-results/**/*.xml
+          seconds_between_github_reads: 1.0
+          seconds_between_github_writes: 3.0
+          secondary_rate_limit_wait_seconds: 90.0
 
       - name: When test fail, comment on that code
         uses: mikepenz/action-junit-report@v3
