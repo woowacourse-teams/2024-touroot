@@ -1,19 +1,12 @@
 import "@emotion/react";
 
+import { SEMANTIC_COLORS, TYPOGRAPHY } from "@styles/tokens";
+import { SPACING } from "@styles/tokens/spacing";
+
 declare module "@emotion/react" {
   export interface Theme {
-    typography: {
-      mainText: string;
-      mainTextBold: string;
-      title: string;
-      detail: string;
-      detailBold: string;
-    };
-    color: {
-      primary: string;
-      black: string;
-      darkGray: string;
-      borderGray: string;
-    };
+    typography: typeof TYPOGRAPHY;
+    colors: typeof SEMANTIC_COLORS;
+    spacing: typeof SPACING;
   }
 }
