@@ -1,8 +1,9 @@
 import { css } from "@emotion/react";
-import styled from "@emotion/styled";
 
 import { Box, GoogleMapView } from "@components/common";
-import PlaceDetailCard from "@components/pages/travelogueDetail/PlaceDetailCard/PlaceDetailCard";
+import PlaceDetailCard from "@components/pages/travelogueDetail/TravelogueTabContent/PlaceDetailCard/PlaceDetailCard";
+
+import * as S from "./TravelogueTabContent.styled";
 
 interface Place {
   name: string;
@@ -25,18 +26,18 @@ const TravelogueTabContent = ({ places }: { places: Place[] }) => {
   return (
     <div>
       <GoogleMapView places={convertDayToPosition(places) ?? []} />
-      <BoxContainer>
+      <S.BoxContainer>
         {places.map((place, index) => (
           <Box key={place.name} placeName={`${index + 1}. ${place.name}`} tags={[]} />
         ))}
-      </BoxContainer>
-      <Title
+      </S.BoxContainer>
+      <S.Title
         css={css`
           margin-left: 1.6rem;
         `}
       >
         여행 장소 살펴보기
-      </Title>
+      </S.Title>
       <div style={{ paddingBottom: "40px", marginTop: "3.2rem" }}>
         {places.map((place, index) => (
           <PlaceDetailCard
@@ -53,15 +54,3 @@ const TravelogueTabContent = ({ places }: { places: Place[] }) => {
 };
 
 export default TravelogueTabContent;
-
-const BoxContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  padding: 0 1.6rem;
-  margin: 3.2rem 0;
-`;
-
-const Title = styled.span`
-  ${(props) => props.theme.typography.title}
-`;

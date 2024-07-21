@@ -11,6 +11,7 @@ module.exports = {
     filename: "touroot.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
+    // publicPath: "/",
   },
   resolve: {
     alias: {
@@ -18,6 +19,8 @@ module.exports = {
       "@assets": path.resolve(__dirname, "src/assets/"),
       "@components": path.resolve(__dirname, "src/components/"),
       "@apis": path.resolve(__dirname, "src/apis/"),
+      "@mocks": path.resolve(__dirname, "src/mocks/"),
+      "@constants": path.resolve(__dirname, "src/constants/"),
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
@@ -57,8 +60,9 @@ module.exports = {
   ],
   devServer: {
     compress: true,
+    host: "localhost",
     port: 3000,
-    open: true,
+    hot: true,
     historyApiFallback: true,
   },
 };

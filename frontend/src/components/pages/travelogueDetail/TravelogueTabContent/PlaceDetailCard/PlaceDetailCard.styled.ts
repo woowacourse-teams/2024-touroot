@@ -6,7 +6,6 @@ export const PlaceDetailCardLayout = styled.div`
   margin: 2rem 0;
   padding-bottom: 1rem;
   border-bottom: 1px solid #d9d9d9;
-  gap: 8px;
 `;
 
 export const PlaceDetailCardTitle = styled.h3`

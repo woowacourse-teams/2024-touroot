@@ -6,10 +6,10 @@ import { useQuery } from "@tanstack/react-query";
 
 import { client } from "@apis/client";
 
-import { Header, Tab, TransformBottomSheet } from "@components/common";
+import { Tab, TransformBottomSheet } from "@components/common";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
 
-import { BackIcon, EmptyHeart, Hamburger } from "@assets/svg";
+import { EmptyHeart } from "@assets/svg";
 
 import * as S from "./TravelogueDetailPage.styled";
 
@@ -44,10 +44,6 @@ const TravelogueDetailPage = () => {
 
   return (
     <>
-      <Header>
-        <BackIcon />
-        <Hamburger />
-      </Header>
       <S.TitleLayout>
         <S.Thumbnail src={data?.data?.thumbnail} />
         <S.TitleContainer>
