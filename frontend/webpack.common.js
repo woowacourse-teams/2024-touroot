@@ -11,7 +11,7 @@ module.exports = {
     filename: "touroot.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
-    // publicPath: "/",
+    //TODO: publicPath: "/",
   },
   resolve: {
     alias: {
