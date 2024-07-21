@@ -28,7 +28,7 @@ public class TravelogueService {
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기입니다."));
     }
 
-    public Page<Travelogue> findAll(final Pageable pageable) {
+    public Page<Travelogue> findAll(Pageable pageable) {
         return travelogueRepository.findAll(pageable);
     }
 }
