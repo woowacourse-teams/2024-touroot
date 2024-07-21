@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import lombok.Builder;
+import woowacourse.touroot.travelogue.domain.Travelogue;
 
 @Builder
 public record TravelogueResponse(
@@ -22,4 +23,13 @@ public record TravelogueResponse(
         @Valid
         List<TravelogueDayResponse> days
 ) {
+
+    public static TravelogueResponse of(Travelogue travelogue, List<TravelogueDayResponse> days) {
+        return TravelogueResponse.builder()
+                .id(travelogue.getId())
+                .title(travelogue.getTitle())
+                .thumbnail(travelogue.getThumbnail())
+                .days(days)
+                .build();
+    }
 }

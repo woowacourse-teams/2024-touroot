@@ -3,6 +3,7 @@ package woowacourse.touroot.travelogue.dto.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.Builder;
+import woowacourse.touroot.travelogue.domain.TraveloguePlace;
 
 @Builder
 public record TraveloguePlaceResponse(
@@ -15,4 +16,14 @@ public record TraveloguePlaceResponse(
         TravelogueLocationResponse location,
         List<String> photoUrls
 ) {
+
+    public static TraveloguePlaceResponse of(TraveloguePlace place, List<String> photoUrls) {
+        return TraveloguePlaceResponse.builder()
+                .id(place.getId())
+                .name(place.getName())
+                .description(place.getDescription())
+                .location(TravelogueLocationResponse.from(place))
+                .photoUrls(photoUrls)
+                .build();
+    }
 }

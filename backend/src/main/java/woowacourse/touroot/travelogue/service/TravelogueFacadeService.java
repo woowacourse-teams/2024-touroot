@@ -17,7 +17,6 @@ import woowacourse.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import woowacourse.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import woowacourse.touroot.travelogue.dto.request.TravelogueRequest;
 import woowacourse.touroot.travelogue.dto.response.TravelogueDayResponse;
-import woowacourse.touroot.travelogue.dto.response.TravelogueLocationResponse;
 import woowacourse.touroot.travelogue.dto.response.TraveloguePlaceResponse;
 import woowacourse.touroot.travelogue.dto.response.TravelogueResponse;
 
@@ -32,14 +31,8 @@ public class TravelogueFacadeService {
 
     public TravelogueResponse createTravelogue(TravelogueRequest request) {
         Travelogue travelogue = travelogueService.createTravelogue(request);
-        List<TravelogueDayRequest> dayRequests = request.days();
 
-        return TravelogueResponse.builder()
-                .id(travelogue.getId())
-                .title(travelogue.getTitle())
-                .thumbnail(travelogue.getThumbnail())
-                .days(createDays(dayRequests, travelogue))
-                .build();
+        return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue));
     }
 
     private List<TravelogueDayResponse> createDays(List<TravelogueDayRequest> requests, Travelogue travelogue) {
@@ -47,10 +40,7 @@ public class TravelogueFacadeService {
 
         return days.keySet()
                 .stream()
-                .map(travelogueDay -> TravelogueDayResponse.builder()
-                        .id(travelogueDay.getId())
-                        .places(createPlaces(days.get(travelogueDay), travelogueDay))
-                        .build())
+                .map(day -> TravelogueDayResponse.of(day, createPlaces(days.get(day), day)))
                 .toList();
     }
 
@@ -59,13 +49,7 @@ public class TravelogueFacadeService {
 
         return places.keySet()
                 .stream()
-                .map(traveloguePlace -> TraveloguePlaceResponse.builder()
-                        .id(traveloguePlace.getId())
-                        .name(traveloguePlace.getName())
-                        .description(traveloguePlace.getDescription())
-                        .location(getTravelogueLocationResponse(traveloguePlace))
-                        .photoUrls(createPhotos(places.get(traveloguePlace), traveloguePlace))
-                        .build())
+                .map(place -> TraveloguePlaceResponse.of(place, createPhotos(places.get(place), place)))
                 .toList();
     }
 
@@ -80,16 +64,15 @@ public class TravelogueFacadeService {
     public TravelogueResponse findTravelogueById(Long id) {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
 
-        return getTravelogueResponse(travelogue);
+        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue));
     }
 
-    private TravelogueResponse getTravelogueResponse(final Travelogue travelogue) {
-        return TravelogueResponse.builder()
-                .id(travelogue.getId())
-                .title(travelogue.getTitle())
-                .thumbnail(travelogue.getThumbnail())
-                .days(findDaysOfTravelogue(travelogue))
-                .build();
+    public Page<TravelogueResponse> findTravelogues(final Pageable pageable) {
+        Page<Travelogue> travelogues = travelogueService.findAll(pageable);
+
+        return new PageImpl<>(travelogues.stream()
+                .map(travelogue -> TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue)))
+                .toList());
     }
 
     private List<TravelogueDayResponse> findDaysOfTravelogue(Travelogue travelogue) {
@@ -97,15 +80,8 @@ public class TravelogueFacadeService {
 
         return travelogueDays.stream()
                 .sorted(Comparator.comparing(TravelogueDay::getOrder))
-                .map(this::getTravelogueDayResponse)
+                .map(day -> TravelogueDayResponse.of(day, findPlacesOfTravelogueDay(day)))
                 .toList();
-    }
-
-    private TravelogueDayResponse getTravelogueDayResponse(TravelogueDay day) {
-        return TravelogueDayResponse.builder()
-                .id(day.getId())
-                .places(findPlacesOfTravelogueDay(day))
-                .build();
     }
 
     private List<TraveloguePlaceResponse> findPlacesOfTravelogueDay(TravelogueDay travelogueDay) {
@@ -113,36 +89,11 @@ public class TravelogueFacadeService {
 
         return places.stream()
                 .sorted(Comparator.comparing(TraveloguePlace::getOrder))
-                .map(this::getTraveloguePlaceResponse)
+                .map(place -> TraveloguePlaceResponse.of(place, findPhotoUrlsOfTraveloguePlace(place)))
                 .toList();
-    }
-
-    private TraveloguePlaceResponse getTraveloguePlaceResponse(TraveloguePlace place) {
-        return TraveloguePlaceResponse.builder()
-                .id(place.getId())
-                .name(place.getName())
-                .description(place.getDescription())
-                .location(getTravelogueLocationResponse(place))
-                .photoUrls(findPhotoUrlsOfTraveloguePlace(place))
-                .build();
-    }
-
-    private static TravelogueLocationResponse getTravelogueLocationResponse(TraveloguePlace place) {
-        return TravelogueLocationResponse.builder()
-                .lat(place.getLatitude())
-                .lng(place.getLongitude())
-                .build();
     }
 
     private List<String> findPhotoUrlsOfTraveloguePlace(TraveloguePlace place) {
         return traveloguePhotoService.findPhotoUrlsByPlace(place);
-    }
-
-    public Page<TravelogueResponse> findTravelogues(final Pageable pageable) {
-        Page<Travelogue> travelogues = travelogueService.findAll(pageable);
-
-        return new PageImpl<>(travelogues.stream()
-                .map(this::getTravelogueResponse)
-                .toList());
     }
 }
