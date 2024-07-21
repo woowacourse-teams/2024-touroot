@@ -12,6 +12,7 @@ public record TraveloguePlaceResponse(
         String name,
         @Schema(description = "여행기 장소 설명", example = "성담 빌딩에 위치한 선릉 캠퍼스입니다.")
         String description,
+        TravelogueLocationResponse location,
         List<String> photoUrls
 ) {
 }
