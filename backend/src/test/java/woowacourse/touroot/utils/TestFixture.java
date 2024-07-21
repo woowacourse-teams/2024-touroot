@@ -2,6 +2,8 @@ package woowacourse.touroot.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import woowacourse.touroot.member.domain.Member;
+import woowacourse.touroot.member.repository.MemberRepository;
 import woowacourse.touroot.place.domain.Place;
 import woowacourse.touroot.place.repository.PlaceRepository;
 import woowacourse.touroot.travelogue.domain.Travelogue;
@@ -45,7 +47,12 @@ public class TestFixture {
     private TravelPlanDayRepository travelPlanDayRepository;
     @Autowired
     private TravelPlanPlaceRepository travelPlanPlaceRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
+    public static Member getMember(Long kakaoId, String nickname, String profileImageUri) {
+        return new Member(kakaoId, nickname, profileImageUri);
+    }
 
     public static Travelogue getTravelogue(String name, String thumbnail) {
         return new Travelogue(name, thumbnail);
@@ -104,5 +111,10 @@ public class TestFixture {
         travelPlanDayRepository.save(travelPlanDay);
         placeRepository.save(place);
         travelPlanPlaceRepository.save(travelPlanPlace);
+    }
+
+    public Member initMemberTestData() {
+        Member member = getMember(1L, "tester", "image");
+        return memberRepository.save(member);
     }
 }

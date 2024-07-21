@@ -7,7 +7,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpHeaders;
+import woowacourse.touroot.authentication.infrastructure.JwtTokenProvider;
 import woowacourse.touroot.global.AcceptanceTest;
+import woowacourse.touroot.member.domain.Member;
 import woowacourse.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.PlanLocationCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
@@ -28,11 +31,17 @@ class TravelPlanControllerTest {
     private int port;
     private final DatabaseCleaner databaseCleaner;
     private final TestFixture testFixture;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public TravelPlanControllerTest(DatabaseCleaner databaseCleaner, TestFixture testFixture) {
+    public TravelPlanControllerTest(
+            DatabaseCleaner databaseCleaner,
+            TestFixture testFixture,
+            JwtTokenProvider jwtTokenProvider
+    ) {
         this.databaseCleaner = databaseCleaner;
         this.testFixture = testFixture;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @BeforeEach
@@ -58,9 +67,13 @@ class TravelPlanControllerTest {
                 .days(List.of(planDayCreateRequest))
                 .build();
 
+        Member member = testFixture.initMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(member);
+
         // when & then
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .body(request)
                 .when().log().all()
                 .post("/api/v1/travel-plans")
@@ -86,9 +99,13 @@ class TravelPlanControllerTest {
                 .days(List.of(planDayCreateRequest))
                 .build();
 
+        Member member = testFixture.initMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(member);
+
         // when & then
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .body(request)
                 .when().log().all()
                 .post("/api/v1/travel-plans")
