@@ -18,6 +18,7 @@ module.exports = {
       "@assets": path.resolve(__dirname, "src/assets/"),
       "@components": path.resolve(__dirname, "src/components/"),
       "@apis": path.resolve(__dirname, "src/apis/"),
+      "@mocks": path.resolve(__dirname, "src/mocks/"),
       "@constants/*": path.resolve(__dirname, "src/constants/"),
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],

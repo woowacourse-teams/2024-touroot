@@ -1,5 +1,6 @@
 import type { StorybookConfig } from "@storybook/react-webpack5";
 import path from "path";
+import webpack from "webpack";
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
@@ -22,6 +23,7 @@ const config: StorybookConfig = {
         "@assets": path.resolve(__dirname, "../src/assets"),
         "@styles": path.resolve(__dirname, "../src/styles"),
         "@apis": path.resolve(__dirname, "../src/apis"),
+        "@mocks": path.resolve(__dirname, "../src/mocks"),
         "@constants": path.resolve(__dirname, "../src/constants"),
       };
     }
@@ -35,6 +37,13 @@ const config: StorybookConfig = {
       test: /\.svg$/,
       use: ["@svgr/webpack"],
     });
+    config.plugins = config.plugins || [];
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        "process.env": JSON.stringify(process.env),
+      }),
+    );
+
     return config;
   },
   swc: () => ({
@@ -46,5 +55,6 @@ const config: StorybookConfig = {
       },
     },
   }),
+  staticDirs: ["../public"],
 };
 export default config;
