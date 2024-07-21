@@ -1,15 +1,5 @@
 import styled from "@emotion/styled";
 
-export const LoginText = styled.span`
-  ${({ theme }) => theme.typography.mainTextBold}
-  color: ${({ theme }) => theme.color.black};
-`;
-
-export const HiddenDiv = styled.div`
-  width: 2.4rem;
-  height: 2.4rem;
-`;
-
 export const TturiImg = styled.img`
   width: 26rem;
   height: 26rem;
@@ -34,12 +24,12 @@ export const GreetingBox = styled.div`
 `;
 
 export const GreetingMainText = styled.span`
-  ${({ theme }) => theme.typography.title};
+  ${({ theme }) => theme.typography.mobile.title};
 `;
 
 export const GreetingSubText = styled.span`
-  ${({ theme }) => theme.typography.mainTextBold};
-  color: ${({ theme }) => theme.color.darkGray};
+  ${({ theme }) => theme.typography.mobile.bodyBold};
+  color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
 export const LoginButtonWrapper = styled.div`
@@ -60,10 +50,10 @@ export const LoginButton = styled.button`
   height: 6rem;
   border-radius: 12px;
 
-  background-color: ${({ theme }) => theme.color.yellow};
+  background-color: ${({ theme }) => theme.colors.kakao};
 `;
 
 export const LoginLabel = styled.span`
-  ${({ theme }) => theme.typography.mainTextBold};
+  ${({ theme }) => theme.typography.mobile.bodyBold};
   opacity: 0.85;
 `;

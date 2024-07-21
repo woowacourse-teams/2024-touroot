@@ -1,38 +1,30 @@
 import { useEffect } from "react";
 
-import { AxiosResponse } from "axios";
-
-import { useQuery } from "@tanstack/react-query";
-
-import { client } from "@apis/client";
-
-import { Header } from "@components/common";
-
-import { BackIcon, KakaoSymbol } from "@assets/svg";
+// import { AxiosResponse } from "axios";
+// import { useQuery } from "@tanstack/react-query";
+// import { client } from "@apis/client";
+import { KakaoSymbol } from "@assets/svg";
 import { Tturi } from "@assets/webp";
 
 import * as S from "./LoginPage.styled";
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Kakao: any;
   }
 }
-interface KakaoLoginResult {
-  accessToken: "string";
-}
+// interface KakaoLoginResult {
+//   accessToken: "string";
+// }
 
 const kakao = window.Kakao;
 
 const LoginPage = () => {
-  const LOGIN_TEXT = "로그인";
   const TTURI = "뚜리";
   const GREETING_MAIN_TEXT = "투룻에 온 걸 환영해요!";
   const GREETING_SUB_TEXT = "To your route, touroot!";
   const KAKAO_LABEL = "카카오 로그인";
-
-  // TODO: 이전 화면으로 돌아가기 추가
-  const handleClickBackIcon = () => {};
 
   const handleClickLoginButton = () => {
     kakao?.Auth?.authorize({
@@ -54,13 +46,6 @@ const LoginPage = () => {
 
   return (
     <>
-      <Header>
-        <button onClick={handleClickBackIcon}>
-          <BackIcon />
-        </button>
-        <S.LoginText>{LOGIN_TEXT}</S.LoginText>
-        <S.HiddenDiv />
-      </Header>
       <S.GreetingContainer>
         <S.TturiImg src={Tturi} alt={TTURI} />
         <S.GreetingBox>
