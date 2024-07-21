@@ -1,6 +1,7 @@
 package woowacourse.touroot.travelogue.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import woowacourse.touroot.travelogue.domain.Travelogue;
@@ -14,6 +15,7 @@ public record TravelogueRequest(
         String thumbnail,
         @Schema(description = "여행기 일자 목록")
         @NotNull(message = "여행기 일자 목록은 비어있을 수 없습니다.")
+        @Valid
         List<TravelogueDayRequest> days
 ) {
 

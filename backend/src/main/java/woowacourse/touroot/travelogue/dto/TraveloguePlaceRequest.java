@@ -1,6 +1,7 @@
 package woowacourse.touroot.travelogue.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import woowacourse.touroot.place.domain.Place;
@@ -13,11 +14,13 @@ public record TraveloguePlaceRequest(
         String name,
         @Schema(description = "여행기 장소 위치 정보")
         @NotNull(message = "여행기 장소 위치 정보는 비어있을 수 없습니다.")
+        @Valid
         TravelogueLocationRequest location,
         @Schema(description = "여행기 장소 설명", example = "성담 빌딩에 위치한 선릉 캠퍼스입니다.")
         String description,
         @Schema(description = "여행기 장소 사진")
         @NotNull(message = "여행기 장소 사진은 비어있을 수 없습니다.")
+        @Valid
         List<TraveloguePhotoRequest> photos
 ) {
 
