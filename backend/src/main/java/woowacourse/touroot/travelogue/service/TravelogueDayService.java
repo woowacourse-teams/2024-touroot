@@ -1,4 +1,4 @@
-package woowacourse.touroot.travelogue.domain.day.service;
+package woowacourse.touroot.travelogue.service;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import woowacourse.touroot.global.exception.BadRequestException;
 import woowacourse.touroot.travelogue.domain.Travelogue;
-import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
-import woowacourse.touroot.travelogue.domain.day.repository.TravelogueDayRepository;
-import woowacourse.touroot.travelogue.dto.TravelogueDayRequest;
-import woowacourse.touroot.travelogue.dto.TraveloguePlaceRequest;
+import woowacourse.touroot.travelogue.domain.TravelogueDay;
+import woowacourse.touroot.travelogue.dto.request.TravelogueDayRequest;
+import woowacourse.touroot.travelogue.dto.request.TraveloguePlaceRequest;
+import woowacourse.touroot.travelogue.repository.TravelogueDayRepository;
 
 @RequiredArgsConstructor
 @Service

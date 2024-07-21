@@ -1,12 +1,12 @@
-package woowacourse.touroot.travelogue.dto;
+package woowacourse.touroot.travelogue.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import woowacourse.touroot.place.domain.Place;
-import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
-import woowacourse.touroot.travelogue.domain.place.domain.TraveloguePlace;
+import woowacourse.touroot.travelogue.domain.TravelogueDay;
+import woowacourse.touroot.travelogue.domain.TraveloguePlace;
 
 public record TraveloguePlaceRequest(
         @Schema(description = "여행기 장소 이름", example = "선릉 캠퍼스")

@@ -1,9 +1,8 @@
-package woowacourse.touroot.travelogue.domain.day.dto;
+package woowacourse.touroot.travelogue.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.Builder;
-import woowacourse.touroot.travelogue.domain.place.dto.TraveloguePlaceResponse;
 
 @Builder
 public record TravelogueDayResponse(

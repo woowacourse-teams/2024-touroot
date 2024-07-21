@@ -9,20 +9,17 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import woowacourse.touroot.travelogue.domain.Travelogue;
-import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
-import woowacourse.touroot.travelogue.domain.day.dto.TravelogueDayResponse;
-import woowacourse.touroot.travelogue.domain.day.service.TravelogueDayService;
-import woowacourse.touroot.travelogue.domain.photo.domain.TraveloguePhoto;
-import woowacourse.touroot.travelogue.domain.photo.service.TraveloguePhotoService;
-import woowacourse.touroot.travelogue.domain.place.domain.TraveloguePlace;
-import woowacourse.touroot.travelogue.domain.place.dto.TravelogueLocationResponse;
-import woowacourse.touroot.travelogue.domain.place.dto.TraveloguePlaceResponse;
-import woowacourse.touroot.travelogue.domain.place.service.TraveloguePlaceService;
-import woowacourse.touroot.travelogue.dto.TravelogueDayRequest;
-import woowacourse.touroot.travelogue.dto.TraveloguePhotoRequest;
-import woowacourse.touroot.travelogue.dto.TraveloguePlaceRequest;
-import woowacourse.touroot.travelogue.dto.TravelogueRequest;
-import woowacourse.touroot.travelogue.dto.TravelogueResponse;
+import woowacourse.touroot.travelogue.domain.TravelogueDay;
+import woowacourse.touroot.travelogue.domain.TraveloguePhoto;
+import woowacourse.touroot.travelogue.domain.TraveloguePlace;
+import woowacourse.touroot.travelogue.dto.request.TravelogueDayRequest;
+import woowacourse.touroot.travelogue.dto.request.TraveloguePhotoRequest;
+import woowacourse.touroot.travelogue.dto.request.TraveloguePlaceRequest;
+import woowacourse.touroot.travelogue.dto.request.TravelogueRequest;
+import woowacourse.touroot.travelogue.dto.response.TravelogueDayResponse;
+import woowacourse.touroot.travelogue.dto.response.TravelogueLocationResponse;
+import woowacourse.touroot.travelogue.dto.response.TraveloguePlaceResponse;
+import woowacourse.touroot.travelogue.dto.response.TravelogueResponse;
 
 @RequiredArgsConstructor
 @Service

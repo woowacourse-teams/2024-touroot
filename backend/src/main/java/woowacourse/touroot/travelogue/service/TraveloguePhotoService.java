@@ -1,4 +1,4 @@
-package woowacourse.touroot.travelogue.domain.photo.service;
+package woowacourse.touroot.travelogue.service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -6,10 +6,10 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import woowacourse.touroot.travelogue.domain.photo.domain.TraveloguePhoto;
-import woowacourse.touroot.travelogue.domain.photo.repository.TraveloguePhotoRepository;
-import woowacourse.touroot.travelogue.domain.place.domain.TraveloguePlace;
-import woowacourse.touroot.travelogue.dto.TraveloguePhotoRequest;
+import woowacourse.touroot.travelogue.domain.TraveloguePhoto;
+import woowacourse.touroot.travelogue.domain.TraveloguePlace;
+import woowacourse.touroot.travelogue.dto.request.TraveloguePhotoRequest;
+import woowacourse.touroot.travelogue.repository.TraveloguePhotoRepository;
 
 @RequiredArgsConstructor
 @Service

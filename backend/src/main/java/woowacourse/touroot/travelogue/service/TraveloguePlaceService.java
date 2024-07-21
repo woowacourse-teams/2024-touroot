@@ -1,4 +1,4 @@
-package woowacourse.touroot.travelogue.domain.place.service;
+package woowacourse.touroot.travelogue.service;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -9,11 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import woowacourse.touroot.global.exception.BadRequestException;
 import woowacourse.touroot.place.domain.Place;
 import woowacourse.touroot.place.repository.PlaceRepository;
-import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
-import woowacourse.touroot.travelogue.domain.place.domain.TraveloguePlace;
-import woowacourse.touroot.travelogue.domain.place.repsitory.TraveloguePlaceRepository;
-import woowacourse.touroot.travelogue.dto.TraveloguePhotoRequest;
-import woowacourse.touroot.travelogue.dto.TraveloguePlaceRequest;
+import woowacourse.touroot.travelogue.domain.TravelogueDay;
+import woowacourse.touroot.travelogue.domain.TraveloguePlace;
+import woowacourse.touroot.travelogue.dto.request.TraveloguePhotoRequest;
+import woowacourse.touroot.travelogue.dto.request.TraveloguePlaceRequest;
+import woowacourse.touroot.travelogue.repository.TraveloguePlaceRepository;
 
 @RequiredArgsConstructor
 @Service

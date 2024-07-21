@@ -1,11 +1,11 @@
-package woowacourse.touroot.travelogue.dto;
+package woowacourse.touroot.travelogue.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import woowacourse.touroot.travelogue.domain.Travelogue;
-import woowacourse.touroot.travelogue.domain.day.domain.TravelogueDay;
+import woowacourse.touroot.travelogue.domain.TravelogueDay;
 
 public record TravelogueDayRequest(
         @Schema(description = "여행기 장소 목록")

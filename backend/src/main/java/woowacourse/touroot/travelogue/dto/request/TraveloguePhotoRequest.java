@@ -1,9 +1,9 @@
-package woowacourse.touroot.travelogue.dto;
+package woowacourse.touroot.travelogue.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import woowacourse.touroot.travelogue.domain.photo.domain.TraveloguePhoto;
-import woowacourse.touroot.travelogue.domain.place.domain.TraveloguePlace;
+import woowacourse.touroot.travelogue.domain.TraveloguePhoto;
+import woowacourse.touroot.travelogue.domain.TraveloguePlace;
 
 public record TraveloguePhotoRequest(
         @Schema(description = "여행기 장소 사진 Key", example = "photo.png")

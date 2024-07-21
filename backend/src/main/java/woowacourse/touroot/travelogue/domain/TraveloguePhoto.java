@@ -1,4 +1,4 @@
-package woowacourse.touroot.travelogue.domain.day.domain;
+package woowacourse.touroot.travelogue.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,26 +13,28 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import woowacourse.touroot.entity.BaseEntity;
-import woowacourse.touroot.travelogue.domain.Travelogue;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-public class TravelogueDay extends BaseEntity {
+public class TraveloguePhoto extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "DAY_ORDER", nullable = false)
+    @Column(name = "PHOTO_KEY", nullable = false)
+    private String key;
+
+    @Column(name = "PHOTO_ORDER", nullable = false)
     private Integer order;
 
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Travelogue travelogue;
+    private TraveloguePlace traveloguePlace;
 
-    public TravelogueDay(Integer order, Travelogue travelogue) {
-        this(null, order, travelogue);
+    public TraveloguePhoto(Integer order, String key, TraveloguePlace traveloguePlace) {
+        this(null, key, order, traveloguePlace);
     }
 }

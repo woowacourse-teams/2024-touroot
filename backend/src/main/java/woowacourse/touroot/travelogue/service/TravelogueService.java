@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import woowacourse.touroot.global.exception.BadRequestException;
 import woowacourse.touroot.travelogue.domain.Travelogue;
-import woowacourse.touroot.travelogue.dto.TravelogueRequest;
+import woowacourse.touroot.travelogue.dto.request.TravelogueRequest;
 import woowacourse.touroot.travelogue.repository.TravelogueRepository;
 
 @RequiredArgsConstructor

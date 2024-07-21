@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import woowacourse.touroot.travelogue.dto.TravelogueRequest;
-import woowacourse.touroot.travelogue.dto.TravelogueResponse;
+import woowacourse.touroot.travelogue.dto.request.TravelogueRequest;
+import woowacourse.touroot.travelogue.dto.response.TravelogueResponse;
 import woowacourse.touroot.travelogue.service.TravelogueFacadeService;
 
 @Tag(name = "여행기")
