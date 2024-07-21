@@ -1,6 +1,8 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import { PRIMITIVE_COLORS } from "@styles/tokens";
+
 const slideUp = keyframes`
   from {
     height: 5rem;
@@ -28,7 +30,7 @@ export const BottomSheetLayout = styled.div<{ $isOpen: boolean }>`
   width: 100%;
   height: ${({ $isOpen }) => ($isOpen ? "12rem" : "5rem")};
 
-  background-color: white;
+  background-color: ${PRIMITIVE_COLORS.white};
 
   animation: ${({ $isOpen }) => ($isOpen ? slideUp : slideDown)} 0.3s ease-out;
   max-width: 48rem;
@@ -45,7 +47,7 @@ export const BottomSheetContent = styled.div`
   padding: 20px;
   overflow-y: auto;
 
-  ${(props) => props.theme.typography.detailBold}
+  ${({ theme }) => theme.typography.mobile.detailBold}
 `;
 
 export const BottomSheetBottomContainer = styled.div`

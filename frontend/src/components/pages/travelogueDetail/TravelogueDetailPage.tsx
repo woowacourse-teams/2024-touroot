@@ -59,7 +59,7 @@ const TravelogueDetailPage = () => {
           </S.LikesContainer>
           <S.Title
             css={css`
-              margin: 1.6rem 0 3.2rem 0;
+              margin: 1.6rem 0 3.2rem;
             `}
           >
             {daysAndNights} 여행 한눈에 보기

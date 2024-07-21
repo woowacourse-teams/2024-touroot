@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 
 export const TitleLayout = styled.section`
-  margin-top: 5.7rem;
   display: flex;
+  margin-top: 5.7rem;
   flex-direction: column;
   gap: 1.6rem;
 `;
@@ -25,7 +25,7 @@ export const TitleContainer = styled.div`
 `;
 
 export const Title = styled.span`
-  ${(props) => props.theme.typography.title}
+  ${({ theme }) => theme.typography.mobile.title}
 `;
 
 export const AuthorDateContainer = styled.div`
@@ -34,8 +34,8 @@ export const AuthorDateContainer = styled.div`
 `;
 
 export const AuthorDate = styled.span`
-  ${(props) => props.theme.typography.detail}
-  ${(props) => props.theme.color.darkGray}
+  ${({ theme }) => theme.typography.mobile.detail}
+  ${({ theme }) => theme.colors.text.secondary}
 `;
 
 export const LikesContainer = styled.div`
@@ -46,5 +46,5 @@ export const LikesContainer = styled.div`
 `;
 
 export const Likes = styled.span`
-  ${(props) => props.theme.typography.detail}
+  ${({ theme }) => theme.typography.mobile.detail}
 `;
