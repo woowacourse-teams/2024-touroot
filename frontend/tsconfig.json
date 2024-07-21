@@ -21,10 +21,12 @@
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
       "@apis/*": ["apis/*"],
-      "@mocks/*": ["mocks/*"]
+      "@mocks/*": ["mocks/*"],
+      "@constants/*": ["constants/*"]
     },
     "types": ["jest"],
     "esModuleInterop": true
+    }
   },
 
   "include": ["src", "jest-setup.ts", "__tests__"],

@@ -3,7 +3,9 @@ import React from "react";
 import { Global, ThemeProvider } from "@emotion/react";
 
 import type { Preview } from "@storybook/react";
+
 import { initialize, mswLoader } from "msw-storybook-addon";
+import { withRouter } from "storybook-addon-remix-react-router";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -41,6 +43,7 @@ const preview: Preview = {
         </QueryClientProvider>
       );
     },
+    withRouter,
   ],
   loaders: [mswLoader],
 };

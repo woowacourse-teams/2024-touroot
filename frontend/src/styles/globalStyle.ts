@@ -2,7 +2,8 @@ import { css } from "@emotion/react";
 
 export const globalStyle = css`
   @font-face {
-    font-family: "Pretendard";
+    font-family: Pretendard;
+
     font-weight: 900;
     font-display: swap;
     src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-Black.subset.woff")
@@ -10,7 +11,8 @@ export const globalStyle = css`
   }
 
   @font-face {
-    font-family: "Pretendard";
+    font-family: Pretendard;
+
     font-weight: 800;
     font-display: swap;
     src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-ExtraBold.subset.woff")
@@ -18,7 +20,8 @@ export const globalStyle = css`
   }
 
   @font-face {
-    font-family: "Pretendard";
+    font-family: Pretendard;
+
     font-weight: 700;
     font-display: swap;
     src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-Bold.subset.woff")
@@ -26,7 +29,8 @@ export const globalStyle = css`
   }
 
   @font-face {
-    font-family: "Pretendard";
+    font-family: Pretendard;
+
     font-weight: 600;
     font-display: swap;
     src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-SemiBold.subset.woff")
@@ -34,7 +38,8 @@ export const globalStyle = css`
   }
 
   @font-face {
-    font-family: "Pretendard";
+    font-family: Pretendard;
+
     font-weight: 500;
     font-display: swap;
     src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-Medium.subset.woff")
@@ -42,7 +47,8 @@ export const globalStyle = css`
   }
 
   @font-face {
-    font-family: "Pretendard";
+    font-family: Pretendard;
+
     font-weight: 400;
     font-display: swap;
     src: local("Pretendard") url("/@assets/fonts/woff-subset/Pretendard-Regular.subset.woff")
@@ -50,7 +56,8 @@ export const globalStyle = css`
   }
 
   @font-face {
-    font-family: "Pretendard";
+    font-family: Pretendard;
+
     font-weight: 300;
     font-display: swap;
     src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-Light.subset.woff")
@@ -58,7 +65,8 @@ export const globalStyle = css`
   }
 
   @font-face {
-    font-family: "Pretendard";
+    font-family: Pretendard;
+
     font-weight: 200;
     font-display: swap;
     src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-ExtraLight.subset.woff")
@@ -66,7 +74,8 @@ export const globalStyle = css`
   }
 
   @font-face {
-    font-family: "Pretendard";
+    font-family: Pretendard;
+
     font-weight: 100;
     font-display: swap;
     src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-Thin.subset.woff")
@@ -154,13 +163,14 @@ export const globalStyle = css`
   mark,
   audio,
   video {
-    vertical-align: baseline;
     margin: 0;
-    border: 0;
     padding: 0;
-    font-size: 100%;
+    border: 0;
+
+    vertical-align: baseline;
     font: inherit;
   }
+
   article,
   aside,
   details,
@@ -174,39 +184,48 @@ export const globalStyle = css`
   section {
     display: block;
   }
+
   * {
     user-select: none;
   }
+
   ol,
   ul,
   li {
     list-style: none;
   }
+
   blockquote,
   q {
     quotes: none;
   }
-  blockquote:before,
-  blockquote:after,
-  q:before,
-  q:after {
+
+  blockquote::before,
+  blockquote::after,
+  q::before,
+  q::after {
     content: "";
     content: none;
   }
+
   table {
     border-collapse: collapse;
     border-spacing: 0;
   }
+
   button {
-    cursor: pointer;
-    outline: none;
-    border: none;
-    background-color: inherit;
     padding: 0;
+    border: none;
+
+    background-color: inherit;
+
     color: inherit;
     font-weight: inherit;
     font-size: inherit;
+    cursor: pointer;
+    outline: none;
   }
+
   input[type="text"] {
     padding: 0;
     padding-inline: 0;
@@ -227,9 +246,10 @@ export const globalStyle = css`
 
   body {
     background-color: white;
+
     color: black;
     font-size: 1.6rem;
-    font-family: "Pretendard";
+    font-family: Pretendard, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -242,10 +262,6 @@ export const globalStyle = css`
     list-style: none;
   }
 
-  button {
-    cursor: pointer;
-  }
-
   a {
     text-decoration: none;
   }
@@ -255,7 +271,7 @@ export const globalStyle = css`
 
     margin: 0 auto;
 
-    box-shadow: 0 0 0.315rem rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 0.315rem rgb(0 0 0 / 25%);
 
     background-color: white;
     min-width: 28rem;

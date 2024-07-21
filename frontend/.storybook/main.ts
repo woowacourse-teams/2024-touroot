@@ -11,6 +11,7 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@chromatic-com/storybook",
     "@storybook/addon-interactions",
+    "storybook-addon-remix-react-router",
   ],
   framework: "@storybook/react-webpack5",
   webpackFinal: async (config) => {
@@ -23,6 +24,7 @@ const config: StorybookConfig = {
         "@styles": path.resolve(__dirname, "../src/styles"),
         "@apis": path.resolve(__dirname, "../src/apis"),
         "@mocks": path.resolve(__dirname, "../src/mocks"),
+        "@constants": path.resolve(__dirname, "../src/constants"),
       };
     }
     config.module = config.module || {};
