@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack serve --config webpack.common.js",
     "build": "NODE_ENV=production webpack --config webpack.common.js",
-    "lint:styled": "stylelint './src/**/*.styled.ts' --fix",
+    "lint:styled": "stylelint './src/**/*.ts' --fix",
     "test": "jest --watchAll",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
