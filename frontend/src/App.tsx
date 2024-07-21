@@ -1,7 +1,7 @@
-import TravelogueDetailPage from "@components/pages/travelogueDetail/TravelogueDetailPage";
+import MainPage from "@components/pages/main/MainPage";
 
 const App = () => {
-  return <TravelogueDetailPage />;
+  return <MainPage />;
 };
 
 export default App;
