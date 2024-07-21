@@ -9,8 +9,7 @@
     "lint:styled": "stylelint './src/**/*.ts' --fix",
     "test": "jest --watchAll",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "chromatic": "bash ./chromatic_publish.sh"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -21,7 +20,8 @@
     "axios": "^1.7.2",
     "dotenv-webpack": "^8.1.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.25.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.6.1",
@@ -57,6 +57,7 @@
     "postcss-styled-syntax": "^0.6.4",
     "prettier": "^3.3.2",
     "storybook": "^8.2.4",
+    "storybook-addon-remix-react-router": "^3.0.0",
     "stylelint": "16.6.1",
     "stylelint-config-standard": "^36.0.1",
     "stylelint-order": "^6.0.4",
