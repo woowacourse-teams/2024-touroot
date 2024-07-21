@@ -31,11 +31,11 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: ${{ always() }}
         with:
-          files: ./build/test-results/**/*.xml
+          files: ${{ github.workspace }}/build/test-results/**/*.xml
 
       - name: When test fail, comment on that code
         uses: mikepenz/action-junit-report@v3
         if: always()
         with:
-          report_paths: ./build/test-results/**/*.xml
+          report_paths: ${{ github.workspace }}/build/test-results/**/*.xml
           token: ${{ github.token }}
