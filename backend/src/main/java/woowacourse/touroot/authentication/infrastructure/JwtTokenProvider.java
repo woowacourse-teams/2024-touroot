@@ -1,11 +1,15 @@
 package woowacourse.touroot.authentication.infrastructure;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import woowacourse.touroot.global.exception.UnauthorizedException;
 import woowacourse.touroot.member.domain.Member;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
@@ -33,5 +37,21 @@ public class JwtTokenProvider {
                 .setExpiration(validity)
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();
+    }
+
+    public String decode(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .get(MEMBER_ID_KEY)
+                    .toString();
+        } catch (ExpiredJwtException exception) {
+            throw new UnauthorizedException("이미 만료된 토큰입니다.");
+        } catch (Exception exception) {
+            throw new UnauthorizedException("유효하지 않은 토큰입니다.");
+        }
     }
 }
