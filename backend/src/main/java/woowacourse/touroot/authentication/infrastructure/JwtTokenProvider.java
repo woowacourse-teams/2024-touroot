@@ -49,9 +49,9 @@ public class JwtTokenProvider {
                     .get(MEMBER_ID_KEY)
                     .toString();
         } catch (ExpiredJwtException exception) {
-            throw new UnauthorizedException("이미 만료된 토큰입니다.");
+            throw new UnauthorizedException("이미 만료된 토큰입니다.", exception.getCause());
         } catch (Exception exception) {
-            throw new UnauthorizedException("유효하지 않은 토큰입니다.");
+            throw new UnauthorizedException("유효하지 않은 토큰입니다.", exception.getCause());
         }
     }
 }
