@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "noEmit": false,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
+
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": "src",
+    "paths": {
+      "@styles/*": ["styles/*"],
+      "@assets/*": ["assets/*"],
+      "@components/*": ["components/*"],
+      "@apis/*": ["apis/*"],
+      "@mocks/*": ["mocks/*"]
+    },
+    "types": ["jest"],
+    "esModuleInterop": true
+  },
+
+  "include": ["src", "jest-setup.ts", "__tests__"],
+  "exclude": ["node_modules"]
+}
