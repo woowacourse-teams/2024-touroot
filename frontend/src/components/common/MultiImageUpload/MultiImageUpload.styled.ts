@@ -92,7 +92,7 @@ export const MultiImageUploadHiddenInput = styled.input`
   display: none;
 `;
 
-export const DD = styled.div`
+export const ImageScrollContainer = styled.div`
   display: flex;
   width: 100%;
   height: 7rem;

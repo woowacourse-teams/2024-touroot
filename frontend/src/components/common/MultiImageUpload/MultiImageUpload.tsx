@@ -36,7 +36,7 @@ const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
               {images.length} / {MAX_PICTURES_COUNT}
             </p>
           </S.MultiImageUploadPicturesInfo>
-          <S.DD>
+          <S.ImageScrollContainer>
             {images.map((image, index) => (
               <S.MultiImageUploadPictureWrapper key={index}>
                 <S.MultiImageUploadDeleteButton onClick={() => handleDeleteImage(index)}>
@@ -57,7 +57,7 @@ const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
                 <S.MultiImageUploadPicture src={image} alt={`업로드된 이미지 ${index + 1}`} />
               </S.MultiImageUploadPictureWrapper>
             ))}
-          </S.DD>
+          </S.ImageScrollContainer>
         </S.MultiImageUploadPictureContainer>
       )}
 
