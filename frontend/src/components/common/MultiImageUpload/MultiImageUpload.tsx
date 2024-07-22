@@ -22,12 +22,16 @@ const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const handleDeleteImage = (index: number) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
+
   const handleButtonClick = () => {
     fileInputRef.current?.click();
   };
 
   return (
-    <div>
+    <S.MultiImageUploadContainer>
       <S.MultiImageUploadPictureContainer>
         {hasPictures && (
           <S.MultiImageUploadPicturesInfo>
@@ -51,7 +55,12 @@ const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
           </S.MultiImageUploadPicturesInfo>
         )}
         {images.map((image, index) => (
-          <S.MultiImageUploadPicture key={index} src={image} alt={`업로드된 이미지 ${index + 1}`} />
+          <S.MultiImageUploadPictureWrapper key={index}>
+            <S.MultiImageUploadDeleteButton onClick={() => handleDeleteImage(index)}>
+              x
+            </S.MultiImageUploadDeleteButton>
+            <S.MultiImageUploadPicture src={image} alt={`업로드된 이미지 ${index + 1}`} />
+          </S.MultiImageUploadPictureWrapper>
         ))}
       </S.MultiImageUploadPictureContainer>
       {children}
@@ -79,7 +88,7 @@ const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
           />
         </>
       )}
-    </div>
+    </S.MultiImageUploadContainer>
   );
 };
 
