@@ -11,7 +11,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 const Textarea = ({ count, maxCount, ...props }: TextareaProps) => {
   return (
     <S.TextareaContainer>
-      <S.Textarea placeholder="장소에 대한 간단한 설명을 남겨주세요." {...props} />
+      <S.Textarea {...props} />
       <Count count={count} maxCount={maxCount} />
     </S.TextareaContainer>
   );

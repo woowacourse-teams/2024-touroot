@@ -6,7 +6,7 @@ export const TextareaContainer = styled.div`
   gap: 0.8rem;
 
   padding: 1.6rem;
-  width: 80%;
+  width: 100%;
   border-radius: 10px;
 
   background-color: ${({ theme }) => theme.colors.background.disabled};
