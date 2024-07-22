@@ -17,10 +17,16 @@ export const ThumbnailUploadContainer = styled.div`
 
 export const ThumbnailUploadButton = styled.button`
   display: flex;
+  width: 100%;
+  height: 100%;
   justify-content: center;
   align-items: center;
 `;
 
 export const ThumbnailUploadImage = styled.img`
   width: 100%;
+`;
+
+export const ThumbnailUploadHiddenInput = styled.input`
+  display: none;
 `;
