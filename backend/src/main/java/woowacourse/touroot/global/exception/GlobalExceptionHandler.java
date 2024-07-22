@@ -34,4 +34,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(data);
     }
+
+    @ExceptionHandler(ClientException.class)
+    public ResponseEntity<ExceptionResponse> handleClientException(ClientException exception) {
+        log.error("CLIENT_EXCEPTION :: message = {}", exception.getMessage());
+
+        ExceptionResponse data = new ExceptionResponse(exception.getMessage());
+        return ResponseEntity.internalServerError().body(data);
+    }
 }
