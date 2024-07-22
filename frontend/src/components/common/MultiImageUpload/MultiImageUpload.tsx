@@ -14,7 +14,7 @@ const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
 
   const hasPictures = images.length !== 0;
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
       const newImages = files.map((file) => URL.createObjectURL(file));
@@ -79,7 +79,7 @@ const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
             type="file"
             multiple
             accept="image/*"
-            onChange={handleImageChange}
+            onChange={handleChangeImage}
             css={css`
               display: none;
             `}
