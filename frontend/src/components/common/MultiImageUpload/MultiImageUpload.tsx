@@ -1,5 +1,6 @@
-import { ChangeEvent, PropsWithChildren, useRef, useState } from "react";
+import { PropsWithChildren } from "react";
 
+import { useImageUpload } from "@components/hooks/useImageUpload";
 
 import { PictureIcon } from "@assets/svg";
 
@@ -8,33 +9,17 @@ import * as S from "./MultiImageUpload.styled";
 const MAX_PICTURES_COUNT = 10;
 
 const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
-  const [images, setImages] = useState<string[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { images, fileInputRef, handleImageChange, handleDeleteImage, handleButtonClick } =
+    useImageUpload({ multiple: true, maxCount: MAX_PICTURES_COUNT });
 
   const hasPictures = images.length !== 0;
-
-  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const files = Array.from(e.target.files);
-      const newImages = files.map((file) => URL.createObjectURL(file));
-      setImages((prevImages) => [...prevImages, ...newImages]);
-    }
-  };
-
-  const handleDeleteImage = (index: number) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-  };
-
-  const handleButtonClick = () => {
-    fileInputRef.current?.click();
-  };
 
   return (
     <S.MultiImageUploadContainer>
       <S.MultiImageUploadPictureContainer>
         {hasPictures && (
           <S.MultiImageUploadPicturesInfo>
-            {/* <PictureIcon /> */}
+            {/* <PictureIcon/> */}
             <svg
               width="22"
               height="21"
@@ -47,7 +32,6 @@ const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
                 fill="#0090FF"
               />
             </svg>
-
             <p>
               {images.length} / {MAX_PICTURES_COUNT}
             </p>

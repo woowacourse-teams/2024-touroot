@@ -1,29 +1,19 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { useState } from "react";
+
+import { useImageUpload } from "@components/hooks/useImageUpload";
 
 import { PictureIcon } from "@assets/svg";
 
 import * as S from "./ThumbnailUpload.styled";
 
 const ThumbnailUpload = () => {
-  const [image, setImage] = useState<string>("");
   const [isShowEditButton, setIsShowEditButton] = useState<boolean>(false);
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      setImage(URL.createObjectURL(file));
-    }
-  };
-
-  const handleButtonClick = () => {
-    fileInputRef.current?.click();
-  };
+  const { images, fileInputRef, handleImageChange, handleButtonClick } = useImageUpload();
 
   const handleMouseOver = () => setIsShowEditButton(true);
-
   const handleMouseLeave = () => setIsShowEditButton(false);
+
+  const image = images[0];
 
   const HiddenInput = (
     <S.ThumbnailUploadHiddenInput
