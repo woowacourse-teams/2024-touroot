@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Textarea from "./Textarea";
 
 const meta = {
-  title: "Textarea",
+  title: "common/Textarea",
   component: Textarea,
 
   parameters: {
