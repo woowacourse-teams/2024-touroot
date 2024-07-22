@@ -21,13 +21,9 @@ const ThumbnailUpload = () => {
     fileInputRef.current?.click();
   };
 
-  const handleMouseOver = () => {
-    setIsShowEditButton(true);
-  };
+  const handleMouseOver = () => setIsShowEditButton(true);
 
-  const handleMouseLeave = () => {
-    setIsShowEditButton(false);
-  };
+  const handleMouseLeave = () => setIsShowEditButton(false);
 
   const HiddenInput = (
     <S.ThumbnailUploadHiddenInput
