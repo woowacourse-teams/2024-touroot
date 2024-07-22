@@ -1,1 +1,1 @@
-export { default as Tturi } from "./tturi.webp";
+export { default as ExcitedTturi } from "./excitedTturi.webp";

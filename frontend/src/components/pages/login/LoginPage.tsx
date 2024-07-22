@@ -4,7 +4,7 @@ import { useEffect } from "react";
 // import { useQuery } from "@tanstack/react-query";
 // import { client } from "@apis/client";
 import { KakaoSymbol } from "@assets/svg";
-import { Tturi } from "@assets/webp";
+import { ExcitedTturi } from "@assets/webp";
 
 import * as S from "./LoginPage.styled";
 
@@ -47,7 +47,7 @@ const LoginPage = () => {
   return (
     <>
       <S.GreetingContainer>
-        <S.TturiImg src={Tturi} alt={TTURI} />
+        <S.TturiImg src={ExcitedTturi} alt={TTURI} />
         <S.GreetingBox>
           <S.GreetingMainText>{GREETING_MAIN_TEXT}</S.GreetingMainText>
           <S.GreetingSubText>{GREETING_SUB_TEXT}</S.GreetingSubText>
