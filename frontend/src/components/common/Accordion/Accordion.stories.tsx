@@ -14,7 +14,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const 기본_아코디언: Story = {
+export const Default: Story = {
   render: () => {
     const style: CSSProperties = {
       width: "48rem",
@@ -45,7 +45,7 @@ export const 기본_아코디언: Story = {
   },
 };
 
-export const 다중_아코디언 = () => {
+export const MultipleAccordions = () => {
   const days = [
     {
       id: "1",
@@ -85,7 +85,7 @@ export const 다중_아코디언 = () => {
   );
 };
 
-export const 아코디언_추가_및_삭제 = () => {
+export const add_and_delete_accordions = () => {
   const [days, setDays] = useState([
     {
       id: "1",
