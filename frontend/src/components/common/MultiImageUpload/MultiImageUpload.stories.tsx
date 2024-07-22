@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import MultiImageUpload from "./MultiImageUpload";
 
 const meta = {
-  title: "common/ThumbnailUpload",
+  title: "common/MultiImageUpload",
   component: MultiImageUpload,
   decorators: [
     (Story, context) => {
