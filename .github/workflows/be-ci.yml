@@ -28,14 +28,17 @@ jobs:
         run: ./gradlew build
 
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: EnricoMi/publish-unit-test-result-action@v2
         if: ${{ always() }}
         with:
-          files: ./build/test-results/**/*.xml
+          files: ${{ github.workspace }}/backend/build/test-results/**/*.xml
+          seconds_between_github_reads: 1.0
+          seconds_between_github_writes: 3.0
+          secondary_rate_limit_wait_seconds: 90.0
 
       - name: When test fail, comment on that code
         uses: mikepenz/action-junit-report@v3
         if: always()
         with:
-          report_paths: ./build/test-results/**/*.xml
+          report_paths: ${{ github.workspace }}/backend/build/test-results/**/*.xml
           token: ${{ github.token }}
