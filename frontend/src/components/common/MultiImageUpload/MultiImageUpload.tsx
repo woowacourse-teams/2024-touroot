@@ -1,6 +1,5 @@
 import { ChangeEvent, PropsWithChildren, useRef, useState } from "react";
 
-import { css } from "@emotion/react";
 
 import { PictureIcon } from "@assets/svg";
 
@@ -74,15 +73,12 @@ const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
             <PictureIcon />
             <span>사진 업로드</span>
           </S.MultiImageUploadButton>
-          <input
+          <S.MultiImageUploadHiddenInput
             ref={fileInputRef}
             type="file"
             multiple
             accept="image/*"
-            onChange={handleChangeImage}
-            css={css`
-              display: none;
-            `}
+            onChange={handleImageChange}
             aria-label="파일 선택"
             title="이미지 파일을 선택하세요"
           />

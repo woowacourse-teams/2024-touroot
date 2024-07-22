@@ -84,3 +84,7 @@ export const MultiImageUploadDeleteButton = styled.button`
 
   ${(props) => props.theme.typography.mobile.detailBold}
 `;
+
+export const MultiImageUploadHiddenInput = styled.input`
+  display: none;
+`;
