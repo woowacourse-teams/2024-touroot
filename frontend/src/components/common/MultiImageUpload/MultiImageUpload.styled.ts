@@ -83,7 +83,9 @@ export const MultiImageUploadDeleteButton = styled.button`
   background-color: #fff;
   border-radius: 50%;
 
-  ${(props) => props.theme.typography.mobile.detailBold}
+  svg {
+    width: 0.8rem;
+  }
 `;
 
 export const MultiImageUploadHiddenInput = styled.input`
