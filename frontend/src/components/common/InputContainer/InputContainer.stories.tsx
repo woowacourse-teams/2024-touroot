@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
+import Count from "../Count/Count";
 import Input from "./Input/Input";
-import InputField from "./InputField";
+import InputContainer from "./InputContainer";
 
 const meta = {
-  title: "InputField",
-  component: InputField,
+  title: "InputContainer",
+  component: InputContainer,
 
   parameters: {
     layout: "fullscreen",
@@ -13,7 +14,7 @@ const meta = {
       defaultViewport: "desktop",
     },
   },
-} satisfies Meta<typeof InputField>;
+} satisfies Meta<typeof InputContainer>;
 
 export default meta;
 
@@ -22,8 +23,11 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     label: "제목",
-    count: 0,
-    maxCount: 20,
-    children: <Input placeholder="제목을 입력해 주세요." />,
+    children: (
+      <>
+        <Input placeholder="제목을 입력해 주세요." />
+        <Count count={0} maxCount={20} />
+      </>
+    ),
   },
 };
