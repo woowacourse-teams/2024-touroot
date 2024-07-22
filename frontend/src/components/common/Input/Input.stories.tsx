@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Input from "./Input";
 
 const meta = {
-  title: "Input",
+  title: "common/Input",
   component: Input,
 
   parameters: {
@@ -20,6 +20,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    placeholder: "여행기 제목을 입력해 주세요.",
+    label: "제목",
+    placeholder: "제목을 입력해 주세요.",
+    count: 0,
+    maxCount: 20,
   },
 };
