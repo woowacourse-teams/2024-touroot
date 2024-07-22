@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import ThumbnailUpload from "./ThumbnailUpload";
 
 const meta = {
-  title: "Components/ThumbnailUpload",
+  title: "common/ThumbnailUpload",
   component: ThumbnailUpload,
   decorators: [
     (Story, context) => {
