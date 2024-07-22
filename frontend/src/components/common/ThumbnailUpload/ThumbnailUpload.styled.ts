@@ -17,6 +17,7 @@ export const ThumbnailUploadContainer = styled.div`
 
 export const ThumbnailUploadButton = styled.button`
   display: flex;
+  gap: ${(props) => props.theme.spacing.xs};
   width: 100%;
   height: 100%;
   justify-content: center;
