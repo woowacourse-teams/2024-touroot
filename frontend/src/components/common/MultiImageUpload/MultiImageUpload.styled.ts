@@ -94,12 +94,12 @@ export const MultiImageUploadHiddenInput = styled.input`
 
 export const ImageScrollContainer = styled.div<{ $isDragging: boolean }>`
   display: flex;
+  overflow: auto hidden;
   width: 100%;
   height: 7rem;
   padding: 1rem 1rem 0 0;
   padding-bottom: ${(props) => props.theme.spacing.s};
   flex: 1;
-  overflow-x: auto;
   justify-content: flex-start;
   align-items: center;
   gap: ${(props) => props.theme.spacing.m};
