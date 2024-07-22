@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import Count from "../Count/Count";
+import CharacterCount from "../CharacterCount/CharacterCount";
 import Input from "./Input/Input";
 import InputContainer from "./InputContainer";
 
@@ -26,7 +26,7 @@ export const Default: Story = {
     children: (
       <>
         <Input placeholder="제목을 입력해 주세요." />
-        <Count count={0} maxCount={20} />
+        <CharacterCount count={0} maxCount={20} />
       </>
     ),
   },
