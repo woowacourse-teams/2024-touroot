@@ -6,6 +6,8 @@ import * as S from "./ThumbnailUpload.styled";
 
 const ThumbnailUpload = () => {
   const [image, setImage] = useState<string>("");
+  const [isShowEditButton, setIsShowEditButton] = useState<boolean>(false);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -17,6 +19,14 @@ const ThumbnailUpload = () => {
 
   const handleButtonClick = () => {
     fileInputRef.current?.click();
+  };
+
+  const handleMouseOver = () => {
+    setIsShowEditButton(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsShowEditButton(false);
   };
 
   return (
@@ -41,7 +51,25 @@ const ThumbnailUpload = () => {
           />
         </>
       ) : (
-        <S.ThumbnailUploadImage src={image} alt="썸네일 이미지" />
+        <S.ThumbnailUploadEditButtonContainer
+          onMouseOver={handleMouseOver}
+          onMouseLeave={handleMouseLeave}
+        >
+          {isShowEditButton && (
+            <S.ThumbnailUploadEditButton onClick={handleButtonClick}>
+              썸네일 수정하기
+            </S.ThumbnailUploadEditButton>
+          )}
+          <S.ThumbnailUploadImage src={image} alt="썸네일 이미지" />
+          <S.ThumbnailUploadHiddenInput
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            aria-label="썸네일 이미지 선택"
+            title="이미지 파일을 선택하세요"
+          />
+        </S.ThumbnailUploadEditButtonContainer>
       )}
     </S.ThumbnailUploadContainer>
   );
