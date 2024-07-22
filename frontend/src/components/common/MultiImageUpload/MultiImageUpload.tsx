@@ -16,8 +16,8 @@ const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <S.MultiImageUploadContainer>
-      <S.MultiImageUploadPictureContainer>
-        {hasPictures && (
+      {hasPictures && (
+        <S.MultiImageUploadPictureContainer>
           <S.MultiImageUploadPicturesInfo>
             {/* <PictureIcon/> */}
             <svg
@@ -36,16 +36,19 @@ const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
               {images.length} / {MAX_PICTURES_COUNT}
             </p>
           </S.MultiImageUploadPicturesInfo>
-        )}
-        {images.map((image, index) => (
-          <S.MultiImageUploadPictureWrapper key={index}>
-            <S.MultiImageUploadDeleteButton onClick={() => handleDeleteImage(index)}>
-              x
-            </S.MultiImageUploadDeleteButton>
-            <S.MultiImageUploadPicture src={image} alt={`업로드된 이미지 ${index + 1}`} />
-          </S.MultiImageUploadPictureWrapper>
-        ))}
-      </S.MultiImageUploadPictureContainer>
+          <S.DD>
+            {images.map((image, index) => (
+              <S.MultiImageUploadPictureWrapper key={index}>
+                <S.MultiImageUploadDeleteButton onClick={() => handleDeleteImage(index)}>
+                  x
+                </S.MultiImageUploadDeleteButton>
+                <S.MultiImageUploadPicture src={image} alt={`업로드된 이미지 ${index + 1}`} />
+              </S.MultiImageUploadPictureWrapper>
+            ))}
+          </S.DD>
+        </S.MultiImageUploadPictureContainer>
+      )}
+
       {children}
       {!hasPictures && (
         <>

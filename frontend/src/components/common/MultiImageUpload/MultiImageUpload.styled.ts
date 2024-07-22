@@ -6,7 +6,6 @@ export const MultiImageUploadContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: ${(props) => props.theme.spacing.m};
-  margin: 1rem 0;
 `;
 
 export const MultiImageUploadButton = styled.button`
@@ -25,8 +24,10 @@ export const MultiImageUploadButton = styled.button`
 
 export const MultiImageUploadPictureContainer = styled.div`
   display: flex;
+  align-items: center;
+  flex: 1;
   width: 100%;
-
+  overflow-x: auto-scroll;
   justify-content: flex-start;
   gap: ${(props) => props.theme.spacing.m};
 `;
@@ -87,4 +88,18 @@ export const MultiImageUploadDeleteButton = styled.button`
 
 export const MultiImageUploadHiddenInput = styled.input`
   display: none;
+`;
+
+export const DD = styled.div`
+  display: flex;
+  width: 100%;
+  height: 7rem;
+  padding: 1rem 1rem 0 0;
+  padding-bottom: ${(props) => props.theme.spacing.s};
+  flex: 1;
+  overflow-x: auto;
+  justify-content: flex-start;
+  align-items: center;
+  gap: ${(props) => props.theme.spacing.m};
+  scrollbar-width: none;
 `;
