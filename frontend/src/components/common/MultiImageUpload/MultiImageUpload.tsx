@@ -1,5 +1,6 @@
 import { PropsWithChildren } from "react";
 
+import useDragScroll from "@components/hooks/useDragScroll";
 import { useImageUpload } from "@components/hooks/useImageUpload";
 
 import { PictureIcon } from "@assets/svg";
@@ -11,6 +12,7 @@ const MAX_PICTURES_COUNT = 10;
 const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
   const { images, fileInputRef, handleImageChange, handleDeleteImage, handleButtonClick } =
     useImageUpload({ multiple: true, maxCount: MAX_PICTURES_COUNT });
+  const { scrollRef, onMouseDown, onMouseUp, onMouseMove, isDragging } = useDragScroll();
 
   const hasPictures = images.length !== 0;
 
@@ -36,7 +38,14 @@ const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
               {images.length} / {MAX_PICTURES_COUNT}
             </p>
           </S.MultiImageUploadPicturesInfo>
-          <S.ImageScrollContainer>
+          <S.ImageScrollContainer
+            ref={scrollRef}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseUp}
+            $isDragging={isDragging}
+          >
             {images.map((image, index) => (
               <S.MultiImageUploadPictureWrapper key={index}>
                 <S.MultiImageUploadDeleteButton onClick={() => handleDeleteImage(index)}>
@@ -54,7 +63,11 @@ const MultiImageUpload: React.FC<PropsWithChildren> = ({ children }) => {
                     />
                   </svg>
                 </S.MultiImageUploadDeleteButton>
-                <S.MultiImageUploadPicture src={image} alt={`업로드된 이미지 ${index + 1}`} />
+                <S.MultiImageUploadPicture
+                  src={image}
+                  alt={`업로드된 이미지 ${index + 1}`}
+                  draggable="false"
+                />
               </S.MultiImageUploadPictureWrapper>
             ))}
           </S.ImageScrollContainer>

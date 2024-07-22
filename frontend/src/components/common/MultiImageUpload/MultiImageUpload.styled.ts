@@ -92,7 +92,7 @@ export const MultiImageUploadHiddenInput = styled.input`
   display: none;
 `;
 
-export const ImageScrollContainer = styled.div`
+export const ImageScrollContainer = styled.div<{ $isDragging: boolean }>`
   display: flex;
   width: 100%;
   height: 7rem;
@@ -104,4 +104,5 @@ export const ImageScrollContainer = styled.div`
   align-items: center;
   gap: ${(props) => props.theme.spacing.m};
   scrollbar-width: none;
+  cursor: ${({ $isDragging }) => ($isDragging ? "grab" : "pointer")};
 `;
