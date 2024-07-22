@@ -47,15 +47,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (token == null) {
             sendUnauthorizedResponse(response, "로그인을 해주세요.");
-        } else {
-            token = token.split("Bearer|bearer")[1];
-            try {
-                String memberId = tokenProvider.decode(token);
-                request.setAttribute("memberId", memberId);
-                filterChain.doFilter(request, response);
-            } catch (Exception e) {
-                sendUnauthorizedResponse(response, e.getMessage());
-            }
+            return;
+        }
+
+        token = token.split("Bearer|bearer")[1];
+        try {
+            String memberId = tokenProvider.decode(token);
+            request.setAttribute("memberId", memberId);
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            sendUnauthorizedResponse(response, e.getMessage());
         }
     }
 
