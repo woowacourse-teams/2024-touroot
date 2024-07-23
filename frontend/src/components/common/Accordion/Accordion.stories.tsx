@@ -8,22 +8,26 @@ import Accordion from "./Accordion";
 const meta = {
   title: "common/Accordion",
   component: Accordion,
+  parameters: {
+    layout: "centered",
+  },
+  tags: ["autodocs"],
 } satisfies Meta<typeof Accordion>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const style: CSSProperties = {
+  width: "48rem",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  padding: "0 1.6rem",
+};
+
 export const Default: Story = {
   render: () => {
-    const style: CSSProperties = {
-      width: "48rem",
-      height: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      padding: "0 1.6rem",
-    };
     const handleClickDeleteIcon = fn;
     return (
       <div style={style}>
@@ -61,15 +65,6 @@ export const MultipleAccordions = () => {
     },
     { id: "4", title: "Day 4" },
   ];
-
-  const style: CSSProperties = {
-    width: "48rem",
-    height: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    padding: "0 1.6rem",
-  };
 
   return (
     <div style={style}>
@@ -115,7 +110,7 @@ export const add_and_delete_accordions = () => {
     };
 
     return (
-      <>
+      <div style={style}>
         {travels.map((travelItem) => (
           <Accordion.Item key={travelItem.id} value={`option-${travelItem.id}`}>
             <Accordion.Trigger onDeleteItem={() => handleClickDeleteTravelButton(travelItem.id)}>
@@ -138,16 +133,8 @@ export const add_and_delete_accordions = () => {
         >
           + 장소 추가하기
         </button>
-      </>
+      </div>
     );
-  };
-  const style: CSSProperties = {
-    width: "48rem",
-    height: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    padding: "0 1.6rem",
   };
 
   return (

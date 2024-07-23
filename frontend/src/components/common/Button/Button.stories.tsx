@@ -15,21 +15,6 @@ const meta = {
     },
   },
   tags: ["autodocs"],
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          width: "48rem",
-          padding: "1.6rem",
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     variants: {
       description: "버튼의 형태",

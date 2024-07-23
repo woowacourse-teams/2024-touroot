@@ -24,7 +24,6 @@ initialize(
 const rootStyle = {
   width: "48rem",
   padding: "1.6rem",
-  height: "100vh",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -46,10 +45,8 @@ const preview: Preview = {
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>
             <Global styles={globalStyle} />
-            <div id="root">
-              <div style={rootStyle}>
-                <Story />
-              </div>
+            <div style={rootStyle}>
+              <Story />
             </div>
           </ThemeProvider>
         </QueryClientProvider>

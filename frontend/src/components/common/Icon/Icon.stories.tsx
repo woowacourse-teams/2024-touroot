@@ -16,22 +16,6 @@ const meta = {
     },
   },
   tags: ["autodocs"],
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          width: "48rem",
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "1.6rem",
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     iconType: {
       description: "아이콘 타입",

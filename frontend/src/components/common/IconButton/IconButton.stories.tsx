@@ -20,22 +20,6 @@ const meta = {
   },
 
   tags: ["autodocs"],
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          width: "48rem",
-          padding: "1.6rem",
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     onClick: {
       table: { disable: true },
