@@ -1,21 +1,43 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import theme from "@styles/theme";
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
-import { ButtonColor } from "./Button";
+import type { ButtonProps } from "./Button";
 
-export const Button = styled.button<{ $color: ButtonColor }>`
+const createVariantStyling = ($variants: Required<ButtonProps>["variants"]) => {
+  const styles = {
+    primary: css`
+      background-color: ${theme.colors.primary};
+
+      color: ${PRIMITIVE_COLORS.white};
+    `,
+
+    secondary: css`
+      border: 0.1rem solid ${theme.colors.border};
+
+      background-color: ${PRIMITIVE_COLORS.white};
+
+      color: ${theme.colors.text.secondary};
+    `,
+  };
+
+  return styles[$variants];
+};
+
+export const Button = styled.button<{ $variants: ButtonProps["variants"] }>`
   width: 100%;
   height: 4rem;
-  padding: 1.2rem auto;
-  border-radius: 8px;
-  border: 0.1rem solid
-    ${({ $color, theme }) => ($color === "primary" ? theme.colors.primary : theme.colors.border)};
+  border: none;
 
   ${({ theme }) => theme.typography.mobile.bodyBold}
-  color: ${({ $color, theme }) =>
-    $color === "primary" ? PRIMITIVE_COLORS.white : theme.colors.text.secondary};
+  ${({ $variants = "primary" }) => createVariantStyling($variants)}
 
-  background-color: ${({ $color, theme }) =>
-    $color === "primary" ? theme.colors.primary : PRIMITIVE_COLORS.white};
+  border-radius: ${({ theme }) => theme.spacing.s};
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+  }
 `;

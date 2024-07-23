@@ -1,18 +1,17 @@
-import { ButtonHTMLAttributes } from "react";
+import type { ComponentPropsWithoutRef } from "react";
+
+import type { ButtonVariants } from "@components/common/Button/Button.type";
 
 import * as S from "./Button.styled";
 
-export type ButtonColor = "primary" | "white";
-
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color: ButtonColor;
-  label: string;
+export interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
+  variants?: ButtonVariants;
 }
 
-const Button = ({ color, label, ...props }: ButtonProps) => {
+const Button = ({ variants = "primary", children, ...props }: ButtonProps) => {
   return (
-    <S.Button $color={color} {...props}>
-      {label}
+    <S.Button $variants={variants} {...props}>
+      {children}
     </S.Button>
   );
 };

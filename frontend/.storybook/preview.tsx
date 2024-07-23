@@ -21,6 +21,14 @@ initialize(
   handlers,
 );
 
+const rootStyle = {
+  width: "48rem",
+  padding: "1.6rem",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
 const preview: Preview = {
   parameters: {
     controls: {
@@ -38,6 +46,7 @@ const preview: Preview = {
           <ThemeProvider theme={theme}>
             <Global styles={globalStyle} />
             <div id="root">
+            <div style={rootStyle}>
               <Story />
             </div>
           </ThemeProvider>
