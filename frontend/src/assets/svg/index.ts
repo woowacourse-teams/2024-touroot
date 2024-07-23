@@ -8,3 +8,8 @@ export { default as Marker } from "./marker.svg";
 export { default as markerUrl } from "./marker.svg?url";
 export { default as EmptyHeart } from "./empty-heart.svg";
 export { default as RecycleBin } from "./recycle-bin.svg";
+export { default as ChevronsRight } from "./chevrons-right.svg";
+export { default as ImageUpload } from "./image-upload.svg";
+export { default as KaKao } from "./kakao.svg";
+export { default as KoreanLogo } from "./korean-logo.svg";
+export { default as Plus } from "./plus.svg";
