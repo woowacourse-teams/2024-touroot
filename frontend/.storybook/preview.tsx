@@ -3,7 +3,6 @@ import React from "react";
 import { Global, ThemeProvider } from "@emotion/react";
 
 import type { Preview } from "@storybook/react";
-
 import { initialize, mswLoader } from "msw-storybook-addon";
 import { withRouter } from "storybook-addon-remix-react-router";
 
@@ -22,6 +21,15 @@ initialize(
   handlers,
 );
 
+const rootStyle = {
+  width: "48rem",
+  padding: "1.6rem",
+  height: "100vh",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
 const preview: Preview = {
   parameters: {
     controls: {
@@ -38,7 +46,11 @@ const preview: Preview = {
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>
             <Global styles={globalStyle} />
-            <Story />
+            <div id="root">
+              <div style={rootStyle}>
+                <Story />
+              </div>
+            </div>
           </ThemeProvider>
         </QueryClientProvider>
       );
