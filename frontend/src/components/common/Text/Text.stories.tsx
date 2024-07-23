@@ -35,6 +35,20 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+export const Overview = {
+  render: () => {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "4rem" }}>
+        <Text textType="heading">heading</Text>
+        <Text textType="title">title</Text>
+        <Text textType="subTitle"> subTitle</Text>
+        <Text textType="body">body</Text>
+        <Text textType="detail">detail</Text>
+      </div>
+    );
+  },
+};
+
 export const Heading: Story = {
   args: {
     textType: "heading",
