@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +15,6 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import woowacourse.touroot.global.exception.BadRequestException;
 
 @Component
-@RequiredArgsConstructor
 public class AwsS3Provider {
 
     @Value("${cloud.aws.s3.bucket}")
