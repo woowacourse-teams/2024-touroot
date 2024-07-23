@@ -1,16 +1,12 @@
-import svgPaths from "./svg-icons.json";
+import { StrokeLineCap, StrokeLineJoin } from "@components/common/Icon/Icon.type";
 
-const SVG_ICONS_MAP = Object.assign({}, svgPaths);
+import SVG_ICONS_MAP from "./svg-icons.json";
 
 interface IconProps extends React.ComponentPropsWithoutRef<"svg"> {
   iconType: keyof typeof SVG_ICONS_MAP;
   color?: string;
   size: string;
 }
-
-type StrokeLineCap = "inherit" | "butt" | "round" | "square" | undefined;
-
-type StrokeLineJoin = "miter" | "round" | "inherit" | "bevel" | undefined;
 
 const Icon = ({ iconType, color, size, ...attributes }: IconProps) => {
   return (
