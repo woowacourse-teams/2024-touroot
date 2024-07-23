@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 
 export const MultiImageUploadContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  width: 100%;
+  justify-content: flex-start;
   align-items: center;
   gap: ${(props) => props.theme.spacing.m};
 `;
@@ -63,6 +63,24 @@ export const MultiImageUploadPicturesInfo = styled.div`
     ${(props) => props.theme.typography.mobile.detailBold}
     color: ${(props) => props.theme.colors.text.secondary}
   }
+`;
+
+export const MultiImageUploadPictureAddButton = styled.button<{ $hasPicture: boolean }>`
+  display: flex;
+  width: 6rem;
+  height: 6rem;
+  margin-top: ${({ $hasPicture }) => ($hasPicture ? "0" : "0.5rem")};
+  border-radius: 0.4rem;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid ${(props) => props.theme.colors.border};
+  flex-direction: column;
+  gap: ${(props) => props.theme.spacing.s};
+
+  p {
+    ${(props) => props.theme.typography.mobile.detailBold}
+    color: ${(props) => props.theme.colors.text.secondary}
+  }
 
   svg {
     width: 2rem;
@@ -105,4 +123,16 @@ export const ImageScrollContainer = styled.div<{ $isDragging: boolean }>`
   gap: ${(props) => props.theme.spacing.m};
   scrollbar-width: none;
   cursor: ${({ $isDragging }) => ($isDragging ? "grab" : "pointer")};
+`;
+
+export const MultiImageUploadSVGWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+
+  svg {
+    width: 2rem;
+  }
 `;
