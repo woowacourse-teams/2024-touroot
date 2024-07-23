@@ -45,6 +45,7 @@ const preview: Preview = {
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>
             <Global styles={globalStyle} />
+            <div id="root">
             <div style={rootStyle}>
               <Story />
             </div>

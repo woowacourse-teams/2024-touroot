@@ -9,6 +9,7 @@ export { default as markerUrl } from "./marker.svg?url";
 export { default as EmptyHeart } from "./empty-heart.svg";
 export { default as PictureIcon } from "./picture-icon.svg";
 export { default as XIcon } from "./x-icon.svg";
+export { default as Tturi } from "./tturi.svg";
 export { default as RecycleBin } from "./recycle-bin.svg";
 export { default as ChevronsRight } from "./chevrons-right.svg";
 export { default as ImageUpload } from "./image-upload.svg";
