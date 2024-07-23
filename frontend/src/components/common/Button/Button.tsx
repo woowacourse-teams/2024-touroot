@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef } from "react";
 
-import { ButtonVariants } from "@components/common/Button/Button.type";
+import type { ButtonVariants } from "@components/common/Button/Button.type";
 
 import * as S from "./Button.styled";
 
