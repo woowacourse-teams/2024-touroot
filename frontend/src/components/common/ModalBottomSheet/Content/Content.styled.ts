@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const ModalContent = styled.div`
+export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;

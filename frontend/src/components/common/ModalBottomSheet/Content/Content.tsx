@@ -1,22 +1,22 @@
 import { Tturi } from "@assets/svg";
 
-import * as S from "./ModalContent.styled";
+import * as S from "./Content.styled";
 
-interface ModalContentProps {
+interface ContentProps {
   mainText: string;
   subText: string;
 }
 
-const ModalContent = ({ mainText, subText }: ModalContentProps) => {
+const Content = ({ mainText, subText }: ContentProps) => {
   return (
-    <S.ModalContent>
+    <S.Content>
       <Tturi />
       <S.TextContainer>
         <S.MainText>{mainText}</S.MainText>
         <S.SubText>{subText}</S.SubText>
       </S.TextContainer>
-    </S.ModalContent>
+    </S.Content>
   );
 };
 
-export default ModalContent;
+export default Content;
