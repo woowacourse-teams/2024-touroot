@@ -8,9 +8,9 @@ export interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
   variants?: ButtonVariants;
 }
 
-const Button = ({ variants = "primary", children, ...attributes }: ButtonProps) => {
+const Button = ({ variants = "primary", children, ...props }: ButtonProps) => {
   return (
-    <S.Button $variants={variants} {...attributes}>
+    <S.Button $variants={variants} {...props}>
       {children}
     </S.Button>
   );
