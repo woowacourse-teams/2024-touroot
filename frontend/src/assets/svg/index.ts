@@ -7,6 +7,8 @@ export { default as DownArrow } from "./down-arrow.svg";
 export { default as Marker } from "./marker.svg";
 export { default as markerUrl } from "./marker.svg?url";
 export { default as EmptyHeart } from "./empty-heart.svg";
+export { default as PictureIcon } from "./picture-icon.svg";
+export { default as XIcon } from "./x-icon.svg";
 export { default as Tturi } from "./tturi.svg";
 export { default as RecycleBin } from "./recycle-bin.svg";
 export { default as ChevronsRight } from "./chevrons-right.svg";
