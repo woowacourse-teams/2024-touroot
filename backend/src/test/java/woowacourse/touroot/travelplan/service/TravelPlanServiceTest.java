@@ -1,10 +1,14 @@
 package woowacourse.touroot.travelplan.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import woowacourse.touroot.global.ServiceTest;
 import woowacourse.touroot.global.exception.BadRequestException;
 import woowacourse.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.PlanLocationCreateRequest;
@@ -15,16 +19,9 @@ import woowacourse.touroot.travelplan.dto.response.TravelPlanResponse;
 import woowacourse.touroot.utils.DatabaseCleaner;
 import woowacourse.touroot.utils.TestFixture;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 @DisplayName("여행 계획 서비스")
-@ActiveProfiles("test")
 // TODO: 양방향 해결 후 @DataJpaTest로 변경
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@ServiceTest
 class TravelPlanServiceTest {
 
     private final TravelPlanService travelPlanService;

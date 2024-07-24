@@ -15,7 +15,7 @@ import woowacourse.touroot.travelogue.fixture.TravelogueTestFixture;
 import woowacourse.touroot.travelogue.helper.TravelogueTestHelper;
 import woowacourse.touroot.utils.DatabaseCleaner;
 
-@DisplayName("여행기 Facade 서비스 테스트")
+@DisplayName("여행기 Facade 서비스")
 @ServiceTest
 class TravelogueFacadeServiceTest {
 
