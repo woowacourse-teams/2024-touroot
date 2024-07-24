@@ -26,7 +26,7 @@ public class TravelogueTestFixture {
     }
 
     public static Travelogue getTravelogue() {
-        return new Travelogue("낭만의 시베리아 횡단철도 여행", "여행기사진.png");
+        return new Travelogue("낭만의 시베리아 횡단철도 여행", "https://photo-key.jpeg");
     }
 
     public static TravelogueDay getTravelogueDay() {
@@ -34,7 +34,7 @@ public class TravelogueTestFixture {
     }
 
     public static Place getPlace() {
-        return new Place("블라디보스토크", "33.1234", "127.1234", "");
+        return new Place("블라디보스토크", "37.1234", "127.1234", "");
     }
 
     public static TraveloguePlace getTraveloguePlace() {
@@ -42,11 +42,11 @@ public class TravelogueTestFixture {
     }
 
     public static TraveloguePhoto getTraveloguePhoto() {
-        return new TraveloguePhoto(1, "여행기사진.png", getTraveloguePlace());
+        return new TraveloguePhoto(1, "https://photo-key.jpeg", getTraveloguePlace());
     }
 
     public static TravelogueRequest getTravelogueRequest() {
-        return new TravelogueRequest("낭만의 시베리아 횡단철도 여행", "여행기사진.png", getTravelogueDayRequests());
+        return new TravelogueRequest("낭만의 시베리아 횡단철도 여행", "https://photo-key.jpeg", getTravelogueDayRequests());
     }
 
     public static List<TravelogueDayRequest> getTravelogueDayRequests() {
@@ -67,14 +67,14 @@ public class TravelogueTestFixture {
     }
 
     public static List<TraveloguePhotoRequest> getTraveloguePhotoRequests() {
-        return List.of(new TraveloguePhotoRequest("여행기사진.png"));
+        return List.of(new TraveloguePhotoRequest("https://photo-key.jpeg"));
     }
 
     public static TravelogueResponse getTravelogueResponse() {
         return TravelogueResponse.builder()
                 .id(1L)
                 .title("낭만의 시베리아 횡단철도 여행")
-                .thumbnail("여행기사진.png")
+                .thumbnail("https://photo-key.jpeg")
                 .days(getTravelogueDayResponses())
                 .build();
     }
@@ -83,7 +83,7 @@ public class TravelogueTestFixture {
         return new PageImpl<>(List.of(TravelogueResponse.builder()
                 .id(1L)
                 .title("낭만의 시베리아 횡단철도 여행")
-                .thumbnail("여행기사진.png")
+                .thumbnail("https://photo-key.jpeg")
                 .days(getTravelogueDayResponses())
                 .build()));
     }
@@ -115,6 +115,6 @@ public class TravelogueTestFixture {
     }
 
     public static List<String> getTraveloguePhotoUrls() {
-        return List.of("여행기사진.png");
+        return List.of("https://photo-key.jpeg");
     }
 }
