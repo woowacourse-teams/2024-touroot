@@ -1,26 +1,37 @@
-import useDragScroll from "@components/hooks/useDragScroll";
-import { useImageUpload } from "@components/hooks/useImageUpload";
+import React from "react";
+
+import { useDragScroll } from "@hooks/index";
 
 import * as S from "./MultiImageUpload.styled";
 
 const MAX_PICTURES_COUNT = 10;
 
-const MultiImageUpload = () => {
-  const { images, fileInputRef, handleImageChange, handleDeleteImage, handleButtonClick } =
-    useImageUpload({
-      multiple: true,
-      maxCount: MAX_PICTURES_COUNT,
-    });
+interface MultiImageUploadProps extends React.ComponentPropsWithoutRef<"div"> {
+  previewUrls: string[];
+  fileInputRef: React.RefObject<HTMLInputElement>;
+  onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onDeleteImage: (index: number) => void;
+  onButtonClick: () => void;
+}
+
+const MultiImageUpload = ({
+  previewUrls,
+  fileInputRef,
+  onImageChange,
+  onDeleteImage,
+  onButtonClick,
+  ...props
+}: MultiImageUploadProps) => {
   const { scrollRef, onMouseDown, onMouseUp, onMouseMove, isDragging } = useDragScroll();
 
-  const hasPictures = images.length !== 0;
+  const hasPictures = previewUrls.length !== 0;
 
   return (
-    <S.MultiImageUploadContainer>
+    <S.MultiImageUploadContainer {...props}>
       {hasPictures && (
         <S.MultiImageUploadPictureContainer>
           <S.MultiImageUploadPictureAddButton
-            onClick={handleButtonClick}
+            onClick={onButtonClick}
             type="button"
             $hasPicture={hasPictures}
           >
@@ -40,7 +51,7 @@ const MultiImageUpload = () => {
             </S.MultiImageUploadSVGWrapper>
 
             <p>
-              {images.length} / {MAX_PICTURES_COUNT}
+              {previewUrls.length} / {MAX_PICTURES_COUNT}
             </p>
           </S.MultiImageUploadPictureAddButton>
           <S.MultiImageUploadHiddenInput
@@ -48,7 +59,7 @@ const MultiImageUpload = () => {
             type="file"
             multiple
             accept="image/*"
-            onChange={handleImageChange}
+            onChange={onImageChange}
             aria-label="파일 선택"
             title="이미지 파일을 선택하세요"
           />
@@ -61,10 +72,9 @@ const MultiImageUpload = () => {
             onMouseLeave={onMouseUp}
             $isDragging={isDragging}
           >
-            {images.map((image, index) => (
-              <S.MultiImageUploadPictureWrapper key={index}>
-                <S.MultiImageUploadDeleteButton onClick={() => handleDeleteImage(index)}>
-                  {/* <XIcon /> */}
+            {previewUrls.map((previewUrl, index) => (
+              <S.MultiImageUploadPictureWrapper key={previewUrl}>
+                <S.MultiImageUploadDeleteButton onClick={() => onDeleteImage(index)}>
                   <svg
                     width="11"
                     height="11"
@@ -79,7 +89,7 @@ const MultiImageUpload = () => {
                   </svg>
                 </S.MultiImageUploadDeleteButton>
                 <S.MultiImageUploadPicture
-                  src={image}
+                  src={previewUrl}
                   alt={`업로드된 이미지 ${index + 1}`}
                   draggable="false"
                 />
@@ -91,7 +101,7 @@ const MultiImageUpload = () => {
       {!hasPictures && (
         <S.MultiImageUploadContainer>
           <S.MultiImageUploadPictureAddButton
-            onClick={handleButtonClick}
+            onClick={onButtonClick}
             type="button"
             $hasPicture={hasPictures}
           >
@@ -103,20 +113,20 @@ const MultiImageUpload = () => {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <g clip-path="url(#clip0_1331_438)">
+                <g clipPath="url(#clip0_1331_438)">
                   <path
                     d="M22.0417 18.2083C22.0417 18.7167 21.8398 19.2042 21.4803 19.5636C21.1209 19.9231 20.6334 20.125 20.125 20.125H2.87504C2.36671 20.125 1.8792 19.9231 1.51975 19.5636C1.16031 19.2042 0.958374 18.7167 0.958374 18.2083V7.66667C0.958374 7.15833 1.16031 6.67082 1.51975 6.31138C1.8792 5.95193 2.36671 5.75 2.87504 5.75H6.70837L8.62504 2.875H14.375L16.2917 5.75H20.125C20.6334 5.75 21.1209 5.95193 21.4803 6.31138C21.8398 6.67082 22.0417 7.15833 22.0417 7.66667V18.2083Z"
                     stroke="#0090FF"
-                    stroke-width="2.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M11.5 16.2917C13.6171 16.2917 15.3334 14.5754 15.3334 12.4583C15.3334 10.3412 13.6171 8.625 11.5 8.625C9.38295 8.625 7.66671 10.3412 7.66671 12.4583C7.66671 14.5754 9.38295 16.2917 11.5 16.2917Z"
                     stroke="#0090FF"
-                    stroke-width="2.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </g>
                 <defs>
@@ -128,7 +138,7 @@ const MultiImageUpload = () => {
             </S.MultiImageUploadSVGWrapper>
 
             <p>
-              {images.length} / {MAX_PICTURES_COUNT}
+              {previewUrls.length} / {MAX_PICTURES_COUNT}
             </p>
           </S.MultiImageUploadPictureAddButton>
           <S.MultiImageUploadHiddenInput
@@ -136,7 +146,7 @@ const MultiImageUpload = () => {
             type="file"
             multiple
             accept="image/*"
-            onChange={handleImageChange}
+            onChange={onImageChange}
             aria-label="파일 선택"
             title="이미지 파일을 선택하세요"
           />
