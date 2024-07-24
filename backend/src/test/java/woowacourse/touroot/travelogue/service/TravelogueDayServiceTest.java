@@ -1,16 +1,10 @@
 package woowacourse.touroot.travelogue.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import woowacourse.touroot.global.ServiceTest;
 import woowacourse.touroot.global.exception.BadRequestException;
 import woowacourse.touroot.travelogue.domain.Travelogue;
@@ -21,7 +15,16 @@ import woowacourse.touroot.travelogue.fixture.TravelogueTestFixture;
 import woowacourse.touroot.travelogue.helper.TravelogueTestHelper;
 import woowacourse.touroot.utils.DatabaseCleaner;
 
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 @DisplayName("여행기 일자 서비스")
+@Import(value = {TravelogueDayService.class, TravelogueTestHelper.class})
 @ServiceTest
 class TravelogueDayServiceTest {
 

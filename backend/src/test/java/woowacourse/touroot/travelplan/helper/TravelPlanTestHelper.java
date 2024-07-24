@@ -1,6 +1,5 @@
-package woowacourse.touroot.utils;
+package woowacourse.touroot.travelplan.helper;
 
-import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import woowacourse.touroot.place.domain.Place;
@@ -12,19 +11,28 @@ import woowacourse.touroot.travelplan.repository.TravelPlanDayRepository;
 import woowacourse.touroot.travelplan.repository.TravelPlanPlaceRepository;
 import woowacourse.touroot.travelplan.repository.TravelPlanRepository;
 
+import java.time.LocalDate;
+
 @Component
-public class TestFixture {
+public class TravelPlanTestHelper {
+
+    private final PlaceRepository placeRepository;
+    private final TravelPlanRepository travelPlanRepository;
+    private final TravelPlanDayRepository travelPlanDayRepository;
+    private final TravelPlanPlaceRepository travelPlanPlaceRepository;
 
     @Autowired
-    private PlaceRepository placeRepository;
-
-    @Autowired
-    private TravelPlanRepository travelPlanRepository;
-    @Autowired
-    private TravelPlanDayRepository travelPlanDayRepository;
-    @Autowired
-    private TravelPlanPlaceRepository travelPlanPlaceRepository;
-
+    public TravelPlanTestHelper(
+            PlaceRepository placeRepository,
+            TravelPlanRepository travelPlanRepository,
+            TravelPlanDayRepository travelPlanDayRepository,
+            TravelPlanPlaceRepository travelPlanPlaceRepository
+    ) {
+        this.placeRepository = placeRepository;
+        this.travelPlanRepository = travelPlanRepository;
+        this.travelPlanDayRepository = travelPlanDayRepository;
+        this.travelPlanPlaceRepository = travelPlanPlaceRepository;
+    }
 
     public static Place getPlace(String name, String latitude, String longitude, String googlePlaceId) {
         return new Place(name, latitude, longitude, googlePlaceId);
