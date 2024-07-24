@@ -23,7 +23,9 @@
       "@apis/*": ["apis/*"],
       "@mocks/*": ["mocks/*"],
       "@constants/*": ["constants/*"],
-      "@type/*": ["types/*"]
+      "@type/*": ["types/*"],
+      "@queries/*": ["queries/*"],
+      "@hooks/*": ["hooks/*"]
     },
     "types": ["jest"],
     "esModuleInterop": true
