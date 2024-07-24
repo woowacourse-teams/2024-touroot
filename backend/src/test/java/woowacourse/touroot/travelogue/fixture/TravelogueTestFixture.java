@@ -99,7 +99,7 @@ public class TravelogueTestFixture {
     public static List<TraveloguePlaceResponse> getTraveloguePlaceResponses() {
         return List.of(TraveloguePlaceResponse.builder()
                 .id(1L)
-                .name("블라디보스토크")
+                .placeName("블라디보스토크")
                 .description("극동의 진주, 블라디보스토크.")
                 .position(getTraveloguePositionResponse())
                 .photoUrls(getTraveloguePhotoUrls())

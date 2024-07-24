@@ -40,7 +40,7 @@ public class TraveloguePlaceService {
 
     private Place getPlace(TraveloguePlaceRequest request) {
         return placeRepository.findByNameAndLatitudeAndLongitude(
-                request.name(),
+                request.placeName(),
                 request.position().lat(),
                 request.position().lng()
         ).orElseGet(() -> placeRepository.save(request.toPlace()));
