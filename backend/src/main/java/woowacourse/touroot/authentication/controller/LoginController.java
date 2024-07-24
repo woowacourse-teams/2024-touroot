@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +33,7 @@ public class LoginController {
                     )
             }
     )
-    @GetMapping("/oauth/kakao")
+    @PostMapping("/oauth/kakao")
     public ResponseEntity<LoginResponse> login(@RequestParam(name = "code") String authorizationCode) {
         return ResponseEntity.ok()
                 .body(loginService.login(authorizationCode));
