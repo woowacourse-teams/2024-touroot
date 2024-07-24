@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
@@ -69,9 +70,18 @@ const TravelogueRegisterPage = () => {
     setIsOpen(false);
   };
 
+  const navigate = useNavigate();
+
   const handleConfirmBottomSheet = () => {
-    handleRegisterTravelogue({ title, thumbnail, days: travelDays });
-    handleCloseBottomSheet();
+    handleRegisterTravelogue(
+      { title, thumbnail, days: travelDays },
+      {
+        onSuccess: ({ data }) => {
+          handleCloseBottomSheet();
+          navigate(`/travelogue/${data.id}`);
+        },
+      },
+    );
   };
 
   const { mutate: handleRegisterTravelogue } = usePostTravelogue();
