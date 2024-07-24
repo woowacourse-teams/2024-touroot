@@ -11,7 +11,7 @@ import woowacourse.touroot.travelogue.domain.TraveloguePlace;
 public record TraveloguePlaceRequest(
         @Schema(description = "여행기 장소 이름", example = "선릉 캠퍼스")
         @NotNull(message = "여행기 장소 이름은 비어있을 수 없습니다.")
-        String name,
+        String placeName,
         @Schema(description = "여행기 장소 위치 정보")
         @NotNull(message = "여행기 장소 위치 정보는 비어있을 수 없습니다.")
         @Valid
@@ -29,6 +29,6 @@ public record TraveloguePlaceRequest(
     }
 
     public Place toPlace() {
-        return new Place(name, position.lat(), position.lng());
+        return new Place(placeName, position.lat(), position.lng());
     }
 }
