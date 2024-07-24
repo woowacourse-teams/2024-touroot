@@ -63,9 +63,6 @@ public class AwsS3Provider {
     }
 
     private String createFileName(String fileName) {
-        if (fileName == null) {
-            throw new BadRequestException("파일 형식이 잘못되었습니다.");
-        }
         return directoryPath + UUID.randomUUID() + fileName.substring(fileName.lastIndexOf("."));
     }
 }
