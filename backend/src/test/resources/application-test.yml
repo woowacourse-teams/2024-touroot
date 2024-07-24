@@ -9,6 +9,11 @@ security:
     token:
       secret-key: test-TADG67STFSDAGSDFSG4567UTKJHFHSDFGSR231DF
       expire-length: 1800000
+cloud:
+  aws:
+    s3:
+      bucket: techcourse-project-2024
+      directory-path: touroot/images/
 server:
   port: 8081
 spring:
