@@ -27,7 +27,7 @@ public class AwsS3Provider {
 
         try (S3Client s3Client = getS3Client()) {
             files.forEach(file -> {
-                String filePath = createFileName(file.getOriginalFilename());
+                String filePath = createFilePath(file.getOriginalFilename());
                 uploadFile(file, filePath, s3Client);
                 urls.add(getFileUrl(filePath, s3Client));
             });
@@ -47,7 +47,7 @@ public class AwsS3Provider {
             RequestBody requestBody = RequestBody.fromBytes(file.getBytes());
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(bucket)
-                    .key(createFileName(filePath))
+                    .key(createFilePath(filePath))
                     .build();
 
             s3Client.putObject(putObjectRequest, requestBody);
@@ -62,7 +62,7 @@ public class AwsS3Provider {
                 .toString();
     }
 
-    private String createFileName(String fileName) {
+    private String createFilePath(String fileName) {
         return directoryPath + UUID.randomUUID() + fileName.substring(fileName.lastIndexOf("."));
     }
 }
