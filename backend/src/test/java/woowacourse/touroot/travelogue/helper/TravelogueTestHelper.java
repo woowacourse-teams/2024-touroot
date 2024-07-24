@@ -8,6 +8,7 @@ import woowacourse.touroot.travelogue.domain.Travelogue;
 import woowacourse.touroot.travelogue.domain.TravelogueDay;
 import woowacourse.touroot.travelogue.domain.TraveloguePhoto;
 import woowacourse.touroot.travelogue.domain.TraveloguePlace;
+import woowacourse.touroot.travelogue.fixture.TravelogueTestFixture;
 import woowacourse.touroot.travelogue.repository.TravelogueDayRepository;
 import woowacourse.touroot.travelogue.repository.TraveloguePhotoRepository;
 import woowacourse.touroot.travelogue.repository.TraveloguePlaceRepository;
@@ -59,16 +60,40 @@ public class TravelogueTestHelper {
     }
 
     public void initTravelogueTestData() {
-        Travelogue travelogue = getTravelogue("낭만의 시베리아 횡단철도 여행", "여행기사진.png");
-        TravelogueDay travelogueDay = getTravelogueDay(1, travelogue);
-        Place place = getPlace("블라디보스토크", "37.1234", "127.1234", "");
-        TraveloguePlace traveloguePlace = getTraveloguePlace(1, "극동의 진주, 블라디보스토크.", place, travelogueDay);
-        TraveloguePhoto traveloguePhoto = getTraveloguePhoto("여행기사진.png", 1, traveloguePlace);
+        Travelogue travelogue = persistTravelogue();
+        TravelogueDay day = persistTravelogueDay(travelogue);
+        Place location = persistPlace();
+        TraveloguePlace place = persistTraveloguePlace(location, day);
+        persistTraveloguePhoto(place);
+    }
 
-        travelogueRepository.save(travelogue);
-        travelogueDayRepository.save(travelogueDay);
-        placeRepository.save(place);
-        traveloguePlaceRepository.save(traveloguePlace);
-        traveloguePhotoRepository.save(traveloguePhoto);
+    public Travelogue persistTravelogue() {
+        Travelogue travelogue = TravelogueTestFixture.getTravelogue();
+
+        return travelogueRepository.save(travelogue);
+    }
+
+    public TravelogueDay persistTravelogueDay(Travelogue travelogue) {
+        TravelogueDay day = TravelogueTestHelper.getTravelogueDay(1, travelogue);
+
+        return travelogueDayRepository.save(day);
+    }
+
+    public Place persistPlace() {
+        Place place = TravelogueTestFixture.getPlace();
+
+        return placeRepository.save(place);
+    }
+
+    public TraveloguePlace persistTraveloguePlace(Place location, TravelogueDay day) {
+        TraveloguePlace place = getTraveloguePlace(1, "극동의 진주, 블라디보스토크.", location, day);
+
+        return traveloguePlaceRepository.save(place);
+    }
+
+    public TraveloguePhoto persistTraveloguePhoto(TraveloguePlace place) {
+        TraveloguePhoto photo = getTraveloguePhoto("https://photo-key.jpeg", 1, place);
+
+        return traveloguePhotoRepository.save(photo);
     }
 }
