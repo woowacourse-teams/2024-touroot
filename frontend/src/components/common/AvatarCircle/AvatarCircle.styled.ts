@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { AvatarCircleSize } from "./AvatarCircle";
+import type { AvatarCircleSize } from "./AvatarCircle.type";
 
 const getSize = ($size: AvatarCircleSize) => {
   return $size === "small" ? "2.2rem" : "12.9rem";
