@@ -19,13 +19,16 @@ import woowacourse.touroot.image.domain.ImageFile;
 public class AwsS3Provider {
 
     private final String bucket;
+    private final String imageBaseUri;
     private final String directoryPath;
 
     public AwsS3Provider(
             @Value("${cloud.aws.s3.bucket}") String bucket,
+            @Value("${cloud.aws.s3.image-base-uri}") String imageBaseUri,
             @Value("${cloud.aws.s3.directory-path}") String directoryPath
     ) {
         this.bucket = bucket;
+        this.imageBaseUri = imageBaseUri;
         this.directoryPath = directoryPath;
     }
 
@@ -36,12 +39,17 @@ public class AwsS3Provider {
             files.stream()
                     .map(ImageFile::getFile)
                     .forEach(file -> {
-                        String filePath = createFilePath(file.getOriginalFilename());
+                        String newFileName = createNewFileName(file.getOriginalFilename());
+                        String filePath = directoryPath + newFileName;
                         uploadFile(file, filePath, s3Client);
-                        urls.add(getFileUrl(filePath, s3Client));
+                        urls.add(imageBaseUri + newFileName);
                     });
             return urls;
         }
+    }
+
+    private String createNewFileName(String fileName) {
+        return UUID.randomUUID() + fileName.substring(fileName.lastIndexOf("."));
     }
 
     private S3Client getS3Client() {
@@ -56,23 +64,12 @@ public class AwsS3Provider {
             RequestBody requestBody = RequestBody.fromBytes(file.getBytes());
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(bucket)
-                    .key(createFilePath(filePath))
+                    .key(filePath)
                     .build();
 
             s3Client.putObject(putObjectRequest, requestBody);
         } catch (IOException e) {
             throw new BadRequestException("파일 저장에 실패했습니다.");
         }
-    }
-
-    private String getFileUrl(String filePath, S3Client s3Client) {
-        return s3Client.utilities()
-                .getUrl(builder -> builder.bucket(bucket)
-                        .key(filePath))
-                .toString();
-    }
-
-    private String createFilePath(String fileName) {
-        return directoryPath + UUID.randomUUID() + fileName.substring(fileName.lastIndexOf("."));
     }
 }
