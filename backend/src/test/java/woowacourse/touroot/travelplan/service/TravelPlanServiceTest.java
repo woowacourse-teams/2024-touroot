@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDate;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,11 @@ class TravelPlanServiceTest {
         this.travelPlanService = travelPlanService;
         this.databaseCleaner = databaseCleaner;
         this.testFixture = testFixture;
+    }
+
+    @BeforeEach
+    void setUp() {
+        databaseCleaner.executeTruncate();
     }
 
     @DisplayName("여행 계획 서비스는 여행 계획 생성 시 생성된 id를 응답한다.")
