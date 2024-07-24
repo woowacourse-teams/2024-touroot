@@ -68,6 +68,4 @@ class LoginServiceTest {
                 LoginResponse.of(MemberFixture.MEMBER_1, response.accessToken()));
         verify(memberRepository, times(1)).save(any(Member.class));
     }
-
-    
 }
