@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("JWT")
 class JwtTokenProviderTest {
 
     private static final String TEST_SECRET_KEY = "test-secret-key-clover-leegun-naknak-alpaka-libi";
@@ -17,6 +18,7 @@ class JwtTokenProviderTest {
     @Test
     void createTokenTest() {
         jwtTokenProvider = new JwtTokenProvider(TEST_SECRET_KEY, EXPIRATION_TIME_30_MIN);
+
         assertThat(jwtTokenProvider.createToken(1L))
                 .isNotNull();
     }
