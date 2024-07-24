@@ -12,6 +12,8 @@ cloud:
     s3:
       bucket: techcourse-project-2024
       directory-path: touroot
+server:
+  port: 8081
 ---
 security:
   jwt:
