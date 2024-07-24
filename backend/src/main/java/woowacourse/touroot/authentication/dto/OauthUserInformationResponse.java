@@ -1,9 +1,6 @@
 package woowacourse.touroot.authentication.dto;
 
-import static lombok.AccessLevel.PRIVATE;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.NoArgsConstructor;
 
 public record OauthUserInformationResponse(
         @JsonProperty("id")
@@ -20,20 +17,14 @@ public record OauthUserInformationResponse(
         return kakaoAccount.kakaoProfile.image;
     }
 
-    @NoArgsConstructor(access = PRIVATE)
-    private static class KakaoAccount {
-
-        @JsonProperty("profile")
-        private KakaoProfile kakaoProfile;
+    private record KakaoAccount(
+            @JsonProperty("profile") KakaoProfile kakaoProfile
+    ) {
     }
 
-    @NoArgsConstructor(access = PRIVATE)
-    private static class KakaoProfile {
-
-        @JsonProperty("nickname")
-        private String nickname;
-
-        @JsonProperty("profile_image_url")
-        private String image;
+    private record KakaoProfile(
+            @JsonProperty("nickname") String nickname,
+            @JsonProperty("profile_image_url") String image
+    ) {
     }
 }
