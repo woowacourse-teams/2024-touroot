@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import woowacourse.touroot.travelogue.domain.Travelogue;
 import woowacourse.touroot.travelogue.domain.TravelogueDay;
 import woowacourse.touroot.travelogue.domain.TraveloguePhoto;
@@ -29,6 +30,7 @@ public class TravelogueFacadeService {
     private final TraveloguePlaceService traveloguePlaceService;
     private final TraveloguePhotoService traveloguePhotoService;
 
+    @Transactional
     public TravelogueResponse createTravelogue(TravelogueRequest request) {
         Travelogue travelogue = travelogueService.createTravelogue(request);
 
@@ -61,12 +63,14 @@ public class TravelogueFacadeService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public TravelogueResponse findTravelogueById(Long id) {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
 
         return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue));
     }
 
+    @Transactional(readOnly = true)
     public Page<TravelogueResponse> findTravelogues(final Pageable pageable) {
         Page<Travelogue> travelogues = travelogueService.findAll(pageable);
 
@@ -85,7 +89,7 @@ public class TravelogueFacadeService {
     }
 
     private List<TraveloguePlaceResponse> findPlacesOfTravelogueDay(TravelogueDay travelogueDay) {
-        List<TraveloguePlace> places = traveloguePlaceService.findTraveloguePlaceByDay(travelogueDay);
+        List<TraveloguePlace> places = traveloguePlaceService.findTraveloguePlacesByDay(travelogueDay);
 
         return places.stream()
                 .sorted(Comparator.comparing(TraveloguePlace::getOrder))
