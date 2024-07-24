@@ -46,12 +46,12 @@ public class TraveloguePlaceService {
         ).orElseGet(() -> placeRepository.save(request.toPlace()));
     }
 
-    public List<TraveloguePlace> findTraveloguePlaceByDay(TravelogueDay travelogueDay) {
+    public List<TraveloguePlace> findTraveloguePlacesByDay(TravelogueDay travelogueDay) {
         return traveloguePlaceRepository.findByTravelogueDay(travelogueDay);
     }
 
     public TraveloguePlace findTraveloguePlaceById(Long id) {
         return traveloguePlaceRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("존재하지 않는 여행 장소입니다."));
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기 장소입니다."));
     }
 }

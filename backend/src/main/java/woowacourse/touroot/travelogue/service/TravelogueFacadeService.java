@@ -89,7 +89,7 @@ public class TravelogueFacadeService {
     }
 
     private List<TraveloguePlaceResponse> findPlacesOfTravelogueDay(TravelogueDay travelogueDay) {
-        List<TraveloguePlace> places = traveloguePlaceService.findTraveloguePlaceByDay(travelogueDay);
+        List<TraveloguePlace> places = traveloguePlaceService.findTraveloguePlacesByDay(travelogueDay);
 
         return places.stream()
                 .sorted(Comparator.comparing(TraveloguePlace::getOrder))

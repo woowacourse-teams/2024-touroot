@@ -39,6 +39,6 @@ public class TravelogueDayService {
 
     public TravelogueDay findDayById(Long id) {
         return travelogueDayRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("존재하지 않는 여행 일자입니다."));
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기 일자입니다."));
     }
 }
