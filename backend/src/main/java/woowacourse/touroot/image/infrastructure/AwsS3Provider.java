@@ -13,6 +13,7 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import woowacourse.touroot.global.exception.BadRequestException;
+import woowacourse.touroot.image.domain.ImageFile;
 
 @Component
 public class AwsS3Provider {
@@ -28,15 +29,17 @@ public class AwsS3Provider {
         this.directoryPath = directoryPath;
     }
 
-    public List<String> uploadFiles(List<MultipartFile> files) {
+    public List<String> uploadImages(List<ImageFile> files) {
         List<String> urls = new ArrayList<>();
 
         try (S3Client s3Client = getS3Client()) {
-            files.forEach(file -> {
-                String filePath = createFilePath(file.getOriginalFilename());
-                uploadFile(file, filePath, s3Client);
-                urls.add(getFileUrl(filePath, s3Client));
-            });
+            files.stream()
+                    .map(ImageFile::getFile)
+                    .forEach(file -> {
+                        String filePath = createFilePath(file.getOriginalFilename());
+                        uploadFile(file, filePath, s3Client);
+                        urls.add(getFileUrl(filePath, s3Client));
+                    });
             return urls;
         }
     }
