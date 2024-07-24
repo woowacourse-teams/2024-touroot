@@ -2,7 +2,7 @@ oauth:
   kakao:
     user-information-request-uri: https://kapi.kakao.com/v2/user/me
     access-token-request-uri: https://kauth.kakao.com/oauth/token
-    redirect-uri: http://localhost:8080/api/v1/login/oauth/kakao
+    redirect-uri: http://localhost:3000/oauth
     rest-api-key: test-api-key
 security:
   jwt:
