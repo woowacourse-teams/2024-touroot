@@ -62,8 +62,8 @@ public class TravelogueTestHelper {
     public void initTravelogueTestData() {
         Travelogue travelogue = persistTravelogue();
         TravelogueDay day = persistTravelogueDay(travelogue);
-        Place location = persistPlace();
-        TraveloguePlace place = persistTraveloguePlace(location, day);
+        Place position = persistPlace();
+        TraveloguePlace place = persistTraveloguePlace(position, day);
         persistTraveloguePhoto(place);
     }
 
@@ -85,8 +85,8 @@ public class TravelogueTestHelper {
         return placeRepository.save(place);
     }
 
-    public TraveloguePlace persistTraveloguePlace(Place location, TravelogueDay day) {
-        TraveloguePlace place = getTraveloguePlace(1, "극동의 진주, 블라디보스토크.", location, day);
+    public TraveloguePlace persistTraveloguePlace(Place position, TravelogueDay day) {
+        TraveloguePlace place = getTraveloguePlace(1, "극동의 진주, 블라디보스토크.", position, day);
 
         return traveloguePlaceRepository.save(place);
     }

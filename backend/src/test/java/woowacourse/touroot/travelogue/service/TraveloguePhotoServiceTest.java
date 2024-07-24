@@ -38,8 +38,8 @@ class TraveloguePhotoServiceTest {
         List<TraveloguePhotoRequest> requests = TravelogueTestFixture.getTraveloguePhotoRequests();
         Travelogue travelogue = testHelper.persistTravelogue();
         TravelogueDay day = testHelper.persistTravelogueDay(travelogue);
-        Place location = testHelper.persistPlace();
-        TraveloguePlace place = testHelper.persistTraveloguePlace(location, day);
+        Place position = testHelper.persistPlace();
+        TraveloguePlace place = testHelper.persistTraveloguePlace(position, day);
 
         List<TraveloguePhoto> photos = photoService.createPhotos(requests, place);
 
@@ -51,8 +51,8 @@ class TraveloguePhotoServiceTest {
     void findPhotoUrlsByPlace() {
         Travelogue travelogue = testHelper.persistTravelogue();
         TravelogueDay day = testHelper.persistTravelogueDay(travelogue);
-        Place location = testHelper.persistPlace();
-        TraveloguePlace place = testHelper.persistTraveloguePlace(location, day);
+        Place position = testHelper.persistPlace();
+        TraveloguePlace place = testHelper.persistTraveloguePlace(position, day);
         TraveloguePhoto photo = testHelper.persistTraveloguePhoto(place);
 
         List<String> photoUrls = photoService.findPhotoUrlsByPlace(place);
