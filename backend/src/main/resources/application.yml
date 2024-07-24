@@ -7,6 +7,11 @@ jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
+cloud:
+  aws:
+    s3:
+      bucket: techcourse-project-2024
+      directory-path: touroot/images/
 ---
 security:
   jwt:
