@@ -13,6 +13,7 @@ cloud:
   aws:
     s3:
       bucket: techcourse-project-2024
+      image-base-uri: https://dev.touroot.kr/images/
       directory-path: touroot/images/
 server:
   port: 8081
