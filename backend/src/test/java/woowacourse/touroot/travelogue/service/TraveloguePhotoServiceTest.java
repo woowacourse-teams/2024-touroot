@@ -1,11 +1,9 @@
 package woowacourse.touroot.travelogue.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import woowacourse.touroot.global.ServiceTest;
 import woowacourse.touroot.place.domain.Place;
 import woowacourse.touroot.travelogue.domain.Travelogue;
@@ -16,7 +14,12 @@ import woowacourse.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import woowacourse.touroot.travelogue.fixture.TravelogueTestFixture;
 import woowacourse.touroot.travelogue.helper.TravelogueTestHelper;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 @DisplayName("여행기 사진 서비스")
+@Import(value = {TraveloguePhotoService.class, TravelogueTestHelper.class})
 @ServiceTest
 class TraveloguePhotoServiceTest {
 

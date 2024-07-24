@@ -12,8 +12,8 @@ import woowacourse.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.PlanLocationCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.TravelPlanCreateRequest;
+import woowacourse.touroot.travelplan.helper.TravelPlanTestHelper;
 import woowacourse.touroot.utils.DatabaseCleaner;
-import woowacourse.touroot.utils.TestFixture;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,12 +27,12 @@ class TravelPlanControllerTest {
     @LocalServerPort
     private int port;
     private final DatabaseCleaner databaseCleaner;
-    private final TestFixture testFixture;
+    private final TravelPlanTestHelper testHelper;
 
     @Autowired
-    public TravelPlanControllerTest(DatabaseCleaner databaseCleaner, TestFixture testFixture) {
+    public TravelPlanControllerTest(DatabaseCleaner databaseCleaner, TravelPlanTestHelper testHelper) {
         this.databaseCleaner = databaseCleaner;
-        this.testFixture = testFixture;
+        this.testHelper = testHelper;
     }
 
     @BeforeEach
@@ -101,7 +101,7 @@ class TravelPlanControllerTest {
     @Test
     void readTravelPlan() {
         // given
-        testFixture.initTravelPlanTestData();
+        testHelper.initTravelPlanTestData();
         long id = 1L;
 
         // when & then
