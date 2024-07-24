@@ -23,7 +23,7 @@ import woowacourse.touroot.utils.DatabaseCleaner;
 class TravelogueServiceTest {
 
     public static final int BASIC_PAGE_SIZE = 5;
-    
+
     private final TravelogueService travelogueService;
     private final DatabaseCleaner databaseCleaner;
     private final TravelogueTestHelper testHelper;
