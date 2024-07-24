@@ -65,6 +65,8 @@ public class AwsS3Provider {
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(bucket)
                     .key(filePath)
+                    .contentType(file.getContentType())
+                    .contentLength(file.getSize())
                     .build();
 
             s3Client.putObject(putObjectRequest, requestBody);
