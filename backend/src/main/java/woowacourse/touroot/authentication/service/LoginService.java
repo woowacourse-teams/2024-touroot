@@ -22,9 +22,9 @@ public class LoginService {
         Member member = memberRepository.findByKakaoId(userInformation.socialLoginId())
                 .orElseGet(() -> signUp(userInformation));
 
-        return LoginResponse.of(member, tokenProvider.createToken(member));
+        return LoginResponse.of(member, tokenProvider.createToken(member.getId()));
     }
-    
+
     private Member signUp(OauthUserInformationResponse userInformation) {
         return memberRepository.save(
                 new Member(userInformation.socialLoginId(), userInformation.nickname(), userInformation.profileImage())
