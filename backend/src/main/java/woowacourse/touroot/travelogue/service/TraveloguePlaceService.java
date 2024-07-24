@@ -32,7 +32,7 @@ public class TraveloguePlaceService {
             Place place = getPlace(request);
 
             TraveloguePlace traveloguePlace = request.toTraveloguePlace(i, place, day);
-            places.put(traveloguePlaceRepository.save(traveloguePlace), request.photos());
+            places.put(traveloguePlaceRepository.save(traveloguePlace), request.photoUrls());
         }
 
         return places;
