@@ -8,17 +8,17 @@ import woowacourse.touroot.travelplan.domain.TravelPlanPlace;
 @Builder
 public record TravelPlanPlaceResponse(
         @Schema(description = "여행 장소 이름") String placeName,
-        @Schema(description = "여행 장소 위치") TravelPlanLocationResponse location,
+        @Schema(description = "여행 장소 위치") TravelPlanPositionResponse position,
         @Schema(description = "여행 장소 설명") String description
 ) {
 
     public static TravelPlanPlaceResponse from(TravelPlanPlace planPlace) {
         Place place = planPlace.getPlace();
-        TravelPlanLocationResponse locationResponse = TravelPlanLocationResponse.from(place);
+        TravelPlanPositionResponse locationResponse = TravelPlanPositionResponse.from(place);
 
         return TravelPlanPlaceResponse.builder()
                 .placeName(place.getName())
-                .location(locationResponse)
+                .position(locationResponse)
                 .description(planPlace.getDescription())
                 .build();
     }

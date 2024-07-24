@@ -1,43 +1,45 @@
 package woowacourse.touroot.travelplan.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import java.time.LocalDate;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import woowacourse.touroot.global.ServiceTest;
 import woowacourse.touroot.global.exception.BadRequestException;
 import woowacourse.touroot.travelplan.dto.request.PlanDayCreateRequest;
-import woowacourse.touroot.travelplan.dto.request.PlanLocationCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
+import woowacourse.touroot.travelplan.dto.request.PlanPositionCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.TravelPlanCreateRequest;
 import woowacourse.touroot.travelplan.dto.response.TravelPlanCreateResponse;
 import woowacourse.touroot.travelplan.dto.response.TravelPlanResponse;
+import woowacourse.touroot.travelplan.helper.TravelPlanTestHelper;
 import woowacourse.touroot.utils.DatabaseCleaner;
-import woowacourse.touroot.utils.TestFixture;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("여행 계획 서비스")
-// TODO: 양방향 해결 후 @DataJpaTest로 변경
+@Import(value = {TravelPlanService.class, TravelPlanTestHelper.class})
 @ServiceTest
 class TravelPlanServiceTest {
 
     private final TravelPlanService travelPlanService;
     private final DatabaseCleaner databaseCleaner;
-    private final TestFixture testFixture;
+    private final TravelPlanTestHelper testHelper;
 
     @Autowired
     public TravelPlanServiceTest(
             TravelPlanService travelPlanService,
             DatabaseCleaner databaseCleaner,
-            TestFixture testFixture
+            TravelPlanTestHelper testHelper
     ) {
         this.travelPlanService = travelPlanService;
         this.databaseCleaner = databaseCleaner;
-        this.testFixture = testFixture;
+        this.testHelper = testHelper;
     }
 
     @BeforeEach
@@ -49,11 +51,11 @@ class TravelPlanServiceTest {
     @Test
     void createTravelPlan() {
         // given
-        PlanLocationCreateRequest locationRequest = new PlanLocationCreateRequest("37.5175896", "127.0867236");
+        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
                 .description("신나는 여행 장소")
-                .location(locationRequest)
+                .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
         TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
@@ -73,11 +75,11 @@ class TravelPlanServiceTest {
     @Test
     void createTravelPlanWithInvalidStartDate() {
         // given
-        PlanLocationCreateRequest locationRequest = new PlanLocationCreateRequest("37.5175896", "127.0867236");
+        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
                 .description("신나는 여행 장소")
-                .location(locationRequest)
+                .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
         TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
@@ -97,7 +99,7 @@ class TravelPlanServiceTest {
     void readTravelPlan() {
         // given
         databaseCleaner.executeTruncate();
-        testFixture.initTravelPlanTestData();
+        testHelper.initTravelPlanTestData();
         Long id = 1L;
 
         // when

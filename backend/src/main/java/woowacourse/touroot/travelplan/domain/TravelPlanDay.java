@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import woowacourse.touroot.entity.BaseEntity;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,11 +26,8 @@ public class TravelPlanDay extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelPlan plan;
 
-    @OneToMany(mappedBy = "day")
-    private List<TravelPlanPlace> places;
-
     public TravelPlanDay(int order, TravelPlan plan) {
-        this(null, order, plan, null);
+        this(null, order, plan);
     }
 
     public LocalDate getCurrentDate() {
