@@ -21,7 +21,7 @@ public record TraveloguePlaceRequest(
         @Schema(description = "여행기 장소 사진")
         @NotNull(message = "여행기 장소 사진은 비어있을 수 없습니다.")
         @Valid
-        List<TraveloguePhotoRequest> photos
+        List<TraveloguePhotoRequest> photoUrls
 ) {
 
     public TraveloguePlace toTraveloguePlace(int order, Place place, TravelogueDay travelogueDay) {
