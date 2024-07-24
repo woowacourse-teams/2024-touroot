@@ -2,8 +2,8 @@ package woowacourse.touroot.authentication.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import woowacourse.touroot.authentication.dto.LoginResponse;
-import woowacourse.touroot.authentication.dto.OauthUserInformationResponse;
+import woowacourse.touroot.authentication.dto.response.LoginResponse;
+import woowacourse.touroot.authentication.dto.response.OauthUserInformationResponse;
 import woowacourse.touroot.authentication.infrastructure.JwtTokenProvider;
 import woowacourse.touroot.authentication.infrastructure.KakaoOauthProvider;
 import woowacourse.touroot.member.domain.Member;

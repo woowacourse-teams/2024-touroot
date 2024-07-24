@@ -1,4 +1,4 @@
-package woowacourse.touroot.authentication.dto;
+package woowacourse.touroot.authentication.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import woowacourse.touroot.member.domain.Member;
