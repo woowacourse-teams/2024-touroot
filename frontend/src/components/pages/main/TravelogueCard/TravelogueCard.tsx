@@ -11,7 +11,7 @@ interface TravelogueCardProps {
 }
 
 const TravelogueCard = ({
-  travelogueOverview: { userAvatar, title, thumbnail, likes },
+  travelogueOverview: { userAvatar, title, thumbnail, likes = 0 },
 }: TravelogueCardProps) => {
   return (
     <S.TravelogueCardLayout>
