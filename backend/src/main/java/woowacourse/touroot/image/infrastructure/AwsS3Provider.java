@@ -17,10 +17,16 @@ import woowacourse.touroot.global.exception.BadRequestException;
 @Component
 public class AwsS3Provider {
 
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
-    @Value("${cloud.aws.s3.directory-path}")
-    private String directoryPath;
+    private final String bucket;
+    private final String directoryPath;
+
+    public AwsS3Provider(
+            @Value("${cloud.aws.s3.bucket}") String bucket,
+            @Value("${cloud.aws.s3.directory-path}") String directoryPath
+    ) {
+        this.bucket = bucket;
+        this.directoryPath = directoryPath;
+    }
 
     public List<String> uploadFiles(List<MultipartFile> files) {
         List<String> urls = new ArrayList<>();
@@ -58,7 +64,8 @@ public class AwsS3Provider {
 
     private String getFileUrl(String filePath, S3Client s3Client) {
         return s3Client.utilities()
-                .getUrl(builder -> builder.bucket(bucket).key(filePath))
+                .getUrl(builder -> builder.bucket(bucket)
+                        .key(filePath))
                 .toString();
     }
 
