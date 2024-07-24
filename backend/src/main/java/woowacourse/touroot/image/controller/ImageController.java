@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -24,16 +25,14 @@ public class ImageController {
 
     private final ImageService imageService;
 
-    @Operation(
-            summary = "이미지 업로드",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "jpg, jpeg, png, webp가 아닌 확장자의 파일을 업로드할 때",
-                            content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
-                    )
-            }
-    )
+    @Operation(summary = "이미지 업로드")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "jpg, jpeg, png, webp가 아닌 확장자의 파일을 업로드할 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
+    })
     @PostMapping
     public ResponseEntity<List<String>> uploadImages(@RequestPart List<MultipartFile> files) {
         List<String> imageUrls = imageService.uploadImages(files);
