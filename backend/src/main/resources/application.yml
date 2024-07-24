@@ -42,6 +42,11 @@ security:
     token:
       secret-key: ENC(L36WWjoZtP2nHHkqxDGlYLsMHMp+EBL2Fnl+X2de2KHk+PIfViyVM7rCYcbcFpo7yB4MaP++atU=)
       expire-length: 1800000
+server:
+  ssl:
+    key-store-type: PKCS12
+    key-store-password: ENC(aIkhk+PERnL/OBpa2HtNyXAjOGbCZx9TJ+L5sekBxdI=)
+    key-store: ENC(7VQCNdI7mXATwc4AiymZoyf3mz9SiskXpLnenpMSFBI=)
 spring:
   config:
     activate:
