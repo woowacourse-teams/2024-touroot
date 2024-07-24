@@ -62,8 +62,8 @@ public class TravelPlanService {
     private Place getPlace(PlanPlaceCreateRequest planRequest) {
         return placeRepository.findByNameAndLatitudeAndLongitude(
                 planRequest.placeName(),
-                planRequest.location().lat(),
-                planRequest.location().lng()
+                planRequest.position().lat(),
+                planRequest.position().lng()
         ).orElseGet(() -> placeRepository.save(planRequest.toPlace()));
     }
 

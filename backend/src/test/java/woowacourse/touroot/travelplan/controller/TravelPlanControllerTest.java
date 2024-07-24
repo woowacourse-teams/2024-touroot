@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import woowacourse.touroot.global.AcceptanceTest;
 import woowacourse.touroot.travelplan.dto.request.PlanDayCreateRequest;
-import woowacourse.touroot.travelplan.dto.request.PlanLocationCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
+import woowacourse.touroot.travelplan.dto.request.PlanPositionCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.TravelPlanCreateRequest;
 import woowacourse.touroot.travelplan.helper.TravelPlanTestHelper;
 import woowacourse.touroot.utils.DatabaseCleaner;
@@ -45,11 +45,11 @@ class TravelPlanControllerTest {
     @Test
     void createTravelPlan() {
         // given
-        PlanLocationCreateRequest locationRequest = new PlanLocationCreateRequest("37.5175896", "127.0867236");
+        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
                 .description("신나는 여행 장소")
-                .location(locationRequest)
+                .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
         TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
@@ -73,11 +73,11 @@ class TravelPlanControllerTest {
     @Test
     void createTravelPlanWithInvalidStartDate() {
         // given
-        PlanLocationCreateRequest locationRequest = new PlanLocationCreateRequest("37.5175896", "127.0867236");
+        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
                 .description("신나는 여행 장소")
-                .location(locationRequest)
+                .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
         TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()

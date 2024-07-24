@@ -5,13 +5,13 @@ import lombok.Builder;
 import woowacourse.touroot.place.domain.Place;
 
 @Builder
-public record TravelPlanLocationResponse(
+public record TravelPlanPositionResponse(
         @Schema(description = "여행 장소 위도") String lat,
         @Schema(description = "여행 계획 경도") String lng
 ) {
 
-    public static TravelPlanLocationResponse from(Place place) {
-        return TravelPlanLocationResponse.builder()
+    public static TravelPlanPositionResponse from(Place place) {
+        return TravelPlanPositionResponse.builder()
                 .lat(place.getLatitude())
                 .lng(place.getLongitude())
                 .build();

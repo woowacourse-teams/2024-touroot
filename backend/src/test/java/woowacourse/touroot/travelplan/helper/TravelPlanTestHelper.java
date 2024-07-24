@@ -34,7 +34,6 @@ public class TravelPlanTestHelper {
         this.travelPlanPlaceRepository = travelPlanPlaceRepository;
     }
 
-
     public static Place getPlace(String name, String latitude, String longitude, String googlePlaceId) {
         return new Place(name, latitude, longitude, googlePlaceId);
     }
