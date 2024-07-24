@@ -41,7 +41,7 @@ spring:
     defer-datasource-initialization: true
 oauth:
   kakao:
-    redirect-uri: http://localhost:8080/api/v1/login/oauth/kakao
+    redirect-uri: http://localhost:3000/oauth/kakao/callback
 ---
 security:
   jwt:
@@ -75,4 +75,4 @@ spring:
       ddl-auto: none
 oauth:
   kakao:
-    redirect-uri: http://api-dev.touroot.kr/api/v1/login/oauth/kakao
+    redirect-uri: http://localhost:3000/oauth/kakao/callback
