@@ -36,7 +36,7 @@ public class ImageService {
 
     public void validateExtension(String fileName) {
         int extensionIndex = fileName.lastIndexOf(".");
-        if (extensionIndex == -1) {
+        if (extensionIndex == -1 || fileName.endsWith(".")) {
             throw new BadRequestException("파일 형식이 잘못되었습니다.");
         }
         String extension = fileName.substring(extensionIndex + 1);
