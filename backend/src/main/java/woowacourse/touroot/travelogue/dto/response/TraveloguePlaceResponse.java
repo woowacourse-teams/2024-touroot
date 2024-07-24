@@ -13,7 +13,7 @@ public record TraveloguePlaceResponse(
         String name,
         @Schema(description = "여행기 장소 설명", example = "성담 빌딩에 위치한 선릉 캠퍼스입니다.")
         String description,
-        TravelogueLocationResponse location,
+        TraveloguePositionResponse position,
         List<String> photoUrls
 ) {
 
@@ -22,7 +22,7 @@ public record TraveloguePlaceResponse(
                 .id(place.getId())
                 .name(place.getName())
                 .description(place.getDescription())
-                .location(TravelogueLocationResponse.from(place))
+                .position(TraveloguePositionResponse.from(place))
                 .photoUrls(photoUrls)
                 .build();
     }

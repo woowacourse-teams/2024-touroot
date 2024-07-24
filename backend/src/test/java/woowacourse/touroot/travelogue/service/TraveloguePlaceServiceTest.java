@@ -68,8 +68,8 @@ class TraveloguePlaceServiceTest {
     void findTraveloguePlacesByDay() {
         Travelogue travelogue = testHelper.persistTravelogue();
         TravelogueDay day = testHelper.persistTravelogueDay(travelogue);
-        Place location = testHelper.persistPlace();
-        TraveloguePlace place = testHelper.persistTraveloguePlace(location, day);
+        Place position = testHelper.persistPlace();
+        TraveloguePlace place = testHelper.persistTraveloguePlace(position, day);
 
         List<TraveloguePlace> places = placeService.findTraveloguePlacesByDay(day);
 
