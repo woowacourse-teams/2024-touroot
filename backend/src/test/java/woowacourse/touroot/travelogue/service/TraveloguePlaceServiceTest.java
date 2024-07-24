@@ -62,7 +62,7 @@ class TraveloguePlaceServiceTest {
 
         assertAll(
                 () -> assertThat(placesMap.keySet()).hasSize(requests.size()),
-                () -> assertThat(placesMap).containsEntry(places.get(0), requests.get(0).photos())
+                () -> assertThat(placesMap).containsEntry(places.get(0), requests.get(0).photoUrls())
         );
     }
 
