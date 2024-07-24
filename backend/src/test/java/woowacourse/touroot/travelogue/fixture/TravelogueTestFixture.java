@@ -10,13 +10,13 @@ import woowacourse.touroot.travelogue.domain.TravelogueDay;
 import woowacourse.touroot.travelogue.domain.TraveloguePhoto;
 import woowacourse.touroot.travelogue.domain.TraveloguePlace;
 import woowacourse.touroot.travelogue.dto.request.TravelogueDayRequest;
-import woowacourse.touroot.travelogue.dto.request.TravelogueLocationRequest;
 import woowacourse.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import woowacourse.touroot.travelogue.dto.request.TraveloguePlaceRequest;
+import woowacourse.touroot.travelogue.dto.request.TraveloguePositionRequest;
 import woowacourse.touroot.travelogue.dto.request.TravelogueRequest;
 import woowacourse.touroot.travelogue.dto.response.TravelogueDayResponse;
-import woowacourse.touroot.travelogue.dto.response.TravelogueLocationResponse;
 import woowacourse.touroot.travelogue.dto.response.TraveloguePlaceResponse;
+import woowacourse.touroot.travelogue.dto.response.TraveloguePositionResponse;
 import woowacourse.touroot.travelogue.dto.response.TravelogueResponse;
 
 @Component
@@ -56,14 +56,14 @@ public class TravelogueTestFixture {
     public static List<TraveloguePlaceRequest> getTraveloguePlaceRequests() {
         return List.of(new TraveloguePlaceRequest(
                 "블라디보스토크",
-                getTravelogueLocationRequest(),
+                getTraveloguePositionRequest(),
                 "극동의 진주, 블라디보스토크.",
                 getTraveloguePhotoRequests()
         ));
     }
 
-    public static TravelogueLocationRequest getTravelogueLocationRequest() {
-        return new TravelogueLocationRequest("37.1234", "127.1234");
+    public static TraveloguePositionRequest getTraveloguePositionRequest() {
+        return new TraveloguePositionRequest("37.1234", "127.1234");
     }
 
     public static List<TraveloguePhotoRequest> getTraveloguePhotoRequests() {
@@ -101,14 +101,14 @@ public class TravelogueTestFixture {
                 .id(1L)
                 .name("블라디보스토크")
                 .description("극동의 진주, 블라디보스토크.")
-                .location(getTravelogueLocationResponse())
+                .position(getTraveloguePositionResponse())
                 .photoUrls(getTraveloguePhotoUrls())
                 .build()
         );
     }
 
-    public static TravelogueLocationResponse getTravelogueLocationResponse() {
-        return TravelogueLocationResponse.builder()
+    public static TraveloguePositionResponse getTraveloguePositionResponse() {
+        return TraveloguePositionResponse.builder()
                 .lat("37.1234")
                 .lng("127.1234")
                 .build();
