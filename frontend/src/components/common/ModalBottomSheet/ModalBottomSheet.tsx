@@ -27,6 +27,12 @@ const ModalBottomSheet = ({
   const sheetRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (!isOpen) {
+      setCurrentY(0);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
     const sheet = sheetRef.current;
     if (!sheet) return;
 
@@ -109,8 +115,12 @@ const ModalBottomSheet = ({
         <Header />
         <Content mainText={mainText} subText={subText} />
         <Footer>
-          <Button color="white" label="취소" onClick={onClose} />
-          <Button color="primary" label="확인" onClick={onConfirm} />
+          <Button variants="secondary" onClick={onClose}>
+            취소
+          </Button>
+          <Button variants="primary" onClick={onConfirm}>
+            확인
+          </Button>
         </Footer>
       </Container>
     </section>

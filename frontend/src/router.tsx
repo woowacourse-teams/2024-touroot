@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import AppLayout from "@components/layout/AppLayout/AppLayout";
 import TravelogueDetailPage from "@components/pages/travelogueDetail/TravelogueDetailPage";
+import TravelogueRegisterPage from "@components/pages/travelogueRegister/TravelogueRegisterPage";
 
 import { ROUTE_PATHS } from "./constants/route";
 
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTE_PATHS.travelogue,
         element: <TravelogueDetailPage />,
+      },
+      {
+        path: ROUTE_PATHS.register,
+        element: <TravelogueRegisterPage />,
       },
     ],
   },

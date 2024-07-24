@@ -6,7 +6,7 @@ interface UseImageUploadProps {
 }
 
 export const useImageUpload = ({ multiple = false, maxCount = 10 }: UseImageUploadProps = {}) => {
-  const [images, setImages] = useState<string[]>([]);
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -15,18 +15,18 @@ export const useImageUpload = ({ multiple = false, maxCount = 10 }: UseImageUplo
       const newImages = files.map((file) => URL.createObjectURL(file));
 
       if (multiple) {
-        setImages((prevImages) => {
-          const updatedImages = [...prevImages, ...newImages];
+        setPreviewUrls((previewUrls) => {
+          const updatedImages = [...previewUrls, ...newImages];
           return updatedImages.slice(0, maxCount);
         });
       } else {
-        setImages([newImages[0]]);
+        setPreviewUrls([newImages[0]]);
       }
     }
   };
 
   const handleDeleteImage = (index: number) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    setPreviewUrls((previewUrls) => previewUrls.filter((_, i) => i !== index));
   };
 
   const handleButtonClick = () => {
@@ -34,7 +34,7 @@ export const useImageUpload = ({ multiple = false, maxCount = 10 }: UseImageUplo
   };
 
   return {
-    images,
+    previewUrls,
     fileInputRef,
     handleImageChange,
     handleDeleteImage,

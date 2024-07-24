@@ -25,6 +25,9 @@ const config: StorybookConfig = {
         "@apis": path.resolve(__dirname, "../src/apis"),
         "@mocks": path.resolve(__dirname, "../src/mocks"),
         "@constants": path.resolve(__dirname, "../src/constants"),
+        "@type": path.resolve(__dirname, "../src/types"),
+        "@queries": path.resolve(__dirname, "../src/queries"),
+        "@hooks": path.resolve(__dirname, "../src/hooks"),
       };
     }
     config.module = config.module || {};

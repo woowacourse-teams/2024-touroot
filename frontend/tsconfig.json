@@ -22,7 +22,10 @@
       "@components/*": ["components/*"],
       "@apis/*": ["apis/*"],
       "@mocks/*": ["mocks/*"],
-      "@constants/*": ["constants/*"]
+      "@constants/*": ["constants/*"],
+      "@type/*": ["types/*"],
+      "@queries/*": ["queries/*"],
+      "@hooks/*": ["hooks/*"]
     },
     "types": ["jest"],
     "esModuleInterop": true
