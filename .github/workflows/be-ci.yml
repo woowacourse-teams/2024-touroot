@@ -21,6 +21,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Make keystore file
+        run: echo "${{secrets.SSL_KEYSTORE}}" | base64 --decode > ./src/main/resources/keystore.p12
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 

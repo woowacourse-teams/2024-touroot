@@ -21,6 +21,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Make keystore file
+        run: echo "${{secrets.SSL_KEYSTORE}}" | base64 --decode > ./src/main/resources/keystore.p12
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
 
