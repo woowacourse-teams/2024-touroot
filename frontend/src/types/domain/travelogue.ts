@@ -1,5 +1,5 @@
 export interface Place {
-  name: string;
+  placeName: string;
   photoUrls?: string[];
   description?: string;
   position: {
@@ -9,7 +9,7 @@ export interface Place {
 }
 
 export interface TravelRegisterPlace {
-  name: string;
+  placeName: string;
   photoUrls?: { url: string }[];
   description?: string;
   position: {

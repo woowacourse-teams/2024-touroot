@@ -21,7 +21,7 @@ const DayContent = ({
   onChangePlaceDescription,
   onAddPlace,
 }: {
-  children: (placeIndex: number) => JSX.Element;
+  children?: (placeIndex: number) => JSX.Element;
   travelDay: TravelRegisterDay;
   dayIndex: number;
   onDeleteDay: (dayIndex: number) => void;
@@ -36,7 +36,7 @@ const DayContent = ({
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const onSelectSearchResult = (
-    placeInfo: Pick<TravelRegisterPlace, "name" | "position">,
+    placeInfo: Pick<TravelRegisterPlace, "placeName" | "position">,
     dayIndex: number,
   ) => {
     onAddPlace(dayIndex, placeInfo);
@@ -54,14 +54,19 @@ const DayContent = ({
       </Accordion.Trigger>
       <Accordion.Content>
         <Accordion.Root>
-          <GoogleMapView places={travelDay.places.map((place) => place.position)} />
+          <GoogleMapView
+            places={travelDay.places.map((place) => ({
+              lat: Number(place.position.lat),
+              lng: Number(place.position.lng),
+            }))}
+          />
           {travelDay.places.map((place, placeIndex) => (
             <Accordion.Item key={`${place}-${dayIndex}}`} value={`place-${dayIndex}-${placeIndex}`}>
               <Accordion.Trigger onDeleteItem={() => onDeletePlace(dayIndex, placeIndex)}>
-                {place.name || `장소 ${placeIndex + 1}`}
+                {place.placeName || `장소 ${placeIndex + 1}`}
               </Accordion.Trigger>
               <Accordion.Content>
-                {children(placeIndex)}
+                {children && children(placeIndex)}
                 <Textarea
                   placeholder="장소에 대한 간단한 설명을 남겨주세요"
                   onChange={(e) => onChangePlaceDescription(e, dayIndex, placeIndex)}
