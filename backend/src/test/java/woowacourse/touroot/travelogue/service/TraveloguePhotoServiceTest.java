@@ -11,7 +11,7 @@ import woowacourse.touroot.travelogue.domain.TravelogueDay;
 import woowacourse.touroot.travelogue.domain.TraveloguePhoto;
 import woowacourse.touroot.travelogue.domain.TraveloguePlace;
 import woowacourse.touroot.travelogue.dto.request.TraveloguePhotoRequest;
-import woowacourse.touroot.travelogue.fixture.TravelogueTestFixture;
+import woowacourse.touroot.travelogue.fixture.TravelogueRequestFixture;
 import woowacourse.touroot.travelogue.helper.TravelogueTestHelper;
 
 import java.util.List;
@@ -35,7 +35,7 @@ class TraveloguePhotoServiceTest {
     @DisplayName("여행기 사진을 생성한다.")
     @Test
     void createPhotos() {
-        List<TraveloguePhotoRequest> requests = TravelogueTestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePhotoRequest> requests = TravelogueRequestFixture.getTraveloguePhotoRequests();
         Travelogue travelogue = testHelper.persistTravelogue();
         TravelogueDay day = testHelper.persistTravelogueDay(travelogue);
         Place position = testHelper.persistPlace();

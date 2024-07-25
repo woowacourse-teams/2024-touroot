@@ -13,7 +13,7 @@ import woowacourse.touroot.travelogue.domain.TravelogueDay;
 import woowacourse.touroot.travelogue.domain.TraveloguePlace;
 import woowacourse.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import woowacourse.touroot.travelogue.dto.request.TraveloguePlaceRequest;
-import woowacourse.touroot.travelogue.fixture.TravelogueTestFixture;
+import woowacourse.touroot.travelogue.fixture.TravelogueRequestFixture;
 import woowacourse.touroot.travelogue.helper.TravelogueTestHelper;
 import woowacourse.touroot.utils.DatabaseCleaner;
 
@@ -53,7 +53,7 @@ class TraveloguePlaceServiceTest {
     @DisplayName("여행기 장소를 생성한다.")
     @Test
     void createPlaces() {
-        List<TraveloguePlaceRequest> requests = TravelogueTestFixture.getTraveloguePlaceRequests();
+        List<TraveloguePlaceRequest> requests = TravelogueRequestFixture.getTraveloguePlaceRequests();
         Travelogue travelogue = testHelper.persistTravelogue();
         TravelogueDay day = testHelper.persistTravelogueDay(travelogue);
 

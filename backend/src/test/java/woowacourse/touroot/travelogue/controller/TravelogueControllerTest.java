@@ -15,7 +15,8 @@ import org.springframework.data.domain.Page;
 import woowacourse.touroot.global.AcceptanceTest;
 import woowacourse.touroot.travelogue.dto.request.TravelogueRequest;
 import woowacourse.touroot.travelogue.dto.response.TravelogueResponse;
-import woowacourse.touroot.travelogue.fixture.TravelogueTestFixture;
+import woowacourse.touroot.travelogue.fixture.TravelogueRequestFixture;
+import woowacourse.touroot.travelogue.fixture.TravelogueResponseFixture;
 import woowacourse.touroot.travelogue.helper.TravelogueTestHelper;
 import woowacourse.touroot.utils.DatabaseCleaner;
 
@@ -50,7 +51,7 @@ class TravelogueControllerTest {
     @DisplayName("여행기를 작성한다.")
     @Test
     void createTravelogue() {
-        TravelogueRequest request = TravelogueTestFixture.getTravelogueRequest();
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -65,7 +66,7 @@ class TravelogueControllerTest {
     @Test
     void findTravelogue() throws JsonProcessingException {
         testHelper.initTravelogueTestData();
-        TravelogueResponse response = TravelogueTestFixture.getTravelogueResponse();
+        TravelogueResponse response = TravelogueResponseFixture.getTravelogueResponse();
 
         RestAssured.given().log().all()
                 .accept(ContentType.JSON)
@@ -79,7 +80,7 @@ class TravelogueControllerTest {
     @Test
     void findMainPageTravelogues() throws JsonProcessingException {
         testHelper.initTravelogueTestData();
-        Page<TravelogueResponse> responses = TravelogueTestFixture.getTravelogueResponses();
+        Page<TravelogueResponse> responses = TravelogueResponseFixture.getTravelogueResponses();
 
         RestAssured.given().log().all()
                 .accept(ContentType.JSON)

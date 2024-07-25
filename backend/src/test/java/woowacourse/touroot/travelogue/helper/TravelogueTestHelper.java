@@ -1,5 +1,11 @@
 package woowacourse.touroot.travelogue.helper;
 
+import static woowacourse.touroot.place.fixture.PlaceFixture.PLACE;
+import static woowacourse.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
+import static woowacourse.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
+import static woowacourse.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
+import static woowacourse.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import woowacourse.touroot.place.domain.Place;
@@ -8,7 +14,6 @@ import woowacourse.touroot.travelogue.domain.Travelogue;
 import woowacourse.touroot.travelogue.domain.TravelogueDay;
 import woowacourse.touroot.travelogue.domain.TraveloguePhoto;
 import woowacourse.touroot.travelogue.domain.TraveloguePlace;
-import woowacourse.touroot.travelogue.fixture.TravelogueTestFixture;
 import woowacourse.touroot.travelogue.repository.TravelogueDayRepository;
 import woowacourse.touroot.travelogue.repository.TraveloguePhotoRepository;
 import woowacourse.touroot.travelogue.repository.TraveloguePlaceRepository;
@@ -38,27 +43,6 @@ public class TravelogueTestHelper {
         this.traveloguePhotoRepository = traveloguePhotoRepository;
     }
 
-    public static Travelogue getTravelogue(String name, String thumbnail) {
-        return new Travelogue(name, thumbnail);
-    }
-
-    public static TravelogueDay getTravelogueDay(Integer order, Travelogue travelogue) {
-        return new TravelogueDay(order, travelogue);
-    }
-
-    public static Place getPlace(String name, String latitude, String longitude, String googlePlaceId) {
-        return new Place(name, latitude, longitude, googlePlaceId);
-    }
-
-    public static TraveloguePlace getTraveloguePlace(Integer order, String description, Place place,
-                                                     TravelogueDay travelogueDay) {
-        return new TraveloguePlace(order, description, place, travelogueDay);
-    }
-
-    public static TraveloguePhoto getTraveloguePhoto(String key, Integer order, TraveloguePlace traveloguePlace) {
-        return new TraveloguePhoto(order, key, traveloguePlace);
-    }
-
     public void initTravelogueTestData() {
         Travelogue travelogue = persistTravelogue();
         TravelogueDay day = persistTravelogueDay(travelogue);
@@ -68,31 +52,31 @@ public class TravelogueTestHelper {
     }
 
     public Travelogue persistTravelogue() {
-        Travelogue travelogue = TravelogueTestFixture.getTravelogue();
+        Travelogue travelogue = TRAVELOGUE.get();
 
         return travelogueRepository.save(travelogue);
     }
 
     public TravelogueDay persistTravelogueDay(Travelogue travelogue) {
-        TravelogueDay day = TravelogueTestHelper.getTravelogueDay(1, travelogue);
+        TravelogueDay day = TRAVELOGUE_DAY.create(1, travelogue);
 
         return travelogueDayRepository.save(day);
     }
 
     public Place persistPlace() {
-        Place place = TravelogueTestFixture.getPlace();
+        Place place = PLACE.get();
 
         return placeRepository.save(place);
     }
 
     public TraveloguePlace persistTraveloguePlace(Place position, TravelogueDay day) {
-        TraveloguePlace place = getTraveloguePlace(1, "극동의 진주, 블라디보스토크.", position, day);
+        TraveloguePlace place = TRAVELOGUE_PLACE.create(position, day);
 
         return traveloguePlaceRepository.save(place);
     }
 
     public TraveloguePhoto persistTraveloguePhoto(TraveloguePlace place) {
-        TraveloguePhoto photo = getTraveloguePhoto("https://photo-key.jpeg", 1, place);
+        TraveloguePhoto photo = TRAVELOGUE_PHOTO.create(place);
 
         return traveloguePhotoRepository.save(photo);
     }
