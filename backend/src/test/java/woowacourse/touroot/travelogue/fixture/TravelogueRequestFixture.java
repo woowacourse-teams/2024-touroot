@@ -1,18 +1,12 @@
 package woowacourse.touroot.travelogue.fixture;
 
 import java.util.List;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 import woowacourse.touroot.travelogue.dto.request.TravelogueDayRequest;
 import woowacourse.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import woowacourse.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import woowacourse.touroot.travelogue.dto.request.TraveloguePositionRequest;
 import woowacourse.touroot.travelogue.dto.request.TravelogueRequest;
-import woowacourse.touroot.travelogue.dto.response.TravelogueDayResponse;
-import woowacourse.touroot.travelogue.dto.response.TraveloguePlaceResponse;
-import woowacourse.touroot.travelogue.dto.response.TraveloguePositionResponse;
-import woowacourse.touroot.travelogue.dto.response.TravelogueResponse;
 
 @Component
 public class TravelogueRequestFixture {
