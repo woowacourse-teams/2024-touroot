@@ -4,14 +4,14 @@ export const DrawerContainer = styled.div<{ isOpen: boolean }>`
   display: flex;
   position: fixed;
   top: 0;
-  right: ${({ isOpen }) => (isOpen ? "0" : "-300px")};
+  right: ${({ isOpen }) => (isOpen ? "0" : "-210px")};
   z-index: 10000;
   width: 210px;
   height: 100%;
 
-  background-color: white;
-  box-shadow: -2px 0 5px rgb(0 0 0 / 50%);
   transition: right 0.3s ease-in-out;
+
+  background-color: #fff;
   flex-direction: column;
 `;
 
@@ -24,7 +24,7 @@ export const Overlay = styled.div<{ isOpen: boolean }>`
   width: 100%;
   height: 100%;
 
-  background-color: rgb(0 0 0 / 50%);
+  background-color: rgb(0 0 0 / 30%);
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
   transition:
     opacity 0.3s ease-in-out,
