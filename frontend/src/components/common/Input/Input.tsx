@@ -4,8 +4,8 @@ import CharacterCount from "../CharacterCount/CharacterCount";
 import * as S from "./Input.styled";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  count: number;
-  maxCount: number;
+  count?: number;
+  maxCount?: number;
   label: string;
 }
 
@@ -14,7 +14,7 @@ const Input = ({ label, count, maxCount, ...props }: InputProps) => {
     <S.InputContainer>
       <S.Label>{label}</S.Label>
       <S.Input {...props} />
-      <CharacterCount count={count} maxCount={maxCount} />
+      {count && maxCount ? <CharacterCount count={count} maxCount={maxCount} /> : null}
     </S.InputContainer>
   );
 };
