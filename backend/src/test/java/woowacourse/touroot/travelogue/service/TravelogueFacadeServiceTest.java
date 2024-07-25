@@ -10,7 +10,8 @@ import org.springframework.data.domain.Pageable;
 import woowacourse.touroot.global.ServiceTest;
 import woowacourse.touroot.travelogue.dto.request.TravelogueRequest;
 import woowacourse.touroot.travelogue.dto.response.TravelogueResponse;
-import woowacourse.touroot.travelogue.fixture.TravelogueTestFixture;
+import woowacourse.touroot.travelogue.fixture.TravelogueRequestFixture;
+import woowacourse.touroot.travelogue.fixture.TravelogueResponseFixture;
 import woowacourse.touroot.travelogue.helper.TravelogueTestHelper;
 import woowacourse.touroot.utils.DatabaseCleaner;
 
@@ -51,10 +52,10 @@ class TravelogueFacadeServiceTest {
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
-        TravelogueRequest request = TravelogueTestFixture.getTravelogueRequest();
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
 
         assertThat(service.createTravelogue(request))
-                .isEqualTo(TravelogueTestFixture.getTravelogueResponse());
+                .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
     }
 
     @DisplayName("여행기를 ID를 기준으로 조회한다.")
@@ -63,14 +64,14 @@ class TravelogueFacadeServiceTest {
         testHelper.initTravelogueTestData();
 
         assertThat(service.findTravelogueById(1L))
-                .isEqualTo(TravelogueTestFixture.getTravelogueResponse());
+                .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
     }
 
     @DisplayName("메인 페이지에 표시할 여행기 목록을 조회한다.")
     @Test
     void findTravelogues() {
         testHelper.initTravelogueTestData();
-        Page<TravelogueResponse> responses = TravelogueTestFixture.getTravelogueResponses();
+        Page<TravelogueResponse> responses = TravelogueResponseFixture.getTravelogueResponses();
 
         assertThat(service.findTravelogues(Pageable.ofSize(5)))
                 .isEqualTo(responses);

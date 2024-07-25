@@ -10,7 +10,7 @@ import woowacourse.touroot.global.ServiceTest;
 import woowacourse.touroot.global.exception.BadRequestException;
 import woowacourse.touroot.travelogue.domain.Travelogue;
 import woowacourse.touroot.travelogue.dto.request.TravelogueRequest;
-import woowacourse.touroot.travelogue.fixture.TravelogueTestFixture;
+import woowacourse.touroot.travelogue.fixture.TravelogueRequestFixture;
 import woowacourse.touroot.travelogue.helper.TravelogueTestHelper;
 import woowacourse.touroot.utils.DatabaseCleaner;
 
@@ -49,12 +49,12 @@ class TravelogueServiceTest {
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
-        TravelogueRequest request = TravelogueTestFixture.getTravelogueRequest();
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
         Travelogue createdTravelogue = travelogueService.createTravelogue(request);
 
         assertAll(
                 () -> assertThat(createdTravelogue.getId()).isEqualTo(1L),
-                () -> assertThat(createdTravelogue.getTitle()).isEqualTo("낭만의 시베리아 횡단철도 여행")
+                () -> assertThat(createdTravelogue.getTitle()).isEqualTo("제주에 하영 옵서")
         );
     }
 
