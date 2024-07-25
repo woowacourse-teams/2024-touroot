@@ -2,7 +2,6 @@ import { useLocation } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
-import { Travelogue } from "@type/domain/travelogue";
 import { AxiosResponse } from "axios";
 
 import { useQuery } from "@tanstack/react-query";
