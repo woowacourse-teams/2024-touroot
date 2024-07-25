@@ -26,7 +26,7 @@ export const TitleContainer = styled.div`
 
 export const Title = styled.span`
   display: block;
-  ${({ theme }) => theme.typography.mobile.body};
+  ${({ theme }) => theme.typography.mobile.subTitle};
   word-wrap: break-word;
   max-width: 100%;
 
