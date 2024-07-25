@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import IconButton from "@components/common/IconButton/IconButton";
@@ -8,12 +9,9 @@ import theme from "@styles/theme";
 
 import { DoubleRightArrow } from "@assets/svg";
 
+import { UseUserContext } from "../../../App";
 import Drawer from "../Drawer/Drawer";
 import * as S from "./Header.styled";
-
-const headerMenus = ["마이페이지", "로그인"];
-
-const HeaderTitle = ({ title }: { title: string }) => <S.HeaderTitle>{title}</S.HeaderTitle>;
 
 const Header = () => {
   const location = useLocation();
@@ -23,6 +21,8 @@ const Header = () => {
 
   const handleClickButton =
     pathName === ROUTE_PATHS.root ? () => navigate(-1) : () => navigate(ROUTE_PATHS.root);
+
+  const { user } = useContext(UseUserContext);
 
   return (
     <Drawer>
@@ -34,7 +34,7 @@ const Header = () => {
         />
         {pathName === ROUTE_PATHS.login ? (
           <>
-            <HeaderTitle title="로그인" />
+            <S.HeaderTitle>로그인</S.HeaderTitle>
             <S.HiddenDiv />
           </>
         ) : (
@@ -53,9 +53,24 @@ const Header = () => {
       </Drawer.Header>
       <Drawer.Content>
         <S.MenuList>
-          {headerMenus.map((menu, index) => (
-            <S.MenuItem key={`${menu}-${index}`}>{menu}</S.MenuItem>
-          ))}
+          <Drawer.Trigger>
+            {/* TODO: 마이페이지 로직 필요함 */}
+            <S.MenuItem>마이페이지</S.MenuItem>
+          </Drawer.Trigger>
+          <Drawer.Trigger>
+            {user ? (
+              //TODO: 로그아웃 로직 필요함
+              <S.MenuItem>로그아웃</S.MenuItem>
+            ) : (
+              <S.MenuItem
+                onClick={() => {
+                  navigate(ROUTE_PATHS.login);
+                }}
+              >
+                로그인
+              </S.MenuItem>
+            )}
+          </Drawer.Trigger>
         </S.MenuList>
       </Drawer.Content>
     </Drawer>
