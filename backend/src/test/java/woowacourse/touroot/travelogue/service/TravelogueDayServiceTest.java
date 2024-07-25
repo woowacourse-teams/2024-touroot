@@ -11,7 +11,7 @@ import woowacourse.touroot.travelogue.domain.Travelogue;
 import woowacourse.touroot.travelogue.domain.TravelogueDay;
 import woowacourse.touroot.travelogue.dto.request.TravelogueDayRequest;
 import woowacourse.touroot.travelogue.dto.request.TraveloguePlaceRequest;
-import woowacourse.touroot.travelogue.fixture.TravelogueTestFixture;
+import woowacourse.touroot.travelogue.fixture.TravelogueRequestFixture;
 import woowacourse.touroot.travelogue.helper.TravelogueTestHelper;
 import woowacourse.touroot.utils.DatabaseCleaner;
 
@@ -51,7 +51,7 @@ class TravelogueDayServiceTest {
     @DisplayName("여행기의 일자들을 생성한다.")
     @Test
     void createDays() {
-        List<TravelogueDayRequest> requests = TravelogueTestFixture.getTravelogueDayRequests();
+        List<TravelogueDayRequest> requests = TravelogueRequestFixture.getTravelogueDayRequests();
         Travelogue travelogue = testHelper.persistTravelogue();
 
         Map<TravelogueDay, List<TraveloguePlaceRequest>> daysMap = dayService.createDays(requests, travelogue);
