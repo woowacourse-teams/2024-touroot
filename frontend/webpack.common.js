@@ -24,6 +24,7 @@ module.exports = {
       "@type": path.resolve(__dirname, "src/types/"),
       "@queries": path.resolve(__dirname, "src/queries/"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
+      "@contexts": path.resolve(__dirname, "src/contexts"),
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
@@ -52,10 +53,6 @@ module.exports = {
         type: "asset/resource",
       },
       {
-        test: /\.(png|jpg|jpeg|gif|woff)$/i,
-        type: "asset/resource",
-      },
-      {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       },
@@ -66,7 +63,7 @@ module.exports = {
       template: "./public/index.html",
     }),
     new DotenvWebpack({
-      path: path.resolve(__dirname, ".env.development"),
+      path: path.resolve(__dirname, isDevelopment ? ".env.development" : ".env.production"),
     }),
   ],
   devServer: {
