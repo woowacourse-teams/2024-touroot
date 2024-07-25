@@ -21,7 +21,7 @@ export const MainPageTraveloguesList = styled.ul`
   display: flex;
   flex-direction: column;
 
-  gap: 1.6rem;
+  gap: 4rem;
 `;
 
 export const MainPageContentContainer = styled.div`
