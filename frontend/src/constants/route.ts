@@ -1,5 +1,6 @@
 export const ROUTE_PATHS = {
   root: "/",
   travelogue: "/travelogue/:id",
-  register: "/travelogue/register",
+  travelogueRegister: "/travelogue/register",
+  travelPlanRegister: "/travel-plan/register",
 } as const;
