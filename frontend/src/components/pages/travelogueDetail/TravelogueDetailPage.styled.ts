@@ -17,6 +17,7 @@ export const Thumbnail = styled.img`
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 15rem;
   gap: 0.8rem;
 
   width: 100%;
@@ -24,7 +25,14 @@ export const TitleContainer = styled.div`
 `;
 
 export const Title = styled.span`
-  ${({ theme }) => theme.typography.mobile.title}
+  display: block;
+  ${({ theme }) => theme.typography.mobile.body};
+  word-wrap: break-word;
+  max-width: 100%;
+
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-all;
 `;
 
 export const AuthorDateContainer = styled.div`
