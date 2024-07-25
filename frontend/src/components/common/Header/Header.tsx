@@ -1,15 +1,17 @@
 import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import { UserContext } from "@contexts/UserProvider";
+
 import IconButton from "@components/common/IconButton/IconButton";
 
 import { ROUTE_PATHS } from "@constants/route";
 
 import theme from "@styles/theme";
+import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 import { DoubleRightArrow } from "@assets/svg";
 
-import { UseUserContext } from "../../../App";
 import Drawer from "../Drawer/Drawer";
 import * as S from "./Header.styled";
 
@@ -20,15 +22,15 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleClickButton =
-    pathName === ROUTE_PATHS.root ? () => navigate(-1) : () => navigate(ROUTE_PATHS.root);
+    pathName === ROUTE_PATHS.root ? () => navigate(ROUTE_PATHS.root) : () => navigate(-1);
 
-  const { user } = useContext(UseUserContext);
+  const { user } = useContext(UserContext);
 
   return (
     <Drawer>
       <S.HeaderLayout>
         <IconButton
-          color={theme.colors.primary}
+          color={pathName === ROUTE_PATHS.root ? theme.colors.primary : PRIMITIVE_COLORS.black}
           onClick={handleClickButton}
           iconType={pathName === ROUTE_PATHS.root ? "korean-logo" : "back-icon"}
         />
