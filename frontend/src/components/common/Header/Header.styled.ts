@@ -5,6 +5,7 @@ import { PRIMITIVE_COLORS } from "@styles/tokens";
 export const HeaderLayout = styled.header`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: fixed;
   top: 0;
   z-index: 500;
