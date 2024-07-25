@@ -8,7 +8,7 @@ import { withRouter } from "storybook-addon-remix-react-router";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import { handlers } from "../src/mocks/handlers";
+import { handlers } from "../src/mocks/handlers/index";
 import { globalStyle } from "../src/styles/globalStyle";
 import theme from "../src/styles/theme";
 
@@ -46,8 +46,9 @@ const preview: Preview = {
           <ThemeProvider theme={theme}>
             <Global styles={globalStyle} />
             <div id="root">
-            <div style={rootStyle}>
-              <Story />
+              <div style={rootStyle}>
+                <Story />
+              </div>
             </div>
           </ThemeProvider>
         </QueryClientProvider>

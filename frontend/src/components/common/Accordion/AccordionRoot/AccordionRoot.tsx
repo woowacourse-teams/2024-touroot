@@ -4,7 +4,10 @@ import { AccordionContext } from "@components/common/Accordion/AccordionRoot/acc
 
 import * as S from "./AccordionRoot.styled";
 
-const AccordionRoot = ({ children }: React.PropsWithChildren) => {
+const AccordionRoot = ({
+  children,
+  ...props
+}: React.PropsWithChildren<React.ComponentPropsWithoutRef<"div">>) => {
   const [item, setItem] = useState<Set<string>>(new Set());
 
   const handleToggleAccordion = useCallback(
@@ -24,7 +27,7 @@ const AccordionRoot = ({ children }: React.PropsWithChildren) => {
 
   return (
     <AccordionContext.Provider value={{ value: item, handleToggleAccordion }}>
-      <S.Layout>{children}</S.Layout>
+      <S.Layout {...props}>{children}</S.Layout>
     </AccordionContext.Provider>
   );
 };

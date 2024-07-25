@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 
-const useDragScroll = () => {
+export const useDragScroll = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -30,4 +30,3 @@ const useDragScroll = () => {
 
   return { scrollRef, onMouseDown, onMouseUp, onMouseMove, isDragging };
 };
-export default useDragScroll;

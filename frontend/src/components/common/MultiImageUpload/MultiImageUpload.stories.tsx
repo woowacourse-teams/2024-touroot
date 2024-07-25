@@ -1,22 +1,12 @@
-import React from "react";
+// import React from "react";
+import type { StoryObj } from "@storybook/react";
 
-import type { Meta, StoryObj } from "@storybook/react";
-
-import MultiImageUpload from "./MultiImageUpload";
+// import MultiImageUpload from "./MultiImageUpload";
 
 const meta = {
   title: "common/MultiImageUpload",
-  component: MultiImageUpload,
-  decorators: [
-    (Story, context) => {
-      return (
-        <div style={{ width: "48rem" }}>
-          <Story args={{ ...context.args }} />
-        </div>
-      );
-    },
-  ],
-} satisfies Meta<typeof MultiImageUpload>;
+  component: <></>,
+};
 
 export default meta;
 
@@ -24,74 +14,74 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-export const WithImages: Story = {
-  decorators: [
-    (Story) => {
-      React.useEffect(() => {
-        const fetchAndCreateFile = async () => {
-          const imageUrl =
-            "https://api.allorigins.win/raw?url=https://i.pinimg.com/474x/df/6d/1a/df6d1a665685af3c0eb7e4c6a0c40169.jpg";
-          const file = new File([await fetch(imageUrl).then((r) => r.blob())], "example.png", {
-            type: "image/png",
-          });
+// export const WithImages: Story = {
+//   decorators: [
+//     (Story) => {
+//       React.useEffect(() => {
+//         const fetchAndCreateFile = async () => {
+//           const imageUrl =
+//             "https://api.allorigins.win/raw?url=https://i.pinimg.com/474x/df/6d/1a/df6d1a665685af3c0eb7e4c6a0c40169.jpg";
+//           const file = new File([await fetch(imageUrl).then((r) => r.blob())], "example.png", {
+//             type: "image/png",
+//           });
 
-          const files = Array(3).fill(file);
+//           const files = Array(3).fill(file);
 
-          const dataTransfer = new DataTransfer();
+//           const dataTransfer = new DataTransfer();
 
-          files.map((file) => dataTransfer.items.add(file));
+//           files.map((file) => dataTransfer.items.add(file));
 
-          const inputElement = document.querySelector('input[type="file"]') as HTMLInputElement;
-          if (inputElement) {
-            Object.defineProperty(inputElement, "files", {
-              value: dataTransfer.files,
-            });
+//           const inputElement = document.querySelector('input[type="file"]') as HTMLInputElement;
+//           if (inputElement) {
+//             Object.defineProperty(inputElement, "files", {
+//               value: dataTransfer.files,
+//             });
 
-            const event = new Event("change", { bubbles: true });
-            inputElement.dispatchEvent(event);
-          }
-        };
+//             const event = new Event("change", { bubbles: true });
+//             inputElement.dispatchEvent(event);
+//           }
+//         };
 
-        fetchAndCreateFile();
-      }, []);
+//         fetchAndCreateFile();
+//       }, []);
 
-      return <Story />;
-    },
-  ],
-};
+//       return <Story />;
+//     },
+//   ],
+// };
 
-export const WithManyImages: Story = {
-  decorators: [
-    (Story) => {
-      React.useEffect(() => {
-        const fetchAndCreateFile = async () => {
-          const imageUrl =
-            "https://api.allorigins.win/raw?url=https://i.pinimg.com/474x/df/6d/1a/df6d1a665685af3c0eb7e4c6a0c40169.jpg";
-          const file = new File([await fetch(imageUrl).then((r) => r.blob())], "example.png", {
-            type: "image/png",
-          });
+// export const WithManyImages: Story = {
+//   decorators: [
+//     (Story) => {
+//       React.useEffect(() => {
+//         const fetchAndCreateFile = async () => {
+//           const imageUrl =
+//             "https://api.allorigins.win/raw?url=https://i.pinimg.com/474x/df/6d/1a/df6d1a665685af3c0eb7e4c6a0c40169.jpg";
+//           const file = new File([await fetch(imageUrl).then((r) => r.blob())], "example.png", {
+//             type: "image/png",
+//           });
 
-          const files = Array(7).fill(file);
+//           const files = Array(7).fill(file);
 
-          const dataTransfer = new DataTransfer();
+//           const dataTransfer = new DataTransfer();
 
-          files.map((file) => dataTransfer.items.add(file));
+//           files.map((file) => dataTransfer.items.add(file));
 
-          const inputElement = document.querySelector('input[type="file"]') as HTMLInputElement;
-          if (inputElement) {
-            Object.defineProperty(inputElement, "files", {
-              value: dataTransfer.files,
-            });
+//           const inputElement = document.querySelector('input[type="file"]') as HTMLInputElement;
+//           if (inputElement) {
+//             Object.defineProperty(inputElement, "files", {
+//               value: dataTransfer.files,
+//             });
 
-            const event = new Event("change", { bubbles: true });
-            inputElement.dispatchEvent(event);
-          }
-        };
+//             const event = new Event("change", { bubbles: true });
+//             inputElement.dispatchEvent(event);
+//           }
+//         };
 
-        fetchAndCreateFile();
-      }, []);
+//         fetchAndCreateFile();
+//       }, []);
 
-      return <Story />;
-    },
-  ],
-};
+//       return <Story />;
+//     },
+//   ],
+// };
