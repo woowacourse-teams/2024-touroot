@@ -8,11 +8,11 @@ export const MainPageHeaderContainer = styled.div`
   padding: 1.6rem;
 
   h1 {
-    ${(props) => props.theme.typography.title};
+    ${({ theme }) => theme.typography.mobile.title};
   }
 
   p {
-    color: ${(props) => props.theme.color.darkGray};
+    color: ${(props) => props.theme.colors.text.secondary};
     font-size: 1.2rem;
   }
 `;
@@ -24,5 +24,5 @@ export const MainPageTraveloguesList = styled.ul`
 `;
 
 export const MainPageContentContainer = styled.div`
-  padding-top: calc(5.7rem + 2rem);
+  padding-top: 1.6rem;
 `;
