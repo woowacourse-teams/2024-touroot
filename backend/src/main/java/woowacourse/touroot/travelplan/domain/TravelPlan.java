@@ -9,7 +9,6 @@ import woowacourse.touroot.entity.BaseEntity;
 import woowacourse.touroot.global.exception.BadRequestException;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,11 +26,8 @@ public class TravelPlan extends BaseEntity {
     @Column(nullable = false)
     private LocalDate startDate;
 
-    @OneToMany(mappedBy = "plan")
-    private List<TravelPlanDay> days;
-
     public TravelPlan(String title, LocalDate startDate) {
-        this(null, title, startDate, null);
+        this(null, title, startDate);
     }
 
     public void validateStartDate() {

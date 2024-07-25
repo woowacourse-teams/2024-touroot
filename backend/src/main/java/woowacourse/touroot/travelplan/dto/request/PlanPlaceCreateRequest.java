@@ -17,7 +17,7 @@ public record PlanPlaceCreateRequest(
         String description,
         @Valid
         @NotNull(message = "위치는 비어있을 수 없습니다.")
-        PlanLocationCreateRequest location
+        PlanPositionCreateRequest position
 ) {
 
     public TravelPlanPlace toPlanPlace(int order, TravelPlanDay day, Place place) {
@@ -25,6 +25,6 @@ public record PlanPlaceCreateRequest(
     }
 
     public Place toPlace() {
-        return new Place(placeName, location.lat(), location.lng());
+        return new Place(placeName, position.lat(), position.lng());
     }
 }

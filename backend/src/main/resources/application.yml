@@ -7,6 +7,12 @@ jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
+cloud:
+  aws:
+    s3:
+      bucket: techcourse-project-2024
+      image-base-uri: https://dev.touroot.kr/images/
+      directory-path: touroot/images/
 ---
 security:
   jwt:
@@ -35,7 +41,7 @@ spring:
     defer-datasource-initialization: true
 oauth:
   kakao:
-    redirect-uri: http://localhost:8080/api/v1/login/oauth/kakao
+    redirect-uri: http://localhost:3000/oauth
 ---
 security:
   jwt:
@@ -69,4 +75,4 @@ spring:
       ddl-auto: none
 oauth:
   kakao:
-    redirect-uri: http://api-dev.touroot.kr/api/v1/login/oauth/kakao
+    redirect-uri: http://localhost:3000/oauth
