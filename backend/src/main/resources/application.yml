@@ -3,6 +3,7 @@ oauth:
     user-information-request-uri: https://kapi.kakao.com/v2/user/me
     access-token-request-uri: https://kauth.kakao.com/oauth/token
     rest-api-key: ENC(i6J7NWUsDpXVbJrbSUcNFI3h0oc6v8PxuHShU9UA7EVuUNLtQN/ANII+8j5HjhGO)
+    redirect-uri: https://dev.touroot.kr/oauth
 jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES
@@ -39,9 +40,6 @@ spring:
     hibernate:
       ddl-auto: create-drop
     defer-datasource-initialization: true
-oauth:
-  kakao:
-    redirect-uri: http://localhost:3000/oauth
 ---
 security:
   jwt:
@@ -73,6 +71,3 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: none
-oauth:
-  kakao:
-    redirect-uri: http://localhost:3000/oauth
