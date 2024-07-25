@@ -144,7 +144,7 @@ const TravelogueRegisterPage = () => {
               iconType="plus"
               position="left"
               css={[S.addButtonStyle, S.addDayButtonStyle]}
-              onClick={onAddDay}
+              onClick={() => onAddDay()}
             >
               일자 추가하기
             </IconButton>

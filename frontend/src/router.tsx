@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import AppLayout from "@components/layout/AppLayout/AppLayout";
+import TravelPlanRegisterPage from "@components/pages/travelPlanRegister/TravelPlanRegisterPage";
 import KakaoCallbackPage from "@components/pages/login/KakaoCallbackPage";
 import LoginPage from "@components/pages/login/LoginPage";
 import TravelogueDetailPage from "@components/pages/travelogueDetail/TravelogueDetailPage";
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
         element: <TravelogueDetailPage />,
       },
       {
+        path: ROUTE_PATHS.travelogueRegister,
         path: ROUTE_PATHS.login,
         element: <LoginPage />,
       },
@@ -34,6 +36,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTE_PATHS.register,
         element: <TravelogueRegisterPage />,
+      },
+      {
+        path: ROUTE_PATHS.travelPlanRegister,
+        element: <TravelPlanRegisterPage />,
       },
     ],
   },

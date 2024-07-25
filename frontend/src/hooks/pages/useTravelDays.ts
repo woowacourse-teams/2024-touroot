@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { TravelRegisterDay, TravelRegisterPlace } from "@type/domain/travelogue";
 
 export const useTravelDays = () => {
   const [travelDays, setTravelDays] = useState<TravelRegisterDay[]>([]);
 
-  const onAddDay = () => {
-    setTravelDays((prevTravelDays) => [...prevTravelDays, { places: [] }]);
-  };
+  const onAddDay = useCallback((dayIndex?: number) => {
+    setTravelDays((prevTravelDays) =>
+      dayIndex
+        ? Array.from({ length: dayIndex }, () => ({ places: [] }))
+        : [...prevTravelDays, { places: [] }],
+    );
+  }, []);
 
   const onDeleteDay = (targetDayIndex: number) => {
     setTravelDays((prevTravelDays) =>
