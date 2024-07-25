@@ -3,9 +3,9 @@ import styled from "@emotion/styled";
 export const MainPageHeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 1.6rem;
 
   gap: 8px;
-  padding: 1.6rem;
 
   h1 {
     ${({ theme }) => theme.typography.mobile.title};
@@ -20,6 +20,7 @@ export const MainPageHeaderContainer = styled.div`
 export const MainPageTraveloguesList = styled.ul`
   display: flex;
   flex-direction: column;
+
   gap: 1.6rem;
 `;
 
