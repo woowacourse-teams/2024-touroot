@@ -4,7 +4,7 @@ import { client } from "@apis/client";
 
 export const getTravelogues = async ({ page, size }: { page: number; size: number }) => {
   try {
-    const response = await client.get("/api/v1/travelogues", {
+    const response = await client.get("/travelogues", {
       params: { page, size },
     });
     return response.data;
@@ -23,13 +23,11 @@ const useInfiniteTravelogues = () => {
     queryFn: ({ pageParam = INITIAL_PAGE }) => {
       const page = pageParam;
       const size = DATA_LOAD_COUNT;
-      console.log({ page, size });
       return getTravelogues({ page, size });
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
       const nextPage = lastPage.content.length ? allPages.length : undefined;
-
       return nextPage;
     },
   });

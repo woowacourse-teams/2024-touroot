@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import { TravelogueOverview } from "types";
 
 import AvatarCircle from "@components/common/AvatarCircle/AvatarCircle";
@@ -13,19 +15,28 @@ interface TravelogueCardProps {
 }
 
 const TravelogueCard = ({
-  travelogueOverview: { userAvatar, title, thumbnail, likes = 0 },
+  travelogueOverview: { id, userAvatar, title, thumbnail, likes = 0 },
 }: TravelogueCardProps) => {
+  const navigate = useNavigate();
   const { imageError, handleImageError } = useImageError({ imageUrl: thumbnail });
 
+  const handleCardClick = () => {
+    navigate(`/travelogue/${id}`);
+  };
+
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
-    <S.TravelogueCardLayout>
+    <S.TravelogueCardLayout onClick={handleCardClick}>
       <S.TravelogueCardHeader>
         <S.TravelogueCardTitleContainer>
           <AvatarCircle userAvatar={userAvatar} />
           <h2>{title}</h2>
         </S.TravelogueCardTitleContainer>
 
-        <S.TravelogueCardLikesContainer>
+        <S.TravelogueCardLikesContainer onClick={handleLikeClick}>
           <EmptyHeart />
           <p>{likes}</p>
         </S.TravelogueCardLikesContainer>
@@ -39,7 +50,6 @@ const TravelogueCard = ({
             onError={handleImageError}
           />
         ) : (
-          // <div>없다 ㅋㅋ</div>
           <S.Fallback>No Image</S.Fallback>
         )}
       </S.TravelogueCardThumbnailContainer>

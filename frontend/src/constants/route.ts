@@ -6,5 +6,4 @@ export const ROUTE_PATHS = {
   login: "/login",
   loginCallback: "/oauth",
   loginOauth: "/login/oauth/kakao",
-  register: "/travelogue/register",
 } as const;
