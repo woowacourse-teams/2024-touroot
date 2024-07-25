@@ -3,17 +3,15 @@ import styled from "@emotion/styled";
 export const TravelogueCardLayout = styled.li`
   display: flex;
   flex-direction: column;
+  padding-bottom: 1rem;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 0.8rem;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
+
   gap: 1rem;
 
   cursor: pointer;
-  transition: transform 0.3s ease-in-out;
-  padding-top: 10px;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
-    border-radius: 8px;
-  }
 `;
 
 export const TravelogueCardHeader = styled.header`
@@ -50,22 +48,21 @@ export const TravelogueCardLikesContainer = styled.div`
 
 export const TravelogueCardThumbnailContainer = styled.div`
   overflow: hidden;
+
   width: 100%;
   height: 25rem;
-  border-radius: 0.4rem;
+  border-radius: 0.8rem 0.8rem 0 0;
+
+  line-height: 0;
+  vertical-align: bottom;
 `;
 
 export const TravelogueCardThumbnail = styled.img`
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-
-  /* transition: transform 0.3s ease-in-out;
-
-  li:hover & {
-    transform: scale(1.02);
-  } */
 `;
 
 export const Fallback = styled.div`
