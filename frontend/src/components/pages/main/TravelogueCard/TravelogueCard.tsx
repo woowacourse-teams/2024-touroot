@@ -43,7 +43,7 @@ const TravelogueCard = ({
       </S.TravelogueCardThumbnailContainer>
       <S.TravelogueCardHeader>
         <S.TravelogueCardTitleContainer>
-          <AvatarCircle userAvatar={userAvatar} />
+          <AvatarCircle profileImageUrl={userAvatar} />
           <h2>{title}</h2>
         </S.TravelogueCardTitleContainer>
 
