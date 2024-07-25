@@ -5,93 +5,73 @@ import type { Meta, StoryObj } from "@storybook/react";
 import MultiImageUpload from "./MultiImageUpload";
 
 const meta = {
-  title: "common/MultiImageUpload",
+  title: "Common/MultiImageUpload",
   component: MultiImageUpload,
+  parameters: {
+    layout: "centered",
+  },
   decorators: [
-    (Story, context) => {
-      return (
-        <div style={{ width: "48rem" }}>
-          <Story args={{ ...context.args }} />
-        </div>
-      );
-    },
+    (Story) => (
+      <div style={{ width: "48rem" }}>
+        <Story />
+      </div>
+    ),
   ],
 } satisfies Meta<typeof MultiImageUpload>;
 
 export default meta;
-
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    previewUrls: [],
+    fileInputRef: React.createRef(),
+    onImageChange: () => {},
+    onDeleteImage: () => {},
+    onButtonClick: () => {},
+  },
+};
 
 export const WithImages: Story = {
-  decorators: [
-    (Story) => {
-      React.useEffect(() => {
-        const fetchAndCreateFile = async () => {
-          const imageUrl =
-            "https://api.allorigins.win/raw?url=https://i.pinimg.com/474x/df/6d/1a/df6d1a665685af3c0eb7e4c6a0c40169.jpg";
-          const file = new File([await fetch(imageUrl).then((r) => r.blob())], "example.png", {
-            type: "image/png",
-          });
-
-          const files = Array(3).fill(file);
-
-          const dataTransfer = new DataTransfer();
-
-          files.map((file) => dataTransfer.items.add(file));
-
-          const inputElement = document.querySelector('input[type="file"]') as HTMLInputElement;
-          if (inputElement) {
-            Object.defineProperty(inputElement, "files", {
-              value: dataTransfer.files,
-            });
-
-            const event = new Event("change", { bubbles: true });
-            inputElement.dispatchEvent(event);
-          }
-        };
-
-        fetchAndCreateFile();
-      }, []);
-
-      return <Story />;
-    },
-  ],
+  args: {
+    ...Default.args,
+    previewUrls: [
+      "https://example.com/image1.jpg",
+      "https://example.com/image2.jpg",
+      "https://example.com/image3.jpg",
+    ],
+  },
 };
 
 export const WithManyImages: Story = {
-  decorators: [
-    (Story) => {
-      React.useEffect(() => {
-        const fetchAndCreateFile = async () => {
-          const imageUrl =
-            "https://api.allorigins.win/raw?url=https://i.pinimg.com/474x/df/6d/1a/df6d1a665685af3c0eb7e4c6a0c40169.jpg";
-          const file = new File([await fetch(imageUrl).then((r) => r.blob())], "example.png", {
-            type: "image/png",
-          });
+  args: {
+    ...Default.args,
+    previewUrls: Array(7).fill("https://example.com/image.jpg"),
+  },
+};
 
-          const files = Array(7).fill(file);
+const createMockFileList = (count: number) => {
+  const dataTransfer = new DataTransfer();
+  Array(count)
+    .fill(null)
+    .forEach(() => {
+      const file = new File(["mock content"], "mock-image.png", { type: "image/png" });
+      dataTransfer.items.add(file);
+    });
+  return dataTransfer.files;
+};
 
-          const dataTransfer = new DataTransfer();
-
-          files.map((file) => dataTransfer.items.add(file));
-
-          const inputElement = document.querySelector('input[type="file"]') as HTMLInputElement;
-          if (inputElement) {
-            Object.defineProperty(inputElement, "files", {
-              value: dataTransfer.files,
-            });
-
-            const event = new Event("change", { bubbles: true });
-            inputElement.dispatchEvent(event);
-          }
-        };
-
-        fetchAndCreateFile();
-      }, []);
-
-      return <Story />;
-    },
-  ],
+export const InteractiveUpload: Story = {
+  args: {
+    ...Default.args,
+  },
+  play: async ({ canvasElement }) => {
+    const inputElement = canvasElement.querySelector('input[type="file"]') as HTMLInputElement;
+    if (inputElement) {
+      Object.defineProperty(inputElement, "files", {
+        value: createMockFileList(3),
+      });
+      inputElement.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+  },
 };
