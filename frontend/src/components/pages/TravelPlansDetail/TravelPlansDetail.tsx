@@ -1,24 +1,26 @@
+import { useContext } from "react";
+import { useLocation } from "react-router-dom";
+
 import { css } from "@emotion/react";
 
-import { Travelogue } from "@type/domain/travelogue";
-import { AxiosResponse } from "axios";
-
-import { useQuery } from "@tanstack/react-query";
-
-import { client } from "@apis/client";
+import { useGetTravelPlan } from "@queries/useGetTravelPlan/useGetTravelPlan";
 
 import { Tab, Text, TransformBottomSheet } from "@components/common";
+import TravelPlansTabContent from "@components/pages/TravelPlansDetail/TravelPlansTabContent/TravelPlansTabContent";
 
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
+import { UseUserContext } from "../../../App";
 import * as S from "./TravelPlansDetail.styled";
-import TravelPlansTabContent from "./TravelPlansTabContent/TravelPlansTabContent";
 
 const TravelPlansDetailPage = () => {
-  const { data } = useQuery<AxiosResponse<Travelogue>>({
-    queryKey: ["travelogues/1"],
-    queryFn: () => client.get("/travelogues/1"),
-  });
+  const { user } = useContext(UseUserContext);
+
+  const location = useLocation();
+
+  const id = location.pathname.replace(/[^\d]/g, "");
+
+  const { data } = useGetTravelPlan(id, user?.accessToken ?? "");
 
   const daysAndNights =
     data?.data.days.length && data?.data.days.length > 1
