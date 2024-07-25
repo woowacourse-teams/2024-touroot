@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 
 import { Box, GoogleMapView } from "@components/common";
-import PlaceDetailCard from "@components/pages/travelogueDetail/PlaceDetailCard/PlaceDetailCard";
+import PlaceDetailCard from "@components/pages/travelogueDetail/TravelogueTabContent/PlaceDetailCard/PlaceDetailCard";
 
 import * as S from "./TravelogueTabContent.styled";
 
