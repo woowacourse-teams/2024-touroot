@@ -1,15 +1,15 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { SaveUserContext } from "@contexts/UserProvider";
+
 import { client } from "@apis/client";
 
 import { ROUTE_PATHS } from "@constants/route";
 
-import { UseSetUserContext } from "../../../App";
-
 const KakaoCallbackPage = () => {
   const navigate = useNavigate();
-  const { saveUser } = useContext(UseSetUserContext);
+  const { saveUser } = useContext(SaveUserContext);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
