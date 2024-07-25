@@ -24,6 +24,16 @@ jobs:
       - name: Make keystore file
         run: echo "${{secrets.SSL_KEYSTORE}}" | base64 --decode > ./src/main/resources/keystore.p12
 
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{runner.os}}-gradle-${{hashFiles('**/*.gradle*', '**/gradle-wrapper.properties')}}
+          restore-keys: |
+            ${{runner.os}}-gradle-
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
