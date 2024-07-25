@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
+import { UserContext } from "@contexts/UserProvider";
 import { useGetTravelPlan } from "@queries/useGetTravelPlan/useGetTravelPlan";
 
 import { Tab, Text, TransformBottomSheet } from "@components/common";
@@ -10,11 +11,10 @@ import TravelPlansTabContent from "@components/pages/TravelPlansDetail/TravelPla
 
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
-import { UseUserContext } from "../../../App";
 import * as S from "./TravelPlansDetail.styled";
 
 const TravelPlansDetailPage = () => {
-  const { user } = useContext(UseUserContext);
+  const { user } = useContext(UserContext);
 
   const location = useLocation();
 
