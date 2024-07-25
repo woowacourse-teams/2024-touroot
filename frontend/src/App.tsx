@@ -1,3 +1,4 @@
+import MainPage from "@components/pages/main/MainPage";
 import { createContext, useState } from "react";
 import { RouterProvider } from "react-router-dom";
 
