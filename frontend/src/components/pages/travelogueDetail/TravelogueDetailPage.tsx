@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 
+import { Travelogue } from "@type/domain/travelogue";
 import { AxiosResponse } from "axios";
 
 import { useQuery } from "@tanstack/react-query";
@@ -12,24 +13,6 @@ import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueT
 import { EmptyHeart } from "@assets/svg";
 
 import * as S from "./TravelogueDetailPage.styled";
-
-interface Place {
-  name: string;
-  photoUrls: string[];
-  description: string;
-  latitude: string;
-  longitude: string;
-}
-
-interface Day {
-  places: Place[];
-}
-
-interface Travelogue {
-  title: string;
-  thumbnail: string;
-  days: Day[];
-}
 
 const TravelogueDetailPage = () => {
   const { data } = useQuery<AxiosResponse<Travelogue>>({
@@ -71,7 +54,9 @@ const TravelogueDetailPage = () => {
           <TravelogueTabContent places={data?.data.days[selectedIndex].places ?? []} />
         )}
       />
-      <TransformBottomSheet>이 여행기를 따라가고 싶으신가요?</TransformBottomSheet>
+      <TransformBottomSheet buttonLabel="여행 계획으로 전환">
+        이 여행기를 따라가고 싶으신가요?
+      </TransformBottomSheet>
     </>
   );
 };
