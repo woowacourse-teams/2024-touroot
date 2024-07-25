@@ -1,6 +1,8 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import { PRIMITIVE_COLORS } from "@styles/tokens";
+
 const slideUp = keyframes`
   from {
     height: 5rem;
@@ -20,30 +22,31 @@ const slideDown = keyframes`
 `;
 
 export const BottomSheetLayout = styled.div<{ $isOpen: boolean }>`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  max-width: 48rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  z-index: 1000;
+  width: 100%;
   height: ${({ $isOpen }) => ($isOpen ? "12rem" : "5rem")};
-  background-color: white;
+  max-width: 48rem;
+
+  background-color: ${PRIMITIVE_COLORS.white};
+
+  animation: ${({ $isOpen }) => ($isOpen ? slideUp : slideDown)} 0.3s ease-out;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
-  animation: ${({ $isOpen }) => ($isOpen ? slideUp : slideDown)} 0.3s ease-out;
-  overflow: hidden;
-  z-index: 1000;
+  box-shadow: 0 -2px 10px rgb(0 0 0 / 10%);
 `;
 
 export const BottomSheetContent = styled.div`
-  padding: 20px;
   height: 100%;
+  padding: 20px;
   overflow-y: auto;
 
-  ${(props) => props.theme.typography.detailBold}
+  ${({ theme }) => theme.typography.mobile.detailBold}
 `;
 
 export const BottomSheetBottomContainer = styled.div`
@@ -52,17 +55,20 @@ export const BottomSheetBottomContainer = styled.div`
   left: 0;
   width: 100%;
   padding: 10px;
+
   background-color: white;
 `;
 
 export const BottomSheetButton = styled.button`
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
-  color: white;
   border: none;
   border-radius: 5px;
-  font-size: 16px;
+
+  background-color: #007bff;
+
+  color: white;
   font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
 `;
