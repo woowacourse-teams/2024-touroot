@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
-import woowacourse.touroot.authentication.dto.KakaoAccessTokenResponse;
-import woowacourse.touroot.authentication.dto.OauthUserInformationResponse;
+import woowacourse.touroot.authentication.dto.response.OauthUserInformationResponse;
+import woowacourse.touroot.authentication.dto.response.kakao.KakaoAccessTokenResponse;
 import woowacourse.touroot.global.exception.BadRequestException;
 import woowacourse.touroot.global.exception.ClientException;
 

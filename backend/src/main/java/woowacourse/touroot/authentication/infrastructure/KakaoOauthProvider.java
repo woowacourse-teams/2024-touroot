@@ -2,7 +2,7 @@ package woowacourse.touroot.authentication.infrastructure;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import woowacourse.touroot.authentication.dto.OauthUserInformationResponse;
+import woowacourse.touroot.authentication.dto.response.OauthUserInformationResponse;
 
 @RequiredArgsConstructor
 @Component
