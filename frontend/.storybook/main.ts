@@ -23,6 +23,7 @@ const config: StorybookConfig = {
         "@styles": path.resolve(__dirname, "../src/styles"),
         "@apis": path.resolve(__dirname, "../src/apis"),
         "@constants": path.resolve(__dirname, "../src/constants"),
+        "@hooks": path.resolve(__dirname, "../src/hooks"),
       };
     }
     config.module = config.module || {};

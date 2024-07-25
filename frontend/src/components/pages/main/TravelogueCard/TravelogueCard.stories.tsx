@@ -39,3 +39,15 @@ export const Default: Story = {
     },
   },
 };
+
+export const WithInvalidThumbnail: Story = {
+  args: {
+    travelogueOverview: {
+      id: 1,
+      userAvatar: "https://i.pinimg.com/564x/c0/d6/5e/c0d65ef2ff5b3e752b70fe54d94d6206.jpg",
+      title: "갱얼쥐랑 캠핑 🐶",
+      thumbnail: "invalidUrl",
+      likes: 10,
+    },
+  },
+};
