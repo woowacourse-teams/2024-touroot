@@ -23,7 +23,10 @@ const MainPage = () => {
       {status === "pending" && <>로딩 ...</>}
       <S.MainPageTraveloguesList>
         {travelogues.map(({ userAvatar, id, title, thumbnail, likes }) => (
-          <TravelogueCard travelogueOverview={{ userAvatar, id, title, thumbnail, likes }} />
+          <TravelogueCard
+            key={id}
+            travelogueOverview={{ userAvatar, id, title, thumbnail, likes }}
+          />
         ))}
       </S.MainPageTraveloguesList>
       <div
