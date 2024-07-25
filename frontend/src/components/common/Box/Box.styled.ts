@@ -9,7 +9,6 @@ export const Box = styled.div`
   height: 3.98rem;
   padding-left: 1.6rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
-
   border-radius: 4px;
 `;
 

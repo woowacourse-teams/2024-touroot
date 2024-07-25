@@ -48,8 +48,16 @@ module.exports = {
         use: ["@svgr/webpack"],
       },
       {
+        test: /\.(png|jpg|jpeg|gif|woff|webp)$/i,
+        type: "asset/resource",
+      },
+      {
         test: /\.(png|jpg|jpeg|gif|woff)$/i,
         type: "asset/resource",
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
@@ -63,9 +71,9 @@ module.exports = {
   ],
   devServer: {
     compress: true,
-
     port: 3000,
     hot: true,
     historyApiFallback: true,
   },
+  devtool: "eval-source-map",
 };

@@ -1,11 +1,31 @@
 export interface Place {
-  name: string;
-  photoUrls: string[];
-  description: string;
+  placeName: string;
+  photoUrls?: string[];
+  description?: string;
   position: {
-    lat: string;
-    lng: string;
+    lat: number;
+    lng: number;
   };
+}
+
+export interface TravelRegisterPlace {
+  placeName: string;
+  photoUrls?: { url: string }[];
+  description?: string;
+  position: {
+    lat: number;
+    lng: number;
+  };
+}
+
+export interface TravelRegisterDay {
+  places: TravelRegisterPlace[];
+}
+
+export interface TravelRegister {
+  title: string;
+  thumbnail: string;
+  days: TravelRegisterDay[];
 }
 
 export interface Day {

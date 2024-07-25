@@ -268,14 +268,13 @@ export const globalStyle = css`
 
   #root {
     position: relative;
-
+    max-width: 48rem;
     margin: 0 auto;
 
-    box-shadow: 0 0 0.315rem rgb(0 0 0 / 25%);
-
     background-color: white;
+
+    box-shadow: 0 0 0.315rem rgb(0 0 0 / 25%);
     min-width: 28rem;
-    max-width: 48rem;
     min-height: 100vh;
   }
 `;

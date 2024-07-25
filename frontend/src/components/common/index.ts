@@ -18,3 +18,4 @@ export { default as GoogleMapLoadScript } from "./GoogleMapLoadScript/GoogleMapL
 export { default as Text } from "./Text/Text";
 export { default as Textarea } from "./Textarea/Textarea";
 export { default as ThumbnailUpload } from "./ThumbnailUpload/ThumbnailUpload";
+export { default as DayContent } from "./DayContent/DayContent";

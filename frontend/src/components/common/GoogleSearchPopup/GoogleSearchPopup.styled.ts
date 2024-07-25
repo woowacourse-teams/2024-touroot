@@ -7,7 +7,7 @@ export const Layout = styled.div`
   display: flex;
   position: fixed;
   top: 0;
-  transform: translateX(-5rem);
+  transform: translateX(-3.2rem);
   z-index: 1000;
   width: 100%;
   height: 100vh;

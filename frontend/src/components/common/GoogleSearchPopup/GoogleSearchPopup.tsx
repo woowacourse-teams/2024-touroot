@@ -8,7 +8,7 @@ import { Place } from "@type/domain/travelogue";
 import * as S from "./GoogleSearchPopup.styled";
 
 interface GoogleSearchPopupProps {
-  onSearchPlaceInfo: (placeInfo: Pick<Place, "name" | "position">) => void;
+  onSearchPlaceInfo: (placeInfo: Pick<Place, "placeName" | "position">) => void;
 }
 
 const GoogleSearchPopup = ({ onSearchPlaceInfo }: GoogleSearchPopupProps) => {
@@ -23,17 +23,16 @@ const GoogleSearchPopup = ({ onSearchPlaceInfo }: GoogleSearchPopupProps) => {
   };
 
   const onPlaceChanged = useCallback(() => {
-    console.log(autocomplete);
     if (autocomplete !== null) {
       const place = autocomplete.getPlace();
       if (place.geometry && place.geometry.location) {
         const newCenter = {
-          lat: String(place.geometry.location.lat()),
-          lng: String(place.geometry.location.lng()),
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
         };
 
-        const placeInfo: Pick<Place, "name" | "position"> = {
-          name: place.name || "",
+        const placeInfo: Pick<Place, "placeName" | "position"> = {
+          placeName: place.name || "",
           position: newCenter,
         };
 

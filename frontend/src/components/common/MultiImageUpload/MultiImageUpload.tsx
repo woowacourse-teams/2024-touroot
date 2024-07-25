@@ -9,17 +9,17 @@ const MAX_PICTURES_COUNT = 10;
 interface MultiImageUploadProps extends React.ComponentPropsWithoutRef<"div"> {
   previewUrls: string[];
   fileInputRef: React.RefObject<HTMLInputElement>;
-  handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleDeleteImage: (index: number) => void;
-  handleButtonClick: () => void;
+  onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onDeleteImage: (index: number) => void;
+  onButtonClick: () => void;
 }
 
 const MultiImageUpload = ({
   previewUrls,
   fileInputRef,
-  handleImageChange,
-  handleDeleteImage,
-  handleButtonClick,
+  onImageChange,
+  onDeleteImage,
+  onButtonClick,
   ...props
 }: MultiImageUploadProps) => {
   const { scrollRef, onMouseDown, onMouseUp, onMouseMove, isDragging } = useDragScroll();
@@ -31,7 +31,7 @@ const MultiImageUpload = ({
       {hasPictures && (
         <S.MultiImageUploadPictureContainer>
           <S.MultiImageUploadPictureAddButton
-            onClick={handleButtonClick}
+            onClick={onButtonClick}
             type="button"
             $hasPicture={hasPictures}
           >
@@ -59,7 +59,7 @@ const MultiImageUpload = ({
             type="file"
             multiple
             accept="image/*"
-            onChange={handleImageChange}
+            onChange={onImageChange}
             aria-label="파일 선택"
             title="이미지 파일을 선택하세요"
           />
@@ -74,7 +74,7 @@ const MultiImageUpload = ({
           >
             {previewUrls.map((previewUrl, index) => (
               <S.MultiImageUploadPictureWrapper key={previewUrl}>
-                <S.MultiImageUploadDeleteButton onClick={() => handleDeleteImage(index)}>
+                <S.MultiImageUploadDeleteButton onClick={() => onDeleteImage(index)}>
                   <svg
                     width="11"
                     height="11"
@@ -101,7 +101,7 @@ const MultiImageUpload = ({
       {!hasPictures && (
         <S.MultiImageUploadContainer>
           <S.MultiImageUploadPictureAddButton
-            onClick={handleButtonClick}
+            onClick={onButtonClick}
             type="button"
             $hasPicture={hasPictures}
           >
@@ -146,7 +146,7 @@ const MultiImageUpload = ({
             type="file"
             multiple
             accept="image/*"
-            onChange={handleImageChange}
+            onChange={onImageChange}
             aria-label="파일 선택"
             title="이미지 파일을 선택하세요"
           />

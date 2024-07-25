@@ -15,6 +15,10 @@
         "noEmptyLineBetween": true,
         "properties": [
           "display",
+          "flex",
+          "flex-direction",
+          "justify-content",
+          "align-items",
           "visibility",
           "overflow",
           "float",
@@ -34,6 +38,8 @@
         "properties": [
           "width",
           "height",
+          "max-height",
+          "max-width",
           "margin",
           "margin-top",
           "margin-right",
@@ -44,7 +50,12 @@
           "padding-right",
           "padding-bottom",
           "padding-left",
-          "border"
+          "border",
+          "border-top",
+          "border-right",
+          "border-bottom",
+          "border-left",
+          "border-radius"
         ]
       },
       {

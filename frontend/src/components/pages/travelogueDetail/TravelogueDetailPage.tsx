@@ -1,9 +1,13 @@
+import { useLocation } from "react-router-dom";
+
 import { css } from "@emotion/react";
 
 import { Travelogue } from "@type/domain/travelogue";
 import { AxiosResponse } from "axios";
 
 import { useQuery } from "@tanstack/react-query";
+
+import { Travelogue } from "@type/domain/travelogue";
 
 import { client } from "@apis/client";
 
@@ -15,9 +19,12 @@ import { EmptyHeart } from "@assets/svg";
 import * as S from "./TravelogueDetailPage.styled";
 
 const TravelogueDetailPage = () => {
+  const location = useLocation();
+
+  const id = location.pathname.replace(/[^\d]/g, "");
   const { data } = useQuery<AxiosResponse<Travelogue>>({
-    queryKey: ["travelogues/1"],
-    queryFn: () => client.get("/travelogues/2"),
+    queryKey: [`travelogues/${id}`],
+    queryFn: () => client.get(`travelogues/${id}`),
   });
 
   const daysAndNights =
