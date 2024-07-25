@@ -1,4 +1,4 @@
-package woowacourse.touroot.authentication.dto;
+package woowacourse.touroot.authentication.dto.response.kakao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
