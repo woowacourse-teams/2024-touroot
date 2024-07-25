@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import useImageError from "@hooks/useImageError";
 
 import * as S from "./AvatarCircle.styled";
 import type { AvatarCircleSize } from "./AvatarCircle.type";
@@ -9,19 +9,7 @@ interface AvatarCircleProps {
 }
 
 const AvatarCircle = ({ $size = "small", userAvatar }: AvatarCircleProps) => {
-  const [imageError, setImageError] = useState(false);
-
-  useEffect(() => {
-    if (!userAvatar) {
-      setImageError(true);
-    } else {
-      setImageError(false);
-    }
-  }, [userAvatar]);
-
-  const handleImageError = () => {
-    setImageError(true);
-  };
+  const { imageError, handleImageError } = useImageError({ imageUrl: userAvatar });
 
   return (
     <S.AvatarCircleContainer $size={$size}>
