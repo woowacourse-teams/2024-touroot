@@ -11,7 +11,7 @@ module.exports = {
     filename: "touroot.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
-    //TODO: publicPath: "/",
+    publicPath: "/",
   },
   resolve: {
     alias: {
@@ -21,6 +21,9 @@ module.exports = {
       "@apis": path.resolve(__dirname, "src/apis/"),
       "@mocks": path.resolve(__dirname, "src/mocks/"),
       "@constants": path.resolve(__dirname, "src/constants/"),
+      "@type": path.resolve(__dirname, "src/types/"),
+      "@queries": path.resolve(__dirname, "src/queries/"),
+      "@hooks": path.resolve(__dirname, "src/hooks"),
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
@@ -55,14 +58,14 @@ module.exports = {
       template: "./public/index.html",
     }),
     new DotenvWebpack({
-      path: path.resolve(__dirname, isDevelopment ? ".env.development" : ".env.production"),
+      path: path.resolve(__dirname, ".env.development"),
     }),
   ],
   devServer: {
     compress: true,
-    host: "localhost",
     port: 3000,
     hot: true,
     historyApiFallback: true,
   },
+  devtool: "eval-source-map",
 };

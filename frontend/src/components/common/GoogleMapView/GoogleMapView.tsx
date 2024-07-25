@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback } from "react";
 
-import { GoogleMap, LoadScript, MarkerF, Polyline } from "@react-google-maps/api";
+import { GoogleMap, MarkerF, Polyline } from "@react-google-maps/api";
 
 import { markerUrl } from "@assets/svg";
 
@@ -49,42 +49,40 @@ const GoogleMapView = ({ places }: GoogleMapViewProps) => {
 
   return (
     <div>
-      <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? ""}>
-        <GoogleMap
-          options={{
-            disableDefaultUI: true,
-            styles: [
-              {
-                featureType: "poi",
-                elementType: "labels",
-                stylers: [{ visibility: "off" }],
-              },
-            ],
-          }}
-          mapContainerStyle={containerStyle}
-          center={center}
-          zoom={10}
-          onLoad={onLoad}
-        >
-          {places.map((position, index) => (
-            <MarkerF
-              key={`${index}-${position.lat}`}
-              position={position}
-              icon={markerUrl}
-              onClick={() => handleClickMarker(position)}
-            />
-          ))}
-          {places.map(({ lat, lng }, index) => (
-            <MarkerF
-              key={`${index}-${lat}`}
-              position={{ lat, lng }}
-              icon={markerUrl}
-              onClick={() => handleClickMarker({ lat, lng })}
-            />
-          ))}
-          <Polyline path={places} options={{ strokeColor: "#72A2FFCC", strokeWeight: 3 }} />
-        </GoogleMap>
-      </LoadScript>
+      <GoogleMap
+        options={{
+          disableDefaultUI: true,
+          styles: [
+            {
+              featureType: "poi",
+              elementType: "labels",
+              stylers: [{ visibility: "off" }],
+            },
+          ],
+        }}
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={10}
+        onLoad={onLoad}
+      >
+        {places.map((position, index) => (
+          <MarkerF
+            key={`${index}-${position.lat}`}
+            position={position}
+            icon={markerUrl}
+            onClick={() => handleClickMarker(position)}
+          />
+        ))}
+        {places.map(({ lat, lng }, index) => (
+          <MarkerF
+            key={`${index}-${lat}`}
+            position={{ lat, lng }}
+            icon={markerUrl}
+            onClick={() => handleClickMarker({ lat, lng })}
+          />
+        ))}
+        <Polyline path={places} options={{ strokeColor: "#72A2FFCC", strokeWeight: 3 }} />
+      </GoogleMap>
     </div>
   );
 };

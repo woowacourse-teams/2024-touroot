@@ -1,18 +1,35 @@
-import { BackIcon, Hamburger } from "@assets/svg";
+import { ComponentPropsWithoutRef } from "react";
 
-interface IconButtonProps {
-  variants: "back" | "hamburger" | "logo";
-  onClickButton?: () => void;
+import Icon from "@components/common/Icon/Icon";
+import { IconButtonPosition } from "@components/common/IconButton/IconButton.type";
+
+import { PRIMITIVE_COLORS } from "@styles/tokens";
+
+import SVG_ICON_MAP from "../Icon/svg-icons.json";
+import * as S from "./IconButton.styled";
+
+interface IconButtonProps extends React.PropsWithChildren<ComponentPropsWithoutRef<"button">> {
+  iconType: keyof typeof SVG_ICON_MAP;
+  position?: IconButtonPosition;
+  size?: string;
+  color?: string;
 }
 
-const ICON_MAP: Record<IconButtonProps["variants"], JSX.Element> = {
-  back: <BackIcon />,
-  logo: <></>,
-  hamburger: <Hamburger />,
-};
-
-const IconButton = ({ variants, onClickButton }: IconButtonProps) => {
-  return <button onClick={onClickButton}>{ICON_MAP[variants]}</button>;
+const IconButton = ({
+  children,
+  iconType,
+  color = PRIMITIVE_COLORS.black,
+  size = "24",
+  position = "center",
+  ...attributes
+}: IconButtonProps) => {
+  return (
+    <S.IconButton {...attributes}>
+      {position === "left" && <Icon color={color} iconType={iconType} size={size} />}
+      {position === "center" ? <Icon color={color} iconType={iconType} size={size} /> : children}
+      {position === "right" && <Icon color={color} iconType={iconType} size={size} />}
+    </S.IconButton>
+  );
 };
 
 export default IconButton;
