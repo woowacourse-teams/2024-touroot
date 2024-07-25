@@ -15,6 +15,7 @@
     "^@emotion/(.*)$",
     "<THIRD_PARTY_MODULES>",
     "^@tanstack/(.*)$",
+    "^@type/(.*)$",
     "^@apis/(.*)$",
     "^@mocks/(.*)$",
     "^@components/(.*)$",
