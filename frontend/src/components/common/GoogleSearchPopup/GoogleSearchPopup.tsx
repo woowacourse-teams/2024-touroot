@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Global } from "@emotion/react";
 
 import { Autocomplete } from "@react-google-maps/api";
-
 import { Place } from "@type/domain/travelogue";
 
 import * as S from "./GoogleSearchPopup.styled";
