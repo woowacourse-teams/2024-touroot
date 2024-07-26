@@ -1,14 +1,17 @@
 package woowacourse.touroot.travelplan.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import woowacourse.touroot.entity.BaseEntity;
+import woowacourse.touroot.global.entity.BaseEntity;
 import woowacourse.touroot.global.exception.BadRequestException;
-
-import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import woowacourse.touroot.entity.BaseEntity;
+import woowacourse.touroot.global.entity.BaseEntity;
 
 @Getter
 @EqualsAndHashCode(of = "id", callSuper = false)

@@ -1,4 +1,4 @@
-package woowacourse.touroot.entity;
+package woowacourse.touroot.global.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
