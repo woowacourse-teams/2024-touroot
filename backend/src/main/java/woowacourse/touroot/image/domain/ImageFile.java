@@ -8,7 +8,7 @@ import woowacourse.touroot.global.exception.BadRequestException;
 @Getter
 public class ImageFile {
 
-    private static final List<String> WHITE_LIST = List.of("jpg", "jpeg", "png", "webp");
+    private static final List<String> WHITE_LIST = List.of("jpg", "jpeg", "png", "webp", "heic");
 
     private final MultipartFile file;
 
@@ -35,7 +35,7 @@ public class ImageFile {
             throw new BadRequestException("파일 형식이 잘못되었습니다.");
         }
         String extension = fileName.substring(extensionIndex + 1);
-        if (!WHITE_LIST.contains(extension)) {
+        if (!WHITE_LIST.contains(extension.toLowerCase())) {
             throw new BadRequestException("파일 형식이 잘못되었습니다.");
         }
     }
