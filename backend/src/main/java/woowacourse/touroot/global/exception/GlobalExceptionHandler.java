@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import woowacourse.touroot.global.exception.dto.ExceptionResponse;
 
 @Slf4j
@@ -41,5 +42,13 @@ public class GlobalExceptionHandler {
 
         ExceptionResponse data = new ExceptionResponse(exception.getMessage());
         return ResponseEntity.internalServerError().body(data);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ExceptionResponse> handleUploadExceedException(MaxUploadSizeExceededException exception) {
+        log.info("UPLOAD_SIZE_EXCEPTION :: message = {}", exception.getMessage());
+
+        ExceptionResponse data = new ExceptionResponse("파일 업로드 용량을 초과하였습니다.");
+        return ResponseEntity.badRequest().body(data);
     }
 }

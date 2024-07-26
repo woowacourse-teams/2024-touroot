@@ -52,6 +52,10 @@ server:
     key-store-password: ENC(aIkhk+PERnL/OBpa2HtNyXAjOGbCZx9TJ+L5sekBxdI=)
     key-store: ENC(7VQCNdI7mXATwc4AiymZoyf3mz9SiskXpLnenpMSFBI=)
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 50MB
   config:
     activate:
       on-profile: dev
