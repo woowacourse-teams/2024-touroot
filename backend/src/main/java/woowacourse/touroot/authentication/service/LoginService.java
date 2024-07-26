@@ -26,8 +26,6 @@ public class LoginService {
     }
 
     private Member signUp(OauthUserInformationResponse userInformation) {
-        return memberRepository.save(
-                new Member(userInformation.socialLoginId(), userInformation.nickname(), userInformation.profileImage())
-        );
+        return memberRepository.save(userInformation.toMember());
     }
 }
