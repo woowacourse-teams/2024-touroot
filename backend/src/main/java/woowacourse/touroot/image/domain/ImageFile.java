@@ -25,7 +25,7 @@ public class ImageFile {
 
     private void validateNotNull(String fileName) {
         if (fileName == null) {
-            throw new BadRequestException("파일 형식이 잘못되었습니다.");
+            throw new BadRequestException("파일 이름은 비어있을 수 없습니다");
         }
     }
 
@@ -36,7 +36,7 @@ public class ImageFile {
         }
         String extension = fileName.substring(extensionIndex + 1);
         if (!WHITE_LIST.contains(extension.toLowerCase())) {
-            throw new BadRequestException("파일 형식이 잘못되었습니다.");
+            throw new BadRequestException("지원하지 않는 확장자입니다: " + extension);
         }
     }
 }
