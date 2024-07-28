@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { usePostTravelPlan } from "@queries/usePostTravelPlan/usePostTravelPlan";
+import { usePostTravelPlan } from "@queries/usePostTravelPlan";
 import { differenceInDays } from "date-fns";
 
 import {

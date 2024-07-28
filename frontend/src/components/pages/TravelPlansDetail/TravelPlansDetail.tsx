@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import { UserContext } from "@contexts/UserProvider";
-import { useGetTravelPlan } from "@queries/useGetTravelPlan/useGetTravelPlan";
+import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
 import { Tab, Text, TransformBottomSheet } from "@components/common";
 import TravelPlansTabContent from "@components/pages/TravelPlansDetail/TravelPlansTabContent/TravelPlansTabContent";
