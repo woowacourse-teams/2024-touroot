@@ -21,7 +21,7 @@ const DayContent = ({
   onChangePlaceDescription,
   onAddPlace,
 }: {
-  children?: (placeIndex: number) => JSX.Element;
+  children?: (placeIndex: number, previewUrls: { url: string }[]) => JSX.Element;
   travelDay: TravelRegisterDay;
   dayIndex: number;
   onDeleteDay: (dayIndex: number) => void;
@@ -33,6 +33,7 @@ const DayContent = ({
   ) => void;
   onAddPlace: (dayIndex: number, travelParams: TravelRegisterPlace) => void;
 }) => {
+  console.log("DayContent TravelDay", travelDay);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const onSelectSearchResult = (
@@ -66,8 +67,9 @@ const DayContent = ({
                 {place.placeName || `장소 ${placeIndex + 1}`}
               </Accordion.Trigger>
               <Accordion.Content>
-                {children && children(placeIndex)}
+                {children && children(placeIndex, place?.photoUrls ?? [])}
                 <Textarea
+                  value={place.description}
                   placeholder="장소에 대한 간단한 설명을 남겨주세요"
                   onChange={(e) => onChangePlaceDescription(e, dayIndex, placeIndex)}
                   count={travelDay.places[placeIndex].description?.length ?? 0}
@@ -90,6 +92,7 @@ const DayContent = ({
       </Accordion.Content>
       {isPopupOpen && (
         <GoogleSearchPopup
+          onClosePopup={() => setIsPopupOpen(false)}
           onSearchPlaceInfo={(placeInfo) => onSelectSearchResult(placeInfo, dayIndex)}
         />
       )}

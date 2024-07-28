@@ -9,10 +9,12 @@ import { useImageUpload } from "@hooks/useImageUpload";
 const TravelogueMultiImageUpload = ({
   dayIndex,
   placeIndex,
+  imageUrls,
   onRequestAddImage,
   onChangeImageUrls,
   onDeleteImageUrls,
 }: {
+  imageUrls: { url: string }[];
   dayIndex: number;
   placeIndex: number;
   onRequestAddImage: (
@@ -22,22 +24,21 @@ const TravelogueMultiImageUpload = ({
   onChangeImageUrls: (dayIndex: number, placeIndex: number, imgUrls: string[]) => void;
   onDeleteImageUrls: (dayIndex: number, targetPlaceIndex: number, imageIndex: number) => void;
 }) => {
-  const { previewUrls, fileInputRef, handleImageChange, handleDeleteImage, handleButtonClick } =
-    useImageUpload({
-      multiple: true,
-      maxCount: 10,
-    });
+  const { fileInputRef, handleButtonClick } = useImageUpload({
+    multiple: true,
+    maxCount: 10,
+  });
+
   return (
     <MultiImageUpload
-      previewUrls={previewUrls}
+      previewUrls={imageUrls.map(({ url }) => url)}
       fileInputRef={fileInputRef}
       onImageChange={async (e) => {
-        handleImageChange(e);
-        const imgUrls = await onRequestAddImage(Array.from(e.target.files as FileList));
+        const files = Array.from(e.target.files as FileList);
+        const imgUrls = await onRequestAddImage(files);
         onChangeImageUrls(dayIndex, placeIndex, imgUrls);
       }}
       onDeleteImage={(imageIndex) => {
-        handleDeleteImage(imageIndex);
         onDeleteImageUrls(dayIndex, placeIndex, imageIndex);
       }}
       onButtonClick={handleButtonClick}

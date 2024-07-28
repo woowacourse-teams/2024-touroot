@@ -45,6 +45,8 @@ const TravelogueRegisterPage = () => {
     onDeleteImageUrls,
   } = useTravelDays();
 
+  console.log("TravelogueRegisterPage TravelDays", travelDays);
+
   const {
     previewUrls: thumbnailPreviewUrls,
     fileInputRef: thumbnailFileInputRef,
@@ -127,8 +129,9 @@ const TravelogueRegisterPage = () => {
                   onDeleteDay={onDeleteDay}
                   onChangePlaceDescription={onChangePlaceDescription}
                 >
-                  {(placeIndex) => (
+                  {(placeIndex, imgUrls) => (
                     <TravelogueMultiImageUpload
+                      imageUrls={imgUrls}
                       dayIndex={dayIndex}
                       placeIndex={placeIndex}
                       onChangeImageUrls={onChangeImageUrls}

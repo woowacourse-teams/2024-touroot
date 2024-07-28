@@ -2,30 +2,28 @@ import styled from "@emotion/styled";
 
 export const ThumbnailUploadContainer = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
-  object-fit: cover;
-  object-position: center;
-
   width: 100%;
   height: 20rem;
   border: 1px solid ${(props) => props.theme.colors.border};
-  justify-content: center;
-  align-items: center;
-
   border-radius: 0.8rem;
 `;
 
 export const ThumbnailUploadButton = styled.button`
   display: flex;
-  gap: ${(props) => props.theme.spacing.xs};
-  width: 100%;
-  height: 100%;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: ${(props) => props.theme.spacing.xs};
 `;
-
 export const ThumbnailUploadImage = styled.img`
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 `;
 
 export const ThumbnailUploadHiddenInput = styled.input`

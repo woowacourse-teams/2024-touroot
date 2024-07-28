@@ -30,9 +30,11 @@ export const useTravelDays = () => {
   const onDeletePlace = (dayIndex: number, placeIndex: number) => {
     setTravelDays((prevTravelDays) => {
       const newTravelDays = [...prevTravelDays];
-      newTravelDays[dayIndex].places = newTravelDays[dayIndex].places.filter(
-        (_, index) => index !== placeIndex,
-      );
+      newTravelDays[dayIndex] = {
+        ...newTravelDays[dayIndex],
+        places: newTravelDays[dayIndex].places.filter((_, index) => index !== placeIndex),
+      };
+
       return newTravelDays;
     });
   };

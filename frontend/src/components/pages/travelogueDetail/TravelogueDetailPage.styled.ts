@@ -6,14 +6,6 @@ export const TitleLayout = styled.section`
   gap: 1.6rem;
 `;
 
-export const Thumbnail = styled.img`
-  width: 100%;
-  height: 25rem;
-  object-fit: cover;
-  object-position: center;
-  border: none;
-`;
-
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;

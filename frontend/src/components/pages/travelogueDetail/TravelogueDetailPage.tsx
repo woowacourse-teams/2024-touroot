@@ -11,6 +11,7 @@ import { Travelogue } from "@type/domain/travelogue";
 import { client } from "@apis/client";
 
 import { Tab, TransformBottomSheet } from "@components/common";
+import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
 
 import { EmptyHeart } from "@assets/svg";
@@ -19,7 +20,6 @@ import * as S from "./TravelogueDetailPage.styled";
 
 const TravelogueDetailPage = () => {
   const location = useLocation();
-
   const id = location.pathname.replace(/[^\d]/g, "");
   const { data } = useQuery<AxiosResponse<Travelogue>>({
     queryKey: [`travelogues/${id}`],
@@ -34,11 +34,11 @@ const TravelogueDetailPage = () => {
   return (
     <>
       <S.TitleLayout>
-        <S.Thumbnail src={data?.data?.thumbnail} />
+        <Thumbnail imageUrl={data?.data?.thumbnail} />
         <S.TitleContainer>
           <S.Title>{data?.data?.title}</S.Title>
           <S.AuthorDateContainer>
-            <S.AuthorDate>작성자</S.AuthorDate>
+            <S.AuthorDate>작성일자</S.AuthorDate>
             <S.AuthorDate>2024-07-15</S.AuthorDate>
           </S.AuthorDateContainer>
           <S.LikesContainer>

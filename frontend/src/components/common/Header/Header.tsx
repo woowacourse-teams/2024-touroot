@@ -22,7 +22,9 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleClickButton =
-    pathName === ROUTE_PATHS.root ? () => navigate(ROUTE_PATHS.root) : () => navigate(-1);
+    pathName === ROUTE_PATHS.root || pathName === ROUTE_PATHS.login
+      ? () => navigate(ROUTE_PATHS.root)
+      : () => navigate(-1);
 
   const { user } = useContext(UserContext);
 

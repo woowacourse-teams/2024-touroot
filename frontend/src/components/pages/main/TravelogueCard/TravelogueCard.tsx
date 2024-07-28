@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { TravelogueOverview } from "types";
 
-import AvatarCircle from "@components/common/AvatarCircle/AvatarCircle";
+import { AvatarCircle, FallbackImage } from "@components/common";
 
 import useImageError from "@hooks/useImageError";
 
@@ -38,7 +38,7 @@ const TravelogueCard = ({
             onError={handleImageError}
           />
         ) : (
-          <S.Fallback>No Image</S.Fallback>
+          <FallbackImage />
         )}
       </S.TravelogueCardThumbnailContainer>
       <S.TravelogueCardHeader>

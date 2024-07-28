@@ -1,17 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { Global } from "@emotion/react";
+import { Global, css } from "@emotion/react";
 
 import { Autocomplete } from "@react-google-maps/api";
+
 import { Place } from "@type/domain/travelogue";
+
+import { Button } from "@components/common";
 
 import * as S from "./GoogleSearchPopup.styled";
 
 interface GoogleSearchPopupProps {
+  onClosePopup: () => void;
   onSearchPlaceInfo: (placeInfo: Pick<Place, "placeName" | "position">) => void;
 }
 
-const GoogleSearchPopup = ({ onSearchPlaceInfo }: GoogleSearchPopupProps) => {
+const GoogleSearchPopup = ({ onClosePopup, onSearchPlaceInfo }: GoogleSearchPopupProps) => {
   const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -71,6 +75,18 @@ const GoogleSearchPopup = ({ onSearchPlaceInfo }: GoogleSearchPopupProps) => {
           결과가 검색됩니다.
         </p>
       </S.TipContainer>
+
+      <S.ButtonContainer>
+        <Button
+          css={css`
+            width: 100%;
+          `}
+          onClick={onClosePopup}
+          variants="secondary"
+        >
+          취소
+        </Button>
+      </S.ButtonContainer>
     </S.Layout>
   );
 };
