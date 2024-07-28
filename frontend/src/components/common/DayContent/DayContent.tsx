@@ -33,7 +33,6 @@ const DayContent = ({
   ) => void;
   onAddPlace: (dayIndex: number, travelParams: TravelRegisterPlace) => void;
 }) => {
-  console.log("DayContent TravelDay", travelDay);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const onSelectSearchResult = (
