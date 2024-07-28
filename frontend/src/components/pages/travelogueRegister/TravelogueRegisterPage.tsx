@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
@@ -19,7 +19,6 @@ import {
 } from "@components/common";
 import TravelogueMultiImageUpload from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/TravelogueMultiImageUpload";
 
-import { useImageUpload } from "@hooks/index";
 import { useTravelDays } from "@hooks/pages/useTravelDays";
 
 import * as S from "./TravelogueRegisterPage.styled";
@@ -45,15 +44,13 @@ const TravelogueRegisterPage = () => {
     onDeleteImageUrls,
   } = useTravelDays();
 
-  const {
-    previewUrls: thumbnailPreviewUrls,
-    fileInputRef: thumbnailFileInputRef,
-    handleImageChange: handleThumbnailImageChange,
-    handleButtonClick: handleThumbnailButtonClick,
-  } = useImageUpload();
+  const thumbnailFileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleButtonClick = () => {
+    thumbnailFileInputRef.current?.click();
+  };
 
   const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleThumbnailImageChange(e);
     const thumbnail = await handleAddImage(Array.from(e.target.files as FileList));
     setThumbnail(thumbnail[0]);
   };
@@ -108,10 +105,10 @@ const TravelogueRegisterPage = () => {
             썸네일
           </Text>
           <ThumbnailUpload
-            previewUrls={thumbnailPreviewUrls}
+            previewUrls={[thumbnail]}
             fileInputRef={thumbnailFileInputRef}
             onChangeImage={handleChangeThumbnail}
-            onClickButton={handleThumbnailButtonClick}
+            onClickButton={handleButtonClick}
           />
         </S.PageInfoContainer>
         <S.AccordionRootContainer>

@@ -1,10 +1,10 @@
+import { useRef } from "react";
+
 import { css } from "@emotion/react";
 
 import { MutateOptions } from "@tanstack/react-query";
 
 import { MultiImageUpload } from "@components/common";
-
-import { useImageUpload } from "@hooks/useImageUpload";
 
 const TravelogueMultiImageUpload = ({
   dayIndex,
@@ -24,10 +24,11 @@ const TravelogueMultiImageUpload = ({
   onChangeImageUrls: (dayIndex: number, placeIndex: number, imgUrls: string[]) => void;
   onDeleteImageUrls: (dayIndex: number, targetPlaceIndex: number, imageIndex: number) => void;
 }) => {
-  const { fileInputRef, handleButtonClick } = useImageUpload({
-    multiple: true,
-    maxCount: 10,
-  });
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
 
   return (
     <MultiImageUpload
