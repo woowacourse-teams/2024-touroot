@@ -11,6 +11,7 @@ module.exports = {
     filename: "touroot.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
+    publicPath: "/",
   },
   resolve: {
     alias: {
@@ -18,6 +19,12 @@ module.exports = {
       "@assets": path.resolve(__dirname, "src/assets/"),
       "@components": path.resolve(__dirname, "src/components/"),
       "@apis": path.resolve(__dirname, "src/apis/"),
+      "@mocks": path.resolve(__dirname, "src/mocks/"),
+      "@constants": path.resolve(__dirname, "src/constants/"),
+      "@type": path.resolve(__dirname, "src/types/"),
+      "@queries": path.resolve(__dirname, "src/queries/"),
+      "@hooks": path.resolve(__dirname, "src/hooks"),
+      "@contexts": path.resolve(__dirname, "src/contexts"),
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
@@ -42,8 +49,12 @@ module.exports = {
         use: ["@svgr/webpack"],
       },
       {
-        test: /\.(png|jpg|jpeg|gif|woff)$/i,
+        test: /\.(png|jpg|jpeg|gif|woff|webp)$/i,
         type: "asset/resource",
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
@@ -58,7 +69,8 @@ module.exports = {
   devServer: {
     compress: true,
     port: 3000,
-    open: true,
+    hot: true,
     historyApiFallback: true,
   },
+  devtool: "eval-source-map",
 };

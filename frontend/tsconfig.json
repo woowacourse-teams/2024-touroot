@@ -3,15 +3,12 @@
     "target": "ESNext",
     "module": "ESNext",
     "skipLibCheck": true,
-    "types": ["jest", "node"],
-
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": false,
     "noEmit": false,
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
-
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -21,9 +18,17 @@
       "@styles/*": ["styles/*"],
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
-      "@apis/*": ["apis/*"]
-    }
+      "@apis/*": ["apis/*"],
+      "@mocks/*": ["mocks/*"],
+      "@constants/*": ["constants/*"],
+      "@type/*": ["types/*"],
+      "@queries/*": ["queries/*"],
+      "@hooks/*": ["hooks/*"],
+      "@contexts/*": ["contexts/*"]
+    },
+    "types": ["jest", "node"],
+    "esModuleInterop": true
   },
-  "include": ["src", "__tests__/example.test.tsx"],
+  "include": ["src", "jest-setup.ts", "__tests__"],
   "exclude": ["node_modules"]
 }

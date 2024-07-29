@@ -1,5 +1,6 @@
 import type { StorybookConfig } from "@storybook/react-webpack5";
 import path from "path";
+import webpack from "webpack";
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
@@ -10,6 +11,7 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@chromatic-com/storybook",
     "@storybook/addon-interactions",
+    "storybook-addon-remix-react-router",
   ],
   framework: "@storybook/react-webpack5",
   webpackFinal: async (config) => {
@@ -21,6 +23,12 @@ const config: StorybookConfig = {
         "@assets": path.resolve(__dirname, "../src/assets"),
         "@styles": path.resolve(__dirname, "../src/styles"),
         "@apis": path.resolve(__dirname, "../src/apis"),
+        "@mocks": path.resolve(__dirname, "../src/mocks"),
+        "@constants": path.resolve(__dirname, "../src/constants"),
+        "@type": path.resolve(__dirname, "../src/types"),
+        "@queries": path.resolve(__dirname, "../src/queries"),
+        "@hooks": path.resolve(__dirname, "../src/hooks"),
+        "@contexts": path.resolve(__dirname, "../src/contexts"),
       };
     }
     config.module = config.module || {};
@@ -33,6 +41,13 @@ const config: StorybookConfig = {
       test: /\.svg$/,
       use: ["@svgr/webpack"],
     });
+    config.plugins = config.plugins || [];
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        "process.env": JSON.stringify(process.env),
+      }),
+    );
+
     return config;
   },
   swc: () => ({
@@ -44,5 +59,6 @@ const config: StorybookConfig = {
       },
     },
   }),
+  staticDirs: ["../public"],
 };
 export default config;

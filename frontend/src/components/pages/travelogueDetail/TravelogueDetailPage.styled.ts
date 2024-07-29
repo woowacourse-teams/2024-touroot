@@ -7,17 +7,10 @@ export const TitleLayout = styled.section`
   gap: 1.6rem;
 `;
 
-export const Thumbnail = styled.img`
-  width: 100%;
-  height: 25rem;
-  object-fit: cover;
-  object-position: center;
-  border: none;
-`;
-
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 15rem;
   gap: 0.8rem;
 
   width: 100%;
@@ -25,7 +18,14 @@ export const TitleContainer = styled.div`
 `;
 
 export const Title = styled.span`
-  ${(props) => props.theme.typography.title}
+  display: block;
+  ${({ theme }) => theme.typography.mobile.subTitle};
+  word-wrap: break-word;
+  max-width: 100%;
+
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-all;
 `;
 
 export const AuthorDateContainer = styled.div`
@@ -34,8 +34,8 @@ export const AuthorDateContainer = styled.div`
 `;
 
 export const AuthorDate = styled.span`
-  ${(props) => props.theme.typography.detail}
-  ${(props) => props.theme.color.darkGray}
+  ${({ theme }) => theme.typography.mobile.detail}
+  ${({ theme }) => theme.colors.text.secondary}
 `;
 
 export const LikesContainer = styled.div`
@@ -46,5 +46,5 @@ export const LikesContainer = styled.div`
 `;
 
 export const Likes = styled.span`
-  ${(props) => props.theme.typography.detail}
+  ${({ theme }) => theme.typography.mobile.detail}
 `;
