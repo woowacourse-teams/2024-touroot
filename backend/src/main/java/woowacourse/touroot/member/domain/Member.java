@@ -16,6 +16,8 @@ import woowacourse.touroot.global.exception.BadRequestException;
 @Entity
 public class Member extends BaseEntity {
 
+    public static final int NICKNAME_MIN_LENGTH = 1;
+    public static final int NICKNAME_MAX_LENGTH = 20;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,6 +46,7 @@ public class Member extends BaseEntity {
     private void validate(Long kakaoId, String nickname, String profileImageUri) {
         validateNotNull(kakaoId, nickname, profileImageUri);
         validateNotBlank(nickname, profileImageUri);
+        validateNicknameLength(nickname);
     }
 
     private void validateNotNull(Long kakaoId, String nickname, String profileImageUri) {
@@ -54,7 +57,15 @@ public class Member extends BaseEntity {
 
     private void validateNotBlank(String nickname, String profileImageUri) {
         if (nickname.isBlank() || profileImageUri.isBlank()) {
-            throw new BadRequestException("닉네임, 프로필 이미지는 비어있을 수 없습니다");
+            throw new BadRequestException("닉네임, 프로필 이미지는 비어 있을 수 없습니다");
+        }
+    }
+
+    private void validateNicknameLength(String nickname) {
+        if (NICKNAME_MIN_LENGTH > nickname.length() || nickname.length() > NICKNAME_MAX_LENGTH) {
+            throw new BadRequestException(
+                    "닉네임은 " + NICKNAME_MIN_LENGTH + "자 이상, " + NICKNAME_MAX_LENGTH + "자 이하여야 합니다"
+            );
         }
     }
 }
