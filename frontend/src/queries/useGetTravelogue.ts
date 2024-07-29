@@ -2,11 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 
 import { Travelogue } from "@type/domain/travelogue";
 
-import { getTravelogue } from "@apis/travelogue";
+
+import { client } from "@apis/client";
 
 export const useGetTravelogue = (id: string) => {
   return useQuery<Travelogue>({
     queryKey: [`travelogues/${id}`],
-    queryFn: () => getTravelogue(id),
+    queryFn: () => client.get(`/travelogues/${id}`),
   });
 };
