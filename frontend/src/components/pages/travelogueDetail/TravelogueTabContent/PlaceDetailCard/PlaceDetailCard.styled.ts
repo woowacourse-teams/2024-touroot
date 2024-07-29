@@ -39,6 +39,7 @@ export const PlaceDetailCardDescription = styled.p`
   padding: 0 16px;
 
   font-size: 12px;
+  white-space: pre-line;
 `;
 
 export const Image = styled.img`
