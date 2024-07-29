@@ -24,4 +24,14 @@ module.exports = {
   testEnvironmentOptions: {
     customExportConditions: [""],
   },
+  reporters: [
+    "default",
+    [
+      "jest-junit",
+      {
+        outputDirectory: "test-results",
+        outputName: "results.xml",
+      },
+    ],
+  ],
 };
