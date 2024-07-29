@@ -35,7 +35,6 @@ public class TravelogueController {
 
     private final TravelogueFacadeService travelogueFacadeService;
 
-
     @Operation(summary = "여행기 작성")
     @ApiResponses(value = {
             @ApiResponse(
@@ -69,7 +68,7 @@ public class TravelogueController {
             ),
     })
     @GetMapping("/{id}")
-    public ResponseEntity<TravelogueResponse> findTravelogue(@Valid @PathVariable Long id) {
+    public ResponseEntity<TravelogueResponse> findTravelogue(@PathVariable Long id) {
         return ResponseEntity.ok(travelogueFacadeService.findTravelogueById(id));
     }
 
