@@ -7,12 +7,14 @@ import * as S from "./TransformBottomSheet.styled";
 interface TransformBottomSheetProps {
   hasBottomButton?: boolean;
   buttonLabel: string;
+  onTransform?: () => void;
 }
 
 const TransformBottomSheet = ({
   children,
   buttonLabel,
   hasBottomButton = true,
+  onTransform,
 }: PropsWithChildren<TransformBottomSheetProps>) => {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -30,7 +32,7 @@ const TransformBottomSheet = ({
           <S.BottomSheetContent>{children}</S.BottomSheetContent>
           {hasBottomButton && (
             <S.BottomSheetBottomContainer>
-              <S.BottomSheetButton>{buttonLabel}</S.BottomSheetButton>
+              <S.BottomSheetButton onClick={onTransform}>{buttonLabel}</S.BottomSheetButton>
             </S.BottomSheetBottomContainer>
           )}
         </>

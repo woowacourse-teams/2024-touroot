@@ -42,7 +42,7 @@ const TravelogueRegisterPage = () => {
     onDeletePlace,
     onChangeImageUrls,
     onDeleteImageUrls,
-  } = useTravelDays();
+  } = useTravelDays([]);
 
   const thumbnailFileInputRef = useRef<HTMLInputElement>(null);
 

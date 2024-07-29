@@ -1,12 +1,15 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
+import { useTravelogueContext } from "@contexts/TravelogueProvider";
 import { useGetTravelogue } from "@queries/useGetTravelogue";
 
 import { Tab, TransformBottomSheet } from "@components/common";
 import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
+
+import useUser from "@hooks/useUser";
 
 import { EmptyHeart } from "@assets/svg";
 
@@ -22,6 +25,12 @@ const TravelogueDetailPage = () => {
     data?.days.length && data?.days.length > 1
       ? `${data?.days.length - 1}박 ${data?.days.length}일`
       : "당일치기";
+
+  const { user } = useUser();
+
+  const { saveTravelogue } = useTravelogueContext();
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -52,7 +61,18 @@ const TravelogueDetailPage = () => {
           <TravelogueTabContent places={data?.days[selectedIndex].places ?? []} />
         )}
       />
-      <TransformBottomSheet buttonLabel="여행 계획으로 전환">
+      <TransformBottomSheet
+        onTransform={() => {
+          if (Object.keys(user ?? {}).length === 0) {
+            alert("로그인 후 이용이 가능합니다.");
+            navigate("/login");
+          } else if (data) {
+            saveTravelogue(data);
+            navigate("/travel-plans/register");
+          }
+        }}
+        buttonLabel="여행 계획으로 전환"
+      >
         이 여행기를 따라가고 싶으신가요?
       </TransformBottomSheet>
     </>
