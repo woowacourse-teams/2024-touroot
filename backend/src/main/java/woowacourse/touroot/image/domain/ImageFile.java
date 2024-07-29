@@ -13,18 +13,25 @@ public class ImageFile {
     private final MultipartFile file;
 
     public ImageFile(MultipartFile file) {
-        validateImageNames(file);
+        validate(file);
         this.file = file;
     }
 
-    private void validateImageNames(MultipartFile file) {
+    private void validate(MultipartFile file) {
+        validateNotNull(file);
         String fileName = file.getOriginalFilename();
-        validateNotNull(fileName);
+        validateFileNameNotBlank(fileName);
         validateExtension(fileName);
     }
 
-    private void validateNotNull(String fileName) {
-        if (fileName == null) {
+    private void validateNotNull(MultipartFile file) {
+        if (file == null) {
+            throw new BadRequestException("파일을 전달 받지 못했습니다");
+        }
+    }
+
+    private void validateFileNameNotBlank(String fileName) {
+        if (fileName == null || fileName.isBlank()) {
             throw new BadRequestException("파일 이름은 비어있을 수 없습니다");
         }
     }
@@ -32,7 +39,7 @@ public class ImageFile {
     public void validateExtension(String fileName) {
         int extensionIndex = fileName.lastIndexOf(".");
         if (extensionIndex == -1 || fileName.endsWith(".")) {
-            throw new BadRequestException("파일 형식이 잘못되었습니다.");
+            throw new BadRequestException("파일 형식이 잘못되었습니다");
         }
         String extension = fileName.substring(extensionIndex + 1);
         if (!WHITE_LIST.contains(extension.toLowerCase())) {
