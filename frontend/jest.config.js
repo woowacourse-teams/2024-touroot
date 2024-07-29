@@ -10,6 +10,10 @@ module.exports = {
     "^@constants/(.*)$": "<rootDir>/src/constants/$1",
     "^@apis/(.*)$": "<rootDir>/src/apis/$1",
     "^@mocks/(.*)$": "<rootDir>/src/mocks/$1",
+    "^@type/(.*)$": "<rootDir>/src/types/$1",
+    "^@queries/(.*)$": "<rootDir>/src/queries/$1",
+    "^@hooks/(.*)$": "<rootDir>/src/hooks/$1",
+    "^@contexts/(.*)$": "<rootDir>/src/contexts/$1",
   },
   testPathIgnorePatterns: ["<rootDir>/__tests__/constants/", "<rootDir>/__tests__/utils/"],
   /* 

@@ -3,21 +3,13 @@ import styled from "@emotion/styled";
 export const TitleLayout = styled.section`
   display: flex;
   flex-direction: column;
-  margin-top: 5.7rem;
   gap: 1.6rem;
-`;
-
-export const Thumbnail = styled.img`
-  width: 100%;
-  height: 25rem;
-  object-fit: cover;
-  object-position: center;
-  border: none;
 `;
 
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 15rem;
   gap: 0.8rem;
 
   width: 100%;
@@ -25,7 +17,14 @@ export const TitleContainer = styled.div`
 `;
 
 export const Title = styled.span`
-  ${({ theme }) => theme.typography.mobile.title}
+  display: block;
+  ${({ theme }) => theme.typography.mobile.subTitle};
+  word-wrap: break-word;
+  max-width: 100%;
+
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-all;
 `;
 
 export const AuthorDateContainer = styled.div`

@@ -11,12 +11,12 @@ export const addButtonStyle = css`
   margin-bottom: 3.2rem;
   padding: 1.2rem 1.6rem;
   border: 1px solid ${theme.colors.border};
+  border-radius: ${SPACING.s};
 
   color: ${PRIMITIVE_COLORS.black};
   font-weight: 700;
   font-size: 1.6rem;
   gap: ${SPACING.s};
-  border-radius: ${SPACING.s};
 `;
 
 export const addTravelAddButtonStyle = css`
@@ -25,18 +25,18 @@ export const addTravelAddButtonStyle = css`
   height: 4rem;
   padding: 1.2rem 1.6rem;
   border: 1px solid ${theme.colors.border};
+  border-radius: ${SPACING.s};
 
   color: ${PRIMITIVE_COLORS.black};
   font-weight: 700;
   font-size: 1.6rem;
   gap: ${SPACING.s};
-  border-radius: ${SPACING.s};
 `;
 
 export const Layout = styled.div`
   display: flex;
-  padding: 1.6rem;
   flex-direction: column;
+  padding: 1.6rem;
   gap: 3.2rem;
 `;
 

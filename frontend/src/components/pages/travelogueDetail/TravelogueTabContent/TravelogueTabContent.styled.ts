@@ -9,6 +9,6 @@ export const BoxContainer = styled.div`
 `;
 
 export const Title = styled.span`
-  ${({ theme }) => theme.typography.mobile.title}
+  ${({ theme }) => theme.typography.mobile.subTitle}
   margin-left: 1.6rem;
 `;

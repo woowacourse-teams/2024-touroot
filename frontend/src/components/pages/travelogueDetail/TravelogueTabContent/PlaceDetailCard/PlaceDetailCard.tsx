@@ -18,7 +18,12 @@ const PlaceDetailCard: React.FC<PlaceDetailCardProps> = ({
   return (
     <S.PlaceDetailCardLayout>
       <S.PlaceDetailCardTitle>{`${index}. ${title}`}</S.PlaceDetailCardTitle>
-      <Carousel imageUrls={imageUrls} />
+      {imageUrls.length === 1 ? (
+        <S.Image src={imageUrls[0]} alt={`${title} place`} />
+      ) : (
+        <Carousel imageUrls={imageUrls} />
+      )}
+
       <S.PlaceDetailCardDescription>{description}</S.PlaceDetailCardDescription>
     </S.PlaceDetailCardLayout>
   );

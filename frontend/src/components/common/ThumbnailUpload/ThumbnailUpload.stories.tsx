@@ -1,49 +1,64 @@
-// import React from "react";
+import React from "react";
 
-// import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 
-// import ThumbnailUpload from "./ThumbnailUpload";
+import ThumbnailUpload from "./ThumbnailUpload";
 
 const meta = {
   title: "common/ThumbnailUpload",
-  component: <></>,
-};
+  component: ThumbnailUpload,
+  parameters: {
+    layout: "centered",
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: "48rem" }}>
+        <Story />
+      </div>
+    ),
+  ],
+} satisfies Meta<typeof ThumbnailUpload>;
 
 export default meta;
+type Story = StoryObj<typeof meta>;
 
-// type Story = StoryObj<typeof meta>;
+// 모의 함수들을 생성합니다
+const mockOnChangeImage = () => {};
+const mockOnClickButton = () => {};
 
-export const Default = {};
+export const Default: Story = {
+  args: {
+    previewUrls: [],
+    fileInputRef: React.createRef<HTMLInputElement>(),
+    onChangeImage: mockOnChangeImage,
+    onClickButton: mockOnClickButton,
+  },
+};
 
-// export const WithImage: Story = {
-//   decorators: [
-//     (Story) => {
-//       React.useEffect(() => {
-//         const fetchAndCreateFile = async () => {
-//           const imageUrl =
-//             "https://api.allorigins.win/raw?url=https://i.pinimg.com/474x/df/6d/1a/df6d1a665685af3c0eb7e4c6a0c40169.jpg";
-//           const file = new File([await fetch(imageUrl).then((r) => r.blob())], "example.png", {
-//             type: "image/png",
-//           });
+export const WithImage: Story = {
+  args: {
+    ...Default.args,
+    previewUrls: ["https://example.com/mock-image.jpg"],
+  },
+  decorators: [
+    (Story) => {
+      React.useEffect(() => {
+        const inputElement = document.querySelector('input[type="file"]') as HTMLInputElement;
+        if (inputElement) {
+          const file = new File([""], "example.png", { type: "image/png" });
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
 
-//           const dataTransfer = new DataTransfer();
-//           dataTransfer.items.add(file);
+          Object.defineProperty(inputElement, "files", {
+            value: dataTransfer.files,
+          });
 
-//           const inputElement = document.querySelector('input[type="file"]') as HTMLInputElement;
-//           if (inputElement) {
-//             Object.defineProperty(inputElement, "files", {
-//               value: dataTransfer.files,
-//             });
+          const event = new Event("change", { bubbles: true });
+          inputElement.dispatchEvent(event);
+        }
+      }, []);
 
-//             const event = new Event("change", { bubbles: true });
-//             inputElement.dispatchEvent(event);
-//           }
-//         };
-
-//         fetchAndCreateFile();
-//       }, []);
-
-//       return <Story />;
-//     },
-//   ],
-// };
+      return <Story />;
+    },
+  ],
+};

@@ -1,17 +1,19 @@
-import { BackIcon, DoubleRightArrow, Hamburger } from "@assets/svg";
-
+import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import { UserContext } from "@contexts/UserProvider";
 
 import IconButton from "@components/common/IconButton/IconButton";
 
 import { ROUTE_PATHS } from "@constants/route";
 
+import theme from "@styles/theme";
+import { PRIMITIVE_COLORS } from "@styles/tokens";
+
+import { DoubleRightArrow } from "@assets/svg";
+
 import Drawer from "../Drawer/Drawer";
 import * as S from "./Header.styled";
-
-const headerMenus = ["마이페이지", "로그아웃"];
-
-const HeaderTitle = ({ title }: { title: string }) => <S.HeaderTitle>{title}</S.HeaderTitle>;
 
 const Header = () => {
   const location = useLocation();
@@ -20,15 +22,30 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleClickButton =
-    pathName === ROUTE_PATHS.root ? () => navigate(-1) : () => navigate(ROUTE_PATHS.root);
+    pathName === ROUTE_PATHS.root || pathName === ROUTE_PATHS.login
+      ? () => navigate(ROUTE_PATHS.root)
+      : () => navigate(-1);
+
+  const { user } = useContext(UserContext);
 
   return (
     <Drawer>
       <S.HeaderLayout>
-        <BackIcon />
-        <Drawer.Trigger>
-          <Hamburger />
-        </Drawer.Trigger>
+        <IconButton
+          color={pathName === ROUTE_PATHS.root ? theme.colors.primary : PRIMITIVE_COLORS.black}
+          onClick={handleClickButton}
+          iconType={pathName === ROUTE_PATHS.root ? "korean-logo" : "back-icon"}
+        />
+        {pathName === ROUTE_PATHS.login ? (
+          <>
+            <S.HeaderTitle>로그인</S.HeaderTitle>
+            <S.HiddenDiv />
+          </>
+        ) : (
+          <Drawer.Trigger>
+            <IconButton iconType={"hamburger"} />
+          </Drawer.Trigger>
+        )}
       </S.HeaderLayout>
 
       <Drawer.Header>
@@ -40,26 +57,27 @@ const Header = () => {
       </Drawer.Header>
       <Drawer.Content>
         <S.MenuList>
-          {headerMenus.map((menu, index) => (
-            <S.MenuItem key={index}>{menu}</S.MenuItem>
-          ))}
+          <Drawer.Trigger>
+            {/* TODO: 마이페이지 로직 필요함 */}
+            <S.MenuItem>마이페이지</S.MenuItem>
+          </Drawer.Trigger>
+          <Drawer.Trigger>
+            {user ? (
+              //TODO: 로그아웃 로직 필요함
+              <S.MenuItem>로그아웃</S.MenuItem>
+            ) : (
+              <S.MenuItem
+                onClick={() => {
+                  navigate(ROUTE_PATHS.login);
+                }}
+              >
+                로그인
+              </S.MenuItem>
+            )}
+          </Drawer.Trigger>
         </S.MenuList>
       </Drawer.Content>
     </Drawer>
-    <S.HeaderLayout>
-      <IconButton
-        onClickButton={handleClickButton}
-        variants={pathName === ROUTE_PATHS.root ? "logo" : "back"}
-      />
-      {pathName === ROUTE_PATHS.login ? (
-        <>
-          <HeaderTitle title="로그인" />
-          <S.HiddenDiv />
-        </>
-      ) : (
-        <IconButton onClickButton={() => {}} variants="hamburger" />
-      )}
-    </S.HeaderLayout>
   );
 };
 

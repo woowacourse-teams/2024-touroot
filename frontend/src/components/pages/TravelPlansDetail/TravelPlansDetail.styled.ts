@@ -12,7 +12,7 @@ export const TitleContainer = styled.div`
 
 export const MeatballWrapper = styled.div`
   display: flex;
+  justify-content: flex-end;
 
   width: 100%;
-  justify-content: flex-end;
 `;

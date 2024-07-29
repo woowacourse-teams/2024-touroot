@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { Place } from "@type/domain/travelogue";
 
 import { Box, GoogleMapLoadScript, GoogleMapView } from "@components/common";
-import PlaceDetailCard from "@components/pages/travelogueDetail/PlaceDetailCard/PlaceDetailCard";
+import PlaceDetailCard from "@components/pages/travelogueDetail/TravelogueTabContent/PlaceDetailCard/PlaceDetailCard";
 
 import * as S from "./TravelogueTabContent.styled";
 
@@ -31,7 +31,12 @@ const TravelogueTabContent = ({ places }: { places: Place[] }) => {
         >
           여행 장소 살펴보기
         </S.Title>
-        <div style={{ paddingBottom: "40px", marginTop: "3.2rem" }}>
+        <div
+          style={{
+            paddingBottom: "40px",
+            marginTop: "3.2rem",
+          }}
+        >
           {places.map((place, index) => (
             <PlaceDetailCard
               key={`${place.placeName}-${index}`}

@@ -20,7 +20,7 @@ const AccordionTrigger = ({ children, onDeleteItem }: AccordionTriggerProps) => 
     <S.Layout $isExpanded={isExpanded}>
       <S.TitleContainer>
         <button onClick={() => handleToggleAccordion(label)}>
-          {isExpanded ? <DownArrow /> : <UpArrow />}
+          {isExpanded ? <UpArrow /> : <DownArrow />}
         </button>
         <S.Title>{children}</S.Title>
       </S.TitleContainer>

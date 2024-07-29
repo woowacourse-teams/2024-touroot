@@ -8,3 +8,15 @@ declare module "*.svg?url" {
   const content: string;
   export default content;
 }
+
+declare module "*.woff";
+
+declare module "*.webp" {
+  const value: string;
+  export = value;
+}
+
+declare module "*.gif" {
+  const value: string;
+  export = value;
+}

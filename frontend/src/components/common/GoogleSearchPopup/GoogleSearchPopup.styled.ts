@@ -5,16 +5,16 @@ import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 export const Layout = styled.div`
   display: flex;
+  flex-direction: column;
   position: fixed;
   top: 0;
-  transform: translateX(-3.2rem);
   z-index: 1000;
   width: 100%;
   height: 100vh;
+  max-width: 48rem;
 
   background-color: #fff;
-  flex-direction: column;
-  max-width: 48rem;
+  transform: translateX(-3.2rem);
 `;
 
 export const StyledInput = styled.input`
@@ -22,9 +22,9 @@ export const StyledInput = styled.input`
   padding: 1.4rem !important;
   padding-right: 4rem !important;
   border: none;
+  border-bottom: 2px solid ${(props) => props.theme.colors.border};
 
   font-size: ${(props) => props.theme.typography.mobile.bodyBold};
-  border-bottom: 2px solid ${(props) => props.theme.colors.border};
 
   &:focus-visible {
     outline: none;
@@ -100,4 +100,9 @@ export const InputIcon = styled.svg`
   height: 2rem;
   transform: translateY(-50%);
   pointer-events: none;
+`;
+
+export const ButtonContainer = styled.div`
+  margin-top: auto;
+  padding: 1.6rem;
 `;

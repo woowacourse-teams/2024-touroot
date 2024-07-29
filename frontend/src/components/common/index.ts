@@ -19,3 +19,5 @@ export { default as Text } from "./Text/Text";
 export { default as Textarea } from "./Textarea/Textarea";
 export { default as ThumbnailUpload } from "./ThumbnailUpload/ThumbnailUpload";
 export { default as DayContent } from "./DayContent/DayContent";
+export { default as FallbackImage } from "./FallbackImage/FallbackImage";
+export { default as AvatarCircle } from "./AvatarCircle/AvatarCircle";

@@ -8,8 +8,9 @@ export const Header = styled.div`
 export const HandleBar = styled.div`
   width: 5.4rem;
   height: 0.3rem;
-  background-color: ${({ theme }) => theme.colors.border};
   border-radius: 4px;
+
+  background-color: ${({ theme }) => theme.colors.border};
 
   cursor: pointer;
 `;

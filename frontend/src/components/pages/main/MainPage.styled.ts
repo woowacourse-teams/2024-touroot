@@ -3,16 +3,16 @@ import styled from "@emotion/styled";
 export const MainPageHeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
-
-  gap: 8px;
   padding: 1.6rem;
 
+  gap: 8px;
+
   h1 {
-    ${(props) => props.theme.typography.title};
+    ${({ theme }) => theme.typography.mobile.title};
   }
 
   p {
-    color: ${(props) => props.theme.color.darkGray};
+    color: ${(props) => props.theme.colors.text.secondary};
     font-size: 1.2rem;
   }
 `;
@@ -20,9 +20,10 @@ export const MainPageHeaderContainer = styled.div`
 export const MainPageTraveloguesList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+
+  gap: 4rem;
 `;
 
 export const MainPageContentContainer = styled.div`
-  padding-top: calc(5.7rem + 2rem);
+  padding-top: 1.6rem;
 `;

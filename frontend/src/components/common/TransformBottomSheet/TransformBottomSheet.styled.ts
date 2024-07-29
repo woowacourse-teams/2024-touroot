@@ -44,6 +44,8 @@ export const BottomSheetLayout = styled.div<{ $isOpen: boolean }>`
 export const BottomSheetContent = styled.div`
   height: 100%;
   padding: 20px;
+
+  text-align: center;
   overflow-y: auto;
 
   ${({ theme }) => theme.typography.mobile.detailBold}

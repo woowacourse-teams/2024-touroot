@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 
 export const DrawerContainer = styled.div<{ isOpen: boolean }>`
   display: flex;
+  flex-direction: column;
   position: fixed;
   top: 0;
   right: ${({ isOpen }) => (isOpen ? "0" : "-210px")};
@@ -9,10 +10,9 @@ export const DrawerContainer = styled.div<{ isOpen: boolean }>`
   width: 210px;
   height: 100%;
 
-  transition: right 0.3s ease-in-out;
-
   background-color: #fff;
-  flex-direction: column;
+
+  transition: right 0.3s ease-in-out;
 `;
 
 export const Overlay = styled.div<{ isOpen: boolean }>`
@@ -32,6 +32,9 @@ export const Overlay = styled.div<{ isOpen: boolean }>`
 `;
 
 export const DrawerHeader = styled.div`
+  display: flex;
+  align-items: center;
+  height: calc(5.6rem + 1px);
   padding: 1rem;
   border-bottom: 1px solid #e0e0e0;
 `;
