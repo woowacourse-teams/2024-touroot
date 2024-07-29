@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 
 export const CarouselContainer = styled.div`
   overflow: hidden;
+  overflow: hidden;
   position: relative;
 
   width: 100%;
