@@ -17,14 +17,12 @@ const AccordionTrigger = ({ children, onDeleteItem }: AccordionTriggerProps) => 
   const isExpanded = value.has(label);
 
   return (
-    <S.Layout $isExpanded={isExpanded}>
+    <S.Layout $isExpanded={isExpanded} onClick={() => handleToggleAccordion(label)}>
       <S.TitleContainer>
-        <button onClick={() => handleToggleAccordion(label)}>
-          {isExpanded ? <UpArrow /> : <DownArrow />}
-        </button>
+        <button>{isExpanded ? <UpArrow /> : <DownArrow />}</button>
         <S.Title>{children}</S.Title>
       </S.TitleContainer>
-      <button onClick={onDeleteItem}>
+      <button onClick={onDeleteItem} title="delete button">
         <RecycleBin />
       </button>
     </S.Layout>
