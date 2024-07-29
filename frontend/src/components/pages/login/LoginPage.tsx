@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
+import { ExcitedTturi } from "@assets/gif";
 import { KakaoSymbol } from "@assets/svg";
-import { ExcitedTturi } from "@assets/webp";
 
 import * as S from "./LoginPage.styled";
 

@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 export const PlaceDetailCardLayout = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1.2rem;
   margin: 2rem 0;
   padding-bottom: 1rem;
   border-bottom: 1px solid #d9d9d9;
@@ -38,4 +39,12 @@ export const PlaceDetailCardDescription = styled.p`
   padding: 0 16px;
 
   font-size: 12px;
+`;
+
+export const Image = styled.img`
+  width: 100%;
+  height: 233px;
+
+  object-position: center;
+  object-fit: cover;
 `;

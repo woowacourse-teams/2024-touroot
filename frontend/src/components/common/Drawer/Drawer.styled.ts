@@ -32,6 +32,8 @@ export const Overlay = styled.div<{ isOpen: boolean }>`
 `;
 
 export const DrawerHeader = styled.div`
+  display: flex;
+  align-items: center;
   height: calc(5.6rem + 1px);
   padding: 1rem;
   border-bottom: 1px solid #e0e0e0;

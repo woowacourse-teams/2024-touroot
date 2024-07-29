@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { usePostTravelPlan } from "@queries/usePostTravelPlan/usePostTravelPlan";
+import { usePostTravelPlan } from "@queries/usePostTravelPlan";
 import { differenceInDays } from "date-fns";
 
 import {
@@ -65,14 +65,14 @@ const TravelPlanRegisterPage = () => {
   const handleConfirmBottomSheet = async () => {
     if (!startDate) return;
 
-    const formattedStartDate = startDate.toISOString().split("T")[0]; // "YYYY-MM-DD" 형식으로 변환
+    const formattedStartDate = startDate.toISOString().split("T")[0];
 
     handleAddTravelPlan(
       { title, startDate: formattedStartDate, days: travelDays },
       {
         onSuccess: ({ data }) => {
           handleCloseBottomSheet();
-          navigate(`/travel-plan/${data.id}`);
+          navigate(`/travel-plans/${data.id}`);
         },
       },
     );

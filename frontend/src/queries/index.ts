@@ -1,2 +1,2 @@
-export * from "./usePostTravelogue/usePostTravelogue";
-export * from "./usePostUploadImages/usePostUploadImages";
+export * from "./usePostTravelogue";
+export * from "./usePostUploadImages";

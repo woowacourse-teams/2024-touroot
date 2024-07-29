@@ -1,7 +1,8 @@
-// import React from "react";
-import type { StoryObj } from "@storybook/react";
+import React from "react";
 
-// import MultiImageUpload from "./MultiImageUpload";
+import type { Meta, StoryObj } from "@storybook/react";
+
+import MultiImageUpload from "@components/common/MultiImageUpload/MultiImageUpload";
 
 const meta = {
   title: "Common/MultiImageUpload",

@@ -23,7 +23,8 @@
       "@constants/*": ["constants/*"],
       "@type/*": ["types/*"],
       "@queries/*": ["queries/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@contexts/*": ["contexts/*"]
     },
     "types": ["jest", "node"],
     "esModuleInterop": true

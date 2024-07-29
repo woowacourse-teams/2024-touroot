@@ -18,7 +18,7 @@ const TravelPlansTabContent = ({ places }: { places: Place[] }) => {
       </GoogleMapLoadScript>
       <S.BoxContainer>
         {places.map((place, index) => (
-          <Box key={place.name} placeName={`${index + 1}. ${place.name}`} tags={[]} />
+          <Box key={place.placeName} placeName={`${index + 1}. ${place.placeName}`} tags={[]} />
         ))}
       </S.BoxContainer>
     </div>

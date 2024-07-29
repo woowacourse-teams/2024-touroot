@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import AppLayout from "@components/layout/AppLayout/AppLayout";
+import TravelPlansDetailPage from "@components/pages/TravelPlansDetail/TravelPlansDetail";
 import KakaoCallbackPage from "@components/pages/login/KakaoCallbackPage";
 import LoginPage from "@components/pages/login/LoginPage";
 import MainPage from "@components/pages/main/MainPage";
@@ -37,7 +38,11 @@ export const router = createBrowserRouter([
         element: <TravelogueRegisterPage />,
       },
       {
-        path: ROUTE_PATHS.travelPlanRegister,
+        path: ROUTE_PATHS.travelPlans,
+        element: <TravelPlansDetailPage />,
+      },
+      {
+        path: ROUTE_PATHS.travelPlansRegister,
         element: <TravelPlanRegisterPage />,
       },
     ],

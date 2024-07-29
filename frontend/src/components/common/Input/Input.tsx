@@ -14,7 +14,7 @@ const Input = ({ label, count, maxCount, ...props }: InputProps) => {
     <S.InputContainer>
       <S.Label>{label}</S.Label>
       <S.Input {...props} />
-      {count && maxCount ? <CharacterCount count={count} maxCount={maxCount} /> : null}
+      <CharacterCount count={count} maxCount={maxCount} />
     </S.InputContainer>
   );
 };

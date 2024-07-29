@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { TravelogueOverview } from "types";
 
-import AvatarCircle from "@components/common/AvatarCircle/AvatarCircle";
+import { AvatarCircle, FallbackImage } from "@components/common";
 
 import useImageError from "@hooks/useImageError";
 
@@ -30,18 +30,6 @@ const TravelogueCard = ({
 
   return (
     <S.TravelogueCardLayout onClick={handleCardClick}>
-      <S.TravelogueCardHeader>
-        <S.TravelogueCardTitleContainer>
-          <AvatarCircle userAvatar={userAvatar} />
-          <h2>{title}</h2>
-        </S.TravelogueCardTitleContainer>
-
-        <S.TravelogueCardLikesContainer onClick={handleLikeClick}>
-          <EmptyHeart />
-          <p>{likes}</p>
-        </S.TravelogueCardLikesContainer>
-      </S.TravelogueCardHeader>
-
       <S.TravelogueCardThumbnailContainer>
         {!imageError ? (
           <S.TravelogueCardThumbnail
@@ -50,9 +38,20 @@ const TravelogueCard = ({
             onError={handleImageError}
           />
         ) : (
-          <S.Fallback>No Image</S.Fallback>
+          <FallbackImage />
         )}
       </S.TravelogueCardThumbnailContainer>
+      <S.TravelogueCardHeader>
+        <S.TravelogueCardTitleContainer>
+          <AvatarCircle profileImageUrl={userAvatar} />
+          <h2>{title}</h2>
+        </S.TravelogueCardTitleContainer>
+
+        <S.TravelogueCardLikesContainer onClick={handleLikeClick}>
+          <EmptyHeart />
+          <p>{likes}</p>
+        </S.TravelogueCardLikesContainer>
+      </S.TravelogueCardHeader>
     </S.TravelogueCardLayout>
   );
 };

@@ -1,8 +1,8 @@
-// import React from "react";
+import React from "react";
 
-// import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 
-// import ThumbnailUpload from "./ThumbnailUpload";
+import ThumbnailUpload from "./ThumbnailUpload";
 
 const meta = {
   title: "common/ThumbnailUpload",
@@ -58,7 +58,7 @@ export const WithImage: Story = {
         }
       }, []);
 
-//       return <Story />;
-//     },
-//   ],
-// };
+      return <Story />;
+    },
+  ],
+};
