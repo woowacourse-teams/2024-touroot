@@ -32,7 +32,7 @@ jobs:
 
       - name: 의존성 설치
         if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
+        run: yarn
 
       - name: eslint 실행
         run: yarn lint
