@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useTravelogueContext } from "@contexts/TravelogueProvider";
+import { useTransformDetailContext } from "@contexts/TravelogueProvider";
 import { usePostTravelPlan } from "@queries/usePostTravelPlan";
 import { differenceInDays } from "date-fns";
 
@@ -24,14 +24,14 @@ import * as S from "./TravelPlanRegisterPage.styled";
 const MAX_TITLE_LENGTH = 20;
 
 const TravelPlanRegisterPage = () => {
-  const { travelogue } = useTravelogueContext();
+  const { transformDetail } = useTransformDetailContext();
 
-  const [title, setTitle] = useState(travelogue?.title ?? "");
+  const [title, setTitle] = useState(transformDetail?.title ?? "");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
   const { travelDays, onAddDay, onAddPlace, onDeleteDay, onChangePlaceDescription, onDeletePlace } =
-    useTravelDays(travelogue?.days ?? []);
+    useTravelDays(transformDetail?.days ?? []);
 
   useEffect(() => {
     if (startDate && endDate) {

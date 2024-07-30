@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
-import { useTravelogueContext } from "@contexts/TravelogueProvider";
+import { useTransformDetailContext } from "@contexts/TravelogueProvider";
 import { usePostTravelogue, usePostUploadImages } from "@queries/index";
 
 import {
@@ -27,11 +27,9 @@ import * as S from "./TravelogueRegisterPage.styled";
 const MAX_TITLE_LENGTH = 20;
 
 const TravelogueRegisterPage = () => {
-  const { travelogue } = useTravelogueContext();
+  const { transformDetail } = useTransformDetailContext();
 
-  console.log(travelogue);
-
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(transformDetail?.title ?? "");
   const [thumbnail, setThumbnail] = useState("");
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +45,7 @@ const TravelogueRegisterPage = () => {
     onDeletePlace,
     onChangeImageUrls,
     onDeleteImageUrls,
-  } = useTravelDays(travelogue?.days ?? []);
+  } = useTravelDays(transformDetail?.days ?? []);
 
   const thumbnailFileInputRef = useRef<HTMLInputElement>(null);
 

@@ -37,3 +37,7 @@ export interface Travelogue {
   thumbnail: string;
   days: Day[];
 }
+
+export type TransformPlaces = { places: Pick<Place, "description" | "placeName" | "position">[] };
+
+export type TransformDetail = Pick<Travelogue, "title"> & { days: TransformPlaces[] };

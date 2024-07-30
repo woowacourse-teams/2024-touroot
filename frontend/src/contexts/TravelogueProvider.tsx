@@ -1,29 +1,29 @@
 import { createContext, useContext, useState } from "react";
 
-import { Travelogue } from "@type/domain/travelogue";
+import { TransformDetail } from "@type/domain/travelogue";
 
-const TravelogueContext = createContext<Travelogue | null>(null);
-const SaveTravelogueContext = createContext<(travelogue: Travelogue) => void>(() => {});
+const TravelogueContext = createContext<TransformDetail | null>(null);
+const SaveTravelogueContext = createContext<(travelogue: TransformDetail) => void>(() => {});
 
-export const TravelogueProvider = ({ children }: React.PropsWithChildren) => {
-  const [travelogue, setTravelogue] = useState<Travelogue | null>(null);
+export const TransformDetailProvider = ({ children }: React.PropsWithChildren) => {
+  const [transformDetail, setTransformDetail] = useState<TransformDetail | null>(null);
 
-  const saveTravelogue = (travelogue: Travelogue) => {
-    setTravelogue(travelogue);
+  const saveTransformDetail = (transformDetail: TransformDetail) => {
+    setTransformDetail(transformDetail);
   };
 
   return (
-    <TravelogueContext.Provider value={travelogue}>
-      <SaveTravelogueContext.Provider value={saveTravelogue}>
+    <TravelogueContext.Provider value={transformDetail}>
+      <SaveTravelogueContext.Provider value={saveTransformDetail}>
         {children}
       </SaveTravelogueContext.Provider>
     </TravelogueContext.Provider>
   );
 };
 
-export const useTravelogueContext = () => {
-  const travelogue = useContext(TravelogueContext);
-  const saveTravelogue = useContext(SaveTravelogueContext);
+export const useTransformDetailContext = () => {
+  const transformDetail = useContext(TravelogueContext);
+  const saveTransformDetail = useContext(SaveTravelogueContext);
 
-  return { travelogue, saveTravelogue };
+  return { transformDetail, saveTransformDetail };
 };

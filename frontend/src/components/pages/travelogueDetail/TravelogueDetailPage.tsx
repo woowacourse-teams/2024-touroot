@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
-import { useTravelogueContext } from "@contexts/TravelogueProvider";
+import { useTransformDetailContext } from "@contexts/TravelogueProvider";
 import { useGetTravelogue } from "@queries/useGetTravelogue";
 
 import { Tab, TransformBottomSheet } from "@components/common";
@@ -28,7 +28,7 @@ const TravelogueDetailPage = () => {
 
   const { user } = useUser();
 
-  const { saveTravelogue } = useTravelogueContext();
+  const { saveTransformDetail } = useTransformDetailContext();
 
   const navigate = useNavigate();
 
@@ -67,7 +67,7 @@ const TravelogueDetailPage = () => {
             alert("로그인 후 이용이 가능합니다.");
             navigate("/login");
           } else if (data) {
-            saveTravelogue(data);
+            saveTransformDetail(data);
             navigate("/travel-plans/register");
           }
         }}

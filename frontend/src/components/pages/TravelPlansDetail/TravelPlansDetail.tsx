@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
-import { useTravelogueContext } from "@contexts/TravelogueProvider";
+import { useTransformDetailContext } from "@contexts/TravelogueProvider";
 import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
 import { Tab, Text, TransformBottomSheet } from "@components/common";
@@ -28,7 +28,7 @@ const TravelPlansDetailPage = () => {
       ? `${data?.data.days.length - 1}박 ${data?.data.days.length}일`
       : "당일치기";
 
-  const { saveTravelogue } = useTravelogueContext();
+  const { saveTransformDetail } = useTransformDetailContext();
 
   const navigate = useNavigate();
 
@@ -69,7 +69,7 @@ const TravelPlansDetailPage = () => {
             alert("로그인 후 이용이 가능합니다.");
             navigate("/login");
           } else if (data) {
-            saveTravelogue(data?.data ?? []);
+            saveTransformDetail(data?.data ?? []);
             navigate("/travelogue/register");
           }
         }}
