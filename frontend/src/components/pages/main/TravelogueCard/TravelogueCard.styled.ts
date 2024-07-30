@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 export const TravelogueCardLayout = styled.li`
   display: flex;
   flex-direction: column;
-  padding-top: 10px;
   padding-bottom: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
