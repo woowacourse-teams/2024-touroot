@@ -1,12 +1,10 @@
-package woowacourse.touroot.global.auth;
+package kr.touroot.global.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +17,9 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import woowacourse.touroot.global.auth.dto.HttpRequestInfo;
 
+import java.io.IOException;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Slf4j
 @Component
@@ -28,7 +29,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtTokenProvider tokenProvider;
 
     private static final List<HttpRequestInfo> WHITE_LIST = List.of(
-            new HttpRequestInfo(HttpMethod.GET, "/ping"),
             new HttpRequestInfo(HttpMethod.GET, "/h2-console/**"),
             new HttpRequestInfo(HttpMethod.POST, "/h2-console/**"),
             new HttpRequestInfo(HttpMethod.GET, "/favicon/**"),
@@ -37,7 +37,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             new HttpRequestInfo(HttpMethod.GET, "/v3/api-docs/**"),
             new HttpRequestInfo(HttpMethod.GET, "/api/v1/travelogues/**"),
             new HttpRequestInfo(HttpMethod.GET, "/api/v1/travel-plans/**"),
-            new HttpRequestInfo(HttpMethod.POST, "/api/v1/login/**")
+            new HttpRequestInfo(HttpMethod.POST, "/api/v1/login/**"),
+            new HttpRequestInfo(HttpMethod.OPTIONS, "/**")
     );
 
     @Override
