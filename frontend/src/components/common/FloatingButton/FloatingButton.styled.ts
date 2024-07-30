@@ -11,6 +11,7 @@ export const Container = styled.div`
   position: fixed;
   right: max(2rem, calc(50% - 48rem / 2 + 2rem));
   bottom: 2rem;
+  z-index: 1000;
 `;
 
 export const ButtonGroup = styled.div<{ $isOpen: boolean }>`

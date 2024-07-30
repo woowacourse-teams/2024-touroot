@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 export const Layout = styled.div<{ $isExpanded: boolean }>`
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 `;
 
 export const TitleContainer = styled.div`
