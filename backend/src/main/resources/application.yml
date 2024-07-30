@@ -49,7 +49,7 @@ security:
 server:
   ssl:
     key-store-type: PKCS12
-    key-store-password: ENC(aIkhk+PERnL/OBpa2HtNyXAjOGbCZx9TJ+L5sekBxdI=)
+    key-store-password: ENC(faQYah2QoIaNVRZD9J6/junPRWkc5gaiAs+mEbxDk+I=)
     key-store: ENC(7VQCNdI7mXATwc4AiymZoyf3mz9SiskXpLnenpMSFBI=)
 spring:
   servlet:
