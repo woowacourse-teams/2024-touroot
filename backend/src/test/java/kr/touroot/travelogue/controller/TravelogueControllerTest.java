@@ -6,7 +6,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
+import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
@@ -19,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 
 @DisplayName("여행기 컨트롤러")
 @AcceptanceTest
@@ -29,16 +32,19 @@ class TravelogueControllerTest {
     private final DatabaseCleaner databaseCleaner;
     private final TravelogueTestHelper testHelper;
     private final ObjectMapper objectMapper;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     public TravelogueControllerTest(
             DatabaseCleaner databaseCleaner,
             TravelogueTestHelper testHelper,
-            ObjectMapper objectMapper
+            ObjectMapper objectMapper,
+            JwtTokenProvider jwtTokenProvider
     ) {
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
         this.objectMapper = objectMapper;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @BeforeEach
@@ -52,9 +58,12 @@ class TravelogueControllerTest {
     @Test
     void createTravelogue() {
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
+        Member member = testHelper.initMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(member.getId());
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .body(request)
                 .when().post("/api/v1/travelogues")
                 .then().log().all()

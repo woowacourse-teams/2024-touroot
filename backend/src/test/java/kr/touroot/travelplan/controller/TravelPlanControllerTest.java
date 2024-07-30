@@ -6,7 +6,9 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import java.time.LocalDate;
 import java.util.List;
+import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
+import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPositionCreateRequest;
@@ -18,6 +20,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpHeaders;
 
 @DisplayName("여행 계획 컨트롤러")
 @AcceptanceTest
@@ -26,12 +29,18 @@ class TravelPlanControllerTest {
     @LocalServerPort
     private int port;
     private final DatabaseCleaner databaseCleaner;
+    private final JwtTokenProvider jwtTokenProvider;
     private final TravelPlanTestHelper testHelper;
 
     @Autowired
-    public TravelPlanControllerTest(DatabaseCleaner databaseCleaner, TravelPlanTestHelper testHelper) {
+    public TravelPlanControllerTest(
+            DatabaseCleaner databaseCleaner,
+            TravelPlanTestHelper testHelper,
+            JwtTokenProvider jwtTokenProvider
+    ) {
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @BeforeEach
@@ -57,9 +66,13 @@ class TravelPlanControllerTest {
                 .days(List.of(planDayCreateRequest))
                 .build();
 
+        Member member = testHelper.initMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(member.getId());
+
         // when & then
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .body(request)
                 .when().log().all()
                 .post("/api/v1/travel-plans")
@@ -85,9 +98,13 @@ class TravelPlanControllerTest {
                 .days(List.of(planDayCreateRequest))
                 .build();
 
+        Member member = testHelper.initMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(member.getId());
+
         // when & then
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .body(request)
                 .when().log().all()
                 .post("/api/v1/travel-plans")
