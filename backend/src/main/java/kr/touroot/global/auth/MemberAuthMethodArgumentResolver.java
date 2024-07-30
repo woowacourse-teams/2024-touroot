@@ -1,4 +1,4 @@
-package woowacourse.touroot.global.auth;
+package kr.touroot.global.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
