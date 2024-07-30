@@ -1,7 +1,5 @@
 package woowacourse.touroot.travelogue.controller;
 
-import static org.hamcrest.Matchers.is;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
@@ -12,13 +10,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import woowacourse.touroot.authentication.infrastructure.JwtTokenProvider;
 import woowacourse.touroot.global.AcceptanceTest;
+import woowacourse.touroot.member.domain.Member;
 import woowacourse.touroot.travelogue.dto.request.TravelogueRequest;
 import woowacourse.touroot.travelogue.dto.response.TravelogueResponse;
 import woowacourse.touroot.travelogue.fixture.TravelogueRequestFixture;
 import woowacourse.touroot.travelogue.fixture.TravelogueResponseFixture;
 import woowacourse.touroot.travelogue.helper.TravelogueTestHelper;
 import woowacourse.touroot.utils.DatabaseCleaner;
+
+import static org.hamcrest.Matchers.is;
 
 @DisplayName("여행기 컨트롤러")
 @AcceptanceTest
@@ -29,16 +32,19 @@ class TravelogueControllerTest {
     private final DatabaseCleaner databaseCleaner;
     private final TravelogueTestHelper testHelper;
     private final ObjectMapper objectMapper;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     public TravelogueControllerTest(
             DatabaseCleaner databaseCleaner,
             TravelogueTestHelper testHelper,
-            ObjectMapper objectMapper
+            ObjectMapper objectMapper,
+            JwtTokenProvider jwtTokenProvider
     ) {
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
         this.objectMapper = objectMapper;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @BeforeEach
@@ -52,9 +58,12 @@ class TravelogueControllerTest {
     @Test
     void createTravelogue() {
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
+        Member member = testHelper.initMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(member.getId());
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .body(request)
                 .when().post("/api/v1/travelogues")
                 .then().log().all()
