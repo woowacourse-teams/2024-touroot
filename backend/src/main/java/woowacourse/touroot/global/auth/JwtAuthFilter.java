@@ -38,7 +38,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             new HttpRequestInfo(HttpMethod.GET, "/v3/api-docs/**"),
             new HttpRequestInfo(HttpMethod.GET, "/api/v1/travelogues/**"),
             new HttpRequestInfo(HttpMethod.GET, "/api/v1/travel-plans/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/api/v1/login/**")
+            new HttpRequestInfo(HttpMethod.POST, "/api/v1/login/**")
     );
 
     @Override
