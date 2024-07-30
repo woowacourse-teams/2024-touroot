@@ -1,13 +1,9 @@
 package woowacourse.touroot.travelogue.helper;
 
-import static woowacourse.touroot.place.fixture.PlaceFixture.PLACE;
-import static woowacourse.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
-import static woowacourse.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
-import static woowacourse.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
-import static woowacourse.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import woowacourse.touroot.member.domain.Member;
+import woowacourse.touroot.member.repository.MemberRepository;
 import woowacourse.touroot.place.domain.Place;
 import woowacourse.touroot.place.repository.PlaceRepository;
 import woowacourse.touroot.travelogue.domain.Travelogue;
@@ -19,6 +15,12 @@ import woowacourse.touroot.travelogue.repository.TraveloguePhotoRepository;
 import woowacourse.touroot.travelogue.repository.TraveloguePlaceRepository;
 import woowacourse.touroot.travelogue.repository.TravelogueRepository;
 
+import static woowacourse.touroot.place.fixture.PlaceFixture.PLACE;
+import static woowacourse.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
+import static woowacourse.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
+import static woowacourse.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
+import static woowacourse.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
+
 @Component
 public class TravelogueTestHelper {
 
@@ -27,6 +29,7 @@ public class TravelogueTestHelper {
     private final TravelogueDayRepository travelogueDayRepository;
     private final TraveloguePlaceRepository traveloguePlaceRepository;
     private final TraveloguePhotoRepository traveloguePhotoRepository;
+    private final MemberRepository memberRepository;
 
     @Autowired
     public TravelogueTestHelper(
@@ -34,13 +37,15 @@ public class TravelogueTestHelper {
             TravelogueRepository travelogueRepository,
             TravelogueDayRepository travelogueDayRepository,
             TraveloguePlaceRepository traveloguePlaceRepository,
-            TraveloguePhotoRepository traveloguePhotoRepository
+            TraveloguePhotoRepository traveloguePhotoRepository,
+            MemberRepository memberRepository
     ) {
         this.placeRepository = placeRepository;
         this.travelogueRepository = travelogueRepository;
         this.travelogueDayRepository = travelogueDayRepository;
         this.traveloguePlaceRepository = traveloguePlaceRepository;
         this.traveloguePhotoRepository = traveloguePhotoRepository;
+        this.memberRepository = memberRepository;
     }
 
     public void initTravelogueTestData() {
@@ -79,5 +84,10 @@ public class TravelogueTestHelper {
         TraveloguePhoto photo = TRAVELOGUE_PHOTO.create(place);
 
         return traveloguePhotoRepository.save(photo);
+    }
+
+    public Member initMemberTestData() {
+        Member member = new Member(1L, "tester", "image");
+        return memberRepository.save(member);
     }
 }

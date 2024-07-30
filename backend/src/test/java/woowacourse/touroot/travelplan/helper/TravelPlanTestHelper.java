@@ -2,6 +2,8 @@ package woowacourse.touroot.travelplan.helper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import woowacourse.touroot.member.domain.Member;
+import woowacourse.touroot.member.repository.MemberRepository;
 import woowacourse.touroot.place.domain.Place;
 import woowacourse.touroot.place.repository.PlaceRepository;
 import woowacourse.touroot.travelplan.domain.TravelPlan;
@@ -20,18 +22,25 @@ public class TravelPlanTestHelper {
     private final TravelPlanRepository travelPlanRepository;
     private final TravelPlanDayRepository travelPlanDayRepository;
     private final TravelPlanPlaceRepository travelPlanPlaceRepository;
+    private final MemberRepository memberRepository;
 
     @Autowired
     public TravelPlanTestHelper(
             PlaceRepository placeRepository,
             TravelPlanRepository travelPlanRepository,
             TravelPlanDayRepository travelPlanDayRepository,
-            TravelPlanPlaceRepository travelPlanPlaceRepository
+            TravelPlanPlaceRepository travelPlanPlaceRepository,
+            MemberRepository memberRepository
     ) {
         this.placeRepository = placeRepository;
         this.travelPlanRepository = travelPlanRepository;
         this.travelPlanDayRepository = travelPlanDayRepository;
         this.travelPlanPlaceRepository = travelPlanPlaceRepository;
+        this.memberRepository = memberRepository;
+    }
+
+    public static Member getMember(Long kakaoId, String nickname, String profileImageUri) {
+        return new Member(kakaoId, nickname, profileImageUri);
     }
 
     public static Place getPlace(String name, String latitude, String longitude, String googlePlaceId) {
@@ -60,5 +69,10 @@ public class TravelPlanTestHelper {
         travelPlanDayRepository.save(travelPlanDay);
         placeRepository.save(place);
         travelPlanPlaceRepository.save(travelPlanPlace);
+    }
+
+    public Member initMemberTestData() {
+        Member member = getMember(1L, "tester", "image");
+        return memberRepository.save(member);
     }
 }
