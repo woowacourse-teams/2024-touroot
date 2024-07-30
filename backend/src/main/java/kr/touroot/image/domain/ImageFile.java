@@ -1,0 +1,42 @@
+package kr.touroot.image.domain;
+
+import java.util.List;
+import kr.touroot.global.exception.BadRequestException;
+import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
+
+@Getter
+public class ImageFile {
+
+    private static final List<String> WHITE_LIST = List.of("jpg", "jpeg", "png", "webp", "heic");
+
+    private final MultipartFile file;
+
+    public ImageFile(MultipartFile file) {
+        validateImageNames(file);
+        this.file = file;
+    }
+
+    private void validateImageNames(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        validateNotNull(fileName);
+        validateExtension(fileName);
+    }
+
+    private void validateNotNull(String fileName) {
+        if (fileName == null) {
+            throw new BadRequestException("파일 형식이 잘못되었습니다.");
+        }
+    }
+
+    public void validateExtension(String fileName) {
+        int extensionIndex = fileName.lastIndexOf(".");
+        if (extensionIndex == -1 || fileName.endsWith(".")) {
+            throw new BadRequestException("파일 형식이 잘못되었습니다.");
+        }
+        String extension = fileName.substring(extensionIndex + 1);
+        if (!WHITE_LIST.contains(extension.toLowerCase())) {
+            throw new BadRequestException("파일 형식이 잘못되었습니다.");
+        }
+    }
+}
