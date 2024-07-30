@@ -33,6 +33,10 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
+    implementation 'software.amazon.awssdk:s3:2.20.28'
+    implementation 'software.amazon.awssdk:sts:2.20.28'
+    implementation 'software.amazon.awssdk:auth:2.20.28'
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'

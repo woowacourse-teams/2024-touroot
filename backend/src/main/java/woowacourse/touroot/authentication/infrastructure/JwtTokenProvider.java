@@ -6,7 +6,6 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import woowacourse.touroot.global.exception.UnauthorizedException;
-import woowacourse.touroot.member.domain.Member;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -27,13 +26,13 @@ public class JwtTokenProvider {
         this.validityInMilliseconds = validityInMilliseconds;
     }
 
-    public String createToken(Member member) {
+    public String createToken(Long memberId) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
         return Jwts.builder()
-                .setSubject(member.getId().toString())
-                .claim(MEMBER_ID_KEY, member.getId())
+                .setSubject(memberId.toString())
+                .claim(MEMBER_ID_KEY, memberId)
                 .setExpiration(validity)
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();

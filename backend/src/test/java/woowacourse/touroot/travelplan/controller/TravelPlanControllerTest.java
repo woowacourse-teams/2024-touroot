@@ -12,11 +12,11 @@ import woowacourse.touroot.authentication.infrastructure.JwtTokenProvider;
 import woowacourse.touroot.global.AcceptanceTest;
 import woowacourse.touroot.member.domain.Member;
 import woowacourse.touroot.travelplan.dto.request.PlanDayCreateRequest;
-import woowacourse.touroot.travelplan.dto.request.PlanLocationCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
+import woowacourse.touroot.travelplan.dto.request.PlanPositionCreateRequest;
 import woowacourse.touroot.travelplan.dto.request.TravelPlanCreateRequest;
+import woowacourse.touroot.travelplan.helper.TravelPlanTestHelper;
 import woowacourse.touroot.utils.DatabaseCleaner;
-import woowacourse.touroot.utils.TestFixture;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,17 +30,17 @@ class TravelPlanControllerTest {
     @LocalServerPort
     private int port;
     private final DatabaseCleaner databaseCleaner;
-    private final TestFixture testFixture;
     private final JwtTokenProvider jwtTokenProvider;
+    private final TravelPlanTestHelper testHelper;
 
     @Autowired
     public TravelPlanControllerTest(
             DatabaseCleaner databaseCleaner,
-            TestFixture testFixture,
+            TravelPlanTestHelper testHelper,
             JwtTokenProvider jwtTokenProvider
     ) {
         this.databaseCleaner = databaseCleaner;
-        this.testFixture = testFixture;
+        this.testHelper = testHelper;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
@@ -54,11 +54,11 @@ class TravelPlanControllerTest {
     @Test
     void createTravelPlan() {
         // given
-        PlanLocationCreateRequest locationRequest = new PlanLocationCreateRequest("37.5175896", "127.0867236");
+        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
                 .description("신나는 여행 장소")
-                .location(locationRequest)
+                .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
         TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
@@ -67,8 +67,8 @@ class TravelPlanControllerTest {
                 .days(List.of(planDayCreateRequest))
                 .build();
 
-        Member member = testFixture.initMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(member);
+        Member member = testHelper.initMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(member.getId());
 
         // when & then
         RestAssured.given().log().all()
@@ -86,11 +86,11 @@ class TravelPlanControllerTest {
     @Test
     void createTravelPlanWithInvalidStartDate() {
         // given
-        PlanLocationCreateRequest locationRequest = new PlanLocationCreateRequest("37.5175896", "127.0867236");
+        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
                 .description("신나는 여행 장소")
-                .location(locationRequest)
+                .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
         TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
@@ -99,8 +99,8 @@ class TravelPlanControllerTest {
                 .days(List.of(planDayCreateRequest))
                 .build();
 
-        Member member = testFixture.initMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(member);
+        Member member = testHelper.initMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(member.getId());
 
         // when & then
         RestAssured.given().log().all()
@@ -118,7 +118,7 @@ class TravelPlanControllerTest {
     @Test
     void readTravelPlan() {
         // given
-        testFixture.initTravelPlanTestData();
+        testHelper.initTravelPlanTestData();
         long id = 1L;
 
         // when & then

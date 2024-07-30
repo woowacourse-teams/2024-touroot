@@ -2,13 +2,19 @@ oauth:
   kakao:
     user-information-request-uri: https://kapi.kakao.com/v2/user/me
     access-token-request-uri: https://kauth.kakao.com/oauth/token
-    redirect-uri: http://localhost:8080/api/v1/login/oauth/kakao
+    redirect-uri: http://localhost:3000/oauth
     rest-api-key: test-api-key
 security:
   jwt:
     token:
       secret-key: test-TADG67STFSDAGSDFSG4567UTKJHFHSDFGSR231DF
       expire-length: 1800000
+cloud:
+  aws:
+    s3:
+      bucket: techcourse-project-2024
+      image-base-uri: https://dev.touroot.kr/images/
+      directory-path: touroot/images/
 server:
   port: 8081
 spring:
