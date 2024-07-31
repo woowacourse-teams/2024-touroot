@@ -11,7 +11,7 @@ import kr.touroot.authentication.service.LoginService;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +36,7 @@ public class LoginController {
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             )
     })
-    @PostMapping("/oauth/kakao")
+    @GetMapping("/oauth/kakao")
     public ResponseEntity<LoginResponse> login(@RequestParam(name = "code") String authorizationCode) {
         return ResponseEntity.ok()
                 .body(loginService.login(authorizationCode));
