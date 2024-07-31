@@ -25,7 +25,7 @@ public class MemberAuthMethodArgumentResolver implements HandlerMethodArgumentRe
             WebDataBinderFactory binderFactory
     ) throws Exception {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        String memberId = request.getAttribute("memberId").toString();
+        String memberId = request.getAttribute(JwtAuthFilter.MEMBER_ID_ATTRIBUTE).toString();
         return new MemberAuth(Long.valueOf(memberId));
     }
 }
