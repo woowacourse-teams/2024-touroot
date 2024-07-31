@@ -1,15 +1,16 @@
 package kr.touroot.travelplan.domain;
 
 import jakarta.persistence.*;
-
-import java.time.LocalDate;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,6 +43,12 @@ public class TravelPlan extends BaseEntity {
     public void validateStartDate() {
         if (startDate.isBefore(LocalDate.now())) {
             throw new BadRequestException("지난 날짜에 대한 계획은 작성할 수 없습니다.");
+        }
+    }
+
+    public void validateAuthor(Member member) {
+        if (!member.equals(author)) {
+            throw new ForbiddenException("여행 계획은 작성자만 조회할 수 있습니다.");
         }
     }
 }

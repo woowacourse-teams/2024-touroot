@@ -1,10 +1,5 @@
 package kr.touroot.travelplan.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import java.time.LocalDate;
-import java.util.List;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
@@ -22,6 +17,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("여행 계획 서비스")
 @Import(value = {TravelPlanService.class, TravelPlanTestHelper.class})
@@ -105,18 +106,16 @@ class TravelPlanServiceTest {
     @Test
     void readTravelPlan() {
         // given
-        databaseCleaner.executeTruncate();
-        testHelper.initTravelPlanTestData();
-        Long id = 1L;
+        Long id = testHelper.initTravelPlanTestData(author);
 
         // when
-        TravelPlanResponse actual = travelPlanService.readTravelPlan(id);
+        TravelPlanResponse actual = travelPlanService.readTravelPlan(id, memberAuth);
 
         // then
         assertThat(actual.id()).isEqualTo(id);
     }
 
-    @DisplayName("여행 계획 서비스는 여행 계획 조회 시 상세 정보를 반환한다.")
+    @DisplayName("여행 계획 서비스는 존재하지 않는 여행 계획 조회 시 예외를 반환한다.")
     @Test
     void readTravelPlanWitNonExist() {
         // given
@@ -124,7 +123,7 @@ class TravelPlanServiceTest {
         Long id = 1L;
 
         // when & then
-        assertThatThrownBy(() -> travelPlanService.readTravelPlan(id))
+        assertThatThrownBy(() -> travelPlanService.readTravelPlan(id, memberAuth))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행 계획입니다.");
     }

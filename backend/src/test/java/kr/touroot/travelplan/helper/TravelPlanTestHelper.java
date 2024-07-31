@@ -1,8 +1,5 @@
 package kr.touroot.travelplan.helper;
 
-import java.time.LocalDate;
-
-import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
@@ -15,6 +12,8 @@ import kr.touroot.travelplan.repository.TravelPlanPlaceRepository;
 import kr.touroot.travelplan.repository.TravelPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class TravelPlanTestHelper {
@@ -60,9 +59,7 @@ public class TravelPlanTestHelper {
         return new TravelPlanPlace(description, order, day, place);
     }
 
-    public void initTravelPlanTestData() {
-        Member author = initMemberTestData();
-
+    public long initTravelPlanTestData(Member author) {
         TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
         Place place = getPlace("장소", "37.5175896", "127.0867236", "");
@@ -71,7 +68,7 @@ public class TravelPlanTestHelper {
         travelPlanRepository.save(travelPlan);
         travelPlanDayRepository.save(travelPlanDay);
         placeRepository.save(place);
-        travelPlanPlaceRepository.save(travelPlanPlace);
+        return travelPlanPlaceRepository.save(travelPlanPlace).getId();
     }
 
     public Member initMemberTestData() {

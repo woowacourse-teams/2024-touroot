@@ -1,11 +1,7 @@
 package kr.touroot.travelplan.controller;
 
-import static org.hamcrest.Matchers.is;
-
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import java.time.LocalDate;
-import java.util.List;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
 import kr.touroot.member.domain.Member;
@@ -22,6 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import static org.hamcrest.Matchers.is;
+
 @DisplayName("여행 계획 컨트롤러")
 @AcceptanceTest
 class TravelPlanControllerTest {
@@ -31,6 +32,8 @@ class TravelPlanControllerTest {
     private final DatabaseCleaner databaseCleaner;
     private final JwtTokenProvider jwtTokenProvider;
     private final TravelPlanTestHelper testHelper;
+    private String accessToken;
+    private Member member;
 
     @Autowired
     public TravelPlanControllerTest(
@@ -47,6 +50,9 @@ class TravelPlanControllerTest {
     void setUp() {
         RestAssured.port = port;
         databaseCleaner.executeTruncate();
+
+        member = testHelper.initMemberTestData();
+        accessToken = jwtTokenProvider.createToken(member.getId());
     }
 
     @DisplayName("여행 계획 컨트롤러는 생성 요청이 들어올 때 200을 응답한다.")
@@ -65,9 +71,6 @@ class TravelPlanControllerTest {
                 .startDate(LocalDate.MAX)
                 .days(List.of(planDayCreateRequest))
                 .build();
-
-        Member member = testHelper.initMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(member.getId());
 
         // when & then
         RestAssured.given().log().all()
@@ -98,9 +101,6 @@ class TravelPlanControllerTest {
                 .days(List.of(planDayCreateRequest))
                 .build();
 
-        Member member = testHelper.initMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(member.getId());
-
         // when & then
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -117,12 +117,13 @@ class TravelPlanControllerTest {
     @Test
     void readTravelPlan() {
         // given
-        testHelper.initTravelPlanTestData();
+        testHelper.initTravelPlanTestData(member);
         long id = 1L;
 
         // when & then
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .when().log().all()
                 .get("/api/v1/travel-plans/" + id)
                 .then().log().all()
@@ -139,6 +140,7 @@ class TravelPlanControllerTest {
         // when & then
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .when().log().all()
                 .get("/api/v1/travel-plans/" + id)
                 .then().log().all()

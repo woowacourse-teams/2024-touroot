@@ -53,21 +53,25 @@ public class TravelPlanController {
         return ResponseEntity.ok(data);
     }
 
-    @Operation(
-            summary = "여행 계획 상세 조회",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "존재하지 않은 여행 계획을 조회할 때",
-                            content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
-                    )
-            }
-    )
+    @Operation(summary = "여행 계획 상세 조회")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "존재하지 않은 여행 계획을 조회할 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "작성자가 아닌 사용자가 조회를 시도할 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
+    })
     @GetMapping("/{id}")
     public ResponseEntity<TravelPlanResponse> readTravelPlan(
-            @Parameter(description = "여행 계획 id") @PathVariable Long id
+            @Parameter(description = "여행 계획 id") @PathVariable Long id,
+            MemberAuth memberAuth
     ) {
-        TravelPlanResponse data = travelPlanService.readTravelPlan(id);
+        TravelPlanResponse data = travelPlanService.readTravelPlan(id, memberAuth);
         return ResponseEntity.ok(data);
     }
 }

@@ -1,8 +1,5 @@
 package kr.touroot.travelplan.service;
 
-import java.util.Comparator;
-import java.util.List;
-
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
@@ -26,6 +23,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class TravelPlanService {
@@ -38,7 +38,7 @@ public class TravelPlanService {
 
     @Transactional
     public TravelPlanCreateResponse createTravelPlan(TravelPlanCreateRequest request, MemberAuth memberAuth) {
-        Member author = getAuthorByMemberAuth(memberAuth);
+        Member author = getMemberByMemberAuth(memberAuth);
         TravelPlan travelPlan = request.toTravelPlan(author);
         travelPlan.validateStartDate();
 
@@ -48,7 +48,7 @@ public class TravelPlanService {
         return new TravelPlanCreateResponse(savedTravelPlan.getId());
     }
 
-    private Member getAuthorByMemberAuth(MemberAuth memberAuth) {
+    private Member getMemberByMemberAuth(MemberAuth memberAuth) {
         return memberRepository.findById(memberAuth.memberId())
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 사용자입니다."));
     }
@@ -78,8 +78,12 @@ public class TravelPlanService {
     }
 
     @Transactional(readOnly = true)
-    public TravelPlanResponse readTravelPlan(Long planId) {
+    public TravelPlanResponse readTravelPlan(Long planId, MemberAuth memberAuth) {
         TravelPlan travelPlan = getTravelPlanById(planId);
+        Member member = getMemberByMemberAuth(memberAuth);
+
+        travelPlan.validateAuthor(member);
+
         return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
     }
 
