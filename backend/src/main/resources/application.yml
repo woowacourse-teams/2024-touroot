@@ -24,6 +24,9 @@ spring:
   config:
     activate:
       on-profile: local
+oauth:
+  kakao:
+    redirect-uri: http://localhost:8080/api/v1/login/oauth/kakao
   h2:
     console:
       enabled: true
