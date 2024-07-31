@@ -1,6 +1,8 @@
 package kr.touroot.travelplan.helper;
 
 import java.time.LocalDate;
+
+import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
@@ -46,8 +48,8 @@ public class TravelPlanTestHelper {
         return new Place(name, latitude, longitude, googlePlaceId);
     }
 
-    public static TravelPlan getTravelPlan(String title, LocalDate startDate) {
-        return new TravelPlan(title, startDate);
+    public static TravelPlan getTravelPlan(String title, LocalDate startDate, Member author) {
+        return new TravelPlan(title, startDate, author);
     }
 
     public static TravelPlanDay getTravelPlanDay(int order, TravelPlan travelPlan) {
@@ -59,7 +61,9 @@ public class TravelPlanTestHelper {
     }
 
     public void initTravelPlanTestData() {
-        TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX);
+        Member author = initMemberTestData();
+
+        TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
         Place place = getPlace("장소", "37.5175896", "127.0867236", "");
         TravelPlanPlace travelPlanPlace = getTravelPlanPlace("설명", 0, place, travelPlanDay);

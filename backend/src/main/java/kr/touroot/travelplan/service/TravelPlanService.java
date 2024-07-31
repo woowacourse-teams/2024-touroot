@@ -2,7 +2,11 @@ package kr.touroot.travelplan.service;
 
 import java.util.Comparator;
 import java.util.List;
+
+import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.member.domain.Member;
+import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
 import kr.touroot.place.repository.PlaceRepository;
 import kr.touroot.travelplan.domain.TravelPlan;
@@ -26,20 +30,27 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TravelPlanService {
 
+    private final MemberRepository memberRepository;
     private final TravelPlanRepository travelPlanRepository;
     private final TravelPlanDayRepository travelPlanDayRepository;
     private final TravelPlanPlaceRepository travelPlanPlaceRepository;
     private final PlaceRepository placeRepository;
 
     @Transactional
-    public TravelPlanCreateResponse createTravelPlan(TravelPlanCreateRequest request) {
-        TravelPlan travelPlan = request.toTravelPlan();
+    public TravelPlanCreateResponse createTravelPlan(TravelPlanCreateRequest request, MemberAuth memberAuth) {
+        Member author = getAuthorByMemberAuth(memberAuth);
+        TravelPlan travelPlan = request.toTravelPlan(author);
         travelPlan.validateStartDate();
 
         TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);
         createPlanDay(request.days(), savedTravelPlan);
 
         return new TravelPlanCreateResponse(savedTravelPlan.getId());
+    }
+
+    private Member getAuthorByMemberAuth(MemberAuth memberAuth) {
+        return memberRepository.findById(memberAuth.memberId())
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 사용자입니다."));
     }
 
     private void createPlanDay(List<PlanDayCreateRequest> request, TravelPlan savedTravelPlan) {

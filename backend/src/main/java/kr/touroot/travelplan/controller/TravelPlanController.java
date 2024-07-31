@@ -5,8 +5,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelplan.dto.request.TravelPlanCreateRequest;
 import kr.touroot.travelplan.dto.response.TravelPlanCreateResponse;
@@ -29,21 +31,25 @@ public class TravelPlanController {
 
     private final TravelPlanService travelPlanService;
 
-    @Operation(
-            summary = "여행 계획 생성",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Body에 유효하지 않은 값이 존재하거나 지난 날짜에 대한 계획을 생성할 때",
-                            content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
-                    )
-            }
-    )
+    @Operation(summary = "여행 계획 생성")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Body에 유효하지 않은 값이 존재하거나 지난 날짜에 대한 계획을 생성할 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "로그인하지 않은 사용자가 생성을 시도할 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
+    })
     @PostMapping
     public ResponseEntity<TravelPlanCreateResponse> createTravelPlan(
-            @Valid @RequestBody TravelPlanCreateRequest request
+            @Valid @RequestBody TravelPlanCreateRequest request,
+            MemberAuth memberAuth
     ) {
-        TravelPlanCreateResponse data = travelPlanService.createTravelPlan(request);
+        TravelPlanCreateResponse data = travelPlanService.createTravelPlan(request, memberAuth);
         return ResponseEntity.ok(data);
     }
 

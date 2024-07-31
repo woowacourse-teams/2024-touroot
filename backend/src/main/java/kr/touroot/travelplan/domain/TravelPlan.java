@@ -1,13 +1,11 @@
 package kr.touroot.travelplan.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,8 +27,16 @@ public class TravelPlan extends BaseEntity {
     @Column(nullable = false)
     private LocalDate startDate;
 
+    @JoinColumn(name = "author_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member author;
+
     public TravelPlan(String title, LocalDate startDate) {
-        this(null, title, startDate);
+        this(null, title, startDate, null);
+    }
+
+    public TravelPlan(String title, LocalDate startDate, Member author) {
+        this(null, title, startDate, author);
     }
 
     public void validateStartDate() {

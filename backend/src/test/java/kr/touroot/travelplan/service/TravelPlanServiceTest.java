@@ -6,7 +6,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.time.LocalDate;
 import java.util.List;
 import kr.touroot.global.ServiceTest;
+import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPositionCreateRequest;
@@ -30,6 +32,9 @@ class TravelPlanServiceTest {
     private final DatabaseCleaner databaseCleaner;
     private final TravelPlanTestHelper testHelper;
 
+    private MemberAuth memberAuth;
+    private Member author;
+
     @Autowired
     public TravelPlanServiceTest(
             TravelPlanService travelPlanService,
@@ -44,6 +49,9 @@ class TravelPlanServiceTest {
     @BeforeEach
     void setUp() {
         databaseCleaner.executeTruncate();
+
+        author = testHelper.initMemberTestData();
+        memberAuth = new MemberAuth(author.getId());
     }
 
     @DisplayName("여행 계획 서비스는 여행 계획 생성 시 생성된 id를 응답한다.")
@@ -64,7 +72,7 @@ class TravelPlanServiceTest {
                 .build();
 
         // when
-        TravelPlanCreateResponse actual = travelPlanService.createTravelPlan(request);
+        TravelPlanCreateResponse actual = travelPlanService.createTravelPlan(request, memberAuth);
 
         // then
         assertThat(actual.id()).isEqualTo(1L);
@@ -88,7 +96,7 @@ class TravelPlanServiceTest {
                 .build();
 
         // when & then=
-        assertThatThrownBy(() -> travelPlanService.createTravelPlan(request))
+        assertThatThrownBy(() -> travelPlanService.createTravelPlan(request, memberAuth))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("지난 날짜에 대한 계획은 작성할 수 없습니다.");
     }
