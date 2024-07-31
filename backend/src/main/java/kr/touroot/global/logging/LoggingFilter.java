@@ -43,7 +43,7 @@ public class LoggingFilter extends OncePerRequestFilter {
             return;
         }
 
-        log.info("{} {} ({}) :: userId = {}", method, url, statusCode, method);
+        log.info("{} {} ({}) :: userId = {}", method, url, statusCode, memberId);
         filterChain.doFilter(request, response);
     }
 
