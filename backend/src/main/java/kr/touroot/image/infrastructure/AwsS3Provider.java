@@ -20,16 +20,16 @@ public class AwsS3Provider {
 
     private final String bucket;
     private final String imageBaseUri;
-    private final String directoryPath;
+    private final String temporaryStoragePath;
 
     public AwsS3Provider(
             @Value("${cloud.aws.s3.bucket}") String bucket,
             @Value("${cloud.aws.s3.image-base-uri}") String imageBaseUri,
-            @Value("${cloud.aws.s3.directory-path}") String directoryPath
+            @Value("${cloud.aws.s3.temporary-storage-path}") String temporaryStoragePath
     ) {
         this.bucket = bucket;
         this.imageBaseUri = imageBaseUri;
-        this.directoryPath = directoryPath;
+        this.temporaryStoragePath = temporaryStoragePath;
     }
 
     public List<String> uploadImages(List<ImageFile> files) {
@@ -40,7 +40,7 @@ public class AwsS3Provider {
                     .map(ImageFile::getFile)
                     .forEach(file -> {
                         String newFileName = createNewFileName(file.getOriginalFilename());
-                        String filePath = directoryPath + newFileName;
+                        String filePath = temporaryStoragePath + newFileName;
                         uploadFile(file, filePath, s3Client);
                         urls.add(imageBaseUri + newFileName);
                     });
