@@ -44,7 +44,6 @@ class ApiError<T = unknown> extends Error implements AxiosError<T> {
     }
 
     this.name = name;
-    this.stack = error.stack;
     this.config = error.config ?? ({} as InternalAxiosRequestConfig);
     this.code = error.code;
     this.request = error.request;
@@ -53,6 +52,12 @@ class ApiError<T = unknown> extends Error implements AxiosError<T> {
     this.toJSON = () => {
       return error.toJSON() as Record<string, unknown>;
     };
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor);
+    }
+
+    Object.setPrototypeOf(this, ApiError.prototype);
   }
 }
 
