@@ -1,9 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { client } from "@apis/client";
+import ApiError from "@apis/ApiError";
+import { authClient } from "@apis/client";
 
 export const usePostUploadImages = () => {
-  return useMutation<string[], Error, File[]>({
+  return useMutation<string[], ApiError, File[]>({
     mutationFn: async (files: File[]) => {
       const formData = new FormData();
 
@@ -11,13 +12,16 @@ export const usePostUploadImages = () => {
         formData.append("files", file);
       });
 
-      const response = await client.post("/image", formData, {
+      const response = await authClient.post("/image", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
       return response.data;
+    },
+    onError: (error) => {
+      alert(error.message);
     },
   });
 };
