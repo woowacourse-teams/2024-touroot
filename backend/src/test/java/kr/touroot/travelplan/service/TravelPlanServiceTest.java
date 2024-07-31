@@ -3,6 +3,7 @@ package kr.touroot.travelplan.service;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
@@ -126,5 +127,18 @@ class TravelPlanServiceTest {
         assertThatThrownBy(() -> travelPlanService.readTravelPlan(id, memberAuth))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행 계획입니다.");
+    }
+
+    @DisplayName("여행 계획 서비스는 작성자가 아닌 사용자가 조회 시 예외를 반환한다.")
+    @Test
+    void readTravelPlanWithNotAuthor() {
+        // given
+        Long id = testHelper.initTravelPlanTestData(author);
+        MemberAuth notAuthor = new MemberAuth(testHelper.initMemberTestData().getId());
+
+        // when & then
+        assertThatThrownBy(() -> travelPlanService.readTravelPlan(id, notAuthor))
+                .isInstanceOf(ForbiddenException.class)
+                .hasMessage("여행 계획은 작성자만 조회할 수 있습니다.");
     }
 }

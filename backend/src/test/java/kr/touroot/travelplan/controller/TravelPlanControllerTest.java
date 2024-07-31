@@ -147,4 +147,25 @@ class TravelPlanControllerTest {
                 .statusCode(400)
                 .body("message", is("존재하지 않는 여행 계획입니다."));
     }
+
+    @DisplayName("여행 계획 컨트롤러는 작성자가 아닌 사용자가 조회 시 403을 응답한다.")
+    @Test
+    void readTravelPlanWithNotAuthor() {
+        // given
+        long id = testHelper.initTravelPlanTestData(member);
+        Member notAuthor = testHelper.initMemberTestData();
+        String notAuthorAccessToken = jwtTokenProvider.createToken(notAuthor.getId());
+
+        // when & then
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + notAuthorAccessToken)
+                .when().log().all()
+                .get("/api/v1/travel-plans/" + id)
+                .then().log().all()
+                .statusCode(403)
+                .body("message", is("여행 계획은 작성자만 조회할 수 있습니다."));
+
+        // then
+    }
 }
