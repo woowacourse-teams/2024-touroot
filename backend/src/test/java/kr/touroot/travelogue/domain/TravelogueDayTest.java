@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@DisplayName("여행기 날짜")
 class TravelogueDayTest {
 
     private static final Integer VALID_ORDER = 0;
