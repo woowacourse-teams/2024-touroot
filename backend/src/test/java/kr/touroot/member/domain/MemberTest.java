@@ -14,20 +14,19 @@ class MemberTest {
 
     private static final Long VALID_SOCIAl_ID = 1L;
     private static final String VALID_NICKNAME = "nickname";
-    private static final String VALID_PROFILE_IMAGE_URL = "url";
-
+    private static final String VALID_PROFILE_IMAGE_URL = "http://touroot.kr/images/1";
 
     @DisplayName("검증 규칙을 통과하는 멤버 생성은 예외가 발생하지 않는다")
     @Test
     void createMemberWithValidData() {
-        assertThatCode(() -> new Member(1L, VALID_NICKNAME, "url"))
+        assertThatCode(() -> new Member(VALID_SOCIAl_ID, VALID_NICKNAME, VALID_PROFILE_IMAGE_URL))
                 .doesNotThrowAnyException();
     }
 
     @DisplayName("카카오 아이디가 null일 때 멤버 생성 시 예외가 발생한다")
     @Test
     void createMemberWithKakaoIdNull() {
-        assertThatThrownBy(() -> new Member(null, VALID_NICKNAME, "url"))
+        assertThatThrownBy(() -> new Member(null, VALID_NICKNAME, VALID_PROFILE_IMAGE_URL))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("카카오 아이디, 닉네임, 프로필 이미지는 비어 있을 수 없습니다");
     }
@@ -35,7 +34,7 @@ class MemberTest {
     @DisplayName("닉네임이 null인 경우 멤버 생성 시 예외가 발생한다")
     @Test
     void createMemberWithNicknameNull() {
-        assertThatThrownBy(() -> new Member(1L, null, "url"))
+        assertThatThrownBy(() -> new Member(VALID_SOCIAl_ID, null, VALID_PROFILE_IMAGE_URL))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("카카오 아이디, 닉네임, 프로필 이미지는 비어 있을 수 없습니다");
     }
@@ -43,7 +42,7 @@ class MemberTest {
     @DisplayName("프로필 이미지 경로가 null일 경우 멤버 생성 시 예외가 발생한다")
     @Test
     void createMemberWithProfileImageUrlNull() {
-        assertThatThrownBy(() -> new Member(1L, VALID_NICKNAME, null))
+        assertThatThrownBy(() -> new Member(VALID_SOCIAl_ID, VALID_NICKNAME, null))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("카카오 아이디, 닉네임, 프로필 이미지는 비어 있을 수 없습니다");
     }
@@ -52,7 +51,7 @@ class MemberTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "   "})
     void createMemberWithBlankNickname(String blankNickname) {
-        assertThatThrownBy(() -> new Member(1L, blankNickname, "url"))
+        assertThatThrownBy(() -> new Member(VALID_SOCIAl_ID, blankNickname, VALID_PROFILE_IMAGE_URL))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("닉네임, 프로필 이미지는 비어 있을 수 없습니다");
     }
@@ -61,7 +60,7 @@ class MemberTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "   "})
     void createMemberWithProfileImageBlank(String blankUrl) {
-        assertThatThrownBy(() -> new Member(1L, VALID_NICKNAME, blankUrl))
+        assertThatThrownBy(() -> new Member(VALID_SOCIAl_ID, VALID_NICKNAME, blankUrl))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("닉네임, 프로필 이미지는 비어 있을 수 없습니다");
     }
@@ -70,8 +69,17 @@ class MemberTest {
     @ParameterizedTest
     @ValueSource(strings = {"21-length-nicknameeee", "22-length-nicknameeeee"})
     void createMemberWithInvalidLengthNickname(String invalidLengthNickname) {
-        assertThatThrownBy(() -> new Member(1L, invalidLengthNickname, "url"))
+        assertThatThrownBy(() -> new Member(VALID_SOCIAl_ID, invalidLengthNickname, VALID_PROFILE_IMAGE_URL))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("닉네임은 1자 이상, 20자 이하여야 합니다");
+    }
+
+    @DisplayName("프로필 이미지 url의 형식이 잘못된 경우 멤버 생성 시 예외가 발생한다")
+    @ParameterizedTest
+    @ValueSource(strings = {"htt:touroot.kr", "touroot.kr"})
+    void createMemberWithInvalidProfileImageUrl(String invalidProfileImageUrl) {
+        assertThatThrownBy(() -> new Member(VALID_SOCIAl_ID, VALID_NICKNAME, invalidProfileImageUrl))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("이미지 url 형식이 잘못되었습니다");
     }
 }
