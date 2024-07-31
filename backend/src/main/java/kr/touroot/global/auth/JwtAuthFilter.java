@@ -66,6 +66,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response.getWriter()
                 .write(objectMapper.writeValueAsString(errorResponse));
     }
