@@ -1,9 +1,7 @@
-import { useContext } from "react";
 import { useLocation } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
-import { UserContext } from "@contexts/UserProvider";
 import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
 import { Tab, Text, TransformBottomSheet } from "@components/common";
@@ -14,13 +12,11 @@ import { PRIMITIVE_COLORS } from "@styles/tokens";
 import * as S from "./TravelPlansDetail.styled";
 
 const TravelPlansDetailPage = () => {
-  const { user } = useContext(UserContext);
-
   const location = useLocation();
 
   const id = location.pathname.replace(/[^\d]/g, "");
 
-  const { data } = useGetTravelPlan(id, user?.accessToken ?? "");
+  const { data } = useGetTravelPlan(id);
 
   const daysAndNights =
     data?.data.days.length && data?.data.days.length > 1
