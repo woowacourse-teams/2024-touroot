@@ -10,14 +10,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
 import kr.touroot.global.entity.BaseEntity;
+import kr.touroot.global.exception.BadRequestException;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class TravelPlanDay extends BaseEntity {
 
@@ -25,15 +24,39 @@ public class TravelPlanDay extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "plan_day_order", nullable = false)
+    @Column(name = "PLAN_DAY_ORDER", nullable = false)
     Integer order;
 
-    @JoinColumn(name = "plan_id", nullable = false)
+    @JoinColumn(name = "PLAN_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelPlan plan;
 
-    public TravelPlanDay(int order, TravelPlan plan) {
+    private TravelPlanDay(Long id, Integer order, TravelPlan plan) {
+        validate(order, plan);
+        this.id = id;
+        this.order = order;
+        this.plan = plan;
+    }
+
+    public TravelPlanDay(Integer order, TravelPlan plan) {
         this(null, order, plan);
+    }
+
+    private void validate(Integer order, TravelPlan plan) {
+        validateNotNull(order, plan);
+        validateOrderRange(order);
+    }
+
+    private void validateNotNull(Integer order, TravelPlan plan) {
+        if (order == null || plan == null) {
+            throw new BadRequestException("여행 계획 날짜에서 순서와 속하고 있는 여행 계획은 비어 있을 수 없습니다");
+        }
+    }
+
+    private void validateOrderRange(Integer order) {
+        if (order < 0) {
+            throw new BadRequestException("여행 계획 날짜 순서는 음수일 수 없습니다");
+        }
     }
 
     public LocalDate getCurrentDate() {
