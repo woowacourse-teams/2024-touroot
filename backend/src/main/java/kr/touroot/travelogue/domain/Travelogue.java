@@ -5,9 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.net.URL;
 import kr.touroot.global.entity.BaseEntity;
+import kr.touroot.global.exception.BadRequestException;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,9 +16,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @EqualsAndHashCode(of = "id", callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class Travelogue extends BaseEntity {
+
+    private static final int MAX_TITLE_LENGTH = 20;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +31,47 @@ public class Travelogue extends BaseEntity {
     @Column(nullable = false)
     private String thumbnail;
 
+    private Travelogue(Long id, String title, String thumbnail) {
+        validate(title, thumbnail);
+        this.id = id;
+        this.title = title;
+        this.thumbnail = thumbnail;
+    }
+
     public Travelogue(String title, String thumbnail) {
         this(null, title, thumbnail);
+    }
+
+    private void validate(String title, String thumbnail) {
+        validateNotNull(title, thumbnail);
+        validateNotBlank(title, thumbnail);
+        validateTitleLength(title);
+        validateThumbnailFormat(thumbnail);
+    }
+
+    private void validateNotNull(String title, String thumbnail) {
+        if (title == null || thumbnail == null) {
+            throw new BadRequestException("여행기 제목, 여행기 썸네일은 비어있을 수 없습니다");
+        }
+    }
+
+    private void validateNotBlank(String title, String thumbnail) {
+        if (title.isBlank() || thumbnail.isBlank()) {
+            throw new BadRequestException("여행기 제목, 여행기 썸네일은 비어있을 수 없습니다");
+        }
+    }
+
+    private void validateTitleLength(String title) {
+        if (title.length() > MAX_TITLE_LENGTH) {
+            throw new BadRequestException("여행기 제목은 " + MAX_TITLE_LENGTH + "자를 초과할 수 없습니다");
+        }
+    }
+
+    private void validateThumbnailFormat(String thumbnailUri) {
+        try {
+            new URL(thumbnailUri).toURI();
+        } catch (Exception e) {
+            throw new BadRequestException("이미지 url 형식이 잘못되었습니다");
+        }
     }
 }
