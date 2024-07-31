@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.touroot.global.auth.JwtAuthFilter;
+import kr.touroot.global.auth.dto.HttpRequestInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -19,14 +20,14 @@ import java.util.List;
 @Component
 public class LoggingFilter extends OncePerRequestFilter {
 
-    private static final List<woowacourse.touroot.global.auth.dto.HttpRequestInfo> WHITE_LIST = List.of(
-            new woowacourse.touroot.global.auth.dto.HttpRequestInfo(HttpMethod.GET, "/h2-console/**"),
-            new woowacourse.touroot.global.auth.dto.HttpRequestInfo(HttpMethod.POST, "/h2-console/**"),
-            new woowacourse.touroot.global.auth.dto.HttpRequestInfo(HttpMethod.GET, "/favicon/**"),
-            new woowacourse.touroot.global.auth.dto.HttpRequestInfo(HttpMethod.GET, "/swagger-ui/**"),
-            new woowacourse.touroot.global.auth.dto.HttpRequestInfo(HttpMethod.GET, "/swagger-resources/**"),
-            new woowacourse.touroot.global.auth.dto.HttpRequestInfo(HttpMethod.GET, "/v3/api-docs/**"),
-            new woowacourse.touroot.global.auth.dto.HttpRequestInfo(HttpMethod.OPTIONS, "/**")
+    private static final List<HttpRequestInfo> WHITE_LIST = List.of(
+            new HttpRequestInfo(HttpMethod.GET, "/h2-console/**"),
+            new HttpRequestInfo(HttpMethod.POST, "/h2-console/**"),
+            new HttpRequestInfo(HttpMethod.GET, "/favicon/**"),
+            new HttpRequestInfo(HttpMethod.GET, "/swagger-ui/**"),
+            new HttpRequestInfo(HttpMethod.GET, "/swagger-resources/**"),
+            new HttpRequestInfo(HttpMethod.GET, "/v3/api-docs/**"),
+            new HttpRequestInfo(HttpMethod.OPTIONS, "/**")
     );
 
     @Override

@@ -1,4 +1,4 @@
-package woowacourse.touroot.global.auth.dto;
+package kr.touroot.global.auth.dto;
 
 import org.springframework.http.HttpMethod;
 
