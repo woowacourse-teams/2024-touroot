@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/react";
 import { AxiosError, InternalAxiosRequestConfig } from "axios";
 
-import { ErrorResponse } from "@type/api/error";
+import { ErrorResponse } from "@type/api/errorResponse";
 import { User } from "@type/domain/user";
 
 import ApiError from "@apis/ApiError";
