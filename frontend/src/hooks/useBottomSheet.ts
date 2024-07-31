@@ -1,5 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
+const BOTTOM_SHEET = {
+  openPosition: 0,
+  closedPosition: 350,
+  closeThreshold: 200,
+};
+
 const useBottomSheet = (isOpen: boolean, onClose: () => void) => {
   const [startY, setStartY] = useState<number | null>(null);
   const [currentY, setCurrentY] = useState<number>(0);
@@ -7,17 +13,15 @@ const useBottomSheet = (isOpen: boolean, onClose: () => void) => {
 
   useEffect(() => {
     if (isOpen) {
-      setCurrentY(0);
-    } else setCurrentY(350);
+      setCurrentY(BOTTOM_SHEET.openPosition);
+    } else setCurrentY(BOTTOM_SHEET.closedPosition);
   }, [isOpen]);
 
   useEffect(() => {
     const sheet = sheetRef.current;
     if (!sheet) return;
 
-    const handleStart = (clientY: number) => {
-      setStartY(clientY);
-    };
+    const handleStart = (clientY: number) => setStartY(clientY);
 
     const handleMove = (clientY: number) => {
       if (startY === null) return;
@@ -26,31 +30,41 @@ const useBottomSheet = (isOpen: boolean, onClose: () => void) => {
       if (diff > 0) {
         setCurrentY(diff);
       }
-      console.log(currentY);
     };
 
     const handleEnd = () => {
-      if (currentY > 200) {
+      if (currentY > BOTTOM_SHEET.closeThreshold) {
         onClose();
       } else {
-        setCurrentY(0);
+        setCurrentY(BOTTOM_SHEET.openPosition);
       }
       setStartY(null);
     };
 
-    // Touch events
-    const handleTouchStart = (e: TouchEvent) => handleStart(e.touches[0].clientY);
+    const handleTouchStart = (e: TouchEvent) => {
+      const touchedYPosition = e.touches[0].clientY;
+
+      handleStart(touchedYPosition);
+    };
     const handleTouchMove = (e: TouchEvent) => {
       e.preventDefault();
-      handleMove(e.touches[0].clientY);
+
+      const touchedYPosition = e.touches[0].clientY;
+
+      handleMove(touchedYPosition);
     };
     const handleTouchEnd = handleEnd;
 
-    // Mouse events
-    const handleMouseDown = (e: MouseEvent) => handleStart(e.clientY);
+    const handleMouseDown = (e: MouseEvent) => {
+      const clickedYPosition = e.clientY;
+
+      handleStart(clickedYPosition);
+    };
     const handleMouseMove = (e: MouseEvent) => {
+      const clickedYPosition = e.clientY;
+
       if (startY !== null) {
-        handleMove(e.clientY);
+        handleMove(clickedYPosition);
       }
     };
     const handleMouseUp = handleEnd;
@@ -74,10 +88,11 @@ const useBottomSheet = (isOpen: boolean, onClose: () => void) => {
     };
   }, [startY, currentY, onClose]);
 
-  // Keyboard events
   const handleClickEsc = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      const isEscClicked = e.key === "Escape";
+
+      if (isEscClicked) onClose();
     },
     [onClose],
   );
