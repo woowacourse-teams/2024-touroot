@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
@@ -51,7 +52,8 @@ class TravelogueDayServiceTest {
     @Test
     void createDays() {
         List<TravelogueDayRequest> requests = TravelogueRequestFixture.getTravelogueDayRequests();
-        Travelogue travelogue = testHelper.persistTravelogue();
+        Member author = testHelper.persistMember();
+        Travelogue travelogue = testHelper.persistTravelogue(author);
 
         Map<TravelogueDay, List<TraveloguePlaceRequest>> daysMap = dayService.createDays(requests, travelogue);
         List<TravelogueDay> days = daysMap.keySet().stream().toList();
@@ -65,7 +67,8 @@ class TravelogueDayServiceTest {
     @DisplayName("여행기를 기준으로 여행 일자들을 조회한다.")
     @Test
     void findDaysByTravelogue() {
-        Travelogue travelogue = testHelper.persistTravelogue();
+        Member author = testHelper.persistMember();
+        Travelogue travelogue = testHelper.persistTravelogue(author);
         TravelogueDay travelogueDay = testHelper.persistTravelogueDay(travelogue);
 
         List<TravelogueDay> days = dayService.findDaysByTravelogue(travelogue);
