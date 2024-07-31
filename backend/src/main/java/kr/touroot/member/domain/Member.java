@@ -32,7 +32,7 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String profileImageUrl;
 
-    public Member(Long id, Long kakaoId, String nickname, String profileImageUrl) {
+    private Member(Long id, Long kakaoId, String nickname, String profileImageUrl) {
         validate(kakaoId, nickname, profileImageUrl);
         this.id = id;
         this.kakaoId = kakaoId;
