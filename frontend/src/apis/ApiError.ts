@@ -8,11 +8,12 @@ const HTTP_STATUS = {
   INTERNAL_SERVER_ERROR: 500,
 } as const;
 
-export default class ApiError<T = unknown> extends Error {
+class ApiError<T = unknown> extends Error implements AxiosError<T> {
   config: InternalAxiosRequestConfig;
   code?: string;
   request?: unknown;
   response?: AxiosResponse<T>;
+  cause?: Error | undefined;
   isAxiosError: boolean;
   toJSON: () => Record<string, unknown>;
 
@@ -27,7 +28,7 @@ export default class ApiError<T = unknown> extends Error {
     }
 
     if (errorStatus === HTTP_STATUS.UNAUTHORIZED) {
-      name = "ApiBadRequestError";
+      name = "ApiUnauthorizedError";
     }
 
     if (errorStatus === HTTP_STATUS.FORBIDDEN) {
@@ -52,7 +53,7 @@ export default class ApiError<T = unknown> extends Error {
     this.toJSON = () => {
       return error.toJSON() as Record<string, unknown>;
     };
-
-    Object.setPrototypeOf(this, ApiError.prototype);
   }
 }
+
+export default ApiError;
