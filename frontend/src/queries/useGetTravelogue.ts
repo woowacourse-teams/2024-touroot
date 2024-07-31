@@ -9,6 +9,7 @@ export const useGetTravelogue = (id: string) => {
     queryKey: [`travelogues/${id}`],
     queryFn: async () => {
       const { data } = await client.get(`/travelogues/${id}`);
+
       return data;
     },
   });
