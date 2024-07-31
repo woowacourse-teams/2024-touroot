@@ -40,4 +40,4 @@ export interface Travelogue {
 
 export type TransformPlaces = { places: Pick<Place, "description" | "placeName" | "position">[] };
 
-export type TransformDetail = Pick<Travelogue, "title"> & { days: TransformPlaces[] };
+export type TransformDetail = { days: TransformPlaces[] };

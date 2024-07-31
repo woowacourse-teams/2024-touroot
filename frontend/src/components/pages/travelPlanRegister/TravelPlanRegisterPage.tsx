@@ -26,7 +26,7 @@ const MAX_TITLE_LENGTH = 20;
 const TravelPlanRegisterPage = () => {
   const { transformDetail } = useTransformDetailContext();
 
-  const [title, setTitle] = useState(transformDetail?.title ?? "");
+  const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 

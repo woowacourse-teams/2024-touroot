@@ -29,7 +29,7 @@ const MAX_TITLE_LENGTH = 20;
 const TravelogueRegisterPage = () => {
   const { transformDetail } = useTransformDetailContext();
 
-  const [title, setTitle] = useState(transformDetail?.title ?? "");
+  const [title, setTitle] = useState("");
   const [thumbnail, setThumbnail] = useState("");
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
