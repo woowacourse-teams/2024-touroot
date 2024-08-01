@@ -10,8 +10,4 @@ public record TraveloguePhotoRequest(
         @NotBlank(message = "여행기 장소 사진 URL 값은 비어있을 수 없습니다.")
         String url
 ) {
-
-    public TraveloguePhoto toTraveloguePhoto(int order, TraveloguePlace traveloguePlace) {
-        return new TraveloguePhoto(order, url, traveloguePlace);
-    }
 }

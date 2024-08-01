@@ -1,6 +1,7 @@
 package kr.touroot.travelogue.controller;
 
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +9,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
+import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
@@ -18,7 +20,9 @@ import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -33,18 +37,22 @@ class TravelogueControllerTest {
     private final TravelogueTestHelper testHelper;
     private final ObjectMapper objectMapper;
     private final JwtTokenProvider jwtTokenProvider;
+    @MockBean
+    private final AwsS3Provider s3Provider;
 
     @Autowired
     public TravelogueControllerTest(
             DatabaseCleaner databaseCleaner,
             TravelogueTestHelper testHelper,
             ObjectMapper objectMapper,
-            JwtTokenProvider jwtTokenProvider
+            JwtTokenProvider jwtTokenProvider,
+            AwsS3Provider s3Provider
     ) {
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
         this.objectMapper = objectMapper;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.s3Provider = s3Provider;
     }
 
     @BeforeEach
@@ -57,6 +65,9 @@ class TravelogueControllerTest {
     @DisplayName("여행기를 작성한다.")
     @Test
     void createTravelogue() {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn("imageUrl.png");
+
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
         Member member = testHelper.initMemberTestData();
         String accessToken = jwtTokenProvider.createToken(member.getId());

@@ -1,9 +1,11 @@
 package kr.touroot.travelogue.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
@@ -14,7 +16,9 @@ import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +32,7 @@ import org.springframework.data.domain.Pageable;
         TraveloguePlaceService.class,
         MemberService.class,
         TravelogueTestHelper.class,
+        AwsS3Provider.class,
 })
 @ServiceTest
 class TravelogueFacadeServiceTest {
@@ -35,26 +40,33 @@ class TravelogueFacadeServiceTest {
     private final TravelogueFacadeService service;
     private final TravelogueTestHelper testHelper;
     private final DatabaseCleaner databaseCleaner;
+    @MockBean
+    private final AwsS3Provider s3Provider;
+
+    @Autowired
+    public TravelogueFacadeServiceTest(
+            TravelogueFacadeService travelogueFacadeService,
+            TravelogueTestHelper travelogueTestHelper,
+            DatabaseCleaner databaseCleaner,
+            AwsS3Provider s3Provider
+    ) {
+        this.service = travelogueFacadeService;
+        this.testHelper = travelogueTestHelper;
+        this.databaseCleaner = databaseCleaner;
+        this.s3Provider = s3Provider;
+    }
 
     @BeforeEach
     void setUp() {
         databaseCleaner.executeTruncate();
     }
 
-    @Autowired
-    public TravelogueFacadeServiceTest(
-            TravelogueFacadeService travelogueFacadeService,
-            TravelogueTestHelper travelogueTestHelper,
-            DatabaseCleaner databaseCleaner
-    ) {
-        this.service = travelogueFacadeService;
-        this.testHelper = travelogueTestHelper;
-        this.databaseCleaner = databaseCleaner;
-    }
-
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getTraveloguePhotoUrls().get(0));
+
         testHelper.initMemberTestData();
 
         MemberAuth memberAuth = new MemberAuth(1L);

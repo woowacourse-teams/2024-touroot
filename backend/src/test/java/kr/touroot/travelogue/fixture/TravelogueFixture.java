@@ -6,7 +6,7 @@ import kr.touroot.travelogue.domain.Travelogue;
 
 public enum TravelogueFixture {
 
-    TRAVELOGUE(MemberFixture.MEMBER_1, "제주에 하영 옵서", "https://url.com/jeju_thumbnail.png");
+    TRAVELOGUE(MemberFixture.MEMBER_1, "제주에 하영 옵서", "https://dev.touroot.kr/temporary/jeju_thumbnail.png");
 
     private final Member author;
     private final String title;

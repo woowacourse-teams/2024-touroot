@@ -13,8 +13,10 @@ cloud:
   aws:
     s3:
       bucket: techcourse-project-2024
-      image-base-uri: https://dev.touroot.kr/images/
-      directory-path: touroot/images/
+      image-base-uri: https://dev.touroot.kr/
+      base-storage-path: touroot/
+      temporary-storage-path: temporary/
+      image-storage-path: images/
 server:
   port: 8081
 spring:

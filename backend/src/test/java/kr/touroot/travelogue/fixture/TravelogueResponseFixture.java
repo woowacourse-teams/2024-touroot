@@ -19,7 +19,7 @@ public class TravelogueResponseFixture {
         return TravelogueResponse.builder()
                 .id(1L)
                 .title("제주에 하영 옵서")
-                .thumbnail("https://url.com/jeju_thumbnail.png")
+                .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                 .days(getTravelogueDayResponses())
                 .build();
     }
@@ -28,7 +28,7 @@ public class TravelogueResponseFixture {
         return new PageImpl<>(List.of(TravelogueResponse.builder()
                 .id(1L)
                 .title("제주에 하영 옵서")
-                .thumbnail("https://url.com/jeju_thumbnail.png")
+                .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                 .days(getTravelogueDayResponses())
                 .build()));
     }
@@ -60,6 +60,6 @@ public class TravelogueResponseFixture {
     }
 
     public static List<String> getTraveloguePhotoUrls() {
-        return List.of("https://image-url.com/image1.png");
+        return List.of("https://dev.touroot.kr/temporary/image1.png");
     }
 }

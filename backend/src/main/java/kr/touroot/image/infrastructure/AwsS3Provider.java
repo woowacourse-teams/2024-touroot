@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.image.domain.ImageFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,25 +13,31 @@ import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvide
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.CopyObjectRequest;
+import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import kr.touroot.global.exception.BadRequestException;
-import kr.touroot.image.domain.ImageFile;
 
 @Component
 public class AwsS3Provider {
 
     private final String bucket;
     private final String imageBaseUri;
-    private final String directoryPath;
+    private final String tourootStoragePath;
+    private final String temporaryStoragePath;
+    private final String imageStoragePath;
 
     public AwsS3Provider(
             @Value("${cloud.aws.s3.bucket}") String bucket,
             @Value("${cloud.aws.s3.image-base-uri}") String imageBaseUri,
-            @Value("${cloud.aws.s3.directory-path}") String directoryPath
+            @Value("${cloud.aws.s3.base-storage-path}") String tourootStoragePath,
+            @Value("${cloud.aws.s3.temporary-storage-path}") String temporaryStoragePath,
+            @Value("${cloud.aws.s3.image-storage-path}") String imageStoragePath
     ) {
         this.bucket = bucket;
         this.imageBaseUri = imageBaseUri;
-        this.directoryPath = directoryPath;
+        this.tourootStoragePath = tourootStoragePath;
+        this.temporaryStoragePath = temporaryStoragePath;
+        this.imageStoragePath = imageStoragePath;
     }
 
     public List<String> uploadImages(List<ImageFile> files) {
@@ -40,9 +48,10 @@ public class AwsS3Provider {
                     .map(ImageFile::getFile)
                     .forEach(file -> {
                         String newFileName = createNewFileName(file.getOriginalFilename());
-                        String filePath = directoryPath + newFileName;
+                        String filePath = tourootStoragePath + temporaryStoragePath + newFileName;
                         uploadFile(file, filePath, s3Client);
-                        urls.add(imageBaseUri + newFileName);
+                        String s3Key = imageBaseUri + temporaryStoragePath + newFileName;
+                        urls.add(s3Key);
                     });
             return urls;
         }
@@ -52,7 +61,7 @@ public class AwsS3Provider {
         return UUID.randomUUID() + fileName.substring(fileName.lastIndexOf("."));
     }
 
-    private S3Client getS3Client() {
+    S3Client getS3Client() {
         return S3Client.builder()
                 .region(Region.AP_NORTHEAST_2)
                 .credentialsProvider(InstanceProfileCredentialsProvider.create())
@@ -72,6 +81,34 @@ public class AwsS3Provider {
             s3Client.putObject(putObjectRequest, requestBody);
         } catch (IOException e) {
             throw new BadRequestException("파일 저장에 실패했습니다.");
+        }
+    }
+
+    public String copyImageToPermanentStorage(String imageKey) {
+        validateS3Path(imageKey);
+        String destinationKey = imageKey.replace(temporaryStoragePath, imageStoragePath);
+        copyFile(imageKey, destinationKey);
+        return destinationKey;
+    }
+
+    private void validateS3Path(String imageKey) {
+        if (!imageKey.startsWith(imageBaseUri + temporaryStoragePath)) {
+            throw new BadRequestException("이미지 url 형식이 잘못되었습니다.");
+        }
+    }
+
+    private void copyFile(String sourceKey, String destinationKey) {
+        try (S3Client s3Client = getS3Client()) {
+            CopyObjectRequest request = CopyObjectRequest.builder()
+                    .sourceBucket(bucket)
+                    .sourceKey(sourceKey)
+                    .destinationBucket(bucket)
+                    .destinationKey(destinationKey)
+                    .build();
+
+            s3Client.copyObject(request);
+        } catch (NoSuchKeyException e) {
+            throw new BadRequestException("복사하려는 사진이 존재하지 않습니다.");
         }
     }
 }
