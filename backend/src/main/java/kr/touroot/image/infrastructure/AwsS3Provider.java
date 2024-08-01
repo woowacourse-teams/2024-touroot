@@ -29,7 +29,7 @@ public class AwsS3Provider {
     public AwsS3Provider(
             @Value("${cloud.aws.s3.bucket}") String bucket,
             @Value("${cloud.aws.s3.image-base-uri}") String imageBaseUri,
-            @Value("${cloud.aws.s3.touroot-storage-path}") String tourootStoragePath,
+            @Value("${cloud.aws.s3.base-storage-path}") String tourootStoragePath,
             @Value("${cloud.aws.s3.temporary-storage-path}") String temporaryStoragePath,
             @Value("${cloud.aws.s3.image-storage-path}") String imageStoragePath
     ) {
