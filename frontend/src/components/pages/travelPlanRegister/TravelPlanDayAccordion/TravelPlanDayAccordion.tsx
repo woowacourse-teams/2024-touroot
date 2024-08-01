@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import type { TravelRegisterDay, TravelRegisterPlace } from "@type/domain/travelogue";
+import { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
 
 import {
   Accordion,
@@ -10,19 +10,17 @@ import {
   Textarea,
 } from "@components/common";
 
-import * as S from "../../pages/travelogueRegister/TravelogueRegisterPage.styled";
+import * as S from "../TravelPlanRegisterPage.styled";
 
-const DayContent = ({
-  children,
-  travelDay,
+const TravelPlanDayAccordion = ({
+  travelPlanDay,
   dayIndex,
   onDeleteDay,
   onDeletePlace,
   onChangePlaceDescription,
   onAddPlace,
 }: {
-  children?: (placeIndex: number, previewUrls: { url: string }[]) => JSX.Element;
-  travelDay: TravelRegisterDay;
+  travelPlanDay: TravelPlanDay;
   dayIndex: number;
   onDeleteDay: (dayIndex: number) => void;
   onDeletePlace: (dayIndex: number, placeIndex: number) => void;
@@ -31,12 +29,12 @@ const DayContent = ({
     dayIndex: number,
     placeIndex: number,
   ) => void;
-  onAddPlace: (dayIndex: number, travelParams: TravelRegisterPlace) => void;
+  onAddPlace: (dayIndex: number, travelParams: TravelPlanPlace) => void;
 }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const onSelectSearchResult = (
-    placeInfo: Pick<TravelRegisterPlace, "placeName" | "position">,
+    placeInfo: Pick<TravelPlanPlace, "placeName" | "position">,
     dayIndex: number,
   ) => {
     onAddPlace(dayIndex, placeInfo);
@@ -48,30 +46,29 @@ const DayContent = ({
   };
 
   return (
-    <Accordion.Item key={`${travelDay}-${dayIndex}}`} value={`day-${dayIndex}`}>
+    <Accordion.Item key={`${travelPlanDay}-${dayIndex}}`} value={`day-${dayIndex}`}>
       <Accordion.Trigger onDeleteItem={() => onDeleteDay(dayIndex)}>
         {`Day ${dayIndex + 1}`}
       </Accordion.Trigger>
       <Accordion.Content>
         <Accordion.Root>
           <GoogleMapView
-            places={travelDay.places.map((place) => ({
+            places={travelPlanDay.places.map((place) => ({
               lat: Number(place.position.lat),
               lng: Number(place.position.lng),
             }))}
           />
-          {travelDay.places.map((place, placeIndex) => (
-            <Accordion.Item key={`${place}-${dayIndex}}`} value={`place-${dayIndex}-${placeIndex}`}>
+          {travelPlanDay.places.map((place, placeIndex) => (
+            <Accordion.Item key={place.placeName} value={place.placeName}>
               <Accordion.Trigger onDeleteItem={() => onDeletePlace(dayIndex, placeIndex)}>
                 {place.placeName || `장소 ${placeIndex + 1}`}
               </Accordion.Trigger>
               <Accordion.Content>
-                {children && children(placeIndex, place?.photoUrls ?? [])}
                 <Textarea
                   value={place.description}
                   placeholder="장소에 대한 간단한 설명을 남겨주세요"
                   onChange={(e) => onChangePlaceDescription(e, dayIndex, placeIndex)}
-                  count={travelDay.places[placeIndex].description?.length ?? 0}
+                  count={place.description?.length ?? 0}
                   maxLength={300}
                   maxCount={300}
                 />
@@ -99,4 +96,4 @@ const DayContent = ({
   );
 };
 
-export default DayContent;
+export default TravelPlanDayAccordion;

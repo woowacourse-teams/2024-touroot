@@ -1,13 +1,13 @@
 import { useCallback, useState } from "react";
 
 import type { TravelTransformPlaces } from "@type/domain/travelTransform";
-import type { TravelRegisterDay, TravelRegisterPlace } from "@type/domain/travelogue";
+import type { TravelogueDay, TraveloguePlace } from "@type/domain/travelogue";
 
-export const useTravelDays = (days: TravelTransformPlaces[]) => {
-  const [travelDays, setTravelDays] = useState<TravelRegisterDay[]>(days);
+export const useTravelogueDays = (days: TravelTransformPlaces[]) => {
+  const [travelogueDays, setTravelogueDays] = useState<TravelogueDay[]>(days);
 
   const onAddDay = useCallback((dayIndex?: number) => {
-    setTravelDays((prevTravelDays) =>
+    setTravelogueDays((prevTravelDays) =>
       dayIndex
         ? Array.from({ length: dayIndex }, () => ({ places: [] }))
         : [...prevTravelDays, { places: [] }],
@@ -15,28 +15,28 @@ export const useTravelDays = (days: TravelTransformPlaces[]) => {
   }, []);
 
   const onDeleteDay = (targetDayIndex: number) => {
-    setTravelDays((prevTravelDays) =>
+    setTravelogueDays((prevTravelDays) =>
       prevTravelDays.filter((_, dayIndex) => dayIndex !== targetDayIndex),
     );
   };
 
-  const onAddPlace = (dayIndex: number, travelParams: TravelRegisterPlace) => {
-    setTravelDays((prevTravelDays) => {
-      const newTravelDays = [...prevTravelDays];
-      newTravelDays[dayIndex].places.push(travelParams);
-      return newTravelDays;
+  const onAddPlace = (dayIndex: number, traveloguePlace: TraveloguePlace) => {
+    setTravelogueDays((prevTravelDays) => {
+      const newTraveloguePlaces = [...prevTravelDays];
+      newTraveloguePlaces[dayIndex].places.push(traveloguePlace);
+      return newTraveloguePlaces;
     });
   };
 
   const onDeletePlace = (dayIndex: number, placeIndex: number) => {
-    setTravelDays((prevTravelDays) => {
-      const newTravelDays = [...prevTravelDays];
-      newTravelDays[dayIndex] = {
-        ...newTravelDays[dayIndex],
-        places: newTravelDays[dayIndex].places.filter((_, index) => index !== placeIndex),
+    setTravelogueDays((prevTravelDays) => {
+      const newTraveloguePlaces = [...prevTravelDays];
+      newTraveloguePlaces[dayIndex] = {
+        ...newTraveloguePlaces[dayIndex],
+        places: newTraveloguePlaces[dayIndex].places.filter((_, index) => index !== placeIndex),
       };
 
-      return newTravelDays;
+      return newTraveloguePlaces;
     });
   };
 
@@ -45,13 +45,13 @@ export const useTravelDays = (days: TravelTransformPlaces[]) => {
     dayIndex: number,
     placeIndex: number,
   ) => {
-    const newTravelDays = [...travelDays];
-    newTravelDays[dayIndex].places[placeIndex].description = e.target.value;
-    setTravelDays(newTravelDays);
+    const newTraveloguePlaces = [...travelogueDays];
+    newTraveloguePlaces[dayIndex].places[placeIndex].description = e.target.value;
+    setTravelogueDays(newTraveloguePlaces);
   };
 
   const onChangeImageUrls = (dayIndex: number, placeIndex: number, imgUrls: string[]) =>
-    setTravelDays((prevTravelDays) =>
+    setTravelogueDays((prevTravelDays) =>
       prevTravelDays.map((day, dIndex) => {
         if (dIndex !== dayIndex) return day;
 
@@ -62,10 +62,7 @@ export const useTravelDays = (days: TravelTransformPlaces[]) => {
 
             return {
               ...place,
-              photoUrls: [
-                ...(place.photoUrls || []),
-                ...imgUrls.map((imgUrl) => ({ url: imgUrl })),
-              ],
+              photoUrls: [...(place.photoUrls || []), ...imgUrls],
             };
           }),
         };
@@ -73,7 +70,7 @@ export const useTravelDays = (days: TravelTransformPlaces[]) => {
     );
 
   const onDeleteImageUrls = (dayIndex: number, targetPlaceIndex: number, imageIndex: number) =>
-    setTravelDays((prevTravelDays) => {
+    setTravelogueDays((prevTravelDays) => {
       return prevTravelDays.map((day, dIndex) => {
         if (dIndex !== dayIndex) return day;
 
@@ -94,7 +91,7 @@ export const useTravelDays = (days: TravelTransformPlaces[]) => {
     });
 
   return {
-    travelDays,
+    travelogueDays,
     onAddDay,
     onDeleteDay,
     onAddPlace,

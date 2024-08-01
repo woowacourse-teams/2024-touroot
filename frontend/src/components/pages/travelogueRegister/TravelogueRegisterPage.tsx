@@ -9,7 +9,6 @@ import { usePostTravelogue, usePostUploadImages } from "@queries/index";
 import {
   Accordion,
   Button,
-  DayContent,
   GoogleMapLoadScript,
   IconButton,
   Input,
@@ -18,9 +17,9 @@ import {
   Text,
   ThumbnailUpload,
 } from "@components/common";
-import TravelogueMultiImageUpload from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/TravelogueMultiImageUpload";
+import TravelogueDayAccordion from "@components/pages/travelogueRegister/TravelogueDayAccordion/TravelogueDayAccordion";
 
-import { useTravelDays } from "@hooks/pages/useTravelDays";
+import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
 import useUser from "@hooks/useUser";
 
 import * as S from "./TravelogueRegisterPage.styled";
@@ -38,7 +37,7 @@ const TravelogueRegisterPage = () => {
   };
 
   const {
-    travelDays,
+    travelogueDays,
     onAddDay,
     onAddPlace,
     onDeleteDay,
@@ -46,7 +45,7 @@ const TravelogueRegisterPage = () => {
     onDeletePlace,
     onChangeImageUrls,
     onDeleteImageUrls,
-  } = useTravelDays(transformDetail?.days ?? []);
+  } = useTravelogueDays(transformDetail?.days ?? []);
 
   const thumbnailFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -75,7 +74,7 @@ const TravelogueRegisterPage = () => {
 
   const handleConfirmBottomSheet = () => {
     handleRegisterTravelogue(
-      { title, thumbnail, days: travelDays },
+      { title, thumbnail, days: travelogueDays },
       {
         onSuccess: ({ data }) => {
           handleCloseBottomSheet();
@@ -127,27 +126,19 @@ const TravelogueRegisterPage = () => {
         <S.AccordionRootContainer>
           <GoogleMapLoadScript libraries={["places", "maps"]}>
             <Accordion.Root>
-              {travelDays.map((travelDay, dayIndex) => (
-                <DayContent
-                  key={`${travelDay}-${dayIndex}`}
-                  travelDay={travelDay}
+              {travelogueDays.map((travelogueDay, dayIndex) => (
+                <TravelogueDayAccordion
+                  key={`${travelogueDay}-${dayIndex}`}
+                  travelogueDay={travelogueDay}
                   dayIndex={dayIndex}
                   onAddPlace={onAddPlace}
                   onDeletePlace={onDeletePlace}
                   onDeleteDay={onDeleteDay}
                   onChangePlaceDescription={onChangePlaceDescription}
-                >
-                  {(placeIndex, imgUrls) => (
-                    <TravelogueMultiImageUpload
-                      imageUrls={imgUrls}
-                      dayIndex={dayIndex}
-                      placeIndex={placeIndex}
-                      onChangeImageUrls={onChangeImageUrls}
-                      onDeleteImageUrls={onDeleteImageUrls}
-                      onRequestAddImage={handleAddImage}
-                    />
-                  )}
-                </DayContent>
+                  onChangeImageUrls={onChangeImageUrls}
+                  onDeleteImageUrls={onDeleteImageUrls}
+                  onRequestAddImage={handleAddImage}
+                />
               ))}
             </Accordion.Root>
             <IconButton

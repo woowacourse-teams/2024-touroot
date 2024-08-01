@@ -1,10 +1,10 @@
-import type { Place } from "@type/domain/travelogue";
+import type { TravelPlanPlace } from "@type/domain/travelPlan";
 
 import { Box, GoogleMapLoadScript, GoogleMapView } from "@components/common";
 
 import * as S from "./TravelPlansTabContent.styled";
 
-const TravelPlansTabContent = ({ places }: { places: Place[] }) => {
+const TravelPlansTabContent = ({ places }: { places: TravelPlanPlace[] }) => {
   if (places.length === 0) return null;
 
   const positions = places.map((place) => {

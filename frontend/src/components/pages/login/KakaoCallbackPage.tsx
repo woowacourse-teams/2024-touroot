@@ -17,7 +17,7 @@ const KakaoCallbackPage = () => {
 
     if (code) {
       client
-        .post(`${ROUTE_PATHS.loginOauth}?code=${code}`)
+        .get(`${ROUTE_PATHS.loginOauth}?code=${code}`)
         .then((res) => {
           saveUser(res.data);
           navigate(ROUTE_PATHS.root);

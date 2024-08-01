@@ -8,7 +8,6 @@ import { differenceInDays } from "date-fns";
 import {
   Accordion,
   Button,
-  DayContent,
   GoogleMapLoadScript,
   IconButton,
   Input,
@@ -16,8 +15,9 @@ import {
   PageInfo,
 } from "@components/common";
 import DateRangePicker from "@components/common/DateRangePicker/DateRangePicker";
+import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
 
-import { useTravelDays } from "@hooks/pages/useTravelDays";
+import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
 import useUser from "@hooks/useUser";
 
 import * as S from "./TravelPlanRegisterPage.styled";
@@ -31,8 +31,14 @@ const TravelPlanRegisterPage = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  const { travelDays, onAddDay, onAddPlace, onDeleteDay, onChangePlaceDescription, onDeletePlace } =
-    useTravelDays(transformDetail?.days ?? []);
+  const {
+    travelPlanDays,
+    onAddDay,
+    onAddPlace,
+    onDeleteDay,
+    onChangePlaceDescription,
+    onDeletePlace,
+  } = useTravelPlanDays(transformDetail?.days ?? []);
 
   useEffect(() => {
     if (startDate && endDate) {
@@ -72,7 +78,7 @@ const TravelPlanRegisterPage = () => {
     const formattedStartDate = startDate.toISOString().split("T")[0];
 
     handleAddTravelPlan(
-      { title, startDate: formattedStartDate, days: travelDays },
+      { title, startDate: formattedStartDate, days: travelPlanDays },
       {
         onSuccess: ({ data }) => {
           handleCloseBottomSheet();
@@ -117,10 +123,10 @@ const TravelPlanRegisterPage = () => {
         <S.AccordionRootContainer>
           <GoogleMapLoadScript libraries={["places", "maps"]}>
             <Accordion.Root>
-              {travelDays.map((travelDay, dayIndex) => (
-                <DayContent
+              {travelPlanDays.map((travelDay, dayIndex) => (
+                <TravelPlanDayAccordion
                   key={`${travelDay}-${dayIndex}`}
-                  travelDay={travelDay}
+                  travelPlanDay={travelDay}
                   dayIndex={dayIndex}
                   onAddPlace={onAddPlace}
                   onDeletePlace={onDeletePlace}
