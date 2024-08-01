@@ -6,15 +6,15 @@ import { useTransformDetailContext } from "@contexts/TravelogueProvider";
 import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
 import { Tab, Text, TransformBottomSheet } from "@components/common";
-import TravelPlansTabContent from "@components/pages/TravelPlansDetail/TravelPlansTabContent/TravelPlansTabContent";
+import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlansTabContent/TravelPlansTabContent";
 
 import useUser from "@hooks/useUser";
 
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
-import * as S from "./TravelPlansDetail.styled";
+import * as S from "./TravelPlanDetailPage.styled";
 
-const TravelPlansDetailPage = () => {
+const TravelPlanDetailPage = () => {
   const { user } = useUser();
 
   const location = useLocation();
@@ -81,4 +81,4 @@ const TravelPlansDetailPage = () => {
   );
 };
 
-export default TravelPlansDetailPage;
+export default TravelPlanDetailPage;
