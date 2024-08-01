@@ -20,6 +20,8 @@ import DateRangePicker from "@components/common/DateRangePicker/DateRangePicker"
 import { useTravelDays } from "@hooks/pages/useTravelDays";
 import useUser from "@hooks/useUser";
 
+import { ROUTE_PATHS_MAP } from "@constants/route";
+
 import * as S from "./TravelPlanRegisterPage.styled";
 
 const MAX_TITLE_LENGTH = 20;
@@ -74,9 +76,9 @@ const TravelPlanRegisterPage = () => {
     handleAddTravelPlan(
       { title, startDate: formattedStartDate, days: travelDays },
       {
-        onSuccess: ({ data }) => {
+        onSuccess: ({ data: { id } }) => {
           handleCloseBottomSheet();
-          navigate(`/travel-plans/${data.id}`);
+          navigate(ROUTE_PATHS_MAP.travelPlan(id));
         },
       },
     );
@@ -90,7 +92,7 @@ const TravelPlanRegisterPage = () => {
   useEffect(() => {
     if (!user?.accessToken) {
       alert("로그인이 필요합니다.");
-      navigate("/login");
+      navigate(ROUTE_PATHS_MAP.login);
     }
   }, [user?.accessToken, navigate]);
 
