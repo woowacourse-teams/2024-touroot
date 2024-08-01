@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.member.dto.MyTravelPlanResponse;
 import kr.touroot.member.dto.MyTraveloguesResponse;
-import kr.touroot.member.dto.ProfileReadResponse;
+import kr.touroot.member.dto.ProfileResponse;
 import kr.touroot.member.service.MyPageFacadeService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
@@ -28,8 +28,8 @@ public class MyPageController {
     private final MyPageFacadeService myPageFacadeService;
 
     @GetMapping("/profile")
-    public ResponseEntity<ProfileReadResponse> readProfile(@NotNull MemberAuth memberAuth) {
-        ProfileReadResponse data = myPageFacadeService.readProfile(memberAuth);
+    public ResponseEntity<ProfileResponse> readProfile(@NotNull MemberAuth memberAuth) {
+        ProfileResponse data = myPageFacadeService.readProfile(memberAuth);
         return ResponseEntity.ok(data);
     }
 

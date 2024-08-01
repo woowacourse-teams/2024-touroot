@@ -4,7 +4,7 @@ import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.dto.MyTravelPlanResponse;
 import kr.touroot.member.dto.MyTraveloguesResponse;
-import kr.touroot.member.dto.ProfileReadResponse;
+import kr.touroot.member.dto.ProfileResponse;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.service.TravelogueService;
 import kr.touroot.travelplan.domain.TravelPlan;
@@ -22,9 +22,9 @@ public class MyPageFacadeService {
     private final TravelogueService travelogueService;
     private final TravelPlanService travelPlanService;
 
-    public ProfileReadResponse readProfile(MemberAuth memberAuth) {
+    public ProfileResponse readProfile(MemberAuth memberAuth) {
         Member member = memberService.getById(memberAuth.memberId());
-        return ProfileReadResponse.from(member);
+        return ProfileResponse.from(member);
     }
 
     public Page<MyTraveloguesResponse> readTravelogues(MemberAuth memberAuth, Pageable pageable) {

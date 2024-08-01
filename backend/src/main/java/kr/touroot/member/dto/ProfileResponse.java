@@ -4,10 +4,10 @@ import kr.touroot.member.domain.Member;
 import lombok.Builder;
 
 @Builder
-public record ProfileReadResponse(String profileImageUrl, String nickname) {
+public record ProfileResponse(String profileImageUrl, String nickname) {
 
-    public static ProfileReadResponse from(Member member) {
-        return ProfileReadResponse.builder()
+    public static ProfileResponse from(Member member) {
+        return ProfileResponse.builder()
                 .profileImageUrl(member.getProfileImageUrl())
                 .nickname(member.getNickname())
                 .build();

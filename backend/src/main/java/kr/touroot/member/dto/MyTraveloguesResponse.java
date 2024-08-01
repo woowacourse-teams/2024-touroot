@@ -6,7 +6,7 @@ import lombok.Builder;
 import java.time.format.DateTimeFormatter;
 
 @Builder
-public record MyTraveloguesResponse(String title, String thumbnailUrl, String createdAt) {
+public record MyTraveloguesResponse(long id, String title, String thumbnailUrl, String createdAt) {
 
     public static MyTraveloguesResponse from(Travelogue travelogue) {
         String createdAt = travelogue.getCreatedAt()
@@ -14,6 +14,7 @@ public record MyTraveloguesResponse(String title, String thumbnailUrl, String cr
                 .format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
 
         return MyTraveloguesResponse.builder()
+                .id(travelogue.getId())
                 .title(travelogue.getTitle())
                 .createdAt(createdAt)
                 .thumbnailUrl(travelogue.getThumbnail())
