@@ -50,7 +50,7 @@ public class TravelogueController {
     })
     @PostMapping
     public ResponseEntity<TravelogueResponse> createTravelogue(
-            MemberAuth member,
+            @Valid MemberAuth member,
             @Valid @RequestBody TravelogueRequest request
     ) {
         TravelogueResponse response = travelogueFacadeService.createTravelogue(member, request);
