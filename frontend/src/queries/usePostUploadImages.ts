@@ -1,10 +1,14 @@
+import { AxiosError } from "axios";
+
 import { useMutation } from "@tanstack/react-query";
+
+import type { ErrorResponse } from "@type/api/errorResponse";
 
 import ApiError from "@apis/ApiError";
 import { authClient } from "@apis/client";
 
 export const usePostUploadImages = () => {
-  return useMutation<string[], ApiError, File[]>({
+  return useMutation<string[], ApiError | AxiosError<ErrorResponse>, File[]>({
     mutationFn: async (files: File[]) => {
       const formData = new FormData();
 

@@ -1,8 +1,9 @@
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { TravelRegister, TravelRegisterPlace } from "@type/domain/travelogue";
+import type { ErrorResponse } from "@type/api/errorResponse";
+import type { TravelRegister, TravelRegisterPlace } from "@type/domain/travelogue";
 
 import ApiError from "@apis/ApiError";
 import { authClient } from "@apis/client";
@@ -11,7 +12,7 @@ export const usePostTravelogue = () => {
   const queryClient = useQueryClient();
   return useMutation<
     AxiosResponse<TravelRegisterPlace & { id: number }, unknown>,
-    ApiError,
+    ApiError | AxiosError<ErrorResponse>,
     TravelRegister,
     unknown
   >({
