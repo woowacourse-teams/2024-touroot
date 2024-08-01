@@ -12,9 +12,10 @@ cloud:
   aws:
     s3:
       bucket: techcourse-project-2024
-      image-base-uri: https://dev.touroot.kr/images/
-      temporary-storage-path: touroot/temporary/
-      permanent-storage-path: touroot/images/
+      image-base-uri: https://dev.touroot.kr/
+      touroot-storage-path: touroot/
+      temporary-storage-path: temporary/
+      image-storage-path: images/
 ---
 security:
   jwt:

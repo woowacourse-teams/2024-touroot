@@ -22,19 +22,22 @@ public class AwsS3Provider {
 
     private final String bucket;
     private final String imageBaseUri;
+    private final String tourootStoragePath;
     private final String temporaryStoragePath;
-    private final String permanentStoragePath;
+    private final String imageStoragePath;
 
     public AwsS3Provider(
             @Value("${cloud.aws.s3.bucket}") String bucket,
             @Value("${cloud.aws.s3.image-base-uri}") String imageBaseUri,
+            @Value("${cloud.aws.s3.touroot-storage-path}") String tourootStoragePath,
             @Value("${cloud.aws.s3.temporary-storage-path}") String temporaryStoragePath,
-            @Value("${cloud.aws.s3.permanent-storage-path}") String permanentStoragePath
+            @Value("${cloud.aws.s3.image-storage-path}") String imageStoragePath
     ) {
         this.bucket = bucket;
         this.imageBaseUri = imageBaseUri;
+        this.tourootStoragePath = tourootStoragePath;
         this.temporaryStoragePath = temporaryStoragePath;
-        this.permanentStoragePath = permanentStoragePath;
+        this.imageStoragePath = imageStoragePath;
     }
 
     public List<String> uploadImages(List<ImageFile> files) {
@@ -45,9 +48,10 @@ public class AwsS3Provider {
                     .map(ImageFile::getFile)
                     .forEach(file -> {
                         String newFileName = createNewFileName(file.getOriginalFilename());
-                        String filePath = temporaryStoragePath + newFileName;
+                        String filePath = tourootStoragePath + temporaryStoragePath + newFileName;
                         uploadFile(file, filePath, s3Client);
-                        urls.add(imageBaseUri + newFileName);
+                        String s3Key = imageBaseUri + temporaryStoragePath + newFileName;
+                        urls.add(s3Key);
                     });
             return urls;
         }
@@ -57,7 +61,7 @@ public class AwsS3Provider {
         return UUID.randomUUID() + fileName.substring(fileName.lastIndexOf("."));
     }
 
-    private S3Client getS3Client() {
+    S3Client getS3Client() {
         return S3Client.builder()
                 .region(Region.AP_NORTHEAST_2)
                 .credentialsProvider(InstanceProfileCredentialsProvider.create())
@@ -82,7 +86,7 @@ public class AwsS3Provider {
 
     public String copyImageToPermanentStorage(String imageKey) {
         validateS3Path(imageKey);
-        String destinationKey = imageKey.replace(temporaryStoragePath, permanentStoragePath);
+        String destinationKey = imageKey.replace(temporaryStoragePath, imageStoragePath);
         copyFile(imageKey, destinationKey);
         return destinationKey;
     }
