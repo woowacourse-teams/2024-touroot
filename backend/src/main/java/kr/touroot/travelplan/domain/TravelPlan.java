@@ -1,17 +1,14 @@
 package kr.touroot.travelplan.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.time.LocalDate;
+import jakarta.persistence.*;
 import kr.touroot.global.entity.BaseEntity;
-import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,13 +26,23 @@ public class TravelPlan extends BaseEntity {
     @Column(nullable = false)
     private LocalDate startDate;
 
+    @JoinColumn(name = "author_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member author;
+
     public TravelPlan(String title, LocalDate startDate) {
-        this(null, title, startDate);
+        this(null, title, startDate, null);
     }
 
-    public void validateStartDate() {
-        if (startDate.isBefore(LocalDate.now())) {
-            throw new BadRequestException("지난 날짜에 대한 계획은 작성할 수 없습니다.");
-        }
+    public TravelPlan(String title, LocalDate startDate, Member author) {
+        this(null, title, startDate, author);
+    }
+
+    public boolean isValidStartDate() {
+        return startDate.isAfter(LocalDate.now());
+    }
+
+    public boolean isAuthor(Member member) {
+        return member.equals(author);
     }
 }

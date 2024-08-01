@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
+
+import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
 import lombok.Builder;
 
@@ -25,7 +27,7 @@ public record TravelPlanCreateRequest(
         List<PlanDayCreateRequest> days
 ) {
 
-    public TravelPlan toTravelPlan() {
-        return new TravelPlan(title, startDate);
+    public TravelPlan toTravelPlan(Member author) {
+        return new TravelPlan(title, startDate, author);
     }
 }

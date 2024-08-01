@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-import woowacourse.touroot.global.auth.dto.HttpRequestInfo;
+import kr.touroot.global.auth.dto.HttpRequestInfo;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,7 +36,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             new HttpRequestInfo(HttpMethod.GET, "/swagger-resources/**"),
             new HttpRequestInfo(HttpMethod.GET, "/v3/api-docs/**"),
             new HttpRequestInfo(HttpMethod.GET, "/api/v1/travelogues/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/api/v1/travel-plans/**"),
             new HttpRequestInfo(HttpMethod.GET, "/api/v1/login/**"),
             new HttpRequestInfo(HttpMethod.OPTIONS, "/**")
     );
