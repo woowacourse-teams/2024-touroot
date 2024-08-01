@@ -3,6 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { client } from "@apis/client";
 
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
+import { QUERY_KEYS_MAP } from "@constants/queryKey";
 
 export const getTravelogues = async ({ page, size }: { page: number; size: number }) => {
   try {
@@ -21,7 +22,7 @@ const useInfiniteTravelogues = () => {
   const DATA_LOAD_COUNT = 5;
 
   const { data, status, error, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["travelogues"],
+    queryKey: QUERY_KEYS_MAP.travelogue.all,
     queryFn: ({ pageParam = INITIAL_PAGE }) => {
       const page = pageParam;
       const size = DATA_LOAD_COUNT;
