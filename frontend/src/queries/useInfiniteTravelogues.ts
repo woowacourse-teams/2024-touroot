@@ -2,9 +2,11 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { client } from "@apis/client";
 
+import { API_ENDPOINT_MAP } from "@constants/endpoint";
+
 export const getTravelogues = async ({ page, size }: { page: number; size: number }) => {
   try {
-    const response = await client.get("/travelogues", {
+    const response = await client.get(API_ENDPOINT_MAP.travelogues, {
       params: { page, size },
     });
     return response.data;
