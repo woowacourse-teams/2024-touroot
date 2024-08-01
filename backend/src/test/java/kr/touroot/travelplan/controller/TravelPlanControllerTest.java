@@ -80,7 +80,7 @@ class TravelPlanControllerTest {
                 .when().log().all()
                 .post("/api/v1/travel-plans")
                 .then().log().all()
-                .statusCode(200)
+                .statusCode(201)
                 .body("id", is(1));
     }
 

@@ -2,6 +2,7 @@ package kr.touroot.travelplan.service;
 
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
@@ -40,12 +41,18 @@ public class TravelPlanService {
     public TravelPlanCreateResponse createTravelPlan(TravelPlanCreateRequest request, MemberAuth memberAuth) {
         Member author = getMemberByMemberAuth(memberAuth);
         TravelPlan travelPlan = request.toTravelPlan(author);
-        travelPlan.validateStartDate();
+        validStartDate(travelPlan);
 
         TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);
         createPlanDay(request.days(), savedTravelPlan);
 
         return new TravelPlanCreateResponse(savedTravelPlan.getId());
+    }
+
+    private void validStartDate(TravelPlan travelPlan) {
+        if (!travelPlan.isValidStartDate()) {
+            throw new BadRequestException("지난 날짜에 대한 계획은 작성할 수 없습니다.");
+        }
     }
 
     private Member getMemberByMemberAuth(MemberAuth memberAuth) {
@@ -81,10 +88,15 @@ public class TravelPlanService {
     public TravelPlanResponse readTravelPlan(Long planId, MemberAuth memberAuth) {
         TravelPlan travelPlan = getTravelPlanById(planId);
         Member member = getMemberByMemberAuth(memberAuth);
-
-        travelPlan.validateAuthor(member);
+        validateAuthor(travelPlan, member);
 
         return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
+    }
+
+    private void validateAuthor(TravelPlan travelPlan, Member member) {
+        if (!travelPlan.isAuthor(member)) {
+            throw new ForbiddenException("여행 계획은 작성자만 조회할 수 있습니다.");
+        }
     }
 
     private TravelPlan getTravelPlanById(Long planId) {
