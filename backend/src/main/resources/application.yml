@@ -20,13 +20,13 @@ security:
     token:
       secret-key: ENC(SNwFG2NQDZkmIK3nNoZFdwQ0ZxKuoe+qcw10ljdW941YEx/Qky9PEEl+wvAN9S1KR26D3a83SnU=)
       expire-length: 1800000
+oauth:
+  kakao:
+    redirect-uri: http://localhost:8080/api/v1/login/oauth/kakao
 spring:
   config:
     activate:
       on-profile: local
-oauth:
-  kakao:
-    redirect-uri: http://localhost:8080/api/v1/login/oauth/kakao
   h2:
     console:
       enabled: true
