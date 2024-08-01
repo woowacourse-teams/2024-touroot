@@ -33,6 +33,8 @@ public class LoggingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        filterChain.doFilter(request, response);
+
         String method = request.getMethod();
         String url = request.getRequestURI();
         HttpStatus statusCode = HttpStatus.valueOf(response.getStatus());
@@ -40,12 +42,10 @@ public class LoggingFilter extends OncePerRequestFilter {
 
         if (memberId == null) {
             log.info("{} {} ({})", method, url, statusCode);
-            filterChain.doFilter(request, response);
             return;
         }
 
         log.info("{} {} ({}) :: userId = {}", method, url, statusCode, memberId);
-        filterChain.doFilter(request, response);
     }
 
     @Override
