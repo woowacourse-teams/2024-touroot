@@ -1,6 +1,7 @@
 package kr.touroot.travelogue.service;
 
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.repository.TravelogueRepository;
@@ -15,8 +16,8 @@ public class TravelogueService {
 
     private final TravelogueRepository travelogueRepository;
 
-    public Travelogue createTravelogue(TravelogueRequest request) {
-        Travelogue travelogue = request.toTravelogue();
+    public Travelogue createTravelogue(Member author, TravelogueRequest request) {
+        Travelogue travelogue = request.toTravelogueOf(author);
         return travelogueRepository.save(travelogue);
     }
 

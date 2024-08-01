@@ -5,11 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import kr.touroot.global.entity.BaseEntity;
+import kr.touroot.global.exception.BadRequestException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import kr.touroot.global.entity.BaseEntity;
-import kr.touroot.global.exception.BadRequestException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -18,6 +18,7 @@ public class Member extends BaseEntity {
 
     public static final int NICKNAME_MIN_LENGTH = 1;
     public static final int NICKNAME_MAX_LENGTH = 20;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
+import kr.touroot.global.auth.dto.HttpRequestInfo;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-import kr.touroot.global.auth.dto.HttpRequestInfo;
 
 import java.io.IOException;
 import java.util.List;
