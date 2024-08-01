@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
@@ -49,8 +50,10 @@ class TravelogueServiceTest {
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
+        Member author = testHelper.persistMember();
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
-        Travelogue createdTravelogue = travelogueService.createTravelogue(request);
+
+        Travelogue createdTravelogue = travelogueService.createTravelogue(author, request);
 
         assertAll(
                 () -> assertThat(createdTravelogue.getId()).isEqualTo(1L),

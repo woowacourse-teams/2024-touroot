@@ -2,6 +2,7 @@ package kr.touroot.global.exception;
 
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,7 +15,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ExceptionResponse> handleBadRequestException(BadRequestException exception) {
-        log.info("BAD_REQUEST_EXCEPTION :: message = {}", exception.getMessage());
+        log.warn("BAD_REQUEST_EXCEPTION :: message = {}", exception.getMessage());
 
         ExceptionResponse data = new ExceptionResponse(exception.getMessage());
         return ResponseEntity.badRequest()
@@ -25,7 +26,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException exception
     ) {
-        log.info("METHOD_ARGUMENT_NOT_VALID_EXCEPTION :: message = {}", exception.getMessage());
+        log.warn("METHOD_ARGUMENT_NOT_VALID_EXCEPTION :: message = {}", exception.getMessage());
 
         String message = exception.getBindingResult()
                 .getAllErrors()
@@ -46,9 +47,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<ExceptionResponse> handleUploadExceedException(MaxUploadSizeExceededException exception) {
-        log.info("UPLOAD_SIZE_EXCEPTION :: message = {}", exception.getMessage());
+        log.warn("UPLOAD_SIZE_EXCEPTION :: message = {}", exception.getMessage());
 
         ExceptionResponse data = new ExceptionResponse("파일 업로드 용량을 초과하였습니다.");
         return ResponseEntity.badRequest().body(data);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ExceptionResponse> handleForbiddenException(ForbiddenException exception) {
+        log.warn("FORBIDDEN_EXCEPTION :: message = {}", exception.getMessage());
+
+        ExceptionResponse data = new ExceptionResponse(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(data);
     }
 }

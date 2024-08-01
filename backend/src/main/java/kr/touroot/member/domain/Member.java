@@ -19,6 +19,7 @@ public class Member extends BaseEntity {
 
     public static final int NICKNAME_MIN_LENGTH = 1;
     public static final int NICKNAME_MAX_LENGTH = 20;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,7 +33,7 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String profileImageUrl;
 
-    private Member(Long id, Long kakaoId, String nickname, String profileImageUrl) {
+    public Member(Long id, Long kakaoId, String nickname, String profileImageUrl) {
         validate(kakaoId, nickname, profileImageUrl);
         this.id = id;
         this.kakaoId = kakaoId;

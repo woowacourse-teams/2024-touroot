@@ -71,6 +71,19 @@ class TravelogueControllerTest {
                 .header("Location", "/api/v1/travelogues/1");
     }
 
+    @DisplayName("여행기를 작성할 때 로그인 되어 있지 않으면 예외가 발생한다.")
+    @Test
+    void createTravelogueWithNotLoginThrowException() {
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when().post("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(401);
+    }
+
     @DisplayName("여행기를 상세 조회한다.")
     @Test
     void findTravelogue() throws JsonProcessingException {

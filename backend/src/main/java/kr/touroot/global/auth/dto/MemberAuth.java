@@ -1,4 +1,6 @@
-package woowacourse.touroot.global.auth.dto;
+package kr.touroot.global.auth.dto;
 
-public record MemberAuth(Long memberId) {
+import jakarta.validation.constraints.NotNull;
+
+public record MemberAuth(@NotNull Long memberId) {
 }

@@ -2,12 +2,16 @@ package kr.touroot.travelogue.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.net.URL;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -26,33 +30,38 @@ public class Travelogue extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JoinColumn(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member author;
+
     @Column(nullable = false, length = 20)
     private String title;
 
     @Column(nullable = false)
     private String thumbnail;
 
-    private Travelogue(Long id, String title, String thumbnail) {
-        validate(title, thumbnail);
+    public Travelogue(Long id, Member author, String title, String thumbnail) {
+        validate(author, title, thumbnail);
         this.id = id;
+        this.author = author;
         this.title = title;
         this.thumbnail = thumbnail;
     }
 
-    public Travelogue(String title, String thumbnail) {
-        this(null, title, thumbnail);
+    public Travelogue(Member author, String title, String thumbnail) {
+        this(null, author, title, thumbnail);
     }
 
-    private void validate(String title, String thumbnail) {
-        validateNotNull(title, thumbnail);
+    private void validate(Member author, String title, String thumbnail) {
+        validateNotNull(author, title, thumbnail);
         validateNotBlank(title, thumbnail);
         validateTitleLength(title);
         validateThumbnailFormat(thumbnail);
     }
 
-    private void validateNotNull(String title, String thumbnail) {
-        if (title == null || thumbnail == null) {
-            throw new BadRequestException("여행기 제목, 여행기 썸네일은 비어있을 수 없습니다");
+    private void validateNotNull(Member author, String title, String thumbnail) {
+        if (title == null || thumbnail == null || author == null) {
+            throw new BadRequestException("작성자, 여행기 제목, 그리고 여행기 썸네일은 비어있을 수 없습니다");
         }
     }
 
@@ -68,9 +77,9 @@ public class Travelogue extends BaseEntity {
         }
     }
 
-    private void validateThumbnailFormat(String thumbnailUri) {
+    private void validateThumbnailFormat(String thumbnailUrl) {
         try {
-            new URL(thumbnailUri).toURI();
+            new URL(thumbnailUrl).toURI();
         } catch (Exception e) {
             throw new BadRequestException("이미지 url 형식이 잘못되었습니다");
         }

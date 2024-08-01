@@ -1,4 +1,4 @@
-package woowacourse.touroot.global.exception;
+package kr.touroot.global.exception;
 
 public class UnauthorizedException extends RuntimeException {
 

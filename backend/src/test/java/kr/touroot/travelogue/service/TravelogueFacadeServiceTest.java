@@ -3,6 +3,8 @@ package kr.touroot.travelogue.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import kr.touroot.global.ServiceTest;
+import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
@@ -24,6 +26,7 @@ import org.springframework.data.domain.Pageable;
         TraveloguePhotoService.class,
         TravelogueDayService.class,
         TraveloguePlaceService.class,
+        MemberService.class,
         TravelogueTestHelper.class,
 })
 @ServiceTest
@@ -52,9 +55,12 @@ class TravelogueFacadeServiceTest {
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
+        testHelper.initMemberTestData();
+
+        MemberAuth memberAuth = new MemberAuth(1L);
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
 
-        assertThat(service.createTravelogue(request))
+        assertThat(service.createTravelogue(memberAuth, request))
                 .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
     }
 

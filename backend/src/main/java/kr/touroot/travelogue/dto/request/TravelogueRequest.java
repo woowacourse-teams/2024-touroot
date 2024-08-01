@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.List;
+import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 
 public record TravelogueRequest(
@@ -22,7 +23,7 @@ public record TravelogueRequest(
         List<TravelogueDayRequest> days
 ) {
 
-    public Travelogue toTravelogue() {
-        return new Travelogue(title, thumbnail);
+    public Travelogue toTravelogueOf(Member author) {
+        return new Travelogue(author, title, thumbnail);
     }
 }

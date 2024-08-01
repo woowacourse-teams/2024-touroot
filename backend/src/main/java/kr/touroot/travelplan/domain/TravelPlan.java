@@ -2,12 +2,16 @@ package kr.touroot.travelplan.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,26 +33,32 @@ public class TravelPlan extends BaseEntity {
     @Column(nullable = false)
     private LocalDate startDate;
 
-    private TravelPlan(Long id, String title, LocalDate startDate) {
-        validate(title, startDate);
+    @JoinColumn(name = "author_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member author;
+
+    public TravelPlan(Long id, String title, LocalDate startDate, Member author) {
+        validate(title, startDate, author);
         this.id = id;
         this.title = title;
         this.startDate = startDate;
+        this.author = author;
     }
 
-    public TravelPlan(String title, LocalDate startDate) {
-        this(null, title, startDate);
+    public TravelPlan(String title, LocalDate startDate, Member author) {
+        this(null, title, startDate, author);
     }
 
-    private void validate(String title, LocalDate startDate) {
-        validateNotNull(title, startDate);
+
+    private void validate(String title, LocalDate startDate, Member author) {
+        validateNotNull(title, startDate, author);
         validateNotBlank(title);
         validateTitleLength(title);
     }
 
-    private void validateNotNull(String title, LocalDate startDate) {
-        if (title == null || startDate == null) {
-            throw new BadRequestException("여행 계획에서 제목과 시작 날짜는 비어 있을 수 없습니다");
+    private void validateNotNull(String title, LocalDate startDate, Member author) {
+        if (title == null || startDate == null || author == null) {
+            throw new BadRequestException("여행 계획에서 제목과 시작 날짜, 그리고 작성자는 비어 있을 수 없습니다");
         }
     }
 
@@ -68,5 +78,13 @@ public class TravelPlan extends BaseEntity {
         if (startDate.isBefore(LocalDate.now())) {
             throw new BadRequestException("지난 날짜에 대한 계획은 작성할 수 없습니다.");
         }
+    }
+
+    public boolean isValidStartDate() {
+        return startDate.isAfter(LocalDate.now());
+    }
+
+    public boolean isAuthor(Member member) {
+        return member.equals(author);
     }
 }
