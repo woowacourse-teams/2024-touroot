@@ -38,6 +38,8 @@ export interface Travelogue {
   days: Day[];
 }
 
-export type TransformPlaces = { places: Pick<Place, "description" | "placeName" | "position">[] };
+export type TravelTransformPlaces = {
+  places: Pick<Place, "description" | "placeName" | "position">[];
+};
 
-export type TransformDetail = { days: TransformPlaces[] };
+export type TravelTransformDetail = { days: TravelTransformPlaces[] };

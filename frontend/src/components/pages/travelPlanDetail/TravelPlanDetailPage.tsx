@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
-import { useTransformDetailContext } from "@contexts/TravelogueProvider";
+import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
 import { Tab, Text, TransformBottomSheet } from "@components/common";
@@ -28,7 +28,7 @@ const TravelPlanDetailPage = () => {
       ? `${data?.data.days.length - 1}박 ${data?.data.days.length}일`
       : "당일치기";
 
-  const { saveTransformDetail } = useTransformDetailContext();
+  const { saveTransformDetail } = useTravelTransformDetailContext();
 
   const navigate = useNavigate();
 

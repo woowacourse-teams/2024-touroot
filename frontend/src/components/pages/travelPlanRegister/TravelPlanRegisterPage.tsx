@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useTransformDetailContext } from "@contexts/TravelogueProvider";
+import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 import { usePostTravelPlan } from "@queries/usePostTravelPlan";
 import { differenceInDays } from "date-fns";
 
@@ -24,7 +24,7 @@ import * as S from "./TravelPlanRegisterPage.styled";
 const MAX_TITLE_LENGTH = 20;
 
 const TravelPlanRegisterPage = () => {
-  const { transformDetail } = useTransformDetailContext();
+  const { transformDetail } = useTravelTransformDetailContext();
 
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState<Date | null>(null);

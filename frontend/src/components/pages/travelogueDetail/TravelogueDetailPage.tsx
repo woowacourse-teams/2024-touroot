@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
-import { useTransformDetailContext } from "@contexts/TravelogueProvider";
+import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 import { useGetTravelogue } from "@queries/useGetTravelogue";
 
 import { Tab, TransformBottomSheet } from "@components/common";
@@ -28,7 +28,7 @@ const TravelogueDetailPage = () => {
 
   const { user } = useUser();
 
-  const { saveTransformDetail } = useTransformDetailContext();
+  const { saveTransformDetail } = useTravelTransformDetailContext();
 
   const navigate = useNavigate();
 

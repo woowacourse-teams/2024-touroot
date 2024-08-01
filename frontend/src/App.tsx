@@ -1,6 +1,6 @@
 import { RouterProvider } from "react-router-dom";
 
-import { TransformDetailProvider } from "@contexts/TravelogueProvider";
+import { TravelTransformDetailProvider } from "@contexts/TravelTransformDetailProvider";
 import UserProvider from "@contexts/UserProvider";
 
 import { router } from "./router";
@@ -8,9 +8,9 @@ import { router } from "./router";
 const App = () => {
   return (
     <UserProvider>
-      <TransformDetailProvider>
+      <TravelTransformDetailProvider>
         <RouterProvider router={router} />
-      </TransformDetailProvider>
+      </TravelTransformDetailProvider>
     </UserProvider>
   );
 };
