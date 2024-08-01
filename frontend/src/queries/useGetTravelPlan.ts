@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { Travelogue } from "@type/domain/travelogue";
+import type { Travelogue } from "@type/domain/travelogue";
 
 import { client } from "@apis/client";
 

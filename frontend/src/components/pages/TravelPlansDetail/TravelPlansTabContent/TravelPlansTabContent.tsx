@@ -1,4 +1,4 @@
-import { Place } from "@type/domain/travelogue";
+import type { Place } from "@type/domain/travelogue";
 
 import { Box, GoogleMapLoadScript, GoogleMapView } from "@components/common";
 

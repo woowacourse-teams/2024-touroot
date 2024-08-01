@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { TravelRegister, TravelRegisterPlace } from "@type/domain/travelogue";
+import type { TravelRegister, TravelRegisterPlace } from "@type/domain/travelogue";
 
 import { client } from "@apis/client";
 
