@@ -6,7 +6,8 @@ import type { User } from "@type/domain/user";
 
 import ApiError from "@apis/ApiError";
 
-import { ROUTE_PATHS } from "@constants/route";
+import { ROUTE_PATHS_MAP } from "@constants/route";
+import { STORAGE_KEYS_MAP } from "@constants/storage";
 
 export const checkAccessToken = (
   config: InternalAxiosRequestConfig,
@@ -14,7 +15,7 @@ export const checkAccessToken = (
 ) => {
   if (!accessToken) {
     alert("로그인이 필요합니다.");
-    window.location.href = ROUTE_PATHS.login;
+    window.location.href = ROUTE_PATHS_MAP.login;
   }
 
   return config;
@@ -32,7 +33,7 @@ export const setAuthorizationHeader = (
 };
 
 export const handlePreviousRequest = (config: InternalAxiosRequestConfig) => {
-  const user: User | null = JSON.parse(localStorage.getItem("tourootUser") ?? "{}");
+  const user: User | null = JSON.parse(localStorage.getItem(STORAGE_KEYS_MAP.user) ?? "{}");
   let newConfig = { ...config };
 
   newConfig = checkAccessToken(config, user?.accessToken ?? null);
