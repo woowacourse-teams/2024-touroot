@@ -3,6 +3,7 @@ package kr.touroot.travelogue.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import kr.touroot.global.ServiceTest;
+import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
@@ -25,6 +26,7 @@ import org.springframework.data.domain.Pageable;
         TravelogueDayService.class,
         TraveloguePlaceService.class,
         TravelogueTestHelper.class,
+        AwsS3Provider.class,
 })
 @ServiceTest
 class TravelogueFacadeServiceTest {

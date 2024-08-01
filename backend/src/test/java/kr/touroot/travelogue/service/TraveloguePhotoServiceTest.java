@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import kr.touroot.global.ServiceTest;
+import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.place.domain.Place;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
@@ -18,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
 @DisplayName("여행기 사진 서비스")
-@Import(value = {TraveloguePhotoService.class, TravelogueTestHelper.class})
+@Import(value = {TraveloguePhotoService.class, TravelogueTestHelper.class, AwsS3Provider.class})
 @ServiceTest
 class TraveloguePhotoServiceTest {
 
