@@ -23,7 +23,7 @@ public record TravelogueRequest(
         List<TravelogueDayRequest> days
 ) {
 
-    public Travelogue toTravelogueOf(Member author) {
-        return new Travelogue(author, title, thumbnail);
+    public Travelogue toTravelogueOf(Member author, String url) {
+        return new Travelogue(author, title, url);
     }
 }
