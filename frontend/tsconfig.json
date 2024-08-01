@@ -24,7 +24,8 @@
       "@type/*": ["types/*"],
       "@queries/*": ["queries/*"],
       "@hooks/*": ["hooks/*"],
-      "@contexts/*": ["contexts/*"]
+      "@contexts/*": ["contexts/*"],
+      "@utils/*": ["utils/*"]
     },
     "types": ["jest", "node"],
     "esModuleInterop": true
