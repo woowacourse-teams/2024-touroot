@@ -6,6 +6,7 @@ import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
 import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
 import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
 
+import kr.touroot.authentication.fixture.MemberFixture;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
@@ -49,15 +50,22 @@ public class TravelogueTestHelper {
     }
 
     public void initTravelogueTestData() {
-        Travelogue travelogue = persistTravelogue();
+        Member author = persistMember();
+        Travelogue travelogue = persistTravelogue(author);
         TravelogueDay day = persistTravelogueDay(travelogue);
         Place position = persistPlace();
         TraveloguePlace place = persistTraveloguePlace(position, day);
         persistTraveloguePhoto(place);
     }
 
-    public Travelogue persistTravelogue() {
-        Travelogue travelogue = TRAVELOGUE.get();
+    public Member persistMember() {
+        Member author = MemberFixture.MEMBER_1;
+
+        return memberRepository.save(author);
+    }
+
+    public Travelogue persistTravelogue(Member author) {
+        Travelogue travelogue = TRAVELOGUE.create(author);
 
         return travelogueRepository.save(travelogue);
     }

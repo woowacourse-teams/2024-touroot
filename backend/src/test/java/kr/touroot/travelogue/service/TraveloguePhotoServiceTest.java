@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import java.util.List;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.image.infrastructure.AwsS3Provider;
+import kr.touroot.member.domain.Member;
 import kr.touroot.place.domain.Place;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
@@ -16,7 +17,6 @@ import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -50,7 +50,8 @@ class TraveloguePhotoServiceTest {
                 .thenReturn("imageUrl.png");
 
         List<TraveloguePhotoRequest> requests = TravelogueRequestFixture.getTraveloguePhotoRequests();
-        Travelogue travelogue = testHelper.persistTravelogue();
+        Member author = testHelper.persistMember();
+        Travelogue travelogue = testHelper.persistTravelogue(author);
         TravelogueDay day = testHelper.persistTravelogueDay(travelogue);
         Place position = testHelper.persistPlace();
         TraveloguePlace place = testHelper.persistTraveloguePlace(position, day);
@@ -63,7 +64,8 @@ class TraveloguePhotoServiceTest {
     @DisplayName("여행기 사진 URL을 여행기 장소를 기준으로 조회한다.")
     @Test
     void findPhotoUrlsByPlace() {
-        Travelogue travelogue = testHelper.persistTravelogue();
+        Member author = testHelper.persistMember();
+        Travelogue travelogue = testHelper.persistTravelogue(author);
         TravelogueDay day = testHelper.persistTravelogueDay(travelogue);
         Place position = testHelper.persistPlace();
         TraveloguePlace place = testHelper.persistTraveloguePlace(position, day);

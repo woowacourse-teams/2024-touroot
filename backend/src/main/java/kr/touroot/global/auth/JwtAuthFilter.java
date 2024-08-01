@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
+import kr.touroot.global.auth.dto.HttpRequestInfo;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-import woowacourse.touroot.global.auth.dto.HttpRequestInfo;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,6 +24,8 @@ import java.util.List;
 @Slf4j
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
+
+    public static final String MEMBER_ID_ATTRIBUTE = "memberId";
 
     private final ObjectMapper objectMapper;
     private final JwtTokenProvider tokenProvider;
@@ -36,7 +38,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             new HttpRequestInfo(HttpMethod.GET, "/swagger-resources/**"),
             new HttpRequestInfo(HttpMethod.GET, "/v3/api-docs/**"),
             new HttpRequestInfo(HttpMethod.GET, "/api/v1/travelogues/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/api/v1/travel-plans/**"),
             new HttpRequestInfo(HttpMethod.GET, "/api/v1/login/**"),
             new HttpRequestInfo(HttpMethod.OPTIONS, "/**")
     );
@@ -53,7 +54,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         token = token.split("Bearer|bearer")[1];
         try {
             String memberId = tokenProvider.decode(token);
-            request.setAttribute("memberId", memberId);
+            request.setAttribute(MEMBER_ID_ATTRIBUTE, memberId);
             filterChain.doFilter(request, response);
         } catch (Exception e) {
             sendUnauthorizedResponse(response, e.getMessage());
@@ -61,6 +62,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private void sendUnauthorizedResponse(HttpServletResponse response, String message) throws IOException {
+        log.warn("UNAUTHORIZED_EXCEPTION :: message = {}", message);
+
         ExceptionResponse errorResponse = new ExceptionResponse(message);
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());

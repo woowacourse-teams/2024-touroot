@@ -3,6 +3,9 @@ package kr.touroot.travelogue.service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.member.domain.Member;
+import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TraveloguePhoto;
@@ -29,10 +32,12 @@ public class TravelogueFacadeService {
     private final TravelogueDayService travelogueDayService;
     private final TraveloguePlaceService traveloguePlaceService;
     private final TraveloguePhotoService traveloguePhotoService;
+    private final MemberService memberService;
 
     @Transactional
-    public TravelogueResponse createTravelogue(TravelogueRequest request) {
-        Travelogue travelogue = travelogueService.createTravelogue(request);
+    public TravelogueResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
+        Member author = memberService.getById(member.memberId());
+        Travelogue travelogue = travelogueService.createTravelogue(author, request);
 
         return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue));
     }

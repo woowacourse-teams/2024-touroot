@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.net.URI;
+import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
@@ -48,8 +49,11 @@ public class TravelogueController {
             ),
     })
     @PostMapping
-    public ResponseEntity<TravelogueResponse> createTravelogue(@Valid @RequestBody TravelogueRequest request) {
-        TravelogueResponse response = travelogueFacadeService.createTravelogue(request);
+    public ResponseEntity<TravelogueResponse> createTravelogue(
+            @Valid MemberAuth member,
+            @Valid @RequestBody TravelogueRequest request
+    ) {
+        TravelogueResponse response = travelogueFacadeService.createTravelogue(member, request);
 
         return ResponseEntity.created(URI.create("/api/v1/travelogues/" + response.id()))
                 .body(response);

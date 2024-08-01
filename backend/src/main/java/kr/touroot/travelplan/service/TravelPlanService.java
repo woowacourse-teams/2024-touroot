@@ -1,8 +1,10 @@
 package kr.touroot.travelplan.service;
 
-import java.util.Comparator;
-import java.util.List;
+import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.global.exception.ForbiddenException;
+import kr.touroot.member.domain.Member;
+import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
 import kr.touroot.place.repository.PlaceRepository;
 import kr.touroot.travelplan.domain.TravelPlan;
@@ -22,24 +24,40 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class TravelPlanService {
 
+    private final MemberRepository memberRepository;
     private final TravelPlanRepository travelPlanRepository;
     private final TravelPlanDayRepository travelPlanDayRepository;
     private final TravelPlanPlaceRepository travelPlanPlaceRepository;
     private final PlaceRepository placeRepository;
 
     @Transactional
-    public TravelPlanCreateResponse createTravelPlan(TravelPlanCreateRequest request) {
-        TravelPlan travelPlan = request.toTravelPlan();
-        travelPlan.validateStartDate();
+    public TravelPlanCreateResponse createTravelPlan(TravelPlanCreateRequest request, MemberAuth memberAuth) {
+        Member author = getMemberByMemberAuth(memberAuth);
+        TravelPlan travelPlan = request.toTravelPlan(author);
+        validStartDate(travelPlan);
 
         TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);
         createPlanDay(request.days(), savedTravelPlan);
 
         return new TravelPlanCreateResponse(savedTravelPlan.getId());
+    }
+
+    private void validStartDate(TravelPlan travelPlan) {
+        if (!travelPlan.isValidStartDate()) {
+            throw new BadRequestException("지난 날짜에 대한 계획은 작성할 수 없습니다.");
+        }
+    }
+
+    private Member getMemberByMemberAuth(MemberAuth memberAuth) {
+        return memberRepository.findById(memberAuth.memberId())
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 사용자입니다."));
     }
 
     private void createPlanDay(List<PlanDayCreateRequest> request, TravelPlan savedTravelPlan) {
@@ -67,9 +85,18 @@ public class TravelPlanService {
     }
 
     @Transactional(readOnly = true)
-    public TravelPlanResponse readTravelPlan(Long planId) {
+    public TravelPlanResponse readTravelPlan(Long planId, MemberAuth memberAuth) {
         TravelPlan travelPlan = getTravelPlanById(planId);
+        Member member = getMemberByMemberAuth(memberAuth);
+        validateAuthor(travelPlan, member);
+
         return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
+    }
+
+    private void validateAuthor(TravelPlan travelPlan, Member member) {
+        if (!travelPlan.isAuthor(member)) {
+            throw new ForbiddenException("여행 계획은 작성자만 조회할 수 있습니다.");
+        }
     }
 
     private TravelPlan getTravelPlanById(Long planId) {

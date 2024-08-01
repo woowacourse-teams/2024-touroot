@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
 import kr.touroot.global.ServiceTest;
+import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.image.infrastructure.AwsS3Provider;
+import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
@@ -28,6 +30,7 @@ import org.springframework.data.domain.Pageable;
         TraveloguePhotoService.class,
         TravelogueDayService.class,
         TraveloguePlaceService.class,
+        MemberService.class,
         TravelogueTestHelper.class,
         AwsS3Provider.class,
 })
@@ -39,11 +42,6 @@ class TravelogueFacadeServiceTest {
     private final DatabaseCleaner databaseCleaner;
     @MockBean
     private final AwsS3Provider s3Provider;
-
-    @BeforeEach
-    void setUp() {
-        databaseCleaner.executeTruncate();
-    }
 
     @Autowired
     public TravelogueFacadeServiceTest(
@@ -58,15 +56,23 @@ class TravelogueFacadeServiceTest {
         this.s3Provider = s3Provider;
     }
 
+    @BeforeEach
+    void setUp() {
+        databaseCleaner.executeTruncate();
+    }
+
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
         Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
                 .thenReturn(TravelogueResponseFixture.getTraveloguePhotoUrls().get(0));
 
+        testHelper.initMemberTestData();
+
+        MemberAuth memberAuth = new MemberAuth(1L);
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
 
-        assertThat(service.createTravelogue(request))
+        assertThat(service.createTravelogue(memberAuth, request))
                 .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
     }
 
