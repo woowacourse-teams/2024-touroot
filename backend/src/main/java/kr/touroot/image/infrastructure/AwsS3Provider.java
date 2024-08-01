@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.image.domain.ImageFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,8 +16,6 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CopyObjectRequest;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import kr.touroot.global.exception.BadRequestException;
-import kr.touroot.image.domain.ImageFile;
 
 @Component
 public class AwsS3Provider {
@@ -98,7 +98,7 @@ public class AwsS3Provider {
     }
 
     private void copyFile(String sourceKey, String destinationKey) {
-        try {
+        try (S3Client s3Client = getS3Client()) {
             CopyObjectRequest request = CopyObjectRequest.builder()
                     .sourceBucket(bucket)
                     .sourceKey(sourceKey)
@@ -106,9 +106,7 @@ public class AwsS3Provider {
                     .destinationKey(destinationKey)
                     .build();
 
-            S3Client s3Client = getS3Client();
             s3Client.copyObject(request);
-            s3Client.close();
         } catch (NoSuchKeyException e) {
             throw new BadRequestException("복사하려는 사진이 존재하지 않습니다.");
         }
