@@ -1,10 +1,7 @@
 import { useCallback, useState } from "react";
 
-import type {
-  TravelRegisterDay,
-  TravelRegisterPlace,
-  TravelTransformPlaces,
-} from "@type/domain/travelogue";
+import type { TravelTransformPlaces } from "@type/domain/travelTransform";
+import type { TravelRegisterDay, TravelRegisterPlace } from "@type/domain/travelogue";
 
 export const useTravelDays = (days: TravelTransformPlaces[]) => {
   const [travelDays, setTravelDays] = useState<TravelRegisterDay[]>(days);
