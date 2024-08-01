@@ -1,12 +1,6 @@
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
-const HTTP_STATUS = {
-  BAD_REQUEST: 400,
-  UNAUTHORIZED: 401,
-  FORBIDDEN: 403,
-  NOT_FOUND: 404,
-  INTERNAL_SERVER_ERROR: 500,
-} as const;
+import { HTTP_STATUS_CODE_MAP } from "@constants/httpStatusCode";
 
 class ApiError<T = unknown> extends Error implements AxiosError<T> {
   config: InternalAxiosRequestConfig;
@@ -23,23 +17,23 @@ class ApiError<T = unknown> extends Error implements AxiosError<T> {
     const errorStatus = error.response?.status || 0;
     let name = "ApiError";
 
-    if (errorStatus === HTTP_STATUS.BAD_REQUEST) {
+    if (errorStatus === HTTP_STATUS_CODE_MAP.BAD_REQUEST) {
       name = "ApiBadRequestError";
     }
 
-    if (errorStatus === HTTP_STATUS.UNAUTHORIZED) {
+    if (errorStatus === HTTP_STATUS_CODE_MAP.UNAUTHORIZED) {
       name = "ApiUnauthorizedError";
     }
 
-    if (errorStatus === HTTP_STATUS.FORBIDDEN) {
+    if (errorStatus === HTTP_STATUS_CODE_MAP.FORBIDDEN) {
       name = "ApiForbiddenError";
     }
 
-    if (errorStatus === HTTP_STATUS.NOT_FOUND) {
+    if (errorStatus === HTTP_STATUS_CODE_MAP.NOT_FOUND) {
       name = "ApiNotFoundError";
     }
 
-    if (errorStatus === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
+    if (errorStatus === HTTP_STATUS_CODE_MAP.INTERNAL_SERVER_ERROR) {
       name = "ApiInternalServerError";
     }
 
