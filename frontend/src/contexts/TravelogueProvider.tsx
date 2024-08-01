@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-import { TransformDetail } from "@type/domain/travelogue";
+import type { TransformDetail } from "@type/domain/travelogue";
 
 const TravelogueContext = createContext<TransformDetail | null>(null);
 const SaveTravelogueContext = createContext<(travelogue: TransformDetail) => void>(() => {});
