@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.member.dto.MyTravelPlanResponse;
 import kr.touroot.member.dto.MyTraveloguesResponse;
 import kr.touroot.member.dto.ProfileReadResponse;
 import kr.touroot.member.service.MyPageFacadeService;
@@ -41,6 +42,18 @@ public class MyPageController {
             Pageable pageable
     ) {
         Page<MyTraveloguesResponse> data = myPageFacadeService.readTravelogues(memberAuth, pageable);
+        return ResponseEntity.ok(data);
+    }
+
+    @PageableAsQueryParam
+    @GetMapping("/travel-plans")
+    public ResponseEntity<Page<MyTravelPlanResponse>> readTravelPlans(
+            @NotNull MemberAuth memberAuth,
+            @Parameter(hidden = true)
+            @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)
+            Pageable pageable
+    ) {
+        Page<MyTravelPlanResponse> data = myPageFacadeService.readTravelPlans(memberAuth, pageable);
         return ResponseEntity.ok(data);
     }
 }
