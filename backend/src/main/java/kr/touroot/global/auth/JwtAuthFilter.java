@@ -25,6 +25,8 @@ import java.util.List;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
+    public static final String MEMBER_ID_ATTRIBUTE = "memberId";
+
     private final ObjectMapper objectMapper;
     private final JwtTokenProvider tokenProvider;
 
@@ -52,7 +54,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         token = token.split("Bearer|bearer")[1];
         try {
             String memberId = tokenProvider.decode(token);
-            request.setAttribute("memberId", memberId);
+            request.setAttribute(MEMBER_ID_ATTRIBUTE, memberId);
             filterChain.doFilter(request, response);
         } catch (Exception e) {
             sendUnauthorizedResponse(response, e.getMessage());
@@ -60,6 +62,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private void sendUnauthorizedResponse(HttpServletResponse response, String message) throws IOException {
+        log.warn("UNAUTHORIZED_EXCEPTION :: message = {}", message);
+
         ExceptionResponse errorResponse = new ExceptionResponse(message);
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
