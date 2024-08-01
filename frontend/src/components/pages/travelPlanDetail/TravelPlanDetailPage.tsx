@@ -8,20 +8,16 @@ import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 import { Tab, Text, TransformBottomSheet } from "@components/common";
 import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlansTabContent/TravelPlansTabContent";
 
-import useUser from "@hooks/useUser";
-
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 import * as S from "./TravelPlanDetailPage.styled";
 
 const TravelPlanDetailPage = () => {
-  const { user } = useUser();
-
   const location = useLocation();
 
   const id = location.pathname.replace(/[^\d]/g, "");
 
-  const { data } = useGetTravelPlan(id, user?.accessToken ?? "");
+  const { data } = useGetTravelPlan(id);
 
   const daysAndNights =
     data?.data.days.length && data?.data.days.length > 1

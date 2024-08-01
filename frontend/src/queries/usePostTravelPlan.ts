@@ -1,23 +1,28 @@
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { ErrorResponse } from "@type/api/errorResponse";
 import type { TravelRegister, TravelRegisterPlace } from "@type/domain/travelogue";
 
-import { client } from "@apis/client";
+import ApiError from "@apis/ApiError";
+import { authClient } from "@apis/client";
 
 export const usePostTravelPlan = () => {
   const queryClient = useQueryClient();
   return useMutation<
     AxiosResponse<TravelRegisterPlace & { id: number }, unknown>,
-    Error,
+    ApiError | AxiosError<ErrorResponse>,
     Omit<TravelRegister, "thumbnail"> & { startDate: string },
     unknown
   >({
     mutationFn: (travelPlan: Omit<TravelRegister, "thumbnail"> & { startDate: string }) =>
-      client.post("/travel-plans", travelPlan),
+      authClient.post("/travel-plans", travelPlan),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["travel-plans"] });
+    },
+    onError: (error) => {
+      alert(error.message);
     },
   });
 };

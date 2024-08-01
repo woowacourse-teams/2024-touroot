@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
@@ -21,6 +21,7 @@ import {
 import TravelogueMultiImageUpload from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/TravelogueMultiImageUpload";
 
 import { useTravelDays } from "@hooks/pages/useTravelDays";
+import useUser from "@hooks/useUser";
 
 import * as S from "./TravelogueRegisterPage.styled";
 
@@ -85,6 +86,15 @@ const TravelogueRegisterPage = () => {
   };
 
   const { mutate: handleRegisterTravelogue } = usePostTravelogue();
+
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (!user?.accessToken) {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+    }
+  }, [user?.accessToken, navigate]);
 
   return (
     <>

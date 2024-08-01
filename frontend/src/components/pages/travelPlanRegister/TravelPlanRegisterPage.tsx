@@ -18,6 +18,7 @@ import {
 import DateRangePicker from "@components/common/DateRangePicker/DateRangePicker";
 
 import { useTravelDays } from "@hooks/pages/useTravelDays";
+import useUser from "@hooks/useUser";
 
 import * as S from "./TravelPlanRegisterPage.styled";
 
@@ -83,6 +84,15 @@ const TravelPlanRegisterPage = () => {
   };
 
   const { mutateAsync: handleAddTravelPlan } = usePostTravelPlan();
+
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (!user?.accessToken) {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+    }
+  }, [user?.accessToken, navigate]);
 
   return (
     <>
