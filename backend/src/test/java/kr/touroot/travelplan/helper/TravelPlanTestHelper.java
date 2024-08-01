@@ -72,7 +72,7 @@ public class TravelPlanTestHelper {
     }
 
     public Member initMemberTestData() {
-        Member member = getMember(1L, "tester", "image");
+        Member member = getMember(1L, "tester", "http://image.com");
         return memberRepository.save(member);
     }
 }

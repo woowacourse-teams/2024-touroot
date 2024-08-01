@@ -7,6 +7,6 @@ import kr.touroot.authentication.dto.response.kakao.KakaoProfile;
 public class OauthUserInformationFixture {
 
     public static final OauthUserInformationResponse USER_1_OAUTH_INFORMATION = new OauthUserInformationResponse(
-            1L, new KakaoAccount(new KakaoProfile("리비", "img-url"))
+            1L, new KakaoAccount(new KakaoProfile("리비", "http://img-url.com"))
     );
 }

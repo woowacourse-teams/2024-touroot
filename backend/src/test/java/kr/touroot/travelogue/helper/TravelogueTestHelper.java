@@ -95,7 +95,7 @@ public class TravelogueTestHelper {
     }
 
     public Member initMemberTestData() {
-        Member member = new Member(1L, "tester", "image");
+        Member member = new Member(1L, "tester", "http://image.com");
         return memberRepository.save(member);
     }
 }

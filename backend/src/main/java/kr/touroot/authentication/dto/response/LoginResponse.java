@@ -9,6 +9,6 @@ public record LoginResponse(
         @Schema(description = "투룻 서비스 인가용 accessToken", example = "accessTokenValue") String accessToken) {
 
     public static LoginResponse of(Member member, String accessToken) {
-        return new LoginResponse(member.getNickname(), member.getProfileImageUri(), accessToken);
+        return new LoginResponse(member.getNickname(), member.getProfileImageUrl(), accessToken);
     }
 }
