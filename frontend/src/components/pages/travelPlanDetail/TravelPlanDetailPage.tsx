@@ -1,20 +1,21 @@
-import { useContext } from "react";
 import { useLocation } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
-import { UserContext } from "@contexts/UserProvider";
+import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
 import { Tab, Text, TransformBottomSheet } from "@components/common";
-import TravelPlansTabContent from "@components/pages/TravelPlansDetail/TravelPlansTabContent/TravelPlansTabContent";
+import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlansTabContent/TravelPlansTabContent";
+
+import useUser from "@hooks/useUser";
 
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
-import * as S from "./TravelPlansDetail.styled";
+import * as S from "./TravelPlanDetailPage.styled";
 
-const TravelPlansDetailPage = () => {
-  const { user } = useContext(UserContext);
+const TravelPlanDetailPage = () => {
+  const { user } = useUser();
 
   const location = useLocation();
 
@@ -26,6 +27,8 @@ const TravelPlansDetailPage = () => {
     data?.data.days.length && data?.data.days.length > 1
       ? `${data?.data.days.length - 1}박 ${data?.data.days.length}일`
       : "당일치기";
+
+  const { onTransformTravelDetail } = useTravelTransformDetailContext();
 
   return (
     <>
@@ -58,11 +61,14 @@ const TravelPlansDetailPage = () => {
           <TravelPlansTabContent places={data?.data.days[selectedIndex].places ?? []} />
         )}
       />
-      <TransformBottomSheet buttonLabel="여행기로 전환">
+      <TransformBottomSheet
+        onTransform={() => onTransformTravelDetail("/travelogue/register", data?.data)}
+        buttonLabel="여행기로 전환"
+      >
         여행은 즐겁게 다녀오셨나요?
       </TransformBottomSheet>
     </>
   );
 };
 
-export default TravelPlansDetailPage;
+export default TravelPlanDetailPage;

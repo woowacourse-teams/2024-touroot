@@ -1,17 +1,16 @@
-import { useState } from "react";
+import { useContext } from "react";
 
-import { User } from "@type/domain/user";
+import { SaveUserContext, UserContext } from "@contexts/UserProvider";
 
 const useUser = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const user = useContext(UserContext);
+  const saveUser = useContext(SaveUserContext);
 
-  const saveUser = (userInfo: User) => {
-    setUser(userInfo);
-  };
+  if (!user || !saveUser) throw new Error("Provider 바깥에 존재합니다!");
 
   return {
-    user,
-    saveUser,
+    ...user,
+    ...saveUser,
   };
 };
 export default useUser;

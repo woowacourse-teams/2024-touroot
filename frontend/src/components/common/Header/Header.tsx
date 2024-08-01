@@ -1,9 +1,8 @@
-import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { UserContext } from "@contexts/UserProvider";
-
 import IconButton from "@components/common/IconButton/IconButton";
+
+import useUser from "@hooks/useUser";
 
 import { ROUTE_PATHS } from "@constants/route";
 
@@ -26,7 +25,7 @@ const Header = () => {
       ? () => navigate(ROUTE_PATHS.root)
       : () => navigate(-1);
 
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
 
   return (
     <Drawer>
