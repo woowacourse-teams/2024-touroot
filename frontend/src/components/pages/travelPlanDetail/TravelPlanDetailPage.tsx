@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
@@ -28,9 +28,7 @@ const TravelPlanDetailPage = () => {
       ? `${data?.data.days.length - 1}박 ${data?.data.days.length}일`
       : "당일치기";
 
-  const { saveTransformDetail } = useTravelTransformDetailContext();
-
-  const navigate = useNavigate();
+  const { onTransformTravelDetail } = useTravelTransformDetailContext();
 
   return (
     <>
@@ -64,15 +62,7 @@ const TravelPlanDetailPage = () => {
         )}
       />
       <TransformBottomSheet
-        onTransform={() => {
-          if (Object.keys(user ?? {}).length === 0) {
-            alert("로그인 후 이용이 가능합니다.");
-            navigate("/login");
-          } else if (data) {
-            saveTransformDetail(data?.data ?? []);
-            navigate("/travelogue/register");
-          }
-        }}
+        onTransform={() => onTransformTravelDetail("/travelogue/register", data?.data)}
         buttonLabel="여행기로 전환"
       >
         여행은 즐겁게 다녀오셨나요?

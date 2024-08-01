@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
@@ -8,8 +8,6 @@ import { useGetTravelogue } from "@queries/useGetTravelogue";
 import { Tab, TransformBottomSheet } from "@components/common";
 import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
-
-import useUser from "@hooks/useUser";
 
 import { EmptyHeart } from "@assets/svg";
 
@@ -26,11 +24,7 @@ const TravelogueDetailPage = () => {
       ? `${data?.days.length - 1}박 ${data?.days.length}일`
       : "당일치기";
 
-  const { user } = useUser();
-
-  const { saveTransformDetail } = useTravelTransformDetailContext();
-
-  const navigate = useNavigate();
+  const { onTransformTravelDetail } = useTravelTransformDetailContext();
 
   return (
     <>
@@ -62,15 +56,7 @@ const TravelogueDetailPage = () => {
         )}
       />
       <TransformBottomSheet
-        onTransform={() => {
-          if (Object.keys(user ?? {}).length === 0) {
-            alert("로그인 후 이용이 가능합니다.");
-            navigate("/login");
-          } else if (data) {
-            saveTransformDetail(data);
-            navigate("/travel-plans/register");
-          }
-        }}
+        onTransform={() => onTransformTravelDetail("/travel-plans/register", data)}
         buttonLabel="여행 계획으로 전환"
       >
         이 여행기를 따라가고 싶으신가요?
