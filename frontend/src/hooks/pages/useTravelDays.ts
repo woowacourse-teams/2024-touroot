@@ -1,9 +1,10 @@
 import { useCallback, useState } from "react";
 
-import { TravelRegisterDay, TravelRegisterPlace } from "@type/domain/travelogue";
+import type { TravelTransformPlaces } from "@type/domain/travelTransform";
+import type { TravelRegisterDay, TravelRegisterPlace } from "@type/domain/travelogue";
 
-export const useTravelDays = () => {
-  const [travelDays, setTravelDays] = useState<TravelRegisterDay[]>([]);
+export const useTravelDays = (days: TravelTransformPlaces[]) => {
+  const [travelDays, setTravelDays] = useState<TravelRegisterDay[]>(days);
 
   const onAddDay = useCallback((dayIndex?: number) => {
     setTravelDays((prevTravelDays) =>

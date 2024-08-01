@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { TravelRegisterDay, TravelRegisterPlace } from "@type/domain/travelogue";
+import type { TravelRegisterDay, TravelRegisterPlace } from "@type/domain/travelogue";
 
 import {
   Accordion,

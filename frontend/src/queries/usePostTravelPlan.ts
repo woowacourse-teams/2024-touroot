@@ -2,7 +2,7 @@ import { AxiosError, AxiosResponse } from "axios";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import type { ErrorResponse } from "@type/api/errorResponse";
+import { ErrorResponse } from "@type/api/errorResponse";
 import type { TravelRegister, TravelRegisterPlace } from "@type/domain/travelogue";
 
 import ApiError from "@apis/ApiError";

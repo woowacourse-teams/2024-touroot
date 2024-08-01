@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 
-import { Place } from "@type/domain/travelogue";
+import type { Place } from "@type/domain/travelogue";
 
 import { Box, GoogleMapLoadScript, GoogleMapView } from "@components/common";
 import PlaceDetailCard from "@components/pages/travelogueDetail/TravelogueTabContent/PlaceDetailCard/PlaceDetailCard";

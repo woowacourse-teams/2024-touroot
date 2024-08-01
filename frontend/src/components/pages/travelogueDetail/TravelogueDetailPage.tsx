@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
+import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 import { useGetTravelogue } from "@queries/useGetTravelogue";
 
 import { Tab, TransformBottomSheet } from "@components/common";
@@ -22,6 +23,8 @@ const TravelogueDetailPage = () => {
     data?.days.length && data?.days.length > 1
       ? `${data?.days.length - 1}박 ${data?.days.length}일`
       : "당일치기";
+
+  const { onTransformTravelDetail } = useTravelTransformDetailContext();
 
   return (
     <>
@@ -52,7 +55,10 @@ const TravelogueDetailPage = () => {
           <TravelogueTabContent places={data?.days[selectedIndex].places ?? []} />
         )}
       />
-      <TransformBottomSheet buttonLabel="여행 계획으로 전환">
+      <TransformBottomSheet
+        onTransform={() => onTransformTravelDetail("/travel-plans/register", data)}
+        buttonLabel="여행 계획으로 전환"
+      >
         이 여행기를 따라가고 싶으신가요?
       </TransformBottomSheet>
     </>

@@ -4,7 +4,7 @@ import { Global, css } from "@emotion/react";
 
 import { Autocomplete } from "@react-google-maps/api";
 
-import { Place } from "@type/domain/travelogue";
+import type { Place } from "@type/domain/travelogue";
 
 import { Button } from "@components/common";
 
