@@ -56,13 +56,13 @@ class TravelogueTest {
                 .hasMessage("여행기 제목, 여행기 썸네일은 비어있을 수 없습니다");
     }
 
-    @DisplayName("여행기 제목의 길이가 20자 초과인 경우 여행기 생성 시 예외가 발생한다")
+    @DisplayName("여행기 제목의 길이가 1자 이상 20자 이하가 아닌 경우 여행기 생성 시 예외가 발생한다")
     @ParameterizedTest
     @ValueSource(strings = {"21-length-stringggggg", "22-length-stringgggggg", "23-length-stringggggggg"})
     void createTravelogueWithInvalidLengthTitle(String invalidLengthTitle) {
         assertThatThrownBy(() -> new Travelogue(invalidLengthTitle, VALID_THUMBNAIL))
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("여행기 제목은 20자를 초과할 수 없습니다");
+                .hasMessage("여행기 제목은 1자 이상, 20자 이하여야 합니다");
     }
 
     @DisplayName("여행기 썸네일 경로가 URL형식을 벗어나는 경우 여행기 생성 시 예외가 발생한다")

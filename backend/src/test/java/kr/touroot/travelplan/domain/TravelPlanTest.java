@@ -48,14 +48,14 @@ class TravelPlanTest {
                 .hasMessage("여행 계획에서 제목은 공백 문자로만 이루어질 수 없습니다");
     }
 
-    @DisplayName("여행 계획 제목이 1자에서 30자 사이의 길이가 아니라면 생성 시 예외가 발생한다")
+    @DisplayName("여행 계획 제목이 1자에서 20자 사이의 길이가 아니라면 생성 시 예외가 발생한다")
     @Test
     void createTravelPlanWithInvalidLengthTitle() {
-        String length31 = "서울 명동: 패션 쇼핑과 길거리 음식, 멋진 전경 탐방!";
+        String length21 = "서울 명동: 패션 쇼핑과 길거리 음식,";
 
-        assertThatThrownBy(() -> new TravelPlan(length31, VALID_START_DATE))
+        assertThatThrownBy(() -> new TravelPlan(length21, VALID_START_DATE))
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("여행 계획은 1자 이상, 30자 이하여야 합니다");
+                .hasMessage("여행 계획은 1자 이상, 20자 이하여야 합니다");
     }
 
     @DisplayName("여행 계획은 지난 날짜를 검증할 시 예외가 발생한다.")

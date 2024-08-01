@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class TravelPlan extends BaseEntity {
 
     private static final int TITLE_MIN_LENGTH = 1;
-    private static final int TITLE_MAX_LENGTH = 30;
+    private static final int TITLE_MAX_LENGTH = 20;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

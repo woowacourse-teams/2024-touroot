@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Travelogue extends BaseEntity {
 
+    private static final int MIN_TITLE_LENGTH = 1;
     private static final int MAX_TITLE_LENGTH = 20;
 
     @Id
@@ -62,8 +63,8 @@ public class Travelogue extends BaseEntity {
     }
 
     private void validateTitleLength(String title) {
-        if (title.length() > MAX_TITLE_LENGTH) {
-            throw new BadRequestException("여행기 제목은 " + MAX_TITLE_LENGTH + "자를 초과할 수 없습니다");
+        if (MIN_TITLE_LENGTH > title.length() || title.length() > MAX_TITLE_LENGTH) {
+            throw new BadRequestException("여행기 제목은 " + MIN_TITLE_LENGTH + "자 이상, " + MAX_TITLE_LENGTH + "자 이하여야 합니다");
         }
     }
 
