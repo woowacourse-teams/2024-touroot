@@ -31,14 +31,14 @@ import org.springframework.http.HttpHeaders;
 @AcceptanceTest
 class TravelogueControllerTest {
 
-    @LocalServerPort
-    private int port;
     private final DatabaseCleaner databaseCleaner;
     private final TravelogueTestHelper testHelper;
     private final ObjectMapper objectMapper;
     private final JwtTokenProvider jwtTokenProvider;
     @MockBean
     private final AwsS3Provider s3Provider;
+    @LocalServerPort
+    private int port;
 
     @Autowired
     public TravelogueControllerTest(
@@ -66,7 +66,7 @@ class TravelogueControllerTest {
     @Test
     void createTravelogue() {
         Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn("imageUrl.png");
+                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
         Member member = testHelper.initMemberTestData();

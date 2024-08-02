@@ -1,7 +1,7 @@
 package kr.touroot.travelogue.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
@@ -16,7 +16,6 @@ import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -64,8 +63,12 @@ class TravelogueFacadeServiceTest {
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
-        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn(TravelogueResponseFixture.getTraveloguePhotoUrls().get(0));
+        when(s3Provider.copyImageToPermanentStorage(
+                TravelogueRequestFixture.getTravelogueRequest().thumbnail())
+        ).thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
+        when(s3Provider.copyImageToPermanentStorage(
+                TravelogueRequestFixture.getTraveloguePhotoRequests().get(0).url())
+        ).thenReturn(TravelogueResponseFixture.getTraveloguePhotoUrls().get(0));
 
         testHelper.initMemberTestData();
 
