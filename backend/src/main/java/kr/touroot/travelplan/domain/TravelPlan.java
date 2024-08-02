@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
+import java.util.UUID;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
@@ -23,6 +24,7 @@ public class TravelPlan extends BaseEntity {
 
     private static final int TITLE_MIN_LENGTH = 1;
     private static final int TITLE_MAX_LENGTH = 20;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,20 +35,24 @@ public class TravelPlan extends BaseEntity {
     @Column(nullable = false)
     private LocalDate startDate;
 
+    @Column(nullable = false)
+    private UUID shareKey;
+
     @JoinColumn(name = "author_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Member author;
 
-    public TravelPlan(Long id, String title, LocalDate startDate, Member author) {
+    public TravelPlan(Long id, String title, LocalDate startDate, UUID shareKey, Member author) {
         validate(title, startDate, author);
         this.id = id;
         this.title = title;
         this.startDate = startDate;
+        this.shareKey = shareKey;
         this.author = author;
     }
 
-    public TravelPlan(String title, LocalDate startDate, Member author) {
-        this(null, title, startDate, author);
+    public TravelPlan(String title, LocalDate startDate, UUID shareKey, Member author) {
+        this(null, title, startDate, shareKey, author);
     }
 
 
