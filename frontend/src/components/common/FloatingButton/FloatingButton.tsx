@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 // import { UserContext } from "@contexts/UserProvider";
 import Icon from "@components/common/Icon/Icon";
 
-import { ROUTE_PATHS } from "@constants/route";
+import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
@@ -26,7 +26,7 @@ const FloatingButton = () => {
     //   alert("여행기 작성 전 로그인을 먼저 해주세요!");
     //   return;
     // }
-    navigate(ROUTE_PATHS.travelogueRegister);
+    navigate(ROUTE_PATHS_MAP.travelogueRegister);
   };
 
   const handleClickShareButton = () => {};

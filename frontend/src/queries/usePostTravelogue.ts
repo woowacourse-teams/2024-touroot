@@ -8,6 +8,9 @@ import { TravelogueResponse } from "@type/domain/travelogue";
 import ApiError from "@apis/ApiError";
 import { authClient } from "@apis/client";
 
+import { API_ENDPOINT_MAP } from "@constants/endpoint";
+import { QUERY_KEYS_MAP } from "@constants/queryKey";
+
 export const usePostTravelogue = () => {
   const queryClient = useQueryClient();
   return useMutation<
@@ -28,7 +31,7 @@ export const usePostTravelogue = () => {
         })),
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["travelogues"] });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS_MAP.travelogue.all });
     },
     onError: (error) => {
       alert(error);

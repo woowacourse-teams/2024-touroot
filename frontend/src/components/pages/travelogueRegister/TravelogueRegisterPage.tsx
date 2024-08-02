@@ -22,6 +22,9 @@ import TravelogueDayAccordion from "@components/pages/travelogueRegister/Travelo
 import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
 import useUser from "@hooks/useUser";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+import { ROUTE_PATHS_MAP } from "@constants/route";
+
 import * as S from "./TravelogueRegisterPage.styled";
 
 const MAX_TITLE_LENGTH = 20;
@@ -76,9 +79,9 @@ const TravelogueRegisterPage = () => {
     handleRegisterTravelogue(
       { title, thumbnail, days: travelogueDays },
       {
-        onSuccess: ({ data }) => {
+        onSuccess: ({ data: { id } }) => {
           handleCloseBottomSheet();
-          navigate(`/travelogue/${data.id}`);
+          navigate(ROUTE_PATHS_MAP.travelogue(id));
         },
       },
     );
@@ -90,8 +93,8 @@ const TravelogueRegisterPage = () => {
 
   useEffect(() => {
     if (!user?.accessToken) {
-      alert("로그인이 필요합니다.");
-      navigate("/login");
+      alert(ERROR_MESSAGE_MAP.api.login);
+      navigate(ROUTE_PATHS_MAP.login);
     }
   }, [user?.accessToken, navigate]);
 
