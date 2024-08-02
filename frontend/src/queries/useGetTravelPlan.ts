@@ -12,6 +12,6 @@ import { QUERY_KEYS_MAP } from "@constants/queryKey";
 export const useGetTravelPlan = (id: string) => {
   return useQuery<AxiosResponse<Travelogue>>({
     queryKey: QUERY_KEYS_MAP.travelPlan.detail(id),
-    queryFn: async () => authClient.get(API_ENDPOINT_MAP.travelPlan(Number(id))),
+    queryFn: async () => authClient.get(API_ENDPOINT_MAP.travelPlanDetail(Number(id))),
   });
 };
