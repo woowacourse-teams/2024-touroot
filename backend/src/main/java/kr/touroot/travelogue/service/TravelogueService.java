@@ -1,6 +1,7 @@
 package kr.touroot.travelogue.service;
 
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
@@ -15,9 +16,11 @@ import org.springframework.stereotype.Service;
 public class TravelogueService {
 
     private final TravelogueRepository travelogueRepository;
+    private final AwsS3Provider s3Provider;
 
     public Travelogue createTravelogue(Member author, TravelogueRequest request) {
-        Travelogue travelogue = request.toTravelogueOf(author);
+        String url = s3Provider.copyImageToPermanentStorage(request.thumbnail());
+        Travelogue travelogue = request.toTravelogueOf(author, url);
         return travelogueRepository.save(travelogue);
     }
 
