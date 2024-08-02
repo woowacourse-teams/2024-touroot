@@ -2,6 +2,8 @@ import { createContext, useState } from "react";
 
 import type { User } from "@type/domain/user";
 
+import { STORAGE_KEYS_MAP } from "@constants/storage";
+
 export interface UserContextProps {
   user: User | null;
 }
@@ -15,11 +17,11 @@ export const SaveUserContext = createContext({} as SaveUserContextProps);
 
 const UserProvider = ({ children }: React.PropsWithChildren) => {
   const [user, setUser] = useState<User | null>(
-    () => JSON.parse(localStorage.getItem("tourootUser") ?? "{}") ?? null,
+    () => JSON.parse(localStorage.getItem(STORAGE_KEYS_MAP.user) ?? "{}") ?? null,
   );
 
   const saveUser = (user: User) => {
-    localStorage.setItem("tourootUser", JSON.stringify(user ?? {}));
+    localStorage.setItem(STORAGE_KEYS_MAP.user, JSON.stringify(user ?? {}));
     setUser(user);
   };
   return (
