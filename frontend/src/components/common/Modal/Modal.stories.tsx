@@ -46,7 +46,7 @@ export const ShareModal = {
               />
 
               <Text textType="body" style={{ fontWeight: 700 }}>
-                여행 계획을 삭제할까요?
+                여행기를 공유할까요?
               </Text>
               <div style={{ width: "29rem", position: "relative" }}>
                 <Input
