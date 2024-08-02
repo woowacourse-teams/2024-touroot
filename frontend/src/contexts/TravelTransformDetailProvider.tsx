@@ -7,6 +7,7 @@ import type { TravelTransformDetail } from "@type/domain/travelTransform";
 
 import useUser from "@hooks/useUser";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 const TravelogueContext = createContext<TravelTransformDetail | null>(null);
@@ -42,7 +43,7 @@ export const useTravelTransformDetailContext = () => {
     travelTransformDetail?: TravelTransformDetail,
   ) => {
     if (isEmptyObject(user ?? {})) {
-      alert("로그인 후 이용이 가능합니다.");
+      alert(ERROR_MESSAGE_MAP.api.login);
       navigate(ROUTE_PATHS_MAP.login);
     } else if (travelTransformDetail) {
       saveTransformDetail(travelTransformDetail);

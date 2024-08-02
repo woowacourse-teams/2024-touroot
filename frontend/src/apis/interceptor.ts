@@ -6,6 +6,7 @@ import type { User } from "@type/domain/user";
 
 import ApiError from "@apis/ApiError";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 import { STORAGE_KEYS_MAP } from "@constants/storage";
 
@@ -14,7 +15,7 @@ export const checkAccessToken = (
   accessToken: string | null,
 ) => {
   if (!accessToken) {
-    alert("로그인이 필요합니다.");
+    alert(ERROR_MESSAGE_MAP.api.login);
     window.location.href = ROUTE_PATHS_MAP.login;
   }
 

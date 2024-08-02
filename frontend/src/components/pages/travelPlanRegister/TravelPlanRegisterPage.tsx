@@ -20,6 +20,7 @@ import DateRangePicker from "@components/common/DateRangePicker/DateRangePicker"
 import { useTravelDays } from "@hooks/pages/useTravelDays";
 import useUser from "@hooks/useUser";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import * as S from "./TravelPlanRegisterPage.styled";
@@ -91,7 +92,7 @@ const TravelPlanRegisterPage = () => {
 
   useEffect(() => {
     if (!user?.accessToken) {
-      alert("로그인이 필요합니다.");
+      alert(ERROR_MESSAGE_MAP.api.login);
       navigate(ROUTE_PATHS_MAP.login);
     }
   }, [user?.accessToken, navigate]);
