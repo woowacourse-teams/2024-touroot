@@ -59,7 +59,7 @@ public class TravelPlanTestHelper {
         return new TravelPlanPlace(description, order, day, place);
     }
 
-    public long initTravelPlanTestData(Member author) {
+    public TravelPlan initTravelPlanTestData(Member author) {
         TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
         Place place = getPlace("장소", "37.5175896", "127.0867236", "");
@@ -68,7 +68,9 @@ public class TravelPlanTestHelper {
         travelPlanRepository.save(travelPlan);
         travelPlanDayRepository.save(travelPlanDay);
         placeRepository.save(place);
-        return travelPlanPlaceRepository.save(travelPlanPlace).getId();
+        travelPlanPlaceRepository.save(travelPlanPlace);
+
+        return travelPlan;
     }
 
     public Member initMemberTestData() {
