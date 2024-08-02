@@ -20,7 +20,7 @@ export const usePostTravelogue = () => {
     unknown
   >({
     mutationFn: (travelogue: TravelogueResponse) =>
-      authClient.post("/travelogues", {
+      authClient.post(API_ENDPOINT_MAP.travelogues, {
         ...travelogue,
         days: travelogue.days.map((day) => ({
           ...day,

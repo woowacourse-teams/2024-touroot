@@ -34,7 +34,7 @@ export const setAuthorizationHeader = (
 };
 
 export const handlePreviousRequest = (config: InternalAxiosRequestConfig) => {
-  const user: User | null = JSON.parse(localStorage.getItem(STORAGE_KEYS_MAP.user) ?? "{}");
+  const user: UserResponse | null = JSON.parse(localStorage.getItem(STORAGE_KEYS_MAP.user) ?? "{}");
   let newConfig = { ...config };
 
   newConfig = checkAccessToken(config, user?.accessToken ?? null);
