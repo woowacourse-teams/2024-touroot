@@ -14,10 +14,17 @@ const KakaoCallbackPage = () => {
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
     const code = searchParams.get("code");
+    const redirectUri = `${window.location.origin}/oauth`;
+    const encodedRedirectUri = encodeURIComponent(redirectUri);
 
     if (code) {
       client
-        .get(`${ROUTE_PATHS.loginOauth}?code=${code}`)
+        .get(`${ROUTE_PATHS.loginOauth}`, {
+          params: {
+            code: code,
+            "redirect-uri": encodedRedirectUri,
+          },
+        })
         .then((res) => {
           saveUser(res.data);
           navigate(ROUTE_PATHS.root);
