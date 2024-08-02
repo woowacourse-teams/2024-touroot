@@ -15,17 +15,7 @@ import TravelogueMultiImageUpload from "@components/pages/travelogueRegister/Tra
 
 import * as S from "../TravelogueRegisterPage.styled";
 
-const TravelogueDayAccordion = ({
-  travelogueDay,
-  dayIndex,
-  onAddPlace,
-  onDeleteDay,
-  onDeletePlace,
-  onChangePlaceDescription,
-  onChangeImageUrls,
-  onDeleteImageUrls,
-  onRequestAddImage,
-}: {
+interface TravelogueDayAccordionProps {
   travelogueDay: TravelogueDay;
   dayIndex: number;
   onDeleteDay: (dayIndex: number) => void;
@@ -42,7 +32,19 @@ const TravelogueDayAccordion = ({
     variables: File[],
     options?: MutateOptions<string[], Error, File[], unknown> | undefined,
   ) => Promise<string[]>;
-}) => {
+}
+
+const TravelogueDayAccordion = ({
+  travelogueDay,
+  dayIndex,
+  onAddPlace,
+  onDeleteDay,
+  onDeletePlace,
+  onChangePlaceDescription,
+  onChangeImageUrls,
+  onDeleteImageUrls,
+  onRequestAddImage,
+}: TravelogueDayAccordionProps) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const onSelectSearchResult = (

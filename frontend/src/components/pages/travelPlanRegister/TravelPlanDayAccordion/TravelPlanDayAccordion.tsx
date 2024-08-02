@@ -12,14 +12,7 @@ import {
 
 import * as S from "../TravelPlanRegisterPage.styled";
 
-const TravelPlanDayAccordion = ({
-  travelPlanDay,
-  dayIndex,
-  onDeleteDay,
-  onDeletePlace,
-  onChangePlaceDescription,
-  onAddPlace,
-}: {
+interface TravelPlanDayAccordionProps {
   travelPlanDay: TravelPlanDay;
   dayIndex: number;
   onDeleteDay: (dayIndex: number) => void;
@@ -30,7 +23,16 @@ const TravelPlanDayAccordion = ({
     placeIndex: number,
   ) => void;
   onAddPlace: (dayIndex: number, travelParams: TravelPlanPlace) => void;
-}) => {
+}
+
+const TravelPlanDayAccordion = ({
+  travelPlanDay,
+  dayIndex,
+  onDeleteDay,
+  onDeletePlace,
+  onChangePlaceDescription,
+  onAddPlace,
+}: TravelPlanDayAccordionProps) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const onSelectSearchResult = (
