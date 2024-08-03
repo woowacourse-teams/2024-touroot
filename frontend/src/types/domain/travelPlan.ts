@@ -14,4 +14,7 @@ export interface TravelPlanResponse {
   title: string;
   startDate: string;
   days: TravelPlanDay[];
+  shareKey: string;
 }
+
+export type TravelPlanPayload = Omit<TravelPlanResponse, "shareKey">;
