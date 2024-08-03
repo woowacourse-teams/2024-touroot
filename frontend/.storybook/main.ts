@@ -29,6 +29,7 @@ const config: StorybookConfig = {
         "@queries": path.resolve(__dirname, "../src/queries"),
         "@hooks": path.resolve(__dirname, "../src/hooks"),
         "@contexts": path.resolve(__dirname, "../src/contexts"),
+        "@utils": path.resolve(__dirname, "../src/utils"),
       };
     }
     config.module = config.module || {};

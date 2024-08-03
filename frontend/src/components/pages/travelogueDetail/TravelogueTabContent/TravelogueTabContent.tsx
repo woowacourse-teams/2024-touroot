@@ -1,13 +1,13 @@
 import { css } from "@emotion/react";
 
-import { Place } from "@type/domain/travelogue";
+import type { TraveloguePlace } from "@type/domain/travelogue";
 
 import { Box, GoogleMapLoadScript, GoogleMapView } from "@components/common";
 import PlaceDetailCard from "@components/pages/travelogueDetail/TravelogueTabContent/PlaceDetailCard/PlaceDetailCard";
 
 import * as S from "./TravelogueTabContent.styled";
 
-const TravelogueTabContent = ({ places }: { places: Place[] }) => {
+const TravelogueTabContent = ({ places }: { places: TraveloguePlace[] }) => {
   if (places.length === 0) return null;
 
   return (

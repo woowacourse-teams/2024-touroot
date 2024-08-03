@@ -14,6 +14,7 @@ module.exports = {
     "^@queries/(.*)$": "<rootDir>/src/queries/$1",
     "^@hooks/(.*)$": "<rootDir>/src/hooks/$1",
     "^@contexts/(.*)$": "<rootDir>/src/contexts/$1",
+    "^@utils/(.*)$": "<rootDir>/src/utils/$1",
   },
   testPathIgnorePatterns: ["<rootDir>/__tests__/constants/", "<rootDir>/__tests__/utils/"],
   /* 

@@ -2,16 +2,16 @@ import { AxiosResponse } from "axios";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { Travelogue } from "@type/domain/travelogue";
+import type { TravelPlanResponse } from "@type/domain/travelPlan";
 
-import { client } from "@apis/client";
+import { authClient } from "@apis/client";
 
-export const useGetTravelPlan = (id: string, accessToken: string) => {
-  return useQuery<AxiosResponse<Travelogue>>({
-    queryKey: [`travel-plans/${id}`],
-    queryFn: async () =>
-      client.get(`travel-plans/${id}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }),
+import { API_ENDPOINT_MAP } from "@constants/endpoint";
+import { QUERY_KEYS_MAP } from "@constants/queryKey";
+
+export const useGetTravelPlan = (id: string) => {
+  return useQuery<AxiosResponse<TravelPlanResponse>>({
+    queryKey: QUERY_KEYS_MAP.travelPlan.detail(id),
+    queryFn: async () => authClient.get(API_ENDPOINT_MAP.travelPlanDetail(Number(id))),
   });
 };

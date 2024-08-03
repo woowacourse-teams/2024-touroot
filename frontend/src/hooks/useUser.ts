@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { useContext } from "react";
 
-import { User } from "@type/domain/user";
+import { SaveUserContext, UserContext } from "@contexts/UserProvider";
+
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 
 const useUser = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const user = useContext(UserContext);
+  const saveUser = useContext(SaveUserContext);
 
-  const saveUser = (userInfo: User) => {
-    setUser(userInfo);
-  };
+  if (!user || !saveUser) throw new Error(ERROR_MESSAGE_MAP.provider);
 
   return {
-    user,
-    saveUser,
+    ...user,
+    ...saveUser,
   };
 };
 export default useUser;

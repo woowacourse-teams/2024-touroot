@@ -1,6 +1,8 @@
 import { useState } from "react";
 
-import { TravelRegisterDay, TravelRegisterPlace } from "@type/domain/travelogue";
+import { MutateOptions } from "@tanstack/react-query";
+
+import type { TravelogueDay, TraveloguePlace } from "@type/domain/travelogue";
 
 import {
   Accordion,
@@ -9,20 +11,12 @@ import {
   IconButton,
   Textarea,
 } from "@components/common";
+import TravelogueMultiImageUpload from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/TravelogueMultiImageUpload";
 
-import * as S from "../../pages/travelogueRegister/TravelogueRegisterPage.styled";
+import * as S from "../TravelogueRegisterPage.styled";
 
-const DayContent = ({
-  children,
-  travelDay,
-  dayIndex,
-  onDeleteDay,
-  onDeletePlace,
-  onChangePlaceDescription,
-  onAddPlace,
-}: {
-  children?: (placeIndex: number, previewUrls: { url: string }[]) => JSX.Element;
-  travelDay: TravelRegisterDay;
+interface TravelogueDayAccordionProps {
+  travelogueDay: TravelogueDay;
   dayIndex: number;
   onDeleteDay: (dayIndex: number) => void;
   onDeletePlace: (dayIndex: number, placeIndex: number) => void;
@@ -31,12 +25,30 @@ const DayContent = ({
     dayIndex: number,
     placeIndex: number,
   ) => void;
-  onAddPlace: (dayIndex: number, travelParams: TravelRegisterPlace) => void;
-}) => {
+  onAddPlace: (dayIndex: number, traveloguePlace: TraveloguePlace) => void;
+  onChangeImageUrls: (dayIndex: number, placeIndex: number, imgUrls: string[]) => void;
+  onDeleteImageUrls: (dayIndex: number, targetPlaceIndex: number, imageIndex: number) => void;
+  onRequestAddImage: (
+    variables: File[],
+    options?: MutateOptions<string[], Error, File[], unknown> | undefined,
+  ) => Promise<string[]>;
+}
+
+const TravelogueDayAccordion = ({
+  travelogueDay,
+  dayIndex,
+  onAddPlace,
+  onDeleteDay,
+  onDeletePlace,
+  onChangePlaceDescription,
+  onChangeImageUrls,
+  onDeleteImageUrls,
+  onRequestAddImage,
+}: TravelogueDayAccordionProps) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const onSelectSearchResult = (
-    placeInfo: Pick<TravelRegisterPlace, "placeName" | "position">,
+    placeInfo: Pick<TraveloguePlace, "placeName" | "position">,
     dayIndex: number,
   ) => {
     onAddPlace(dayIndex, placeInfo);
@@ -48,30 +60,37 @@ const DayContent = ({
   };
 
   return (
-    <Accordion.Item key={`${travelDay}-${dayIndex}}`} value={`day-${dayIndex}`}>
+    <Accordion.Item key={`${travelogueDay}-${dayIndex}}`} value={`day-${dayIndex}`}>
       <Accordion.Trigger onDeleteItem={() => onDeleteDay(dayIndex)}>
         {`Day ${dayIndex + 1}`}
       </Accordion.Trigger>
       <Accordion.Content>
         <Accordion.Root>
           <GoogleMapView
-            places={travelDay.places.map((place) => ({
+            places={travelogueDay.places.map((place) => ({
               lat: Number(place.position.lat),
               lng: Number(place.position.lng),
             }))}
           />
-          {travelDay.places.map((place, placeIndex) => (
-            <Accordion.Item key={`${place}-${dayIndex}}`} value={`place-${dayIndex}-${placeIndex}`}>
+          {travelogueDay.places.map((place, placeIndex) => (
+            <Accordion.Item key={place.placeName} value={place.placeName}>
               <Accordion.Trigger onDeleteItem={() => onDeletePlace(dayIndex, placeIndex)}>
                 {place.placeName || `장소 ${placeIndex + 1}`}
               </Accordion.Trigger>
               <Accordion.Content>
-                {children && children(placeIndex, place?.photoUrls ?? [])}
+                <TravelogueMultiImageUpload
+                  imageUrls={place.photoUrls ?? []}
+                  dayIndex={dayIndex}
+                  placeIndex={placeIndex}
+                  onChangeImageUrls={onChangeImageUrls}
+                  onDeleteImageUrls={onDeleteImageUrls}
+                  onRequestAddImage={onRequestAddImage}
+                />
                 <Textarea
                   value={place.description}
                   placeholder="장소에 대한 간단한 설명을 남겨주세요"
                   onChange={(e) => onChangePlaceDescription(e, dayIndex, placeIndex)}
-                  count={travelDay.places[placeIndex].description?.length ?? 0}
+                  count={travelogueDay.places[placeIndex].description?.length ?? 0}
                   maxLength={300}
                   maxCount={300}
                 />
@@ -99,4 +118,4 @@ const DayContent = ({
   );
 };
 
-export default DayContent;
+export default TravelogueDayAccordion;
