@@ -18,6 +18,7 @@
     "^@type/(.*)$",
     "^@apis/(.*)$",
     "^@mocks/(.*)$",
+    "^@queries/(.*)$",
     "^@components/(.*)$",
     "^@hooks/(.*)$",
     "^@constants/(.*)$",
