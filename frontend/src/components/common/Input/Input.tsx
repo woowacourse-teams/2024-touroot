@@ -6,7 +6,7 @@ import * as S from "./Input.styled";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   count?: number;
   maxCount?: number;
-  label: string;
+  label?: string;
 }
 
 const Input = ({ label, count, maxCount, ...props }: InputProps) => {
