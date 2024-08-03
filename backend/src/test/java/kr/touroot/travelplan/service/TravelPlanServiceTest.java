@@ -5,6 +5,7 @@ import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
+import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPositionCreateRequest;
@@ -107,7 +108,7 @@ class TravelPlanServiceTest {
     @Test
     void readTravelPlan() {
         // given
-        Long id = testHelper.initTravelPlanTestData(author);
+        Long id = testHelper.initTravelPlanTestData(author).getId();
 
         // when
         TravelPlanResponse actual = travelPlanService.readTravelPlan(id, memberAuth);
@@ -133,12 +134,25 @@ class TravelPlanServiceTest {
     @Test
     void readTravelPlanWithNotAuthor() {
         // given
-        Long id = testHelper.initTravelPlanTestData(author);
+        Long id = testHelper.initTravelPlanTestData(author).getId();
         MemberAuth notAuthor = new MemberAuth(testHelper.initMemberTestData().getId());
 
         // when & then
         assertThatThrownBy(() -> travelPlanService.readTravelPlan(id, notAuthor))
                 .isInstanceOf(ForbiddenException.class)
                 .hasMessage("여행 계획은 작성자만 조회할 수 있습니다.");
+    }
+
+    @DisplayName("여행 계획 서비스는 여행 계획 일자를 계산해 반환한다.")
+    @Test
+    void calculateTravelPeriod() {
+        // given
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
+
+        // when
+        int actual = travelPlanService.calculateTravelPeriod(travelPlan);
+
+        // then
+        assertThat(actual).isEqualTo(1);
     }
 }

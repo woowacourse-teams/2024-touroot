@@ -21,6 +21,8 @@ import kr.touroot.travelplan.repository.TravelPlanDayRepository;
 import kr.touroot.travelplan.repository.TravelPlanPlaceRepository;
 import kr.touroot.travelplan.repository.TravelPlanRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -120,5 +122,14 @@ public class TravelPlanService {
                 .sorted(Comparator.comparing(TravelPlanPlace::getOrder))
                 .map(TravelPlanPlaceResponse::from)
                 .toList();
+    }
+
+    public Page<TravelPlan> getAllByAuthor(Member member, Pageable pageable) {
+        return travelPlanRepository.findAllByAuthor(member, pageable);
+    }
+
+    public int calculateTravelPeriod(TravelPlan travelPlan) {
+        return travelPlanDayRepository.findByPlan(travelPlan)
+                .size();
     }
 }

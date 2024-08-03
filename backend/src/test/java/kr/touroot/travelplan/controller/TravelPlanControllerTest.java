@@ -152,7 +152,7 @@ class TravelPlanControllerTest {
     @Test
     void readTravelPlanWithNotAuthor() {
         // given
-        long id = testHelper.initTravelPlanTestData(member);
+        long id = testHelper.initTravelPlanTestData(member).getId();
         Member notAuthor = testHelper.initMemberTestData();
         String notAuthorAccessToken = jwtTokenProvider.createToken(notAuthor.getId());
 

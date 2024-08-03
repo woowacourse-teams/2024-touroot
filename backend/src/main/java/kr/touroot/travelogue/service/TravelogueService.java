@@ -32,4 +32,8 @@ public class TravelogueService {
     public Page<Travelogue> findAll(Pageable pageable) {
         return travelogueRepository.findAll(pageable);
     }
+
+    public Page<Travelogue> findAllByMember(Member member, Pageable pageable) {
+        return travelogueRepository.findAllByAuthor(member, pageable);
+    }
 }
