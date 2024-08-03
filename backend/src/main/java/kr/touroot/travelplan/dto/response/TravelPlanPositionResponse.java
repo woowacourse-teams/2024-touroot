@@ -6,8 +6,8 @@ import lombok.Builder;
 
 @Builder
 public record TravelPlanPositionResponse(
-        @Schema(description = "여행 장소 위도") String lat,
-        @Schema(description = "여행 계획 경도") String lng
+        @Schema(description = "여행 장소 위도", example = "37.5175896") String lat,
+        @Schema(description = "여행 계획 경도", example = "127.0867236") String lng
 ) {
 
     public static TravelPlanPositionResponse from(Place place) {
