@@ -3,6 +3,7 @@
     "id": 1,
     "title": "서울 탐험",
     "startDate": "2024-08-03",
+    "shareKey": "f34b8e0d-1d8f-4a2b-8b1d-c6a5f3e2b9c0",
     "days": [
       {
         "date": "2024-08-03",
@@ -52,6 +53,7 @@
     "id": 2,
     "title": "부산 해변 여행",
     "startDate": "2024-08-03",
+    "shareKey": "7f9a4b3c-8f7d-4e5a-9b1d-6c3f8a5b2e7c",
     "days": [
       {
         "date": "2024-08-03",
@@ -101,6 +103,7 @@
     "id": 3,
     "title": "제주도 자연 탐방",
     "startDate": "2024-08-03",
+    "shareKey": "3b1a8f2c-6e5d-4b3f-a9d7-5c7b2a8f9e3d",
     "days": [
       {
         "date": "2024-08-03",
@@ -150,6 +153,7 @@
     "id": 4,
     "title": "경주 역사 여행",
     "startDate": "2024-08-03",
+    "shareKey": "5d2f8b6a-9e4b-4c7a-bd6e-3f1a9c8f5b7d",
     "days": [
       {
         "date": "2024-08-03",
@@ -199,6 +203,7 @@
     "id": 5,
     "title": "전주 문화 체험",
     "startDate": "2024-08-03",
+    "shareKey": "7b8c2f4d-6e5a-4a3b-b1f9-2d8e3c7f9a1b",
     "days": [
       {
         "date": "2024-08-03",
@@ -248,6 +253,7 @@
     "id": 6,
     "title": "서울과 주변 지역 탐험",
     "startDate": "2024-08-03",
+    "shareKey": "9d4a2f7b-8c3b-4e5a-b9f6-7c8d1a3e5b2c",
     "days": [
       {
         "date": "2024-08-03",
@@ -339,6 +345,7 @@
     "id": 7,
     "title": "서울과 한국 남부 지역 여행",
     "startDate": "2024-08-03",
+    "shareKey": "8a6f3d2e-5b4c-4a3b-a8e9-1f7c6b5d2e3a",
     "days": [
       {
         "date": "2024-08-03",
