@@ -28,7 +28,7 @@ import * as S from "./TravelPlanRegisterPage.styled";
 const MAX_TITLE_LENGTH = 20;
 
 const TravelPlanRegisterPage = () => {
-  const { transformDetail } = useTravelTransformDetailContext();
+  const { transformDetail, saveTransformDetail } = useTravelTransformDetailContext();
 
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -101,7 +101,10 @@ const TravelPlanRegisterPage = () => {
       alert(ERROR_MESSAGE_MAP.api.login);
       navigate(ROUTE_PATHS_MAP.login);
     }
-  }, [user?.accessToken, navigate]);
+    return () => {
+      saveTransformDetail(null);
+    };
+  }, [user?.accessToken, navigate, saveTransformDetail]);
 
   return (
     <>

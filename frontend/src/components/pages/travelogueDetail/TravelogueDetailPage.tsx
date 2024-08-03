@@ -56,7 +56,7 @@ const TravelogueDetailPage = () => {
         )}
       />
       <TransformBottomSheet
-        onTransform={() => onTransformTravelDetail("/travel-plans/register", data)}
+        onTransform={() => onTransformTravelDetail("/travel-plan/register", data)}
         buttonLabel="여행 계획으로 전환"
       >
         이 여행기를 따라가고 싶으신가요?
