@@ -21,12 +21,13 @@ export const travelPlanHandler = http.get(apiRequestUrl, ({ request }) => {
   }
 
   if (!Number.isNaN(Number(id))) {
-    const plan = TRAVEL_PLANS.find((plan) => plan.id === parseInt(id ?? "") - 1);
+    const plan = TRAVEL_PLANS.find((plan) => plan.id === parseInt(id ?? ""));
 
     if (plan) {
       return HttpResponse.json(plan);
     }
+    return;
   }
 
-  return new HttpResponse(null, { status: 404, statusText: "Travel plan not found" });
+  return new HttpResponse(null, { status: 404, statusText: "잘못된 접근 입니다." });
 });
