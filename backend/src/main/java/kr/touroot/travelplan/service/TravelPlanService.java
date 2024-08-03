@@ -42,7 +42,7 @@ public class TravelPlanService {
     @Transactional
     public TravelPlanCreateResponse createTravelPlan(TravelPlanCreateRequest request, MemberAuth memberAuth) {
         Member author = getMemberByMemberAuth(memberAuth);
-        TravelPlan travelPlan = request.toTravelPlan(author);
+        TravelPlan travelPlan = request.toTravelPlan(author, UUID.randomUUID());
         validStartDate(travelPlan);
 
         TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);

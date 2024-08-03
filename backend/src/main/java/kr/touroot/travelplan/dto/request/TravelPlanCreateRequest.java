@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
-
 import java.util.UUID;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
@@ -28,8 +27,7 @@ public record TravelPlanCreateRequest(
         List<PlanDayCreateRequest> days
 ) {
 
-    public TravelPlan toTravelPlan(Member author) {
-        UUID shareKey = UUID.randomUUID();
+    public TravelPlan toTravelPlan(Member author, UUID shareKey) {
         return new TravelPlan(title, startDate, shareKey, author);
     }
 }
