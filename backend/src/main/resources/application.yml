@@ -3,7 +3,6 @@ oauth:
     user-information-request-uri: https://kapi.kakao.com/v2/user/me
     access-token-request-uri: https://kauth.kakao.com/oauth/token
     rest-api-key: ENC(i6J7NWUsDpXVbJrbSUcNFI3h0oc6v8PxuHShU9UA7EVuUNLtQN/ANII+8j5HjhGO)
-    redirect-uri: http://localhost:3000/oauth
 jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES
@@ -22,9 +21,6 @@ security:
     token:
       secret-key: ENC(SNwFG2NQDZkmIK3nNoZFdwQ0ZxKuoe+qcw10ljdW941YEx/Qky9PEEl+wvAN9S1KR26D3a83SnU=)
       expire-length: 1800000
-oauth:
-  kakao:
-    redirect-uri: http://localhost:8080/api/v1/login/oauth/kakao
 spring:
   config:
     activate:

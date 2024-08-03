@@ -40,7 +40,7 @@ class LoginControllerTest {
     @Test
     void loginTest() throws Exception {
         LoginResponse loginResponse = new LoginResponse("리비", "img-url", "test-access-token");
-        when(loginService.login(any(String.class))).thenReturn(loginResponse);
+        when(loginService.login(any(String.class), any(String.class))).thenReturn(loginResponse);
 
         mockMvc.perform(get("/api/v1/login/oauth/kakao")
                         .param("code", "test-authorization-code"))

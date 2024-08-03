@@ -26,6 +26,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class LoginServiceTest {
 
     private static final String AUTHENTICATION_CODE = "test-authentication-code";
+    private static final String REDIRECT_URI = "http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fv1%2Flogin%2Foauth%2Fkakao";
 
     @InjectMocks
     private LoginService loginService;
@@ -40,11 +41,11 @@ class LoginServiceTest {
     @Test
     void existUserKakaoSocialLoginTest() {
         // given
-        when(kakaoOauthProvider.getUserInformation(AUTHENTICATION_CODE))
+        when(kakaoOauthProvider.getUserInformation(any(String.class), any(String.class)))
                 .thenReturn(OauthUserInformationFixture.USER_1_OAUTH_INFORMATION);
         when(memberRepository.findByKakaoId(any(Long.class)))
                 .thenReturn(Optional.of(MemberFixture.MEMBER_1));
-        LoginResponse response = loginService.login(AUTHENTICATION_CODE);
+        LoginResponse response = loginService.login(AUTHENTICATION_CODE, REDIRECT_URI);
 
         // when & then
         assertThat(response).isEqualTo(
@@ -55,13 +56,13 @@ class LoginServiceTest {
     @Test
     void nonExistUserKakaoSocialLoginTest() {
         // given
-        when(kakaoOauthProvider.getUserInformation(AUTHENTICATION_CODE))
+        when(kakaoOauthProvider.getUserInformation(any(String.class), any(String.class)))
                 .thenReturn(OauthUserInformationFixture.USER_1_OAUTH_INFORMATION);
         when(memberRepository.findByKakaoId(any(Long.class)))
                 .thenReturn(Optional.empty());
         when(memberRepository.save(any(Member.class)))
                 .thenReturn(MemberFixture.MEMBER_1);
-        LoginResponse response = loginService.login(AUTHENTICATION_CODE);
+        LoginResponse response = loginService.login(AUTHENTICATION_CODE, REDIRECT_URI);
 
         // when & then
         assertThat(response).isEqualTo(

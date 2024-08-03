@@ -37,8 +37,11 @@ public class LoginController {
             )
     })
     @GetMapping("/oauth/kakao")
-    public ResponseEntity<LoginResponse> login(@RequestParam(name = "code") String authorizationCode) {
+    public ResponseEntity<LoginResponse> login(
+            @RequestParam(name = "code") String authorizationCode,
+            @RequestParam(name = "redirectUri", defaultValue = "http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fv1%2Flogin%2Foauth%2Fkakao") String encodedRedirectUri
+    ) {
         return ResponseEntity.ok()
-                .body(loginService.login(authorizationCode));
+                .body(loginService.login(authorizationCode, encodedRedirectUri));
     }
 }
