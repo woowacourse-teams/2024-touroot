@@ -98,7 +98,7 @@ public class TravelPlanController {
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             ),
     })
-    @GetMapping("/{shareKey}")
+    @GetMapping("shared/{shareKey}")
     public ResponseEntity<TravelPlanResponse> readSharedTravelPlan(
             @Parameter(description = "여행 계획 공유 키") @PathVariable UUID shareKey
     ) {
