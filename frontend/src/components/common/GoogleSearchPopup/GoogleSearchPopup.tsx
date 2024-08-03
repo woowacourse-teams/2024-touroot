@@ -4,7 +4,7 @@ import { Global, css } from "@emotion/react";
 
 import { Autocomplete } from "@react-google-maps/api";
 
-import type { Place } from "@type/domain/travelogue";
+import type { TravelTransformPlace } from "@type/domain/travelTransform";
 
 import { Button } from "@components/common";
 
@@ -12,7 +12,7 @@ import * as S from "./GoogleSearchPopup.styled";
 
 interface GoogleSearchPopupProps {
   onClosePopup: () => void;
-  onSearchPlaceInfo: (placeInfo: Pick<Place, "placeName" | "position">) => void;
+  onSearchPlaceInfo: (placeInfo: Pick<TravelTransformPlace, "placeName" | "position">) => void;
 }
 
 const GoogleSearchPopup = ({ onClosePopup, onSearchPlaceInfo }: GoogleSearchPopupProps) => {
@@ -35,7 +35,7 @@ const GoogleSearchPopup = ({ onClosePopup, onSearchPlaceInfo }: GoogleSearchPopu
           lng: place.geometry.location.lng(),
         };
 
-        const placeInfo: Pick<Place, "placeName" | "position"> = {
+        const placeInfo: Pick<TravelTransformPlace, "placeName" | "position"> = {
           placeName: place.name || "",
           position: newCenter,
         };
