@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
+import { extractId } from "@utils/extractId";
+
 import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
 import { Tab, Text, TransformBottomSheet } from "@components/common";
@@ -15,7 +17,7 @@ import * as S from "./TravelPlanDetailPage.styled";
 const TravelPlanDetailPage = () => {
   const location = useLocation();
 
-  const id = location.pathname.replace(/[^\d]/g, "");
+  const id = extractId(location.pathname);
 
   const { data } = useGetTravelPlan(id);
 
