@@ -1,5 +1,7 @@
 import { createContext, useContext } from "react";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+
 interface AccordionContextConfig {
   value: Set<string>;
   handleToggleAccordion: (item: string) => void;
@@ -10,7 +12,7 @@ export const AccordionContext = createContext<AccordionContextConfig | null>(nul
 export const useAccordionContext = () => {
   const context = useContext(AccordionContext);
   if (!context) {
-    throw new Error("Provider 바깥에 존재합니다!");
+    throw new Error(ERROR_MESSAGE_MAP.provider);
   }
 
   return context;

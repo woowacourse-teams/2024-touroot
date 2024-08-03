@@ -7,6 +7,8 @@ import type { ErrorResponse } from "@type/api/errorResponse";
 import ApiError from "@apis/ApiError";
 import { authClient } from "@apis/client";
 
+import { API_ENDPOINT_MAP } from "@constants/endpoint";
+
 export const usePostUploadImages = () => {
   return useMutation<string[], ApiError | AxiosError<ErrorResponse>, File[]>({
     mutationFn: async (files: File[]) => {
@@ -16,7 +18,7 @@ export const usePostUploadImages = () => {
         formData.append("files", file);
       });
 
-      const response = await authClient.post("/image", formData, {
+      const response = await authClient.post(API_ENDPOINT_MAP.image, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

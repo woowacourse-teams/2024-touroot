@@ -1,39 +1,18 @@
-export interface Place {
+import { MapPosition } from "@type/domain/common";
+
+export type TraveloguePlace = {
   placeName: string;
   photoUrls?: string[];
   description?: string;
-  position: {
-    lat: number;
-    lng: number;
-  };
+  position: MapPosition;
+};
+
+export interface TravelogueDay {
+  places: TraveloguePlace[];
 }
 
-export interface TravelRegisterPlace {
-  placeName: string;
-  photoUrls?: { url: string }[];
-  description?: string;
-  position: {
-    lat: number;
-    lng: number;
-  };
-}
-
-export interface TravelRegisterDay {
-  places: TravelRegisterPlace[];
-}
-
-export interface TravelRegister {
+export interface TravelogueResponse {
   title: string;
   thumbnail: string;
-  days: TravelRegisterDay[];
-}
-
-export interface Day {
-  places: Place[];
-}
-
-export interface Travelogue {
-  title: string;
-  thumbnail: string;
-  days: Day[];
+  days: TravelogueDay[];
 }
