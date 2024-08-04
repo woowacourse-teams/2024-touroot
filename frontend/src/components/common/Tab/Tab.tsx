@@ -1,13 +1,15 @@
-import { useRef, useState } from "react";
+import { ComponentPropsWithoutRef, useEffect, useRef, useState } from "react";
+
+import { STORAGE_KEYS_MAP } from "@constants/storage";
 
 import * as S from "./Tab.styled";
 
-interface TabProps {
+interface TabProps extends React.PropsWithChildren<ComponentPropsWithoutRef<"ul">> {
   tabContent: (selectedIndex: number) => JSX.Element;
   labels: string[];
 }
 
-const Tab = ({ labels, tabContent }: TabProps) => {
+const Tab = ({ labels, tabContent, ...props }: TabProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const tabRefs = useRef<(HTMLLIElement | null)[]>([]);
@@ -18,6 +20,7 @@ const Tab = ({ labels, tabContent }: TabProps) => {
 
   const handleClickTab = (index: number) => {
     setSelectedIndex(index);
+    localStorage.setItem(STORAGE_KEYS_MAP.myPageSelectedTab, JSON.stringify(index));
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -46,6 +49,13 @@ const Tab = ({ labels, tabContent }: TabProps) => {
     }
   };
 
+  useEffect(() => {
+    const currentSelectedTabIndex = JSON.parse(
+      localStorage.getItem(STORAGE_KEYS_MAP.myPageSelectedTab) ?? "0",
+    );
+    setSelectedIndex(currentSelectedTabIndex);
+  }, []);
+
   return (
     <>
       <S.TabList
@@ -54,6 +64,7 @@ const Tab = ({ labels, tabContent }: TabProps) => {
         onMouseLeave={handleMouseLeave}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
+        {...props}
       >
         {labels.map((label, index) => (
           <S.TabItem
