@@ -69,7 +69,7 @@ spring:
       enabled: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ENC(j092CA8+WPUDVjhMQtLrBk+DyClgx5Iyc54arocVqdj4MLBu+YDJrclOKlqvC0z4BuI5gcjCpkEDZFhsJWBHRt0upwb0D45E3NZSvjQzPuA1XnG7dOSe4gXaYo+PDk/e)
+    url: ENC(FgbVXdH4a5/EkMxdmYfPhFKAOwn1w+/CnmWDcN9p6fOVP6mP9coMEYezCPCNf95h)
     username: ENC(SJznQPqjlZuw3qf8kv9IJQ==)
     password: ENC(HsOo6wWp//egPPsSG6Wf40eF1Q2sVKfGuH4zGTL81Mw=)
   jpa:
