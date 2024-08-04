@@ -190,7 +190,7 @@ class TravelPlanControllerTest {
                 .body("shareKey", is(travelPlan.getShareKey().toString()));
     }
 
-    @DisplayName("공유된 여행 계획은 작성자가 아니더라도 조회할 수 있다")
+    @DisplayName("공유된 여행 계획은 작성자가 아닌 회원도 조회할 수 있다")
     @Test
     void readTravelPlanByShareKeyFromNoAuthor() {
         // given
@@ -202,6 +202,23 @@ class TravelPlanControllerTest {
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + notAuthorAccessToken)
+                .when().log().all()
+                .get("/api/v1/travel-plans/shared/" + travelPlan.getShareKey())
+                .then().log().all()
+                .statusCode(200)
+                .body("shareKey", is(travelPlan.getShareKey().toString()));
+    }
+
+    @DisplayName("공유된 여행 계획은 로그인되지 않은 유저도 조회할 수 있다")
+    @Test
+    void readTravelPlanByNotLoginUser() {
+        // given
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(member);
+        Member notAuthor = testHelper.initMemberTestData();
+
+        // when & then
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
                 .when().log().all()
                 .get("/api/v1/travel-plans/shared/" + travelPlan.getShareKey())
                 .then().log().all()
