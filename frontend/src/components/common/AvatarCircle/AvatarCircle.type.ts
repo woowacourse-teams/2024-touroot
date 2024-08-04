@@ -1,1 +1,1 @@
-export type AvatarCircleSize = "small" | "large";
+export type AvatarCircleSize = "small" | "medium" | "large";

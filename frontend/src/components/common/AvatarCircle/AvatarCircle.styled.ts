@@ -3,22 +3,26 @@ import styled from "@emotion/styled";
 import type { AvatarCircleSize } from "./AvatarCircle.type";
 
 const getSize = ($size: AvatarCircleSize) => {
-  return $size === "small" ? "2.2rem" : "12.9rem";
+  if ($size === "small") return "2.2rem";
+  if ($size === "medium") return "6rem";
+  if ($size === "large") return "12.9rem";
 };
 
 const getIconSize = ($size: AvatarCircleSize) => {
-  return $size === "small" ? "1.5rem" : "10rem";
+  if ($size === "small") return "1.5rem";
+  if ($size === "medium") return "5rem";
+  if ($size === "large") return "10rem";
 };
 
 export const FallbackIcon = styled.div<{ $size: AvatarCircleSize }>`
   display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   width: 100%;
   height: 100%;
 
   background-color: #d9d9d9;
-  justify-content: center;
-  align-items: center;
 
   svg {
     position: absolute;
