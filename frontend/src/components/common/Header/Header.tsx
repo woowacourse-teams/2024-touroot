@@ -25,6 +25,8 @@ const Header = () => {
       ? () => navigate(ROUTE_PATHS_MAP.root)
       : () => navigate(ROUTE_PATHS_MAP.back);
 
+  const handleClickMyPage = () => navigate(ROUTE_PATHS_MAP.my);
+
   const { user } = useUser();
 
   return (
@@ -58,7 +60,7 @@ const Header = () => {
         <S.MenuList>
           <Drawer.Trigger>
             {/* TODO: 마이페이지 로직 필요함 */}
-            <S.MenuItem>마이페이지</S.MenuItem>
+            <S.MenuItem onClick={handleClickMyPage}>마이페이지</S.MenuItem>
           </Drawer.Trigger>
           <Drawer.Trigger>
             {user ? (
