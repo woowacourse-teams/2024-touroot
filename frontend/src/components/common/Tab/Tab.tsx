@@ -54,6 +54,8 @@ const Tab = ({ labels, tabContent, ...props }: TabProps) => {
       localStorage.getItem(STORAGE_KEYS_MAP.myPageSelectedTab) ?? "0",
     );
     setSelectedIndex(currentSelectedTabIndex);
+
+    return () => localStorage.setItem(STORAGE_KEYS_MAP.myPageSelectedTab, JSON.stringify(0));
   }, []);
 
   return (
