@@ -1,5 +1,6 @@
 package kr.touroot.travelplan.helper;
 
+import java.util.UUID;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
@@ -48,7 +49,7 @@ public class TravelPlanTestHelper {
     }
 
     public static TravelPlan getTravelPlan(String title, LocalDate startDate, Member author) {
-        return new TravelPlan(title, startDate, author);
+        return new TravelPlan(title, startDate, UUID.randomUUID(), author);
     }
 
     public static TravelPlanDay getTravelPlanDay(int order, TravelPlan travelPlan) {
