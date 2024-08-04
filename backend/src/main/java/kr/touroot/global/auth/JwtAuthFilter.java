@@ -5,6 +5,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.auth.dto.HttpRequestInfo;
 import kr.touroot.global.exception.dto.ExceptionResponse;
@@ -16,9 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -39,6 +38,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             new HttpRequestInfo(HttpMethod.GET, "/v3/api-docs/**"),
             new HttpRequestInfo(HttpMethod.GET, "/api/v1/travelogues/**"),
             new HttpRequestInfo(HttpMethod.GET, "/api/v1/login/**"),
+            new HttpRequestInfo(HttpMethod.GET, "/api/v1/travel-plans/shared/**"),
             new HttpRequestInfo(HttpMethod.OPTIONS, "/**")
     );
 

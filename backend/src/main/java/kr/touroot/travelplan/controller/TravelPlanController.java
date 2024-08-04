@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.net.URI;
+import java.util.UUID;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelplan.dto.request.TravelPlanCreateRequest;
@@ -16,9 +18,12 @@ import kr.touroot.travelplan.dto.response.TravelPlanResponse;
 import kr.touroot.travelplan.service.TravelPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "여행 계획")
 @RequiredArgsConstructor
@@ -78,6 +83,26 @@ public class TravelPlanController {
             MemberAuth memberAuth
     ) {
         TravelPlanResponse data = travelPlanService.readTravelPlan(id, memberAuth);
+        return ResponseEntity.ok(data);
+    }
+
+    @Operation(summary = "공유된 여행 계획 상세 조회")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "여행 계획 상세 조회가 정상적으로 성공했을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "존재하지 않은 여행 계획을 조회할 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @GetMapping("shared/{shareKey}")
+    public ResponseEntity<TravelPlanResponse> readSharedTravelPlan(
+            @Parameter(description = "여행 계획 공유 키") @PathVariable UUID shareKey
+    ) {
+        TravelPlanResponse data = travelPlanService.readTravelPlan(shareKey);
         return ResponseEntity.ok(data);
     }
 }
