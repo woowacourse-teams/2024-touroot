@@ -9,7 +9,7 @@ const meta = {
     $size: {
       control: {
         type: "select",
-        options: ["small", "large"],
+        options: ["small", "medium", "large"],
       },
     },
     profileImageUrl: { control: "text" },
@@ -36,6 +36,13 @@ export const Small: Story = {
   },
 };
 
+export const Medium: Story = {
+  args: {
+    $size: "medium",
+    profileImageUrl: "https://i.pinimg.com/564x/c0/d6/5e/c0d65ef2ff5b3e752b70fe54d94d6206.jpg",
+  },
+};
+
 export const Large: Story = {
   args: {
     $size: "large",
@@ -46,6 +53,13 @@ export const Large: Story = {
 export const WithDefaultAvatar: Story = {
   args: {
     $size: "small",
+    profileImageUrl: "https://invalid-image-url.jpg",
+  },
+};
+
+export const MediumWithDefaultAvatar: Story = {
+  args: {
+    $size: "medium",
     profileImageUrl: "https://invalid-image-url.jpg",
   },
 };
