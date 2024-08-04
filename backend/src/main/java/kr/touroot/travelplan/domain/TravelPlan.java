@@ -35,7 +35,7 @@ public class TravelPlan extends BaseEntity {
     @Column(nullable = false)
     private LocalDate startDate;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "CHAR(36)", nullable = false)
     private UUID shareKey;
 
     @JoinColumn(name = "author_id", nullable = false)
