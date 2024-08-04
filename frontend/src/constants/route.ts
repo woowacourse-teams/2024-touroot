@@ -8,4 +8,5 @@ export const ROUTE_PATHS_MAP = {
   login: "/login",
   loginCallback: "/oauth",
   loginOauth: "/login/oauth/kakao",
+  my: "/my",
 } as const;
