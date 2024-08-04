@@ -59,7 +59,6 @@ const Header = () => {
       <Drawer.Content>
         <S.MenuList>
           <Drawer.Trigger>
-            {/* TODO: 마이페이지 로직 필요함 */}
             <S.MenuItem onClick={handleClickMyPage}>마이페이지</S.MenuItem>
           </Drawer.Trigger>
           <Drawer.Trigger>

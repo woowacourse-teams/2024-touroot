@@ -2,6 +2,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { authClient } from "@apis/client";
 
+import { getMockMyTravelPlans } from "@mocks/handlers";
+
 import { MyTravelPlans } from "@components/pages/my/MyTravelPlans/MyTravelPlans";
 
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
@@ -30,11 +32,11 @@ const useInfiniteMyTravelPlans = () => {
   const DATA_LOAD_COUNT = 5;
 
   const { data, status, error, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: QUERY_KEYS_MAP.travelogue.me(),
+    queryKey: QUERY_KEYS_MAP.travelPlan.me(),
     queryFn: ({ pageParam = INITIAL_PAGE }) => {
       const page = pageParam;
       const size = DATA_LOAD_COUNT;
-      return getMyTravelPlans({ page, size });
+      return getMockMyTravelPlans({ page, size });
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
