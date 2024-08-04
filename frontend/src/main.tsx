@@ -4,10 +4,13 @@ import ReactDOM from "react-dom/client";
 import { Global, ThemeProvider } from "@emotion/react";
 
 import * as Sentry from "@sentry/react";
-import { startMocking } from "@utils/worker";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+import ToastProvider from "@contexts/ToastProvider/ToastProvider";
+
+import { startMocking } from "@utils/worker";
 
 import { globalStyle } from "@styles/globalStyle";
 import theme from "@styles/theme";
@@ -41,8 +44,10 @@ startMocking().then(() => {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={true} />
       <ThemeProvider theme={theme}>
-        <Global styles={globalStyle} />
-        <App />
+        <ToastProvider>
+          <Global styles={globalStyle} />
+          <App />
+        </ToastProvider>
       </ThemeProvider>
     </QueryClientProvider>,
   );
