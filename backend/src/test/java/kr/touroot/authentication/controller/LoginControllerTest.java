@@ -2,7 +2,7 @@ package kr.touroot.authentication.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,10 +40,11 @@ class LoginControllerTest {
     @Test
     void loginTest() throws Exception {
         LoginResponse loginResponse = new LoginResponse("리비", "img-url", "test-access-token");
-        when(loginService.login(any(String.class))).thenReturn(loginResponse);
+        when(loginService.login(any(String.class), any(String.class))).thenReturn(loginResponse);
 
-        mockMvc.perform(get("/api/v1/login/oauth/kakao")
-                        .param("code", "test-authorization-code"))
+        mockMvc.perform(post("/api/v1/login/oauth/kakao")
+                        .param("code", "test-authorization-code")
+                        .param("redirectUri", "https://touroot.kr/oauth"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(loginResponse)));
