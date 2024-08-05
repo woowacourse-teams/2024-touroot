@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TravelPlanPlaceRepository extends JpaRepository<TravelPlanPlace, Long> {
 
     List<TravelPlanPlace> findByDay(TravelPlanDay day);
+
+    void deleteByDayPlanId(Long planId);
 }
