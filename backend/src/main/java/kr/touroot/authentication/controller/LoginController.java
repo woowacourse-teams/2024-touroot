@@ -6,12 +6,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import kr.touroot.authentication.dto.request.LoginRequest;
 import kr.touroot.authentication.dto.response.LoginResponse;
 import kr.touroot.authentication.service.LoginService;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,8 +41,26 @@ public class LoginController {
             )
     })
     @GetMapping("/oauth/kakao")
-    public ResponseEntity<LoginResponse> login(@RequestParam(name = "code") String authorizationCode) {
+    public ResponseEntity<LoginResponse> kakaoLogin(@RequestParam(name = "code") String authorizationCode) {
         return ResponseEntity.ok()
                 .body(loginService.login(authorizationCode));
+    }
+
+    @Operation(summary = "투룻 서비스 자체 로그인")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "요청 Body에 올바르지 않은 이메일 또는 비밀번호가 전달되었을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
+    })
+    @PostMapping
+    public ResponseEntity<LoginResponse> defaultLogin(@Valid @RequestBody LoginRequest request) {
+        return ResponseEntity.ok()
+                .body(loginService.login(request));
     }
 }
