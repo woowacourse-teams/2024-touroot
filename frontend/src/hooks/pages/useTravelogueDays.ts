@@ -1,5 +1,7 @@
 import { useCallback, useState } from "react";
 
+import { v4 as uuidv4 } from "uuid";
+
 import type { TravelTransformPlaces } from "@type/domain/travelTransform";
 import type { TravelogueDay, TraveloguePlace } from "@type/domain/travelogue";
 
@@ -9,8 +11,8 @@ export const useTravelogueDays = (days: TravelTransformPlaces[]) => {
   const onAddDay = useCallback((dayIndex?: number) => {
     setTravelogueDays((prevTravelDays) =>
       dayIndex
-        ? Array.from({ length: dayIndex }, () => ({ places: [] }))
-        : [...prevTravelDays, { places: [] }],
+        ? Array.from({ length: dayIndex }, () => ({ id: uuidv4(), places: [] }))
+        : [...prevTravelDays, { id: uuidv4(), places: [] }],
     );
   }, []);
 
@@ -20,10 +22,13 @@ export const useTravelogueDays = (days: TravelTransformPlaces[]) => {
     );
   };
 
-  const onAddPlace = (dayIndex: number, traveloguePlace: TraveloguePlace) => {
+  const onAddPlace = (
+    dayIndex: number,
+    traveloguePlace: Pick<TraveloguePlace, "placeName" | "position">,
+  ) => {
     setTravelogueDays((prevTravelDays) => {
       const newTraveloguePlaces = [...prevTravelDays];
-      newTraveloguePlaces[dayIndex].places.push(traveloguePlace);
+      newTraveloguePlaces[dayIndex].places.push({ ...traveloguePlace, id: uuidv4() });
       return newTraveloguePlaces;
     });
   };

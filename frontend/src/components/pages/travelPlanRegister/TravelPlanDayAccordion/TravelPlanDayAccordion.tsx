@@ -15,6 +15,7 @@ import * as S from "../TravelPlanRegisterPage.styled";
 interface TravelPlanDayAccordionProps {
   travelPlanDay: TravelPlanDay;
   dayIndex: number;
+  startDate: Date | null;
   onDeleteDay: (dayIndex: number) => void;
   onDeletePlace: (dayIndex: number, placeIndex: number) => void;
   onChangePlaceDescription: (
@@ -22,12 +23,16 @@ interface TravelPlanDayAccordionProps {
     dayIndex: number,
     placeIndex: number,
   ) => void;
-  onAddPlace: (dayIndex: number, travelParams: TravelPlanPlace) => void;
+  onAddPlace: (
+    dayIndex: number,
+    travelParams: Pick<TravelPlanPlace, "placeName" | "position">,
+  ) => void;
 }
 
 const TravelPlanDayAccordion = ({
   travelPlanDay,
   dayIndex,
+  startDate,
   onDeleteDay,
   onDeletePlace,
   onChangePlaceDescription,
@@ -47,10 +52,14 @@ const TravelPlanDayAccordion = ({
     setIsPopupOpen(true);
   };
 
+  const dateString = !startDate
+    ? ""
+    : `${startDate.getFullYear()}. ${startDate.getMonth() + 1}. ${startDate.getDate() + dayIndex}`;
+
   return (
-    <Accordion.Item key={`${travelPlanDay}-${dayIndex}}`} value={`day-${dayIndex}`}>
+    <Accordion.Item value={travelPlanDay.id}>
       <Accordion.Trigger onDeleteItem={() => onDeleteDay(dayIndex)}>
-        {`Day ${dayIndex + 1}`}
+        {`Day ${dayIndex + 1}`} <S.DayDetailText>{dateString}</S.DayDetailText>
       </Accordion.Trigger>
       <Accordion.Content>
         <Accordion.Root>
@@ -61,7 +70,7 @@ const TravelPlanDayAccordion = ({
             }))}
           />
           {travelPlanDay.places.map((place, placeIndex) => (
-            <Accordion.Item key={place.placeName} value={place.placeName}>
+            <Accordion.Item key={place.id} value={place.id}>
               <Accordion.Trigger onDeleteItem={() => onDeletePlace(dayIndex, placeIndex)}>
                 {place.placeName || `장소 ${placeIndex + 1}`}
               </Accordion.Trigger>

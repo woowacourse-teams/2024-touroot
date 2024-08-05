@@ -25,7 +25,10 @@ interface TravelogueDayAccordionProps {
     dayIndex: number,
     placeIndex: number,
   ) => void;
-  onAddPlace: (dayIndex: number, traveloguePlace: TraveloguePlace) => void;
+  onAddPlace: (
+    dayIndex: number,
+    traveloguePlace: Pick<TraveloguePlace, "placeName" | "position">,
+  ) => void;
   onChangeImageUrls: (dayIndex: number, placeIndex: number, imgUrls: string[]) => void;
   onDeleteImageUrls: (dayIndex: number, targetPlaceIndex: number, imageIndex: number) => void;
   onRequestAddImage: (
@@ -60,7 +63,7 @@ const TravelogueDayAccordion = ({
   };
 
   return (
-    <Accordion.Item key={`${travelogueDay}-${dayIndex}}`} value={`day-${dayIndex}`}>
+    <Accordion.Item key={travelogueDay.id} value={travelogueDay.id}>
       <Accordion.Trigger onDeleteItem={() => onDeleteDay(dayIndex)}>
         {`Day ${dayIndex + 1}`}
       </Accordion.Trigger>
@@ -73,7 +76,7 @@ const TravelogueDayAccordion = ({
             }))}
           />
           {travelogueDay.places.map((place, placeIndex) => (
-            <Accordion.Item key={place.placeName} value={place.placeName}>
+            <Accordion.Item key={place.id} value={place.id}>
               <Accordion.Trigger onDeleteItem={() => onDeletePlace(dayIndex, placeIndex)}>
                 {place.placeName || `장소 ${placeIndex + 1}`}
               </Accordion.Trigger>

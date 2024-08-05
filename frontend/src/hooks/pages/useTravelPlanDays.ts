@@ -1,5 +1,7 @@
 import { useCallback, useState } from "react";
 
+import { v4 as uuidv4 } from "uuid";
+
 import type { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
 import type { TravelTransformPlaces } from "@type/domain/travelTransform";
 
@@ -9,8 +11,8 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
   const onAddDay = useCallback((dayIndex?: number) => {
     setTravelPlanDays((prevTravelDays) =>
       dayIndex
-        ? Array.from({ length: dayIndex }, () => ({ places: [] }))
-        : [...prevTravelDays, { places: [] }],
+        ? Array.from({ length: dayIndex }, () => ({ id: uuidv4(), places: [] }))
+        : [...prevTravelDays, { id: uuidv4(), places: [] }],
     );
   }, []);
 
@@ -20,10 +22,13 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
     );
   };
 
-  const onAddPlace = (dayIndex: number, travelParams: TravelPlanPlace) => {
+  const onAddPlace = (
+    dayIndex: number,
+    travelParams: Pick<TravelPlanPlace, "placeName" | "position">,
+  ) => {
     setTravelPlanDays((prevTravelDays) => {
       const newTravelPlans = [...prevTravelDays];
-      newTravelPlans[dayIndex].places.push(travelParams);
+      newTravelPlans[dayIndex].places.push({ ...travelParams, id: uuidv4() });
       return newTravelPlans;
     });
   };
