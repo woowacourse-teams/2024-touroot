@@ -168,9 +168,9 @@ class TravelPlanControllerTest {
         // then
     }
 
-    @DisplayName("여행기를 삭제한다.")
+    @DisplayName("여행계획을 삭제한다.")
     @Test
-    void deleteTravelogue() {
+    void deleteTravelPlan() {
         long id = testHelper.initTravelPlanTestData(member).getId();
         String accessToken = jwtTokenProvider.createToken(member.getId());
 
@@ -179,5 +179,19 @@ class TravelPlanControllerTest {
                 .when().delete("/api/v1/travel-plans/" + id)
                 .then().log().all()
                 .statusCode(204);
+    }
+
+    @DisplayName("존재하지 않는 여행 계획 삭제시 400를 응답한다..")
+    @Test
+    void deleteTravelPlanWithNonExist() {
+        long id = 1L;
+        String accessToken = jwtTokenProvider.createToken(member.getId());
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().delete("/api/v1/travel-plans/" + id)
+                .then().log().all()
+                .statusCode(400)
+                .body("message", is("존재하지 않는 여행 계획입니다."));
     }
 }

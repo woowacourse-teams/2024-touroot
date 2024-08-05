@@ -168,4 +168,17 @@ class TravelPlanServiceTest {
         assertThat(travelPlanRepository.findById(travelPlan.getId()))
                 .isEmpty();
     }
+
+    @DisplayName("여행 계획 서비스는 존재하지 않는 여행 계획 삭제 시 예외를 반환한다.")
+    @Test
+    void deleteTravelPlanWitNonExist() {
+        // given
+        databaseCleaner.executeTruncate();
+        Long id = 1L;
+
+        // when & then
+        assertThatThrownBy(() -> travelPlanService.deleteByTravelPlanId(id))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행 계획입니다.");
+    }
 }

@@ -134,6 +134,10 @@ public class TravelPlanService {
 
     @Transactional
     public void deleteByTravelPlanId(Long planId) {
+        if (!travelPlanRepository.existsById(planId)) {
+            throw new BadRequestException("존재하지 않는 여행 계획입니다.");
+        }
+
         travelPlanPlaceRepository.deleteByDayPlanId(planId);
         travelPlanDayRepository.deleteByPlanId(planId);
         travelPlanRepository.deleteById(planId);
