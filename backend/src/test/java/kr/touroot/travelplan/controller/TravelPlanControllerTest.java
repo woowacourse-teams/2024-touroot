@@ -1,7 +1,11 @@
 package kr.touroot.travelplan.controller;
 
+import static org.hamcrest.Matchers.is;
+
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import java.time.LocalDate;
+import java.util.List;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
 import kr.touroot.member.domain.Member;
@@ -17,11 +21,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
-
-import java.time.LocalDate;
-import java.util.List;
-
-import static org.hamcrest.Matchers.is;
 
 @DisplayName("여행 계획 컨트롤러")
 @AcceptanceTest
@@ -167,5 +166,18 @@ class TravelPlanControllerTest {
                 .body("message", is("여행 계획은 작성자만 조회할 수 있습니다."));
 
         // then
+    }
+
+    @DisplayName("여행기를 삭제한다.")
+    @Test
+    void deleteTravelogue() {
+        long id = testHelper.initTravelPlanTestData(member).getId();
+        String accessToken = jwtTokenProvider.createToken(member.getId());
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().delete("/api/v1/travel-plans/" + id)
+                .then().log().all()
+                .statusCode(204);
     }
 }
