@@ -38,6 +38,10 @@ public class TravelogueService {
     }
 
     public void deleteById(Long id) {
+        if (!travelogueRepository.existsById(id)) {
+            throw new BadRequestException("존재하지 않는 여행기입니다.");
+        }
+
         travelogueRepository.deleteById(id);
     }
 }

@@ -147,4 +147,18 @@ class TravelogueControllerTest {
                 .then().log().all()
                 .statusCode(204);
     }
+
+    @DisplayName("존재하지 않는 여행기 삭제시 400를 응답한다.")
+    @Test
+    void deleteTravelogueWithNonExist() {
+        Member member = testHelper.initMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(member.getId());
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().delete("/api/v1/travelogues/1")
+                .then().log().all()
+                .statusCode(400)
+                .body("message", is("존재하지 않는 여행기입니다."));
+    }
 }

@@ -108,4 +108,12 @@ class TravelogueServiceTest {
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행기입니다.");
     }
+
+    @DisplayName("존재하지 않는 ID로 여행기를 삭제하면 예외가 발생한다.")
+    @Test
+    void deleteTravelogueByNotExistsIdThrowException() {
+        assertThatThrownBy(() -> travelogueService.deleteById(1L))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행기입니다.");
+    }
 }
