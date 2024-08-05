@@ -35,7 +35,7 @@ public class TravelPlan extends BaseEntity {
     @Column(nullable = false)
     private LocalDate startDate;
 
-    @Column(columnDefinition = "CHAR(36)", nullable = false)
+    @Column(nullable = false)
     private UUID shareKey;
 
     @JoinColumn(name = "author_id", nullable = false)
@@ -54,7 +54,6 @@ public class TravelPlan extends BaseEntity {
     public TravelPlan(String title, LocalDate startDate, UUID shareKey, Member author) {
         this(null, title, startDate, shareKey, author);
     }
-
 
     private void validate(String title, LocalDate startDate, Member author) {
         validateNotNull(title, startDate, author);
