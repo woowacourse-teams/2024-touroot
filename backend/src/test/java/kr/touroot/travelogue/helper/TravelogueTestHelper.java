@@ -7,6 +7,7 @@ import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PH
 import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
 
 import kr.touroot.authentication.fixture.MemberFixture;
+import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
@@ -94,8 +95,8 @@ public class TravelogueTestHelper {
         return traveloguePhotoRepository.save(photo);
     }
 
-    public Member initMemberTestData() {
-        Member member = new Member(1L, "tester", "http://image.com");
+    public Member initKakaoMemberTestData() {
+        Member member = new Member(1L, "tester", "http://image.com", LoginType.KAKAO);
         return memberRepository.save(member);
     }
 }

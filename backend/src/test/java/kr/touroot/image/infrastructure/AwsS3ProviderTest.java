@@ -1,27 +1,15 @@
 package kr.touroot.image.infrastructure;
 
-import static io.restassured.RestAssured.when;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import io.restassured.RestAssured;
-import kr.touroot.authentication.fixture.OauthUserInformationFixture;
-import kr.touroot.global.AcceptanceTest;
 import kr.touroot.global.exception.BadRequestException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ContextConfiguration;
@@ -67,6 +55,6 @@ class AwsS3ProviderTest {
         String imageUrl = "invalid/testUrl.png";
         assertThatThrownBy(() -> s3Provider.copyImageToPermanentStorage(imageUrl))
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("이미지 url 형식이 잘못되었습니다.");
+                .hasMessage("S3 이미지 url 형식이 잘못되었습니다.");
     }
 }

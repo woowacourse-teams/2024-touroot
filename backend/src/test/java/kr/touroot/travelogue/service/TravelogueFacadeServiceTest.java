@@ -3,6 +3,7 @@ package kr.touroot.travelogue.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.image.infrastructure.AwsS3Provider;
@@ -32,6 +33,7 @@ import org.springframework.data.domain.Pageable;
         MemberService.class,
         TravelogueTestHelper.class,
         AwsS3Provider.class,
+        PasswordEncryptor.class
 })
 @ServiceTest
 class TravelogueFacadeServiceTest {
@@ -70,7 +72,7 @@ class TravelogueFacadeServiceTest {
                 TravelogueRequestFixture.getTraveloguePhotoRequests().get(0).url())
         ).thenReturn(TravelogueResponseFixture.getTraveloguePhotoUrls().get(0));
 
-        testHelper.initMemberTestData();
+        testHelper.initKakaoMemberTestData();
 
         MemberAuth memberAuth = new MemberAuth(1L);
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();

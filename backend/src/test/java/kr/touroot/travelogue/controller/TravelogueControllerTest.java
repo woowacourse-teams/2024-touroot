@@ -69,7 +69,7 @@ class TravelogueControllerTest {
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
-        Member member = testHelper.initMemberTestData();
+        Member member = testHelper.initKakaoMemberTestData();
         String accessToken = jwtTokenProvider.createToken(member.getId());
 
         RestAssured.given().log().all()
