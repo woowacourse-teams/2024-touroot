@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, useEffect, useRef, useState } from "react";
+import { ComponentPropsWithoutRef, useLayoutEffect, useRef, useState } from "react";
 
 import { STORAGE_KEYS_MAP } from "@constants/storage";
 
@@ -10,13 +10,17 @@ interface TabProps extends React.PropsWithChildren<ComponentPropsWithoutRef<"ul"
 }
 
 const Tab = ({ labels, tabContent, ...props }: TabProps) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const FIRST_TAB_INDEX = 0;
+  const INITIAL_START_X = 0;
+  const INITIAL_SCROLL_LEFT = 0;
+
+  const [selectedIndex, setSelectedIndex] = useState(FIRST_TAB_INDEX);
 
   const tabRefs = useRef<(HTMLLIElement | null)[]>([]);
   const tabListRef = useRef<HTMLUListElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
+  const [startX, setStartX] = useState(INITIAL_START_X);
+  const [scrollLeft, setScrollLeft] = useState(INITIAL_SCROLL_LEFT);
 
   const handleClickTab = (index: number) => {
     setSelectedIndex(index);
@@ -49,13 +53,14 @@ const Tab = ({ labels, tabContent, ...props }: TabProps) => {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const currentSelectedTabIndex = JSON.parse(
-      localStorage.getItem(STORAGE_KEYS_MAP.myPageSelectedTab) ?? "0",
+      localStorage.getItem(STORAGE_KEYS_MAP.myPageSelectedTab) ?? FIRST_TAB_INDEX.toString(),
     );
     setSelectedIndex(currentSelectedTabIndex);
 
-    return () => localStorage.setItem(STORAGE_KEYS_MAP.myPageSelectedTab, JSON.stringify(0));
+    return () =>
+      localStorage.setItem(STORAGE_KEYS_MAP.myPageSelectedTab, JSON.stringify(FIRST_TAB_INDEX));
   }, []);
 
   return (
