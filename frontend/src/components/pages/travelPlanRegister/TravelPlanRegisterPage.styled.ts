@@ -4,6 +4,56 @@ import styled from "@emotion/styled";
 import theme from "@styles/theme";
 import { PRIMITIVE_COLORS, SPACING } from "@styles/tokens";
 
+export const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 1.6rem;
+  gap: 3.2rem;
+
+  & > :last-child {
+    margin-top: -3.2rem;
+  }
+`;
+
+export const AccordionRootContainer = styled.div`
+  & > * {
+    margin-bottom: 1.6rem;
+  }
+`;
+
+export const PageInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+`;
+
+export const StartDateContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const StartDate = styled.label`
+  ${({ theme }) => theme.typography.mobile.bodyBold}
+  margin:  0.8rem 0;
+`;
+
+export const DayDetailText = styled.span`
+  display: inline-block;
+
+  margin-left: 0.2rem;
+
+  ${({ theme }) => theme.typography.mobile.detail}
+  color: ${({ theme }) => theme.colors.text.secondary};
+`;
+
+export const addDayButtonStyle = css`
+  margin-top: 1.6rem;
+`;
+
+export const detailTextColorStyle = css`
+  color: ${theme.colors.text.secondary};
+`;
+
 export const addButtonStyle = css`
   display: flex;
   width: 100%;
@@ -31,27 +81,4 @@ export const addTravelAddButtonStyle = css`
   font-weight: 700;
   font-size: 1.6rem;
   gap: ${SPACING.s};
-`;
-
-export const Layout = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 1.6rem;
-  gap: 3.2rem;
-`;
-
-export const AccordionRootContainer = styled.div`
-  & > * {
-    margin-bottom: 1.6rem;
-  }
-`;
-
-export const PageInfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-`;
-
-export const addDayButtonStyle = css`
-  margin-top: 1.6rem;
 `;
