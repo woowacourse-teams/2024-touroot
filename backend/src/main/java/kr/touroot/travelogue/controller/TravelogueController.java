@@ -106,7 +106,7 @@ public class TravelogueController {
                     description = "요청이 정상적으로 처리되었을 때"
             ),
             @ApiResponse(
-                    responseCode = "404",
+                    responseCode = "400",
                     description = "존재하지 않는 여행기 ID로 요청했을 때",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             ),
