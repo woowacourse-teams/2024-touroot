@@ -11,7 +11,7 @@ import kr.touroot.authentication.service.LoginService;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,10 +36,10 @@ public class LoginController {
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             )
     })
-    @GetMapping("/oauth/kakao")
+    @PostMapping("/oauth/kakao")
     public ResponseEntity<LoginResponse> login(
             @RequestParam(name = "code") String authorizationCode,
-            @RequestParam(name = "redirectUri", defaultValue = "http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fv1%2Flogin%2Foauth%2Fkakao") String encodedRedirectUri
+            @RequestParam(name = "redirectUri") String encodedRedirectUri
     ) {
         return ResponseEntity.ok()
                 .body(loginService.login(authorizationCode, encodedRedirectUri));
