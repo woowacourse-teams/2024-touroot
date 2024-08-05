@@ -91,11 +91,17 @@ const TravelogueRegisterPage = () => {
 
   const { user } = useUser();
 
+  const { saveTransformDetail } = useTravelTransformDetailContext();
+
   useEffect(() => {
     if (!user?.accessToken) {
       alert(ERROR_MESSAGE_MAP.api.login);
       navigate(ROUTE_PATHS_MAP.login);
     }
+
+    return () => {
+      saveTransformDetail(null);
+    };
   }, [user?.accessToken, navigate]);
 
   return (
