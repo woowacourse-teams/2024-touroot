@@ -5,6 +5,9 @@ import { v4 as uuidv4 } from "uuid";
 import type { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
 import type { TravelTransformPlaces } from "@type/domain/travelTransform";
 
+const MIN_DESCRIPTION_LENGTH = 0;
+const MAX_DESCRIPTION_LENGTH = 300;
+
 export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
   const [travelPlanDays, setTravelPlanDays] = useState<TravelPlanDay[]>(days);
 
@@ -51,7 +54,10 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
     placeIndex: number,
   ) => {
     const newTravelPlans = [...travelPlanDays];
-    newTravelPlans[dayIndex].places[placeIndex].description = e.target.value;
+    newTravelPlans[dayIndex].places[placeIndex].description = e.target.value.slice(
+      MIN_DESCRIPTION_LENGTH,
+      MAX_DESCRIPTION_LENGTH,
+    );
     setTravelPlanDays(newTravelPlans);
   };
 

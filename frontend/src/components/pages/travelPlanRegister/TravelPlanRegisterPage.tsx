@@ -26,16 +26,13 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import * as S from "./TravelPlanRegisterPage.styled";
 
+const MIN_TITLE_LENGTH = 0;
 const MAX_TITLE_LENGTH = 20;
 
 const TravelPlanRegisterPage = () => {
-  const { transformDetail } = useTravelTransformDetailContext();
+  const { transformDetail, saveTransformDetail } = useTravelTransformDetailContext();
 
   const [title, setTitle] = useState("");
-
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
 
   const [startDate, setStartDate] = useState<Date | null>(null);
 
@@ -47,6 +44,11 @@ const TravelPlanRegisterPage = () => {
     onChangePlaceDescription,
     onDeletePlace,
   } = useTravelPlanDays(transformDetail?.days ?? []);
+
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const title = e.target.value.slice(MIN_TITLE_LENGTH, MAX_TITLE_LENGTH);
+    setTitle(title);
+  };
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -86,7 +88,10 @@ const TravelPlanRegisterPage = () => {
       alert(ERROR_MESSAGE_MAP.api.login);
       navigate(ROUTE_PATHS_MAP.login);
     }
-  }, [user?.accessToken, navigate]);
+    return () => {
+      saveTransformDetail(null);
+    };
+  }, [user?.accessToken, navigate, saveTransformDetail]);
 
   const [isShowCalendar, setIsShowCalendar] = useState(false);
 
