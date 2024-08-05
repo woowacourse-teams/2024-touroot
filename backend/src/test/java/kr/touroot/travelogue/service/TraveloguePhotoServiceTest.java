@@ -15,6 +15,8 @@ import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
+import kr.touroot.utils.DatabaseCleaner;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -29,6 +31,7 @@ class TraveloguePhotoServiceTest {
 
     private final TraveloguePhotoService photoService;
     private final TravelogueTestHelper testHelper;
+    private final DatabaseCleaner databaseCleaner;
     @MockBean
     private final AwsS3Provider s3Provider;
 
@@ -36,11 +39,18 @@ class TraveloguePhotoServiceTest {
     public TraveloguePhotoServiceTest(
             TraveloguePhotoService photoService,
             TravelogueTestHelper testHelper,
+            DatabaseCleaner databaseCleaner,
             AwsS3Provider s3Provider
     ) {
         this.photoService = photoService;
         this.testHelper = testHelper;
+        this.databaseCleaner = databaseCleaner;
         this.s3Provider = s3Provider;
+    }
+
+    @BeforeEach
+    void setUp() {
+        databaseCleaner.executeTruncate();
     }
 
     @DisplayName("여행기 사진을 생성한다.")
