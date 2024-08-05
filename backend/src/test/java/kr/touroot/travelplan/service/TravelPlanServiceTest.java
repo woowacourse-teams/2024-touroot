@@ -1,5 +1,10 @@
 package kr.touroot.travelplan.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.time.LocalDate;
+import java.util.List;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
@@ -13,6 +18,7 @@ import kr.touroot.travelplan.dto.request.TravelPlanCreateRequest;
 import kr.touroot.travelplan.dto.response.TravelPlanCreateResponse;
 import kr.touroot.travelplan.dto.response.TravelPlanResponse;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
+import kr.touroot.travelplan.repository.TravelPlanRepository;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,18 +26,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 @DisplayName("여행 계획 서비스")
 @Import(value = {TravelPlanService.class, TravelPlanTestHelper.class})
 @ServiceTest
 class TravelPlanServiceTest {
 
     private final TravelPlanService travelPlanService;
+    private final TravelPlanRepository travelPlanRepository;
     private final DatabaseCleaner databaseCleaner;
     private final TravelPlanTestHelper testHelper;
 
@@ -41,10 +42,12 @@ class TravelPlanServiceTest {
     @Autowired
     public TravelPlanServiceTest(
             TravelPlanService travelPlanService,
+            TravelPlanRepository travelPlanRepository,
             DatabaseCleaner databaseCleaner,
             TravelPlanTestHelper testHelper
     ) {
         this.travelPlanService = travelPlanService;
+        this.travelPlanRepository = travelPlanRepository;
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
     }
@@ -154,5 +157,15 @@ class TravelPlanServiceTest {
 
         // then
         assertThat(actual).isEqualTo(1);
+    }
+
+    @DisplayName("여행계획을 ID 기준으로 삭제할 수 있다.")
+    @Test
+    void deleteTravelPlanById() {
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
+        travelPlanService.deleteByTravelPlanId(travelPlan.getId());
+
+        assertThat(travelPlanRepository.findById(travelPlan.getId()))
+                .isEmpty();
     }
 }

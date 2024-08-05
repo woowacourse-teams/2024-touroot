@@ -1,5 +1,7 @@
 package kr.touroot.travelplan.service;
 
+import java.util.Comparator;
+import java.util.List;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
@@ -25,9 +27,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Comparator;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -131,5 +130,12 @@ public class TravelPlanService {
     public int calculateTravelPeriod(TravelPlan travelPlan) {
         return travelPlanDayRepository.findByPlan(travelPlan)
                 .size();
+    }
+
+    @Transactional
+    public void deleteByTravelPlanId(Long planId) {
+        travelPlanPlaceRepository.deleteByDayPlanId(planId);
+        travelPlanDayRepository.deleteByPlanId(planId);
+        travelPlanRepository.deleteById(planId);
     }
 }
