@@ -26,7 +26,9 @@ const Header = () => {
       ? () => navigate(ROUTE_PATHS_MAP.root)
       : () => navigate(ROUTE_PATHS_MAP.back);
 
-  const { user } = useUser();
+  const handleClickLogout = () => {
+    saveUser({ accessToken: "" });
+  };
 
   return (
     <Drawer>
