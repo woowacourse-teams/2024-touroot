@@ -30,7 +30,7 @@ export const Layout = styled.div`
   gap: ${(props) => props.theme.spacing.m};
 `;
 
-export const ThumbnailContainer = styled(SkeletonBase)`
+export const ThumbnailCard = styled(SkeletonBase)`
   width: 100%;
   height: 25rem;
   border-radius: 10px;
