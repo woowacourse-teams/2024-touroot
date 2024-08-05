@@ -25,6 +25,7 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import * as S from "./TravelPlanRegisterPage.styled";
 
+const MIN_TITLE_LENGTH = 0;
 const MAX_TITLE_LENGTH = 20;
 
 const TravelPlanRegisterPage = () => {
@@ -60,7 +61,8 @@ const TravelPlanRegisterPage = () => {
   };
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    const title = e.target.value.slice(MIN_TITLE_LENGTH, MAX_TITLE_LENGTH);
+    setTitle(title);
   };
 
   const [isOpen, setIsOpen] = useState(false);

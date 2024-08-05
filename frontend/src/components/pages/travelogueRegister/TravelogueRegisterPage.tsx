@@ -27,6 +27,7 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import * as S from "./TravelogueRegisterPage.styled";
 
+const MIN_TITLE_LENGTH = 0;
 const MAX_TITLE_LENGTH = 20;
 
 const TravelogueRegisterPage = () => {
@@ -36,7 +37,8 @@ const TravelogueRegisterPage = () => {
   const [thumbnail, setThumbnail] = useState("");
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    const title = e.target.value.slice(MIN_TITLE_LENGTH, MAX_TITLE_LENGTH);
+    setTitle(title);
   };
 
   const {
