@@ -33,6 +33,18 @@ public class MyPageController {
 
     private final MyPageFacadeService myPageFacadeService;
 
+    @Operation(summary = "나의 프로필 정보 조회")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "내 프로필 정보 조회에 성공했을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "로그인하지 않은 사용자가 프로필 정보 조회에 시도할 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
+    })
     @GetMapping("/profile")
     public ResponseEntity<ProfileResponse> readProfile(@NotNull MemberAuth memberAuth) {
         ProfileResponse data = myPageFacadeService.readProfile(memberAuth);
