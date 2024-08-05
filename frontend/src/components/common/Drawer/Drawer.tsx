@@ -24,9 +24,23 @@ const useDrawerContext = () => {
 const Drawer = ({ children }: React.PropsWithChildren) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const openDrawer = () => setIsOpen(true);
-  const closeDrawer = () => setIsOpen(false);
-  const toggleDrawer = () => setIsOpen((prev) => !prev);
+  const openDrawer = () => {
+    setIsOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeDrawer = () => {
+    setIsOpen(false);
+    document.body.style.overflow = "unset";
+  };
+
+  const toggleDrawer = () => {
+    if (isOpen) {
+      closeDrawer();
+    } else {
+      openDrawer();
+    }
+  };
 
   let headerContent: React.ReactNode | null = null;
   let drawerContent: React.ReactNode | null = null;
