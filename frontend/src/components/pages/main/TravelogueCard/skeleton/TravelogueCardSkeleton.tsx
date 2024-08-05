@@ -3,7 +3,7 @@ import * as S from "./TravelogueCardSkeleton.styled";
 const TravelogueCardSkeleton = () => {
   return (
     <S.Layout>
-      <S.ThumbnailContainer />
+      <S.ThumbnailCard />
 
       <S.BottomBarContainer>
         <S.TitleContainer>
