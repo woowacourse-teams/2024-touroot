@@ -36,4 +36,8 @@ public class TravelogueService {
     public Page<Travelogue> findAllByMember(Member member, Pageable pageable) {
         return travelogueRepository.findAllByAuthor(member, pageable);
     }
+
+    public void deleteById(Long id) {
+        travelogueRepository.deleteById(id);
+    }
 }

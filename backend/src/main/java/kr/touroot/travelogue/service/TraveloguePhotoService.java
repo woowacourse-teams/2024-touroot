@@ -10,7 +10,7 @@ import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.repository.TraveloguePhotoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import software.amazon.awssdk.services.s3.S3Client;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -39,5 +39,10 @@ public class TraveloguePhotoService {
                 .sorted(Comparator.comparing(TraveloguePhoto::getOrder))
                 .map(TraveloguePhoto::getKey)
                 .toList();
+    }
+
+    @Transactional
+    public void deleteByTravelogueId(Long travelogueId) {
+        traveloguePhotoRepository.deleteByTraveloguePlaceTravelogueDayTravelogueId(travelogueId);
     }
 }

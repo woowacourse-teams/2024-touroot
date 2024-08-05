@@ -105,4 +105,12 @@ public class TravelogueFacadeService {
     private List<String> findPhotoUrlsOfTraveloguePlace(TraveloguePlace place) {
         return traveloguePhotoService.findPhotoUrlsByPlace(place);
     }
+
+    @Transactional
+    public void deleteTravelogueById(Long id) {
+        traveloguePhotoService.deleteByTravelogueId(id);
+        traveloguePlaceService.deleteByTravelogueId(id);
+        travelogueDayService.deleteByTravelogueId(id);
+        travelogueService.deleteById(id);
+    }
 }

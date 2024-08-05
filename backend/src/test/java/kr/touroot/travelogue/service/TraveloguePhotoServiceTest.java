@@ -15,6 +15,7 @@ import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
+import kr.touroot.travelogue.repository.TraveloguePhotoRepository;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +31,7 @@ import org.springframework.context.annotation.Import;
 class TraveloguePhotoServiceTest {
 
     private final TraveloguePhotoService photoService;
+    private final TraveloguePhotoRepository photoRepository;
     private final TravelogueTestHelper testHelper;
     private final DatabaseCleaner databaseCleaner;
     @MockBean
@@ -38,11 +40,13 @@ class TraveloguePhotoServiceTest {
     @Autowired
     public TraveloguePhotoServiceTest(
             TraveloguePhotoService photoService,
+            TraveloguePhotoRepository photoRepository,
             TravelogueTestHelper testHelper,
             DatabaseCleaner databaseCleaner,
             AwsS3Provider s3Provider
     ) {
         this.photoService = photoService;
+        this.photoRepository = photoRepository;
         this.testHelper = testHelper;
         this.databaseCleaner = databaseCleaner;
         this.s3Provider = s3Provider;
@@ -84,5 +88,23 @@ class TraveloguePhotoServiceTest {
         List<String> photoUrls = photoService.findPhotoUrlsByPlace(place);
 
         assertThat(photoUrls).contains(photo.getKey());
+    }
+
+    @DisplayName("여행기 사진을 여행기 ID 기준으로 삭제할 수 있다.")
+    @Test
+    void deleteTraveloguePhotoById() {
+        testHelper.initTravelogueTestData();
+        photoService.deleteByTravelogueId(1L);
+
+        assertThat(photoRepository.findAll()
+                .stream()
+                .noneMatch(photo -> extractTravelogue(photo).getId() == 1L))
+                .isTrue();
+    }
+
+    private Travelogue extractTravelogue(TraveloguePhoto photo) {
+        return photo.getTraveloguePlace()
+                .getTravelogueDay()
+                .getTravelogue();
     }
 }

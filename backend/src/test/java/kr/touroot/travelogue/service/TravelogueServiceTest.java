@@ -97,4 +97,15 @@ class TravelogueServiceTest {
         assertThat(travelogueService.findAll(Pageable.ofSize(BASIC_PAGE_SIZE)))
                 .hasSize(1);
     }
+
+    @DisplayName("여행기를 ID 기준으로 삭제할 수 있다.")
+    @Test
+    void deleteTravelogueById() {
+        testHelper.initTravelogueTestData();
+        travelogueService.deleteById(1L);
+
+        assertThatThrownBy(() -> travelogueService.getTravelogueById(1L))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행기입니다.");
+    }
 }
