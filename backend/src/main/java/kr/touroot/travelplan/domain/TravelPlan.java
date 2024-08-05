@@ -35,7 +35,7 @@ public class TravelPlan extends BaseEntity {
     @Column(nullable = false)
     private LocalDate startDate;
 
-    @Column(columnDefinition = "CHAR(36)", nullable = false)
+    @Column(nullable = false)
     private UUID shareKey;
 
     @JoinColumn(name = "author_id", nullable = false)
@@ -43,7 +43,7 @@ public class TravelPlan extends BaseEntity {
     private Member author;
 
     public TravelPlan(Long id, String title, LocalDate startDate, UUID shareKey, Member author) {
-        validate(title, startDate, author);
+        validate(title, startDate, author, shareKey);
         this.id = id;
         this.title = title;
         this.startDate = startDate;
@@ -55,16 +55,15 @@ public class TravelPlan extends BaseEntity {
         this(null, title, startDate, shareKey, author);
     }
 
-
-    private void validate(String title, LocalDate startDate, Member author) {
-        validateNotNull(title, startDate, author);
+    private void validate(String title, LocalDate startDate, Member author, UUID shareKey) {
+        validateNotNull(title, startDate, author, shareKey);
         validateNotBlank(title);
         validateTitleLength(title);
     }
 
-    private void validateNotNull(String title, LocalDate startDate, Member author) {
-        if (title == null || startDate == null || author == null) {
-            throw new BadRequestException("여행 계획에서 제목과 시작 날짜, 그리고 작성자는 비어 있을 수 없습니다");
+    private void validateNotNull(String title, LocalDate startDate, Member author, UUID shareKey) {
+        if (title == null || startDate == null || author == null || shareKey == null) {
+            throw new BadRequestException("여행 계획에서 제목과 시작 날짜, 공유 키, 그리고 작성자는 비어 있을 수 없습니다");
         }
     }
 
