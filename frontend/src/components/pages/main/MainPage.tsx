@@ -24,8 +24,8 @@ const MainPage = () => {
       </S.MainPageHeaderContainer>
       {status === "pending" && (
         <S.MainPageTraveloguesList>
-          {Array.from({ length: SKELETON_COUNT }, () => (
-            <TravelogueCardSkeleton />
+          {Array.from({ length: SKELETON_COUNT }, (_, index) => (
+            <TravelogueCardSkeleton key={index} />
           ))}
         </S.MainPageTraveloguesList>
       )}
