@@ -60,7 +60,7 @@ public class TravelogueTestHelper {
     }
 
     public Member persistMember() {
-        Member author = MemberFixture.MEMBER_1;
+        Member author = MemberFixture.MEMBER_KAKAO;
 
         return memberRepository.save(author);
     }

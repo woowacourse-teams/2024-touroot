@@ -43,12 +43,12 @@ class LoginServiceTest {
         when(kakaoOauthProvider.getUserInformation(AUTHENTICATION_CODE))
                 .thenReturn(OauthUserInformationFixture.USER_1_OAUTH_INFORMATION);
         when(memberRepository.findByKakaoId(any(Long.class)))
-                .thenReturn(Optional.of(MemberFixture.MEMBER_1));
+                .thenReturn(Optional.of(MemberFixture.MEMBER_KAKAO));
         LoginResponse response = loginService.login(AUTHENTICATION_CODE);
 
         // when & then
         assertThat(response).isEqualTo(
-                LoginResponse.of(MemberFixture.MEMBER_1, response.accessToken()));
+                LoginResponse.of(MemberFixture.MEMBER_KAKAO, response.accessToken()));
     }
 
     @DisplayName("투룻 회원가입이 되어 있지 않은 회원은 소셜 로그인 과정에서 회원가입 후 로그인 된다")
@@ -60,12 +60,12 @@ class LoginServiceTest {
         when(memberRepository.findByKakaoId(any(Long.class)))
                 .thenReturn(Optional.empty());
         when(memberRepository.save(any(Member.class)))
-                .thenReturn(MemberFixture.MEMBER_1);
+                .thenReturn(MemberFixture.MEMBER_KAKAO);
         LoginResponse response = loginService.login(AUTHENTICATION_CODE);
 
         // when & then
         assertThat(response).isEqualTo(
-                LoginResponse.of(MemberFixture.MEMBER_1, response.accessToken()));
+                LoginResponse.of(MemberFixture.MEMBER_KAKAO, response.accessToken()));
         verify(memberRepository, times(1)).save(any(Member.class));
     }
 }
