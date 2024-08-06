@@ -15,21 +15,23 @@ import * as S from "./TravelPlanDetailPage.styled";
 const TravelPlanDetailPage = () => {
   const location = useLocation();
 
+  const { onTransformTravelDetail } = useTravelTransformDetailContext();
+
   const id = location.pathname.replace(/[^\d]/g, "");
 
-  const { data } = useGetTravelPlan(id);
+  const { data, status } = useGetTravelPlan(id);
+
+  if (status === "pending") return <>로딩 중 ... </>;
 
   const daysAndNights =
-    data?.data.days.length && data?.data.days.length > 1
-      ? `${data?.data.days.length - 1}박 ${data?.data.days.length}일`
+    data?.days.length && data?.days.length > 1
+      ? `${data?.days.length - 1}박 ${data?.days.length}일`
       : "당일치기";
-
-  const { onTransformTravelDetail } = useTravelTransformDetailContext();
 
   return (
     <>
       <S.TitleContainer>
-        <Text textType="title">{data?.data?.title}</Text>
+        <Text textType="title">{data?.title}</Text>
         <S.MeatballWrapper>
           <Text
             textType="title"
@@ -52,13 +54,13 @@ const TravelPlanDetailPage = () => {
       </Text>
 
       <Tab
-        labels={data?.data?.days.map((_, index) => `Day ${index + 1}`) ?? []}
+        labels={data?.days.map((_, index: number) => `Day ${index + 1}`) ?? []}
         tabContent={(selectedIndex) => (
-          <TravelPlansTabContent places={data?.data.days[selectedIndex].places ?? []} />
+          <TravelPlansTabContent places={data?.days[selectedIndex].places ?? []} />
         )}
       />
       <TransformBottomSheet
-        onTransform={() => onTransformTravelDetail("/travelogue/register", data?.data)}
+        onTransform={() => onTransformTravelDetail("/travelogue/register", data)}
         buttonLabel="여행기로 전환"
       >
         여행은 즐겁게 다녀오셨나요?
