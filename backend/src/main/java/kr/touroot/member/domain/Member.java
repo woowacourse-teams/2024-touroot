@@ -78,6 +78,10 @@ public class Member extends BaseEntity {
             throw new BadRequestException("카카오 ID는 비어 있을 수 없습니다");
         }
 
+        if (loginType.equals(LoginType.DEFAULT) && (email == null || password == null)) {
+            throw new BadRequestException("이메일과 비밀번호는 비어 있을 수 없습니다.");
+        }
+
         if (loginType.equals(LoginType.DEFAULT) && (email.isBlank() || password.isBlank())) {
             throw new BadRequestException("이메일과 비밀번호는 비어 있을 수 없습니다.");
         }
