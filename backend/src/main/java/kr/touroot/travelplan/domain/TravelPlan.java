@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
+import java.util.UUID;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
@@ -27,6 +28,7 @@ public class TravelPlan extends BaseEntity {
 
     private static final int TITLE_MIN_LENGTH = 1;
     private static final int TITLE_MAX_LENGTH = 20;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,32 +39,35 @@ public class TravelPlan extends BaseEntity {
     @Column(nullable = false)
     private LocalDate startDate;
 
+    @Column(nullable = false)
+    private UUID shareKey;
+
     @JoinColumn(name = "author_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Member author;
 
-    public TravelPlan(Long id, String title, LocalDate startDate, Member author) {
-        validate(title, startDate, author);
+    public TravelPlan(Long id, String title, LocalDate startDate, UUID shareKey, Member author) {
+        validate(title, startDate, author, shareKey);
         this.id = id;
         this.title = title;
         this.startDate = startDate;
+        this.shareKey = shareKey;
         this.author = author;
     }
 
-    public TravelPlan(String title, LocalDate startDate, Member author) {
-        this(null, title, startDate, author);
+    public TravelPlan(String title, LocalDate startDate, UUID shareKey, Member author) {
+        this(null, title, startDate, shareKey, author);
     }
 
-
-    private void validate(String title, LocalDate startDate, Member author) {
-        validateNotNull(title, startDate, author);
+    private void validate(String title, LocalDate startDate, Member author, UUID shareKey) {
+        validateNotNull(title, startDate, author, shareKey);
         validateNotBlank(title);
         validateTitleLength(title);
     }
 
-    private void validateNotNull(String title, LocalDate startDate, Member author) {
-        if (title == null || startDate == null || author == null) {
-            throw new BadRequestException("여행 계획에서 제목과 시작 날짜, 그리고 작성자는 비어 있을 수 없습니다");
+    private void validateNotNull(String title, LocalDate startDate, Member author, UUID shareKey) {
+        if (title == null || startDate == null || author == null || shareKey == null) {
+            throw new BadRequestException("여행 계획에서 제목과 시작 날짜, 공유 키, 그리고 작성자는 비어 있을 수 없습니다");
         }
     }
 

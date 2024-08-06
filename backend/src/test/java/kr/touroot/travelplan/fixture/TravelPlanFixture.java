@@ -1,6 +1,7 @@
 package kr.touroot.travelplan.fixture;
 
 import java.time.LocalDate;
+import java.util.UUID;
 import kr.touroot.authentication.fixture.MemberFixture;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
@@ -20,6 +21,6 @@ public enum TravelPlanFixture {
     }
 
     public TravelPlan get() {
-        return new TravelPlan(title, startDate, author);
+        return new TravelPlan(title, startDate, UUID.randomUUID(), author);
     }
 }

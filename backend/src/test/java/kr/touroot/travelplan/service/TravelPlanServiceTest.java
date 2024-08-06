@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
@@ -193,5 +194,30 @@ class TravelPlanServiceTest {
         assertThatThrownBy(() -> travelPlanService.deleteByTravelPlanId(id, notAuthor))
                 .isInstanceOf(ForbiddenException.class)
                 .hasMessage("작성자만 가능합니다.");
+    }
+
+    @DisplayName("여행 계획 서비스는 공유 키로 여행 계획을 조회할 수 있다")
+    @Test
+    void readTravelPlanByShareKey() {
+        // given
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
+
+        // when
+        TravelPlanResponse actual = travelPlanService.readTravelPlan(travelPlan.getShareKey());
+
+        // then
+        assertThat(actual.shareKey()).isEqualTo(travelPlan.getShareKey());
+    }
+
+    @DisplayName("여행 계획 서비스는 존재하지 않는 공유 키로 여행 계획을 조회할 경우 예외가 발생한다")
+    @Test
+    void readTravelPlanByInvalidShareKey() {
+        // given
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
+
+        // when & then
+        assertThatThrownBy(() -> travelPlanService.readTravelPlan(UUID.randomUUID()))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행 계획입니다.");
     }
 }

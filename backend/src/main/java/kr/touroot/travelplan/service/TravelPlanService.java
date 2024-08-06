@@ -2,6 +2,7 @@ package kr.touroot.travelplan.service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
@@ -41,7 +42,7 @@ public class TravelPlanService {
     @Transactional
     public TravelPlanCreateResponse createTravelPlan(TravelPlanCreateRequest request, MemberAuth memberAuth) {
         Member author = getMemberByMemberAuth(memberAuth);
-        TravelPlan travelPlan = request.toTravelPlan(author);
+        TravelPlan travelPlan = request.toTravelPlan(author, UUID.randomUUID());
         validStartDate(travelPlan);
 
         TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);
@@ -100,9 +101,25 @@ public class TravelPlanService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public TravelPlanResponse readTravelPlan(UUID shareKey) {
+        TravelPlan travelPlan = getTravelPlanByShareKey(shareKey);
+
+        return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
+    }
+
     private TravelPlan getTravelPlanById(Long planId) {
         return travelPlanRepository.findById(planId)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행 계획입니다."));
+    }
+
+    private TravelPlan getTravelPlanByShareKey(UUID shareKey) {
+        return travelPlanRepository.findByShareKey(shareKey)
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 여행 계획입니다."));
+    }
+
+    public TravelPlanResponse getTravelPlanResponse(TravelPlan travelPlan) {
+        return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
     }
 
     private List<TravelPlanDayResponse> getTravelPlanDayResponses(TravelPlan travelPlan) {

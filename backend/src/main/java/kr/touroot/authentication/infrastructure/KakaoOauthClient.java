@@ -26,19 +26,16 @@ public class KakaoOauthClient {
     private final String userInformationRequestUri;
     private final String accessTokenRequestUri;
     private final String restApiKey;
-    private final String redirectUri;
     private final RestClient restClient;
 
     public KakaoOauthClient(
             @Value("${oauth.kakao.user-information-request-uri}") String userInformationRequestUri,
             @Value("${oauth.kakao.access-token-request-uri}") String accessTokenRequestUri,
-            @Value("${oauth.kakao.rest-api-key}") String restApiKey,
-            @Value("${oauth.kakao.redirect-uri}") String redirectUri
+            @Value("${oauth.kakao.rest-api-key}") String restApiKey
     ) {
         this.userInformationRequestUri = userInformationRequestUri;
         this.accessTokenRequestUri = accessTokenRequestUri;
         this.restApiKey = restApiKey;
-        this.redirectUri = redirectUri;
         this.restClient = buildRestClient();
     }
 
@@ -54,8 +51,8 @@ public class KakaoOauthClient {
                 .build();
     }
 
-    public OauthUserInformationResponse requestUserInformation(String authorizationCode) {
-        KakaoAccessTokenResponse kakaoAccessTokenResponse = requestAccessToken(authorizationCode);
+    public OauthUserInformationResponse requestUserInformation(String authorizationCode, String redirectUri) {
+        KakaoAccessTokenResponse kakaoAccessTokenResponse = requestAccessToken(authorizationCode, redirectUri);
 
         return restClient.get()
                 .uri(userInformationRequestUri)
@@ -66,7 +63,7 @@ public class KakaoOauthClient {
                 .getBody();
     }
 
-    private KakaoAccessTokenResponse requestAccessToken(String authorizationCode) {
+    private KakaoAccessTokenResponse requestAccessToken(String authorizationCode, String redirectUri) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("code", authorizationCode);
         params.add("client_id", restApiKey);
