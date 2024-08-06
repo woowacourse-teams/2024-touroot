@@ -1,9 +1,4 @@
-import { css } from "@emotion/react";
-
-import { Button, Text } from "@components/common";
-import Modal from "@components/common/Modal/Modal";
-
-import theme from "@styles/theme";
+import { Button, Modal, Text } from "@components/common";
 
 import { Tturi } from "@assets/svg";
 
@@ -20,21 +15,16 @@ const TravelogueDeleteModal = ({
   onCloseModal,
   onClickDeleteButton,
 }: TravelogueDeleteModalProps) => {
-  return isOpen ? (
+  return (
     <Modal isOpen={isOpen} onCloseModal={onCloseModal}>
       <Modal.Header />
-      <Modal.Body direction="column" style={{ gap: "1.6rem", padding: "2.6rem 0" }}>
+      <Modal.Body direction="column" css={S.modalBodyStyle}>
         <Tturi />
         <S.TextContainer>
-          <Text textType="body" style={{ fontWeight: 700 }}>
+          <Text textType="body" css={S.mainTextStyle}>
             여행기를 삭제할까요?
           </Text>
-          <Text
-            textType="detail"
-            css={css`
-              color: ${theme.colors.text.secondary};
-            `}
-          >
+          <Text textType="detail" css={S.subTextStyle}>
             삭제한 후에는 여행기를 다시 복구할 수 없어요.
           </Text>
         </S.TextContainer>
@@ -45,7 +35,7 @@ const TravelogueDeleteModal = ({
         </Button>
       </Modal.Footer>
     </Modal>
-  ) : null;
+  );
 };
 
 export default TravelogueDeleteModal;
