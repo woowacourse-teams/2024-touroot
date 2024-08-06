@@ -1,10 +1,11 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  gap: 0.8rem;
+  gap: ${({ theme }) => theme.spacing.m};
 
   width: 100%;
   margin-top: 3.2rem;
@@ -17,5 +18,17 @@ export const IconButtonContainer = styled.div`
   position: relative;
 
   width: 100%;
-  gap: 0.8rem;
+  gap: ${({ theme }) => theme.spacing.m};
+`;
+
+export const titleStyle = css`
+  line-height: 2.4rem;
+`;
+
+export const cursorPointerStyle = css`
+  cursor: pointer;
+`;
+
+export const summaryTitleStyle = css`
+  margin: 3.2rem 1.6rem 1.6rem;
 `;
