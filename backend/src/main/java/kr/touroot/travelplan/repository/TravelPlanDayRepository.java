@@ -9,5 +9,5 @@ public interface TravelPlanDayRepository extends JpaRepository<TravelPlanDay, Lo
 
     List<TravelPlanDay> findByPlan(TravelPlan travelPlan);
 
-    void deleteByPlanId(Long planId);
+    void deleteByPlan(TravelPlan plan);
 }
