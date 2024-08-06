@@ -42,7 +42,7 @@ public class MemberController {
     public ResponseEntity<Void> createMember(@Valid @RequestBody MemberRequest request) {
         Long id = memberService.createMember(request);
 
-        return ResponseEntity.created(URI.create("/api/v1/members" + id))
+        return ResponseEntity.created(URI.create("/api/v1/members/" + id))
                 .build();
     }
 }
