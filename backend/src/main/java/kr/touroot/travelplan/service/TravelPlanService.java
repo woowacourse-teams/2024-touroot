@@ -1,8 +1,5 @@
 package kr.touroot.travelplan.service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
@@ -28,6 +25,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -95,17 +96,17 @@ public class TravelPlanService {
         return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
     }
 
+    private void validateAuthor(TravelPlan travelPlan, Member member) {
+        if (!travelPlan.isAuthor(member)) {
+            throw new ForbiddenException("여행 계획은 작성자만 조회할 수 있습니다.");
+        }
+    }
+
     @Transactional(readOnly = true)
     public TravelPlanResponse readTravelPlan(UUID shareKey) {
         TravelPlan travelPlan = getTravelPlanByShareKey(shareKey);
 
         return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
-    }
-
-    private void validateAuthor(TravelPlan travelPlan, Member member) {
-        if (!travelPlan.isAuthor(member)) {
-            throw new ForbiddenException("여행 계획은 작성자만 조회할 수 있습니다.");
-        }
     }
 
     private TravelPlan getTravelPlanById(Long planId) {
@@ -116,6 +117,10 @@ public class TravelPlanService {
     private TravelPlan getTravelPlanByShareKey(UUID shareKey) {
         return travelPlanRepository.findByShareKey(shareKey)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행 계획입니다."));
+    }
+
+    public TravelPlanResponse getTravelPlanResponse(TravelPlan travelPlan) {
+        return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
     }
 
     private List<TravelPlanDayResponse> getTravelPlanDayResponses(TravelPlan travelPlan) {

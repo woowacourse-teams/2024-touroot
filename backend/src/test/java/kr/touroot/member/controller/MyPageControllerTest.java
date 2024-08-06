@@ -6,6 +6,7 @@ import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
+import kr.touroot.travelplan.helper.TravelPlanTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +16,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("마이 페이지 컨트롤러")
 @AcceptanceTest
@@ -23,7 +23,8 @@ class MyPageControllerTest {
 
     private final DatabaseCleaner databaseCleaner;
     private final JwtTokenProvider jwtTokenProvider;
-    private final TravelogueTestHelper testHelper;
+    private final TravelogueTestHelper travelogueTestHelper;
+    private final TravelPlanTestHelper travelPlanTestHelper;
 
     @LocalServerPort
     private int port;
@@ -34,11 +35,13 @@ class MyPageControllerTest {
     public MyPageControllerTest(
             DatabaseCleaner databaseCleaner,
             JwtTokenProvider jwtTokenProvider,
-            TravelogueTestHelper testHelper
+            TravelogueTestHelper travelogueTestHelper,
+            TravelPlanTestHelper travelPlanTestHelper
     ) {
         this.databaseCleaner = databaseCleaner;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.testHelper = testHelper;
+        this.travelogueTestHelper = travelogueTestHelper;
+        this.travelPlanTestHelper = travelPlanTestHelper;
     }
 
     @BeforeEach
@@ -46,7 +49,7 @@ class MyPageControllerTest {
         RestAssured.port = port;
         databaseCleaner.executeTruncate();
 
-        member = testHelper.initMemberTestData();
+        member = travelogueTestHelper.initMemberTestData();
         accessToken = jwtTokenProvider.createToken(member.getId());
     }
 
@@ -54,9 +57,9 @@ class MyPageControllerTest {
     @Test
     void readTravelogues() {
         // given
-        testHelper.initTravelogueTestDate(member);
-        testHelper.initTravelogueTestDate(member);
-        testHelper.initTravelogueTestData();
+        travelogueTestHelper.initTravelogueTestDate(member);
+        travelogueTestHelper.initTravelogueTestDate(member);
+        travelogueTestHelper.initTravelogueTestData();
 
         // when & then
         RestAssured.given().log().all()
@@ -64,6 +67,25 @@ class MyPageControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .when().log().all()
                 .get("/api/v1/member/me/travelogues")
+                .then().log().all()
+                .statusCode(200)
+                .body("content.size()", is(2));
+    }
+
+    @DisplayName("마이 페이지 컨트롤러는 내 여행계획 조회 시 요청이 들어오면 로그인한 사용자의 여행 계획을 조회한다.")
+    @Test
+    void readTravelPlans() {
+        // given
+        travelPlanTestHelper.initTravelPlanTestData(member);
+        travelPlanTestHelper.initTravelPlanTestData(member);
+        travelPlanTestHelper.initTravelPlanTestData();
+
+        // when & then
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().log().all()
+                .get("/api/v1/member/me/travel-plans")
                 .then().log().all()
                 .statusCode(200)
                 .body("content.size()", is(2));

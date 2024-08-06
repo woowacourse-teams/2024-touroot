@@ -2,12 +2,12 @@ package kr.touroot.member.service;
 
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.member.domain.Member;
-import kr.touroot.member.dto.MyTravelPlanResponse;
 import kr.touroot.member.dto.MyTravelogueResponse;
 import kr.touroot.member.dto.ProfileResponse;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.service.TravelogueService;
 import kr.touroot.travelplan.domain.TravelPlan;
+import kr.touroot.travelplan.dto.response.TravelPlanResponse;
 import kr.touroot.travelplan.service.TravelPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,15 +38,10 @@ public class MyPageFacadeService {
     }
 
     @Transactional(readOnly = true)
-    public Page<MyTravelPlanResponse> readTravelPlans(MemberAuth memberAuth, Pageable pageable) {
+    public Page<TravelPlanResponse> readTravelPlans(MemberAuth memberAuth, Pageable pageable) {
         Member member = memberService.getById(memberAuth.memberId());
         Page<TravelPlan> travelPlans = travelPlanService.getAllByAuthor(member, pageable);
 
-        return travelPlans.map(this::getMyTravelPlanResponse);
-    }
-
-    private MyTravelPlanResponse getMyTravelPlanResponse(TravelPlan travelPlan) {
-        int period = travelPlanService.calculateTravelPeriod(travelPlan);
-        return MyTravelPlanResponse.of(travelPlan, period);
+        return travelPlans.map((travelPlanService::getTravelPlanResponse));
     }
 }
