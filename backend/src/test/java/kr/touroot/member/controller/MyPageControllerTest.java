@@ -49,7 +49,7 @@ class MyPageControllerTest {
         RestAssured.port = port;
         databaseCleaner.executeTruncate();
 
-        member = testHelper.initKakaoMemberTestData();
+        member = travelogueTestHelper.initKakaoMemberTestData();
         accessToken = jwtTokenProvider.createToken(member.getId());
     }
 
