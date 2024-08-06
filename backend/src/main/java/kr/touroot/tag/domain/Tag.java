@@ -2,11 +2,13 @@ package kr.touroot.tag.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class Tag {
 
@@ -16,4 +18,8 @@ public class Tag {
 
     @Column(nullable = false)
     private String tag;
+
+    public Tag(String tag) {
+        this(null, tag);
+    }
 }
