@@ -42,7 +42,7 @@ export const MonthMoveButton = styled.button`
 export const WeekdayHeaderContainer = styled.thead`
   display: grid;
   padding: 1.2rem 0;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.colors.border};
 
   text-align: center;
   grid-template-columns: repeat(7, 1fr);
