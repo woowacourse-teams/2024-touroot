@@ -1,15 +1,13 @@
+import type { MapPosition } from "./common";
+import type { TravelTransformDetail } from "./travelTransform";
 
-import { TravelTransformDetail } from "./travelTransform";
-import type { Place, TravelRegisterPlace } from "./travelogue";
-
-
-export interface TravelPlan {
+export interface TravelPlanResponse {
   id: string;
   shareKey: string;
   title: string;
   startDate: string;
   days: TravelTransformDetail["days"];
-};
+}
 
 export type TravelPlanPlace = {
   placeName: string;
@@ -19,10 +17,4 @@ export type TravelPlanPlace = {
 
 export interface TravelPlanDay {
   places: TravelPlanPlace[];
-}
-
-export interface TravelPlanResponse {
-  title: string;
-  startDate: string;
-  days: TravelPlanDay[];
 }
