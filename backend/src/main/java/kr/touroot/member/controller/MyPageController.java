@@ -10,10 +10,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
-import kr.touroot.member.dto.MyTravelPlanResponse;
+import kr.touroot.member.dto.MyTravelogueResponse;
 import kr.touroot.member.dto.ProfileResponse;
 import kr.touroot.member.service.MyPageFacadeService;
-import kr.touroot.travelogue.dto.response.TravelogueResponse;
+import kr.touroot.travelplan.dto.response.TravelPlanResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.data.domain.Page;
@@ -65,13 +65,13 @@ public class MyPageController {
     })
     @PageableAsQueryParam
     @GetMapping("/travelogues")
-    public ResponseEntity<Page<TravelogueResponse>> readTravelogues(
+    public ResponseEntity<Page<MyTravelogueResponse>> readTravelogues(
             @NotNull MemberAuth memberAuth,
             @Parameter(hidden = true)
             @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)
             Pageable pageable
     ) {
-        Page<TravelogueResponse> data = myPageFacadeService.readTravelogues(memberAuth, pageable);
+        Page<MyTravelogueResponse> data = myPageFacadeService.readTravelogues(memberAuth, pageable);
         return ResponseEntity.ok(data);
     }
 
@@ -89,13 +89,13 @@ public class MyPageController {
     })
     @PageableAsQueryParam
     @GetMapping("/travel-plans")
-    public ResponseEntity<Page<MyTravelPlanResponse>> readTravelPlans(
+    public ResponseEntity<Page<TravelPlanResponse>> readTravelPlans(
             @NotNull MemberAuth memberAuth,
             @Parameter(hidden = true)
             @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)
             Pageable pageable
     ) {
-        Page<MyTravelPlanResponse> data = myPageFacadeService.readTravelPlans(memberAuth, pageable);
+        Page<TravelPlanResponse> data = myPageFacadeService.readTravelPlans(memberAuth, pageable);
         return ResponseEntity.ok(data);
     }
 }
