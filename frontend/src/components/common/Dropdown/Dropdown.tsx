@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
 
 import * as S from "./Dropdown.styled";
-import { DropdownPosition, DropdownSize } from "./Dropdown.type";
+import type { DropdownPosition, DropdownSize } from "./Dropdown.type";
 
 interface DropdownProps {
   isOpen: boolean;
