@@ -1,17 +1,20 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+
+import theme from "@styles/theme";
 
 export const TitleLayout = styled.section`
   display: flex;
   flex-direction: column;
   margin-top: 5.7rem;
-  gap: 1.6rem;
+  gap: ${({ theme }) => theme.spacing.m};
 `;
 
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 15rem;
-  gap: 0.8rem;
+  gap: ${({ theme }) => theme.spacing.m};
 
   width: 100%;
   padding: 0 1.6rem;
@@ -19,7 +22,7 @@ export const TitleContainer = styled.div`
 
 export const AuthorDateContainer = styled.div`
   display: flex;
-  gap: 0.8rem;
+  gap: ${({ theme }) => theme.spacing.m};
 `;
 
 export const IconButtonContainer = styled.div`
@@ -40,5 +43,21 @@ export const MoreContainer = styled.div`
   position: relative;
 
   width: 100%;
-  gap: 0.8rem;
+  gap: ${({ theme }) => theme.spacing.m};
+`;
+
+export const titleStyle = css`
+  line-height: 2.4rem;
+`;
+
+export const authorDateStyle = css`
+  color: ${theme.colors.text.secondary};
+`;
+
+export const cursorPointerStyle = css`
+  cursor: pointer;
+`;
+
+export const summaryTitleStyle = css`
+  margin: 1.6rem 0 3.2rem;
 `;

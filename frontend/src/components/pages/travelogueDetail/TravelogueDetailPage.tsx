@@ -1,15 +1,12 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { css } from "@emotion/react";
-
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
 import useDeleteTravelogue from "@queries/useDeleteTravelogue";
 import { useGetTravelogue } from "@queries/useGetTravelogue";
 
-import { IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
-import Dropdown from "@components/common/Dropdown/Dropdown";
+import { Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
 import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
 
@@ -55,29 +52,14 @@ const TravelogueDetailPage = () => {
       <S.TitleLayout>
         <Thumbnail imageUrl={data?.thumbnail} />
         <S.TitleContainer>
-          <Text
-            textType="subTitle"
-            css={css`
-              line-height: 2.4rem;
-            `}
-          >
+          <Text textType="subTitle" css={S.titleStyle}>
             {data?.title}
           </Text>
           <S.AuthorDateContainer>
-            <Text
-              textType="detail"
-              css={css`
-                color: ${theme.colors.text.secondary};
-              `}
-            >
+            <Text textType="detail" css={S.authorDateStyle}>
               작성자
             </Text>
-            <Text
-              textType="detail"
-              css={css`
-                color: ${theme.colors.text.secondary};
-              `}
-            >
+            <Text textType="detail" css={S.authorDateStyle}>
               2024-07-15
             </Text>
           </S.AuthorDateContainer>
@@ -97,23 +79,18 @@ const TravelogueDetailPage = () => {
                 <Text
                   textType="detail"
                   onClick={handleClickReviseButton}
-                  style={{ cursor: "pointer" }}
+                  css={S.cursorPointerStyle}
                 >
                   수정
                 </Text>
-                <Text textType="detail" onClick={handleToggleModal} style={{ cursor: "pointer" }}>
+                <Text textType="detail" onClick={handleToggleModal} css={S.cursorPointerStyle}>
                   삭제
                 </Text>
               </Dropdown>
             </S.MoreContainer>
           </S.IconButtonContainer>
 
-          <Text
-            textType="title"
-            css={css`
-              margin: 1.6rem 0 3.2rem;
-            `}
-          >
+          <Text textType="title" css={S.summaryTitleStyle}>
             {daysAndNights} 여행 한눈에 보기
           </Text>
         </S.TitleContainer>
@@ -130,11 +107,13 @@ const TravelogueDetailPage = () => {
       >
         이 여행기를 따라가고 싶으신가요?
       </TransformBottomSheet>
-      <TravelogueDeleteModal
-        isOpen={isDeleteModalOpen}
-        onCloseModal={handleToggleModal}
-        onClickDeleteButton={handleClickDeleteButton}
-      />
+      {isDeleteModalOpen && (
+        <TravelogueDeleteModal
+          isOpen={isDeleteModalOpen}
+          onCloseModal={handleToggleModal}
+          onClickDeleteButton={handleClickDeleteButton}
+        />
+      )}
     </>
   );
 };
