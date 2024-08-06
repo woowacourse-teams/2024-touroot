@@ -30,10 +30,8 @@ export const Button = styled.button<{ $variants: ButtonProps["variants"] }>`
   width: 100%;
   height: 4rem;
   border: none;
-
   ${({ theme }) => theme.typography.mobile.bodyBold}
   ${({ $variants = "primary" }) => createVariantStyling($variants)}
-
   border-radius: ${({ theme }) => theme.spacing.s};
   cursor: pointer;
 
