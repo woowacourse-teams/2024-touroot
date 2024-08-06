@@ -1,19 +1,7 @@
+
 import { TravelTransformDetail } from "./travelTransform";
 import type { Place, TravelRegisterPlace } from "./travelogue";
 
-export interface TravelRegisterDay {
-  places: TravelRegisterPlace[];
-}
-
-export interface TravelRegister {
-  title: string;
-  thumbnail: string;
-  days: TravelRegisterDay[];
-}
-
-export interface Day {
-  places: Place[];
-}
 
 export interface TravelPlan {
   id: string;
@@ -21,4 +9,20 @@ export interface TravelPlan {
   title: string;
   startDate: string;
   days: TravelTransformDetail["days"];
+};
+
+export type TravelPlanPlace = {
+  placeName: string;
+  description?: string;
+  position: MapPosition;
+};
+
+export interface TravelPlanDay {
+  places: TravelPlanPlace[];
+}
+
+export interface TravelPlanResponse {
+  title: string;
+  startDate: string;
+  days: TravelPlanDay[];
 }

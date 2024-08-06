@@ -14,7 +14,7 @@ const TravelogueMultiImageUpload = ({
   onChangeImageUrls,
   onDeleteImageUrls,
 }: {
-  imageUrls: { url: string }[];
+  imageUrls: string[];
   dayIndex: number;
   placeIndex: number;
   onRequestAddImage: (
@@ -32,7 +32,7 @@ const TravelogueMultiImageUpload = ({
 
   return (
     <MultiImageUpload
-      previewUrls={imageUrls.map(({ url }) => url)}
+      previewUrls={imageUrls}
       fileInputRef={fileInputRef}
       onImageChange={async (e) => {
         const files = Array.from(e.target.files as FileList);

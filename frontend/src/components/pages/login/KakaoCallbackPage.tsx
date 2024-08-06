@@ -16,10 +16,12 @@ const KakaoCallbackPage = () => {
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
     const code = searchParams.get("code");
+    const redirectUri = `${window.location.origin}/oauth`;
+    const encodedRedirectUri = encodeURIComponent(redirectUri);
 
     if (code) {
       client
-        .get(API_ENDPOINT_MAP.loginOauth(code))
+        .post(API_ENDPOINT_MAP.loginOauth(code, encodedRedirectUri))
         .then((res) => {
           saveUser(res.data);
           navigate(ROUTE_PATHS_MAP.root);

@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
-import type { TravelPlan } from "@type/domain/travelPlan";
+
+import type { TravelPlanResponse } from "@type/domain/travelPlan";
+
 
 import { authClient } from "@apis/client";
 

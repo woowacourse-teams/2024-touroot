@@ -19,3 +19,4 @@ export { default as ImageUpload } from "./image-upload.svg";
 export { default as KaKao } from "./kakao.svg";
 export { default as KoreanLogo } from "./korean-logo.svg";
 export { default as Plus } from "./plus.svg";
+export { default as tturiUrl } from "./tturi.svg?url";

@@ -9,7 +9,6 @@ import { usePostTravelogue, usePostUploadImages } from "@queries/index";
 import {
   Accordion,
   Button,
-  DayContent,
   GoogleMapLoadScript,
   IconButton,
   Input,
@@ -18,9 +17,9 @@ import {
   Text,
   ThumbnailUpload,
 } from "@components/common";
-import TravelogueMultiImageUpload from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/TravelogueMultiImageUpload";
+import TravelogueDayAccordion from "@components/pages/travelogueRegister/TravelogueDayAccordion/TravelogueDayAccordion";
 
-import { useTravelDays } from "@hooks/pages/useTravelDays";
+import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
 import useUser from "@hooks/useUser";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
@@ -28,6 +27,7 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import * as S from "./TravelogueRegisterPage.styled";
 
+const MIN_TITLE_LENGTH = 0;
 const MAX_TITLE_LENGTH = 20;
 
 const TravelogueRegisterPage = () => {
@@ -37,11 +37,12 @@ const TravelogueRegisterPage = () => {
   const [thumbnail, setThumbnail] = useState("");
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    const title = e.target.value.slice(MIN_TITLE_LENGTH, MAX_TITLE_LENGTH);
+    setTitle(title);
   };
 
   const {
-    travelDays,
+    travelogueDays,
     onAddDay,
     onAddPlace,
     onDeleteDay,
@@ -49,7 +50,7 @@ const TravelogueRegisterPage = () => {
     onDeletePlace,
     onChangeImageUrls,
     onDeleteImageUrls,
-  } = useTravelDays(transformDetail?.days ?? []);
+  } = useTravelogueDays(transformDetail?.days ?? []);
 
   const thumbnailFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -78,7 +79,7 @@ const TravelogueRegisterPage = () => {
 
   const handleConfirmBottomSheet = () => {
     handleRegisterTravelogue(
-      { title, thumbnail, days: travelDays },
+      { title, thumbnail, days: travelogueDays },
       {
         onSuccess: ({ data: { id } }) => {
           handleCloseBottomSheet();
@@ -92,11 +93,17 @@ const TravelogueRegisterPage = () => {
 
   const { user } = useUser();
 
+  const { saveTransformDetail } = useTravelTransformDetailContext();
+
   useEffect(() => {
     if (!user?.accessToken) {
       alert(ERROR_MESSAGE_MAP.api.login);
       navigate(ROUTE_PATHS_MAP.login);
     }
+
+    return () => {
+      saveTransformDetail(null);
+    };
   }, [user?.accessToken, navigate]);
 
   return (
@@ -130,27 +137,19 @@ const TravelogueRegisterPage = () => {
         <S.AccordionRootContainer>
           <GoogleMapLoadScript libraries={["places", "maps"]}>
             <Accordion.Root>
-              {travelDays.map((travelDay, dayIndex) => (
-                <DayContent
-                  key={`${travelDay}-${dayIndex}`}
-                  travelDay={travelDay}
+              {travelogueDays.map((travelogueDay, dayIndex) => (
+                <TravelogueDayAccordion
+                  key={`${travelogueDay}-${dayIndex}`}
+                  travelogueDay={travelogueDay}
                   dayIndex={dayIndex}
                   onAddPlace={onAddPlace}
                   onDeletePlace={onDeletePlace}
                   onDeleteDay={onDeleteDay}
                   onChangePlaceDescription={onChangePlaceDescription}
-                >
-                  {(placeIndex, imgUrls) => (
-                    <TravelogueMultiImageUpload
-                      imageUrls={imgUrls}
-                      dayIndex={dayIndex}
-                      placeIndex={placeIndex}
-                      onChangeImageUrls={onChangeImageUrls}
-                      onDeleteImageUrls={onDeleteImageUrls}
-                      onRequestAddImage={handleAddImage}
-                    />
-                  )}
-                </DayContent>
+                  onChangeImageUrls={onChangeImageUrls}
+                  onDeleteImageUrls={onDeleteImageUrls}
+                  onRequestAddImage={handleAddImage}
+                />
               ))}
             </Accordion.Root>
             <IconButton

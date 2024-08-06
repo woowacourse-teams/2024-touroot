@@ -11,14 +11,16 @@ import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 const TravelogueContext = createContext<TravelTransformDetail | null>(null);
-const SaveTravelogueContext = createContext<(travelogue: TravelTransformDetail) => void>(() => {});
+const SaveTravelogueContext = createContext<(travelogue: TravelTransformDetail | null) => void>(
+  () => {},
+);
 
 export const TravelTransformDetailProvider = ({ children }: React.PropsWithChildren) => {
   const [travelTransformDetail, setTravelTransformDetail] = useState<TravelTransformDetail | null>(
     null,
   );
 
-  const saveTravelTransformDetail = (transformDetail: TravelTransformDetail) => {
+  const saveTravelTransformDetail = (transformDetail: TravelTransformDetail | null) => {
     setTravelTransformDetail(transformDetail);
   };
 
@@ -51,5 +53,5 @@ export const useTravelTransformDetailContext = () => {
     }
   };
 
-  return { transformDetail, onTransformTravelDetail };
+  return { transformDetail, saveTransformDetail, onTransformTravelDetail };
 };
