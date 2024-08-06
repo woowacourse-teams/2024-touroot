@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import type { TravelPlan } from "@type/domain/travelPlan";
+import type { TravelPlanResponse } from "@type/domain/travelPlan";
 
 import { authClient } from "@apis/client";
 
@@ -13,7 +13,7 @@ export const getMyTravelPlans = async ({
 }: {
   page: number;
   size: number;
-}): Promise<TravelPlan[]> => {
+}): Promise<TravelPlanResponse[]> => {
   try {
     const response = await authClient.get(API_ENDPOINT_MAP.myTravelPlans, {
       params: { page, size },
