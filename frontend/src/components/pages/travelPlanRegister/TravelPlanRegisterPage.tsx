@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
-import { usePostTravelPlan } from "@queries/usePostTravelPlan";
 import { differenceInDays } from "date-fns";
+
+import { usePostTravelPlan } from "@queries/usePostTravelPlan";
 
 import {
   Accordion,
@@ -83,7 +84,7 @@ const TravelPlanRegisterPage = () => {
     const formattedStartDate = startDate.toISOString().split("T")[0];
 
     handleAddTravelPlan(
-      { title, startDate: formattedStartDate, days: travelPlanDays },
+      { id: "", title, shareKey: "", startDate: formattedStartDate, days: travelPlanDays },
       {
         onSuccess: ({ data: { id } }) => {
           handleCloseBottomSheet();
