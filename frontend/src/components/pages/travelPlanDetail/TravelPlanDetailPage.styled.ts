@@ -10,9 +10,9 @@ export const TitleContainer = styled.div`
   padding: 0 1.6rem;
 `;
 
-export const MeatballWrapper = styled.div`
+export const IconContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-
+  gap: 0.8rem;
   width: 100%;
 `;

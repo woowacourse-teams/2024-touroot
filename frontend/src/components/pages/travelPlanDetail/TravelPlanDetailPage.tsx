@@ -1,16 +1,21 @@
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
-import { extractId } from "@utils/extractId";
 
 import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
-import { Tab, Text, TransformBottomSheet } from "@components/common";
+import { IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
+import ShareModal from "@components/pages/travelPlanDetail/ShareModal/ShareModal";
 import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlansTabContent/TravelPlansTabContent";
 
-import { PRIMITIVE_COLORS } from "@styles/tokens";
+import { ROUTE_PATHS_MAP } from "@constants/route";
+
+import { extractId } from "@utils/extractId";
+
+import theme from "@styles/theme";
 
 import * as S from "./TravelPlanDetailPage.styled";
 
@@ -28,22 +33,28 @@ const TravelPlanDetailPage = () => {
 
   const { onTransformTravelDetail } = useTravelTransformDetailContext();
 
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+
+  const handleToggleModal = () => setIsShareModalOpen((prev) => !prev);
+
+  const shareUrl = `${window.location.origin}${ROUTE_PATHS_MAP.travelPlan(data?.data.shareKey ?? "")}`;
+
   return (
     <>
+      {isShareModalOpen && (
+        <ShareModal
+          isOpen={isShareModalOpen}
+          onToggleModal={handleToggleModal}
+          shareUrl={shareUrl}
+        />
+      )}
       <S.TitleContainer>
         <Text textType="title">{data?.data?.title}</Text>
-        <S.MeatballWrapper>
-          <Text
-            textType="title"
-            css={css`
-              color: ${PRIMITIVE_COLORS.gray[500]};
-            `}
-          >
-            ...
-          </Text>
-        </S.MeatballWrapper>
+        <S.IconContainer>
+          <IconButton size="16" iconType="share" onClick={handleToggleModal} />
+          <IconButton size="16" iconType="more" color={theme.colors.text.secondary} />
+        </S.IconContainer>
       </S.TitleContainer>
-
       <Text
         textType="subTitle"
         css={css`
