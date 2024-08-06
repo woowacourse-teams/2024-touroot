@@ -1,6 +1,8 @@
 package kr.touroot.authentication.service;
 
 import kr.touroot.authentication.dto.request.LoginRequest;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import kr.touroot.authentication.dto.response.LoginResponse;
 import kr.touroot.authentication.dto.response.OauthUserInformationResponse;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
@@ -21,8 +23,9 @@ public class LoginService {
     private final JwtTokenProvider tokenProvider;
     private final PasswordEncryptor passwordEncryptor;
 
-    public LoginResponse login(String code) {
-        OauthUserInformationResponse userInformation = oauthProvider.getUserInformation(code);
+    public LoginResponse login(String code, String encodedRedirectUri) {
+        String redirectUri = URLDecoder.decode(encodedRedirectUri, StandardCharsets.UTF_8);
+        OauthUserInformationResponse userInformation = oauthProvider.getUserInformation(code, redirectUri);
         Member member = memberRepository.findByKakaoId(userInformation.socialLoginId())
                 .orElseGet(() -> signUp(userInformation));
 
