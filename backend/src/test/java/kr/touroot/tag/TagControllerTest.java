@@ -51,6 +51,6 @@ class TagControllerTest {
                 .post("/api/v1/tag")
                 .then().log().all()
                 .statusCode(201)
-                .header("Location", is("/api/v1/tag/1"));
+                .header("Location", is("/api/v1/tags/1"));
     }
 }

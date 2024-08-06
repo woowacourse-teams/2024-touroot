@@ -1,5 +1,6 @@
 package kr.touroot.tag.service;
 
+import java.util.List;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.tag.domain.Tag;
 import kr.touroot.tag.dto.TagCreateRequest;
@@ -27,5 +28,12 @@ public class TagService {
         if (tagRepository.existsByTag(tagCreateRequest.tag())) {
             throw new BadRequestException("이미 존재하는 태그입니다.");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<TagResponse> readTags() {
+        return tagRepository.findAll().stream()
+                .map(TagResponse::from)
+                .toList();
     }
 }
