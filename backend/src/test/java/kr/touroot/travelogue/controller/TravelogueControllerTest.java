@@ -11,6 +11,7 @@ import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
+import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
@@ -137,8 +138,8 @@ class TravelogueControllerTest {
     @DisplayName("여행기를 삭제한다.")
     @Test
     void deleteTravelogue() {
-        testHelper.initTravelogueTestData();
         Member member = testHelper.initMemberTestData();
+        testHelper.initTravelogueTestData(member);
         String accessToken = jwtTokenProvider.createToken(member.getId());
 
         RestAssured.given().log().all()
@@ -160,5 +161,20 @@ class TravelogueControllerTest {
                 .then().log().all()
                 .statusCode(400)
                 .body("message", is("존재하지 않는 여행기입니다."));
+    }
+
+    @DisplayName("작성자가 아닌 사용자가 여행기 삭제시 403을 응답한다.")
+    @Test
+    void deleteTravelogueWithNotAuthor() {
+        Travelogue travelogue = testHelper.initTravelogueTestData();
+        Member notAuthor = testHelper.initMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(notAuthor.getId());
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().delete("/api/v1/travelogues/" + travelogue.getId())
+                .then().log().all()
+                .statusCode(403)
+                .body("message", is("작성자만 가능합니다."));
     }
 }

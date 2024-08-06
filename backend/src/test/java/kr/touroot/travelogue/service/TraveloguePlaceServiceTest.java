@@ -101,15 +101,16 @@ class TraveloguePlaceServiceTest {
                 .hasMessage("존재하지 않는 여행기 장소입니다.");
     }
 
-    @DisplayName("여행기 장소를 여행기 ID 기준으로 삭제할 수 있다.")
+    @DisplayName("주어진 여행기의 여행기 장소를 삭제할 수 있다.")
     @Test
     void deleteTraveloguePlaceById() {
-        testHelper.initTravelogueTestData();
-        placeService.deleteByTravelogueId(1L);
+        Travelogue travelogue = testHelper.initTravelogueTestData();
+        long travelogueId = travelogue.getId();
+        placeService.deleteByTravelogue(travelogue);
 
         assertThat(placeRepository.findAll()
                 .stream()
-                .noneMatch(place -> extractTravelogue(place).getId() == 1L))
+                .noneMatch(place -> extractTravelogue(place).getId() == travelogueId))
                 .isTrue();
     }
 

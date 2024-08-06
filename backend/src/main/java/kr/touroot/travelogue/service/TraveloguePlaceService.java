@@ -6,6 +6,7 @@ import java.util.Map;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.place.domain.Place;
 import kr.touroot.place.repository.PlaceRepository;
+import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
@@ -57,7 +58,7 @@ public class TraveloguePlaceService {
     }
 
     @Transactional
-    public void deleteByTravelogueId(Long travelogueId) {
-        traveloguePlaceRepository.deleteByTravelogueDayTravelogueId(travelogueId);
+    public void deleteByTravelogue(Travelogue travelogue) {
+        traveloguePlaceRepository.deleteByTravelogueDayTravelogue(travelogue);
     }
 }

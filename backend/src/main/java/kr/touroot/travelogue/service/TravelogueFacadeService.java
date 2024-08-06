@@ -107,10 +107,14 @@ public class TravelogueFacadeService {
     }
 
     @Transactional
-    public void deleteTravelogueById(Long id) {
-        traveloguePhotoService.deleteByTravelogueId(id);
-        traveloguePlaceService.deleteByTravelogueId(id);
-        travelogueDayService.deleteByTravelogueId(id);
-        travelogueService.deleteById(id);
+    public void deleteTravelogueById(Long id, MemberAuth member) {
+        Member author = memberService.getById(member.memberId());
+        Travelogue travelogue = travelogueService.getTravelogueById(id);
+        travelogueService.validateAuthor(travelogue, author);
+
+        traveloguePhotoService.deleteByTravelogue(travelogue);
+        traveloguePlaceService.deleteByTravelogue(travelogue);
+        travelogueDayService.deleteByTravelogue(travelogue);
+        travelogueService.delete(travelogue, author);
     }
 }

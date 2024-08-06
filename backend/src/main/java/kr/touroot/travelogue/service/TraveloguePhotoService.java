@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import kr.touroot.image.infrastructure.AwsS3Provider;
+import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
@@ -42,7 +43,7 @@ public class TraveloguePhotoService {
     }
 
     @Transactional
-    public void deleteByTravelogueId(Long travelogueId) {
-        traveloguePhotoRepository.deleteByTraveloguePlaceTravelogueDayTravelogueId(travelogueId);
+    public void deleteByTravelogue(Travelogue travelogue) {
+        traveloguePhotoRepository.deleteByTraveloguePlaceTravelogueDayTravelogue(travelogue);
     }
 }

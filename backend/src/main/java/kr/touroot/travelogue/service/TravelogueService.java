@@ -1,6 +1,7 @@
 package kr.touroot.travelogue.service;
 
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
@@ -37,11 +38,14 @@ public class TravelogueService {
         return travelogueRepository.findAllByAuthor(member, pageable);
     }
 
-    public void deleteById(Long id) {
-        if (!travelogueRepository.existsById(id)) {
-            throw new BadRequestException("존재하지 않는 여행기입니다.");
-        }
+    public void delete(Travelogue travelogue, Member author) {
+        validateAuthor(travelogue, author);
+        travelogueRepository.delete(travelogue);
+    }
 
-        travelogueRepository.deleteById(id);
+    public void validateAuthor(Travelogue travelogue, Member author) {
+        if (!travelogue.isAuthor(author)) {
+            throw new ForbiddenException("작성자만 가능합니다.");
+        }
     }
 }

@@ -90,15 +90,16 @@ class TraveloguePhotoServiceTest {
         assertThat(photoUrls).contains(photo.getKey());
     }
 
-    @DisplayName("여행기 사진을 여행기 ID 기준으로 삭제할 수 있다.")
+    @DisplayName("주어진 여행기의 여행기 사진을 삭제할 수 있다.")
     @Test
     void deleteTraveloguePhotoById() {
-        testHelper.initTravelogueTestData();
-        photoService.deleteByTravelogueId(1L);
+        Travelogue travelogue = testHelper.initTravelogueTestData();
+        long travelogueId = travelogue.getId();
+        photoService.deleteByTravelogue(travelogue);
 
         assertThat(photoRepository.findAll()
                 .stream()
-                .noneMatch(photo -> extractTravelogue(photo).getId() == 1L))
+                .noneMatch(photo -> extractTravelogue(photo).getId() == travelogueId))
                 .isTrue();
     }
 

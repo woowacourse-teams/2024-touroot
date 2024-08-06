@@ -110,10 +110,15 @@ public class TravelogueController {
                     description = "존재하지 않는 여행기 ID로 요청했을 때",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "작성자가 아닌 사용자가 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTravelogue(@PathVariable Long id) {
-        travelogueFacadeService.deleteTravelogueById(id);
+    public ResponseEntity<Void> deleteTravelogue(@PathVariable Long id, MemberAuth memberAuth) {
+        travelogueFacadeService.deleteTravelogueById(id, memberAuth);
         return ResponseEntity.noContent()
                 .build();
     }

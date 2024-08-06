@@ -96,15 +96,16 @@ class TravelogueDayServiceTest {
                 .hasMessage("존재하지 않는 여행기 일자입니다.");
     }
 
-    @DisplayName("여행기 일자를 여행기 ID 기준으로 삭제할 수 있다.")
+    @DisplayName("주어진 여행기의 여행기 일자를 삭제할 수 있다.")
     @Test
     void deleteTravelogueDayById() {
-        testHelper.initTravelogueTestData();
-        dayService.deleteByTravelogueId(1L);
+        Travelogue travelogue = testHelper.initTravelogueTestData();
+        long travelogueId = travelogue.getId();
+        dayService.deleteByTravelogue(travelogue);
 
         assertThat(dayRepository.findAll()
                 .stream()
-                .noneMatch(day -> extractTravelogue(day).getId() == 1L))
+                .noneMatch(day -> extractTravelogue(day).getId() == travelogueId))
                 .isTrue();
     }
 
