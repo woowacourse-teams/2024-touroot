@@ -18,11 +18,7 @@ interface TravelPlanDayAccordionProps {
   startDate: Date | null;
   onDeleteDay: (dayIndex: number) => void;
   onDeletePlace: (dayIndex: number, placeIndex: number) => void;
-  onChangePlaceDescription: (
-    e: React.ChangeEvent<HTMLTextAreaElement>,
-    dayIndex: number,
-    placeIndex: number,
-  ) => void;
+  onChangePlaceDescription: (description: string, dayIndex: number, placeIndex: number) => void;
   onAddPlace: (
     dayIndex: number,
     travelParams: Pick<TravelPlanPlace, "placeName" | "position">,
@@ -78,7 +74,7 @@ const TravelPlanDayAccordion = ({
                 <Textarea
                   value={place.description}
                   placeholder="장소에 대한 간단한 설명을 남겨주세요"
-                  onChange={(e) => onChangePlaceDescription(e, dayIndex, placeIndex)}
+                  onChange={(e) => onChangePlaceDescription(e.target.value, dayIndex, placeIndex)}
                   count={place.description?.length ?? 0}
                   maxLength={300}
                   maxCount={300}

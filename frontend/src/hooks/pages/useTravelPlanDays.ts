@@ -48,13 +48,9 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
     });
   };
 
-  const onChangePlaceDescription = (
-    e: React.ChangeEvent<HTMLTextAreaElement>,
-    dayIndex: number,
-    placeIndex: number,
-  ) => {
+  const onChangePlaceDescription = (description: string, dayIndex: number, placeIndex: number) => {
     const newTravelPlans = [...travelPlanDays];
-    newTravelPlans[dayIndex].places[placeIndex].description = e.target.value.slice(
+    newTravelPlans[dayIndex].places[placeIndex].description = description.slice(
       MIN_DESCRIPTION_LENGTH,
       MAX_DESCRIPTION_LENGTH,
     );
