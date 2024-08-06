@@ -103,12 +103,12 @@ class TravelogueServiceTest {
     @Test
     void deleteTravelogueById() {
         Member author = testHelper.initMemberTestData();
-        Travelogue travelogue = testHelper.initTravelogueTestData();
+        Travelogue travelogue = testHelper.initTravelogueTestData(author);
         long travelogueId = travelogue.getId();
 
         travelogueService.delete(travelogue, author);
 
-        assertThatThrownBy(() -> travelogueService.getTravelogueById(1L))
+        assertThatThrownBy(() -> travelogueService.getTravelogueById(travelogueId))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행기입니다.");
     }
