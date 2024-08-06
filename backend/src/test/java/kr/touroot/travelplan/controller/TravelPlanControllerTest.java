@@ -1,13 +1,8 @@
 package kr.touroot.travelplan.controller;
 
-import static org.hamcrest.Matchers.is;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.UUID;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
 import kr.touroot.member.domain.Member;
@@ -24,6 +19,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
+
+import static org.hamcrest.Matchers.is;
 
 @DisplayName("여행 계획 컨트롤러")
 @AcceptanceTest

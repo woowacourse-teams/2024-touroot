@@ -1,11 +1,5 @@
 package kr.touroot.travelogue.helper;
 
-import static kr.touroot.place.fixture.PlaceFixture.PLACE;
-import static kr.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
-import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
-import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
-import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
-
 import kr.touroot.authentication.fixture.MemberFixture;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
@@ -21,6 +15,12 @@ import kr.touroot.travelogue.repository.TraveloguePlaceRepository;
 import kr.touroot.travelogue.repository.TravelogueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import static kr.touroot.place.fixture.PlaceFixture.PLACE;
+import static kr.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
+import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
+import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
 
 @Component
 public class TravelogueTestHelper {
@@ -51,6 +51,14 @@ public class TravelogueTestHelper {
 
     public void initTravelogueTestData() {
         Member author = persistMember();
+        Travelogue travelogue = persistTravelogue(author);
+        TravelogueDay day = persistTravelogueDay(travelogue);
+        Place position = persistPlace();
+        TraveloguePlace place = persistTraveloguePlace(position, day);
+        persistTraveloguePhoto(place);
+    }
+
+    public void initTravelogueTestDate(Member author) {
         Travelogue travelogue = persistTravelogue(author);
         TravelogueDay day = persistTravelogueDay(travelogue);
         Place position = persistPlace();
