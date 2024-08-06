@@ -118,7 +118,7 @@ const TravelPlanRegisterPage = () => {
           onChange={handleChangeTitle}
         />
         <S.StartDateContainer>
-          <S.StartDate>시작일</S.StartDate>
+          <S.StartDateLabel>시작일</S.StartDateLabel>
           <Text textType="detail" css={S.detailTextColorStyle}>
             시작일을 선택하면 마감일은 투룻이 계산 해드릴게요!
           </Text>

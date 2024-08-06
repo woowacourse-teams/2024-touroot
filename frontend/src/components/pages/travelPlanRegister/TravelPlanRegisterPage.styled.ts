@@ -32,7 +32,7 @@ export const StartDateContainer = styled.div`
   flex-direction: column;
 `;
 
-export const StartDate = styled.label`
+export const StartDateLabel = styled.label`
   ${({ theme }) => theme.typography.mobile.bodyBold}
   margin:  0.8rem 0;
 `;
