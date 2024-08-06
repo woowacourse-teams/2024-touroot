@@ -143,7 +143,7 @@ class TravelPlanServiceTest {
         // when & then
         assertThatThrownBy(() -> travelPlanService.readTravelPlan(id, notAuthor))
                 .isInstanceOf(ForbiddenException.class)
-                .hasMessage("여행 계획은 작성자만 조회할 수 있습니다.");
+                .hasMessage("작성자만 가능합니다.");
     }
 
     @DisplayName("여행 계획 서비스는 여행 계획 일자를 계산해 반환한다.")
@@ -163,7 +163,7 @@ class TravelPlanServiceTest {
     @Test
     void deleteTravelPlanById() {
         TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
-        travelPlanService.deleteByTravelPlanId(travelPlan.getId());
+        travelPlanService.deleteByTravelPlanId(travelPlan.getId(), memberAuth);
 
         assertThat(travelPlanRepository.findById(travelPlan.getId()))
                 .isEmpty();
@@ -177,8 +177,21 @@ class TravelPlanServiceTest {
         Long id = 1L;
 
         // when & then
-        assertThatThrownBy(() -> travelPlanService.deleteByTravelPlanId(id))
+        assertThatThrownBy(() -> travelPlanService.deleteByTravelPlanId(id, memberAuth))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행 계획입니다.");
+    }
+
+    @DisplayName("여행 계획 서비스는 작성자가 아닌 사용자가 삭제 시 예외를 반환한다.")
+    @Test
+    void deleteTravelPlanWithNotAuthor() {
+        // given
+        Long id = testHelper.initTravelPlanTestData(author).getId();
+        MemberAuth notAuthor = new MemberAuth(testHelper.initMemberTestData().getId());
+
+        // when & then
+        assertThatThrownBy(() -> travelPlanService.deleteByTravelPlanId(id, notAuthor))
+                .isInstanceOf(ForbiddenException.class)
+                .hasMessage("작성자만 가능합니다.");
     }
 }

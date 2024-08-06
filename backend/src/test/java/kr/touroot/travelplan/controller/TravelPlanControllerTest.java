@@ -163,7 +163,7 @@ class TravelPlanControllerTest {
                 .get("/api/v1/travel-plans/" + id)
                 .then().log().all()
                 .statusCode(403)
-                .body("message", is("여행 계획은 작성자만 조회할 수 있습니다."));
+                .body("message", is("작성자만 가능합니다."));
 
         // then
     }
@@ -181,7 +181,7 @@ class TravelPlanControllerTest {
                 .statusCode(204);
     }
 
-    @DisplayName("존재하지 않는 여행 계획 삭제시 400를 응답한다..")
+    @DisplayName("존재하지 않는 여행 계획 삭제시 400를 응답한다.")
     @Test
     void deleteTravelPlanWithNonExist() {
         long id = 1L;
@@ -193,5 +193,20 @@ class TravelPlanControllerTest {
                 .then().log().all()
                 .statusCode(400)
                 .body("message", is("존재하지 않는 여행 계획입니다."));
+    }
+
+    @DisplayName("작성자가 아닌 사용자가 여행 계획 삭제시 403을 응답한다.")
+    @Test
+    void deleteTravelPlanWithNotAuthor() {
+        long id = testHelper.initTravelPlanTestData(member).getId();
+        Member notAuthor = testHelper.initMemberTestData();
+        String notAuthorAccessToken = jwtTokenProvider.createToken(notAuthor.getId());
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + notAuthorAccessToken)
+                .when().delete("/api/v1/travel-plans/" + id)
+                .then().log().all()
+                .statusCode(403)
+                .body("message", is("작성자만 가능합니다."));
     }
 }

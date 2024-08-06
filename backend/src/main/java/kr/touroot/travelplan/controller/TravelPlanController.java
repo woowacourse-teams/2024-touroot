@@ -97,10 +97,15 @@ public class TravelPlanController {
                     description = "존재하지 않는 여행 계획 ID로 요청했을 때",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "작성자가 아닌 사용자가 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTravelPlan(@PathVariable Long id) {
-        travelPlanService.deleteByTravelPlanId(id);
+    public ResponseEntity<Void> deleteTravelPlan(@PathVariable Long id, MemberAuth memberAuth) {
+        travelPlanService.deleteByTravelPlanId(id, memberAuth);
         return ResponseEntity.noContent()
                 .build();
     }

@@ -96,7 +96,7 @@ public class TravelPlanService {
 
     private void validateAuthor(TravelPlan travelPlan, Member member) {
         if (!travelPlan.isAuthor(member)) {
-            throw new ForbiddenException("여행 계획은 작성자만 조회할 수 있습니다.");
+            throw new ForbiddenException("작성자만 가능합니다.");
         }
     }
 
@@ -133,8 +133,10 @@ public class TravelPlanService {
     }
 
     @Transactional
-    public void deleteByTravelPlanId(Long planId) {
+    public void deleteByTravelPlanId(Long planId, MemberAuth memberAuth) {
         TravelPlan travelPlan = getTravelPlanById(planId);
+        Member author = getMemberByMemberAuth(memberAuth);
+        validateAuthor(travelPlan, author);
 
         travelPlanPlaceRepository.deleteByDayPlan(travelPlan);
         travelPlanDayRepository.deleteByPlan(travelPlan);
