@@ -15,7 +15,7 @@ interface TabContentProps<T extends { id: string }> {
   iconButtonLabel: (typeof ICON_BUTTON_TEXT)[keyof typeof ICON_BUTTON_TEXT];
   onClickIconButton: () => void;
   data: T[];
-  renderItem: (item: Omit<T, "id">) => React.ReactNode;
+  renderItem: (item: T) => React.ReactNode;
 }
 
 const TabContent = <T extends { id: string }>({
@@ -42,8 +42,8 @@ const TabContent = <T extends { id: string }>({
         {iconButtonLabel}
       </IconButton>
 
-      {data.map(({ id, ...rest }) => (
-        <S.BoxButton key={id}>{renderItem(rest)}</S.BoxButton>
+      {data.map((item) => (
+        <S.BoxButton key={item.id}>{renderItem(item)}</S.BoxButton>
       ))}
     </S.List>
   );
