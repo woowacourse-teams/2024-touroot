@@ -2,28 +2,16 @@ import React, { useState } from "react";
 
 import DrawerProvider, { useDrawerContext } from "@contexts/DrawerProvider";
 
+import useModalControl from "@hooks/useModalControl";
+
 import * as S from "./Drawer.styled";
 
 const Drawer = ({ children }: React.PropsWithChildren) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const openDrawer = () => {
-    setIsOpen(true);
-    document.body.style.overflow = "hidden";
-  };
+  const toggleDrawer = () => setIsOpen((prev) => !prev);
 
-  const closeDrawer = () => {
-    setIsOpen(false);
-    document.body.style.overflow = "unset";
-  };
-
-  const toggleDrawer = () => {
-    if (isOpen) {
-      closeDrawer();
-    } else {
-      openDrawer();
-    }
-  };
+  useModalControl(isOpen, toggleDrawer);
 
   let headerContent: React.ReactNode | null = null;
   let drawerContent: React.ReactNode | null = null;
@@ -42,14 +30,9 @@ const Drawer = ({ children }: React.PropsWithChildren) => {
   });
 
   return (
-    <DrawerProvider
-      isOpen={isOpen}
-      openDrawer={openDrawer}
-      closeDrawer={closeDrawer}
-      toggleDrawer={toggleDrawer}
-    >
+    <DrawerProvider isOpen={isOpen} toggleDrawer={toggleDrawer}>
       {otherContent}
-      <S.Overlay isOpen={isOpen} onClick={closeDrawer} />
+      <S.Overlay isOpen={isOpen} onClick={toggleDrawer} />
       <S.DrawerContainer isOpen={isOpen}>
         {headerContent}
         {drawerContent}

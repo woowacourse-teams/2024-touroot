@@ -4,8 +4,6 @@ import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 
 interface DrawerContextType {
   isOpen: boolean;
-  openDrawer: () => void;
-  closeDrawer: () => void;
   toggleDrawer: () => void;
 }
 
@@ -21,22 +19,16 @@ export const useDrawerContext = () => {
 
 interface DrawerProviderProps {
   isOpen: boolean;
-  openDrawer: () => void;
-  closeDrawer: () => void;
   toggleDrawer: () => void;
 }
 
 const DrawerProvider = ({
   isOpen,
-  openDrawer,
-  closeDrawer,
   toggleDrawer,
   children,
 }: React.PropsWithChildren<DrawerProviderProps>) => {
   return (
-    <DrawerContext.Provider value={{ isOpen, openDrawer, closeDrawer, toggleDrawer }}>
-      {children}
-    </DrawerContext.Provider>
+    <DrawerContext.Provider value={{ isOpen, toggleDrawer }}>{children}</DrawerContext.Provider>
   );
 };
 
