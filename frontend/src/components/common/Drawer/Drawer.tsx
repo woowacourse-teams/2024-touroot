@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+
 import * as S from "./Drawer.styled";
 
 interface DrawerContextType {
@@ -14,7 +16,7 @@ const DrawerContext = createContext<DrawerContextType | undefined>(undefined);
 const useDrawerContext = () => {
   const context = useContext(DrawerContext);
   if (!context) {
-    throw new Error("Drawer Provider가 없습니다.");
+    throw new Error(ERROR_MESSAGE_MAP.provider);
   }
   return context;
 };

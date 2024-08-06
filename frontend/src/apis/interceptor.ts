@@ -2,19 +2,21 @@ import * as Sentry from "@sentry/react";
 import { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 import type { ErrorResponse } from "@type/api/errorResponse";
-import type { User } from "@type/domain/user";
+import type { UserResponse } from "@type/domain/user";
 
 import ApiError from "@apis/ApiError";
 
-import { ROUTE_PATHS } from "@constants/route";
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+import { ROUTE_PATHS_MAP } from "@constants/route";
+import { STORAGE_KEYS_MAP } from "@constants/storage";
 
 export const checkAccessToken = (
   config: InternalAxiosRequestConfig,
   accessToken: string | null,
 ) => {
   if (!accessToken) {
-    alert("로그인이 필요합니다.");
-    window.location.href = ROUTE_PATHS.login;
+    alert(ERROR_MESSAGE_MAP.api.login);
+    window.location.href = ROUTE_PATHS_MAP.login;
   }
 
   return config;
@@ -32,7 +34,7 @@ export const setAuthorizationHeader = (
 };
 
 export const handlePreviousRequest = (config: InternalAxiosRequestConfig) => {
-  const user: User | null = JSON.parse(localStorage.getItem("tourootUser") ?? "{}");
+  const user: UserResponse | null = JSON.parse(localStorage.getItem(STORAGE_KEYS_MAP.user) ?? "{}");
   let newConfig = { ...config };
 
   newConfig = checkAccessToken(config, user?.accessToken ?? null);

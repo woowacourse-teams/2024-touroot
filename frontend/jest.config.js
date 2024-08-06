@@ -22,6 +22,8 @@ module.exports = {
     (https://mswjs.io/docs/migrations/1.x-to-2.x/#frequent-issues)
   */
   setupFiles: ["./jest.polyfills.js"],
+  setupFilesAfterEnv: ["./jest-setup.ts"],
+
   testEnvironmentOptions: {
     customExportConditions: [""],
   },

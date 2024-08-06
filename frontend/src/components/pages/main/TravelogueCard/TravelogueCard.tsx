@@ -6,6 +6,8 @@ import { AvatarCircle, FallbackImage } from "@components/common";
 
 import useImageError from "@hooks/useImageError";
 
+import { ROUTE_PATHS_MAP } from "@constants/route";
+
 import { EmptyHeart } from "@assets/svg";
 
 import * as S from "./TravelogueCard.styled";
@@ -21,7 +23,7 @@ const TravelogueCard = ({
   const { imageError, handleImageError } = useImageError({ imageUrl: thumbnail });
 
   const handleCardClick = () => {
-    navigate(`/travelogue/${id}`);
+    navigate(ROUTE_PATHS_MAP.travelogue(id));
   };
 
   const handleLikeClick = (e: React.MouseEvent) => {

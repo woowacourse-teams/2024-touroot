@@ -9,40 +9,40 @@ import TravelPlanRegisterPage from "@components/pages/travelPlanRegister/TravelP
 import TravelogueDetailPage from "@components/pages/travelogueDetail/TravelogueDetailPage";
 import TravelogueRegisterPage from "@components/pages/travelogueRegister/TravelogueRegisterPage";
 
-import { ROUTE_PATHS } from "./constants/route";
+import { ROUTE_PATHS_MAP } from "./constants/route";
 
 export const router = createBrowserRouter([
   {
-    path: ROUTE_PATHS.root,
+    path: ROUTE_PATHS_MAP.root,
     element: <AppLayout />,
     children: [
       {
-        path: ROUTE_PATHS.root,
+        path: ROUTE_PATHS_MAP.root,
         element: <MainPage />,
       },
       {
-        path: ROUTE_PATHS.login,
+        path: ROUTE_PATHS_MAP.login,
         element: <LoginPage />,
       },
 
       {
-        path: ROUTE_PATHS.loginCallback,
+        path: ROUTE_PATHS_MAP.loginCallback,
         element: <KakaoCallbackPage />,
       },
       {
-        path: ROUTE_PATHS.travelogue,
+        path: ROUTE_PATHS_MAP.travelogue(),
         element: <TravelogueDetailPage />,
       },
       {
-        path: ROUTE_PATHS.travelogueRegister,
+        path: ROUTE_PATHS_MAP.travelogueRegister,
         element: <TravelogueRegisterPage />,
       },
       {
-        path: ROUTE_PATHS.travelPlans,
+        path: ROUTE_PATHS_MAP.travelPlan(),
         element: <TravelPlanDetailPage />,
       },
       {
-        path: ROUTE_PATHS.travelPlansRegister,
+        path: ROUTE_PATHS_MAP.travelPlanRegister,
         element: <TravelPlanRegisterPage />,
       },
     ],

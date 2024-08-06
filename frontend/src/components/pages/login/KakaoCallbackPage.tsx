@@ -5,7 +5,9 @@ import { SaveUserContext } from "@contexts/UserProvider";
 
 import { client } from "@apis/client";
 
-import { ROUTE_PATHS } from "@constants/route";
+import { API_ENDPOINT_MAP } from "@constants/endpoint";
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+import { ROUTE_PATHS_MAP } from "@constants/route";
 
 const KakaoCallbackPage = () => {
   const navigate = useNavigate();
@@ -22,15 +24,15 @@ const KakaoCallbackPage = () => {
         .post(`${ROUTE_PATHS.loginOauth}?code=${code}&redirectUri=${encodedRedirectUri}`)
         .then((res) => {
           saveUser(res.data);
-          navigate(ROUTE_PATHS.root);
+          navigate(ROUTE_PATHS_MAP.root);
         })
         .catch(() => {
-          alert("로그인에 실패하였습니다. 다시 시도해주세요!");
-          navigate(ROUTE_PATHS.login);
+          alert(ERROR_MESSAGE_MAP.loginFailed);
+          navigate(ROUTE_PATHS_MAP.login);
         });
     } else {
-      alert("로그인에 실패하였습니다. 다시 시도해주세요!");
-      navigate(ROUTE_PATHS.login);
+      alert(ERROR_MESSAGE_MAP.loginFailed);
+      navigate(ROUTE_PATHS_MAP.login);
     }
   }, [navigate]);
 

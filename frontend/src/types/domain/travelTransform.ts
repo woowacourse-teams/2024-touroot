@@ -1,7 +1,13 @@
-import { Place } from "@type/domain/travelogue";
+import { TravelPlanPlace } from "@type/domain/travelPlan";
+import { TraveloguePlace } from "@type/domain/travelogue";
 
-export type TravelTransformPlaces = {
-  places: Pick<Place, "description" | "placeName" | "position">[];
-};
+export type TravelTransformPlace = Pick<
+  TravelPlanPlace | TraveloguePlace,
+  keyof TravelPlanPlace & keyof TraveloguePlace
+>;
+
+export interface TravelTransformPlaces {
+  places: TravelTransformPlace[];
+}
 
 export type TravelTransformDetail = { days: TravelTransformPlaces[] };

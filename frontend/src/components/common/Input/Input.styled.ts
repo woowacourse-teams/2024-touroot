@@ -29,6 +29,12 @@ export const Input = styled.input`
     outline: none;
   }
 
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors.background.disabled};
+
+    color: ${({ theme }) => theme.colors.text.secondary};
+  }
+
   &::placeholder {
     color: ${({ theme }) => theme.colors.text.secondary};
   }
