@@ -10,17 +10,22 @@ const meta = {
     layout: "centered",
     docs: {
       description: {
-        component: "투룻에서 사용하는 드랍다운 컴포넌트로, position과 size에 따라 구분",
+        component: "투룻에서 사용하는 드롭다운 컴포넌트로, position과 size에 따라 구분",
       },
     },
   },
   tags: ["autodocs"],
   argTypes: {
     position: {
-      description: "드랍다운의 위치",
+      description: "드롭다운의 위치",
     },
     size: {
-      description: "드랍다운의 크기",
+      description: "드롭다운의 크기",
+    },
+    children: {
+      table: {
+        disable: true,
+      },
     },
   },
 } satisfies Meta<typeof Dropdown>;
@@ -32,7 +37,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     isOpen: true,
-    position: "right",
+    position: "center",
     size: "small",
     children: (
       <>
