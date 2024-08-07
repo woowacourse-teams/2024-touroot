@@ -90,7 +90,7 @@ public class TravelPlanTestHelper {
     }
 
     public Member initMemberTestData() {
-        Member member = getKakaoMember(1L, "tester", "http://image.com");
+        Member member = getKakaoMember(1L, "tester", "https://dev.touroot.kr/temporary/profile.png");
         return memberRepository.save(member);
     }
 }

@@ -9,8 +9,14 @@ import lombok.Getter;
 @Getter
 public enum MemberFixture {
 
-    MEMBER_KAKAO(new Member(1L, "리비", "http://imageurl.com", LoginType.KAKAO)),
-    MEMBER_DEFAULT(new Member("user@email.com", "5304d46adc6ccffd0", "뚜리", "http://imageurl.com", LoginType.DEFAULT));
+    MEMBER_KAKAO(new Member(1L, "리비", "https://dev.touroot.kr/temporary/profile.png", LoginType.KAKAO)),
+    MEMBER_DEFAULT(new Member(
+            "user@email.com",
+            "5304d46adc",
+            "뚜리",
+            "https://dev.touroot.kr/temporary/profile.png",
+            LoginType.DEFAULT
+    ));
 
     private final Member member;
 }
