@@ -37,10 +37,14 @@ const useInfiniteMyTravelPlans = () => {
       const nextPage = lastPage.length ? allPages.length : undefined;
       return nextPage;
     },
+    select: (data) => ({
+      pages: data.pages.flatMap((page) => page),
+      pageParams: data.pageParams,
+    }),
   });
 
   return {
-    myTravelPlans: data?.pages.flatMap((page) => page) || [],
+    myTravelPlans: data?.pages || [],
     status,
     error,
     fetchNextPage,

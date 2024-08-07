@@ -29,10 +29,14 @@ const useInfiniteTravelogues = () => {
       const nextPage = lastPage.content.length ? allPages.length : undefined;
       return nextPage;
     },
+    select: (data) => ({
+      pages: data.pages.flatMap((page) => page.content),
+      pageParams: data.pageParams,
+    }),
   });
 
   return {
-    travelogues: data?.pages.flatMap((page) => page.content) || [],
+    travelogues: data?.pages || [],
     status,
     error,
     fetchNextPage,
