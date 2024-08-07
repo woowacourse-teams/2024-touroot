@@ -1,4 +1,3 @@
-import "react-datepicker/dist/react-datepicker.css";
 import ReactDOM from "react-dom/client";
 
 import { Global, ThemeProvider } from "@emotion/react";
