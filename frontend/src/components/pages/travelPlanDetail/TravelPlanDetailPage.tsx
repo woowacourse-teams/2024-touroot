@@ -8,6 +8,7 @@ import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
 import { Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
 import ShareModal from "@components/pages/travelPlanDetail/ShareModal/ShareModal";
+import TravelPlanDetailSkeleton from "@components/pages/travelPlanDetail/TravelPlanDetailSkeleton/TravelPlanDetailSkeleton";
 import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlansTabContent/TravelPlansTabContent";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
@@ -60,7 +61,7 @@ const TravelPlanDetailPage = () => {
 
   const shareUrl = `${window.location.origin}${ROUTE_PATHS_MAP.travelPlan(data?.shareKey ?? "")}`;
 
-  if (status === "pending") return <>로딩 중 ... </>;
+  if (status === "pending") return <TravelPlanDetailSkeleton />;
 
   return (
     <>
