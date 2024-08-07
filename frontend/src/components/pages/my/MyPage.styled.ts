@@ -36,3 +36,10 @@ export const ColorButtonStyle = css`
   background-color: ${PRIMITIVE_COLORS.blue[50]};
   gap: ${theme.spacing.m};
 `;
+
+export const ListStyle = css`
+  li {
+    ${theme.typography.mobile.body};
+    font-weight: 700;
+  }
+`;

@@ -4,8 +4,6 @@ import { AvatarCircle, Tab, Text } from "@components/common";
 
 import useUser from "@hooks/useUser";
 
-import theme from "@styles/theme";
-
 import * as S from "./MyPage.styled";
 import MyTravelPlans from "./MyTravelPlans/MyTravelPlans";
 import MyTravelogues from "./MyTravelogues/MyTravelogues";
@@ -30,12 +28,7 @@ const MyPage = () => {
         tabContent={(selectedIndex) => (
           <>{selectedIndex === 0 ? <MyTravelPlans /> : <MyTravelogues />}</>
         )}
-        css={css`
-          li {
-            ${theme.typography.mobile.body};
-            font-weight: 700;
-          }
-        `}
+        css={S.ListStyle}
       />
     </S.Layout>
   );
