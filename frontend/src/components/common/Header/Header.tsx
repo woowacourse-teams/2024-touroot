@@ -15,6 +15,7 @@ import Drawer from "../Drawer/Drawer";
 import * as S from "./Header.styled";
 
 const Header = () => {
+  const { user, saveUser } = useUser();
   const location = useLocation();
   const pathName = location.pathname;
 
@@ -25,7 +26,9 @@ const Header = () => {
       ? () => navigate(ROUTE_PATHS_MAP.root)
       : () => navigate(ROUTE_PATHS_MAP.back);
 
-  const { user } = useUser();
+  const handleClickLogout = () => {
+    saveUser({ accessToken: "" });
+  };
 
   return (
     <Drawer>
@@ -61,9 +64,8 @@ const Header = () => {
             <S.MenuItem>마이페이지</S.MenuItem>
           </Drawer.Trigger>
           <Drawer.Trigger>
-            {user ? (
-              //TODO: 로그아웃 로직 필요함
-              <S.MenuItem>로그아웃</S.MenuItem>
+            {user?.accessToken ? (
+              <S.MenuItem onClick={handleClickLogout}>로그아웃</S.MenuItem>
             ) : (
               <S.MenuItem
                 onClick={() => {

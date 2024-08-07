@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
+
 import { usePostTravelPlan } from "@queries/usePostTravelPlan";
-import { differenceInDays } from "date-fns";
 
 import {
   Accordion,
@@ -13,8 +13,9 @@ import {
   Input,
   ModalBottomSheet,
   PageInfo,
+  Text,
 } from "@components/common";
-import DateRangePicker from "@components/common/DateRangePicker/DateRangePicker";
+import Calendar from "@components/common/Calendar/Calendar";
 import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
 
 import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
@@ -32,8 +33,8 @@ const TravelPlanRegisterPage = () => {
   const { transformDetail, saveTransformDetail } = useTravelTransformDetailContext();
 
   const [title, setTitle] = useState("");
+
   const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
 
   const {
     travelPlanDays,
@@ -43,22 +44,6 @@ const TravelPlanRegisterPage = () => {
     onChangePlaceDescription,
     onDeletePlace,
   } = useTravelPlanDays(transformDetail?.days ?? []);
-
-  useEffect(() => {
-    if (startDate && endDate) {
-      const dayDiff = differenceInDays(endDate, startDate) + 1;
-
-      onAddDay(dayDiff);
-    }
-  }, [startDate, endDate, onAddDay]);
-
-  const handleStartDateChange = (date: Date | null) => {
-    setStartDate(date);
-  };
-
-  const handleEndDateChange = (date: Date | null) => {
-    setEndDate(date);
-  };
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value.slice(MIN_TITLE_LENGTH, MAX_TITLE_LENGTH);
@@ -108,6 +93,17 @@ const TravelPlanRegisterPage = () => {
     };
   }, [user?.accessToken, navigate, saveTransformDetail]);
 
+  const [isShowCalendar, setIsShowCalendar] = useState(false);
+
+  const handleInputClick = () => {
+    setIsShowCalendar(true);
+  };
+
+  const handleSelectDate = (date: Date) => {
+    setStartDate(date);
+    setIsShowCalendar(false);
+  };
+
   return (
     <>
       <S.Layout>
@@ -116,24 +112,36 @@ const TravelPlanRegisterPage = () => {
           value={title}
           maxLength={MAX_TITLE_LENGTH}
           label="제목"
+          placeholder="여행 계획 제목을 입력해주세요"
           count={title.length}
           maxCount={MAX_TITLE_LENGTH}
           onChange={handleChangeTitle}
         />
-
-        <DateRangePicker
-          startDate={startDate}
-          endDate={endDate}
-          onChangeStartDate={handleStartDateChange}
-          onChangeEndDate={handleEndDateChange}
-        />
-
+        <S.StartDateContainer>
+          <S.StartDateLabel>시작일</S.StartDateLabel>
+          <Text textType="detail" css={S.detailTextColorStyle}>
+            시작일을 선택하면 마감일은 투룻이 계산 해드릴게요!
+          </Text>
+          <Input
+            value={startDate ? startDate.toLocaleDateString().slice(0, -1) : ""}
+            onClick={handleInputClick}
+            readOnly
+            placeholder="시작일을 입력해주세요"
+          />
+          {isShowCalendar && (
+            <Calendar
+              onSelectDate={handleSelectDate}
+              onClose={() => setIsShowCalendar((prev) => !prev)}
+            />
+          )}
+        </S.StartDateContainer>
         <S.AccordionRootContainer>
           <GoogleMapLoadScript libraries={["places", "maps"]}>
             <Accordion.Root>
               {travelPlanDays.map((travelDay, dayIndex) => (
                 <TravelPlanDayAccordion
-                  key={`${travelDay}-${dayIndex}`}
+                  key={travelDay.id}
+                  startDate={startDate}
                   travelPlanDay={travelDay}
                   dayIndex={dayIndex}
                   onAddPlace={onAddPlace}
