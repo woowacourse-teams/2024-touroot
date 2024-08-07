@@ -39,13 +39,13 @@ public class TravelogueService {
     }
 
     public void delete(Travelogue travelogue, Member author) {
-        validateAuthor(travelogue, author);
+        validateDeleteByAuthor(travelogue, author);
         travelogueRepository.delete(travelogue);
     }
 
-    public void validateAuthor(Travelogue travelogue, Member author) {
+    public void validateDeleteByAuthor(Travelogue travelogue, Member author) {
         if (!travelogue.isAuthor(author)) {
-            throw new ForbiddenException("작성자만 가능합니다.");
+            throw new ForbiddenException("여행기 삭제는 작성자만 가능합니다.");
         }
     }
 }

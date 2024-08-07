@@ -110,7 +110,7 @@ public class TravelogueFacadeService {
     public void deleteTravelogueById(Long id, MemberAuth member) {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.getTravelogueById(id);
-        travelogueService.validateAuthor(travelogue, author);
+        travelogueService.validateDeleteByAuthor(travelogue, author);
 
         traveloguePhotoService.deleteByTravelogue(travelogue);
         traveloguePlaceService.deleteByTravelogue(travelogue);

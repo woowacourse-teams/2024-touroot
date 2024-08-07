@@ -29,12 +29,12 @@ import org.springframework.http.HttpHeaders;
 @AcceptanceTest
 class TravelPlanControllerTest {
 
-    @LocalServerPort
-    private int port;
     private final ObjectMapper objectMapper;
     private final DatabaseCleaner databaseCleaner;
     private final JwtTokenProvider jwtTokenProvider;
     private final TravelPlanTestHelper testHelper;
+    @LocalServerPort
+    private int port;
     private String accessToken;
     private Member member;
 
@@ -169,7 +169,7 @@ class TravelPlanControllerTest {
                 .get("/api/v1/travel-plans/" + id)
                 .then().log().all()
                 .statusCode(403)
-                .body("message", is("작성자만 가능합니다."));
+                .body("message", is("여행 계획 조회는 작성자만 가능합니다."));
     }
 
     @DisplayName("여행 계획 공유 키를 통해 여행 계획을 조회할 수 있다")
@@ -283,6 +283,6 @@ class TravelPlanControllerTest {
                 .when().delete("/api/v1/travel-plans/" + id)
                 .then().log().all()
                 .statusCode(403)
-                .body("message", is("작성자만 가능합니다."));
+                .body("message", is("여행 계획 삭제는 작성자만 가능합니다."));
     }
 }

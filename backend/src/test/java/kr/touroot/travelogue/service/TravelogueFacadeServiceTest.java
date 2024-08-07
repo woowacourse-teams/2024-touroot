@@ -131,6 +131,6 @@ class TravelogueFacadeServiceTest {
 
         assertThatThrownBy(() -> service.deleteTravelogueById(1L, notAuthorAuth))
                 .isInstanceOf(ForbiddenException.class)
-                .hasMessage("작성자만 가능합니다.");
+                .hasMessage("여행기 삭제는 작성자만 가능합니다.");
     }
 }

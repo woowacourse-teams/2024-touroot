@@ -90,14 +90,14 @@ public class TravelPlanService {
     public TravelPlanResponse readTravelPlan(Long planId, MemberAuth memberAuth) {
         TravelPlan travelPlan = getTravelPlanById(planId);
         Member member = getMemberByMemberAuth(memberAuth);
-        validateAuthor(travelPlan, member);
+        validateReadByAuthor(travelPlan, member);
 
         return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
     }
 
-    private void validateAuthor(TravelPlan travelPlan, Member member) {
+    private void validateReadByAuthor(TravelPlan travelPlan, Member member) {
         if (!travelPlan.isAuthor(member)) {
-            throw new ForbiddenException("작성자만 가능합니다.");
+            throw new ForbiddenException("여행 계획 조회는 작성자만 가능합니다.");
         }
     }
 
@@ -153,10 +153,16 @@ public class TravelPlanService {
     public void deleteByTravelPlanId(Long planId, MemberAuth memberAuth) {
         TravelPlan travelPlan = getTravelPlanById(planId);
         Member author = getMemberByMemberAuth(memberAuth);
-        validateAuthor(travelPlan, author);
+        validateDeleteByAuthor(travelPlan, author);
 
         travelPlanPlaceRepository.deleteByDayPlan(travelPlan);
         travelPlanDayRepository.deleteByPlan(travelPlan);
         travelPlanRepository.delete(travelPlan);
+    }
+
+    private void validateDeleteByAuthor(TravelPlan travelPlan, Member member) {
+        if (!travelPlan.isAuthor(member)) {
+            throw new ForbiddenException("여행 계획 삭제는 작성자만 가능합니다.");
+        }
     }
 }

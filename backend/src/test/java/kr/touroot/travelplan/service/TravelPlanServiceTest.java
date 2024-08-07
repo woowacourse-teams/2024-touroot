@@ -144,7 +144,7 @@ class TravelPlanServiceTest {
         // when & then
         assertThatThrownBy(() -> travelPlanService.readTravelPlan(id, notAuthor))
                 .isInstanceOf(ForbiddenException.class)
-                .hasMessage("작성자만 가능합니다.");
+                .hasMessage("여행 계획 조회는 작성자만 가능합니다.");
     }
 
     @DisplayName("여행 계획 서비스는 여행 계획 일자를 계산해 반환한다.")
@@ -193,7 +193,7 @@ class TravelPlanServiceTest {
         // when & then
         assertThatThrownBy(() -> travelPlanService.deleteByTravelPlanId(id, notAuthor))
                 .isInstanceOf(ForbiddenException.class)
-                .hasMessage("작성자만 가능합니다.");
+                .hasMessage("여행 계획 삭제는 작성자만 가능합니다.");
     }
 
     @DisplayName("여행 계획 서비스는 공유 키로 여행 계획을 조회할 수 있다")

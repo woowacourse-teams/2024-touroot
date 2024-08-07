@@ -175,6 +175,6 @@ class TravelogueControllerTest {
                 .when().delete("/api/v1/travelogues/" + travelogue.getId())
                 .then().log().all()
                 .statusCode(403)
-                .body("message", is("작성자만 가능합니다."));
+                .body("message", is("여행기 삭제는 작성자만 가능합니다."));
     }
 }
