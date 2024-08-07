@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
+
 import { usePostTravelogue, usePostUploadImages } from "@queries/index";
 
 import {
@@ -139,7 +140,7 @@ const TravelogueRegisterPage = () => {
             <Accordion.Root>
               {travelogueDays.map((travelogueDay, dayIndex) => (
                 <TravelogueDayAccordion
-                  key={`${travelogueDay}-${dayIndex}`}
+                  key={travelogueDay.id}
                   travelogueDay={travelogueDay}
                   dayIndex={dayIndex}
                   onAddPlace={onAddPlace}
