@@ -11,6 +11,8 @@ import MyTravelogues from "./MyTravelogues/MyTravelogues";
 const MyPage = () => {
   const { data } = useUserProfile();
 
+  if (!data) return null;
+
   return (
     <S.Layout>
       <AvatarCircle $size="large" profileImageUrl={data?.profileImageUrl} />
