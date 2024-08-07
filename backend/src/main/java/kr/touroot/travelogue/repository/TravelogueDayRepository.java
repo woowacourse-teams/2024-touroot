@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TravelogueDayRepository extends JpaRepository<TravelogueDay, Long> {
 
     List<TravelogueDay> findByTravelogue(Travelogue travelogue);
+
+    void deleteByTravelogue(Travelogue travelogue);
 }

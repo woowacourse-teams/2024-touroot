@@ -95,7 +95,7 @@ public class AwsS3Provider {
 
     private void validateS3Path(String imageKey) {
         if (!imageKey.startsWith(imageBaseUri + temporaryStoragePath)) {
-            throw new BadRequestException("이미지 url 형식이 잘못되었습니다.");
+            throw new BadRequestException("S3 이미지 url 형식이 잘못되었습니다.");
         }
     }
 

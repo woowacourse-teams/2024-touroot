@@ -1,13 +1,14 @@
 package kr.touroot.travelplan.domain;
 
+import static kr.touroot.authentication.fixture.MemberFixture.MEMBER_KAKAO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDate;
 import java.util.UUID;
-import kr.touroot.authentication.fixture.MemberFixture;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @DisplayName("여행 계획")
 class TravelPlanTest {
 
-    private static final Member VALID_AUTHOR = MemberFixture.MEMBER_1;
+    private static final Member VALID_AUTHOR = MEMBER_KAKAO.getMember();
     private static final String VALID_TITLE = "제주도 여행 계획";
     private static final UUID VALID_UUID = UUID.randomUUID();
     private static final LocalDate VALID_START_DATE = LocalDate.now().plusDays(2);
@@ -92,9 +93,9 @@ class TravelPlanTest {
     @Test
     void validateAuthor() {
         // given
-        Member author = new Member(1L, 1L, "tester", "http://url.com");
+        Member author = new Member(1L, 1L, null, null, "tester", "http://url.com", LoginType.KAKAO);
         TravelPlan travelPlan = new TravelPlan("test", LocalDate.MIN, VALID_UUID, author);
-        Member notAuthor = new Member(2L, 2L, "tester2", "http://url.com");
+        Member notAuthor = new Member(2L, 2L, null, null, "tester2", "http://url.com", LoginType.KAKAO);
 
         // when
         boolean actual = travelPlan.isAuthor(notAuthor);

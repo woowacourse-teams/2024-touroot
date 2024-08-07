@@ -11,6 +11,7 @@ import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.repository.TravelogueDayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -40,5 +41,10 @@ public class TravelogueDayService {
     public TravelogueDay findDayById(Long id) {
         return travelogueDayRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기 일자입니다."));
+    }
+
+    @Transactional
+    public void deleteByTravelogue(Travelogue travelogue) {
+        travelogueDayRepository.deleteByTravelogue(travelogue);
     }
 }

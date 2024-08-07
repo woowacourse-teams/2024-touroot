@@ -4,7 +4,9 @@ import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PL
 
 import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public enum TraveloguePhotoFixture {
 
     TRAVELOGUE_PHOTO(1, "https://dev.touroot.kr/temporary/image1.png", TRAVELOGUE_PLACE.get());
@@ -12,12 +14,6 @@ public enum TraveloguePhotoFixture {
     private final int order;
     private final String url;
     private final TraveloguePlace place;
-
-    TraveloguePhotoFixture(int order, String url, TraveloguePlace place) {
-        this.order = order;
-        this.url = url;
-        this.place = place;
-    }
 
     public TraveloguePhoto get() {
         return new TraveloguePhoto(order, url, place);

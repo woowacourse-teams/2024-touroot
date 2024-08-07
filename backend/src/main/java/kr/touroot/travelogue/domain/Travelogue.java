@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.net.URL;
+import java.util.Objects;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
@@ -16,10 +17,14 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @EqualsAndHashCode(of = "id", callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE travelogue SET deleted_at = NOW() WHERE id = ?")
+@SQLRestriction("deleted_at IS NULL")
 @Entity
 public class Travelogue extends BaseEntity {
 
@@ -83,5 +88,9 @@ public class Travelogue extends BaseEntity {
         } catch (Exception e) {
             throw new BadRequestException("이미지 url 형식이 잘못되었습니다");
         }
+    }
+
+    public boolean isAuthor(Member author) {
+        return Objects.equals(author.getId(), this.author.getId());
     }
 }

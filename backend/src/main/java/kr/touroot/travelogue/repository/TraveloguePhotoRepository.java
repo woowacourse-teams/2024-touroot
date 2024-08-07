@@ -1,11 +1,14 @@
 package kr.touroot.travelogue.repository;
 
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
+import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TraveloguePhotoRepository extends JpaRepository<TraveloguePhoto, Long> {
 
     List<TraveloguePhoto> findByTraveloguePlace(TraveloguePlace traveloguePlace);
+
+    void deleteByTraveloguePlaceTravelogueDayTravelogue(Travelogue travelogue);
 }
