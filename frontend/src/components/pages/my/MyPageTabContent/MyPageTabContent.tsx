@@ -4,26 +4,26 @@ import { IconButton } from "@components/common";
 
 import { SEMANTIC_COLORS } from "@styles/tokens";
 
-import * as S from "./TabContent.styled";
+import * as S from "./MyPageTabContent.styled";
 
 const ICON_BUTTON_TEXT = {
   ADD_TRAVEL_PLAN: "새 여행 계획 추가하기",
   ADD_TRAVELOGUE: "새 여행기 추가하기",
 } as const;
 
-interface TabContentProps<T extends { id: string }> {
+interface MyPageTabContentProps<T extends { id: string }> {
   iconButtonLabel: (typeof ICON_BUTTON_TEXT)[keyof typeof ICON_BUTTON_TEXT];
   onClickIconButton: () => void;
-  data: T[];
+  contentDetail: T[];
   renderItem: (item: T) => React.ReactNode;
 }
 
-const TabContent = <T extends { id: string }>({
-  data,
+const MyPageTabContent = <T extends { id: string }>({
+  contentDetail,
   iconButtonLabel,
   onClickIconButton,
   renderItem,
-}: React.PropsWithChildren<TabContentProps<T>>) => {
+}: React.PropsWithChildren<MyPageTabContentProps<T>>) => {
   return (
     <S.List>
       <IconButton
@@ -42,11 +42,11 @@ const TabContent = <T extends { id: string }>({
         {iconButtonLabel}
       </IconButton>
 
-      {data.map((item) => (
+      {contentDetail.map((item) => (
         <S.BoxButton key={item.id}>{renderItem(item)}</S.BoxButton>
       ))}
     </S.List>
   );
 };
 
-export default TabContent;
+export default MyPageTabContent;

@@ -12,7 +12,7 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import theme from "@styles/theme";
 
-import TabContent from "../TabContent/TabContent";
+import TabContent from "../MyPageTabContent/MyPageTabContent";
 import * as S from "./MyTravelogues.styled";
 
 const MyTravelogues = () => {
@@ -36,7 +36,7 @@ const MyTravelogues = () => {
       <TabContent
         iconButtonLabel="새 여행기 추가하기"
         onClickIconButton={handleClickAddButton}
-        data={myTravelogues}
+        contentDetail={myTravelogues}
         renderItem={({ id, thumbnailUrl, title, createdAt }) => (
           <S.Layout onClick={() => handleClickTravelogue(id)}>
             <AvatarCircle $size="medium" profileImageUrl={thumbnailUrl} />

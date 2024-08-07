@@ -14,7 +14,7 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import theme from "@styles/theme";
 
-import TabContent from "../TabContent/TabContent";
+import TabContent from "../MyPageTabContent/MyPageTabContent";
 import * as S from "./MyTravelPlans.styled";
 
 const MyTravelPlans = () => {
