@@ -19,4 +19,8 @@ export const QUERY_KEYS_MAP = {
     ],
     me: () => [...QUERY_KEYS_MAP.travelPlan.member("me")],
   },
+  member: {
+    all: ["member"],
+    me: () => [...QUERY_KEYS_MAP.member.all, "me"],
+  },
 };

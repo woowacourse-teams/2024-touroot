@@ -24,6 +24,7 @@ export const PRIMITIVE_COLORS = {
   },
   black: "#000000",
   white: "#ffffff",
+  green: "#2F8559",
 } as const;
 
 export const SEMANTIC_COLORS = {
@@ -42,4 +43,8 @@ export const SEMANTIC_COLORS = {
   danger: "#ea0000",
   kakao: "#f9e007",
   dimmed: "#0000004d",
+  skeleton: {
+    base: PRIMITIVE_COLORS.gray[200],
+    highlight: PRIMITIVE_COLORS.gray[100],
+  },
 } as const;

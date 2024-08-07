@@ -1,26 +1,26 @@
 import { css } from "@emotion/react";
 
-import { AvatarCircle, Tab, Text } from "@components/common";
+import { useUserProfile } from "@queries/useUserProfile";
 
-import useUser from "@hooks/useUser";
+import { AvatarCircle, Tab, Text } from "@components/common";
 
 import * as S from "./MyPage.styled";
 import MyTravelPlans from "./MyTravelPlans/MyTravelPlans";
 import MyTravelogues from "./MyTravelogues/MyTravelogues";
 
 const MyPage = () => {
-  const { user } = useUser();
+  const { data } = useUserProfile();
 
   return (
     <S.Layout>
-      <AvatarCircle $size="large" profileImageUrl={user?.profileImageUrl} />
+      <AvatarCircle $size="large" profileImageUrl={data?.profileImageUrl} />
       <Text
         textType="body"
         css={css`
           font-weight: 700;
         `}
       >
-        {user?.nickname}
+        {data?.nickname}
       </Text>
 
       <Tab

@@ -17,11 +17,13 @@
     "^@tanstack/(.*)$",
     "^@type/(.*)$",
     "^@apis/(.*)$",
+    "^@contexts/(.*)$",
     "^@mocks/(.*)$",
     "^@queries/(.*)$",
     "^@components/(.*)$",
     "^@hooks/(.*)$",
     "^@constants/(.*)$",
+    "^@utils/(.*)$",
     "^@styles/(.*)$",
     "^@assets/(.*)$",
     "^[./]"

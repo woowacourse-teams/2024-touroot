@@ -1,6 +1,7 @@
 import { MapPosition } from "@type/domain/common";
 
 export type TraveloguePlace = {
+  id: string;
   placeName: string;
   photoUrls?: string[];
   description?: string;
@@ -8,6 +9,7 @@ export type TraveloguePlace = {
 };
 
 export interface TravelogueDay {
+  id: string;
   places: TraveloguePlace[];
 }
 
