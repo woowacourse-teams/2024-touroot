@@ -37,7 +37,7 @@ public class TagController {
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Body에 유효하지 않은 값이 존재하지 않거나 중복된 태그가 존재할 때",
+                    description = "Body에 유효하지 않은 값이 존재하거나 중복된 태그가 존재할 때",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             )
     })
