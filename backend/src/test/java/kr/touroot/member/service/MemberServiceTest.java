@@ -1,5 +1,8 @@
 package kr.touroot.member.service;
 
+import static kr.touroot.member.fixture.MemberRequestFixture.DUPLICATE_EMAIL_MEMBER;
+import static kr.touroot.member.fixture.MemberRequestFixture.DUPLICATE_NICKNAME_MEMBER;
+import static kr.touroot.member.fixture.MemberRequestFixture.VALID_MEMBER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -8,7 +11,6 @@ import kr.touroot.global.ServiceTest;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.dto.request.MemberRequest;
-import kr.touroot.member.fixture.MemberRequestFixture;
 import kr.touroot.member.helper.MemberTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,7 +63,7 @@ class MemberServiceTest {
     @DisplayName("정상적인 값을 가진 요청이 주어지면 회원을 생성한다.")
     @Test
     void createMember() {
-        MemberRequest request = MemberRequestFixture.getMemberRequest();
+        MemberRequest request = VALID_MEMBER.getRequest();
 
         Long id = memberService.createMember(request);
 
@@ -72,7 +74,7 @@ class MemberServiceTest {
     @Test
     void createMemberWithDuplicatedEmail() {
         testHelper.persistMember();
-        MemberRequest request = MemberRequestFixture.getMemberRequestDuplicateEmail();
+        MemberRequest request = DUPLICATE_EMAIL_MEMBER.getRequest();
 
         assertThatThrownBy(() -> memberService.createMember(request))
                 .isInstanceOf(BadRequestException.class)
@@ -83,7 +85,7 @@ class MemberServiceTest {
     @Test
     void createMemberWithDuplicatedNickname() {
         testHelper.persistMember();
-        MemberRequest request = MemberRequestFixture.getMemberRequestDuplicateNickname();
+        MemberRequest request = DUPLICATE_NICKNAME_MEMBER.getRequest();
 
         assertThatThrownBy(() -> memberService.createMember(request))
                 .isInstanceOf(BadRequestException.class)

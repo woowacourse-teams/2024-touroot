@@ -2,15 +2,15 @@ package kr.touroot.authentication.fixture;
 
 import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public class MemberFixture {
+@AllArgsConstructor
+@Getter
+public enum MemberFixture {
 
-    public static final Member MEMBER_KAKAO = new Member(1L, "리비", "http://imageurl.com", LoginType.KAKAO);
-    public static final Member MEMBER_DEFAULT = new Member(
-            "user@email.com",
-            "5304d46adc6ccffd0abf352f3e17ba8b807dc3d5e5d12609d0825d7287",
-            "뚜리",
-            "http://imageurl.com",
-            LoginType.DEFAULT
-    );
+    MEMBER_KAKAO(new Member(1L, "리비", "http://imageurl.com", LoginType.KAKAO)),
+    MEMBER_DEFAULT(new Member("user@email.com", "5304d46adc6ccffd0", "뚜리", "http://imageurl.com", LoginType.DEFAULT));
+
+    private final Member member;
 }

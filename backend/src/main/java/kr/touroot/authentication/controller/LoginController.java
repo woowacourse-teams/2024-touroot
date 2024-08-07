@@ -40,7 +40,7 @@ public class LoginController {
             )
     })
     @PostMapping("/oauth/kakao")
-    public ResponseEntity<LoginResponse> login(
+    public ResponseEntity<LoginResponse> kakaoLogin(
             @RequestParam(name = "code") String authorizationCode,
             @RequestParam(name = "redirectUri") String encodedRedirectUri
     ) {
@@ -61,7 +61,7 @@ public class LoginController {
             )
     })
     @PostMapping
-    public ResponseEntity<LoginResponse> defaultLogin(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok()
                 .body(loginService.login(request));
     }

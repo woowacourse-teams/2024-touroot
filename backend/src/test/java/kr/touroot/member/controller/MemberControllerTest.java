@@ -1,12 +1,16 @@
 package kr.touroot.member.controller;
 
+import static kr.touroot.member.fixture.MemberRequestFixture.EMPTY_EMAIL_MEMBER;
+import static kr.touroot.member.fixture.MemberRequestFixture.EMPTY_NICKNAME_MEMBER;
+import static kr.touroot.member.fixture.MemberRequestFixture.EMPTY_PASSWORD_MEMBER;
+import static kr.touroot.member.fixture.MemberRequestFixture.EMPTY_PROFILE_IMAGE_URL_MEMBER;
+import static kr.touroot.member.fixture.MemberRequestFixture.VALID_MEMBER;
 import static org.hamcrest.Matchers.is;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import kr.touroot.global.AcceptanceTest;
 import kr.touroot.member.dto.request.MemberRequest;
-import kr.touroot.member.fixture.MemberRequestFixture;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +42,7 @@ class MemberControllerTest {
     @DisplayName("회원 가입을 한다.")
     @Test
     void createTravelogue() {
-        MemberRequest request = MemberRequestFixture.getMemberRequest();
+        MemberRequest request = VALID_MEMBER.getRequest();
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -52,7 +56,7 @@ class MemberControllerTest {
     @DisplayName("비어있는 이메일로 회원 가입하면 예외가 발생한다.")
     @Test
     void createTravelogueWithEmptyEmail() {
-        MemberRequest request = MemberRequestFixture.getMemberRequestWithEmptyEmail();
+        MemberRequest request = EMPTY_EMAIL_MEMBER.getRequest();
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -66,7 +70,7 @@ class MemberControllerTest {
     @DisplayName("비어있는 비밀번호로 회원 가입하면 예외가 발생한다.")
     @Test
     void createTravelogueWithEmptyPassword() {
-        MemberRequest request = MemberRequestFixture.getMemberRequestWithEmptyPassword();
+        MemberRequest request = EMPTY_PASSWORD_MEMBER.getRequest();
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -80,7 +84,7 @@ class MemberControllerTest {
     @DisplayName("비어있는 닉네임으로 회원 가입하면 예외가 발생한다.")
     @Test
     void createTravelogueWithEmptyNickname() {
-        MemberRequest request = MemberRequestFixture.getMemberRequestWithEmptyNickname();
+        MemberRequest request = EMPTY_NICKNAME_MEMBER.getRequest();
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -94,7 +98,7 @@ class MemberControllerTest {
     @DisplayName("비어있는 프로필 사진 경로로 회원 가입하면 예외가 발생한다.")
     @Test
     void createTravelogueWithEmptyProfileImageUrl() {
-        MemberRequest request = MemberRequestFixture.getMemberRequestWithEmptyProfileImageUrl();
+        MemberRequest request = EMPTY_PROFILE_IMAGE_URL_MEMBER.getRequest();
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)

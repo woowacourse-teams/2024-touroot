@@ -1,6 +1,7 @@
 package kr.touroot.member.helper;
 
-import kr.touroot.authentication.fixture.MemberFixture;
+import static kr.touroot.authentication.fixture.MemberFixture.MEMBER_DEFAULT;
+
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class MemberTestHelper {
     }
 
     public Member persistMember() {
-        Member member = MemberFixture.MEMBER_DEFAULT;
+        Member member = MEMBER_DEFAULT.getMember();
 
         return memberRepository.save(member);
     }
