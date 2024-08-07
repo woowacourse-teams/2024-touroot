@@ -48,7 +48,7 @@ class TagControllerTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when().log().all()
-                .post("/api/v1/tag")
+                .post("/api/v1/tags")
                 .then().log().all()
                 .statusCode(201)
                 .header("Location", is("/api/v1/tags/1"));

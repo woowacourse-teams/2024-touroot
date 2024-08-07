@@ -44,7 +44,7 @@ public class TagController {
     @PostMapping
     public ResponseEntity<TagResponse> createTag(@Valid @RequestBody TagCreateRequest request) {
         TagResponse data = tagService.createTag(request);
-        return ResponseEntity.created(URI.create("/api/v1/tag/" + data.id()))
+        return ResponseEntity.created(URI.create("/api/v1/tags/" + data.id()))
                 .body(data);
     }
 
