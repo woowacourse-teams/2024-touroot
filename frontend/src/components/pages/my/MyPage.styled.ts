@@ -19,7 +19,7 @@ export const BoxButton = styled.button`
   align-items: center;
   width: 100%;
   padding: ${(props) => props.theme.spacing.m};
-  border: solid 1px ${(props) => props.theme.colors.border};
+  border: 1px solid ${(props) => props.theme.colors.border};
   border-radius: 10px;
 `;
 
