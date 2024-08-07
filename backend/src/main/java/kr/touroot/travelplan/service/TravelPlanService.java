@@ -1,5 +1,6 @@
 package kr.touroot.travelplan.service;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -43,7 +44,7 @@ public class TravelPlanService {
     public TravelPlanCreateResponse createTravelPlan(TravelPlanCreateRequest request, MemberAuth memberAuth) {
         Member author = getMemberByMemberAuth(memberAuth);
         TravelPlan travelPlan = request.toTravelPlan(author, UUID.randomUUID());
-        validStartDate(travelPlan);
+        validateTravelPlan(travelPlan);
 
         TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);
         createPlanDay(request.days(), savedTravelPlan);
@@ -51,8 +52,8 @@ public class TravelPlanService {
         return new TravelPlanCreateResponse(savedTravelPlan.getId());
     }
 
-    private void validStartDate(TravelPlan travelPlan) {
-        if (!travelPlan.isValidStartDate()) {
+    private void validateTravelPlan(TravelPlan travelPlan) {
+        if (travelPlan.isStartDateBefore(LocalDate.now())) {
             throw new BadRequestException("지난 날짜에 대한 계획은 작성할 수 없습니다.");
         }
     }
