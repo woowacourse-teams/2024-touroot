@@ -40,7 +40,7 @@ public class TravelogueFacadeService {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.createTravelogue(author, request);
 
-        return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue), true);
+        return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue));
     }
 
     private List<TravelogueDayResponse> createDays(List<TravelogueDayRequest> requests, Travelogue travelogue) {
@@ -73,17 +73,7 @@ public class TravelogueFacadeService {
     public TravelogueResponse findTravelogueById(Long id) {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
 
-        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue), false);
-    }
-
-    @Transactional(readOnly = true)
-    public TravelogueResponse findTravelogueById(Long id, MemberAuth memberAuth) {
-        Travelogue travelogue = travelogueService.getTravelogueById(id);
-
-        Member member = memberService.getById(memberAuth.memberId());
-        boolean isAuthor = travelogue.isAuthor(member);
-
-        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue), isAuthor);
+        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue));
     }
 
     @Transactional(readOnly = true)

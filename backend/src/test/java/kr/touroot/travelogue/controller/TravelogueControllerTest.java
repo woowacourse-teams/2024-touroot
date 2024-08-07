@@ -97,42 +97,6 @@ class TravelogueControllerTest {
                 .statusCode(401);
     }
 
-    @DisplayName("작성자 본인이 여행기를 상세 조회한다.")
-    @Test
-    void findTravelogueWithAuthor() throws JsonProcessingException {
-        Member member = testHelper.initKakaoMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(member.getId());
-
-        testHelper.initTravelogueTestData(member);
-        TravelogueResponse response = TravelogueResponseFixture.getTravelogueResponse(true);
-
-        RestAssured.given().log().all()
-                .accept(ContentType.JSON)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .when().get("/api/v1/travelogues/1")
-                .then().log().all()
-                .statusCode(200).assertThat()
-                .body(is(objectMapper.writeValueAsString(response)));
-    }
-
-    @DisplayName("작성자가 아닌 사람이 여행기를 상세 조회한다.")
-    @Test
-    void findTravelogueWithNotAuthor() throws JsonProcessingException {
-        testHelper.initTravelogueTestData();
-        Member notAuthor = testHelper.initKakaoMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(notAuthor.getId());
-
-        TravelogueResponse response = TravelogueResponseFixture.getTravelogueResponse(false);
-
-        RestAssured.given().log().all()
-                .accept(ContentType.JSON)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .when().get("/api/v1/travelogues/1")
-                .then().log().all()
-                .statusCode(200).assertThat()
-                .body(is(objectMapper.writeValueAsString(response)));
-    }
-
     @DisplayName("여행기를 상세 조회한다.")
     @Test
     void findTravelogue() throws JsonProcessingException {

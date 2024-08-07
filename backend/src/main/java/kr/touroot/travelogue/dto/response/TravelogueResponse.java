@@ -14,8 +14,6 @@ public record TravelogueResponse(
         String title,
         @Schema(description = "작성자 닉네임", example = "지니")
         String authorNickname,
-        @Schema(description = "작성자 여부", example = "false")
-        boolean isAuthor,
         @Schema(description = "작성자 프로필 사진 URL", example = "https://dev.touroot.kr/images/profile.png")
         String authorProfileImageUrl,
         @Schema(description = "여행기 썸네일 링크", example = "https://dev.touroot.kr/images/thumbnail.png")
@@ -26,7 +24,7 @@ public record TravelogueResponse(
         List<TravelogueDayResponse> days
 ) {
 
-    public static TravelogueResponse of(Travelogue travelogue, List<TravelogueDayResponse> days, boolean isAuthor) {
+    public static TravelogueResponse of(Travelogue travelogue, List<TravelogueDayResponse> days) {
         return TravelogueResponse.builder()
                 .id(travelogue.getId())
                 .createdAt(travelogue.getCreatedAt().toLocalDate())
@@ -35,7 +33,6 @@ public record TravelogueResponse(
                 .title(travelogue.getTitle())
                 .thumbnail(travelogue.getThumbnail())
                 .days(days)
-                .isAuthor(isAuthor)
                 .build();
     }
 }

@@ -21,7 +21,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,23 +76,6 @@ public class TravelogueController {
     @GetMapping("/{id}")
     public ResponseEntity<TravelogueResponse> findTravelogue(@PathVariable Long id) {
         return ResponseEntity.ok(travelogueFacadeService.findTravelogueById(id));
-    }
-
-    @Operation(summary = "여행기 상세 조회")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "요청이 정상적으로 처리되었을 때"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "존재하지 않는 여행기 ID로 요청했을 때",
-                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
-            ),
-    })
-    @GetMapping(value = "/{id}", headers = {HttpHeaders.AUTHORIZATION})
-    public ResponseEntity<TravelogueResponse> findTravelogue(@PathVariable Long id, MemberAuth memberAuth) {
-        return ResponseEntity.ok(travelogueFacadeService.findTravelogueById(id, memberAuth));
     }
 
     @Operation(summary = "여행기 메인 페이지 조회")
