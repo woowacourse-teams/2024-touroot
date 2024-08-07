@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import type { TraveloguePlace } from "@type/domain/travelogue";
 
 import { Box, GoogleMapLoadScript, GoogleMapView } from "@components/common";
+import Skeleton from "@components/common/Skeleton/Skeleton";
 import PlaceDetailCard from "@components/pages/travelogueDetail/TravelogueTabContent/PlaceDetailCard/PlaceDetailCard";
 
 import * as S from "./TravelogueTabContent.styled";
@@ -12,7 +13,10 @@ const TravelogueTabContent = ({ places }: { places: TraveloguePlace[] }) => {
 
   return (
     <div>
-      <GoogleMapLoadScript libraries={["maps"]}>
+      <GoogleMapLoadScript
+        loadingElement={<Skeleton width="100%" height="120px" />}
+        libraries={["maps"]}
+      >
         <GoogleMapView
           places={places.map((place) => ({
             lat: Number(place.position.lat),

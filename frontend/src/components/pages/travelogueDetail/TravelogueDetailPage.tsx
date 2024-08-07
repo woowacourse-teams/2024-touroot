@@ -8,6 +8,7 @@ import { useGetTravelogue } from "@queries/useGetTravelogue";
 
 import { Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
 import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
+import TravelogueDetailSkeleton from "@components/pages/travelogueDetail/TravelogueDetailSkeleton/TravelogueDetailSkeleton";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
 
 import theme from "@styles/theme";
@@ -19,7 +20,7 @@ const TravelogueDetailPage = () => {
   const location = useLocation();
   const id = location.pathname.replace(/[^\d]/g, "");
 
-  const { data } = useGetTravelogue(id);
+  const { data, isLoading } = useGetTravelogue(id);
 
   const daysAndNights =
     data?.days.length && data?.days.length > 1
@@ -46,6 +47,10 @@ const TravelogueDetailPage = () => {
 
   //TODO: 수정 이벤트 추가해야함
   const handleClickReviseButton = () => {};
+
+  if (isLoading) {
+    return <TravelogueDetailSkeleton />;
+  }
 
   return (
     <>
