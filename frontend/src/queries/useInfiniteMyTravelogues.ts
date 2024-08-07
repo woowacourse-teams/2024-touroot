@@ -14,15 +14,11 @@ export const getMyTravelogues = async ({
   page: number;
   size: number;
 }): Promise<MyTravelogue[]> => {
-  try {
-    const response = await authClient.get(API_ENDPOINT_MAP.myTravelogues, {
-      params: { page, size },
-    });
-    return response.data.content;
-  } catch (error) {
-    console.error("Error fetching my travelogues:", error);
-    throw error;
-  }
+  const response = await authClient.get(API_ENDPOINT_MAP.myTravelogues, {
+    params: { page, size },
+  });
+
+  return response.data.content;
 };
 
 const useInfiniteMyTravelogues = () => {

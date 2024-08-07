@@ -14,15 +14,11 @@ export const getMyTravelPlans = async ({
   page: number;
   size: number;
 }): Promise<TravelPlanResponse[]> => {
-  try {
-    const response = await authClient.get(API_ENDPOINT_MAP.myTravelPlans, {
-      params: { page, size },
-    });
-    return response.data.content;
-  } catch (error) {
-    console.error("Error fetching my travel plans:", error);
-    throw error;
-  }
+  const response = await authClient.get(API_ENDPOINT_MAP.myTravelPlans, {
+    params: { page, size },
+  });
+
+  return response.data.content;
 };
 
 const useInfiniteMyTravelPlans = () => {

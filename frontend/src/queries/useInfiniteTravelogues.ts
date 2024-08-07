@@ -6,15 +6,11 @@ import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { QUERY_KEYS_MAP } from "@constants/queryKey";
 
 export const getTravelogues = async ({ page, size }: { page: number; size: number }) => {
-  try {
-    const response = await client.get(API_ENDPOINT_MAP.travelogues, {
-      params: { page, size },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching travelogues:", error);
-    throw error;
-  }
+  const response = await client.get(API_ENDPOINT_MAP.travelogues, {
+    params: { page, size },
+  });
+
+  return response.data;
 };
 
 const useInfiniteTravelogues = () => {
