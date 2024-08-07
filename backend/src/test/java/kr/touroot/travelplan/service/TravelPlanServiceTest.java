@@ -1,6 +1,7 @@
 package kr.touroot.travelplan.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDate;
@@ -106,6 +107,28 @@ class TravelPlanServiceTest {
         assertThatThrownBy(() -> travelPlanService.createTravelPlan(request, memberAuth))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("지난 날짜에 대한 계획은 작성할 수 없습니다.");
+    }
+
+    @DisplayName("당일에 시작하는 여행 계획을 생성할 수 있다")
+    @Test
+    void createTravelPlanStartsAtToday() {
+        // given
+        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
+        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+                .placeName("잠실한강공원")
+                .description("신나는 여행 장소")
+                .position(locationRequest)
+                .build();
+        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
+        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+                .title("신나는 한강 여행")
+                .startDate(LocalDate.now())
+                .days(List.of(planDayCreateRequest))
+                .build();
+
+        // when & then=
+        assertThatCode(() -> travelPlanService.createTravelPlan(request, memberAuth))
+                .doesNotThrowAnyException();
     }
 
     @DisplayName("여행 계획 서비스는 여행 계획 조회 시 상세 정보를 반환한다.")

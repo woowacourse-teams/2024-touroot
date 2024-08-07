@@ -83,14 +83,8 @@ public class TravelPlan extends BaseEntity {
         }
     }
 
-    public void validateStartDate() {
-        if (startDate.isBefore(LocalDate.now())) {
-            throw new BadRequestException("지난 날짜에 대한 계획은 작성할 수 없습니다.");
-        }
-    }
-
-    public boolean isValidStartDate() {
-        return startDate.isAfter(LocalDate.now());
+    public boolean isStartDateBefore(LocalDate date) {
+        return startDate.isBefore(date);
     }
 
     public boolean isAuthor(Member member) {

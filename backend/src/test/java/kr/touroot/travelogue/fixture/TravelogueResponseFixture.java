@@ -1,5 +1,6 @@
 package kr.touroot.travelogue.fixture;
 
+import java.time.LocalDate;
 import java.util.List;
 import kr.touroot.travelogue.dto.response.TravelogueDayResponse;
 import kr.touroot.travelogue.dto.response.TraveloguePlaceResponse;
@@ -19,6 +20,8 @@ public class TravelogueResponseFixture {
         return TravelogueResponse.builder()
                 .id(1L)
                 .title("제주에 하영 옵서")
+                .createdAt(LocalDate.now())
+                .authorNickname("리비")
                 .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                 .days(getTravelogueDayResponses())
                 .build();
@@ -28,6 +31,8 @@ public class TravelogueResponseFixture {
         return new PageImpl<>(List.of(TravelogueResponse.builder()
                 .id(1L)
                 .title("제주에 하영 옵서")
+                .createdAt(LocalDate.now())
+                .authorNickname("리비")
                 .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                 .days(getTravelogueDayResponses())
                 .build()));
@@ -54,6 +59,7 @@ public class TravelogueResponseFixture {
 
     public static TraveloguePositionResponse getTraveloguePositionResponse() {
         return TraveloguePositionResponse.builder()
+                .id(1L)
                 .lat("34.54343")
                 .lng("126.66977")
                 .build();

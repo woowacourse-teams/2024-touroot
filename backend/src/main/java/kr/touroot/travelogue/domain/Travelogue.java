@@ -93,4 +93,8 @@ public class Travelogue extends BaseEntity {
     public boolean isAuthor(Member author) {
         return Objects.equals(author.getId(), this.author.getId());
     }
+
+    public String getAuthorNickname() {
+        return author.getNickname();
+    }
 }
