@@ -72,10 +72,3 @@ const MyTravelogues = () => {
 };
 
 export default MyTravelogues;
-
-export interface MyTravelogue {
-  id: string;
-  thumbnailUrl: string;
-  title: string;
-  createdAt: string;
-}

@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { authClient } from "@apis/client";
+import type { MyTravelogue } from "@type/domain/travelogue";
 
-import { MyTravelogue } from "@components/pages/my/MyTravelogues/MyTravelogues";
+import { authClient } from "@apis/client";
 
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { QUERY_KEYS_MAP } from "@constants/queryKey";
