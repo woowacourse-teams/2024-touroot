@@ -1,14 +1,8 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
 import { css } from "@emotion/react";
 
 import { AvatarCircle, Tab, Text } from "@components/common";
 
 import useUser from "@hooks/useUser";
-
-import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
-import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import theme from "@styles/theme";
 
@@ -17,16 +11,7 @@ import MyTravelPlans from "./MyTravelPlans/MyTravelPlans";
 import MyTravelogues from "./MyTravelogues/MyTravelogues";
 
 const MyPage = () => {
-  const navigate = useNavigate();
-
   const { user } = useUser();
-
-  useEffect(() => {
-    if (!user?.accessToken) {
-      alert(ERROR_MESSAGE_MAP.api.login);
-      navigate(ROUTE_PATHS_MAP.login);
-    }
-  }, [user?.accessToken, navigate]);
 
   return (
     <S.Layout>
