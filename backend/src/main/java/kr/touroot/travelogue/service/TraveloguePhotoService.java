@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import kr.touroot.image.infrastructure.AwsS3Provider;
+import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.repository.TraveloguePhotoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import software.amazon.awssdk.services.s3.S3Client;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -39,5 +40,10 @@ public class TraveloguePhotoService {
                 .sorted(Comparator.comparing(TraveloguePhoto::getOrder))
                 .map(TraveloguePhoto::getKey)
                 .toList();
+    }
+
+    @Transactional
+    public void deleteByTravelogue(Travelogue travelogue) {
+        traveloguePhotoRepository.deleteByTraveloguePlaceTravelogueDayTravelogue(travelogue);
     }
 }

@@ -19,6 +19,7 @@ import kr.touroot.travelplan.dto.request.TravelPlanCreateRequest;
 import kr.touroot.travelplan.dto.response.TravelPlanCreateResponse;
 import kr.touroot.travelplan.dto.response.TravelPlanResponse;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
+import kr.touroot.travelplan.repository.TravelPlanRepository;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,6 +33,7 @@ import org.springframework.context.annotation.Import;
 class TravelPlanServiceTest {
 
     private final TravelPlanService travelPlanService;
+    private final TravelPlanRepository travelPlanRepository;
     private final DatabaseCleaner databaseCleaner;
     private final TravelPlanTestHelper testHelper;
 
@@ -41,10 +43,12 @@ class TravelPlanServiceTest {
     @Autowired
     public TravelPlanServiceTest(
             TravelPlanService travelPlanService,
+            TravelPlanRepository travelPlanRepository,
             DatabaseCleaner databaseCleaner,
             TravelPlanTestHelper testHelper
     ) {
         this.travelPlanService = travelPlanService;
+        this.travelPlanRepository = travelPlanRepository;
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
     }
@@ -140,7 +144,7 @@ class TravelPlanServiceTest {
         // when & then
         assertThatThrownBy(() -> travelPlanService.readTravelPlan(id, notAuthor))
                 .isInstanceOf(ForbiddenException.class)
-                .hasMessage("여행 계획은 작성자만 조회할 수 있습니다.");
+                .hasMessage("여행 계획 조회는 작성자만 가능합니다.");
     }
 
     @DisplayName("여행 계획 서비스는 여행 계획 일자를 계산해 반환한다.")
@@ -154,6 +158,42 @@ class TravelPlanServiceTest {
 
         // then
         assertThat(actual).isEqualTo(1);
+    }
+
+    @DisplayName("여행계획을 ID 기준으로 삭제할 수 있다.")
+    @Test
+    void deleteTravelPlanById() {
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
+        travelPlanService.deleteByTravelPlanId(travelPlan.getId(), memberAuth);
+
+        assertThat(travelPlanRepository.findById(travelPlan.getId()))
+                .isEmpty();
+    }
+
+    @DisplayName("여행 계획 서비스는 존재하지 않는 여행 계획 삭제 시 예외를 반환한다.")
+    @Test
+    void deleteTravelPlanWitNonExist() {
+        // given
+        databaseCleaner.executeTruncate();
+        Long id = 1L;
+
+        // when & then
+        assertThatThrownBy(() -> travelPlanService.deleteByTravelPlanId(id, memberAuth))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행 계획입니다.");
+    }
+
+    @DisplayName("여행 계획 서비스는 작성자가 아닌 사용자가 삭제 시 예외를 반환한다.")
+    @Test
+    void deleteTravelPlanWithNotAuthor() {
+        // given
+        Long id = testHelper.initTravelPlanTestData(author).getId();
+        MemberAuth notAuthor = new MemberAuth(testHelper.initMemberTestData().getId());
+
+        // when & then
+        assertThatThrownBy(() -> travelPlanService.deleteByTravelPlanId(id, notAuthor))
+                .isInstanceOf(ForbiddenException.class)
+                .hasMessage("여행 계획 삭제는 작성자만 가능합니다.");
     }
 
     @DisplayName("여행 계획 서비스는 공유 키로 여행 계획을 조회할 수 있다")

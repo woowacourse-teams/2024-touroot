@@ -1,5 +1,8 @@
 package kr.touroot.travelplan.service;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
@@ -25,10 +28,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -91,14 +90,14 @@ public class TravelPlanService {
     public TravelPlanResponse readTravelPlan(Long planId, MemberAuth memberAuth) {
         TravelPlan travelPlan = getTravelPlanById(planId);
         Member member = getMemberByMemberAuth(memberAuth);
-        validateAuthor(travelPlan, member);
+        validateReadByAuthor(travelPlan, member);
 
         return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
     }
 
-    private void validateAuthor(TravelPlan travelPlan, Member member) {
+    private void validateReadByAuthor(TravelPlan travelPlan, Member member) {
         if (!travelPlan.isAuthor(member)) {
-            throw new ForbiddenException("여행 계획은 작성자만 조회할 수 있습니다.");
+            throw new ForbiddenException("여행 계획 조회는 작성자만 가능합니다.");
         }
     }
 
@@ -148,5 +147,22 @@ public class TravelPlanService {
     public int calculateTravelPeriod(TravelPlan travelPlan) {
         return travelPlanDayRepository.findByPlan(travelPlan)
                 .size();
+    }
+
+    @Transactional
+    public void deleteByTravelPlanId(Long planId, MemberAuth memberAuth) {
+        TravelPlan travelPlan = getTravelPlanById(planId);
+        Member author = getMemberByMemberAuth(memberAuth);
+        validateDeleteByAuthor(travelPlan, author);
+
+        travelPlanPlaceRepository.deleteByDayPlan(travelPlan);
+        travelPlanDayRepository.deleteByPlan(travelPlan);
+        travelPlanRepository.delete(travelPlan);
+    }
+
+    private void validateDeleteByAuthor(TravelPlan travelPlan, Member member) {
+        if (!travelPlan.isAuthor(member)) {
+            throw new ForbiddenException("여행 계획 삭제는 작성자만 가능합니다.");
+        }
     }
 }

@@ -18,6 +18,7 @@ import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
+import kr.touroot.travelogue.repository.TraveloguePlaceRepository;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,16 +32,19 @@ import org.springframework.context.annotation.Import;
 class TraveloguePlaceServiceTest {
 
     private final TraveloguePlaceService placeService;
+    private final TraveloguePlaceRepository placeRepository;
     private final DatabaseCleaner databaseCleaner;
     private final TravelogueTestHelper testHelper;
 
     @Autowired
     public TraveloguePlaceServiceTest(
             TraveloguePlaceService placeService,
+            TraveloguePlaceRepository placeRepository,
             DatabaseCleaner databaseCleaner,
             TravelogueTestHelper testHelper
     ) {
         this.placeService = placeService;
+        this.placeRepository = placeRepository;
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
     }
@@ -95,5 +99,23 @@ class TraveloguePlaceServiceTest {
         assertThatThrownBy(() -> placeService.findTraveloguePlaceById(1L))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행기 장소입니다.");
+    }
+
+    @DisplayName("주어진 여행기의 여행기 장소를 삭제할 수 있다.")
+    @Test
+    void deleteTraveloguePlaceById() {
+        Travelogue travelogue = testHelper.initTravelogueTestData();
+        long travelogueId = travelogue.getId();
+        placeService.deleteByTravelogue(travelogue);
+
+        assertThat(placeRepository.findAll()
+                .stream()
+                .noneMatch(place -> extractTravelogue(place).getId() == travelogueId))
+                .isTrue();
+    }
+
+    private Travelogue extractTravelogue(TraveloguePlace place) {
+        return place.getTravelogueDay()
+                .getTravelogue();
     }
 }

@@ -105,4 +105,16 @@ public class TravelogueFacadeService {
     private List<String> findPhotoUrlsOfTraveloguePlace(TraveloguePlace place) {
         return traveloguePhotoService.findPhotoUrlsByPlace(place);
     }
+
+    @Transactional
+    public void deleteTravelogueById(Long id, MemberAuth member) {
+        Member author = memberService.getById(member.memberId());
+        Travelogue travelogue = travelogueService.getTravelogueById(id);
+        travelogueService.validateDeleteByAuthor(travelogue, author);
+
+        traveloguePhotoService.deleteByTravelogue(travelogue);
+        traveloguePlaceService.deleteByTravelogue(travelogue);
+        travelogueDayService.deleteByTravelogue(travelogue);
+        travelogueService.delete(travelogue, author);
+    }
 }
