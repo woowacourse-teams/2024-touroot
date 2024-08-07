@@ -14,10 +14,15 @@ export interface TravelogueDay {
 }
 
 export interface TravelogueResponse {
+  id: number;
   title: string;
   thumbnail: string;
   days: TravelogueDay[];
+  authorNickname: string;
+  createdAt: string;
 }
+
+export type TraveloguePayload = Omit<TravelogueResponse, "authorNickname" | "createdAt" | "id">;
 
 export interface MyTravelogue {
   id: string;

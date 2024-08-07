@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { ErrorResponse } from "@type/api/errorResponse";
-import { TravelogueResponse } from "@type/domain/travelogue";
+import { TraveloguePayload, TravelogueResponse } from "@type/domain/travelogue";
 
 import ApiError from "@apis/ApiError";
 import { authClient } from "@apis/client";
@@ -14,12 +14,12 @@ import { QUERY_KEYS_MAP } from "@constants/queryKey";
 export const usePostTravelogue = () => {
   const queryClient = useQueryClient();
   return useMutation<
-    AxiosResponse<TravelogueResponse & { id: number }, unknown>,
+    AxiosResponse<TravelogueResponse, unknown>,
     ApiError | AxiosError<ErrorResponse>,
-    TravelogueResponse,
+    TraveloguePayload,
     unknown
   >({
-    mutationFn: (travelogue: TravelogueResponse) =>
+    mutationFn: (travelogue: TraveloguePayload) =>
       authClient.post(API_ENDPOINT_MAP.travelogues, {
         ...travelogue,
         days: travelogue.days.map((day) => ({
@@ -34,7 +34,7 @@ export const usePostTravelogue = () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS_MAP.travelogue.all });
     },
     onError: (error) => {
-      alert(error);
+      alert(error.message);
     },
   });
 };

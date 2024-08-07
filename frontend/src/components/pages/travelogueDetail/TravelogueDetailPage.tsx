@@ -57,10 +57,10 @@ const TravelogueDetailPage = () => {
           </Text>
           <S.AuthorDateContainer>
             <Text textType="detail" css={S.authorDateStyle}>
-              작성자
+              {data?.authorNickname}
             </Text>
             <Text textType="detail" css={S.authorDateStyle}>
-              2024-07-15
+              {data?.createdAt}
             </Text>
           </S.AuthorDateContainer>
           <S.IconButtonContainer>
