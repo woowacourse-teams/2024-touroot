@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import theme from "@styles/theme";
+import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 export const Container = styled.div`
   display: flex;
@@ -27,7 +28,7 @@ export const ColorButtonStyle = css`
   padding: ${theme.spacing.m};
   border-radius: 10px;
 
-  background-color: #f3faff;
+  background-color: ${PRIMITIVE_COLORS.blue[50]};
   gap: ${theme.spacing.m};
 `;
 
