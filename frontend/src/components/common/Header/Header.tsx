@@ -27,6 +27,9 @@ const Header = () => {
       : () => navigate(ROUTE_PATHS_MAP.back);
 
   const handleClickLogout = () => {
+    if (pathName.includes("travel-plan")) {
+      navigate(ROUTE_PATHS_MAP.login);
+    }
     saveUser({ accessToken: "" });
   };
   const handleClickMyPage = () => navigate(ROUTE_PATHS_MAP.my);
