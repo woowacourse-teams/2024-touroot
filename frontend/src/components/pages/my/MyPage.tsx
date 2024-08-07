@@ -19,7 +19,7 @@ const MyPage = () => {
       <Text
         textType="body"
         css={css`
-          font-weight: 600;
+          font-weight: 700;
         `}
       >
         {user?.nickname}
@@ -33,7 +33,7 @@ const MyPage = () => {
         css={css`
           li {
             ${theme.typography.mobile.body};
-            font-weight: 600;
+            font-weight: 700;
           }
         `}
       />
