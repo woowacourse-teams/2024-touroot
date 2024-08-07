@@ -10,16 +10,19 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
 import kr.touroot.place.repository.PlaceRepository;
+import kr.touroot.travelplan.domain.PlaceTodo;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.domain.TravelPlanDay;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
 import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
 import kr.touroot.travelplan.dto.request.TravelPlanCreateRequest;
+import kr.touroot.travelplan.dto.response.PlaceTodoResponse;
 import kr.touroot.travelplan.dto.response.TravelPlanCreateResponse;
 import kr.touroot.travelplan.dto.response.TravelPlanDayResponse;
 import kr.touroot.travelplan.dto.response.TravelPlanPlaceResponse;
 import kr.touroot.travelplan.dto.response.TravelPlanResponse;
+import kr.touroot.travelplan.repository.PlaceTodoRepository;
 import kr.touroot.travelplan.repository.TravelPlanDayRepository;
 import kr.touroot.travelplan.repository.TravelPlanPlaceRepository;
 import kr.touroot.travelplan.repository.TravelPlanRepository;
@@ -38,6 +41,7 @@ public class TravelPlanService {
     private final TravelPlanDayRepository travelPlanDayRepository;
     private final TravelPlanPlaceRepository travelPlanPlaceRepository;
     private final PlaceRepository placeRepository;
+    private final PlaceTodoRepository placeTodoRepository;
 
     @Transactional
     public TravelPlanCreateResponse createTravelPlan(TravelPlanCreateRequest request, MemberAuth memberAuth) {
@@ -132,7 +136,15 @@ public class TravelPlanService {
 
         return places.stream()
                 .sorted(Comparator.comparing(TravelPlanPlace::getOrder))
-                .map(TravelPlanPlaceResponse::from)
+                .map(place -> TravelPlanPlaceResponse.of(place, getPlaceTodos(place)))
+                .toList();
+    }
+
+    private List<PlaceTodoResponse> getPlaceTodos(TravelPlanPlace place) {
+        return placeTodoRepository.findByTravelPlanPlace(place)
+                .stream()
+                .sorted(Comparator.comparing(PlaceTodo::getOrder))
+                .map(PlaceTodoResponse::from)
                 .toList();
     }
 
