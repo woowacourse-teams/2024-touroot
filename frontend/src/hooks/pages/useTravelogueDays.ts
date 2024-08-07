@@ -1,7 +1,12 @@
 import { useCallback, useState } from "react";
 
+import { v4 as uuidv4 } from "uuid";
+
 import type { TravelTransformPlaces } from "@type/domain/travelTransform";
 import type { TravelogueDay, TraveloguePlace } from "@type/domain/travelogue";
+
+const MIN_DESCRIPTION_LENGTH = 0;
+const MAX_DESCRIPTION_LENGTH = 300;
 
 export const useTravelogueDays = (days: TravelTransformPlaces[]) => {
   const [travelogueDays, setTravelogueDays] = useState<TravelogueDay[]>(days);
@@ -9,8 +14,8 @@ export const useTravelogueDays = (days: TravelTransformPlaces[]) => {
   const onAddDay = useCallback((dayIndex?: number) => {
     setTravelogueDays((prevTravelDays) =>
       dayIndex
-        ? Array.from({ length: dayIndex }, () => ({ places: [] }))
-        : [...prevTravelDays, { places: [] }],
+        ? Array.from({ length: dayIndex }, () => ({ id: uuidv4(), places: [] }))
+        : [...prevTravelDays, { id: uuidv4(), places: [] }],
     );
   }, []);
 
@@ -20,10 +25,13 @@ export const useTravelogueDays = (days: TravelTransformPlaces[]) => {
     );
   };
 
-  const onAddPlace = (dayIndex: number, traveloguePlace: TraveloguePlace) => {
+  const onAddPlace = (
+    dayIndex: number,
+    traveloguePlace: Pick<TraveloguePlace, "placeName" | "position">,
+  ) => {
     setTravelogueDays((prevTravelDays) => {
       const newTraveloguePlaces = [...prevTravelDays];
-      newTraveloguePlaces[dayIndex].places.push(traveloguePlace);
+      newTraveloguePlaces[dayIndex].places.push({ ...traveloguePlace, id: uuidv4() });
       return newTraveloguePlaces;
     });
   };
@@ -46,7 +54,10 @@ export const useTravelogueDays = (days: TravelTransformPlaces[]) => {
     placeIndex: number,
   ) => {
     const newTraveloguePlaces = [...travelogueDays];
-    newTraveloguePlaces[dayIndex].places[placeIndex].description = e.target.value;
+    newTraveloguePlaces[dayIndex].places[placeIndex].description = e.target.value.slice(
+      MIN_DESCRIPTION_LENGTH,
+      MAX_DESCRIPTION_LENGTH,
+    );
     setTravelogueDays(newTraveloguePlaces);
   };
 

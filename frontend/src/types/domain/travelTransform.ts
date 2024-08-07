@@ -7,6 +7,7 @@ export type TravelTransformPlace = Pick<
 >;
 
 export interface TravelTransformPlaces {
+  id: string;
   places: TravelTransformPlace[];
 }
 

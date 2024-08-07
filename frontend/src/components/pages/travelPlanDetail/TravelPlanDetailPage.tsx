@@ -7,10 +7,14 @@ import useDeleteTravelPlan from "@queries/useDeleteTravelPlan";
 import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
 import { Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
+import ShareModal from "@components/pages/travelPlanDetail/ShareModal/ShareModal";
 import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlansTabContent/TravelPlansTabContent";
 
+import { ROUTE_PATHS_MAP } from "@constants/route";
+
+import { extractId } from "@utils/extractId";
+
 import theme from "@styles/theme";
-import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 import TravelPlanDeleteModal from "./TravelPlanDeleteModal/TravelPlanDeleteModal";
 import * as S from "./TravelPlanDetailPage.styled";
@@ -18,7 +22,7 @@ import * as S from "./TravelPlanDetailPage.styled";
 const TravelPlanDetailPage = () => {
   const location = useLocation();
 
-  const id = location.pathname.replace(/[^\d]/g, "");
+  const id = extractId(location.pathname);
 
   const { data } = useGetTravelPlan(id);
 
@@ -37,7 +41,7 @@ const TravelPlanDetailPage = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const handleToggleModal = () => {
+  const handleToggleDeleteModal = () => {
     setIsDeleteModalOpen((prev) => !prev);
   };
 
@@ -48,14 +52,27 @@ const TravelPlanDetailPage = () => {
   //TODO: 수정 이벤트 추가해야함
   const handleClickReviseButton = () => {};
 
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+
+  const handleToggleShareModal = () => setIsShareModalOpen((prev) => !prev);
+
+  const shareUrl = `${window.location.origin}${ROUTE_PATHS_MAP.travelPlan(data?.data.shareKey ?? "")}`;
+
   return (
     <>
+      {isShareModalOpen && (
+        <ShareModal
+          isOpen={isShareModalOpen}
+          onToggleModal={handleToggleShareModal}
+          shareUrl={shareUrl}
+        />
+      )}
       <S.TitleContainer>
         <Text textType="subTitle" css={S.titleStyle}>
           {data?.data?.title}
         </Text>
         <S.IconButtonContainer>
-          <IconButton iconType="share" size="16" color={PRIMITIVE_COLORS.black} />
+          <IconButton size="16" iconType="share" onClick={handleToggleShareModal} />
           <IconButton
             iconType="more"
             size="16"
@@ -66,7 +83,7 @@ const TravelPlanDetailPage = () => {
             <Text textType="detail" onClick={handleClickReviseButton} css={S.cursorPointerStyle}>
               수정
             </Text>
-            <Text textType="detail" onClick={handleToggleModal} css={S.cursorPointerStyle}>
+            <Text textType="detail" onClick={handleToggleDeleteModal} css={S.cursorPointerStyle}>
               삭제
             </Text>
           </Dropdown>
@@ -92,7 +109,7 @@ const TravelPlanDetailPage = () => {
       {isDeleteModalOpen && (
         <TravelPlanDeleteModal
           isOpen={isDeleteModalOpen}
-          onCloseModal={handleToggleModal}
+          onCloseModal={handleToggleDeleteModal}
           onClickDeleteButton={handleClickDeleteButton}
         />
       )}

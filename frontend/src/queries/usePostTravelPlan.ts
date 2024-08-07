@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { ErrorResponse } from "@type/api/errorResponse";
-import type { TravelPlanResponse } from "@type/domain/travelPlan";
+import type { TravelPlanPayload, TravelPlanResponse } from "@type/domain/travelPlan";
 
 import ApiError from "@apis/ApiError";
 import { authClient } from "@apis/client";
@@ -16,10 +16,10 @@ export const usePostTravelPlan = () => {
   return useMutation<
     AxiosResponse<TravelPlanResponse & { id: number }, unknown>,
     ApiError | AxiosError<ErrorResponse>,
-    TravelPlanResponse,
+    TravelPlanPayload,
     unknown
   >({
-    mutationFn: (travelPlan: TravelPlanResponse) =>
+    mutationFn: (travelPlan: TravelPlanPayload) =>
       authClient.post(API_ENDPOINT_MAP.travelPlans, travelPlan),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS_MAP.travelPlan.all });

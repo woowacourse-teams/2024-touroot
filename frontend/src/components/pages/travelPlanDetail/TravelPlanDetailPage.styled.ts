@@ -16,9 +16,7 @@ export const IconButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   position: relative;
-
-  width: 100%;
-  gap: ${({ theme }) => theme.spacing.m};
+  gap: ${({ theme }) => theme.spacing.s};
 `;
 
 export const titleStyle = css`
