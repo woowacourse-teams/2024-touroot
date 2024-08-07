@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
@@ -9,6 +9,8 @@ import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 import { Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
 import ShareModal from "@components/pages/travelPlanDetail/ShareModal/ShareModal";
 import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlansTabContent/TravelPlansTabContent";
+
+import useClickAway from "@hooks/useClickAway";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
@@ -42,7 +44,12 @@ const TravelPlanDetailPage = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
+  const handleCloseMoreDropdown = () => {
+    setIsDropdownOpen(false);
+  };
+
   const handleToggleDeleteModal = () => {
+    handleCloseMoreDropdown();
     setIsDeleteModalOpen((prev) => !prev);
   };
 
@@ -58,6 +65,10 @@ const TravelPlanDetailPage = () => {
   const handleToggleShareModal = () => setIsShareModalOpen((prev) => !prev);
 
   const shareUrl = `${window.location.origin}${ROUTE_PATHS_MAP.travelPlan(data?.shareKey ?? "")}`;
+
+  const iconButtonContainerRef = useRef(null);
+
+  useClickAway(iconButtonContainerRef, handleCloseMoreDropdown);
 
   if (status === "pending") return <>로딩 중 ... </>;
 
@@ -76,20 +87,32 @@ const TravelPlanDetailPage = () => {
         </Text>
         <S.IconButtonContainer>
           <IconButton size="16" iconType="share" onClick={handleToggleShareModal} />
-          <IconButton
-            iconType="more"
-            size="16"
-            color={theme.colors.text.secondary}
-            onClick={handleToggleMoreDropdown}
-          />
-          <Dropdown isOpen={isDropdownOpen} size="small" position="right">
-            <Text textType="detail" onClick={handleClickReviseButton} css={S.cursorPointerStyle}>
-              수정
-            </Text>
-            <Text textType="detail" onClick={handleToggleDeleteModal} css={S.cursorPointerStyle}>
-              삭제
-            </Text>
-          </Dropdown>
+          <div ref={iconButtonContainerRef}>
+            <IconButton
+              iconType="more"
+              size="16"
+              color={theme.colors.text.secondary}
+              onClick={handleToggleMoreDropdown}
+            />
+            {isDropdownOpen && (
+              <Dropdown size="small" position="right">
+                <Text
+                  textType="detail"
+                  onClick={handleClickReviseButton}
+                  css={S.cursorPointerStyle}
+                >
+                  수정
+                </Text>
+                <Text
+                  textType="detail"
+                  onClick={handleToggleDeleteModal}
+                  css={S.cursorPointerStyle}
+                >
+                  삭제
+                </Text>
+              </Dropdown>
+            )}
+          </div>
         </S.IconButtonContainer>
       </S.TitleContainer>
 

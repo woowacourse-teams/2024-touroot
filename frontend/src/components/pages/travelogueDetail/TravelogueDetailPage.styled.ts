@@ -27,23 +27,17 @@ export const AuthorDateContainer = styled.div`
 
 export const IconButtonContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  position: relative;
+
+  width: 100%;
 `;
 
 export const LikesContainer = styled.div`
   display: flex;
   gap: 0.3rem;
   align-items: center;
-`;
-
-export const MoreContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-
-  width: 100%;
-  gap: ${({ theme }) => theme.spacing.m};
 `;
 
 export const titleStyle = css`
