@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
-import useInfiniteMyTravelPlans from "@queries/useInfiniteMyTravelPlans";
 import addDaysToDateString from "@utils/addDaysToDateString";
+
+import useInfiniteMyTravelPlans from "@queries/useInfiniteMyTravelPlans";
 
 import { IconButton, Text } from "@components/common";
 
@@ -39,7 +40,7 @@ const MyTravelPlans = () => {
       <TabContent
         iconButtonLabel="새 여행 계획 추가하기"
         onClickIconButton={handleClickAddButton}
-        data={myTravelPlans}
+        contentDetail={myTravelPlans}
         renderItem={({ id, title, startDate, days }) => (
           <S.Layout onClick={() => handleClickTravelPlan(id)}>
             <S.Container>
