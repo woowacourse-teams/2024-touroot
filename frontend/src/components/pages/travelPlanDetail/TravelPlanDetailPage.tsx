@@ -68,7 +68,7 @@ const TravelPlanDetailPage = () => {
         />
       )}
       <S.TitleContainer>
-        <Text textType="subTitle" css={S.titleStyle}>
+        <Text textType="title" css={S.titleStyle}>
           {data?.data?.title}
         </Text>
         <S.IconButtonContainer>
@@ -90,7 +90,7 @@ const TravelPlanDetailPage = () => {
         </S.IconButtonContainer>
       </S.TitleContainer>
 
-      <Text textType="title" css={S.summaryTitleStyle}>
+      <Text textType="subTitle" css={S.summaryTitleStyle}>
         {daysAndNights} 여행 계획 한 눈에 보기
       </Text>
 
