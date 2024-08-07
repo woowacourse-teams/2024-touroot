@@ -2,7 +2,14 @@ import { HttpResponse, http } from "msw";
 
 import MOCK_TRAVELOGUES from "@mocks/data/travelogue.json";
 
-export const travelogueInfiniteHandler = http.get("/travelogues", ({ request }) => {
+import { API_ENDPOINT_MAP } from "@constants/endpoint";
+import { isTestEnvironment } from "@constants/environment";
+
+const apiRequestUrl = isTestEnvironment
+  ? `${API_ENDPOINT_MAP.travelogues}`
+  : `${process.env.REACT_APP_BASE_URL}${API_ENDPOINT_MAP.travelogues.slice(1)}`;
+
+export const travelogueInfiniteHandler = http.get(apiRequestUrl, ({ request }) => {
   const url = new URL(request.url);
 
   const page = Number(url.searchParams.get("page") ?? "5");

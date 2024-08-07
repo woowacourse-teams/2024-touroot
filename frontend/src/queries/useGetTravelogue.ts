@@ -11,7 +11,7 @@ export const useGetTravelogue = (id: string) => {
   return useQuery<TravelogueResponse>({
     queryKey: QUERY_KEYS_MAP.travelogue.detail(id),
     queryFn: async () => {
-      const { data } = await client.get(API_ENDPOINT_MAP.travelogueDetail(Number(id)));
+      const { data } = await client.get(API_ENDPOINT_MAP.travelogueDetail(id));
 
       return data;
     },

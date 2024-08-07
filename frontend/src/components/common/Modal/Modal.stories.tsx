@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import type { Meta } from "@storybook/react";
 import { fn } from "@storybook/test";
+import { copyLinkToClipboard } from "@utils/clipboard";
 
 import Button from "@components/common/Button/Button";
 import Input from "@components/common/Input/Input";
@@ -63,6 +64,10 @@ export const ShareModal = {
                     right: "1rem",
                     top: "1.6rem",
                     fontSize: "1.2rem",
+                  }}
+                  onClick={() => {
+                    copyLinkToClipboard("https://touroot.kr/travel-plans/a932jdfnd3");
+                    alert("복사가 완료되었어요!");
                   }}
                 >
                   복사
