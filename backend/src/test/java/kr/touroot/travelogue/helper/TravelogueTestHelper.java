@@ -110,7 +110,7 @@ public class TravelogueTestHelper {
     }
 
     public Member initKakaoMemberTestData() {
-        Member member = new Member(1L, "tester", "http://image.com", LoginType.KAKAO);
+        Member member = new Member(1L, "리비", "http://image.com", LoginType.KAKAO);
         return memberRepository.save(member);
     }
 }
