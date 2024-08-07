@@ -14,7 +14,9 @@ public record TravelogueResponse(
         String title,
         @Schema(description = "작성자 닉네임", example = "지니")
         String authorNickname,
-        @Schema(description = "여행기 썸네일 링크", example = "https://썸네일.png")
+        @Schema(description = "작성자 프로필 사진 URL", example = "https://dev.touroot.kr/images/profile.png")
+        String authorProfileImageUrl,
+        @Schema(description = "여행기 썸네일 링크", example = "https://dev.touroot.kr/images/thumbnail.png")
         String thumbnail,
         @Schema(description = "작성 날짜")
         LocalDate createdAt,
@@ -27,6 +29,7 @@ public record TravelogueResponse(
                 .id(travelogue.getId())
                 .createdAt(travelogue.getCreatedAt().toLocalDate())
                 .authorNickname(travelogue.getAuthorNickname())
+                .authorProfileImageUrl(travelogue.getAuthorProfileImageUrl())
                 .title(travelogue.getTitle())
                 .thumbnail(travelogue.getThumbnail())
                 .days(days)
