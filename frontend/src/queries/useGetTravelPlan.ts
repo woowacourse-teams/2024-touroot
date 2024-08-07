@@ -19,5 +19,6 @@ export const useGetTravelPlan = (id: string) => {
 
       return data;
     },
+    retry: 0,
   });
 };

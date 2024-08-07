@@ -1,5 +1,7 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import ApiError from "@apis/ApiError";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
@@ -11,6 +13,7 @@ import ShareModal from "@components/pages/travelPlanDetail/ShareModal/ShareModal
 import TravelPlanDetailSkeleton from "@components/pages/travelPlanDetail/TravelPlanDetailSkeleton/TravelPlanDetailSkeleton";
 import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlansTabContent/TravelPlansTabContent";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractId } from "@utils/extractId";
@@ -28,7 +31,16 @@ const TravelPlanDetailPage = () => {
 
   const id = extractId(location.pathname);
 
-  const { data, status } = useGetTravelPlan(id);
+  const { data, status, error } = useGetTravelPlan(id);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (error instanceof ApiError && error.message === ERROR_MESSAGE_MAP.api.onlyWriter) {
+      alert(error.message);
+      navigate(ROUTE_PATHS_MAP.back);
+    }
+  }, [error, navigate]);
 
   const daysAndNights =
     data?.days.length && data?.days.length > 1
@@ -62,6 +74,8 @@ const TravelPlanDetailPage = () => {
   const shareUrl = `${window.location.origin}${ROUTE_PATHS_MAP.travelPlan(data?.shareKey ?? "")}`;
 
   if (status === "pending") return <TravelPlanDetailSkeleton />;
+
+  if (status === "error") return null;
 
   return (
     <>
