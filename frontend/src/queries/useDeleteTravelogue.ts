@@ -14,7 +14,13 @@ const useDeleteTravelogue = () => {
   return useMutation({
     mutationFn: (id: number) => authClient.delete(API_ENDPOINT_MAP.travelogueDetail(id)),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS_MAP.travelogue.all });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS_MAP.travelogue.all,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS_MAP.travelogue.me(),
+        refetchType: "inactive",
+      });
       navigation(-1);
     },
     onError: (error) => {
