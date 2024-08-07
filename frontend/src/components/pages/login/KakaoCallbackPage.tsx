@@ -23,7 +23,7 @@ const KakaoCallbackPage = () => {
       client
         .post(API_ENDPOINT_MAP.loginOauth(code, encodedRedirectUri))
         .then((res) => {
-          saveUser(res.data);
+          saveUser({ accessToken: res.data.accessToken });
           navigate(ROUTE_PATHS_MAP.root);
         })
         .catch(() => {
