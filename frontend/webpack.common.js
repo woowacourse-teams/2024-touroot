@@ -1,8 +1,12 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const DotenvWebpack = require("dotenv-webpack");
+const dotenv = require("dotenv");
+const { sentryWebpackPlugin } = require("@sentry/webpack-plugin");
 
 const isDevelopment = process.env.NODE_ENV !== "production";
+
+const env = dotenv.config({ path: isDevelopment ? ".env.development" : ".env.production" }).parsed;
 
 module.exports = {
   mode: isDevelopment ? "development" : "production",
@@ -59,12 +63,21 @@ module.exports = {
       },
     ],
   },
+  devtool: "hidden-source-map",
   plugins: [
     new HtmlWebpackPlugin({
       template: "./public/index.html",
     }),
     new DotenvWebpack({
       path: path.resolve(__dirname, isDevelopment ? ".env.development" : ".env.production"),
+    }),
+    sentryWebpackPlugin({
+      org: env.SENTRY_ORG,
+      project: env.SENTRY_ORG,
+      authToken: env.SENTRY_AUTH_TOKEN,
+      sourcemaps: {
+        filesToDeleteAfterUpload: "**/*.js.map",
+      },
     }),
   ],
   devServer: {
@@ -73,5 +86,4 @@ module.exports = {
     hot: true,
     historyApiFallback: true,
   },
-  devtool: "eval-source-map",
 };
