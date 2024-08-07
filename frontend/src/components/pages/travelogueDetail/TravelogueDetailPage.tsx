@@ -98,7 +98,7 @@ const TravelogueDetailPage = () => {
       <Tab
         labels={data?.days.map((_, index) => `Day ${index + 1}`) ?? []}
         tabContent={(selectedIndex) => (
-          <TravelogueTabContent places={data?.days[selectedIndex].places ?? []} />
+          <TravelogueTabContent places={data?.days[selectedIndex]?.places ?? []} />
         )}
       />
       <TransformBottomSheet
