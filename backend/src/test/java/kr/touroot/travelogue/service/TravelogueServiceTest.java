@@ -63,7 +63,7 @@ class TravelogueServiceTest {
         Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
-        Member author = testHelper.initMemberTestData();
+        Member author = testHelper.initKakaoMemberTestData();
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
 
         Travelogue createdTravelogue = travelogueService.createTravelogue(author, request);
@@ -102,7 +102,7 @@ class TravelogueServiceTest {
     @DisplayName("여행기를 삭제할 수 있다.")
     @Test
     void deleteTravelogueById() {
-        Member author = testHelper.initMemberTestData();
+        Member author = testHelper.initKakaoMemberTestData();
         Travelogue travelogue = testHelper.initTravelogueTestData(author);
         long travelogueId = travelogue.getId();
 
@@ -117,7 +117,7 @@ class TravelogueServiceTest {
     @Test
     void deleteTravelogueByNotAuthorThrowException() {
         Travelogue travelogue = testHelper.initTravelogueTestData();
-        Member notAuthor = testHelper.initMemberTestData();
+        Member notAuthor = testHelper.initKakaoMemberTestData();
 
         assertThatThrownBy(() -> travelogueService.delete(travelogue, notAuthor))
                 .isInstanceOf(ForbiddenException.class)

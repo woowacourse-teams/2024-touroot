@@ -1,6 +1,13 @@
 package kr.touroot.travelogue.helper;
 
-import kr.touroot.authentication.fixture.MemberFixture;
+import static kr.touroot.authentication.fixture.MemberFixture.MEMBER_KAKAO;
+import static kr.touroot.place.fixture.PlaceFixture.PLACE;
+import static kr.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
+import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
+import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
+
+import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
@@ -15,12 +22,6 @@ import kr.touroot.travelogue.repository.TraveloguePlaceRepository;
 import kr.touroot.travelogue.repository.TravelogueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import static kr.touroot.place.fixture.PlaceFixture.PLACE;
-import static kr.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
-import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
-import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
-import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
 
 @Component
 public class TravelogueTestHelper {
@@ -73,7 +74,7 @@ public class TravelogueTestHelper {
     }
 
     public Member persistMember() {
-        Member author = MemberFixture.MEMBER_1;
+        Member author = MEMBER_KAKAO.getMember();
 
         return memberRepository.save(author);
     }
@@ -108,8 +109,8 @@ public class TravelogueTestHelper {
         return traveloguePhotoRepository.save(photo);
     }
 
-    public Member initMemberTestData() {
-        Member member = new Member(1L, "tester", "http://image.com");
+    public Member initKakaoMemberTestData() {
+        Member member = new Member(1L, "tester", "http://image.com", LoginType.KAKAO);
         return memberRepository.save(member);
     }
 }

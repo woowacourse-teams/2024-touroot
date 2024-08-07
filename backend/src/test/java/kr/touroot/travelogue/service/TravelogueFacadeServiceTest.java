@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
+import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
@@ -35,6 +36,7 @@ import org.springframework.data.domain.Pageable;
         MemberService.class,
         TravelogueTestHelper.class,
         AwsS3Provider.class,
+        PasswordEncryptor.class
 })
 @ServiceTest
 class TravelogueFacadeServiceTest {
@@ -73,7 +75,7 @@ class TravelogueFacadeServiceTest {
                 TravelogueRequestFixture.getTraveloguePhotoRequests().get(0).url())
         ).thenReturn(TravelogueResponseFixture.getTraveloguePhotoUrls().get(0));
 
-        testHelper.initMemberTestData();
+        testHelper.initKakaoMemberTestData();
 
         MemberAuth memberAuth = new MemberAuth(1L);
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
@@ -116,7 +118,7 @@ class TravelogueFacadeServiceTest {
     @DisplayName("존재하지 않는 ID로 여행기를 삭제하면 예외가 발생한다.")
     @Test
     void deleteTravelogueByNotExistsIdThrowException() {
-        MemberAuth memberAuth = new MemberAuth(testHelper.initMemberTestData().getId());
+        MemberAuth memberAuth = new MemberAuth(testHelper.initKakaoMemberTestData().getId());
 
         assertThatThrownBy(() -> service.deleteTravelogueById(1L, memberAuth))
                 .isInstanceOf(BadRequestException.class)
@@ -127,7 +129,7 @@ class TravelogueFacadeServiceTest {
     @Test
     void deleteByIdWithNotAuthor() {
         testHelper.initTravelogueTestData();
-        MemberAuth notAuthorAuth = new MemberAuth(testHelper.initMemberTestData().getId());
+        MemberAuth notAuthorAuth = new MemberAuth(testHelper.initKakaoMemberTestData().getId());
 
         assertThatThrownBy(() -> service.deleteTravelogueById(1L, notAuthorAuth))
                 .isInstanceOf(ForbiddenException.class)

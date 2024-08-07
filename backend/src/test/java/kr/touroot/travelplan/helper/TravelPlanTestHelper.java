@@ -1,5 +1,8 @@
 package kr.touroot.travelplan.helper;
 
+import java.time.LocalDate;
+import java.util.UUID;
+import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
@@ -12,9 +15,6 @@ import kr.touroot.travelplan.repository.TravelPlanPlaceRepository;
 import kr.touroot.travelplan.repository.TravelPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
-import java.util.UUID;
 
 @Component
 public class TravelPlanTestHelper {
@@ -40,8 +40,8 @@ public class TravelPlanTestHelper {
         this.memberRepository = memberRepository;
     }
 
-    public static Member getMember(Long kakaoId, String nickname, String profileImageUri) {
-        return new Member(kakaoId, nickname, profileImageUri);
+    public static Member getKakaoMember(Long kakaoId, String nickname, String profileImageUri) {
+        return new Member(kakaoId, nickname, profileImageUri, LoginType.KAKAO);
     }
 
     public static Place getPlace(String name, String latitude, String longitude, String googlePlaceId) {
@@ -90,7 +90,7 @@ public class TravelPlanTestHelper {
     }
 
     public Member initMemberTestData() {
-        Member member = getMember(1L, "tester", "http://image.com");
+        Member member = getKakaoMember(1L, "tester", "http://image.com");
         return memberRepository.save(member);
     }
 }

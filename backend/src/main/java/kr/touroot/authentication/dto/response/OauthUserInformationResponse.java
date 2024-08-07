@@ -2,6 +2,7 @@ package kr.touroot.authentication.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.touroot.authentication.dto.response.kakao.KakaoAccount;
+import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
 
 public record OauthUserInformationResponse(
@@ -12,7 +13,7 @@ public record OauthUserInformationResponse(
 ) {
 
     public Member toMember() {
-        return new Member(socialLoginId, nickname(), profileImage());
+        return new Member(socialLoginId, nickname(), profileImage(), LoginType.KAKAO);
     }
 
     public String nickname() {

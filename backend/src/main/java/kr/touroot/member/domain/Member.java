@@ -2,6 +2,8 @@ package kr.touroot.member.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,8 +26,11 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private Long kakaoId;
+
+    private String email;
+
+    private String password;
 
     @Column(nullable = false)
     private String nickname;
@@ -33,28 +38,58 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String profileImageUrl;
 
-    public Member(Long id, Long kakaoId, String nickname, String profileImageUrl) {
-        validate(kakaoId, nickname, profileImageUrl);
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private LoginType loginType;
+
+    public Member(
+            Long id, Long kakaoId, String email, String password, String nickname, String url, LoginType loginType
+    ) {
+        validate(kakaoId, email, password, nickname, url, loginType);
         this.id = id;
         this.kakaoId = kakaoId;
+        this.email = email;
+        this.password = password;
         this.nickname = nickname;
-        this.profileImageUrl = profileImageUrl;
+        this.profileImageUrl = url;
+        this.loginType = loginType;
     }
 
-    public Member(Long kakaoId, String nickname, String profileImageUrl) {
-        this(null, kakaoId, nickname, profileImageUrl);
+    public Member(Long kakaoId, String nickname, String profileImageUrl, LoginType loginType) {
+        this(null, kakaoId, null, null, nickname, profileImageUrl, loginType);
     }
 
-    private void validate(Long kakaoId, String nickname, String profileImageUrl) {
-        validateNotNull(kakaoId, nickname, profileImageUrl);
+    public Member(String email, String password, String nickname, String profileImageUrl, LoginType loginType) {
+        this(null, null, email, password, nickname, profileImageUrl, loginType);
+    }
+
+    private void validate(
+            Long kakaoId, String email, String password, String nickname, String profileImageUrl, LoginType loginType
+    ) {
+        validateByLoginType(kakaoId, email, password, loginType);
+        validateNotNull(nickname, profileImageUrl);
         validateNotBlank(nickname, profileImageUrl);
         validateNicknameLength(nickname);
         validateProfileImageUrl(profileImageUrl);
     }
 
-    private void validateNotNull(Long kakaoId, String nickname, String profileImageUrl) {
-        if (kakaoId == null || nickname == null || profileImageUrl == null) {
-            throw new BadRequestException("카카오 아이디, 닉네임, 프로필 이미지는 비어 있을 수 없습니다");
+    private void validateByLoginType(Long kakaoId, String email, String password, LoginType loginType) {
+        if (loginType.equals(LoginType.KAKAO) && kakaoId == null) {
+            throw new BadRequestException("카카오 ID는 비어 있을 수 없습니다");
+        }
+
+        if (loginType.equals(LoginType.DEFAULT) && (email == null || password == null)) {
+            throw new BadRequestException("이메일과 비밀번호는 비어 있을 수 없습니다.");
+        }
+
+        if (loginType.equals(LoginType.DEFAULT) && (email.isBlank() || password.isBlank())) {
+            throw new BadRequestException("이메일과 비밀번호는 비어 있을 수 없습니다.");
+        }
+    }
+
+    private void validateNotNull(String nickname, String profileImageUrl) {
+        if (nickname == null || profileImageUrl == null) {
+            throw new BadRequestException("닉네임, 프로필 이미지는 비어 있을 수 없습니다");
         }
     }
 

@@ -70,7 +70,7 @@ class TravelogueControllerTest {
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
-        Member member = testHelper.initMemberTestData();
+        Member member = testHelper.initKakaoMemberTestData();
         String accessToken = jwtTokenProvider.createToken(member.getId());
 
         RestAssured.given().log().all()
@@ -138,7 +138,7 @@ class TravelogueControllerTest {
     @DisplayName("여행기를 삭제한다.")
     @Test
     void deleteTravelogue() {
-        Member member = testHelper.initMemberTestData();
+        Member member = testHelper.initKakaoMemberTestData();
         testHelper.initTravelogueTestData(member);
         String accessToken = jwtTokenProvider.createToken(member.getId());
 
@@ -152,7 +152,7 @@ class TravelogueControllerTest {
     @DisplayName("존재하지 않는 여행기 삭제시 400를 응답한다.")
     @Test
     void deleteTravelogueWithNonExist() {
-        Member member = testHelper.initMemberTestData();
+        Member member = testHelper.initKakaoMemberTestData();
         String accessToken = jwtTokenProvider.createToken(member.getId());
 
         RestAssured.given().log().all()
@@ -167,7 +167,7 @@ class TravelogueControllerTest {
     @Test
     void deleteTravelogueWithNotAuthor() {
         Travelogue travelogue = testHelper.initTravelogueTestData();
-        Member notAuthor = testHelper.initMemberTestData();
+        Member notAuthor = testHelper.initKakaoMemberTestData();
         String accessToken = jwtTokenProvider.createToken(notAuthor.getId());
 
         RestAssured.given().log().all()

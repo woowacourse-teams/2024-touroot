@@ -1,5 +1,7 @@
 package kr.touroot.member.controller;
 
+import static org.hamcrest.Matchers.is;
+
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
@@ -14,8 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
-
-import static org.hamcrest.Matchers.is;
 
 @DisplayName("마이 페이지 컨트롤러")
 @AcceptanceTest
@@ -49,7 +49,7 @@ class MyPageControllerTest {
         RestAssured.port = port;
         databaseCleaner.executeTruncate();
 
-        member = travelogueTestHelper.initMemberTestData();
+        member = travelogueTestHelper.initKakaoMemberTestData();
         accessToken = jwtTokenProvider.createToken(member.getId());
     }
 
