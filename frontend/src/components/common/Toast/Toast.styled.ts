@@ -65,7 +65,7 @@ const getToastBackgroundColor = ($status: ToastStatus) => {
 export const ToastLayout = styled.div<{ $status: ToastStatus }>`
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: ${({ theme }) => theme.spacing.xs};
 
   width: 100%;
   padding: 1.2rem 1.6rem;
