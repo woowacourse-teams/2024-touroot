@@ -11,7 +11,7 @@ export const QUERY_KEYS_MAP = {
   },
   travelPlan: {
     all: ["travel-plans"],
-    detail: (id: string | null) => [...QUERY_KEYS_MAP.travelPlan.all, id],
+    detail: (id: string) => [...QUERY_KEYS_MAP.travelPlan.all, id],
     member: (userIdentifier: string) => [
       ...QUERY_KEYS_MAP.travelPlan.all,
       "member",
