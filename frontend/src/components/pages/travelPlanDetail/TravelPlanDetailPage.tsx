@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ReactGA from "react-ga4";
 import { useLocation } from "react-router-dom";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
@@ -59,6 +60,15 @@ const TravelPlanDetailPage = () => {
 
   const shareUrl = `${window.location.origin}${ROUTE_PATHS_MAP.travelPlan(data?.shareKey ?? "")}`;
 
+  const handleTransform = () => {
+    onTransformTravelDetail(ROUTE_PATHS_MAP.travelogueRegister, data);
+    ReactGA.event({
+      category: "TransformButton",
+      action: "Click",
+      label: "여행 계획을 여행기로 전환",
+    });
+  };
+
   if (status === "pending") return <>로딩 중 ... </>;
 
   return (
@@ -103,10 +113,7 @@ const TravelPlanDetailPage = () => {
           <TravelPlansTabContent places={data?.days[selectedIndex].places ?? []} />
         )}
       />
-      <TransformBottomSheet
-        onTransform={() => onTransformTravelDetail("/travelogue/register", data)}
-        buttonLabel="여행기로 전환"
-      >
+      <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행기로 전환">
         여행은 즐겁게 다녀오셨나요?
       </TransformBottomSheet>
       {isDeleteModalOpen && (

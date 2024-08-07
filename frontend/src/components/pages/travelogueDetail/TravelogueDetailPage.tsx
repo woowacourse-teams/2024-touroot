@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ReactGA from "react-ga4";
 import { useLocation } from "react-router-dom";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
@@ -9,6 +10,8 @@ import { useGetTravelogue } from "@queries/useGetTravelogue";
 import { Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
 import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
+
+import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import theme from "@styles/theme";
 
@@ -46,6 +49,15 @@ const TravelogueDetailPage = () => {
 
   //TODO: 수정 이벤트 추가해야함
   const handleClickReviseButton = () => {};
+
+  const handleTransform = () => {
+    onTransformTravelDetail(ROUTE_PATHS_MAP.travelPlanRegister, data);
+    ReactGA.event({
+      category: "TransformButton",
+      action: "Click",
+      label: "여행기를 여행 계획으로 전환",
+    });
+  };
 
   return (
     <>
@@ -101,10 +113,7 @@ const TravelogueDetailPage = () => {
           <TravelogueTabContent places={data?.days[selectedIndex].places ?? []} />
         )}
       />
-      <TransformBottomSheet
-        onTransform={() => onTransformTravelDetail("/travel-plan/register", data)}
-        buttonLabel="여행 계획으로 전환"
-      >
+      <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행 계획으로 전환">
         이 여행기를 따라가고 싶으신가요?
       </TransformBottomSheet>
       {isDeleteModalOpen && (
