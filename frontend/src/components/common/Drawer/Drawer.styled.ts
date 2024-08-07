@@ -6,7 +6,7 @@ export const DrawerContainer = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
   right: ${({ isOpen }) => (isOpen ? "0" : "-210px")};
-  z-index: 1100;
+  z-index: ${({ theme }) => theme.zIndex.drawer};
   width: 210px;
   height: 100%;
 
@@ -20,7 +20,7 @@ export const Overlay = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: ${({ theme }) => theme.zIndex.overlay};
   width: 100%;
   height: 100%;
 

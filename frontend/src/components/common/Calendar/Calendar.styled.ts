@@ -6,7 +6,7 @@ import { PRIMITIVE_COLORS } from "@styles/tokens";
 export const Layout = styled.div`
   overflow: hidden;
   position: relative;
-  z-index: 1000;
+
   width: 100%;
   border: 0.1rem solid ${({ theme }) => theme.colors.border};
   border-radius: 0.8rem;
