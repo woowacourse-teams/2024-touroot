@@ -3,6 +3,7 @@ import { ComponentPropsWithoutRef, useLayoutEffect, useRef, useState } from "rea
 import { STORAGE_KEYS_MAP } from "@constants/storage";
 
 import * as S from "./Tab.styled";
+import { FIRST_TAB_INDEX, INITIAL_SCROLL_LEFT, INITIAL_START_X } from "./constants";
 
 interface TabProps extends React.PropsWithChildren<ComponentPropsWithoutRef<"ul">> {
   tabContent: (selectedIndex: number) => JSX.Element;
@@ -10,10 +11,6 @@ interface TabProps extends React.PropsWithChildren<ComponentPropsWithoutRef<"ul"
 }
 
 const Tab = ({ labels, tabContent, ...props }: TabProps) => {
-  const FIRST_TAB_INDEX = 0;
-  const INITIAL_START_X = 0;
-  const INITIAL_SCROLL_LEFT = 0;
-
   const [selectedIndex, setSelectedIndex] = useState(FIRST_TAB_INDEX);
 
   const tabRefs = useRef<(HTMLLIElement | null)[]>([]);
