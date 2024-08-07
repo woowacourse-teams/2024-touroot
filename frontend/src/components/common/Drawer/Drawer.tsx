@@ -1,32 +1,17 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { useState } from "react";
 
-import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+import DrawerProvider, { useDrawerContext } from "@contexts/DrawerProvider";
+
+import useModalControl from "@hooks/useModalControl";
 
 import * as S from "./Drawer.styled";
-
-interface DrawerContextType {
-  isOpen: boolean;
-  openDrawer: () => void;
-  closeDrawer: () => void;
-  toggleDrawer: () => void;
-}
-
-const DrawerContext = createContext<DrawerContextType | undefined>(undefined);
-
-const useDrawerContext = () => {
-  const context = useContext(DrawerContext);
-  if (!context) {
-    throw new Error(ERROR_MESSAGE_MAP.provider);
-  }
-  return context;
-};
 
 const Drawer = ({ children }: React.PropsWithChildren) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const openDrawer = () => setIsOpen(true);
-  const closeDrawer = () => setIsOpen(false);
   const toggleDrawer = () => setIsOpen((prev) => !prev);
+
+  useModalControl(isOpen, toggleDrawer);
 
   let headerContent: React.ReactNode | null = null;
   let drawerContent: React.ReactNode | null = null;
@@ -45,14 +30,14 @@ const Drawer = ({ children }: React.PropsWithChildren) => {
   });
 
   return (
-    <DrawerContext.Provider value={{ isOpen, openDrawer, closeDrawer, toggleDrawer }}>
+    <DrawerProvider isOpen={isOpen} toggleDrawer={toggleDrawer}>
       {otherContent}
-      <S.Overlay isOpen={isOpen} onClick={closeDrawer} />
+      <S.Overlay isOpen={isOpen} onClick={toggleDrawer} />
       <S.DrawerContainer isOpen={isOpen}>
         {headerContent}
         {drawerContent}
       </S.DrawerContainer>
-    </DrawerContext.Provider>
+    </DrawerProvider>
   );
 };
 
