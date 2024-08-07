@@ -17,7 +17,7 @@ interface TravelogueCardProps {
 }
 
 const TravelogueCard = ({
-  travelogueOverview: { id, userAvatar, title, thumbnail, likes = 0 },
+  travelogueOverview: { id, authorProfileImageUrl, title, thumbnail, likes = 0 },
 }: TravelogueCardProps) => {
   const navigate = useNavigate();
   const { imageError, handleImageError } = useImageError({ imageUrl: thumbnail });
@@ -45,7 +45,7 @@ const TravelogueCard = ({
       </S.TravelogueCardThumbnailContainer>
       <S.TravelogueCardHeader>
         <S.TravelogueCardTitleContainer>
-          <AvatarCircle profileImageUrl={userAvatar} />
+          <AvatarCircle profileImageUrl={authorProfileImageUrl} />
           <h2>{title}</h2>
         </S.TravelogueCardTitleContainer>
 
