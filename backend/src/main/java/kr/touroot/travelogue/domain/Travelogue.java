@@ -101,4 +101,8 @@ public class Travelogue extends BaseEntity {
     public String getAuthorProfileImageUrl() {
         return author.getProfileImageUrl();
     }
+
+    public Long getAuthorId() {
+        return author.getId();
+    }
 }

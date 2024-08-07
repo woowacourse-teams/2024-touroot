@@ -12,6 +12,8 @@ public record TravelogueResponse(
         Long id,
         @Schema(description = "여행기 제목", example = "서울 강남 여행기")
         String title,
+        @Schema(description = "작성자 ID", example = "1")
+        Long authorId,
         @Schema(description = "작성자 닉네임", example = "지니")
         String authorNickname,
         @Schema(description = "작성자 프로필 사진 URL", example = "https://dev.touroot.kr/images/profile.png")
@@ -28,6 +30,7 @@ public record TravelogueResponse(
         return TravelogueResponse.builder()
                 .id(travelogue.getId())
                 .createdAt(travelogue.getCreatedAt().toLocalDate())
+                .authorId(travelogue.getAuthorId())
                 .authorNickname(travelogue.getAuthorNickname())
                 .authorProfileImageUrl(travelogue.getAuthorProfileImageUrl())
                 .title(travelogue.getTitle())
