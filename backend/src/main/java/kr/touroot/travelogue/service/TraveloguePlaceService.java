@@ -6,6 +6,7 @@ import java.util.Map;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.place.domain.Place;
 import kr.touroot.place.repository.PlaceRepository;
+import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
@@ -13,6 +14,7 @@ import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.repository.TraveloguePlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -53,5 +55,10 @@ public class TraveloguePlaceService {
     public TraveloguePlace findTraveloguePlaceById(Long id) {
         return traveloguePlaceRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기 장소입니다."));
+    }
+
+    @Transactional
+    public void deleteByTravelogue(Travelogue travelogue) {
+        traveloguePlaceRepository.deleteByTravelogueDayTravelogue(travelogue);
     }
 }

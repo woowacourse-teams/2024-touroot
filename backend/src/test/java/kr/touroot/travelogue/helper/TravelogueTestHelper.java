@@ -49,13 +49,19 @@ public class TravelogueTestHelper {
         this.memberRepository = memberRepository;
     }
 
-    public void initTravelogueTestData() {
+    public Travelogue initTravelogueTestData() {
         Member author = persistMember();
+        return initTravelogueTestData(author);
+    }
+
+    public Travelogue initTravelogueTestData(Member author) {
         Travelogue travelogue = persistTravelogue(author);
         TravelogueDay day = persistTravelogueDay(travelogue);
         Place position = persistPlace();
         TraveloguePlace place = persistTraveloguePlace(position, day);
         persistTraveloguePhoto(place);
+
+        return travelogue;
     }
 
     public void initTravelogueTestDate(Member author) {

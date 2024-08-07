@@ -1,10 +1,13 @@
 package kr.touroot.travelogue.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
@@ -96,5 +99,38 @@ class TravelogueFacadeServiceTest {
 
         assertThat(service.findTravelogues(Pageable.ofSize(5)))
                 .isEqualTo(responses);
+    }
+
+    @DisplayName("여행기를 ID를 기준으로 삭제한다.")
+    @Test
+    void deleteById() {
+        testHelper.initTravelogueTestData();
+        MemberAuth memberAuth = new MemberAuth(1L);
+        service.deleteTravelogueById(1L, memberAuth);
+
+        assertThatThrownBy(() -> service.findTravelogueById(1L))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행기입니다.");
+    }
+
+    @DisplayName("존재하지 않는 ID로 여행기를 삭제하면 예외가 발생한다.")
+    @Test
+    void deleteTravelogueByNotExistsIdThrowException() {
+        MemberAuth memberAuth = new MemberAuth(testHelper.initMemberTestData().getId());
+
+        assertThatThrownBy(() -> service.deleteTravelogueById(1L, memberAuth))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행기입니다.");
+    }
+
+    @DisplayName("작성자가 아닌 사용자가 여행기를 삭제하면 예외가 발생한다.")
+    @Test
+    void deleteByIdWithNotAuthor() {
+        testHelper.initTravelogueTestData();
+        MemberAuth notAuthorAuth = new MemberAuth(testHelper.initMemberTestData().getId());
+
+        assertThatThrownBy(() -> service.deleteTravelogueById(1L, notAuthorAuth))
+                .isInstanceOf(ForbiddenException.class)
+                .hasMessage("여행기 삭제는 작성자만 가능합니다.");
     }
 }
