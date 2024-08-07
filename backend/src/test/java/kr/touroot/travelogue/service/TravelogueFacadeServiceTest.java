@@ -118,7 +118,7 @@ class TravelogueFacadeServiceTest {
     @DisplayName("존재하지 않는 ID로 여행기를 삭제하면 예외가 발생한다.")
     @Test
     void deleteTravelogueByNotExistsIdThrowException() {
-        MemberAuth memberAuth = new MemberAuth(testHelper.initMemberTestData().getId());
+        MemberAuth memberAuth = new MemberAuth(testHelper.initKakaoMemberTestData().getId());
 
         assertThatThrownBy(() -> service.deleteTravelogueById(1L, memberAuth))
                 .isInstanceOf(BadRequestException.class)
@@ -129,7 +129,7 @@ class TravelogueFacadeServiceTest {
     @Test
     void deleteByIdWithNotAuthor() {
         testHelper.initTravelogueTestData();
-        MemberAuth notAuthorAuth = new MemberAuth(testHelper.initMemberTestData().getId());
+        MemberAuth notAuthorAuth = new MemberAuth(testHelper.initKakaoMemberTestData().getId());
 
         assertThatThrownBy(() -> service.deleteTravelogueById(1L, notAuthorAuth))
                 .isInstanceOf(ForbiddenException.class)
