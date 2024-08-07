@@ -27,7 +27,7 @@ const Header = () => {
       : () => navigate(ROUTE_PATHS_MAP.back);
 
   const handleClickLogout = () => {
-    saveUser({ accessToken: "" });
+    saveUser({ accessToken: "", memberId: 0 });
   };
   const handleClickMyPage = () => navigate(ROUTE_PATHS_MAP.my);
 

@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { SaveUserContext } from "@contexts/UserProvider";
-
 import { client } from "@apis/client";
+
+import { SaveUserContext } from "@contexts/UserProvider";
 
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
@@ -23,7 +23,7 @@ const KakaoCallbackPage = () => {
       client
         .post(API_ENDPOINT_MAP.loginOauth(code, encodedRedirectUri))
         .then((res) => {
-          saveUser({ accessToken: res.data.accessToken });
+          saveUser({ accessToken: res.data.accessToken, memberId: res.data.memberId });
           navigate(ROUTE_PATHS_MAP.root);
         })
         .catch(() => {

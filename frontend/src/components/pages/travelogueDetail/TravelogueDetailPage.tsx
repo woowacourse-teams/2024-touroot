@@ -11,6 +11,7 @@ import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
 
 import useClickAway from "@hooks/useClickAway";
+import useUser from "@hooks/useUser";
 
 import theme from "@styles/theme";
 
@@ -22,6 +23,9 @@ const TravelogueDetailPage = () => {
   const id = location.pathname.replace(/[^\d]/g, "");
 
   const { data } = useGetTravelogue(id);
+  const { user } = useUser();
+
+  const isAuthor = data?.authorId === user?.memberId;
 
   const daysAndNights =
     data?.days.length && data?.days.length > 1
@@ -80,32 +84,34 @@ const TravelogueDetailPage = () => {
               <IconButton iconType="empty-heart" size="24" />
               <Text textType="detail">7</Text>
             </S.LikesContainer> */}
-            <div ref={moreContainerRef}>
-              <IconButton
-                iconType="more"
-                size="16"
-                color={theme.colors.text.secondary}
-                onClick={handleToggleMoreDropdown}
-              />
-              {isDropdownOpen && (
-                <Dropdown size="small" position="right">
-                  <Text
-                    textType="detail"
-                    onClick={handleClickReviseButton}
-                    css={S.cursorPointerStyle}
-                  >
-                    수정
-                  </Text>
-                  <Text
-                    textType="detail"
-                    onClick={handleToggleDeleteModal}
-                    css={S.cursorPointerStyle}
-                  >
-                    삭제
-                  </Text>
-                </Dropdown>
-              )}
-            </div>
+            {isAuthor && (
+              <div ref={moreContainerRef}>
+                <IconButton
+                  iconType="more"
+                  size="16"
+                  color={theme.colors.text.secondary}
+                  onClick={handleToggleMoreDropdown}
+                />
+                {isDropdownOpen && (
+                  <Dropdown size="small" position="right">
+                    <Text
+                      textType="detail"
+                      onClick={handleClickReviseButton}
+                      css={S.cursorPointerStyle}
+                    >
+                      수정
+                    </Text>
+                    <Text
+                      textType="detail"
+                      onClick={handleToggleDeleteModal}
+                      css={S.cursorPointerStyle}
+                    >
+                      삭제
+                    </Text>
+                  </Dropdown>
+                )}
+              </div>
+            )}
           </S.IconButtonContainer>
 
           <Text textType="title" css={S.summaryTitleStyle}>
