@@ -22,9 +22,9 @@ public class TagService {
     @Transactional
     public TagResponse createTag(TagCreateRequest tagCreateRequest) {
         validateDuplicated(tagCreateRequest);
-        Tag savedTage = tagRepository.save(tagCreateRequest.toTag());
+        Tag savedTag = tagRepository.save(tagCreateRequest.toTag());
 
-        return TagResponse.from(savedTage);
+        return TagResponse.from(savedTag);
     }
 
     private void validateDuplicated(TagCreateRequest tagCreateRequest) {
