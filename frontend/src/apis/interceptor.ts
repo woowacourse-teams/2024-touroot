@@ -7,6 +7,7 @@ import type { UserResponse } from "@type/domain/user";
 import ApiError from "@apis/ApiError";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+import { HTTP_STATUS_CODE_MAP } from "@constants/httpStatusCode";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 import { STORAGE_KEYS_MAP } from "@constants/storage";
 
@@ -56,6 +57,15 @@ export const handleAPIError = (error: AxiosError<ErrorResponse>) => {
 
     scope.setLevel("error");
     Sentry.captureException(apiError);
+
+    if (
+      error.response?.status === HTTP_STATUS_CODE_MAP.UNAUTHORIZED &&
+      error.response.data.message === ERROR_MESSAGE_MAP.api.expiredToken
+    ) {
+      localStorage.removeItem(STORAGE_KEYS_MAP.user);
+      alert(ERROR_MESSAGE_MAP.api.login);
+      window.location.href = ROUTE_PATHS_MAP.login;
+    }
 
     throw apiError;
   });
