@@ -136,7 +136,22 @@ const TravelogueRegisterPage = () => {
           />
         </S.PageInfoContainer>
         <S.AccordionRootContainer>
-          <GoogleMapLoadScript libraries={["places", "maps"]}>
+          <GoogleMapLoadScript
+            loadingElement={
+              <S.LoadingWrapper>
+                <IconButton
+                  size="16"
+                  iconType="plus"
+                  position="left"
+                  css={[S.addButtonStyle, S.addDayButtonStyle, S.loadingButtonStyle]}
+                  onClick={() => onAddDay()}
+                >
+                  일자 추가하기
+                </IconButton>
+              </S.LoadingWrapper>
+            }
+            libraries={["places", "maps"]}
+          >
             <Accordion.Root>
               {travelogueDays.map((travelogueDay, dayIndex) => (
                 <TravelogueDayAccordion
