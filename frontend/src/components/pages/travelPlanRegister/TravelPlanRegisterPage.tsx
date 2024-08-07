@@ -82,7 +82,7 @@ const TravelPlanRegisterPage = () => {
     handleCloseBottomSheet();
   };
 
-  const { mutateAsync: handleAddTravelPlan } = usePostTravelPlan();
+  const { mutate: handleAddTravelPlan } = usePostTravelPlan();
 
   const { user } = useUser();
 
