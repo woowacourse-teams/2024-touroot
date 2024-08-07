@@ -63,9 +63,11 @@ const TravelPlanRegisterPage = () => {
   const navigate = useNavigate();
 
   const handleConfirmBottomSheet = async () => {
-    if (!startDate) return;
-
-    const formattedStartDate = startDate.toISOString().split("T")[0];
+    const formattedStartDate = startDate
+      ? new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
+          .toISOString()
+          .split("T")[0]
+      : "";
 
     handleAddTravelPlan(
       { title, startDate: formattedStartDate, days: travelPlanDays },
@@ -76,6 +78,7 @@ const TravelPlanRegisterPage = () => {
         },
       },
     );
+
     handleCloseBottomSheet();
   };
 
