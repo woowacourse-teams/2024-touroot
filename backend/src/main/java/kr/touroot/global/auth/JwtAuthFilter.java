@@ -6,6 +6,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.auth.dto.HttpRequestInfo;
@@ -36,7 +38,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             new HttpRequestInfo(HttpMethod.GET, "/swagger-ui/**"),
             new HttpRequestInfo(HttpMethod.GET, "/swagger-resources/**"),
             new HttpRequestInfo(HttpMethod.GET, "/v3/api-docs/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/api/v1/travelogues/**"),
+            new HttpRequestInfo(HttpMethod.GET, "/api/v1/travelogues/{id}", List.of(HttpHeaders.AUTHORIZATION)),
+            new HttpRequestInfo(HttpMethod.GET, "/api/v1/travelogues"),
             new HttpRequestInfo(HttpMethod.POST, "/api/v1/login/**"),
             new HttpRequestInfo(HttpMethod.GET, "/api/v1/travel-plans/shared/**"),
             new HttpRequestInfo(HttpMethod.POST, "/api/v1/tags/**"),
@@ -83,8 +86,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String url = request.getRequestURI();
         String method = request.getMethod();
+        List<String> headers = Collections.list(request.getHeaderNames());
 
         return WHITE_LIST.stream()
-                .anyMatch(white -> white.method().matches(method) && antPathMatcher.match(white.urlPattern(), url));
+                .anyMatch(white -> white.method().matches(method)
+                        && antPathMatcher.match(white.urlPattern(), url)
+                        && new HashSet<>(headers).containsAll(white.headers())
+                );
     }
 }

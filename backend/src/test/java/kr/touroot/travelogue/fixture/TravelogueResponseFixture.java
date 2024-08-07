@@ -29,6 +29,19 @@ public class TravelogueResponseFixture {
                 .build();
     }
 
+    public static TravelogueResponse getTravelogueResponse(boolean isAuthor) {
+        return TravelogueResponse.builder()
+                .id(1L)
+                .title("제주에 하영 옵서")
+                .createdAt(LocalDate.now())
+                .authorNickname("리비")
+                .authorProfileImageUrl("https://dev.touroot.kr/temporary/profile.png")
+                .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
+                .days(getTravelogueDayResponses())
+                .isAuthor(isAuthor)
+                .build();
+    }
+
     public static Page<TravelogueSimpleResponse> getTravelogueSimpleResponses() {
         return new PageImpl<>(List.of(TravelogueSimpleResponse.builder()
                 .id(1L)

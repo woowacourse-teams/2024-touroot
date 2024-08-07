@@ -10,7 +10,9 @@ import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
+import kr.touroot.member.domain.Member;
 import kr.touroot.member.service.MemberService;
+import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
@@ -81,7 +83,7 @@ class TravelogueFacadeServiceTest {
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
 
         assertThat(service.createTravelogue(memberAuth, request))
-                .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
+                .isEqualTo(TravelogueResponseFixture.getTravelogueResponse(true));
     }
 
     @DisplayName("여행기를 ID를 기준으로 조회한다.")
@@ -91,6 +93,27 @@ class TravelogueFacadeServiceTest {
 
         assertThat(service.findTravelogueById(1L))
                 .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
+    }
+
+    @DisplayName("여행기를 ID를 기준으로 로그인한 사용자가 본인 것을 조회한다.")
+    @Test
+    void findTravelogueByIdWithAuthor() {
+        Travelogue travelogue = testHelper.initTravelogueTestData();
+        MemberAuth memberAuth = new MemberAuth(travelogue.getAuthor().getId());
+
+        assertThat(service.findTravelogueById(1L, memberAuth))
+                .isEqualTo(TravelogueResponseFixture.getTravelogueResponse(true));
+    }
+
+    @DisplayName("여행기를 ID를 기준으로 로그인한 사용자가 다른 사용자의 것을 조회한다.")
+    @Test
+    void findTravelogueByIdWithNotAuthor() {
+        testHelper.initTravelogueTestData();
+        Member notAuthor = testHelper.initKakaoMemberTestData();
+        MemberAuth memberAuth = new MemberAuth(notAuthor.getId());
+
+        assertThat(service.findTravelogueById(1L, memberAuth))
+                .isEqualTo(TravelogueResponseFixture.getTravelogueResponse(false));
     }
 
     @DisplayName("메인 페이지에 표시할 여행기 목록을 조회한다.")
