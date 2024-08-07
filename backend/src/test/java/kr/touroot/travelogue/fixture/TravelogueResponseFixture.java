@@ -22,6 +22,7 @@ public class TravelogueResponseFixture {
                 .title("제주에 하영 옵서")
                 .createdAt(LocalDate.now())
                 .authorNickname("리비")
+                .authorProfileImageUrl("https://dev.touroot.kr/temporary/profile.png")
                 .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                 .days(getTravelogueDayResponses())
                 .build();
@@ -33,6 +34,7 @@ public class TravelogueResponseFixture {
                 .title("제주에 하영 옵서")
                 .createdAt(LocalDate.now())
                 .authorNickname("리비")
+                .authorProfileImageUrl("https://dev.touroot.kr/temporary/profile.png")
                 .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                 .days(getTravelogueDayResponses())
                 .build()));

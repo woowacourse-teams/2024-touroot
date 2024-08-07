@@ -97,4 +97,8 @@ public class Travelogue extends BaseEntity {
     public String getAuthorNickname() {
         return author.getNickname();
     }
+
+    public String getAuthorProfileImageUrl() {
+        return author.getProfileImageUrl();
+    }
 }
