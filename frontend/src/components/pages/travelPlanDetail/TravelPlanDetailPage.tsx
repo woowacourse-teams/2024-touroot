@@ -128,7 +128,7 @@ const TravelPlanDetailPage = () => {
       <Tab
         labels={data?.days.map((_, index: number) => `Day ${index + 1}`) ?? []}
         tabContent={(selectedIndex) => (
-          <TravelPlansTabContent places={data?.days[selectedIndex].places ?? []} />
+          <TravelPlansTabContent places={data?.days[selectedIndex]?.places ?? []} />
         )}
       />
       <TransformBottomSheet
