@@ -22,16 +22,17 @@ import * as S from "./TravelPlanDetailPage.styled";
 const TravelPlanDetailPage = () => {
   const location = useLocation();
 
+  const { onTransformTravelDetail } = useTravelTransformDetailContext();
+
   const id = extractId(location.pathname);
 
-  const { data } = useGetTravelPlan(id);
+  const { data, status } = useGetTravelPlan(id);
 
   const daysAndNights =
-    data?.data.days.length && data?.data.days.length > 1
-      ? `${data?.data.days.length - 1}박 ${data?.data.days.length}일`
+    data?.days.length && data?.days.length > 1
+      ? `${data?.days.length - 1}박 ${data?.days.length}일`
       : "당일치기";
 
-  const { onTransformTravelDetail } = useTravelTransformDetailContext();
   const { mutate: deleteTravelPlan } = useDeleteTravelPlan();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -56,7 +57,9 @@ const TravelPlanDetailPage = () => {
 
   const handleToggleShareModal = () => setIsShareModalOpen((prev) => !prev);
 
-  const shareUrl = `${window.location.origin}${ROUTE_PATHS_MAP.travelPlan(data?.data.shareKey ?? "")}`;
+  const shareUrl = `${window.location.origin}${ROUTE_PATHS_MAP.travelPlan(data?.shareKey ?? "")}`;
+
+  if (status === "pending") return <>로딩 중 ... </>;
 
   return (
     <>
@@ -69,7 +72,7 @@ const TravelPlanDetailPage = () => {
       )}
       <S.TitleContainer>
         <Text textType="title" css={S.titleStyle}>
-          {data?.data?.title}
+          {data?.title}
         </Text>
         <S.IconButtonContainer>
           <IconButton size="16" iconType="share" onClick={handleToggleShareModal} />
@@ -95,13 +98,13 @@ const TravelPlanDetailPage = () => {
       </Text>
 
       <Tab
-        labels={data?.data?.days.map((_, index) => `Day ${index + 1}`) ?? []}
+        labels={data?.days.map((_, index: number) => `Day ${index + 1}`) ?? []}
         tabContent={(selectedIndex) => (
-          <TravelPlansTabContent places={data?.data.days[selectedIndex].places ?? []} />
+          <TravelPlansTabContent places={data?.days[selectedIndex].places ?? []} />
         )}
       />
       <TransformBottomSheet
-        onTransform={() => onTransformTravelDetail("/travelogue/register", data?.data)}
+        onTransform={() => onTransformTravelDetail("/travelogue/register", data)}
         buttonLabel="여행기로 전환"
       >
         여행은 즐겁게 다녀오셨나요?

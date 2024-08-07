@@ -18,3 +18,10 @@ export interface TravelogueResponse {
   thumbnail: string;
   days: TravelogueDay[];
 }
+
+export interface MyTravelogue {
+  id: string;
+  thumbnailUrl: string;
+  title: string;
+  createdAt: string;
+}

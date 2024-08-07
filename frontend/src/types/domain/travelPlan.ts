@@ -1,4 +1,13 @@
-import { MapPosition } from "@type/domain/common";
+import type { MapPosition } from "./common";
+import type { TravelTransformDetail } from "./travelTransform";
+
+export interface TravelPlanResponse {
+  id: string;
+  shareKey: string;
+  title: string;
+  startDate: string;
+  days: TravelTransformDetail["days"];
+}
 
 export type TravelPlanPlace = {
   id: string;
@@ -19,4 +28,4 @@ export interface TravelPlanResponse {
   shareKey: string;
 }
 
-export type TravelPlanPayload = Omit<TravelPlanResponse, "shareKey">;
+export type TravelPlanPayload = Omit<TravelPlanResponse, "shareKey" | "id">;

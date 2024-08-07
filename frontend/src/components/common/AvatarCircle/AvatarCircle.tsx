@@ -6,15 +6,16 @@ import type { AvatarCircleSize } from "./AvatarCircle.type";
 interface AvatarCircleProps {
   $size?: AvatarCircleSize;
   profileImageUrl?: string;
+  imageAlt?: string;
 }
 
-const AvatarCircle = ({ $size = "small", profileImageUrl }: AvatarCircleProps) => {
+const AvatarCircle = ({ $size = "small", profileImageUrl, imageAlt }: AvatarCircleProps) => {
   const { imageError, handleImageError } = useImageError({ imageUrl: profileImageUrl });
 
   return (
     <S.AvatarCircleContainer $size={$size}>
       {!imageError ? (
-        <img src={profileImageUrl} alt="사용자 프로필 이미지" onError={handleImageError} />
+        <img src={profileImageUrl} alt={imageAlt} onError={handleImageError} />
       ) : (
         <S.FallbackIcon $size={$size}>
           <svg
