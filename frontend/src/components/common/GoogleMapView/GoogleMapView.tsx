@@ -73,12 +73,21 @@ const GoogleMapView = ({ places }: GoogleMapViewProps) => {
             onClick={() => handleClickMarker(position)}
           />
         ))}
-        {places.map(({ lat, lng }, index) => (
+        {places.map((position, index) => (
           <MarkerF
-            key={`${index}-${lat}`}
-            position={{ lat, lng }}
-            icon={markerUrl}
-            onClick={() => handleClickMarker({ lat, lng })}
+            key={`marker-${index}-${position.lat}-${position.lng}`}
+            position={position}
+            icon={{
+              url: markerUrl,
+              scaledSize: new window.google.maps.Size(30, 30), // 마커 크기 조정
+              labelOrigin: new window.google.maps.Point(15, -10), // 라벨 위치 조정
+            }}
+            label={{
+              text: `${index + 1}`,
+              color: "white",
+              fontSize: "14px",
+            }}
+            onClick={() => handleClickMarker(position)}
           />
         ))}
         <Polyline path={places} options={{ strokeColor: "#72A2FFCC", strokeWeight: 3 }} />
