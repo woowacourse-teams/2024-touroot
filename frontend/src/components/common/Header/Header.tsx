@@ -33,7 +33,8 @@ const Header = () => {
     ) {
       navigate(ROUTE_PATHS_MAP.login);
     }
-    saveUser({ accessToken: "" });
+
+    saveUser({ accessToken: "", memberId: 0 });
   };
   const handleClickMyPage = () => navigate(ROUTE_PATHS_MAP.my);
 

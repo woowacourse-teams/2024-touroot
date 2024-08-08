@@ -33,9 +33,6 @@ export const usePostTravelogue = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS_MAP.travelogue.all,
-      });
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS_MAP.travelogue.me(),
         refetchType: "inactive",
       });
     },

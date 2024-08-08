@@ -6,6 +6,7 @@ import { authClient } from "@apis/client";
 
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { QUERY_KEYS_MAP } from "@constants/queryKey";
+import { ROUTE_PATHS_MAP } from "@constants/route";
 
 const useDeleteTravelogue = () => {
   const queryClient = useQueryClient();
@@ -16,15 +17,13 @@ const useDeleteTravelogue = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS_MAP.travelogue.all,
-      });
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS_MAP.travelogue.me(),
         refetchType: "inactive",
       });
-      navigation(-1);
+
+      navigation(ROUTE_PATHS_MAP.my);
     },
     onError: (error) => {
-      alert(error);
+      alert(error.message);
     },
   });
 };

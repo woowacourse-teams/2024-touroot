@@ -22,7 +22,10 @@ export const usePostTravelPlan = () => {
     mutationFn: (travelPlan: TravelPlanPayload) =>
       authClient.post(API_ENDPOINT_MAP.travelPlans, travelPlan),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS_MAP.travelPlan.all });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS_MAP.travelPlan.all,
+        refetchType: "inactive",
+      });
     },
     onError: (error) => {
       alert(error.message);
