@@ -35,6 +35,7 @@ public class TraveloguePlace extends BaseEntity {
     @Column(name = "PLACE_ORDER", nullable = false)
     private Integer order;
 
+    @Column(columnDefinition = "VARCHAR(300)")
     private String description;
 
     @JoinColumn(nullable = false)
