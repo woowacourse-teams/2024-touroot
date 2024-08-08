@@ -30,6 +30,7 @@ public class TravelPlanPlace extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "VARCHAR(300)")
     private String description;
 
     @Column(name = "PLAN_PLACE_ORDER", nullable = false)
