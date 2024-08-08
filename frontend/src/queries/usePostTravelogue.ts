@@ -31,7 +31,10 @@ export const usePostTravelogue = () => {
         })),
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS_MAP.travelogue.all });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS_MAP.travelogue.all,
+        refetchType: "inactive",
+      });
     },
     onError: (error) => {
       alert(error.message);
