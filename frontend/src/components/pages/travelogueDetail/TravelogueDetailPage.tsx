@@ -23,11 +23,10 @@ const TravelogueDetailPage = () => {
   const location = useLocation();
   const id = location.pathname.replace(/[^\d]/g, "");
 
-  const { data } = useGetTravelogue(id);
   const { user } = useUser();
 
-  const isAuthor = data?.authorId === user?.memberId;
   const { data, isLoading } = useGetTravelogue(id);
+  const isAuthor = data?.authorId === user?.memberId;
 
   const daysAndNights =
     data?.days.length && data?.days.length > 1
@@ -66,7 +65,6 @@ const TravelogueDetailPage = () => {
   if (isLoading) {
     return <TravelogueDetailSkeleton />;
   }
-
 
   return (
     <>
