@@ -12,7 +12,7 @@ import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
-import kr.touroot.travelogue.dto.response.TravelogueResponse;
+import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
@@ -97,9 +97,9 @@ class TravelogueFacadeServiceTest {
     @Test
     void findTravelogues() {
         testHelper.initTravelogueTestData();
-        Page<TravelogueResponse> responses = TravelogueResponseFixture.getTravelogueResponses();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
-        assertThat(service.findTravelogues(Pageable.ofSize(5)))
+        assertThat(service.findSimpleTravelogues(Pageable.ofSize(5)))
                 .isEqualTo(responses);
     }
 

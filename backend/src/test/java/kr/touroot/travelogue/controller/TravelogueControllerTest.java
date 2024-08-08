@@ -14,6 +14,7 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
+import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
@@ -114,7 +115,7 @@ class TravelogueControllerTest {
     @Test
     void findMainPageTravelogues() throws JsonProcessingException {
         testHelper.initTravelogueTestData();
-        Page<TravelogueResponse> responses = TravelogueResponseFixture.getTravelogueResponses();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         RestAssured.given().log().all()
                 .accept(ContentType.JSON)

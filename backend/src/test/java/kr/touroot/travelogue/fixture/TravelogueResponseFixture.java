@@ -6,6 +6,7 @@ import kr.touroot.travelogue.dto.response.TravelogueDayResponse;
 import kr.touroot.travelogue.dto.response.TraveloguePlaceResponse;
 import kr.touroot.travelogue.dto.response.TraveloguePositionResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
+import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
@@ -22,21 +23,20 @@ public class TravelogueResponseFixture {
                 .title("제주에 하영 옵서")
                 .createdAt(LocalDate.now())
                 .authorNickname("리비")
+                .authorId(1L)
                 .authorProfileImageUrl("https://dev.touroot.kr/temporary/profile.png")
                 .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                 .days(getTravelogueDayResponses())
                 .build();
     }
 
-    public static Page<TravelogueResponse> getTravelogueResponses() {
-        return new PageImpl<>(List.of(TravelogueResponse.builder()
+    public static Page<TravelogueSimpleResponse> getTravelogueSimpleResponses() {
+        return new PageImpl<>(List.of(TravelogueSimpleResponse.builder()
                 .id(1L)
                 .title("제주에 하영 옵서")
-                .createdAt(LocalDate.now())
                 .authorNickname("리비")
-                .authorProfileImageUrl("https://dev.touroot.kr/temporary/profile.png")
+                .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
                 .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
-                .days(getTravelogueDayResponses())
                 .build()));
     }
 

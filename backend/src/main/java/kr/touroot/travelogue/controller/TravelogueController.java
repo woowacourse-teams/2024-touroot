@@ -13,6 +13,7 @@ import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
+import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.service.TravelogueFacadeService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
@@ -91,12 +92,12 @@ public class TravelogueController {
     })
     @PageableAsQueryParam
     @GetMapping
-    public ResponseEntity<Page<TravelogueResponse>> findMainPageTravelogues(
+    public ResponseEntity<Page<TravelogueSimpleResponse>> findMainPageTravelogues(
             @Parameter(hidden = true)
             @PageableDefault(size = 5, sort = "id", direction = Direction.DESC)
             Pageable pageable
     ) {
-        return ResponseEntity.ok(travelogueFacadeService.findTravelogues(pageable));
+        return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(pageable));
     }
 
     @Operation(summary = "여행기 삭제")
