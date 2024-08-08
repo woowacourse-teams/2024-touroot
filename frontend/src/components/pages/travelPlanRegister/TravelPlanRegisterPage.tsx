@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
@@ -19,9 +19,8 @@ import Calendar from "@components/common/Calendar/Calendar";
 import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
 
 import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
-import useUser from "@hooks/useUser";
 
-import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+// import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import * as S from "./TravelPlanRegisterPage.styled";
@@ -30,7 +29,7 @@ const MIN_TITLE_LENGTH = 0;
 const MAX_TITLE_LENGTH = 20;
 
 const TravelPlanRegisterPage = () => {
-  const { transformDetail, saveTransformDetail } = useTravelTransformDetailContext();
+  const { transformDetail } = useTravelTransformDetailContext();
 
   const [title, setTitle] = useState("");
 
@@ -84,17 +83,17 @@ const TravelPlanRegisterPage = () => {
 
   const { mutate: handleAddTravelPlan } = usePostTravelPlan();
 
-  const { user } = useUser();
+  // const { user } = useUser();
 
-  useEffect(() => {
-    if (!user?.accessToken) {
-      alert(ERROR_MESSAGE_MAP.api.login);
-      navigate(ROUTE_PATHS_MAP.login);
-    }
-    return () => {
-      saveTransformDetail(null);
-    };
-  }, [user?.accessToken, navigate, saveTransformDetail]);
+  // useEffect(() => {
+  //   if (!user?.accessToken) {
+  //     alert(ERROR_MESSAGE_MAP.api.login);
+  //     navigate(ROUTE_PATHS_MAP.login);
+  //   }
+  //   return () => {
+  //     saveTransformDetail(null);
+  //   };
+  // }, [user?.accessToken, navigate, saveTransformDetail]);
 
   const [isShowCalendar, setIsShowCalendar] = useState(false);
 
