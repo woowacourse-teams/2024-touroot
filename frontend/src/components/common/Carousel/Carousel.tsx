@@ -32,7 +32,7 @@ const Carousel = ({ imageUrls }: CarouselProps) => {
     <S.CarouselContainer>
       <S.CarouselImageList css={carouselImageListStyling(currentIndex)}>
         {imageUrls.map((imageUrl, index) => (
-          <S.CarouselImageItem key={index}>
+          <S.CarouselImageItem key={imageUrl}>
             <img src={imageUrl} alt={`travels place img ${index + 1}`} />
           </S.CarouselImageItem>
         ))}
