@@ -28,5 +28,17 @@ export const cursorPointerStyle = css`
 `;
 
 export const summaryTitleStyle = css`
-  margin: 3.2rem 1.6rem 1.6rem;
+  margin: 3rem 1.6rem;
+`;
+
+export const dateStyle = css`
+  margin: 3rem 1.6rem;
+  margin-bottom: 3rem;
+`;
+
+export const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 3rem 1.6rem;
+  gap: ${({ theme }) => theme.spacing.m};
 `;

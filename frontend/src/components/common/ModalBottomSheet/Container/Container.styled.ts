@@ -7,7 +7,7 @@ export const Container = styled.div<{ $currentY: number }>`
   flex-direction: column;
   position: absolute;
   bottom: 0;
-  z-index: 700;
+  z-index: ${({ theme }) => theme.zIndex.bottomSheet};
 
   width: 100%;
   padding: 2.4rem;

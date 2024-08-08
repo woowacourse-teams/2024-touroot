@@ -14,7 +14,9 @@ const useDeleteTravelPlan = () => {
   return useMutation({
     mutationFn: (id: number) => authClient.delete(API_ENDPOINT_MAP.travelPlanDetail(id)),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS_MAP.travelPlan.all });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS_MAP.travelPlan.all,
+      });
       navigation(-1);
     },
     onError: (error) => {

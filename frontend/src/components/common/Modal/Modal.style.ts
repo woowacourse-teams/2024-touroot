@@ -8,7 +8,7 @@ export const Layout = styled.section`
   align-items: center;
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: ${({ theme }) => theme.zIndex.modal};
 `;
 
 export const BackdropLayout = styled.div`

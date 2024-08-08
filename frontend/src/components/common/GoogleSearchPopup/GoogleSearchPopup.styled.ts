@@ -8,12 +8,12 @@ export const Layout = styled.div`
   flex-direction: column;
   position: fixed;
   top: 0;
-  z-index: 1000;
+  z-index: ${({ theme }) => theme.zIndex.modal};
   width: 100%;
   height: 100vh;
   max-width: 48rem;
 
-  background-color: #fff;
+  background-color: ${PRIMITIVE_COLORS.white};
   transform: translateX(-3.2rem);
 `;
 

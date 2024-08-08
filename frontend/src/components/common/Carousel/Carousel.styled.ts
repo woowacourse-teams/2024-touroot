@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 
 export const CarouselContainer = styled.div`
   overflow: hidden;
-  overflow: hidden;
   position: relative;
 
   width: 100%;
@@ -39,7 +38,7 @@ export const CarouselButton = styled.button`
   align-items: center;
   position: absolute;
   top: 50%;
-  z-index: 1;
+  z-index: ${({ theme }) => theme.zIndex.default};
 
   width: 32px;
   height: 32px;

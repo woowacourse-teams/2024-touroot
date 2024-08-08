@@ -38,7 +38,7 @@ export const ToastContainerLayout = styled.div<{ $isOpen: boolean; $rect: DOMRec
   position: fixed;
   top: ${({ $rect }) => ($rect?.top ?? 0) + ($rect?.height ?? 0)}px;
   left: ${({ $rect }) => $rect?.left}px;
-  z-index: 1000;
+  z-index: ${({ theme }) => theme.zIndex.toast};
   width: ${({ $rect }) => $rect?.width}px;
 
   animation: ${({ $isOpen }) => ($isOpen ? slideInFromTop : slideOutToTop)} 0.5s ease-out;
