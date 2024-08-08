@@ -6,12 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 
+import java.util.List;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
@@ -64,7 +68,10 @@ class TravelogueServiceTest {
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
         Member author = testHelper.initKakaoMemberTestData();
-        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
         Travelogue createdTravelogue = travelogueService.createTravelogue(author, request);
 

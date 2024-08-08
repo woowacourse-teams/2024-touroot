@@ -57,7 +57,8 @@ class TraveloguePlaceServiceTest {
     @DisplayName("여행기 장소를 생성한다.")
     @Test
     void createPlaces() {
-        List<TraveloguePlaceRequest> requests = TravelogueRequestFixture.getTraveloguePlaceRequests();
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> requests = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
         Member author = testHelper.persistMember();
         Travelogue travelogue = testHelper.persistTravelogue(author);
         TravelogueDay day = testHelper.persistTravelogueDay(travelogue);
