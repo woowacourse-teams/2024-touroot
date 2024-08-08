@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionResponse> handleException(Exception exception) {
         log.error("EXCEPTION :: stackTrace = {}", exception.getStackTrace());
 
-        ExceptionResponse data = new ExceptionResponse(exception.getMessage());
+        ExceptionResponse data = new ExceptionResponse("서버에 문제가 발생했습니다. 투룻에 문의해 주세요.");
         return ResponseEntity.internalServerError()
                 .body(data);
     }
