@@ -25,7 +25,7 @@ const TravelogueTabContent = ({ places }: { places: TraveloguePlace[] }) => {
         />
         <S.BoxContainer>
           {places.map((place, index) => (
-            <Box key={place.placeName} placeName={`${index + 1}. ${place.placeName}`} tags={[]} />
+            <Box key={place.id} placeName={`${index + 1}. ${place.placeName}`} tags={[]} />
           ))}
         </S.BoxContainer>
         <S.Title
@@ -43,7 +43,7 @@ const TravelogueTabContent = ({ places }: { places: TraveloguePlace[] }) => {
         >
           {places.map((place, index) => (
             <PlaceDetailCard
-              key={`${place.placeName}-${index}`}
+              key={`${place.id}-${index}`}
               index={index + 1}
               title={place.placeName}
               imageUrls={place?.photoUrls ?? []}
