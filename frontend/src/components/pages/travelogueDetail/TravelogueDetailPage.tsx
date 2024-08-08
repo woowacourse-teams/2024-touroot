@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import ReactGA from "react-ga4";
 import { useLocation } from "react-router-dom";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
@@ -13,6 +14,8 @@ import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueT
 
 import useClickAway from "@hooks/useClickAway";
 import useUser from "@hooks/useUser";
+
+import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import theme from "@styles/theme";
 
@@ -61,6 +64,15 @@ const TravelogueDetailPage = () => {
   const moreContainerRef = useRef(null);
 
   useClickAway(moreContainerRef, handleCloseMoreDropdown);
+
+  const handleTransform = () => {
+    onTransformTravelDetail(ROUTE_PATHS_MAP.travelPlanRegister, data);
+    ReactGA.event({
+      category: "TransformButton",
+      action: "Click",
+      label: "여행기를 여행 계획으로 전환",
+    });
+  };
 
   if (isLoading) {
     return <TravelogueDetailSkeleton />;
@@ -129,10 +141,7 @@ const TravelogueDetailPage = () => {
           <TravelogueTabContent places={data?.days[selectedIndex]?.places ?? []} />
         )}
       />
-      <TransformBottomSheet
-        onTransform={() => onTransformTravelDetail("/travel-plan/register", data)}
-        buttonLabel="여행 계획으로 전환"
-      >
+      <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행 계획으로 전환">
         이 여행기를 따라가고 싶으신가요?
       </TransformBottomSheet>
       {isDeleteModalOpen && (

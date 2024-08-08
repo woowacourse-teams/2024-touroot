@@ -1,4 +1,5 @@
 import ReactDOM from "react-dom/client";
+import ReactGA from "react-ga4";
 
 import { Global, ThemeProvider } from "@emotion/react";
 
@@ -31,6 +32,8 @@ Sentry.init({
   environment: process.env.NODE_ENV,
   enabled: process.env.NODE_ENV !== "development",
 });
+
+if (process.env.GA4_KEY) ReactGA.initialize(process.env.GA4_KEY);
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import ReactGA from "react-ga4";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import ApiError from "@apis/ApiError";
@@ -81,6 +82,15 @@ const TravelPlanDetailPage = () => {
 
   const shareUrl = `${window.location.origin}${ROUTE_PATHS_MAP.travelPlan(data?.shareKey ?? "")}`;
 
+  const handleTransform = () => {
+    onTransformTravelDetail(ROUTE_PATHS_MAP.travelogueRegister, data);
+    ReactGA.event({
+      category: "TransformButton",
+      action: "Click",
+      label: "여행 계획을 여행기로 전환",
+    });
+  };
+
   const iconButtonContainerRef = useRef(null);
 
   useClickAway(iconButtonContainerRef, handleCloseMoreDropdown);
@@ -148,10 +158,7 @@ const TravelPlanDetailPage = () => {
           <TravelPlansTabContent places={data?.days[selectedIndex]?.places ?? []} />
         )}
       />
-      <TransformBottomSheet
-        onTransform={() => onTransformTravelDetail(ROUTE_PATHS_MAP.travelogueRegister, data)}
-        buttonLabel="여행기로 전환"
-      >
+      <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행기로 전환">
         여행은 즐겁게 다녀오셨나요?
       </TransformBottomSheet>
       {isDeleteModalOpen && (
