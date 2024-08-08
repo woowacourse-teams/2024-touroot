@@ -27,7 +27,7 @@ export const setAuthorizationHeader = (
   config: InternalAxiosRequestConfig,
   accessToken: string | null,
 ) => {
-  if (!config.headers || config.headers.Authorization) return config;
+  if (!config.headers || config.headers.Authorization || !accessToken) return config;
 
   config.headers.Authorization = `Bearer ${accessToken}`;
 
