@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ClientException.class)
     public ResponseEntity<ExceptionResponse> handleClientException(ClientException exception) {
-        log.error("CLIENT_EXCEPTION :: stackTrace = {}", exception.getStackTrace());
+        log.error("CLIENT_EXCEPTION :: stackTrace = ", exception);
 
         ExceptionResponse data = new ExceptionResponse(exception.getMessage());
         return ResponseEntity.internalServerError().body(data);
@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception exception) {
-        log.error("EXCEPTION :: stackTrace = {}", exception.getStackTrace());
+        log.error("EXCEPTION :: stackTrace = ", exception);
 
         ExceptionResponse data = new ExceptionResponse("서버에 문제가 발생했습니다. 투룻에 문의해 주세요.");
         return ResponseEntity.internalServerError()
