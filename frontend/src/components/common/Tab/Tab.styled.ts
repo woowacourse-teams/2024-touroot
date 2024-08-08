@@ -14,7 +14,7 @@ export const TabList = styled.ul`
 `;
 
 export const TabItem = styled.li<{ isSelected: boolean; $tabCount: number }>`
-  flex: 0 0 calc(100% / ${({ $tabCount }) => ($tabCount < 3 ? $tabCount : 3.5)});
+  flex: 0 0 calc(100% / ${({ $tabCount }) => ($tabCount <= 3 ? $tabCount : 3.5)});
   padding: 1rem 2rem;
   border-bottom: 2px solid ${(props) => (props.isSelected ? "#0090ff" : "transparent")};
 

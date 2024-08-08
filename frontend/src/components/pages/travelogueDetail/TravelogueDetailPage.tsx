@@ -8,6 +8,7 @@ import { useGetTravelogue } from "@queries/useGetTravelogue";
 
 import { Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
 import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
+import TravelogueDetailSkeleton from "@components/pages/travelogueDetail/TravelogueDetailSkeleton/TravelogueDetailSkeleton";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
 
 import useClickAway from "@hooks/useClickAway";
@@ -26,6 +27,7 @@ const TravelogueDetailPage = () => {
   const { user } = useUser();
 
   const isAuthor = data?.authorId === user?.memberId;
+  const { data, isLoading } = useGetTravelogue(id);
 
   const daysAndNights =
     data?.days.length && data?.days.length > 1
@@ -57,10 +59,14 @@ const TravelogueDetailPage = () => {
 
   //TODO: 수정 이벤트 추가해야함
   const handleClickReviseButton = () => {};
-
   const moreContainerRef = useRef(null);
 
   useClickAway(moreContainerRef, handleCloseMoreDropdown);
+
+  if (isLoading) {
+    return <TravelogueDetailSkeleton />;
+  }
+
 
   return (
     <>
@@ -72,10 +78,10 @@ const TravelogueDetailPage = () => {
           </Text>
           <S.AuthorDateContainer>
             <Text textType="detail" css={S.authorDateStyle}>
-              작성자
+              {data?.authorNickname}
             </Text>
             <Text textType="detail" css={S.authorDateStyle}>
-              2024-07-15
+              {data?.createdAt}
             </Text>
           </S.AuthorDateContainer>
           <S.IconButtonContainer>
@@ -122,7 +128,7 @@ const TravelogueDetailPage = () => {
       <Tab
         labels={data?.days.map((_, index) => `Day ${index + 1}`) ?? []}
         tabContent={(selectedIndex) => (
-          <TravelogueTabContent places={data?.days[selectedIndex].places ?? []} />
+          <TravelogueTabContent places={data?.days[selectedIndex]?.places ?? []} />
         )}
       />
       <TransformBottomSheet

@@ -14,12 +14,12 @@ const AccordionTrigger = ({ children, onDeleteItem }: AccordionTriggerProps) => 
 
   const label = useAccordionItemContext();
 
-  const isExpanded = value.has(label);
+  const isClosed = !value.has(label);
 
   return (
-    <S.Layout $isExpanded={isExpanded} onClick={() => handleToggleAccordion(label)}>
+    <S.Layout onClick={() => handleToggleAccordion(label)}>
       <S.TitleContainer>
-        <button>{isExpanded ? <UpArrow /> : <DownArrow />}</button>
+        <button>{isClosed ? <UpArrow /> : <DownArrow />}</button>
         <S.Title>{children}</S.Title>
       </S.TitleContainer>
       <button onClick={onDeleteItem} title="delete button">

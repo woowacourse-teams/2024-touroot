@@ -52,6 +52,15 @@ export const PageInfoContainer = styled.div`
   gap: 0.8rem;
 `;
 
+export const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 5.6rem;
+`;
+
 export const addDayButtonStyle = css`
   margin-top: 1.6rem;
+`;
+
+export const loadingButtonStyle = css`
+  margin-top: 3.2rem;
 `;

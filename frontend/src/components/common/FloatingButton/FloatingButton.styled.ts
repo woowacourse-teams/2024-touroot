@@ -9,7 +9,7 @@ export const registerButtonStyle = css`
   position: fixed;
   right: max(2rem, calc(50% - 48rem / 2 + 2rem));
   bottom: 2rem;
-  z-index: 1000;
+  z-index: ${theme.zIndex.floatingButton};
 
   width: 6rem;
   height: 6rem;

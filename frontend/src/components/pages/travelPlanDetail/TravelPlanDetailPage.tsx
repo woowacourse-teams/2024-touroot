@@ -1,5 +1,7 @@
-import { useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import ApiError from "@apis/ApiError";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
@@ -8,13 +10,17 @@ import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
 import { Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
 import ShareModal from "@components/pages/travelPlanDetail/ShareModal/ShareModal";
+import TravelPlanDetailSkeleton from "@components/pages/travelPlanDetail/TravelPlanDetailSkeleton/TravelPlanDetailSkeleton";
 import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlansTabContent/TravelPlansTabContent";
 
 import useClickAway from "@hooks/useClickAway";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractId } from "@utils/extractId";
+import getDateRange from "@utils/getDateRange";
+import { isUUID } from "@utils/uuid";
 
 import theme from "@styles/theme";
 
@@ -28,7 +34,16 @@ const TravelPlanDetailPage = () => {
 
   const id = extractId(location.pathname);
 
-  const { data, status } = useGetTravelPlan(id);
+  const { data, status, error } = useGetTravelPlan(id);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (error instanceof ApiError && error.message === ERROR_MESSAGE_MAP.api.onlyWriter) {
+      alert(error.message);
+      navigate(ROUTE_PATHS_MAP.back);
+    }
+  }, [error, navigate]);
 
   const daysAndNights =
     data?.days.length && data?.days.length > 1
@@ -70,7 +85,9 @@ const TravelPlanDetailPage = () => {
 
   useClickAway(iconButtonContainerRef, handleCloseMoreDropdown);
 
-  if (status === "pending") return <>로딩 중 ... </>;
+  if (status === "pending") return <TravelPlanDetailSkeleton />;
+
+  if (status === "error") return null;
 
   return (
     <>
@@ -85,49 +102,54 @@ const TravelPlanDetailPage = () => {
         <Text textType="title" css={S.titleStyle}>
           {data?.title}
         </Text>
-        <S.IconButtonContainer>
-          <IconButton size="16" iconType="share" onClick={handleToggleShareModal} />
-          <div ref={iconButtonContainerRef}>
-            <IconButton
-              iconType="more"
-              size="16"
-              color={theme.colors.text.secondary}
-              onClick={handleToggleMoreDropdown}
-            />
-            {isDropdownOpen && (
-              <Dropdown size="small" position="right">
-                <Text
-                  textType="detail"
-                  onClick={handleClickReviseButton}
-                  css={S.cursorPointerStyle}
-                >
-                  수정
-                </Text>
-                <Text
-                  textType="detail"
-                  onClick={handleToggleDeleteModal}
-                  css={S.cursorPointerStyle}
-                >
-                  삭제
-                </Text>
-              </Dropdown>
-            )}
-          </div>
-        </S.IconButtonContainer>
+        {!isUUID(id) && (
+          <S.IconButtonContainer>
+            <IconButton size="16" iconType="share" onClick={handleToggleShareModal} />
+            <div ref={iconButtonContainerRef}>
+              <IconButton
+                iconType="more"
+                size="16"
+                color={theme.colors.text.secondary}
+                onClick={handleToggleMoreDropdown}
+              />
+              {isDropdownOpen && (
+                <Dropdown size="small" position="right">
+                  <Text
+                    textType="detail"
+                    onClick={handleClickReviseButton}
+                    css={S.cursorPointerStyle}
+                  >
+                    수정
+                  </Text>
+                  <Text
+                    textType="detail"
+                    onClick={handleToggleDeleteModal}
+                    css={S.cursorPointerStyle}
+                  >
+                    삭제
+                  </Text>
+                </Dropdown>
+              )}
+            </div>
+          </S.IconButtonContainer>
+        )}
       </S.TitleContainer>
 
-      <Text textType="subTitle" css={S.summaryTitleStyle}>
-        {daysAndNights} 여행 계획 한 눈에 보기
-      </Text>
+      <S.TextContainer>
+        <Text textType="subTitle">{daysAndNights} 여행 계획 한 눈에 보기</Text>
+        <Text textType="detail">
+          {getDateRange({ daysLength: data?.days.length, startDate: data?.startDate })}
+        </Text>
+      </S.TextContainer>
 
       <Tab
         labels={data?.days.map((_, index: number) => `Day ${index + 1}`) ?? []}
         tabContent={(selectedIndex) => (
-          <TravelPlansTabContent places={data?.days[selectedIndex].places ?? []} />
+          <TravelPlansTabContent places={data?.days[selectedIndex]?.places ?? []} />
         )}
       />
       <TransformBottomSheet
-        onTransform={() => onTransformTravelDetail("/travelogue/register", data)}
+        onTransform={() => onTransformTravelDetail(ROUTE_PATHS_MAP.travelogueRegister, data)}
         buttonLabel="여행기로 전환"
       >
         여행은 즐겁게 다녀오셨나요?

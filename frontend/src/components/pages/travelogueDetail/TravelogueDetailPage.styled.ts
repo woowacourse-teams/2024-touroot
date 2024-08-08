@@ -6,7 +6,7 @@ import theme from "@styles/theme";
 export const TitleLayout = styled.section`
   display: flex;
   flex-direction: column;
-  margin-top: 5.7rem;
+
   gap: ${({ theme }) => theme.spacing.m};
 `;
 
@@ -38,6 +38,19 @@ export const LikesContainer = styled.div`
   display: flex;
   gap: 0.3rem;
   align-items: center;
+`;
+
+export const MoreContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+
+  width: 100%;
+  gap: ${({ theme }) => theme.spacing.m};
+`;
+
+export const ContentContainer = styled.div`
+  margin-top: 3rem;
 `;
 
 export const titleStyle = css`

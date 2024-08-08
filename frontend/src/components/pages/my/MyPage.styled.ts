@@ -24,6 +24,13 @@ export const BoxButton = styled.button`
   border-radius: 10px;
 `;
 
+export const TabContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: ${(props) => props.theme.spacing.m};
+`;
+
 export const ColorButtonStyle = css`
   display: flex;
   justify-content: flex-start;

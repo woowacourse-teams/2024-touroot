@@ -9,6 +9,8 @@ import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
+import LoginFallback from "./Fallback/LoginFallback";
+
 const KakaoCallbackPage = () => {
   const navigate = useNavigate();
   const { saveUser } = useContext(SaveUserContext);
@@ -36,7 +38,7 @@ const KakaoCallbackPage = () => {
     }
   }, [navigate]);
 
-  return <div>로그인 처리 중...</div>;
+  return <LoginFallback mainText="로그인 처리 중입니다" subText="잠시만 기다려주세요" />;
 };
 
 export default KakaoCallbackPage;

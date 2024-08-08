@@ -8,7 +8,7 @@ export const HeaderLayout = styled.header`
   align-items: center;
   position: fixed;
   top: 0;
-  z-index: 500;
+  z-index: ${({ theme }) => theme.zIndex.header};
 
   width: 100%;
   height: fit-content;

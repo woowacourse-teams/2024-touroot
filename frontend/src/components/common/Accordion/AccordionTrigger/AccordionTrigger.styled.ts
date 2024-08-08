@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const Layout = styled.div<{ $isExpanded: boolean }>`
+export const Layout = styled.div`
   display: flex;
   justify-content: space-between;
   cursor: pointer;

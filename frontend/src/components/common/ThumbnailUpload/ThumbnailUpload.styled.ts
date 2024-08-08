@@ -43,7 +43,7 @@ export const ThumbnailUploadEditButton = styled.button`
 
 export const ThumbnailUploadEditButtonContainer = styled.div`
   position: relative;
-  z-index: 10;
+  z-index: ${({ theme }) => theme.zIndex.default};
   width: 100%;
   height: 100%;
 `;
