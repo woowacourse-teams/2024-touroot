@@ -20,7 +20,7 @@ export const Overlay = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: ${({ theme }) => theme.zIndex.overlay};
+  z-index: ${({ theme }) => theme.zIndex.drawerOverlay};
   width: 100%;
   height: 100%;
 
