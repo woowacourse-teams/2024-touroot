@@ -15,5 +15,6 @@ export const useGetTravelogue = (id: string) => {
 
       return data;
     },
+    retry: 0,
   });
 };
