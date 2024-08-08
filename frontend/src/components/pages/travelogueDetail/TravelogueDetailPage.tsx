@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import ReactGA from "react-ga4";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
@@ -28,8 +28,11 @@ const TravelogueDetailPage = () => {
 
   const { user } = useUser();
 
-  const { data, isLoading } = useGetTravelogue(id);
+  const { data, status, error } = useGetTravelogue(id);
+
   const isAuthor = data?.authorId === user?.memberId;
+
+  const navigate = useNavigate();
 
   const daysAndNights =
     data?.days.length && data?.days.length > 1
@@ -74,8 +77,12 @@ const TravelogueDetailPage = () => {
     });
   };
 
-  if (isLoading) {
-    return <TravelogueDetailSkeleton />;
+  if (status === "pending") return <TravelogueDetailSkeleton />;
+
+  if (status === "error") {
+    alert(error.message);
+    navigate(ROUTE_PATHS_MAP.back);
+    return;
   }
 
   return (
@@ -142,7 +149,9 @@ const TravelogueDetailPage = () => {
         )}
       />
       <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행 계획으로 전환">
-        이 여행기를 따라가고 싶으신가요?
+        <Text textType="detail" css={S.transformBottomSheetTextStyle}>
+          이 여행기를 따라가고 싶으신가요?
+        </Text>
       </TransformBottomSheet>
       {isDeleteModalOpen && (
         <TravelogueDeleteModal

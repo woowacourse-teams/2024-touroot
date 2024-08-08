@@ -97,7 +97,11 @@ const TravelPlanDetailPage = () => {
 
   if (status === "pending") return <TravelPlanDetailSkeleton />;
 
-  if (status === "error") return null;
+  if (status === "error") {
+    alert(error.message);
+    navigate(ROUTE_PATHS_MAP.back);
+    return;
+  }
 
   return (
     <>
@@ -159,7 +163,9 @@ const TravelPlanDetailPage = () => {
         )}
       />
       <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행기로 전환">
-        여행은 즐겁게 다녀오셨나요?
+        <Text textType="detail" css={S.transformBottomSheetTextStyle}>
+          여행은 즐겁게 다녀오셨나요?
+        </Text>
       </TransformBottomSheet>
       {isDeleteModalOpen && (
         <TravelPlanDeleteModal
