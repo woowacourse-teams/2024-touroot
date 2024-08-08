@@ -6,12 +6,12 @@ import * as S from "./AccordionContent.styled";
 const AccordionContent = ({ children }: React.PropsWithChildren) => {
   const { value } = useAccordionContext();
   const label = useAccordionItemContext();
-  const isExpanded = value.has(label);
+  const isClosed = !value.has(label);
 
   return (
-    <S.Layout $isExpanded={isExpanded}>
+    <S.Layout $isClosed={isClosed}>
       <S.Container>
-        <S.Inner $isExpanded={isExpanded}>{children}</S.Inner>
+        <S.Inner $isClosed={isClosed}>{children}</S.Inner>
       </S.Container>
     </S.Layout>
   );

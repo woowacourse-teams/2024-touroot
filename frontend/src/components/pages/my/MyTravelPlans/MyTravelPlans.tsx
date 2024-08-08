@@ -3,15 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
-import addDaysToDateString from "@utils/addDaysToDateString";
 
 import useInfiniteMyTravelPlans from "@queries/useInfiniteMyTravelPlans";
 
 import { IconButton, Text } from "@components/common";
+import MyPageTabContentSkeleton from "@components/pages/my/MyPageTabContentSkeleton/MyPageTabContentSkeleton";
 
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
+
+import addDaysToDateString from "@utils/addDaysToDateString";
 
 import theme from "@styles/theme";
 
@@ -33,7 +35,7 @@ const MyTravelPlans = () => {
     navigate(ROUTE_PATHS_MAP.travelPlan(Number(id)));
   };
 
-  if (status === "pending") return <div>로딩 중...</div>;
+  if (status === "pending") return <MyPageTabContentSkeleton />;
 
   return (
     <>

@@ -5,6 +5,7 @@ import { css } from "@emotion/react";
 import useInfiniteMyTravelogues from "@queries/useInfiniteMyTravelogues";
 
 import { AvatarCircle, Text } from "@components/common";
+import MyPageTabContentSkeleton from "@components/pages/my/MyPageTabContentSkeleton/MyPageTabContentSkeleton";
 
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
 
@@ -29,7 +30,7 @@ const MyTravelogues = () => {
     navigate(ROUTE_PATHS_MAP.travelogue(Number(id)));
   };
 
-  if (status === "pending") return <div>로딩 중...</div>;
+  if (status === "pending") return <MyPageTabContentSkeleton />;
 
   return (
     <>
