@@ -15,12 +15,12 @@ const useDeleteTravelogue = () => {
   return useMutation({
     mutationFn: (id: number) => authClient.delete(API_ENDPOINT_MAP.travelogueDetail(id)),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS_MAP.travelogue.all,
-        refetchType: "inactive",
-      });
-
-      navigation(ROUTE_PATHS_MAP.my);
+      queryClient
+        .invalidateQueries({
+          queryKey: QUERY_KEYS_MAP.travelogue.all,
+          refetchType: "inactive",
+        })
+        .then(() => navigation(ROUTE_PATHS_MAP.my));
     },
     onError: (error) => {
       alert(error.message);
