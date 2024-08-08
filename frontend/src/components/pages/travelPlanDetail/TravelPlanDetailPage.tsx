@@ -13,6 +13,7 @@ import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlan
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractId } from "@utils/extractId";
+import getDateRange from "@utils/getDateRange";
 
 import theme from "@styles/theme";
 
@@ -93,9 +94,12 @@ const TravelPlanDetailPage = () => {
         </S.IconButtonContainer>
       </S.TitleContainer>
 
-      <Text textType="subTitle" css={S.summaryTitleStyle}>
-        {daysAndNights} 여행 계획 한 눈에 보기
-      </Text>
+      <S.TextContainer>
+        <Text textType="subTitle">{daysAndNights} 여행 계획 한 눈에 보기</Text>
+        <Text textType="detail">
+          {getDateRange({ daysLength: data?.days.length, startDate: data?.startDate })}
+        </Text>
+      </S.TextContainer>
 
       <Tab
         labels={data?.days.map((_, index: number) => `Day ${index + 1}`) ?? []}
@@ -104,7 +108,7 @@ const TravelPlanDetailPage = () => {
         )}
       />
       <TransformBottomSheet
-        onTransform={() => onTransformTravelDetail("/travelogue/register", data)}
+        onTransform={() => onTransformTravelDetail(ROUTE_PATHS_MAP.travelogueRegister, data)}
         buttonLabel="여행기로 전환"
       >
         여행은 즐겁게 다녀오셨나요?

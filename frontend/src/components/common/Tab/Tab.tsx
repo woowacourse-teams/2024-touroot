@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, useRef, useState } from "react";
+import { ComponentPropsWithoutRef, useEffect, useRef, useState } from "react";
 
 import { STORAGE_KEYS_MAP } from "@constants/storage";
 
@@ -13,9 +13,21 @@ interface TabProps extends React.PropsWithChildren<ComponentPropsWithoutRef<"ul"
 const Tab = ({ labels, tabContent, ...props }: TabProps) => {
   const [selectedIndex, setSelectedIndex] = useState(() =>
     JSON.parse(
-      localStorage.getItem(STORAGE_KEYS_MAP.myPageSelectedTab) ?? FIRST_TAB_INDEX.toString(),
+      localStorage.getItem(STORAGE_KEYS_MAP.selectedTabIndex) ?? FIRST_TAB_INDEX.toString(),
     ),
   );
+
+  useEffect(() => {
+    const storedIndex = localStorage.getItem(STORAGE_KEYS_MAP.selectedTabIndex);
+    if (storedIndex !== null) {
+      setSelectedIndex(parseInt(storedIndex));
+    }
+
+    return () => {
+      localStorage.setItem(STORAGE_KEYS_MAP.selectedTabIndex, FIRST_TAB_INDEX.toString());
+    };
+  }, []);
+
   const tabRefs = useRef<(HTMLLIElement | null)[]>([]);
   const tabListRef = useRef<HTMLUListElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -24,7 +36,7 @@ const Tab = ({ labels, tabContent, ...props }: TabProps) => {
 
   const handleClickTab = (index: number) => {
     setSelectedIndex(index);
-    localStorage.setItem(STORAGE_KEYS_MAP.myPageSelectedTab, JSON.stringify(index));
+    localStorage.setItem(STORAGE_KEYS_MAP.selectedTabIndex, JSON.stringify(index));
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
