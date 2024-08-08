@@ -63,9 +63,11 @@ const TravelPlanRegisterPage = () => {
   const navigate = useNavigate();
 
   const handleConfirmBottomSheet = async () => {
-    if (!startDate) return;
-
-    const formattedStartDate = startDate.toISOString().split("T")[0];
+    const formattedStartDate = startDate
+      ? new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
+          .toISOString()
+          .split("T")[0]
+      : "";
 
     handleAddTravelPlan(
       { title, startDate: formattedStartDate, days: travelPlanDays },
@@ -76,10 +78,11 @@ const TravelPlanRegisterPage = () => {
         },
       },
     );
+
     handleCloseBottomSheet();
   };
 
-  const { mutateAsync: handleAddTravelPlan } = usePostTravelPlan();
+  const { mutate: handleAddTravelPlan } = usePostTravelPlan();
 
   const { user } = useUser();
 
@@ -136,7 +139,22 @@ const TravelPlanRegisterPage = () => {
           )}
         </S.StartDateContainer>
         <S.AccordionRootContainer>
-          <GoogleMapLoadScript libraries={["places", "maps"]}>
+          <GoogleMapLoadScript
+            loadingElement={
+              <S.LoadingWrapper>
+                <IconButton
+                  size="16"
+                  iconType="plus"
+                  position="left"
+                  css={[S.addButtonStyle, S.addDayButtonStyle, S.loadingButtonStyle]}
+                  onClick={() => onAddDay()}
+                >
+                  일자 추가하기
+                </IconButton>
+              </S.LoadingWrapper>
+            }
+            libraries={["places", "maps"]}
+          >
             <Accordion.Root>
               {travelPlanDays.map((travelDay, dayIndex) => (
                 <TravelPlanDayAccordion

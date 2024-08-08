@@ -24,11 +24,13 @@ Sentry.init({
 
   // Performance Monitoring
   tracesSampleRate: 1.0,
-  tracePropagationTargets: ["localhost", /^http:\/\/(dev\.)?touroot\.com$/],
 
   // Session Replay
   replaysSessionSampleRate: 1.0,
   replaysOnErrorSampleRate: 1.0,
+
+  environment: process.env.NODE_ENV,
+  enabled: process.env.NODE_ENV !== "development",
 });
 
 if (process.env.GA4_KEY) ReactGA.initialize(process.env.GA4_KEY);

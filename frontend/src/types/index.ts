@@ -1,6 +1,6 @@
 export interface TravelogueOverview {
   id: number;
-  userAvatar: string;
+  authorProfileUrl: string;
   title: string;
   thumbnail: string;
   likes: number;

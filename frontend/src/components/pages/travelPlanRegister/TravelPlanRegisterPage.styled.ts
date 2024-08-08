@@ -46,6 +46,11 @@ export const DayDetailText = styled.span`
   color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
+export const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 5.6rem;
+`;
+
 export const addDayButtonStyle = css`
   margin-top: 1.6rem;
 `;
@@ -81,4 +86,8 @@ export const addTravelAddButtonStyle = css`
   font-weight: 700;
   font-size: 1.6rem;
   gap: ${SPACING.s};
+`;
+
+export const loadingButtonStyle = css`
+  margin-top: 3.2rem;
 `;

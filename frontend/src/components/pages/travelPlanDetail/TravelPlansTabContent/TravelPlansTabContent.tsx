@@ -1,6 +1,7 @@
 import type { TravelPlanPlace } from "@type/domain/travelPlan";
 
 import { Box, GoogleMapLoadScript, GoogleMapView } from "@components/common";
+import Skeleton from "@components/common/Skeleton/Skeleton";
 
 import * as S from "./TravelPlansTabContent.styled";
 
@@ -13,7 +14,10 @@ const TravelPlansTabContent = ({ places }: { places: TravelPlanPlace[] }) => {
 
   return (
     <div>
-      <GoogleMapLoadScript libraries={["places", "maps"]}>
+      <GoogleMapLoadScript
+        loadingElement={<Skeleton width="100%" height="23rem" />}
+        libraries={["places", "maps"]}
+      >
         <GoogleMapView places={positions} />
       </GoogleMapLoadScript>
       <S.BoxContainer>

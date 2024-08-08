@@ -6,7 +6,7 @@ import theme from "@styles/theme";
 export const TitleLayout = styled.section`
   display: flex;
   flex-direction: column;
-  margin-top: 5.7rem;
+
   gap: ${({ theme }) => theme.spacing.m};
 `;
 
@@ -27,8 +27,11 @@ export const AuthorDateContainer = styled.div`
 
 export const IconButtonContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  position: relative;
+
+  width: 100%;
 `;
 
 export const LikesContainer = styled.div`
@@ -44,6 +47,10 @@ export const MoreContainer = styled.div`
 
   width: 100%;
   gap: ${({ theme }) => theme.spacing.m};
+`;
+
+export const ContentContainer = styled.div`
+  margin-top: 3rem;
 `;
 
 export const titleStyle = css`

@@ -27,7 +27,14 @@ const Header = () => {
       : () => navigate(ROUTE_PATHS_MAP.back);
 
   const handleClickLogout = () => {
-    saveUser({ accessToken: "" });
+    if (
+      pathName.includes(ROUTE_PATHS_MAP.travelPlan().split("/").shift()!) ||
+      pathName.includes(ROUTE_PATHS_MAP.my)
+    ) {
+      navigate(ROUTE_PATHS_MAP.login);
+    }
+
+    saveUser({ accessToken: "", memberId: 0 });
   };
   const handleClickMyPage = () => navigate(ROUTE_PATHS_MAP.my);
 

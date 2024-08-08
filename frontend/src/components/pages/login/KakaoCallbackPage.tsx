@@ -1,13 +1,15 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { SaveUserContext } from "@contexts/UserProvider";
-
 import { client } from "@apis/client";
+
+import { SaveUserContext } from "@contexts/UserProvider";
 
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
+
+import LoginFallback from "./Fallback/LoginFallback";
 
 const KakaoCallbackPage = () => {
   const navigate = useNavigate();
@@ -23,7 +25,7 @@ const KakaoCallbackPage = () => {
       client
         .post(API_ENDPOINT_MAP.loginOauth(code, encodedRedirectUri))
         .then((res) => {
-          saveUser({ accessToken: res.data.accessToken });
+          saveUser({ accessToken: res.data.accessToken, memberId: res.data.memberId });
           navigate(ROUTE_PATHS_MAP.root);
         })
         .catch(() => {
@@ -36,7 +38,7 @@ const KakaoCallbackPage = () => {
     }
   }, [navigate]);
 
-  return <div>로그인 처리 중...</div>;
+  return <LoginFallback mainText="로그인 처리 중입니다" subText="잠시만 기다려주세요" />;
 };
 
 export default KakaoCallbackPage;
