@@ -30,10 +30,10 @@ const MainPage = () => {
         </S.MainPageTraveloguesList>
       )}
       <S.MainPageTraveloguesList>
-        {travelogues.map(({ authorProfileImageUrl, id, title, thumbnail, likes }) => (
+        {travelogues.map(({ authorProfileUrl, id, title, thumbnail, likes }) => (
           <TravelogueCard
             key={id}
-            travelogueOverview={{ authorProfileImageUrl, id, title, thumbnail, likes }}
+            travelogueOverview={{ authorProfileUrl, id, title, thumbnail, likes }}
           />
         ))}
       </S.MainPageTraveloguesList>

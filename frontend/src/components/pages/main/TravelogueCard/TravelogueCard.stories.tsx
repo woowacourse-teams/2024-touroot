@@ -32,8 +32,7 @@ export const Default: Story = {
   args: {
     travelogueOverview: {
       id: 1,
-      authorProfileImageUrl:
-        "https://i.pinimg.com/564x/c0/d6/5e/c0d65ef2ff5b3e752b70fe54d94d6206.jpg",
+      authorProfileUrl: "https://i.pinimg.com/564x/c0/d6/5e/c0d65ef2ff5b3e752b70fe54d94d6206.jpg",
       title: "갱얼쥐랑 캠핑 🐶",
       thumbnail: "https://i.pinimg.com/564x/20/bb/6d/20bb6d47bb88b8df862520c19c18600a.jpg",
       likes: 10,
@@ -45,8 +44,7 @@ export const WithInvalidThumbnail: Story = {
   args: {
     travelogueOverview: {
       id: 1,
-      authorProfileImageUrl:
-        "https://i.pinimg.com/564x/c0/d6/5e/c0d65ef2ff5b3e752b70fe54d94d6206.jpg",
+      authorProfileUrl: "https://i.pinimg.com/564x/c0/d6/5e/c0d65ef2ff5b3e752b70fe54d94d6206.jpg",
       title: "갱얼쥐랑 캠핑 🐶",
       thumbnail: "invalidUrl",
       likes: 10,
