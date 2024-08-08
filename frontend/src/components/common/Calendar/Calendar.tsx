@@ -57,11 +57,11 @@ const Calendar = ({ onSelectDate, onClose }: CalendarProps) => {
         ))}
       </S.WeekdayHeaderContainer>
       <S.DaysGridContainer>
-        {calendarDetail.days.map(({ date, isCurrentMonth }, index) => {
+        {calendarDetail.days.map(({ date, isCurrentMonth }) => {
           const isSelectable = isCurrentMonth && date >= today;
           return (
             <S.DayCell
-              key={index}
+              key={date.getDate()}
               $isCurrentMonth={isCurrentMonth}
               $isSelectable={isSelectable}
               onClick={() => isSelectable && onSelectDate(date)}
