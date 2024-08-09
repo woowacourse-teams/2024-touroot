@@ -24,21 +24,21 @@ export const DrawHeaderContainer = styled.div`
 `;
 
 export const MenuItem = styled.li`
-  ${(props) => props.theme.typography.mobile.bodyBold}
+  ${(props) => props.theme.typography.mobile.bodyBold};
+  padding: ${({ theme }) => theme.spacing.s};
+  cursor: pointer;
 `;
 
 export const MenuList = styled.ul`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 4rem;
+  gap: ${({ theme }) => theme.spacing.l};
 
   width: 100%;
   padding: 1.6rem;
 
   background-color: ${PRIMITIVE_COLORS.white};
-
-  cursor: pointer;
 `;
 
 export const HeaderTitle = styled.span`

@@ -36,7 +36,10 @@ const Header = () => {
 
     saveUser({ accessToken: "", memberId: 0 });
   };
+
   const handleClickMyPage = () => navigate(ROUTE_PATHS_MAP.my);
+
+  const handleClickHome = () => navigate(ROUTE_PATHS_MAP.root);
 
   return (
     <Drawer>
@@ -67,6 +70,9 @@ const Header = () => {
       </Drawer.Header>
       <Drawer.Content>
         <S.MenuList>
+          <Drawer.Trigger>
+            <S.MenuItem onClick={handleClickHome}>홈</S.MenuItem>
+          </Drawer.Trigger>
           <Drawer.Trigger>
             <S.MenuItem onClick={handleClickMyPage}>마이페이지</S.MenuItem>
           </Drawer.Trigger>

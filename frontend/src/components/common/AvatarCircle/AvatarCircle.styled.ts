@@ -37,11 +37,11 @@ export const AvatarCircleContainer = styled.div<{ $size: AvatarCircleSize }>`
   width: ${({ $size }) => getSize($size)};
   height: ${({ $size }) => getSize($size)};
   border-radius: 50%;
-  object-fit: cover;
-  object-position: center;
 
   img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 `;
