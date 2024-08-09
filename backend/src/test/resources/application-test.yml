@@ -9,6 +9,9 @@ security:
     token:
       secret-key: test-TADG67STFSDAGSDFSG4567UTKJHFHSDFGSR231DF
       expire-length: 1800000
+    refresh:
+      secret-key: test-TADG67STFSDAGSDFSG4567UTKJHFHSDFGSR231DF
+      expire-length: 1209600000
 cloud:
   aws:
     s3:

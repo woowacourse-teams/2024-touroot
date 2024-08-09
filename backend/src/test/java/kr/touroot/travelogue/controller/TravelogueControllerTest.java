@@ -72,7 +72,7 @@ class TravelogueControllerTest {
 
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
         Member member = testHelper.initKakaoMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(member.getId());
+        String accessToken = jwtTokenProvider.createToken(member.getId()).accessToken();
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -141,7 +141,7 @@ class TravelogueControllerTest {
     void deleteTravelogue() {
         Member member = testHelper.initKakaoMemberTestData();
         testHelper.initTravelogueTestData(member);
-        String accessToken = jwtTokenProvider.createToken(member.getId());
+        String accessToken = jwtTokenProvider.createToken(member.getId()).accessToken();
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
@@ -154,7 +154,7 @@ class TravelogueControllerTest {
     @Test
     void deleteTravelogueWithNonExist() {
         Member member = testHelper.initKakaoMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(member.getId());
+        String accessToken = jwtTokenProvider.createToken(member.getId()).accessToken();
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
@@ -169,7 +169,7 @@ class TravelogueControllerTest {
     void deleteTravelogueWithNotAuthor() {
         Travelogue travelogue = testHelper.initTravelogueTestData();
         Member notAuthor = testHelper.initKakaoMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(notAuthor.getId());
+        String accessToken = jwtTokenProvider.createToken(notAuthor.getId()).accessToken();
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
