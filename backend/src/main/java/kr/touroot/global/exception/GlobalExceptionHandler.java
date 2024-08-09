@@ -70,4 +70,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.internalServerError()
                 .body(data);
     }
+
+    @ExceptionHandler(S3UploadException.class)
+    public ResponseEntity<ExceptionResponse> handleS3UploadException(S3UploadException exception) {
+        log.warn("S3_UPLOAD_EXCEPTION :: message = {}", exception.getMessage());
+
+        ExceptionResponse data = new ExceptionResponse("이미지 업로드에 실패했습니다.");
+        return ResponseEntity.badRequest()
+                .body(data);
+    }
 }
