@@ -61,7 +61,7 @@ public class KakaoOauthClient {
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + kakaoAccessTokenResponse.accessToken())
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, this::handleClientError)
-                .onStatus(statusCode -> !statusCode.isError(), this::handleSuccessLogging)
+                .onStatus(HttpStatusCode::is2xxSuccessful, this::handleSuccessLogging)
                 .toEntity(OauthUserInformationResponse.class)
                 .getBody();
     }
