@@ -1,6 +1,6 @@
 import type { TravelPlanPlace } from "@type/domain/travelPlan";
 
-import { Box, GoogleMapLoadScript, GoogleMapView } from "@components/common";
+import { Box, GoogleMapLoadScript, GoogleMapView, Text } from "@components/common";
 import Skeleton from "@components/common/Skeleton/Skeleton";
 
 import * as S from "./TravelPlansTabContent.styled";
@@ -22,7 +22,16 @@ const TravelPlansTabContent = ({ places }: { places: TravelPlanPlace[] }) => {
       </GoogleMapLoadScript>
       <S.BoxContainer>
         {places.map((place, index) => (
-          <Box key={place.id} placeName={`${index + 1}. ${place.placeName}`} tags={[]} />
+          <Box
+            css={S.boxStyle}
+            key={place.id}
+            placeName={`${index + 1}. ${place.placeName}`}
+            tags={[]}
+          >
+            <Text css={S.textStyle} textType="detail">
+              {place.description}
+            </Text>
+          </Box>
         ))}
       </S.BoxContainer>
     </div>

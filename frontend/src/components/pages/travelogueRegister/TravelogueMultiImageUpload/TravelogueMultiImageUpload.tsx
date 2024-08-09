@@ -6,6 +6,8 @@ import { MutateOptions } from "@tanstack/react-query";
 
 import { MultiImageUpload } from "@components/common";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+
 const TravelogueMultiImageUpload = ({
   dayIndex,
   placeIndex,
@@ -36,6 +38,12 @@ const TravelogueMultiImageUpload = ({
       fileInputRef={fileInputRef}
       onImageChange={async (e) => {
         const files = Array.from(e.target.files as FileList);
+
+        if (imageUrls.length + files.length > 10) {
+          alert(ERROR_MESSAGE_MAP.imageUpload);
+          return;
+        }
+
         const imgUrls = await onRequestAddImage(files);
         onChangeImageUrls(dayIndex, placeIndex, imgUrls);
       }}

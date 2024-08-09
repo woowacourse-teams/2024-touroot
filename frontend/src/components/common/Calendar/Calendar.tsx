@@ -61,7 +61,7 @@ const Calendar = ({ onSelectDate, onClose }: CalendarProps) => {
           const isSelectable = isCurrentMonth && date >= today;
           return (
             <S.DayCell
-              key={date.getDate()}
+              key={date.toString()}
               $isCurrentMonth={isCurrentMonth}
               $isSelectable={isSelectable}
               onClick={() => isSelectable && onSelectDate(date)}

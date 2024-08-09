@@ -1,3 +1,5 @@
+import React from "react";
+
 import * as S from "./Box.styled";
 
 interface BoxProps {
@@ -5,15 +7,23 @@ interface BoxProps {
   tags: string[];
 }
 
-const Box = ({ placeName, tags }: BoxProps) => {
+const Box = ({
+  children,
+  placeName,
+  tags,
+  ...props
+}: React.ComponentPropsWithoutRef<"div"> & React.PropsWithChildren<BoxProps>) => {
   return (
-    <S.Box>
-      <S.PlaceName>{placeName}</S.PlaceName>
-      <S.TagList>
-        {tags.map((tag) => (
-          <S.Tag key={tag}>{`#${tag}`}</S.Tag>
-        ))}
-      </S.TagList>
+    <S.Box {...props}>
+      <>
+        <S.PlaceName>{placeName}</S.PlaceName>
+        <S.TagList>
+          {tags.map((tag) => (
+            <S.Tag key={tag}>{`#${tag}`}</S.Tag>
+          ))}
+        </S.TagList>
+      </>
+      {children}
     </S.Box>
   );
 };
