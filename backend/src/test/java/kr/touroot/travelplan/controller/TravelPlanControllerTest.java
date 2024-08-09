@@ -159,7 +159,8 @@ class TravelPlanControllerTest {
         // given
         long id = testHelper.initTravelPlanTestData(member).getId();
         Member notAuthor = testHelper.initMemberTestData();
-        String notAuthorAccessToken = jwtTokenProvider.createToken(notAuthor.getId()).accessToken();
+        String notAuthorAccessToken = jwtTokenProvider.createToken(notAuthor.getId())
+                .accessToken();
 
         // when & then
         RestAssured.given().log().all()
@@ -177,7 +178,6 @@ class TravelPlanControllerTest {
     void readTravelPlanByShareKey() {
         // given
         TravelPlan travelPlan = testHelper.initTravelPlanTestData(member);
-        String accessToken = jwtTokenProvider.createToken(member.getId()).accessToken();
 
         // when & then
         RestAssured.given().log().all()
@@ -196,7 +196,8 @@ class TravelPlanControllerTest {
         // given
         TravelPlan travelPlan = testHelper.initTravelPlanTestData(member);
         Member notAuthor = testHelper.initMemberTestData();
-        String notAuthorAccessToken = jwtTokenProvider.createToken(notAuthor.getId()).accessToken();
+        String notAuthorAccessToken = jwtTokenProvider.createToken(notAuthor.getId())
+                .accessToken();
 
         // when & then
         RestAssured.given().log().all()
@@ -230,8 +231,7 @@ class TravelPlanControllerTest {
     @Test
     void readTravelPlanByInvalidShareKey() {
         // given
-        TravelPlan travelPlan = testHelper.initTravelPlanTestData(member);
-        String accessToken = jwtTokenProvider.createToken(member.getId()).accessToken();
+        testHelper.initTravelPlanTestData(member);
 
         // when & then
         RestAssured.given().log().all()
@@ -248,7 +248,6 @@ class TravelPlanControllerTest {
     @Test
     void deleteTravelPlan() {
         long id = testHelper.initTravelPlanTestData(member).getId();
-        String accessToken = jwtTokenProvider.createToken(member.getId()).accessToken();
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
@@ -261,7 +260,6 @@ class TravelPlanControllerTest {
     @Test
     void deleteTravelPlanWithNonExist() {
         long id = 1L;
-        String accessToken = jwtTokenProvider.createToken(member.getId()).accessToken();
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
