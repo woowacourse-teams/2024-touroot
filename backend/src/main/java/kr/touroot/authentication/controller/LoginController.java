@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kr.touroot.authentication.dto.request.LoginRequest;
+import kr.touroot.authentication.dto.request.TokenReissueRequest;
 import kr.touroot.authentication.dto.response.LoginResponse;
 import kr.touroot.authentication.service.LoginService;
 import kr.touroot.global.exception.dto.ExceptionResponse;
@@ -64,5 +65,10 @@ public class LoginController {
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok()
                 .body(loginService.login(request));
+    }
+
+    @PostMapping("/reissue-token")
+    public ResponseEntity<LoginResponse> reissueToken(@Valid @RequestBody TokenReissueRequest request) {
+        return ResponseEntity.ok(loginService.reissueToken(request));
     }
 }

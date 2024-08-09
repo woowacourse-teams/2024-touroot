@@ -50,10 +50,18 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String decode(String token) {
+    public String decodeAccessToken(String token) {
+        return decode(token, accessSecretKey);
+    }
+
+    public String decodeRefreshToken(String token) {
+        return decode(token, refreshSecretKey);
+    }
+
+    private String decode(String token, String secretKey) {
         try {
             return Jwts.parserBuilder()
-                    .setSigningKey(accessSecretKey.getBytes(StandardCharsets.UTF_8))
+                    .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
                     .build()
                     .parseClaimsJws(token)
                     .getBody()

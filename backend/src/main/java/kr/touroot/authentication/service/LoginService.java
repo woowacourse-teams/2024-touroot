@@ -3,6 +3,7 @@ package kr.touroot.authentication.service;
 import kr.touroot.authentication.dto.request.LoginRequest;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import kr.touroot.authentication.dto.request.TokenReissueRequest;
 import kr.touroot.authentication.dto.response.LoginResponse;
 import kr.touroot.authentication.dto.response.OauthUserInformationResponse;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
@@ -40,6 +41,14 @@ public class LoginService {
         String encryptPassword = passwordEncryptor.encrypt(request.password());
         Member member = memberRepository.findByEmailAndPassword(request.email(), encryptPassword)
                 .orElseThrow(() -> new BadRequestException("잘못된 이메일 또는 비밀번호입니다."));
+
+        return LoginResponse.of(member, tokenProvider.createToken(member.getId()));
+    }
+
+    public LoginResponse reissueToken(TokenReissueRequest request) {
+        String memberId = tokenProvider.decodeRefreshToken(request.refreshToken());
+        Member member = memberRepository.findById(Long.valueOf(memberId))
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 사용자입니다."));
 
         return LoginResponse.of(member, tokenProvider.createToken(member.getId()));
     }
