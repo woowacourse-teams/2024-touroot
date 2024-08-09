@@ -63,7 +63,7 @@ const TravelogueDetailPage = () => {
   };
 
   //TODO: 수정 이벤트 추가해야함
-  const handleClickReviseButton = () => {};
+  // const handleClickReviseButton = () => {};
   const moreContainerRef = useRef(null);
 
   useClickAway(moreContainerRef, handleCloseMoreDropdown);
@@ -90,7 +90,7 @@ const TravelogueDetailPage = () => {
       <S.TitleLayout>
         <Thumbnail imageUrl={data?.thumbnail} />
         <S.TitleContainer>
-          <Text textType="subTitle" css={S.titleStyle}>
+          <Text textType="title" css={S.titleStyle}>
             {data?.title}
           </Text>
           <S.AuthorDateContainer>
@@ -117,13 +117,13 @@ const TravelogueDetailPage = () => {
                 />
                 {isDropdownOpen && (
                   <Dropdown size="small" position="right">
-                    <Text
+                    {/* <Text
                       textType="detail"
                       onClick={handleClickReviseButton}
                       css={S.cursorPointerStyle}
                     >
                       수정
-                    </Text>
+                    </Text> */}
                     <Text
                       textType="detail"
                       onClick={handleToggleDeleteModal}
@@ -137,7 +137,7 @@ const TravelogueDetailPage = () => {
             )}
           </S.IconButtonContainer>
 
-          <Text textType="title" css={S.summaryTitleStyle}>
+          <Text textType="subTitle" css={S.summaryTitleStyle}>
             {daysAndNights} 여행 한눈에 보기
           </Text>
         </S.TitleContainer>
