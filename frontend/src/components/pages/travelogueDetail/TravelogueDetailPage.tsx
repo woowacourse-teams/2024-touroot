@@ -90,7 +90,7 @@ const TravelogueDetailPage = () => {
       <S.TitleLayout>
         <Thumbnail imageUrl={data?.thumbnail} />
         <S.TitleContainer>
-          <Text textType="subTitle" css={S.titleStyle}>
+          <Text textType="title" css={S.titleStyle}>
             {data?.title}
           </Text>
           <S.AuthorDateContainer>
@@ -137,7 +137,7 @@ const TravelogueDetailPage = () => {
             )}
           </S.IconButtonContainer>
 
-          <Text textType="title" css={S.summaryTitleStyle}>
+          <Text textType="subTitle" css={S.summaryTitleStyle}>
             {daysAndNights} 여행 한눈에 보기
           </Text>
         </S.TitleContainer>
