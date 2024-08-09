@@ -1,5 +1,6 @@
 package kr.touroot.travelplan.service;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -47,7 +48,7 @@ public class TravelPlanService {
     public TravelPlanCreateResponse createTravelPlan(TravelPlanCreateRequest request, MemberAuth memberAuth) {
         Member author = getMemberByMemberAuth(memberAuth);
         TravelPlan travelPlan = request.toTravelPlan(author, UUID.randomUUID());
-        validStartDate(travelPlan);
+        validateTravelPlan(travelPlan);
 
         TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);
         createPlanDay(request.days(), savedTravelPlan);
@@ -55,8 +56,8 @@ public class TravelPlanService {
         return new TravelPlanCreateResponse(savedTravelPlan.getId());
     }
 
-    private void validStartDate(TravelPlan travelPlan) {
-        if (!travelPlan.isValidStartDate()) {
+    private void validateTravelPlan(TravelPlan travelPlan) {
+        if (travelPlan.isStartDateBefore(LocalDate.now())) {
             throw new BadRequestException("지난 날짜에 대한 계획은 작성할 수 없습니다.");
         }
     }
@@ -94,9 +95,15 @@ public class TravelPlanService {
     public TravelPlanResponse readTravelPlan(Long planId, MemberAuth memberAuth) {
         TravelPlan travelPlan = getTravelPlanById(planId);
         Member member = getMemberByMemberAuth(memberAuth);
-        validateAuthor(travelPlan, member);
+        validateReadByAuthor(travelPlan, member);
 
         return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
+    }
+
+    private void validateReadByAuthor(TravelPlan travelPlan, Member member) {
+        if (!travelPlan.isAuthor(member)) {
+            throw new ForbiddenException("여행 계획 조회는 작성자만 가능합니다.");
+        }
     }
 
     @Transactional(readOnly = true)
@@ -104,12 +111,6 @@ public class TravelPlanService {
         TravelPlan travelPlan = getTravelPlanByShareKey(shareKey);
 
         return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
-    }
-
-    private void validateAuthor(TravelPlan travelPlan, Member member) {
-        if (!travelPlan.isAuthor(member)) {
-            throw new ForbiddenException("여행 계획은 작성자만 조회할 수 있습니다.");
-        }
     }
 
     private TravelPlan getTravelPlanById(Long planId) {
@@ -120,6 +121,10 @@ public class TravelPlanService {
     private TravelPlan getTravelPlanByShareKey(UUID shareKey) {
         return travelPlanRepository.findByShareKey(shareKey)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행 계획입니다."));
+    }
+
+    public TravelPlanResponse getTravelPlanResponse(TravelPlan travelPlan) {
+        return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
     }
 
     private List<TravelPlanDayResponse> getTravelPlanDayResponses(TravelPlan travelPlan) {
@@ -155,5 +160,22 @@ public class TravelPlanService {
     public int calculateTravelPeriod(TravelPlan travelPlan) {
         return travelPlanDayRepository.findByPlan(travelPlan)
                 .size();
+    }
+
+    @Transactional
+    public void deleteByTravelPlanId(Long planId, MemberAuth memberAuth) {
+        TravelPlan travelPlan = getTravelPlanById(planId);
+        Member author = getMemberByMemberAuth(memberAuth);
+        validateDeleteByAuthor(travelPlan, author);
+
+        travelPlanPlaceRepository.deleteByDayPlan(travelPlan);
+        travelPlanDayRepository.deleteByPlan(travelPlan);
+        travelPlanRepository.delete(travelPlan);
+    }
+
+    private void validateDeleteByAuthor(TravelPlan travelPlan, Member member) {
+        if (!travelPlan.isAuthor(member)) {
+            throw new ForbiddenException("여행 계획 삭제는 작성자만 가능합니다.");
+        }
     }
 }

@@ -13,6 +13,7 @@ import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
+import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.service.TravelogueFacadeService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,11 +92,35 @@ public class TravelogueController {
     })
     @PageableAsQueryParam
     @GetMapping
-    public ResponseEntity<Page<TravelogueResponse>> findMainPageTravelogues(
+    public ResponseEntity<Page<TravelogueSimpleResponse>> findMainPageTravelogues(
             @Parameter(hidden = true)
             @PageableDefault(size = 5, sort = "id", direction = Direction.DESC)
             Pageable pageable
     ) {
-        return ResponseEntity.ok(travelogueFacadeService.findTravelogues(pageable));
+        return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(pageable));
+    }
+
+    @Operation(summary = "여행기 삭제")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "존재하지 않는 여행기 ID로 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "작성자가 아닌 사용자가 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTravelogue(@PathVariable Long id, MemberAuth memberAuth) {
+        travelogueFacadeService.deleteTravelogueById(id, memberAuth);
+        return ResponseEntity.noContent()
+                .build();
     }
 }

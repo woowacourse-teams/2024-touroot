@@ -7,12 +7,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import java.util.List;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
+import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
+import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
+import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
@@ -68,8 +75,11 @@ class TravelogueControllerTest {
         Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
-        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
-        Member member = testHelper.initMemberTestData();
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
+        Member member = testHelper.initKakaoMemberTestData();
         String accessToken = jwtTokenProvider.createToken(member.getId());
 
         RestAssured.given().log().all()
@@ -82,10 +92,38 @@ class TravelogueControllerTest {
                 .header("Location", "/api/v1/travelogues/1");
     }
 
+    @DisplayName("최대 업로드 가능 개수 이상의 사진을 포함한 여행기를 작성하면 예외가 발생한다.")
+    @Test
+    void createTravelogueWithOver10PhotosEachPlaces() throws JsonProcessingException {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
+
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequestsOverLimit();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
+        Member member = testHelper.initKakaoMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(member.getId());
+
+        ExceptionResponse response = new ExceptionResponse("여행기 장소 사진은 최대 10개입니다.");
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .body(request)
+                .when().post("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(400).assertThat()
+                .body(is(objectMapper.writeValueAsString(response)));
+    }
+
     @DisplayName("여행기를 작성할 때 로그인 되어 있지 않으면 예외가 발생한다.")
     @Test
     void createTravelogueWithNotLoginThrowException() {
-        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -113,7 +151,7 @@ class TravelogueControllerTest {
     @Test
     void findMainPageTravelogues() throws JsonProcessingException {
         testHelper.initTravelogueTestData();
-        Page<TravelogueResponse> responses = TravelogueResponseFixture.getTravelogueResponses();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         RestAssured.given().log().all()
                 .accept(ContentType.JSON)
@@ -132,5 +170,48 @@ class TravelogueControllerTest {
                 .then().log().all()
                 .statusCode(400).assertThat()
                 .body("message", is("존재하지 않는 여행기입니다."));
+    }
+
+    @DisplayName("여행기를 삭제한다.")
+    @Test
+    void deleteTravelogue() {
+        Member member = testHelper.initKakaoMemberTestData();
+        testHelper.initTravelogueTestData(member);
+        String accessToken = jwtTokenProvider.createToken(member.getId());
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().delete("/api/v1/travelogues/1")
+                .then().log().all()
+                .statusCode(204);
+    }
+
+    @DisplayName("존재하지 않는 여행기 삭제시 400를 응답한다.")
+    @Test
+    void deleteTravelogueWithNonExist() {
+        Member member = testHelper.initKakaoMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(member.getId());
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().delete("/api/v1/travelogues/1")
+                .then().log().all()
+                .statusCode(400)
+                .body("message", is("존재하지 않는 여행기입니다."));
+    }
+
+    @DisplayName("작성자가 아닌 사용자가 여행기 삭제시 403을 응답한다.")
+    @Test
+    void deleteTravelogueWithNotAuthor() {
+        Travelogue travelogue = testHelper.initTravelogueTestData();
+        Member notAuthor = testHelper.initKakaoMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(notAuthor.getId());
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().delete("/api/v1/travelogues/" + travelogue.getId())
+                .then().log().all()
+                .statusCode(403)
+                .body("message", is("여행기 삭제는 작성자만 가능합니다."));
     }
 }

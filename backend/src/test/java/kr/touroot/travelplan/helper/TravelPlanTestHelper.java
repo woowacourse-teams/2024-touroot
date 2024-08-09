@@ -1,6 +1,8 @@
 package kr.touroot.travelplan.helper;
 
+import java.time.LocalDate;
 import java.util.UUID;
+import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
@@ -13,8 +15,6 @@ import kr.touroot.travelplan.repository.TravelPlanPlaceRepository;
 import kr.touroot.travelplan.repository.TravelPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
 
 @Component
 public class TravelPlanTestHelper {
@@ -40,8 +40,8 @@ public class TravelPlanTestHelper {
         this.memberRepository = memberRepository;
     }
 
-    public static Member getMember(Long kakaoId, String nickname, String profileImageUri) {
-        return new Member(kakaoId, nickname, profileImageUri);
+    public static Member getKakaoMember(Long kakaoId, String nickname, String profileImageUri) {
+        return new Member(kakaoId, nickname, profileImageUri, LoginType.KAKAO);
     }
 
     public static Place getPlace(String name, String latitude, String longitude, String googlePlaceId) {
@@ -60,6 +60,21 @@ public class TravelPlanTestHelper {
         return new TravelPlanPlace(description, order, day, place);
     }
 
+    public TravelPlan initTravelPlanTestData() {
+        Member author = initMemberTestData();
+        TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
+        TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
+        Place place = getPlace("장소", "37.5175896", "127.0867236", "");
+        TravelPlanPlace travelPlanPlace = getTravelPlanPlace("설명", 0, place, travelPlanDay);
+
+        travelPlanRepository.save(travelPlan);
+        travelPlanDayRepository.save(travelPlanDay);
+        placeRepository.save(place);
+        travelPlanPlaceRepository.save(travelPlanPlace);
+
+        return travelPlan;
+    }
+
     public TravelPlan initTravelPlanTestData(Member author) {
         TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
@@ -75,7 +90,7 @@ public class TravelPlanTestHelper {
     }
 
     public Member initMemberTestData() {
-        Member member = getMember(1L, "tester", "http://image.com");
+        Member member = getKakaoMember(1L, "tester", "https://dev.touroot.kr/temporary/profile.png");
         return memberRepository.save(member);
     }
 }

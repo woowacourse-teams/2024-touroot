@@ -39,7 +39,7 @@ class LoginControllerTest {
     @DisplayName("카카오 로그인 요청을 처리할 수 있다")
     @Test
     void loginTest() throws Exception {
-        LoginResponse loginResponse = new LoginResponse("리비", "img-url", "test-access-token");
+        LoginResponse loginResponse = new LoginResponse(1L, "리비", "img-url", "test-access-token");
         when(loginService.login(any(String.class), any(String.class))).thenReturn(loginResponse);
 
         mockMvc.perform(post("/api/v1/login/oauth/kakao")

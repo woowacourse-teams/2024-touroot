@@ -1,14 +1,22 @@
 package kr.touroot.travelogue.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.service.MemberService;
+import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
-import kr.touroot.travelogue.dto.response.TravelogueResponse;
+import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
@@ -32,6 +40,7 @@ import org.springframework.data.domain.Pageable;
         MemberService.class,
         TravelogueTestHelper.class,
         AwsS3Provider.class,
+        PasswordEncryptor.class
 })
 @ServiceTest
 class TravelogueFacadeServiceTest {
@@ -63,17 +72,20 @@ class TravelogueFacadeServiceTest {
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
         when(s3Provider.copyImageToPermanentStorage(
-                TravelogueRequestFixture.getTravelogueRequest().thumbnail())
+                TravelogueRequestFixture.getTravelogueRequest(days).thumbnail())
         ).thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
         when(s3Provider.copyImageToPermanentStorage(
                 TravelogueRequestFixture.getTraveloguePhotoRequests().get(0).url())
         ).thenReturn(TravelogueResponseFixture.getTraveloguePhotoUrls().get(0));
 
-        testHelper.initMemberTestData();
+        testHelper.initKakaoMemberTestData();
 
         MemberAuth memberAuth = new MemberAuth(1L);
-        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
         assertThat(service.createTravelogue(memberAuth, request))
                 .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
@@ -92,9 +104,42 @@ class TravelogueFacadeServiceTest {
     @Test
     void findTravelogues() {
         testHelper.initTravelogueTestData();
-        Page<TravelogueResponse> responses = TravelogueResponseFixture.getTravelogueResponses();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
-        assertThat(service.findTravelogues(Pageable.ofSize(5)))
+        assertThat(service.findSimpleTravelogues(Pageable.ofSize(5)))
                 .isEqualTo(responses);
+    }
+
+    @DisplayName("여행기를 ID를 기준으로 삭제한다.")
+    @Test
+    void deleteById() {
+        testHelper.initTravelogueTestData();
+        MemberAuth memberAuth = new MemberAuth(1L);
+        service.deleteTravelogueById(1L, memberAuth);
+
+        assertThatThrownBy(() -> service.findTravelogueById(1L))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행기입니다.");
+    }
+
+    @DisplayName("존재하지 않는 ID로 여행기를 삭제하면 예외가 발생한다.")
+    @Test
+    void deleteTravelogueByNotExistsIdThrowException() {
+        MemberAuth memberAuth = new MemberAuth(testHelper.initKakaoMemberTestData().getId());
+
+        assertThatThrownBy(() -> service.deleteTravelogueById(1L, memberAuth))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행기입니다.");
+    }
+
+    @DisplayName("작성자가 아닌 사용자가 여행기를 삭제하면 예외가 발생한다.")
+    @Test
+    void deleteByIdWithNotAuthor() {
+        testHelper.initTravelogueTestData();
+        MemberAuth notAuthorAuth = new MemberAuth(testHelper.initKakaoMemberTestData().getId());
+
+        assertThatThrownBy(() -> service.deleteTravelogueById(1L, notAuthorAuth))
+                .isInstanceOf(ForbiddenException.class)
+                .hasMessage("여행기 삭제는 작성자만 가능합니다.");
     }
 }

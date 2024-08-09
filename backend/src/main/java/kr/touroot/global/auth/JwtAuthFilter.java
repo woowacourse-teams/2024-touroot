@@ -39,6 +39,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             new HttpRequestInfo(HttpMethod.GET, "/api/v1/travelogues/**"),
             new HttpRequestInfo(HttpMethod.POST, "/api/v1/login/**"),
             new HttpRequestInfo(HttpMethod.GET, "/api/v1/travel-plans/shared/**"),
+            new HttpRequestInfo(HttpMethod.POST, "/api/v1/tags/**"),
+            new HttpRequestInfo(HttpMethod.GET, "/api/v1/tags/**"),
+            new HttpRequestInfo(HttpMethod.POST, "/api/v1/members"),
             new HttpRequestInfo(HttpMethod.OPTIONS, "/**")
     );
 
@@ -46,7 +49,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (token == null) {
+        if (token == null || token.isBlank()) {
             sendUnauthorizedResponse(response, "로그인을 해주세요.");
             return;
         }

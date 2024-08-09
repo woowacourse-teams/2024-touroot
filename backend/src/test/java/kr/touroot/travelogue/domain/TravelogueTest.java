@@ -1,9 +1,9 @@
 package kr.touroot.travelogue.domain;
 
+import static kr.touroot.authentication.fixture.MemberFixture.MEMBER_KAKAO;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import kr.touroot.authentication.fixture.MemberFixture;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @DisplayName("여행기 도메인")
 class TravelogueTest {
 
-    private static final Member VALID_AUTHOR = MemberFixture.MEMBER_1;
+    private static final Member VALID_AUTHOR = MEMBER_KAKAO.getMember();
     private static final String VALID_TITLE = "올바른 여행기 제목";
     private static final String VALID_THUMBNAIL = "http://valid-thumbnail.com";
 

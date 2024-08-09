@@ -1,10 +1,10 @@
 package kr.touroot.travelogue.domain;
 
+import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import kr.touroot.global.exception.BadRequestException;
-import kr.touroot.travelogue.fixture.TravelogueFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class TravelogueDayTest {
 
     private static final Integer VALID_ORDER = 0;
-    private static final Travelogue VALID_TRAVELOGUE = TravelogueFixture.TRAVELOGUE.get();
+    private static final Travelogue VALID_TRAVELOGUE = TRAVELOGUE.get();
 
     @DisplayName("유효한 여행 날짜 생성 시 예외가 발생하지 않는다")
     @Test

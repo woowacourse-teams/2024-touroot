@@ -24,6 +24,7 @@ public record TraveloguePlaceRequest(
         String description,
         @Schema(description = "여행기 장소 사진")
         @NotNull(message = "여행기 장소 사진은 비어있을 수 없습니다.")
+        @Size(message = "여행기 장소 사진은 최대 10개입니다.", max = 10)
         @Valid
         List<TraveloguePhotoRequest> photoUrls
 ) {

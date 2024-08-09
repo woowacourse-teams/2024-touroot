@@ -15,10 +15,14 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @EqualsAndHashCode(of = "id", callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE travelogue_place SET deleted_at = NOW() WHERE id = ?")
+@SQLRestriction("deleted_at IS NULL")
 @Entity
 public class TraveloguePlace extends BaseEntity {
 
@@ -31,6 +35,7 @@ public class TraveloguePlace extends BaseEntity {
     @Column(name = "PLACE_ORDER", nullable = false)
     private Integer order;
 
+    @Column(columnDefinition = "VARCHAR(300)")
     private String description;
 
     @JoinColumn(nullable = false)

@@ -6,11 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 
+import java.util.List;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
@@ -62,8 +67,11 @@ class TravelogueServiceTest {
         Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
-        Member author = testHelper.persistMember();
-        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest();
+        Member author = testHelper.initKakaoMemberTestData();
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
         Travelogue createdTravelogue = travelogueService.createTravelogue(author, request);
 
@@ -96,5 +104,30 @@ class TravelogueServiceTest {
 
         assertThat(travelogueService.findAll(Pageable.ofSize(BASIC_PAGE_SIZE)))
                 .hasSize(1);
+    }
+
+    @DisplayName("여행기를 삭제할 수 있다.")
+    @Test
+    void deleteTravelogueById() {
+        Member author = testHelper.initKakaoMemberTestData();
+        Travelogue travelogue = testHelper.initTravelogueTestData(author);
+        long travelogueId = travelogue.getId();
+
+        travelogueService.delete(travelogue, author);
+
+        assertThatThrownBy(() -> travelogueService.getTravelogueById(travelogueId))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행기입니다.");
+    }
+
+    @DisplayName("작성자가 아닌 사람이 여행기를 삭제하면 예외가 발생한다.")
+    @Test
+    void deleteTravelogueByNotAuthorThrowException() {
+        Travelogue travelogue = testHelper.initTravelogueTestData();
+        Member notAuthor = testHelper.initKakaoMemberTestData();
+
+        assertThatThrownBy(() -> travelogueService.delete(travelogue, notAuthor))
+                .isInstanceOf(ForbiddenException.class)
+                .hasMessage("여행기 삭제는 작성자만 가능합니다.");
     }
 }

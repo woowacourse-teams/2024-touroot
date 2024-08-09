@@ -13,9 +13,11 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
+import kr.touroot.travelogue.repository.TravelogueDayRepository;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,16 +31,19 @@ import org.springframework.context.annotation.Import;
 class TravelogueDayServiceTest {
 
     private final TravelogueDayService dayService;
+    private final TravelogueDayRepository dayRepository;
     private final DatabaseCleaner databaseCleaner;
     private final TravelogueTestHelper testHelper;
 
     @Autowired
     public TravelogueDayServiceTest(
             TravelogueDayService dayService,
+            TravelogueDayRepository dayRepository,
             DatabaseCleaner databaseCleaner,
             TravelogueTestHelper testHelper
     ) {
         this.dayService = dayService;
+        this.dayRepository = dayRepository;
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
     }
@@ -51,7 +56,9 @@ class TravelogueDayServiceTest {
     @DisplayName("여행기의 일자들을 생성한다.")
     @Test
     void createDays() {
-        List<TravelogueDayRequest> requests = TravelogueRequestFixture.getTravelogueDayRequests();
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        List<TravelogueDayRequest> requests = TravelogueRequestFixture.getTravelogueDayRequests(places);
         Member author = testHelper.persistMember();
         Travelogue travelogue = testHelper.persistTravelogue(author);
 
@@ -90,5 +97,22 @@ class TravelogueDayServiceTest {
         assertThatThrownBy(() -> dayService.findDayById(1L))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행기 일자입니다.");
+    }
+
+    @DisplayName("주어진 여행기의 여행기 일자를 삭제할 수 있다.")
+    @Test
+    void deleteTravelogueDayById() {
+        Travelogue travelogue = testHelper.initTravelogueTestData();
+        long travelogueId = travelogue.getId();
+        dayService.deleteByTravelogue(travelogue);
+
+        assertThat(dayRepository.findAll()
+                .stream()
+                .noneMatch(day -> extractTravelogue(day).getId() == travelogueId))
+                .isTrue();
+    }
+
+    private Travelogue extractTravelogue(TravelogueDay day) {
+        return day.getTravelogue();
     }
 }

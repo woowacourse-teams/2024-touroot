@@ -18,6 +18,7 @@ import kr.touroot.travelplan.dto.response.TravelPlanResponse;
 import kr.touroot.travelplan.service.TravelPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -84,6 +85,30 @@ public class TravelPlanController {
     ) {
         TravelPlanResponse data = travelPlanService.readTravelPlan(id, memberAuth);
         return ResponseEntity.ok(data);
+    }
+
+    @Operation(summary = "여행 계획 삭제")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "존재하지 않는 여행 계획 ID로 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "작성자가 아닌 사용자가 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTravelPlan(@PathVariable Long id, MemberAuth memberAuth) {
+        travelPlanService.deleteByTravelPlanId(id, memberAuth);
+        return ResponseEntity.noContent()
+                .build();
     }
 
     @Operation(summary = "공유된 여행 계획 상세 조회")

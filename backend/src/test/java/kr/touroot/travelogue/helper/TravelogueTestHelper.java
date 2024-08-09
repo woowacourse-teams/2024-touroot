@@ -1,12 +1,13 @@
 package kr.touroot.travelogue.helper;
 
+import static kr.touroot.authentication.fixture.MemberFixture.MEMBER_KAKAO;
 import static kr.touroot.place.fixture.PlaceFixture.PLACE;
 import static kr.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
 import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
 import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
 import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
 
-import kr.touroot.authentication.fixture.MemberFixture;
+import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
@@ -49,8 +50,22 @@ public class TravelogueTestHelper {
         this.memberRepository = memberRepository;
     }
 
-    public void initTravelogueTestData() {
+    public Travelogue initTravelogueTestData() {
         Member author = persistMember();
+        return initTravelogueTestData(author);
+    }
+
+    public Travelogue initTravelogueTestData(Member author) {
+        Travelogue travelogue = persistTravelogue(author);
+        TravelogueDay day = persistTravelogueDay(travelogue);
+        Place position = persistPlace();
+        TraveloguePlace place = persistTraveloguePlace(position, day);
+        persistTraveloguePhoto(place);
+
+        return travelogue;
+    }
+
+    public void initTravelogueTestDate(Member author) {
         Travelogue travelogue = persistTravelogue(author);
         TravelogueDay day = persistTravelogueDay(travelogue);
         Place position = persistPlace();
@@ -59,7 +74,7 @@ public class TravelogueTestHelper {
     }
 
     public Member persistMember() {
-        Member author = MemberFixture.MEMBER_1;
+        Member author = MEMBER_KAKAO.getMember();
 
         return memberRepository.save(author);
     }
@@ -94,8 +109,8 @@ public class TravelogueTestHelper {
         return traveloguePhotoRepository.save(photo);
     }
 
-    public Member initMemberTestData() {
-        Member member = new Member(1L, "tester", "http://image.com");
+    public Member initKakaoMemberTestData() {
+        Member member = new Member(1L, "리비", "https://dev.touroot.kr/temporary/profile.png", LoginType.KAKAO);
         return memberRepository.save(member);
     }
 }

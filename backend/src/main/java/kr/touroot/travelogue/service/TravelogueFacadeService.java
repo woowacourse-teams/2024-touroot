@@ -17,6 +17,7 @@ import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.response.TravelogueDayResponse;
 import kr.touroot.travelogue.dto.response.TraveloguePlaceResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
+import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -76,11 +77,11 @@ public class TravelogueFacadeService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TravelogueResponse> findTravelogues(final Pageable pageable) {
+    public Page<TravelogueSimpleResponse> findSimpleTravelogues(final Pageable pageable) {
         Page<Travelogue> travelogues = travelogueService.findAll(pageable);
 
         return new PageImpl<>(travelogues.stream()
-                .map(travelogue -> TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue)))
+                .map(TravelogueSimpleResponse::from)
                 .toList());
     }
 
@@ -104,5 +105,17 @@ public class TravelogueFacadeService {
 
     private List<String> findPhotoUrlsOfTraveloguePlace(TraveloguePlace place) {
         return traveloguePhotoService.findPhotoUrlsByPlace(place);
+    }
+
+    @Transactional
+    public void deleteTravelogueById(Long id, MemberAuth member) {
+        Member author = memberService.getById(member.memberId());
+        Travelogue travelogue = travelogueService.getTravelogueById(id);
+        travelogueService.validateDeleteByAuthor(travelogue, author);
+
+        traveloguePhotoService.deleteByTravelogue(travelogue);
+        traveloguePlaceService.deleteByTravelogue(travelogue);
+        travelogueDayService.deleteByTravelogue(travelogue);
+        travelogueService.delete(travelogue, author);
     }
 }

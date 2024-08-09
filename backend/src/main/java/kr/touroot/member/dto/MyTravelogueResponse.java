@@ -6,14 +6,14 @@ import lombok.Builder;
 import java.time.format.DateTimeFormatter;
 
 @Builder
-public record MyTraveloguesResponse(long id, String title, String thumbnailUrl, String createdAt) {
+public record MyTravelogueResponse(long id, String title, String thumbnailUrl, String createdAt) {
 
-    public static MyTraveloguesResponse from(Travelogue travelogue) {
+    public static MyTravelogueResponse from(Travelogue travelogue) {
         String createdAt = travelogue.getCreatedAt()
                 .toLocalDate()
                 .format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
 
-        return MyTraveloguesResponse.builder()
+        return MyTravelogueResponse.builder()
                 .id(travelogue.getId())
                 .title(travelogue.getTitle())
                 .createdAt(createdAt)

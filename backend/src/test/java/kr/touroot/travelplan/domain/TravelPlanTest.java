@@ -1,13 +1,15 @@
 package kr.touroot.travelplan.domain;
 
+import static kr.touroot.authentication.fixture.MemberFixture.MEMBER_KAKAO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.time.LocalDate;
 import java.util.UUID;
-import kr.touroot.authentication.fixture.MemberFixture;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +19,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @DisplayName("여행 계획")
 class TravelPlanTest {
 
-    private static final Member VALID_AUTHOR = MemberFixture.MEMBER_1;
+    private static final Member VALID_AUTHOR = MEMBER_KAKAO.getMember();
     private static final String VALID_TITLE = "제주도 여행 계획";
     private static final UUID VALID_UUID = UUID.randomUUID();
     private static final LocalDate VALID_START_DATE = LocalDate.now().plusDays(2);
@@ -73,28 +75,31 @@ class TravelPlanTest {
                 .hasMessage("여행 계획은 1자 이상, 20자 이하여야 합니다");
     }
 
-    @DisplayName("여행 계획은 지난 날짜를 검증할 시 예외가 발생한다.")
+    @DisplayName("여행 계획의 시작날짜와 특정 날짜를 비교할 수 있다.")
     @Test
     void validateStartDate() {
-        TravelPlan travelPlan = new TravelPlan(VALID_TITLE, LocalDate.MIN, VALID_UUID, VALID_AUTHOR);
+        // given
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        LocalDate today = LocalDate.now();
+        LocalDate tommorow = LocalDate.now().plusDays(1);
 
-        assertThatCode(travelPlan::validateStartDate)
-                .isInstanceOf(BadRequestException.class)
-                .hasMessage("지난 날짜에 대한 계획은 작성할 수 없습니다.");
-        // when
-        boolean actual = travelPlan.isValidStartDate();
+        Member author = new Member(1L, 1L, null, null, "tester", "http://url.com", LoginType.KAKAO);
+        TravelPlan todayPlan = new TravelPlan("test", today, VALID_UUID, author);
 
-        // then
-        assertThat(actual).isFalse();
+        // when & then
+        assertAll(
+                () -> assertThat(todayPlan.isStartDateBefore(tommorow)).isTrue(),
+                () -> assertThat(todayPlan.isStartDateBefore(yesterday)).isFalse()
+        );
     }
 
     @DisplayName("여행 계획은 작성자가 아닌 사용자가 검증을 시도하면 예외가 발생한다.")
     @Test
     void validateAuthor() {
         // given
-        Member author = new Member(1L, 1L, "tester", "http://url.com");
-        TravelPlan travelPlan = new TravelPlan("test", LocalDate.MIN, VALID_UUID, author);
-        Member notAuthor = new Member(2L, 2L, "tester2", "http://url.com");
+        Member author = new Member(1L, 1L, null, null, "tester", "http://url.com", LoginType.KAKAO);
+        TravelPlan travelPlan = new TravelPlan("test", LocalDate.now(), VALID_UUID, author);
+        Member notAuthor = new Member(2L, 2L, null, null, "tester2", "http://url.com", LoginType.KAKAO);
 
         // when
         boolean actual = travelPlan.isAuthor(notAuthor);
