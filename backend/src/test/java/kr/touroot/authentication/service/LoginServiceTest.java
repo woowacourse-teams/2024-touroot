@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
+import kr.touroot.authentication.dto.response.TokenResponse;
 import kr.touroot.authentication.dto.response.LoginResponse;
 import kr.touroot.authentication.fixture.OauthUserInformationFixture;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
@@ -35,38 +36,58 @@ class LoginServiceTest {
     @Mock
     private KakaoOauthProvider kakaoOauthProvider;
     @Mock
-    JwtTokenProvider jwtTokenProvider;
+    private JwtTokenProvider jwtTokenProvider;
 
     @DisplayName("투룻 회원가입이 되어 있는 회원의 카카오 소셜 로그인을 처리할 수 있다")
     @Test
     void existUserKakaoSocialLoginTest() {
         // given
+        String accessToken = "aaa";
+        String refreshToken = "bbb";
+
         when(kakaoOauthProvider.getUserInformation(any(String.class), any(String.class)))
                 .thenReturn(OauthUserInformationFixture.USER_1_OAUTH_INFORMATION);
         when(memberRepository.findByKakaoId(any(Long.class)))
                 .thenReturn(Optional.of(MEMBER_KAKAO.getMember()));
+        when(jwtTokenProvider.createToken(MEMBER_KAKAO.getMember().getId()))
+                .thenReturn(new TokenResponse(accessToken, refreshToken));
+
         LoginResponse response = loginService.login(AUTHENTICATION_CODE, REDIRECT_URI);
 
         // when & then
         assertThat(response).isEqualTo(
-                LoginResponse.of(MEMBER_KAKAO.getMember(), response.accessToken()));
+                LoginResponse.of(
+                        MEMBER_KAKAO.getMember(),
+                        new TokenResponse(response.accessToken(), response.refreshToken())
+                )
+        );
     }
 
     @DisplayName("투룻 회원가입이 되어 있지 않은 회원은 소셜 로그인 과정에서 회원가입 후 로그인 된다")
     @Test
     void nonExistUserKakaoSocialLoginTest() {
         // given
+        String accessToken = "aaa";
+        String refreshToken = "bbb";
+
         when(kakaoOauthProvider.getUserInformation(any(String.class), any(String.class)))
                 .thenReturn(OauthUserInformationFixture.USER_1_OAUTH_INFORMATION);
         when(memberRepository.findByKakaoId(any(Long.class)))
                 .thenReturn(Optional.empty());
         when(memberRepository.save(any(Member.class)))
                 .thenReturn(MEMBER_KAKAO.getMember());
+        when(jwtTokenProvider.createToken(MEMBER_KAKAO.getMember().getId()))
+                .thenReturn(new TokenResponse(accessToken, refreshToken));
+
         LoginResponse response = loginService.login(AUTHENTICATION_CODE, REDIRECT_URI);
 
         // when & then
         assertThat(response).isEqualTo(
-                LoginResponse.of(MEMBER_KAKAO.getMember(), response.accessToken()));
+                LoginResponse.of(
+                        MEMBER_KAKAO.getMember(),
+                        new TokenResponse(response.accessToken(), response.refreshToken())
+                )
+        );
         verify(memberRepository, times(1)).save(any(Member.class));
     }
 }

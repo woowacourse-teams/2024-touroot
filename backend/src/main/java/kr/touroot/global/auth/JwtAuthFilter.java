@@ -56,7 +56,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         token = token.split("Bearer|bearer")[1];
         try {
-            String memberId = tokenProvider.decode(token);
+            String memberId = tokenProvider.decodeAccessToken(token);
             request.setAttribute(MEMBER_ID_ATTRIBUTE, memberId);
             filterChain.doFilter(request, response);
         } catch (Exception e) {
