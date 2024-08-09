@@ -117,6 +117,51 @@ class TravelogueControllerTest {
                 .body(is(objectMapper.writeValueAsString(response)));
     }
 
+    @DisplayName("최소 여행 일자 개수를 만족하지 않은 여행기를 작성하려하면 예외가 발생한다.")
+    @Test
+    void createTravelogueWithNoDays() throws JsonProcessingException {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
+
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(List.of());
+        Member member = testHelper.initKakaoMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(member.getId());
+
+        ExceptionResponse response = new ExceptionResponse("여행기 일자는 최소 1일은 포함되어야 합니다.");
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .body(request)
+                .when().post("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(400).assertThat()
+                .body(is(objectMapper.writeValueAsString(response)));
+    }
+
+    @DisplayName("최소 여행 장소 개수를 만족하지 않은 여행기를 작성하려하면 예외가 발생한다.")
+    @Test
+    void createTravelogueWithNoPlacesDay() throws JsonProcessingException {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
+
+        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(List.of());
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
+        Member member = testHelper.initKakaoMemberTestData();
+        String accessToken = jwtTokenProvider.createToken(member.getId());
+
+        ExceptionResponse response = new ExceptionResponse("여행기 장소는 최소 한 곳은 포함되어야 합니다.");
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .body(request)
+                .when().post("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(400).assertThat()
+                .body(is(objectMapper.writeValueAsString(response)));
+    }
+
     @DisplayName("여행기를 작성할 때 로그인 되어 있지 않으면 예외가 발생한다.")
     @Test
     void createTravelogueWithNotLoginThrowException() {
