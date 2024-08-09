@@ -1,6 +1,8 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import theme from "@styles/theme";
+
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,4 +43,8 @@ export const TextContainer = styled.div`
   flex-direction: column;
   margin: 3rem 1.6rem;
   gap: ${({ theme }) => theme.spacing.m};
+`;
+
+export const transformBottomSheetTextStyle = css`
+  ${theme.typography.mobile.detailBold}
 `;

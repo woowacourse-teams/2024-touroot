@@ -68,3 +68,7 @@ export const cursorPointerStyle = css`
 export const summaryTitleStyle = css`
   margin: 1.6rem 0 3.2rem;
 `;
+
+export const transformBottomSheetTextStyle = css`
+  ${theme.typography.mobile.detailBold}
+`;

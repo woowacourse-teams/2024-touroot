@@ -1,11 +1,10 @@
 import { PropsWithChildren, useState } from "react";
 
-import { DownArrow, UpArrow } from "@assets/svg";
-
+import Button from "../Button/Button";
+import IconButton from "../IconButton/IconButton";
 import * as S from "./TransformBottomSheet.styled";
 
 interface TransformBottomSheetProps {
-  hasBottomButton?: boolean;
   buttonLabel: string;
   onTransform?: () => void;
 }
@@ -13,33 +12,29 @@ interface TransformBottomSheetProps {
 const TransformBottomSheet = ({
   children,
   buttonLabel,
-  hasBottomButton = true,
   onTransform,
 }: PropsWithChildren<TransformBottomSheetProps>) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  const handleClick = () => {
+  const handleToggle = () => {
     setIsOpen((prev) => !prev);
   };
 
   return (
     <S.BottomSheetLayout $isOpen={isOpen}>
-      {isOpen && (
+      {isOpen ? (
         <>
-          <button onClick={handleClick}>
-            <DownArrow />
-          </button>
-          <S.BottomSheetContent>{children}</S.BottomSheetContent>
-          {hasBottomButton && (
-            <S.BottomSheetBottomContainer>
-              <S.BottomSheetButton onClick={onTransform}>{buttonLabel}</S.BottomSheetButton>
-            </S.BottomSheetBottomContainer>
-          )}
+          <IconButton iconType="down-arrow" onClick={handleToggle} size="12" />
+          {children}
+          <S.BottomSheetButtonWrapper>
+            <Button variants="primary" onClick={onTransform}>
+              {buttonLabel}
+            </Button>
+          </S.BottomSheetButtonWrapper>
         </>
+      ) : (
+        <IconButton iconType="up-arrow" onClick={handleToggle} size="12" />
       )}
-      <button onClick={handleClick}>
-        <UpArrow />
-      </button>
     </S.BottomSheetLayout>
   );
 };
