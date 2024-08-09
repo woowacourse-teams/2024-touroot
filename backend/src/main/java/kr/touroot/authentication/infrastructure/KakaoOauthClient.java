@@ -79,7 +79,7 @@ public class KakaoOauthClient {
                 .body(params)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, this::handleClientError)
-                .onStatus(statusCode -> !statusCode.isError(), this::handleSuccessLogging)
+                .onStatus(HttpStatusCode::is2xxSuccessful, this::handleSuccessLogging)
                 .toEntity(KakaoAccessTokenResponse.class)
                 .getBody();
     }
