@@ -30,7 +30,7 @@ public class MemberService {
 
     private void validateRequest(MemberRequest request) {
         validateEmailDuplication(request.email());
-        validateNicknameDuplicationr(request.nickname());
+        validateNicknameDuplication(request.nickname());
     }
 
     private void validateEmailDuplication(String email) {
@@ -39,7 +39,7 @@ public class MemberService {
         }
     }
 
-    private void validateNicknameDuplicationr(String nickname) {
+    private void validateNicknameDuplication(String nickname) {
         if (memberRepository.findByNickname(nickname).isPresent()) {
             throw new BadRequestException("이미 사용 중인 닉네임입니다.");
         }
