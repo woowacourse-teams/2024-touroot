@@ -85,7 +85,7 @@ public class KakaoOauthClient {
     }
 
     private void handleClientError(HttpRequest request, ClientHttpResponse response) throws IOException {
-        log.error("{} {} ({})", request.getMethod(), request.getURI(), response.getStatusCode());
+        log.error("KakaoOauth:: {} {} ({})", request.getMethod(), request.getURI(), response.getStatusCode());
 
         if (response.getStatusCode().is4xxClientError()) {
             throw new BadRequestException("잘못된 로그인 요청입니다. 인가코드를 확인해주세요");
@@ -94,6 +94,6 @@ public class KakaoOauthClient {
     }
 
     private void handleSuccessLogging(HttpRequest request, ClientHttpResponse response) throws IOException {
-        log.info("{} {} ({})", request.getMethod(), request.getURI(), response.getStatusCode());
+        log.info("KakaoOauth:: {} {} ({})", request.getMethod(), request.getURI(), response.getStatusCode());
     }
 }
