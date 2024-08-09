@@ -3,11 +3,13 @@ import React, { useCallback } from "react";
 
 import { GoogleMap, MarkerF, Polyline } from "@react-google-maps/api";
 
+import theme from "@styles/theme";
+
 import { markerUrl } from "@assets/svg";
 
 const containerStyle = {
   width: "100%",
-  height: "230px",
+  height: "23rem",
 };
 
 interface GoogleMapViewProps {
@@ -79,13 +81,13 @@ const GoogleMapView = ({ places }: GoogleMapViewProps) => {
             position={position}
             icon={{
               url: markerUrl,
-              scaledSize: new window.google.maps.Size(30, 30), // 마커 크기 조정
-              labelOrigin: new window.google.maps.Point(15, -10), // 라벨 위치 조정
+              scaledSize: new window.google.maps.Size(30, 30),
+              labelOrigin: new window.google.maps.Point(15, -10),
             }}
             label={{
               text: `${index + 1}`,
-              color: "white",
-              fontSize: "14px",
+              color: theme.colors.primary,
+              fontSize: "1.4rem",
             }}
             onClick={() => handleClickMarker(position)}
           />
