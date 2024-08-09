@@ -6,6 +6,7 @@ import kr.touroot.authentication.dto.response.OauthUserInformationResponse;
 import kr.touroot.authentication.dto.response.kakao.KakaoAccessTokenResponse;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ClientException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.ClientHttpRequestFactories;
 import org.springframework.boot.web.client.ClientHttpRequestFactorySettings;
@@ -20,6 +21,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
+@Slf4j
 @Component
 public class KakaoOauthClient {
 
@@ -59,6 +61,7 @@ public class KakaoOauthClient {
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + kakaoAccessTokenResponse.accessToken())
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, this::handleClientError)
+                .onStatus(HttpStatusCode::is2xxSuccessful, this::handleSuccessLogging)
                 .toEntity(OauthUserInformationResponse.class)
                 .getBody();
     }
@@ -76,14 +79,21 @@ public class KakaoOauthClient {
                 .body(params)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, this::handleClientError)
+                .onStatus(HttpStatusCode::is2xxSuccessful, this::handleSuccessLogging)
                 .toEntity(KakaoAccessTokenResponse.class)
                 .getBody();
     }
 
     private void handleClientError(HttpRequest request, ClientHttpResponse response) throws IOException {
+        log.error("KakaoOauth:: {} {} ({})", request.getMethod(), request.getURI(), response.getStatusCode());
+
         if (response.getStatusCode().is4xxClientError()) {
             throw new BadRequestException("잘못된 로그인 요청입니다. 인가코드를 확인해주세요");
         }
         throw new ClientException("외부 서비스의 장애로 카카오로그인을 이용할 수 없습니다");
+    }
+
+    private void handleSuccessLogging(HttpRequest request, ClientHttpResponse response) throws IOException {
+        log.info("KakaoOauth:: {} {} ({})", request.getMethod(), request.getURI(), response.getStatusCode());
     }
 }

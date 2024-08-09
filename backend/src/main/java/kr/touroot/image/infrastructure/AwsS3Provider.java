@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.global.exception.S3UploadException;
 import kr.touroot.image.domain.ImageFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -79,8 +79,8 @@ public class AwsS3Provider {
                     .build();
 
             s3Client.putObject(putObjectRequest, requestBody);
-        } catch (IOException e) {
-            throw new BadRequestException("파일 저장에 실패했습니다.");
+        } catch (IOException exception) {
+            throw new S3UploadException("S3에 이미지를 업로드하다 오류가 발생했습니다.");
         }
     }
 
@@ -95,7 +95,7 @@ public class AwsS3Provider {
 
     private void validateS3Path(String imageKey) {
         if (!imageKey.startsWith(imageBaseUri + temporaryStoragePath)) {
-            throw new BadRequestException("S3 이미지 url 형식이 잘못되었습니다.");
+            throw new S3UploadException("S3 이미지 url 형식이 잘못되었습니다.");
         }
     }
 
@@ -109,8 +109,8 @@ public class AwsS3Provider {
                     .build();
 
             s3Client.copyObject(request);
-        } catch (NoSuchKeyException e) {
-            throw new BadRequestException("복사하려는 사진이 존재하지 않습니다.");
+        } catch (NoSuchKeyException exception) {
+            throw new S3UploadException("S3 버킷에 복사하려는 사진이 존재하지 않습니다.");
         }
     }
 }

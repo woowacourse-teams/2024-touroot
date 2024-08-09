@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ClientException.class)
     public ResponseEntity<ExceptionResponse> handleClientException(ClientException exception) {
-        log.error("CLIENT_EXCEPTION :: message = {}", exception.getMessage());
+        log.error("CLIENT_EXCEPTION :: stackTrace = ", exception);
 
         ExceptionResponse data = new ExceptionResponse(exception.getMessage());
         return ResponseEntity.internalServerError().body(data);
@@ -59,6 +59,24 @@ public class GlobalExceptionHandler {
 
         ExceptionResponse data = new ExceptionResponse(exception.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(data);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ExceptionResponse> handleException(Exception exception) {
+        log.error("EXCEPTION :: stackTrace = ", exception);
+
+        ExceptionResponse data = new ExceptionResponse("서버에 문제가 발생했습니다. 투룻에 문의해 주세요.");
+        return ResponseEntity.internalServerError()
+                .body(data);
+    }
+
+    @ExceptionHandler(S3UploadException.class)
+    public ResponseEntity<ExceptionResponse> handleS3UploadException(S3UploadException exception) {
+        log.warn("S3_UPLOAD_EXCEPTION :: message = {}", exception.getMessage());
+
+        ExceptionResponse data = new ExceptionResponse("이미지 업로드에 실패했습니다.");
+        return ResponseEntity.badRequest()
                 .body(data);
     }
 }

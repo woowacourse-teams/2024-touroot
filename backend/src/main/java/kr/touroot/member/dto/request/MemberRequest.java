@@ -17,7 +17,7 @@ public record MemberRequest(
         @Schema(description = "사용자 닉네임", example = "뚜리")
         @NotBlank(message = "닉네임은 비어있을 수 없습니다.")
         String nickname,
-        @Schema(description = "사용자 프로필 사진 URL", example = "S3 이미지 URL")
+        @Schema(description = "사용자 프로필 사진 URL", example = "https://dev.touroot.kr/profile-image-ex.png")
         @NotBlank(message = "프로필 사진 URL은 비어있을 수 없습니다.")
         String profileImageUrl
 ) {

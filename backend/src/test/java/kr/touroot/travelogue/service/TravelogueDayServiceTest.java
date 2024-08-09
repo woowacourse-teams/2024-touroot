@@ -13,6 +13,7 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
@@ -55,7 +56,9 @@ class TravelogueDayServiceTest {
     @DisplayName("여행기의 일자들을 생성한다.")
     @Test
     void createDays() {
-        List<TravelogueDayRequest> requests = TravelogueRequestFixture.getTravelogueDayRequests();
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        List<TravelogueDayRequest> requests = TravelogueRequestFixture.getTravelogueDayRequests(places);
         Member author = testHelper.persistMember();
         Travelogue travelogue = testHelper.persistTravelogue(author);
 
