@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.global.exception.S3UploadException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,7 +54,7 @@ class AwsS3ProviderTest {
     void copyImageToPermanentStorageWithInvalidPath() {
         String imageUrl = "invalid/testUrl.png";
         assertThatThrownBy(() -> s3Provider.copyImageToPermanentStorage(imageUrl))
-                .isInstanceOf(BadRequestException.class)
+                .isInstanceOf(S3UploadException.class)
                 .hasMessage("S3 이미지 url 형식이 잘못되었습니다.");
     }
 }
