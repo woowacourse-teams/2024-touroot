@@ -19,6 +19,7 @@ import Calendar from "@components/common/Calendar/Calendar";
 import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
 
 import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
+import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useUser from "@hooks/useUser";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
@@ -62,7 +63,7 @@ const TravelPlanRegisterPage = () => {
 
   const navigate = useNavigate();
 
-  const handleConfirmBottomSheet = async () => {
+  const handleRegisterTravelPlan = () => {
     const formattedStartDate = startDate
       ? new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
           .toISOString()
@@ -78,8 +79,12 @@ const TravelPlanRegisterPage = () => {
         },
       },
     );
+  };
 
-    handleCloseBottomSheet();
+  const debouncedRegisterTravelPlan = useLeadingDebounce(() => handleRegisterTravelPlan(), 3000);
+
+  const handleConfirmBottomSheet = () => {
+    debouncedRegisterTravelPlan();
   };
 
   const { mutate: handleAddTravelPlan } = usePostTravelPlan();

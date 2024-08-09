@@ -15,6 +15,7 @@ import TravelPlanDetailSkeleton from "@components/pages/travelPlanDetail/TravelP
 import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlansTabContent/TravelPlansTabContent";
 
 import useClickAway from "@hooks/useClickAway";
+import useLeadingDebounce from "@hooks/useLeadingDebounce";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
@@ -30,11 +31,9 @@ import * as S from "./TravelPlanDetailPage.styled";
 
 const TravelPlanDetailPage = () => {
   const location = useLocation();
-
-  const { onTransformTravelDetail } = useTravelTransformDetailContext();
-
   const id = extractId(location.pathname);
 
+  const { onTransformTravelDetail } = useTravelTransformDetailContext();
   const { data, status, error } = useGetTravelPlan(id);
 
   const navigate = useNavigate();
@@ -69,8 +68,10 @@ const TravelPlanDetailPage = () => {
     setIsDeleteModalOpen((prev) => !prev);
   };
 
+  const debouncedClickDeleteButton = useLeadingDebounce(() => deleteTravelPlan(Number(id)), 3000);
+
   const handleClickDeleteButton = () => {
-    deleteTravelPlan(Number(id));
+    debouncedClickDeleteButton();
   };
 
   //TODO: 수정 이벤트 추가해야함

@@ -13,6 +13,7 @@ import TravelogueDetailSkeleton from "@components/pages/travelogueDetail/Travelo
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
 
 import useClickAway from "@hooks/useClickAway";
+import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useUser from "@hooks/useUser";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
@@ -58,8 +59,10 @@ const TravelogueDetailPage = () => {
     setIsDeleteModalOpen((prev) => !prev);
   };
 
+  const debouncedClickDeleteButton = useLeadingDebounce(() => deleteTravelogue(Number(id)), 3000);
+
   const handleClickDeleteButton = () => {
-    deleteTravelogue(Number(id));
+    debouncedClickDeleteButton();
   };
 
   //TODO: 수정 이벤트 추가해야함
