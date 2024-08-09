@@ -65,6 +65,7 @@ export const handleAPIError = (error: AxiosError<ErrorResponse>) => {
       localStorage.removeItem(STORAGE_KEYS_MAP.user);
       alert(ERROR_MESSAGE_MAP.api.login);
       window.location.href = ROUTE_PATHS_MAP.login;
+      return;
     }
 
     throw apiError;
