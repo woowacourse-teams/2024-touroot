@@ -17,6 +17,7 @@ import kr.touroot.travelplan.domain.TravelPlanDay;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
 import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
+import kr.touroot.travelplan.dto.request.PlanPlaceTodoRequest;
 import kr.touroot.travelplan.dto.request.TravelPlanCreateRequest;
 import kr.touroot.travelplan.dto.response.PlaceTodoResponse;
 import kr.touroot.travelplan.dto.response.TravelPlanCreateResponse;
@@ -79,7 +80,20 @@ public class TravelPlanService {
         for (int order = 0; order < request.size(); order++) {
             PlanPlaceCreateRequest planRequest = request.get(order);
             Place place = getPlace(planRequest);
-            travelPlanPlaceRepository.save(planRequest.toPlanPlace(order, travelPlanDay, place));
+            TravelPlanPlace travelPlanPlace = travelPlanPlaceRepository.save(
+                    planRequest.toPlanPlace(order, travelPlanDay, place)
+            );
+            if (planRequest.hasTodos()) {
+                createPlaceTodo(planRequest.todos(), travelPlanPlace);
+            }
+        }
+    }
+
+    private void createPlaceTodo(List<PlanPlaceTodoRequest> request, TravelPlanPlace travelPlanPlace) {
+        for (int order = 0; order < request.size(); order++) {
+            PlanPlaceTodoRequest todoRequest = request.get(order);
+            PlaceTodo placeTodo = todoRequest.toPlaceTodo(travelPlanPlace, order);
+            placeTodoRepository.save(placeTodo);
         }
     }
 
