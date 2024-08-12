@@ -44,8 +44,11 @@ class TravelogueControllerTest {
     private final JwtTokenProvider jwtTokenProvider;
     @MockBean
     private final AwsS3Provider s3Provider;
+
     @LocalServerPort
     private int port;
+    private Member member;
+    private String accessToken;
 
     @Autowired
     public TravelogueControllerTest(
@@ -67,6 +70,10 @@ class TravelogueControllerTest {
         RestAssured.port = port;
 
         databaseCleaner.executeTruncate();
+
+        member = testHelper.initKakaoMemberTestData();
+        accessToken = jwtTokenProvider.createToken(member.getId())
+                .accessToken();
     }
 
     @DisplayName("여행기를 작성한다.")
@@ -79,8 +86,6 @@ class TravelogueControllerTest {
         List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
         List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
-        Member member = testHelper.initKakaoMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(member.getId());
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -103,7 +108,8 @@ class TravelogueControllerTest {
         List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
         Member member = testHelper.initKakaoMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(member.getId());
+        String accessToken = jwtTokenProvider.createToken(member.getId())
+                .accessToken();
 
         ExceptionResponse response = new ExceptionResponse("여행기 장소 사진은 최대 10개입니다.");
 
@@ -124,8 +130,6 @@ class TravelogueControllerTest {
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(List.of());
-        Member member = testHelper.initKakaoMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(member.getId());
 
         ExceptionResponse response = new ExceptionResponse("여행기 일자는 최소 1일은 포함되어야 합니다.");
 
@@ -147,8 +151,6 @@ class TravelogueControllerTest {
 
         List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(List.of());
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
-        Member member = testHelper.initKakaoMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(member.getId());
 
         ExceptionResponse response = new ExceptionResponse("여행기 장소는 최소 한 곳은 포함되어야 합니다.");
 
@@ -181,7 +183,7 @@ class TravelogueControllerTest {
     @DisplayName("여행기를 상세 조회한다.")
     @Test
     void findTravelogue() throws JsonProcessingException {
-        testHelper.initTravelogueTestData();
+        testHelper.initTravelogueTestData(member);
         TravelogueResponse response = TravelogueResponseFixture.getTravelogueResponse();
 
         RestAssured.given().log().all()
@@ -220,9 +222,7 @@ class TravelogueControllerTest {
     @DisplayName("여행기를 삭제한다.")
     @Test
     void deleteTravelogue() {
-        Member member = testHelper.initKakaoMemberTestData();
         testHelper.initTravelogueTestData(member);
-        String accessToken = jwtTokenProvider.createToken(member.getId());
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
@@ -234,9 +234,6 @@ class TravelogueControllerTest {
     @DisplayName("존재하지 않는 여행기 삭제시 400를 응답한다.")
     @Test
     void deleteTravelogueWithNonExist() {
-        Member member = testHelper.initKakaoMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(member.getId());
-
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .when().delete("/api/v1/travelogues/1")
@@ -250,7 +247,8 @@ class TravelogueControllerTest {
     void deleteTravelogueWithNotAuthor() {
         Travelogue travelogue = testHelper.initTravelogueTestData();
         Member notAuthor = testHelper.initKakaoMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(notAuthor.getId());
+        String accessToken = jwtTokenProvider.createToken(notAuthor.getId())
+                .accessToken();
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)

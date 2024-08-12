@@ -16,11 +16,15 @@ cloud:
       temporary-storage-path: temporary/
       image-storage-path: images/
 ---
+# local profile
 security:
   jwt:
     token:
       secret-key: ENC(SNwFG2NQDZkmIK3nNoZFdwQ0ZxKuoe+qcw10ljdW941YEx/Qky9PEEl+wvAN9S1KR26D3a83SnU=)
-      expire-length: 1800000
+      expire-length: 1800000 # 30 min
+    refresh:
+      secret-key: ENC(tneEW6IKq9XuDoxAoKvBEVER4xjLHCycWXMa+Rnzb700ndTnrkJ2mOtBPP5hEIJLRNgj5MLIhYs=)
+      expire-length: 1209600000 # 14 days
 spring:
   config:
     activate:
@@ -42,11 +46,15 @@ spring:
       ddl-auto: create-drop
     defer-datasource-initialization: true
 ---
+# dev profile
 security:
   jwt:
     token:
       secret-key: ENC(L36WWjoZtP2nHHkqxDGlYLsMHMp+EBL2Fnl+X2de2KHk+PIfViyVM7rCYcbcFpo7yB4MaP++atU=)
-      expire-length: 1800000
+      expire-length: 1800000 # 30 min
+    refresh:
+      secret-key: ENC(cDstTL4/ajLm3NohJwMR9vEBsIZeD9Vt+jE1obdwL8Q6gMnWvY3N+bmNsC9N0csaa6AaYIZLbFM=)
+      expire-length: 1209600000 # 14 days
 server:
   ssl:
     key-store-type: PKCS12

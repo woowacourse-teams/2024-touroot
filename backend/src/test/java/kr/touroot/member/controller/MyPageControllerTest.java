@@ -50,7 +50,8 @@ class MyPageControllerTest {
         databaseCleaner.executeTruncate();
 
         member = travelogueTestHelper.initKakaoMemberTestData();
-        accessToken = jwtTokenProvider.createToken(member.getId());
+        accessToken = jwtTokenProvider.createToken(member.getId())
+                .accessToken();
     }
 
     @DisplayName("마이 페이지 컨트롤러는 내 여행기 조회 요청이 들어오면 로그인한 사용자의 여행기를 조회한다.")
