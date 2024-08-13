@@ -2,6 +2,7 @@ package kr.touroot.travelogue.fixture;
 
 import java.time.LocalDate;
 import java.util.List;
+import kr.touroot.tag.fixture.TagFixture;
 import kr.touroot.travelogue.dto.response.TravelogueDayResponse;
 import kr.touroot.travelogue.dto.response.TraveloguePlaceResponse;
 import kr.touroot.travelogue.dto.response.TraveloguePositionResponse;
@@ -27,7 +28,20 @@ public class TravelogueResponseFixture {
                 .authorProfileImageUrl("https://dev.touroot.kr/temporary/profile.png")
                 .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                 .days(getTravelogueDayResponses())
-                .tags(List.of())
+                .build();
+    }
+
+    public static TravelogueResponse getTravelogueResponseWithTag() {
+        return TravelogueResponse.builder()
+                .id(1L)
+                .title("제주에 하영 옵서")
+                .createdAt(LocalDate.now())
+                .authorNickname("리비")
+                .authorId(1L)
+                .authorProfileImageUrl("https://dev.touroot.kr/temporary/profile.png")
+                .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
+                .days(getTravelogueDayResponses())
+                .tags(List.of(TagFixture.TAG.getResponse(1L)))
                 .build();
     }
 
