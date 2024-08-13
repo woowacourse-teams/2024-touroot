@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import kr.touroot.travelplan.domain.PlaceTodo;
+import kr.touroot.travelplan.domain.TravelPlaceTodo;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
 
 public record PlanPlaceTodoRequest(
@@ -18,7 +18,7 @@ public record PlanPlaceTodoRequest(
         Boolean isChecked
 ) {
 
-    public PlaceTodo toPlaceTodo(TravelPlanPlace travelPlanPlace, Integer order) {
-        return new PlaceTodo(travelPlanPlace, content, order, isChecked);
+    public TravelPlaceTodo toPlaceTodo(TravelPlanPlace travelPlanPlace, Integer order) {
+        return new TravelPlaceTodo(travelPlanPlace, content, order, isChecked);
     }
 }

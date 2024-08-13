@@ -11,7 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayName("여행 계획 장소의 TODO")
-class PlaceTodoTest {
+class TravelPlaceTodoTest {
 
     private static final TravelPlanPlace VALID_PLACE = TravelPlanPlaceFixture.TRAVEL_PLAN_PLACE.get();
     private static final String VALID_CONTENT = "마라탕 먹기";
@@ -22,14 +22,14 @@ class PlaceTodoTest {
     @DisplayName("올바른 형식으로 TODO를 생성 시 예외가 발생하지 않는다")
     @Test
     void createValidTodo() {
-        assertThatCode(() -> new PlaceTodo(VALID_PLACE, VALID_CONTENT, VALID_ORDER, VALID_CHECK))
+        assertThatCode(() -> new TravelPlaceTodo(VALID_PLACE, VALID_CONTENT, VALID_ORDER, VALID_CHECK))
                 .doesNotThrowAnyException();
     }
 
     @DisplayName("TODO가 속하는 여행 계획 장소가 비어 있을 경우 TODO 생성 시 예외가 발생한다")
     @Test
     void createTodoWithNullPlace() {
-        assertThatThrownBy(() -> new PlaceTodo(null, VALID_CONTENT, VALID_ORDER, VALID_CHECK))
+        assertThatThrownBy(() -> new TravelPlaceTodo(null, VALID_CONTENT, VALID_ORDER, VALID_CHECK))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage(EMPTY_ERROR_MESSAGE);
     }
@@ -37,7 +37,7 @@ class PlaceTodoTest {
     @DisplayName("TODO의 내용이 비어 있을 경우 TODO 생성 시 예외가 발생한다")
     @Test
     void createTodoWithNullContent() {
-        assertThatThrownBy(() -> new PlaceTodo(VALID_PLACE, null, VALID_ORDER, VALID_CHECK))
+        assertThatThrownBy(() -> new TravelPlaceTodo(VALID_PLACE, null, VALID_ORDER, VALID_CHECK))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage(EMPTY_ERROR_MESSAGE);
     }
@@ -45,7 +45,7 @@ class PlaceTodoTest {
     @DisplayName("TODO의 순서가 비어 있을 경우 TODO 생성 시 예외가 발생한다")
     @Test
     void createTodoWithNullOrder() {
-        assertThatThrownBy(() -> new PlaceTodo(VALID_PLACE, VALID_CONTENT, null, VALID_CHECK))
+        assertThatThrownBy(() -> new TravelPlaceTodo(VALID_PLACE, VALID_CONTENT, null, VALID_CHECK))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage(EMPTY_ERROR_MESSAGE);
     }
@@ -53,7 +53,7 @@ class PlaceTodoTest {
     @DisplayName("TODO의 체크 여부가 비어 있을 경우 TODO 생성 시 예외가 발생한다")
     @Test
     void createTodoWithNullCheck() {
-        assertThatThrownBy(() -> new PlaceTodo(VALID_PLACE, VALID_CONTENT, VALID_ORDER, null))
+        assertThatThrownBy(() -> new TravelPlaceTodo(VALID_PLACE, VALID_CONTENT, VALID_ORDER, null))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage(EMPTY_ERROR_MESSAGE);
     }
@@ -62,7 +62,7 @@ class PlaceTodoTest {
     @ParameterizedTest
     @ValueSource(strings = {" ", "   ", "\n"})
     void createTodoWithBlankContent(String blank) {
-        assertThatThrownBy(() -> new PlaceTodo(VALID_PLACE, blank, VALID_ORDER, VALID_CHECK))
+        assertThatThrownBy(() -> new TravelPlaceTodo(VALID_PLACE, blank, VALID_ORDER, VALID_CHECK))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("TODO 내용은 빈 문자열로만 이루어질 수 없습니다");
     }
@@ -72,7 +72,7 @@ class PlaceTodoTest {
     void createTodoWithInvalidLengthContent() {
         String length21 = "서울 명동에서 패션 쇼핑과 길거리 음식";
         System.out.println("length21 = " + length21.length());
-        assertThatThrownBy(() -> new PlaceTodo(VALID_PLACE, length21, VALID_ORDER, VALID_CHECK))
+        assertThatThrownBy(() -> new TravelPlaceTodo(VALID_PLACE, length21, VALID_ORDER, VALID_CHECK))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("TODO 내용의 길이는 1자 이상, 20자 이하여야 합니다");
     }
@@ -81,7 +81,7 @@ class PlaceTodoTest {
     @ParameterizedTest
     @ValueSource(ints = {-1, -2, -3, -4, -5})
     void createTodoWithNegativeOrder(int negative) {
-        assertThatThrownBy(() -> new PlaceTodo(VALID_PLACE, VALID_CONTENT, negative, VALID_CHECK))
+        assertThatThrownBy(() -> new TravelPlaceTodo(VALID_PLACE, VALID_CONTENT, negative, VALID_CHECK))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("TODO 순서는 음수일 수 없습니다");
     }

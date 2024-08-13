@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class PlaceTodo extends BaseEntity {
+public class TravelPlaceTodo extends BaseEntity {
 
     private static final int CONTENT_MIN_LENGTH = 1;
     private static final int CONTENT_MAX_LENGTH = 20;
@@ -39,7 +39,8 @@ public class PlaceTodo extends BaseEntity {
     @Column(nullable = false)
     private Boolean isChecked;
 
-    private PlaceTodo(Long id, TravelPlanPlace travelPlanPlace, String content, Integer order, Boolean isChecked) {
+    private TravelPlaceTodo(Long id, TravelPlanPlace travelPlanPlace, String content, Integer order,
+                            Boolean isChecked) {
         validate(travelPlanPlace, content, order, isChecked);
         this.id = id;
         this.travelPlanPlace = travelPlanPlace;
@@ -48,7 +49,7 @@ public class PlaceTodo extends BaseEntity {
         this.isChecked = isChecked;
     }
 
-    public PlaceTodo(TravelPlanPlace travelPlanPlace, String content, Integer order, Boolean isChecked) {
+    public TravelPlaceTodo(TravelPlanPlace travelPlanPlace, String content, Integer order, Boolean isChecked) {
         this(null, travelPlanPlace, content, order, isChecked);
     }
 

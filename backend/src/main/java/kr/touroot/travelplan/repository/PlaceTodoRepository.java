@@ -1,11 +1,11 @@
 package kr.touroot.travelplan.repository;
 
 import java.util.List;
-import kr.touroot.travelplan.domain.PlaceTodo;
+import kr.touroot.travelplan.domain.TravelPlaceTodo;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PlaceTodoRepository extends JpaRepository<PlaceTodo, Long> {
+public interface PlaceTodoRepository extends JpaRepository<TravelPlaceTodo, Long> {
 
-    List<PlaceTodo> findByTravelPlanPlace(TravelPlanPlace travelPlanPlace);
+    List<TravelPlaceTodo> findByTravelPlanPlace(TravelPlanPlace travelPlanPlace);
 }

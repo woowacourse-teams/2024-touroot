@@ -11,19 +11,19 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
 import kr.touroot.place.repository.PlaceRepository;
-import kr.touroot.travelplan.domain.PlaceTodo;
+import kr.touroot.travelplan.domain.TravelPlaceTodo;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.domain.TravelPlanDay;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
+import kr.touroot.travelplan.dto.request.PlanCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceTodoRequest;
-import kr.touroot.travelplan.dto.request.TravelPlanCreateRequest;
-import kr.touroot.travelplan.dto.response.PlaceTodoResponse;
-import kr.touroot.travelplan.dto.response.TravelPlanCreateResponse;
-import kr.touroot.travelplan.dto.response.TravelPlanDayResponse;
-import kr.touroot.travelplan.dto.response.TravelPlanPlaceResponse;
-import kr.touroot.travelplan.dto.response.TravelPlanResponse;
+import kr.touroot.travelplan.dto.response.PlanCreateResponse;
+import kr.touroot.travelplan.dto.response.PlanDayResponse;
+import kr.touroot.travelplan.dto.response.PlanPlaceResponse;
+import kr.touroot.travelplan.dto.response.PlanPlaceTodoResponse;
+import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.repository.PlaceTodoRepository;
 import kr.touroot.travelplan.repository.TravelPlanDayRepository;
 import kr.touroot.travelplan.repository.TravelPlanPlaceRepository;
@@ -46,7 +46,7 @@ public class TravelPlanService {
     private final PlaceTodoRepository placeTodoRepository;
 
     @Transactional
-    public TravelPlanCreateResponse createTravelPlan(TravelPlanCreateRequest request, MemberAuth memberAuth) {
+    public PlanCreateResponse createTravelPlan(PlanCreateRequest request, MemberAuth memberAuth) {
         Member author = getMemberByMemberAuth(memberAuth);
         TravelPlan travelPlan = request.toTravelPlan(author, UUID.randomUUID());
         validateTravelPlan(travelPlan);
@@ -54,7 +54,7 @@ public class TravelPlanService {
         TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);
         createPlanDay(request.days(), savedTravelPlan);
 
-        return new TravelPlanCreateResponse(savedTravelPlan.getId());
+        return new PlanCreateResponse(savedTravelPlan.getId());
     }
 
     private void validateTravelPlan(TravelPlan travelPlan) {
@@ -92,8 +92,8 @@ public class TravelPlanService {
     private void createPlaceTodo(List<PlanPlaceTodoRequest> request, TravelPlanPlace travelPlanPlace) {
         for (int order = 0; order < request.size(); order++) {
             PlanPlaceTodoRequest todoRequest = request.get(order);
-            PlaceTodo placeTodo = todoRequest.toPlaceTodo(travelPlanPlace, order);
-            placeTodoRepository.save(placeTodo);
+            TravelPlaceTodo travelPlaceTodo = todoRequest.toPlaceTodo(travelPlanPlace, order);
+            placeTodoRepository.save(travelPlaceTodo);
         }
     }
 
@@ -106,12 +106,12 @@ public class TravelPlanService {
     }
 
     @Transactional(readOnly = true)
-    public TravelPlanResponse readTravelPlan(Long planId, MemberAuth memberAuth) {
+    public PlanResponse readTravelPlan(Long planId, MemberAuth memberAuth) {
         TravelPlan travelPlan = getTravelPlanById(planId);
         Member member = getMemberByMemberAuth(memberAuth);
         validateReadByAuthor(travelPlan, member);
 
-        return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
+        return PlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
     }
 
     private void validateReadByAuthor(TravelPlan travelPlan, Member member) {
@@ -121,10 +121,10 @@ public class TravelPlanService {
     }
 
     @Transactional(readOnly = true)
-    public TravelPlanResponse readTravelPlan(UUID shareKey) {
+    public PlanResponse readTravelPlan(UUID shareKey) {
         TravelPlan travelPlan = getTravelPlanByShareKey(shareKey);
 
-        return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
+        return PlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
     }
 
     private TravelPlan getTravelPlanById(Long planId) {
@@ -137,33 +137,33 @@ public class TravelPlanService {
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행 계획입니다."));
     }
 
-    public TravelPlanResponse getTravelPlanResponse(TravelPlan travelPlan) {
-        return TravelPlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
+    public PlanResponse getTravelPlanResponse(TravelPlan travelPlan) {
+        return PlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
     }
 
-    private List<TravelPlanDayResponse> getTravelPlanDayResponses(TravelPlan travelPlan) {
+    private List<PlanDayResponse> getTravelPlanDayResponses(TravelPlan travelPlan) {
         List<TravelPlanDay> planDays = travelPlanDayRepository.findByPlan(travelPlan);
 
         return planDays.stream()
                 .sorted(Comparator.comparing(TravelPlanDay::getOrder))
-                .map(day -> TravelPlanDayResponse.of(day, getTravelPlanPlaceResponses(day)))
+                .map(day -> PlanDayResponse.of(day, getTravelPlanPlaceResponses(day)))
                 .toList();
     }
 
-    private List<TravelPlanPlaceResponse> getTravelPlanPlaceResponses(TravelPlanDay day) {
+    private List<PlanPlaceResponse> getTravelPlanPlaceResponses(TravelPlanDay day) {
         List<TravelPlanPlace> places = travelPlanPlaceRepository.findByDay(day);
 
         return places.stream()
                 .sorted(Comparator.comparing(TravelPlanPlace::getOrder))
-                .map(place -> TravelPlanPlaceResponse.of(place, getPlaceTodos(place)))
+                .map(place -> PlanPlaceResponse.of(place, getPlaceTodos(place)))
                 .toList();
     }
 
-    private List<PlaceTodoResponse> getPlaceTodos(TravelPlanPlace place) {
+    private List<PlanPlaceTodoResponse> getPlaceTodos(TravelPlanPlace place) {
         return placeTodoRepository.findByTravelPlanPlace(place)
                 .stream()
-                .sorted(Comparator.comparing(PlaceTodo::getOrder))
-                .map(PlaceTodoResponse::from)
+                .sorted(Comparator.comparing(TravelPlaceTodo::getOrder))
+                .map(PlanPlaceTodoResponse::from)
                 .toList();
     }
 

@@ -12,10 +12,10 @@ import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
+import kr.touroot.travelplan.dto.request.PlanCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPositionCreateRequest;
-import kr.touroot.travelplan.dto.request.TravelPlanCreateRequest;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,7 +71,7 @@ class TravelPlanControllerTest {
                 .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+        PlanCreateRequest request = PlanCreateRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MAX)
                 .days(List.of(planDayCreateRequest))
@@ -100,7 +100,7 @@ class TravelPlanControllerTest {
                 .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+        PlanCreateRequest request = PlanCreateRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MIN)
                 .days(List.of(planDayCreateRequest))

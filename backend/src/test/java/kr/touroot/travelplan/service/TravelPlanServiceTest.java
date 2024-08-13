@@ -13,12 +13,12 @@ import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
+import kr.touroot.travelplan.dto.request.PlanCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPositionCreateRequest;
-import kr.touroot.travelplan.dto.request.TravelPlanCreateRequest;
-import kr.touroot.travelplan.dto.response.TravelPlanCreateResponse;
-import kr.touroot.travelplan.dto.response.TravelPlanResponse;
+import kr.touroot.travelplan.dto.response.PlanCreateResponse;
+import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
 import kr.touroot.travelplan.repository.TravelPlanRepository;
 import kr.touroot.utils.DatabaseCleaner;
@@ -73,14 +73,14 @@ class TravelPlanServiceTest {
                 .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+        PlanCreateRequest request = PlanCreateRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MAX)
                 .days(List.of(planDayCreateRequest))
                 .build();
 
         // when
-        TravelPlanCreateResponse actual = travelPlanService.createTravelPlan(request, memberAuth);
+        PlanCreateResponse actual = travelPlanService.createTravelPlan(request, memberAuth);
 
         // then
         assertThat(actual.id()).isEqualTo(1L);
@@ -97,7 +97,7 @@ class TravelPlanServiceTest {
                 .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+        PlanCreateRequest request = PlanCreateRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MIN)
                 .days(List.of(planDayCreateRequest))
@@ -120,7 +120,7 @@ class TravelPlanServiceTest {
                 .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+        PlanCreateRequest request = PlanCreateRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.now())
                 .days(List.of(planDayCreateRequest))
@@ -138,7 +138,7 @@ class TravelPlanServiceTest {
         Long id = testHelper.initTravelPlanTestData(author).getId();
 
         // when
-        TravelPlanResponse actual = travelPlanService.readTravelPlan(id, memberAuth);
+        PlanResponse actual = travelPlanService.readTravelPlan(id, memberAuth);
 
         // then
         assertThat(actual.id()).isEqualTo(id);
@@ -226,7 +226,7 @@ class TravelPlanServiceTest {
         TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
 
         // when
-        TravelPlanResponse actual = travelPlanService.readTravelPlan(travelPlan.getShareKey());
+        PlanResponse actual = travelPlanService.readTravelPlan(travelPlan.getShareKey());
 
         // then
         assertThat(actual.shareKey()).isEqualTo(travelPlan.getShareKey());
