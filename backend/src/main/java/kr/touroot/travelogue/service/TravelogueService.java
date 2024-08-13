@@ -6,6 +6,7 @@ import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
+import kr.touroot.travelogue.repository.TravelogueQueryRepositoryImpl;
 import kr.touroot.travelogue.repository.TravelogueRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ public class TravelogueService {
 
     private final TravelogueRepository travelogueRepository;
     private final AwsS3Provider s3Provider;
+    private final TravelogueQueryRepositoryImpl travelogueQueryRepositoryImpl;
 
     public Travelogue createTravelogue(Member author, TravelogueRequest request) {
         String url = s3Provider.copyImageToPermanentStorage(request.thumbnail());
@@ -39,7 +41,7 @@ public class TravelogueService {
     }
 
     public Page<Travelogue> findByKeyword(String keyword, Pageable pageable) {
-        return travelogueRepository.findByTitleContaining(keyword, pageable);
+        return travelogueQueryRepositoryImpl.findByTitleContaining(keyword, pageable);
     }
 
     public void delete(Travelogue travelogue, Member author) {

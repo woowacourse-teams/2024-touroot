@@ -9,6 +9,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TravelogueRepository extends JpaRepository<Travelogue, Long> {
 
     Page<Travelogue> findAllByAuthor(Member author, Pageable pageable);
-
-    Page<Travelogue> findByTitleContaining(String keyword, Pageable pageable);
 }
