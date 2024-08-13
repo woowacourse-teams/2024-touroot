@@ -89,7 +89,14 @@ public class TravelogueFacadeService {
     @Transactional(readOnly = true)
     public TravelogueResponse findTravelogueById(Long id) {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
+        return getTravelogueResponse(travelogue);
+    }
+
+    private TravelogueResponse getTravelogueResponse(Travelogue travelogue) {
         List<TagResponse> tagResponses = getTagResponses(travelogueTagService.readTagByTravelogue(travelogue));
+        if (tagResponses.isEmpty()) {
+            return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue));
+        }
 
         return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue), tagResponses);
     }
@@ -99,8 +106,16 @@ public class TravelogueFacadeService {
         Page<Travelogue> travelogues = travelogueService.findAll(pageable);
 
         return new PageImpl<>(travelogues.stream()
-                .map(TravelogueSimpleResponse::from)
+                .map(this::getTravelogueSimpleResponse)
                 .toList());
+    }
+
+    private TravelogueSimpleResponse getTravelogueSimpleResponse(Travelogue travelogue) {
+        List<TagResponse> tagResponses = getTagResponses(travelogueTagService.readTagByTravelogue(travelogue));
+        if (tagResponses.isEmpty()) {
+            return TravelogueSimpleResponse.from(travelogue);
+        }
+        return TravelogueSimpleResponse.of(travelogue, tagResponses);
     }
 
     private List<TravelogueDayResponse> findDaysOfTravelogue(Travelogue travelogue) {

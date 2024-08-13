@@ -1,9 +1,14 @@
 package kr.touroot.travelogue.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
+import kr.touroot.tag.dto.TagResponse;
 import kr.touroot.travelogue.domain.Travelogue;
 import lombok.Builder;
 
+@JsonInclude(Include.NON_NULL)
 @Builder
 public record TravelogueSimpleResponse(
         @Schema(description = "여행기 ID", example = "1")
@@ -15,7 +20,21 @@ public record TravelogueSimpleResponse(
         @Schema(description = "작성자 닉네임", example = "지니")
         String authorNickname,
         @Schema(description = "작성자 프로필 사진 URL", example = "https://dev.touroot.kr/images/profile.png")
-        String authorProfileUrl) {
+        String authorProfileUrl,
+        @Schema(description = "여행기 태그 목록")
+        List<TagResponse> tags
+) {
+
+    public static TravelogueSimpleResponse of(Travelogue travelogue, List<TagResponse> tags) {
+        return TravelogueSimpleResponse.builder()
+                .id(travelogue.getId())
+                .title(travelogue.getTitle())
+                .thumbnail(travelogue.getThumbnail())
+                .authorNickname(travelogue.getAuthorNickname())
+                .authorProfileUrl(travelogue.getAuthorProfileImageUrl())
+                .tags(tags)
+                .build();
+    }
 
     public static TravelogueSimpleResponse from(Travelogue travelogue) {
         return TravelogueSimpleResponse.builder()
@@ -24,6 +43,7 @@ public record TravelogueSimpleResponse(
                 .thumbnail(travelogue.getThumbnail())
                 .authorNickname(travelogue.getAuthorNickname())
                 .authorProfileUrl(travelogue.getAuthorProfileImageUrl())
+                .tags(null)
                 .build();
     }
 }

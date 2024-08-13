@@ -37,6 +37,7 @@ import org.springframework.data.domain.Pageable;
         TraveloguePhotoService.class,
         TravelogueDayService.class,
         TraveloguePlaceService.class,
+        TravelogueTagService.class,
         MemberService.class,
         TravelogueTestHelper.class,
         AwsS3Provider.class,

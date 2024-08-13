@@ -55,6 +55,17 @@ public class TravelogueResponseFixture {
                 .build()));
     }
 
+    public static Page<TravelogueSimpleResponse> getTravelogueSimpleResponsesWithTag() {
+        return new PageImpl<>(List.of(TravelogueSimpleResponse.builder()
+                .id(1L)
+                .title("제주에 하영 옵서")
+                .authorNickname("리비")
+                .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
+                .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
+                .tags(List.of(TagFixture.TAG.getResponse(1L)))
+                .build()));
+    }
+
     public static List<TravelogueDayResponse> getTravelogueDayResponses() {
         return List.of(TravelogueDayResponse.builder()
                 .id(1L)
