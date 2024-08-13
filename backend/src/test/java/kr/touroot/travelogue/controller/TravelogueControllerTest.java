@@ -76,7 +76,7 @@ class TravelogueControllerTest {
                 .accessToken();
     }
 
-    @DisplayName("여행기를 작성한다.")
+    @DisplayName("태그가 없는 여행기를 작성한다.")
     @Test
     void createTravelogue() {
         Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
@@ -86,6 +86,29 @@ class TravelogueControllerTest {
         List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
         List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .body(request)
+                .when().post("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(201)
+                .header("Location", "/api/v1/travelogues/1");
+    }
+
+    @DisplayName("태그가 있는 여행기를 작성한다.")
+    @Test
+    void createTravelogueWithTags() {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
+
+        testHelper.initTagTestData();
+
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days, List.of(1L));
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)

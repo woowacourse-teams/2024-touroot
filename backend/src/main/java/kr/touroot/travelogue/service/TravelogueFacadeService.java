@@ -6,6 +6,8 @@ import java.util.Map;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.service.MemberService;
+import kr.touroot.tag.domain.Tag;
+import kr.touroot.tag.dto.TagResponse;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TraveloguePhoto;
@@ -33,14 +35,29 @@ public class TravelogueFacadeService {
     private final TravelogueDayService travelogueDayService;
     private final TraveloguePlaceService traveloguePlaceService;
     private final TraveloguePhotoService traveloguePhotoService;
+    private final TravelogueTagService travelogueTagService;
     private final MemberService memberService;
+
+    private List<TagResponse> getTagResponses(List<Tag> tags) {
+        return tags.stream()
+                .map(TagResponse::from)
+                .toList();
+    }
 
     @Transactional
     public TravelogueResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.createTravelogue(author, request);
+        return getTravelogueResponse(request, travelogue);
+    }
 
-        return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue));
+    private TravelogueResponse getTravelogueResponse(TravelogueRequest request, Travelogue travelogue) {
+        if (request.tags() == null) {
+            return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue));
+        }
+
+        List<TagResponse> tagResponses = getTagResponses(travelogueTagService.createTravelogueTags(travelogue, request.tags()));
+        return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue), tagResponses);
     }
 
     private List<TravelogueDayResponse> createDays(List<TravelogueDayRequest> requests, Travelogue travelogue) {
@@ -72,8 +89,9 @@ public class TravelogueFacadeService {
     @Transactional(readOnly = true)
     public TravelogueResponse findTravelogueById(Long id) {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
+        List<TagResponse> tagResponses = getTagResponses(travelogueTagService.readTagByTravelogue(travelogue));
 
-        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue));
+        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue), tagResponses);
     }
 
     @Transactional(readOnly = true)

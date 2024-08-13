@@ -27,6 +27,7 @@ public class TravelogueResponseFixture {
                 .authorProfileImageUrl("https://dev.touroot.kr/temporary/profile.png")
                 .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                 .days(getTravelogueDayResponses())
+                .tags(List.of())
                 .build();
     }
 

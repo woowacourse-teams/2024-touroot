@@ -1,11 +1,15 @@
 package kr.touroot.travelogue.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDate;
 import java.util.List;
+import kr.touroot.tag.dto.TagResponse;
 import kr.touroot.travelogue.domain.Travelogue;
 import lombok.Builder;
 
+@JsonInclude(Include.NON_NULL)
 @Builder
 public record TravelogueResponse(
         @Schema(description = "여행기 ID", example = "1")
@@ -22,9 +26,25 @@ public record TravelogueResponse(
         String thumbnail,
         @Schema(description = "작성 날짜")
         LocalDate createdAt,
+        @Schema(description = "여행기 태그")
+        List<TagResponse> tags,
         @Schema(description = "여행기 일자 목록")
         List<TravelogueDayResponse> days
 ) {
+
+    public static TravelogueResponse of(Travelogue travelogue, List<TravelogueDayResponse> days, List<TagResponse> tags) {
+        return TravelogueResponse.builder()
+                .id(travelogue.getId())
+                .createdAt(travelogue.getCreatedAt().toLocalDate())
+                .authorId(travelogue.getAuthorId())
+                .authorNickname(travelogue.getAuthorNickname())
+                .authorProfileImageUrl(travelogue.getAuthorProfileImageUrl())
+                .title(travelogue.getTitle())
+                .thumbnail(travelogue.getThumbnail())
+                .days(days)
+                .tags(tags)
+                .build();
+    }
 
     public static TravelogueResponse of(Travelogue travelogue, List<TravelogueDayResponse> days) {
         return TravelogueResponse.builder()
