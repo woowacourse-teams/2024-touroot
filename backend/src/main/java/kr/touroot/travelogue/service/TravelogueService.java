@@ -38,6 +38,10 @@ public class TravelogueService {
         return travelogueRepository.findAllByAuthor(member, pageable);
     }
 
+    public Page<Travelogue> findByKeyword(String keyword, Pageable pageable) {
+        return travelogueRepository.findByTitleContaining(keyword, pageable);
+    }
+
     public void delete(Travelogue travelogue, Member author) {
         validateDeleteByAuthor(travelogue, author);
         travelogueRepository.delete(travelogue);

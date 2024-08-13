@@ -85,6 +85,15 @@ public class TravelogueFacadeService {
                 .toList());
     }
 
+    @Transactional(readOnly = true)
+    public Page<TravelogueSimpleResponse> findSimpleTraveloguesByKeyword(Pageable pageable, String keyword) {
+        Page<Travelogue> travelogues = travelogueService.findByKeyword(keyword, pageable);
+
+        return new PageImpl<>(travelogues.stream()
+                .map(TravelogueSimpleResponse::from)
+                .toList());
+    }
+
     private List<TravelogueDayResponse> findDaysOfTravelogue(Travelogue travelogue) {
         List<TravelogueDay> travelogueDays = travelogueDayService.findDaysByTravelogue(travelogue);
 

@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.net.URI;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
@@ -22,16 +24,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "여행기")
 @RequiredArgsConstructor
+@Validated
 @RestController
 @RequestMapping("api/v1/travelogues")
 public class TravelogueController {
@@ -98,6 +103,32 @@ public class TravelogueController {
             Pageable pageable
     ) {
         return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(pageable));
+    }
+
+    @Operation(summary = "여행기 검색")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "올바르지 않은 페이지네이션 옵션으로 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @PageableAsQueryParam
+    @GetMapping("/search")
+    public ResponseEntity<Page<TravelogueSimpleResponse>> findTraveloguesByKeyword(
+            @Parameter(hidden = true)
+            @PageableDefault(size = 5, sort = "id", direction = Direction.DESC)
+            Pageable pageable,
+            @RequestParam
+            @NotBlank(message = "검색어는 비어있을 수 없습니다.")
+            @Size(min = 2, message = "검색어는 2글자 이상이어야 합니다.")
+            String keyword
+    ) {
+        return ResponseEntity.ok(travelogueFacadeService.findSimpleTraveloguesByKeyword(pageable, keyword));
     }
 
     @Operation(summary = "여행기 삭제")
