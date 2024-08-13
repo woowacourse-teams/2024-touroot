@@ -21,6 +21,7 @@ import {
 import TravelogueDayAccordion from "@components/pages/travelogueRegister/TravelogueDayAccordion/TravelogueDayAccordion";
 
 import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
+import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useUser from "@hooks/useUser";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
@@ -78,8 +79,8 @@ const TravelogueRegisterPage = () => {
 
   const navigate = useNavigate();
 
-  const handleConfirmBottomSheet = () => {
-    handleRegisterTravelogue(
+  const handleRegisterTravelogue = () => {
+    registerTravelogueMutate(
       { title, thumbnail, days: travelogueDays },
       {
         onSuccess: (data) => {
@@ -90,7 +91,13 @@ const TravelogueRegisterPage = () => {
     );
   };
 
-  const { mutate: handleRegisterTravelogue } = usePostTravelogue();
+  const debouncedRegisterTravelogue = useLeadingDebounce(() => handleRegisterTravelogue(), 3000);
+
+  const handleConfirmBottomSheet = () => {
+    debouncedRegisterTravelogue();
+  };
+
+  const { mutate: registerTravelogueMutate } = usePostTravelogue();
 
   const { user } = useUser();
 
