@@ -113,7 +113,7 @@ public class TravelogueController {
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "올바르지 않은 페이지네이션 옵션으로 요청했을 때",
+                    description = "올바르지 않은 페이지네이션 옵션 또는 키워드로 요청했을 때",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             ),
     })
@@ -124,7 +124,7 @@ public class TravelogueController {
             @PageableDefault(size = 5, sort = "id", direction = Direction.DESC)
             Pageable pageable,
             @RequestParam
-            @NotBlank(message = "검색어는 비어있을 수 없습니다.")
+            @NotBlank(message = "검색어는 2글자 이상이어야 합니다.")
             @Size(min = 2, message = "검색어는 2글자 이상이어야 합니다.")
             String keyword
     ) {
