@@ -1,11 +1,12 @@
 import * as Sentry from "@sentry/react";
-import { AxiosError, InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
 import type { ErrorResponse } from "@type/api/errorResponse";
-import type { UserResponse } from "@type/domain/user";
+import type { AuthTokenResponse, UserResponse } from "@type/domain/user";
 
 import ApiError from "@apis/ApiError";
 
+import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { HTTP_STATUS_CODE_MAP } from "@constants/httpStatusCode";
 import { ROUTE_PATHS_MAP } from "@constants/route";
@@ -44,7 +45,45 @@ export const handlePreviousRequest = (config: InternalAxiosRequestConfig) => {
   return newConfig;
 };
 
-export const handleAPIError = (error: AxiosError<ErrorResponse>) => {
+const handleUserLogout = () => {
+  localStorage.removeItem(STORAGE_KEYS_MAP.user);
+  alert(ERROR_MESSAGE_MAP.api.login);
+  window.location.href = ROUTE_PATHS_MAP.login;
+};
+
+export const handleAPIError = async (error: AxiosError<ErrorResponse>) => {
+  if (
+    error.response?.status === HTTP_STATUS_CODE_MAP.UNAUTHORIZED &&
+    error.response.data.message === ERROR_MESSAGE_MAP.api.expiredToken
+  ) {
+    try {
+      const user: UserResponse | null = JSON.parse(
+        localStorage.getItem(STORAGE_KEYS_MAP.user) ?? "{}",
+      );
+
+      axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+
+      const response: AxiosResponse<AuthTokenResponse> = await axios.post(
+        API_ENDPOINT_MAP.reissueToken,
+        { refreshToken: user?.refreshToken },
+      );
+
+      const { accessToken, refreshToken, memberId } = response.data;
+
+      localStorage.setItem(
+        STORAGE_KEYS_MAP.user,
+        JSON.stringify({ memberId, accessToken, refreshToken }),
+      );
+
+      if (error.config && error.config.headers) {
+        error.config.headers.Authorization = `Bearer ${accessToken}`;
+        return axios.request(error.config);
+      }
+    } catch (refreshTokenError) {
+      handleUserLogout();
+    }
+  }
+
   Sentry.withScope((scope: Sentry.Scope) => {
     if (!error.response) {
       scope.setLevel("error");
@@ -57,16 +96,6 @@ export const handleAPIError = (error: AxiosError<ErrorResponse>) => {
 
     scope.setLevel("error");
     Sentry.captureException(apiError);
-
-    if (
-      error.response?.status === HTTP_STATUS_CODE_MAP.UNAUTHORIZED &&
-      error.response.data.message === ERROR_MESSAGE_MAP.api.expiredToken
-    ) {
-      localStorage.removeItem(STORAGE_KEYS_MAP.user);
-      alert(ERROR_MESSAGE_MAP.api.login);
-      window.location.href = ROUTE_PATHS_MAP.login;
-      return;
-    }
 
     throw apiError;
   });
