@@ -82,9 +82,9 @@ const TravelogueRegisterPage = () => {
     handleRegisterTravelogue(
       { title, thumbnail, days: travelogueDays },
       {
-        onSuccess: ({ data: { id } }) => {
+        onSuccess: (data) => {
           handleCloseBottomSheet();
-          navigate(ROUTE_PATHS_MAP.travelogue(id));
+          navigate(ROUTE_PATHS_MAP.travelogue(data?.data?.id));
         },
       },
     );

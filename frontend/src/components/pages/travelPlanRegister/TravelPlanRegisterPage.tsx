@@ -72,9 +72,9 @@ const TravelPlanRegisterPage = () => {
     handleAddTravelPlan(
       { title, startDate: formattedStartDate, days: travelPlanDays },
       {
-        onSuccess: ({ data: { id } }) => {
+        onSuccess: (data) => {
           handleCloseBottomSheet();
-          navigate(ROUTE_PATHS_MAP.travelPlan(id));
+          navigate(ROUTE_PATHS_MAP.travelPlan(data?.data?.id));
         },
       },
     );

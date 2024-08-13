@@ -74,7 +74,7 @@ const TravelPlanDetailPage = () => {
   };
 
   //TODO: 수정 이벤트 추가해야함
-  const handleClickReviseButton = () => {};
+  // const handleClickReviseButton = () => {};
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
@@ -128,13 +128,13 @@ const TravelPlanDetailPage = () => {
               />
               {isDropdownOpen && (
                 <Dropdown size="small" position="right">
-                  <Text
+                  {/* <Text
                     textType="detail"
                     onClick={handleClickReviseButton}
                     css={S.cursorPointerStyle}
                   >
                     수정
-                  </Text>
+                  </Text> */}
                   <Text
                     textType="detail"
                     onClick={handleToggleDeleteModal}
