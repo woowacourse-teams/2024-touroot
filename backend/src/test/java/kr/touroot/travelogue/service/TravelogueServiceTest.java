@@ -8,6 +8,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 import java.util.List;
 import kr.touroot.global.ServiceTest;
+import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
@@ -31,7 +32,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Pageable;
 
 @DisplayName("여행기 서비스")
-@Import(value = {TravelogueService.class, TravelogueTestHelper.class, AwsS3Provider.class})
+@Import(value = {TravelogueService.class, TravelogueTestHelper.class, AwsS3Provider.class, TestQueryDslConfig.class})
 @ServiceTest
 class TravelogueServiceTest {
 
@@ -97,6 +98,7 @@ class TravelogueServiceTest {
                 .hasMessage("존재하지 않는 여행기입니다.");
     }
 
+
     @DisplayName("여행기를 전체 조회할 수 있다.")
     @Test
     void findAll() {
@@ -104,6 +106,24 @@ class TravelogueServiceTest {
 
         assertThat(travelogueService.findAll(Pageable.ofSize(BASIC_PAGE_SIZE)))
                 .hasSize(1);
+    }
+
+    @DisplayName("여행기를 전체 조회할 수 있다.")
+    @Test
+    void findByKeyword() {
+        testHelper.initTravelogueTestData();
+
+        assertThat(travelogueService.findByKeyword("제주", Pageable.ofSize(BASIC_PAGE_SIZE)))
+                .hasSize(1);
+    }
+
+    @DisplayName("존재하지 않는 키워드로 여행기를 조회하면 빈 페이지가 반환된다.")
+    @Test
+    void findByKeywordWithNotExistKeyword() {
+        testHelper.initTravelogueTestData();
+
+        assertThat(travelogueService.findByKeyword("서울", Pageable.ofSize(BASIC_PAGE_SIZE)))
+                .isEmpty();
     }
 
     @DisplayName("여행기를 삭제할 수 있다.")

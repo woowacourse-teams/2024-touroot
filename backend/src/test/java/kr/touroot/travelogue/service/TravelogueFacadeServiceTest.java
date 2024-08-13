@@ -8,6 +8,7 @@ import java.util.List;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
@@ -40,7 +41,8 @@ import org.springframework.data.domain.Pageable;
         MemberService.class,
         TravelogueTestHelper.class,
         AwsS3Provider.class,
-        PasswordEncryptor.class
+        PasswordEncryptor.class,
+        TestQueryDslConfig.class
 })
 @ServiceTest
 class TravelogueFacadeServiceTest {
@@ -107,6 +109,16 @@ class TravelogueFacadeServiceTest {
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         assertThat(service.findSimpleTravelogues(Pageable.ofSize(5)))
+                .isEqualTo(responses);
+    }
+
+    @DisplayName("제목 키워드를 기반으로 여행기 목록을 조회한다.")
+    @Test
+    void findTraveloguesByKeyword() {
+        testHelper.initTravelogueTestData();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
+
+        assertThat(service.findSimpleTraveloguesByKeyword(Pageable.ofSize(5), "제주"))
                 .isEqualTo(responses);
     }
 
