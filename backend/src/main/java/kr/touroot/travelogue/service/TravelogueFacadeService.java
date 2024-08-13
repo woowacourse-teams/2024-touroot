@@ -6,7 +6,6 @@ import java.util.Map;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.service.MemberService;
-import kr.touroot.tag.domain.Tag;
 import kr.touroot.tag.dto.TagResponse;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
@@ -38,12 +37,6 @@ public class TravelogueFacadeService {
     private final TravelogueTagService travelogueTagService;
     private final MemberService memberService;
 
-    private List<TagResponse> getTagResponses(List<Tag> tags) {
-        return tags.stream()
-                .map(TagResponse::from)
-                .toList();
-    }
-
     @Transactional
     public TravelogueResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
         Member author = memberService.getById(member.memberId());
@@ -56,7 +49,7 @@ public class TravelogueFacadeService {
             return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue));
         }
 
-        List<TagResponse> tagResponses = getTagResponses(travelogueTagService.createTravelogueTags(travelogue, request.tags()));
+        List<TagResponse> tagResponses = travelogueTagService.createTravelogueTags(travelogue, request.tags());
         return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue), tagResponses);
     }
 
@@ -93,11 +86,10 @@ public class TravelogueFacadeService {
     }
 
     private TravelogueResponse getTravelogueResponse(Travelogue travelogue) {
-        List<TagResponse> tagResponses = getTagResponses(travelogueTagService.readTagByTravelogue(travelogue));
+        List<TagResponse> tagResponses = travelogueTagService.readTagByTravelogue(travelogue);
         if (tagResponses.isEmpty()) {
             return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue));
         }
-
         return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue), tagResponses);
     }
 
@@ -111,7 +103,7 @@ public class TravelogueFacadeService {
     }
 
     private TravelogueSimpleResponse getTravelogueSimpleResponse(Travelogue travelogue) {
-        List<TagResponse> tagResponses = getTagResponses(travelogueTagService.readTagByTravelogue(travelogue));
+        List<TagResponse> tagResponses = travelogueTagService.readTagByTravelogue(travelogue);
         if (tagResponses.isEmpty()) {
             return TravelogueSimpleResponse.from(travelogue);
         }

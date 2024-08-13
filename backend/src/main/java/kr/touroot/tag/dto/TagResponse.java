@@ -6,8 +6,8 @@ import lombok.Builder;
 
 @Builder
 public record TagResponse(
-        @Schema(description = "생성된 태그의 id") Long id,
-        @Schema(description = "생성된 태그의 내용") String tag
+        @Schema(description = "생성된 태그의 id", example = "1") Long id,
+        @Schema(description = "생성된 태그의 내용", example = "신나는 강아지 산책") String tag
 ) {
 
     public static TagResponse from(Tag tag) {
