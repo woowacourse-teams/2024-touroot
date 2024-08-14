@@ -19,7 +19,7 @@ public class TravelogueService {
 
     private final TravelogueRepository travelogueRepository;
     private final AwsS3Provider s3Provider;
-    private final TravelogueQueryRepository travelogueQueryRepositoryImpl;
+    private final TravelogueQueryRepository travelogueQueryRepository;
 
     public Travelogue createTravelogue(Member author, TravelogueRequest request) {
         String url = s3Provider.copyImageToPermanentStorage(request.thumbnail());
@@ -41,7 +41,7 @@ public class TravelogueService {
     }
 
     public Page<Travelogue> findByKeyword(String keyword, Pageable pageable) {
-        return travelogueQueryRepositoryImpl.findByTitleContaining(keyword, pageable);
+        return travelogueQueryRepository.findByTitleContaining(keyword, pageable);
     }
 
     public void delete(Travelogue travelogue, Member author) {

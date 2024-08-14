@@ -77,18 +77,9 @@ public class TravelogueFacadeService {
         return getTravelogueResponse(travelogue);
     }
 
-    @Transactional(readOnly = true)
-    public Page<TravelogueSimpleResponse> findSimpleTravelogues(Pageable pageable) {
-        Page<Travelogue> travelogues = travelogueService.findAll(pageable);
-
-        return travelogues.map(TravelogueSimpleResponse::from);
-    }
-
-    @Transactional(readOnly = true)
-    public Page<TravelogueSimpleResponse> findSimpleTravelogues(Pageable pageable, TravelogueSearchRequest request) {
-        Page<Travelogue> travelogues = travelogueService.findByKeyword(request.keyword(), pageable);
-
-        return travelogues.map(TravelogueSimpleResponse::from);
+    private TravelogueResponse getTravelogueResponse(Travelogue travelogue) {
+        List<TagResponse> tagResponses = travelogueTagService.readTagByTravelogue(travelogue);
+        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue), tagResponses);
     }
 
     private List<TravelogueDayResponse> findDaysOfTravelogue(Travelogue travelogue) {
@@ -117,9 +108,14 @@ public class TravelogueFacadeService {
     public Page<TravelogueSimpleResponse> findSimpleTravelogues(final Pageable pageable) {
         Page<Travelogue> travelogues = travelogueService.findAll(pageable);
 
-        return new PageImpl<>(travelogues.stream()
-                .map(this::getTravelogueSimpleResponse)
-                .toList());
+        return travelogues.map(this::getTravelogueSimpleResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TravelogueSimpleResponse> findSimpleTravelogues(Pageable pageable, TravelogueSearchRequest request) {
+        Page<Travelogue> travelogues = travelogueService.findByKeyword(request.keyword(), pageable);
+
+        return travelogues.map(this::getTravelogueSimpleResponse);
     }
 
     private TravelogueSimpleResponse getTravelogueSimpleResponse(Travelogue travelogue) {
