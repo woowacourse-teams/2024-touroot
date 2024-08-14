@@ -13,6 +13,7 @@ import kr.touroot.global.exception.BadRequestException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -67,10 +68,20 @@ public class Member extends BaseEntity {
             Long kakaoId, String email, String password, String nickname, String profileImageUrl, LoginType loginType
     ) {
         validateByLoginType(kakaoId, email, password, loginType);
-        validateNotNull(nickname, profileImageUrl);
-        validateNotBlank(nickname, profileImageUrl);
+        validateNickname(nickname);
+        validateProfileImageUrl(profileImageUrl);
         validateNicknameLength(nickname);
         validateProfileImageUrl(profileImageUrl);
+    }
+
+    private void validateNickname(String nickname) {
+        validateNicknameNotBlank(nickname);
+        validateNicknameLength(nickname);
+    }
+
+    private void validateProfileImageUrl(String profileImageUrl) {
+        validateProfileImageUrlNotBlank(profileImageUrl);
+        validateProfileImageUrlForm(profileImageUrl);
     }
 
     private void validateByLoginType(Long kakaoId, String email, String password, LoginType loginType) {
@@ -87,15 +98,15 @@ public class Member extends BaseEntity {
         }
     }
 
-    private void validateNotNull(String nickname, String profileImageUrl) {
-        if (nickname == null || profileImageUrl == null) {
-            throw new BadRequestException("닉네임, 프로필 이미지는 비어 있을 수 없습니다");
+    private void validateNicknameNotBlank(String nickname) {
+        if (StringUtils.isBlank(nickname)) {
+            throw new BadRequestException("닉네임은 비어 있을 수 없습니다");
         }
     }
 
-    private void validateNotBlank(String nickname, String profileImageUrl) {
-        if (nickname.isBlank() || profileImageUrl.isBlank()) {
-            throw new BadRequestException("닉네임, 프로필 이미지는 비어 있을 수 없습니다");
+    private void validateProfileImageUrlNotBlank(String profileImageUrl) {
+        if (StringUtils.isBlank(profileImageUrl)) {
+            throw new BadRequestException("프로필 이미지는 비어 있을 수 없습니다");
         }
     }
 
@@ -107,11 +118,16 @@ public class Member extends BaseEntity {
         }
     }
 
-    private void validateProfileImageUrl(String profileImageUrl) {
+    private void validateProfileImageUrlForm(String profileImageUrl) {
         try {
             new URL(profileImageUrl).toURI();
         } catch (Exception e) {
             throw new BadRequestException("이미지 url 형식이 잘못되었습니다");
         }
+    }
+
+    public void changeNickname(String nickname) {
+        validateNickname(nickname);
+        this.nickname = nickname;
     }
 }
