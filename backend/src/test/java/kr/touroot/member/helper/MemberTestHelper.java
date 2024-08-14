@@ -21,4 +21,8 @@ public class MemberTestHelper {
         Member member = DEFAULT_MEMBER.build();
         return memberRepository.save(member);
     }
+
+    public Member persistMember(Member member) {
+        return memberRepository.save(member);
+    }
 }
