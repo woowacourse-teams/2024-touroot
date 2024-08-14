@@ -55,14 +55,15 @@ export const DayPicker = {
 
     return (
       <div>
-        <h1>여행 기간</h1>
+        <h1 style={{ fontWeight: "700" }}>여행 기간</h1>
         <Input
           value={startDate ? startDate.toLocaleDateString() : ""}
           onClick={handleInputClick}
           readOnly
           placeholder="시작일 선택"
+          style={{ marginTop: "0.8rem" }}
         />
-        <div style={{ width: "300px", position: "relative" }}>
+        <div style={{ width: "300px", position: "relative", margin: "1.6rem 0" }}>
           {isShowCalendar && (
             <Calendar
               onClose={() => setIsShowCalendar((prev) => !prev)}
