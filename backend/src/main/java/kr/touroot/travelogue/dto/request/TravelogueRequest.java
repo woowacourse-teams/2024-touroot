@@ -28,15 +28,7 @@ public record TravelogueRequest(
         List<TravelogueDayRequest> days
 ) {
 
-    public TravelogueRequest(String title, String thumbnail, List<TravelogueDayRequest> days) {
-        this(title, thumbnail, List.of(), days);
-    }
-
     public Travelogue toTravelogueOf(Member author, String url) {
         return new Travelogue(author, title, url);
-    }
-
-    public boolean isEmptyTag() {
-        return tags.isEmpty();
     }
 }
