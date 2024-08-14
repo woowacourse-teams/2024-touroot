@@ -3,15 +3,18 @@ package kr.touroot.global.config;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import kr.touroot.travelogue.repository.TravelogueQueryRepository;
 import kr.touroot.travelogue.repository.TravelogueQueryRepositoryImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
+@RequiredArgsConstructor
 @TestConfiguration
 public class TestQueryDslConfig {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Bean
     public JPAQueryFactory jpaQueryFactory() {
@@ -19,7 +22,7 @@ public class TestQueryDslConfig {
     }
 
     @Bean
-    public TravelogueQueryRepositoryImpl travelogueQueryRepositoryImpl() {
+    public TravelogueQueryRepository travelogueQueryRepository() {
         return new TravelogueQueryRepositoryImpl(jpaQueryFactory());
     }
 }
