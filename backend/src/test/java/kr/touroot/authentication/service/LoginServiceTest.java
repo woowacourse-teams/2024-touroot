@@ -1,6 +1,5 @@
 package kr.touroot.authentication.service;
 
-import static kr.touroot.authentication.fixture.MemberFixture.MEMBER_KAKAO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -13,6 +12,7 @@ import kr.touroot.authentication.fixture.OauthUserInformationFixture;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.authentication.infrastructure.KakaoOauthProvider;
 import kr.touroot.member.domain.Member;
+import kr.touroot.member.fixture.MemberFixture;
 import kr.touroot.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,6 +27,7 @@ class LoginServiceTest {
 
     private static final String AUTHENTICATION_CODE = "test-authentication-code";
     private static final String REDIRECT_URI = "http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fv1%2Flogin%2Foauth%2Fkakao";
+    private static final Member MEMBER = MemberFixture.KAKAO_MEMBER.build();
 
     @InjectMocks
     private LoginService loginService;
@@ -44,12 +45,12 @@ class LoginServiceTest {
         when(kakaoOauthProvider.getUserInformation(any(String.class), any(String.class)))
                 .thenReturn(OauthUserInformationFixture.USER_1_OAUTH_INFORMATION);
         when(memberRepository.findByKakaoId(any(Long.class)))
-                .thenReturn(Optional.of(MEMBER_KAKAO.getMember()));
+                .thenReturn(Optional.of(MEMBER));
         LoginResponse response = loginService.login(AUTHENTICATION_CODE, REDIRECT_URI);
 
         // when & then
         assertThat(response).isEqualTo(
-                LoginResponse.of(MEMBER_KAKAO.getMember(), response.accessToken()));
+                LoginResponse.of(MEMBER, response.accessToken()));
     }
 
     @DisplayName("투룻 회원가입이 되어 있지 않은 회원은 소셜 로그인 과정에서 회원가입 후 로그인 된다")
@@ -61,12 +62,12 @@ class LoginServiceTest {
         when(memberRepository.findByKakaoId(any(Long.class)))
                 .thenReturn(Optional.empty());
         when(memberRepository.save(any(Member.class)))
-                .thenReturn(MEMBER_KAKAO.getMember());
+                .thenReturn(MEMBER);
         LoginResponse response = loginService.login(AUTHENTICATION_CODE, REDIRECT_URI);
 
         // when & then
         assertThat(response).isEqualTo(
-                LoginResponse.of(MEMBER_KAKAO.getMember(), response.accessToken()));
+                LoginResponse.of(MEMBER, response.accessToken()));
         verify(memberRepository, times(1)).save(any(Member.class));
     }
 }
