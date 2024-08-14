@@ -1,5 +1,6 @@
 package kr.touroot.travelplan.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -84,5 +85,14 @@ class TravelPlaceTodoTest {
         assertThatThrownBy(() -> new TravelPlaceTodo(VALID_PLACE, VALID_CONTENT, negative, VALID_CHECK))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("TODO 순서는 음수일 수 없습니다");
+    }
+
+    @DisplayName("TODO의 상태를 업데이트 할 수 있다")
+    @Test
+    void updateCheckStatus() {
+        TravelPlaceTodo todo = new TravelPlaceTodo(VALID_PLACE, VALID_CONTENT, VALID_ORDER, VALID_CHECK);
+        todo.updateCheckedStatus(false);
+
+        assertThat(todo.getIsChecked()).isFalse();
     }
 }

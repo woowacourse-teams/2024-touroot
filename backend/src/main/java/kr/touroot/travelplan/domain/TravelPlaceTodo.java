@@ -85,4 +85,8 @@ public class TravelPlaceTodo extends BaseEntity {
             throw new BadRequestException("TODO 순서는 음수일 수 없습니다");
         }
     }
+
+    public void updateCheckedStatus(boolean checkedStatus) {
+        isChecked = checkedStatus;
+    }
 }
