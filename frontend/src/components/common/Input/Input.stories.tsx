@@ -26,3 +26,19 @@ export const Default: Story = {
     maxCount: 20,
   },
 };
+
+export const BottomBorderInput: Story = {
+  args: {
+    label: "제목",
+    placeholder: "제목을 입력해 주세요.",
+    variants: "bottomBorder",
+  },
+};
+
+export const FocusBottomBorderInput: Story = {
+  args: {
+    label: "제목",
+    placeholder: "제목을 입력해 주세요.",
+    variants: "focusBottomBorder",
+  },
+};
