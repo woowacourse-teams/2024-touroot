@@ -20,7 +20,6 @@ import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,18 +79,14 @@ public class TravelogueFacadeService {
     public Page<TravelogueSimpleResponse> findSimpleTravelogues(final Pageable pageable) {
         Page<Travelogue> travelogues = travelogueService.findAll(pageable);
 
-        return new PageImpl<>(travelogues.stream()
-                .map(TravelogueSimpleResponse::from)
-                .toList());
+        return travelogues.map(TravelogueSimpleResponse::from);
     }
 
     @Transactional(readOnly = true)
     public Page<TravelogueSimpleResponse> findSimpleTraveloguesByKeyword(Pageable pageable, String keyword) {
         Page<Travelogue> travelogues = travelogueService.findByKeyword(keyword, pageable);
 
-        return new PageImpl<>(travelogues.stream()
-                .map(TravelogueSimpleResponse::from)
-                .toList());
+        return travelogues.map(TravelogueSimpleResponse::from);
     }
 
     private List<TravelogueDayResponse> findDaysOfTravelogue(Travelogue travelogue) {
