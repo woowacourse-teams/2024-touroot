@@ -1,278 +1,217 @@
 [
   {
-    "id": 13,
-    "title": "리버의 ㅋㅋㄹ",
-    "thumbnail": "https://dev.touroot.kr/images/01630513-3942-4f98-ac6b-66df63a0d8d0.jpg",
+    "id": 114,
+    "title": "🍜 지니의 여행기 🍤",
+    "authorId": 2,
+    "authorNickname": "손진영",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-08-09",
+    "isLiked": true,
+    "likeCount": 120,
     "days": [
       {
-        "id": 26,
+        "id": 147,
         "places": [
           {
-            "id": 38,
-            "placeName": "ㅋㅋㄹ삥뽕김밥",
-            "description": "김밥....\n\n정말....대박적 맛있다....\n\n\n\n정말 최고...\n였...\n다......",
+            "id": 154,
+            "placeName": "이치란 본점",
+            "description": "이치란 라멘 일본에서 못 먹어본 맛이야~!",
             "position": {
-              "lat": "37.6375",
-              "lng": "126.663"
+              "id": 160,
+              "lat": "33.5932405",
+              "lng": "130.4045974"
             },
-            "photoUrls": ["https://dev.touroot.kr/images/5213040f-430c-4f29-aba1-c24315991184.jpg"]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 12,
-    "title": "",
-    "thumbnail": "",
-    "days": []
-  },
-  {
-    "id": 11,
-    "title": "소렛의 도쿄여행💓",
-    "thumbnail": "https://dev.touroot.kr/images/d885b8e7-a521-401a-8f84-5de856df3996.jpeg",
-    "days": [
-      {
-        "id": 25,
-        "places": [
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
           {
-            "id": 37,
-            "placeName": "도쿄",
-            "description": null,
+            "id": 155,
+            "placeName": "후쿠오카시",
+            "description": "후쿠오카 넘 아름다운 도시 인 것 같다.",
             "position": {
-              "lat": "35.6812",
-              "lng": "139.767"
+              "id": 161,
+              "lat": "33.5901838",
+              "lng": "130.4016888"
             },
-            "photoUrls": ["https://dev.touroot.kr/images/4435a346-0cff-473c-a21c-8831a56bf49e.jpeg"]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 10,
-    "title": "솔라 여행기",
-    "thumbnail": "https://dev.touroot.kr/images/7d4f3aff-38ad-4a33-adc5-0b04bc19d8f7.webp",
-    "days": [
-      {
-        "id": 16,
-        "places": [
-          {
-            "id": 28,
-            "placeName": "에펠탑",
-            "description": "올림픽 한대요...30일 짜리 여행이면 Day추가가 귀찮을수도?",
-            "position": {
-              "lat": "48.8584",
-              "lng": "2.29448"
-            },
-            "photoUrls": ["https://dev.touroot.kr/images/59e1699c-8092-4012-87d5-a686da952925.jpg"]
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
           }
         ]
       },
       {
-        "id": 17,
+        "id": 148,
         "places": [
           {
-            "id": 29,
-            "placeName": "노트르담 대성당",
-            "description": null,
+            "id": 156,
+            "placeName": "후쿠오카",
+            "description": "일본에 있는 자판기 넘 이쁘다",
             "position": {
-              "lat": "48.853",
+              "id": 162,
+              "lat": "38.3810516",
+              "lng": "140.7449254"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          },
+          {
+            "id": 157,
+            "placeName": "가마쿠라",
+            "description": "넘나 아름다웠던 곳!",
+            "position": {
+              "id": 163,
+              "lat": "35.7461183",
+              "lng": "139.8790478"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 115,
+    "title": "리버의 도쿄 여행",
+    "authorId": 3,
+    "authorNickname": "리버",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-08-01",
+    "isLiked": false,
+    "likeCount": 85,
+    "days": [
+      {
+        "id": 149,
+        "places": [
+          {
+            "id": 158,
+            "placeName": "도쿄 타워",
+            "description": "도쿄 타워는 정말 멋져!",
+            "position": {
+              "id": 164,
+              "lat": "35.6585805",
+              "lng": "139.7454329"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 159,
+            "placeName": "시부야 스크램블 교차로",
+            "description": "시부야의 교차로는 정말 유명해.",
+            "position": {
+              "id": 165,
+              "lat": "35.6595",
+              "lng": "139.7005"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 150,
+        "places": [
+          {
+            "id": 160,
+            "placeName": "우에노 공원",
+            "description": "우에노 공원에서 산책하는 건 정말 평화로워.",
+            "position": {
+              "id": 166,
+              "lat": "35.7128",
+              "lng": "139.7745"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 161,
+            "placeName": "아사쿠사",
+            "description": "아사쿠사에서 맛있는 음식들 먹기!",
+            "position": {
+              "id": 167,
+              "lat": "35.7104",
+              "lng": "139.7967"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 116,
+    "title": "소피아의 파리 여행",
+    "authorId": 4,
+    "authorNickname": "소피아",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-07-15",
+    "isLiked": true,
+    "likeCount": 200,
+    "days": [
+      {
+        "id": 151,
+        "places": [
+          {
+            "id": 162,
+            "placeName": "에펠탑",
+            "description": "파리의 상징, 에펠탑은 꼭 가봐야 해!",
+            "position": {
+              "id": 168,
+              "lat": "48.8584",
+              "lng": "2.2945"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 163,
+            "placeName": "루브르 박물관",
+            "description": "세계에서 가장 유명한 박물관 중 하나, 루브르.",
+            "position": {
+              "id": 169,
+              "lat": "48.8606",
+              "lng": "2.3376"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 152,
+        "places": [
+          {
+            "id": 164,
+            "placeName": "노트르담 대성당",
+            "description": "고딕 건축의 걸작, 노트르담 대성당.",
+            "position": {
+              "id": 170,
+              "lat": "48.8530",
               "lng": "2.3499"
             },
-            "photoUrls": ["https://dev.touroot.kr/images/a8c6d973-85ca-4741-9d20-7940fdfe7b44.jpg"]
-          }
-        ]
-      },
-      {
-        "id": 18,
-        "places": [
-          {
-            "id": 30,
-            "placeName": "센 강",
-            "description": null,
-            "position": {
-              "lat": "48.6383",
-              "lng": "2.4489"
-            },
-            "photoUrls": ["https://dev.touroot.kr/images/1bf4295c-3597-4c9e-a1b3-abe91c1898cc.png"]
-          }
-        ]
-      },
-      {
-        "id": 19,
-        "places": [
-          {
-            "id": 31,
-            "placeName": "오르세 미술관",
-            "description": null,
-            "position": {
-              "lat": "48.86",
-              "lng": "2.32656"
-            },
-            "photoUrls": ["https://dev.touroot.kr/images/ac4f94d9-0c46-4f05-bb3a-67bcf06ba83f.png"]
-          }
-        ]
-      },
-      {
-        "id": 20,
-        "places": [
-          {
-            "id": 32,
-            "placeName": "루브르 박물관",
-            "description": null,
-            "position": {
-              "lat": "48.8606",
-              "lng": "2.33764"
-            },
-            "photoUrls": ["https://dev.touroot.kr/images/87ee285f-d0ed-4575-964f-7e126145f054.png"]
-          }
-        ]
-      },
-      {
-        "id": 21,
-        "places": [
-          {
-            "id": 33,
-            "placeName": "몽파르나스타워",
-            "description": null,
-            "position": {
-              "lat": "48.8421",
-              "lng": "2.32195"
-            },
-            "photoUrls": ["https://dev.touroot.kr/images/00c74d1b-1d8d-4661-a5ab-527146200ca0.jpg"]
-          }
-        ]
-      },
-      {
-        "id": 22,
-        "places": [
-          {
-            "id": 34,
-            "placeName": "튈르리정원",
-            "description": null,
-            "position": {
-              "lat": "36.0126",
-              "lng": "129.364"
-            },
-            "photoUrls": ["https://dev.touroot.kr/images/1b0a55d7-2ae2-4339-9c18-80938e73fdd1.jpg"]
-          }
-        ]
-      },
-      {
-        "id": 23,
-        "places": [
-          {
-            "id": 35,
-            "placeName": "오랑주리 미술관",
-            "description": null,
-            "position": {
-              "lat": "48.8638",
-              "lng": "2.32267"
-            },
-            "photoUrls": ["https://dev.touroot.kr/images/503ac4eb-0d4a-4c36-befe-5bac0d18af28.jpg"]
-          }
-        ]
-      },
-      {
-        "id": 24,
-        "places": [
-          {
-            "id": 36,
-            "placeName": "파리 샤를드골 국제공항",
-            "description": "집 가기 싫어요...",
-            "position": {
-              "lat": "49.0079",
-              "lng": "2.55079"
-            },
-            "photoUrls": ["https://dev.touroot.kr/images/a5f3e510-9fc4-416f-8d2a-b5e5d41f79dc.png"]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 9,
-    "title": "지니의 여행기",
-    "thumbnail": "https://dev.touroot.kr/images/0d345f10-32ab-4b4b-aaad-cfaef6371fe9.jpg",
-    "days": [
-      {
-        "id": 15,
-        "places": [
-          {
-            "id": 26,
-            "placeName": "Dotonbori",
-            "description": "도톤보리 좋아요",
-            "position": {
-              "lat": "34.6686",
-              "lng": "135.503"
-            },
-            "photoUrls": [
-              "https://dev.touroot.kr/images/f71e5182-32db-4b2d-be47-0353264686e5.jpg",
-              "https://dev.touroot.kr/images/b3e608a6-f1b7-47ae-a427-1c0b3c7b3ed6.jpg"
-            ]
+            "photoUrls": ["https://via.placeholder.com/600x400"]
           },
           {
-            "id": 27,
-            "placeName": "Don Quijote Dotonbori",
-            "description": "돈키호테 좋아요",
+            "id": 165,
+            "placeName": "몽마르뜨 언덕",
+            "description": "예술가들의 거리, 몽마르뜨 언덕에서 바라본 파리 전경은 최고야!",
             "position": {
-              "lat": "34.6693",
-              "lng": "135.503"
-            },
-            "photoUrls": ["https://dev.touroot.kr/images/9325a0ae-aa70-44c3-bed3-1de0997f5927.jpg"]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 8,
-    "title": "충북의 보물 단양 여행기",
-    "thumbnail": "https://dev.touroot.kr/images/6a74df25-e644-4255-9ad1-490d215e7b88.jpeg",
-    "days": [
-      {
-        "id": 14,
-        "places": [
-          {
-            "id": 23,
-            "placeName": "도담삼봉",
-            "description": "누가 만들어놓은 것 같이 참 이뿌네요. 한 폭의 그림 같은 느낌이랄까요",
-            "position": {
-              "lat": "37.0",
-              "lng": "128.344"
+              "id": 171,
+              "lat": "48.8867",
+              "lng": "2.3431"
             },
             "photoUrls": [
-              "https://dev.touroot.kr/images/18e7fb1a-9bdc-4745-b2b2-e883003bb272.jpg",
-              "https://dev.touroot.kr/images/3cd55b49-2cb6-4e1d-bf73-a35ca78dea3b.jpg",
-              "https://dev.touroot.kr/images/23bf1916-a9ac-4489-a908-1e98d381d8b8.jpg"
-            ]
-          },
-          {
-            "id": 24,
-            "placeName": "만천하 스카이워크",
-            "description": "드높은 천상이 생각나는 아찔한 높이.. 올라가는게 힘들긴 합니다 ㅋ",
-            "position": {
-              "lat": "36.9803",
-              "lng": "128.339"
-            },
-            "photoUrls": [
-              "https://dev.touroot.kr/images/f0420244-00aa-42c2-8b09-04cb18d54bb3.jpg",
-              "https://dev.touroot.kr/images/5ca1bef7-20d9-4140-abd6-92a12ffa2217.jpg",
-              "https://dev.touroot.kr/images/2b794311-685c-43d8-bdc0-2c6fcae9ed65.jpg"
-            ]
-          },
-          {
-            "id": 25,
-            "placeName": "단양강 잔도",
-            "description": "제가 초한지를 좋아해서 잔도에 대한 로망이 있었는데 너무 좋았어용",
-            "position": {
-              "lat": "36.978",
-              "lng": "128.34"
-            },
-            "photoUrls": [
-              "https://dev.touroot.kr/images/c4264f62-ff52-43d8-a5a5-89e7f096c88f.jpg",
-              "https://dev.touroot.kr/images/ad7b3840-f606-4182-a982-7391bad73b6d.jpg"
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
             ]
           }
         ]
@@ -280,59 +219,72 @@
     ]
   },
   {
-    "id": 7,
-    "title": "허광한을 만나러 대만으로",
-    "thumbnail": "https://dev.touroot.kr/images/abcdc97d-10d3-467f-8421-b204d8ede346.jpeg",
+    "id": 117,
+    "title": "케빈의 뉴욕 여행",
+    "authorId": 5,
+    "authorNickname": "케빈",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-06-30",
+    "isLiked": true,
+    "likeCount": 150,
     "days": [
       {
-        "id": 12,
+        "id": 153,
         "places": [
           {
-            "id": 19,
-            "placeName": "홍마오청",
-            "description": "너무 이뻤던 홍마오청",
+            "id": 166,
+            "placeName": "타임스퀘어",
+            "description": "타임스퀘어의 야경은 정말 멋져!",
             "position": {
-              "lat": "25.1754",
-              "lng": "121.433"
+              "id": 172,
+              "lat": "40.7580",
+              "lng": "-73.9855"
             },
-            "photoUrls": ["https://dev.touroot.kr/images/987a36e0-68f4-4a47-b0ae-c98bb11a8d58.jpeg"]
+            "photoUrls": ["https://via.placeholder.com/600x400"]
           },
           {
-            "id": 20,
-            "placeName": "진과스 황금관",
-            "description": "홍등이 너무 이뻤다",
+            "id": 167,
+            "placeName": "센트럴 파크",
+            "description": "센트럴 파크에서의 산책은 정말 평화로워.",
             "position": {
-              "lat": "25.1063",
-              "lng": "121.859"
+              "id": 173,
+              "lat": "40.7851",
+              "lng": "-73.9683"
             },
-            "photoUrls": ["https://dev.touroot.kr/images/19f5646f-a75f-4eeb-bcb7-90cdd5f98457.jpeg"]
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
           }
         ]
       },
       {
-        "id": 13,
+        "id": 154,
         "places": [
           {
-            "id": 21,
-            "placeName": "타이베이101 전망대",
-            "description": "엄청난 도시 같은 기분",
+            "id": 168,
+            "placeName": "엠파이어 스테이트 빌딩",
+            "description": "뉴욕의 전경을 한눈에 볼 수 있는 곳!",
             "position": {
-              "lat": "25.0337",
-              "lng": "121.565"
+              "id": 174,
+              "lat": "40.748817",
+              "lng": "-73.985428"
             },
-            "photoUrls": ["https://dev.touroot.kr/images/93196c49-e90d-4569-a87f-e7f3653f9fed.jpeg"]
+            "photoUrls": ["https://via.placeholder.com/600x400"]
           },
           {
-            "id": 22,
-            "placeName": "키키레스토랑 (att 4 fun 지점)",
-            "description": "존맛탱구리리리집",
+            "id": 169,
+            "placeName": "브루클린 다리",
+            "description": "브루클린 다리에서 바라본 맨해튼은 정말 아름다워.",
             "position": {
-              "lat": "25.0355",
-              "lng": "121.566"
+              "id": 175,
+              "lat": "40.7061",
+              "lng": "-73.9969"
             },
             "photoUrls": [
-              "https://dev.touroot.kr/images/136b4caa-e58b-425c-9b40-dadf86816660.jpeg",
-              "https://dev.touroot.kr/images/0313eff5-93e1-403a-84d8-6fe59c34129f.jpeg"
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
             ]
           }
         ]
@@ -340,52 +292,72 @@
     ]
   },
   {
-    "id": 6,
-    "title": "살라메스즈베~~ 낙낙의 카작 여행기!",
-    "thumbnail": "https://dev.touroot.kr/images/f2346f3b-eb3a-4fdc-bb2c-808ddb42f530.JPG",
+    "id": 118,
+    "title": "엘리사의 런던 여행",
+    "authorId": 6,
+    "authorNickname": "엘리사",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-05-20",
+    "isLiked": false,
+    "likeCount": 95,
     "days": [
       {
-        "id": 11,
+        "id": 155,
         "places": [
           {
-            "id": 16,
-            "placeName": "First President park",
-            "description": "그렇게 특별한 곳은 아니었지만, 공원이 엄청 넓었다!!\n산책로도 잘 되어 있고 특히 중간에 만난 청설모(?)가 넘나리 귀여웠다 ㅎㅎ\n그냥 가볼만한 정도인듯!",
+            "id": 170,
+            "placeName": "빅벤",
+            "description": "런던의 상징, 빅벤은 꼭 가봐야 해!",
             "position": {
-              "lat": "43.1937",
-              "lng": "76.8868"
+              "id": 176,
+              "lat": "51.5007",
+              "lng": "-0.1246"
             },
-            "photoUrls": [
-              "https://dev.touroot.kr/images/9ee30c4b-a3d1-4782-a42b-ffd8bb793bb0.JPG",
-              "https://dev.touroot.kr/images/d18608ec-22ff-43cd-a02a-0ff8bdf279ac.JPG",
-              "https://dev.touroot.kr/images/a70fa145-5e17-4295-aedd-56c3d1164770.JPG",
-              "https://dev.touroot.kr/images/a32706fe-ae25-4d31-9dfc-56db199c8147.JPG"
-            ]
+            "photoUrls": ["https://via.placeholder.com/600x400"]
           },
           {
-            "id": 17,
-            "placeName": "Paradise",
-            "description": "점심으로 선택한 파라다이스!\n처음으로 방문한 식당이었는데, 가격이 너무 싸서 놀랐다 ㅎㅎ\n카자흐스탄의 큰 장점이 물가가 엄청 싸다는 것이다.\n저기서 피자 가격이 5000원 정도 했던 것으로 기억한다.\n\n나는 \"라그만\"이라는 걸 먹었는데, 성공적이었음. 나는 짜게 먹는거 좋아해서 맛있었지만, 짠 거 싫어하면 미리 말씀 드려야 할듯!\n\n그리고 카작에선 차를 자주 마신다고 해서 먹어봤는데, 따뜻하고 향도 좋고 맛있었음. 이때부터 차를 즐기기 시작했다 ㅎㅎ",
+            "id": 171,
+            "placeName": "런던 타워",
+            "description": "역사와 현대가 공존하는 곳.",
             "position": {
-              "lat": "43.2425",
-              "lng": "76.9741"
+              "id": 177,
+              "lat": "51.5081",
+              "lng": "-0.0759"
             },
             "photoUrls": [
-              "https://dev.touroot.kr/images/dc8680c2-d12f-492c-b0d2-c9a20bb37683.png",
-              "https://dev.touroot.kr/images/6a6cbc7d-348e-4957-bbae-4121f3e348b0.png"
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
             ]
+          }
+        ]
+      },
+      {
+        "id": 156,
+        "places": [
+          {
+            "id": 172,
+            "placeName": "타워 브릿지",
+            "description": "런던의 대표적인 랜드마크 중 하나.",
+            "position": {
+              "id": 178,
+              "lat": "51.5055",
+              "lng": "-0.0754"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
           },
           {
-            "id": 18,
-            "placeName": "Almaty Mall",
-            "description": "카자흐스탄 물가가 얼마나 싼지 단번에 알 수 있었던 곳..\n진짜 가격이 엄청 착하다.\n\n1 탱게당 3원이니 요거트랑 과일이 300원 정도밖에 안한다..\n\n확실히 유제품류랑 과일류가 엄청 싼듯!!!\n여기 있으면 마치 내가 부자가 된 기분이 든다.",
+            "id": 173,
+            "placeName": "버킹엄 궁전",
+            "description": "여왕의 거처, 웅장함이 느껴지는 곳.",
             "position": {
-              "lat": "43.2075",
-              "lng": "76.8587"
+              "id": 179,
+              "lat": "51.5014",
+              "lng": "-0.1419"
             },
             "photoUrls": [
-              "https://dev.touroot.kr/images/a65f9ecb-642c-4380-915a-faef38c6363c.png",
-              "https://dev.touroot.kr/images/2d57c125-204c-4a59-9a84-e6855340ee33.png"
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
             ]
           }
         ]
@@ -393,101 +365,72 @@
     ]
   },
   {
-    "id": 5,
-    "title": "낭만의 10인 제주도 휴양기",
-    "thumbnail": "https://dev.touroot.kr/images/5c4ee3fe-e803-45c9-b600-0e3586dd2dfd.png",
+    "id": 119,
+    "title": "미셸의 로마 여행",
+    "authorId": 7,
+    "authorNickname": "미셸",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-04-18",
+    "isLiked": true,
+    "likeCount": 175,
     "days": [
       {
-        "id": 8,
+        "id": 157,
         "places": [
           {
-            "id": 9,
-            "placeName": "서우봉 둘레길",
-            "description": "함덕이 한 눈에 보이는 서우봉. 간단한 하이킹 코스로도 훌륭합니다.",
+            "id": 174,
+            "placeName": "콜로세움",
+            "description": "로마의 상징, 콜로세움은 웅장해.",
             "position": {
-              "lat": "33.5453",
-              "lng": "126.675"
+              "id": 180,
+              "lat": "41.8902",
+              "lng": "12.4922"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 175,
+            "placeName": "트레비 분수",
+            "description": "로마에 가면 동전을 던져 소원을 빌어봐!",
+            "position": {
+              "id": 181,
+              "lat": "41.9009",
+              "lng": "12.4833"
             },
             "photoUrls": [
-              "https://dev.touroot.kr/images/57d6a3fd-c41e-4042-b099-589a6150a6e3.png",
-              "https://dev.touroot.kr/images/49145c56-c534-4043-a83c-209551af58ce.png"
-            ]
-          },
-          {
-            "id": 10,
-            "placeName": "동문재래시장",
-            "description": "동문야시장은 제주 향토 음식과 야시장 음식이 잘 조화되어 있는 곳입니다.",
-            "position": {
-              "lat": "33.512",
-              "lng": "126.528"
-            },
-            "photoUrls": ["https://dev.touroot.kr/images/bbb81b88-ce44-41a8-ad73-9d5da8809ef2.png"]
-          }
-        ]
-      },
-      {
-        "id": 9,
-        "places": [
-          {
-            "id": 11,
-            "placeName": "파리바게뜨 동화마을",
-            "description": "제주도 파리바게트에서만 판매하는 우도땅콩크림도넛 맛있습니다. 한 번쯤 먹어볼만 해요!",
-            "position": {
-              "lat": "33.4354",
-              "lng": "126.732"
-            },
-            "photoUrls": ["https://dev.touroot.kr/images/9d457b5c-fa2d-42bf-8e5e-a06767a294f1.png"]
-          },
-          {
-            "id": 12,
-            "placeName": "사려니숲길 붉은오름 입출구",
-            "description": "비 온 뒤의 사려니숲은 이름 그대로 성스러웠습니다. 붉은오름 입출구로 가시는게 주차장과 가깝고 좋습니다.",
-            "position": {
-              "lat": "33.395",
-              "lng": "126.684"
-            },
-            "photoUrls": ["https://dev.touroot.kr/images/e0ed72e9-a38c-4861-850b-187fa276e8ea.png"]
-          },
-          {
-            "id": 13,
-            "placeName": "곱들락탁희",
-            "description": "흑돼지 맛집! 가격대는 꽤 있는 편입니다.",
-            "position": {
-              "lat": "33.5393",
-              "lng": "126.67"
-            },
-            "photoUrls": [
-              "https://dev.touroot.kr/images/83d43cb2-f956-42f0-b08a-b3b66332bd19.png",
-              "https://dev.touroot.kr/images/99ffc965-a444-4661-8b8b-2ab428a7d4fb.png"
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
             ]
           }
         ]
       },
       {
-        "id": 10,
+        "id": 158,
         "places": [
           {
-            "id": 14,
-            "placeName": "함덕해수욕장",
-            "description": "에메랄드빛 바다는 해외 휴양지가 부럽지 않습니다!",
+            "id": 176,
+            "placeName": "바티칸 시국",
+            "description": "세계에서 가장 작은 나라, 바티칸의 웅장함.",
             "position": {
-              "lat": "33.5434",
-              "lng": "126.67"
+              "id": 182,
+              "lat": "41.9029",
+              "lng": "12.4534"
             },
-            "photoUrls": ["https://dev.touroot.kr/images/4bbaef28-2a4b-4976-abd7-c8486e310d73.png"]
+            "photoUrls": ["https://via.placeholder.com/600x400"]
           },
           {
-            "id": 15,
-            "placeName": "스누피가든",
-            "description": "스누피 테마파크! 부지가 엄청 넓어서 날잡고 가시는게 좋습니다. 실내, 실외 모두 구경거리가 많아요~",
+            "id": 177,
+            "placeName": "판테온",
+            "description": "역사적인 건축물, 판테온은 꼭 가봐야 해.",
             "position": {
-              "lat": "33.4442",
-              "lng": "126.778"
+              "id": 183,
+              "lat": "41.8986",
+              "lng": "12.4769"
             },
             "photoUrls": [
-              "https://dev.touroot.kr/images/5053b7d6-bcbd-4b87-9f62-b3690a76f953.png",
-              "https://dev.touroot.kr/images/6faca18a-4865-406a-9807-c9c772bdeba5.png",
-              "https://dev.touroot.kr/images/f02dcd8a-6f9c-4cfb-b439-e6ec9197b66a.png"
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
             ]
           }
         ]
@@ -495,58 +438,72 @@
     ]
   },
   {
-    "id": 4,
-    "title": "행운이 가득한 싱가포르",
-    "thumbnail": "https://dev.touroot.kr/images/bc6c96ae-7068-47dd-8418-c48b10f3ddfb.jpg",
+    "id": 120,
+    "title": "사라의 시드니 여행",
+    "authorId": 8,
+    "authorNickname": "사라",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-03-12",
+    "isLiked": false,
+    "likeCount": 110,
     "days": [
       {
-        "id": 5,
+        "id": 159,
         "places": [
           {
-            "id": 6,
-            "placeName": "머라이언 공원",
-            "description": "싱가포르의 명물. 머메이언 아니고 머라이언.",
+            "id": 178,
+            "placeName": "시드니 오페라 하우스",
+            "description": "세계적인 건축물, 오페라 하우스는 꼭 봐야 해.",
             "position": {
-              "lat": "1.28679",
-              "lng": "103.854"
+              "id": 184,
+              "lat": "-33.8568",
+              "lng": "151.2153"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 179,
+            "placeName": "시드니 하버 브릿지",
+            "description": "하버 브릿지를 건너며 보는 시드니 전경은 최고야.",
+            "position": {
+              "id": 185,
+              "lat": "-33.8523",
+              "lng": "151.2108"
             },
             "photoUrls": [
-              "https://dev.touroot.kr/images/0de51038-ceca-4854-9943-6719f0071832.jpg",
-              "https://dev.touroot.kr/images/85e68e92-7fd6-4807-824b-59277c06a64c.jpg"
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
             ]
           }
         ]
       },
       {
-        "id": 6,
+        "id": 160,
         "places": [
           {
-            "id": 7,
-            "placeName": "유니버셜 스튜디오 싱가포르",
-            "description": "너무 즐거운 곳. 작아서 더 즐겁다!",
+            "id": 180,
+            "placeName": "본다이 비치",
+            "description": "세계적으로 유명한 해변, 본다이 비치는 꼭 가봐야 해.",
             "position": {
-              "lat": "1.25404",
-              "lng": "103.824"
+              "id": 186,
+              "lat": "-33.8908",
+              "lng": "151.2743"
             },
-            "photoUrls": ["https://dev.touroot.kr/images/d350fbe8-a1a4-4979-bd92-1c39779fc0a6.jpg"]
-          }
-        ]
-      },
-      {
-        "id": 7,
-        "places": [
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
           {
-            "id": 8,
-            "placeName": "나이트 사파리",
-            "description": "야밤에 울타리도 없이 동물보기 덜덜 좀 무섭다",
+            "id": 181,
+            "placeName": "타롱가 동물원",
+            "description": "시드니의 타롱가 동물원에서 다양한 동물을 만나보세요.",
             "position": {
-              "lat": "1.40219",
-              "lng": "103.788"
+              "id": 187,
+              "lat": "-33.8458",
+              "lng": "151.2411"
             },
             "photoUrls": [
-              "https://dev.touroot.kr/images/d769c994-97b2-4e67-84e0-6b89cf97dd1a.jpg",
-              "https://dev.touroot.kr/images/668f01a1-012b-4cb8-8521-a6f557350914.jpg",
-              "https://dev.touroot.kr/images/a28159a5-d4a9-46e2-b474-b05f77c6e558.jpg"
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
             ]
           }
         ]
@@ -554,34 +511,72 @@
     ]
   },
   {
-    "id": 3,
-    "title": "당일치기 춘천 닭갈비 여행 🍗",
-    "thumbnail": "https://dev.touroot.kr/images/04cd1ef8-6c00-4c16-afe1-97f4a583e02a.jpg",
+    "id": 121,
+    "title": "데이빗의 샌프란시스코 여행",
+    "authorId": 9,
+    "authorNickname": "데이빗",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-02-10",
+    "isLiked": true,
+    "likeCount": 130,
     "days": [
       {
-        "id": 4,
+        "id": 161,
         "places": [
           {
-            "id": 4,
-            "placeName": "큰지붕닭갈비",
-            "description": "오후 2시쯤 방문하면 웨이팅 없이 점심을 먹을 수 있다~\n점심 먹고 카페 가서 맛있는 거 많이 먹을꺼라 적당히 먹자",
+            "id": 182,
+            "placeName": "금문교",
+            "description": "샌프란시스코의 상징, 금문교는 꼭 가봐야 해!",
             "position": {
-              "lat": "37.9291",
-              "lng": "127.782"
+              "id": 188,
+              "lat": "37.8199",
+              "lng": "-122.4783"
             },
-            "photoUrls": ["https://dev.touroot.kr/images/c74a056d-75ad-4eda-bc2e-6bfa80a1c365.jpg"]
+            "photoUrls": ["https://via.placeholder.com/600x400"]
           },
           {
-            "id": 5,
-            "placeName": "카페 감자밭",
-            "description": "감자 라떼랑 감자빵 조합이 아주 조씁니다리\n카페 내부도 잘 꾸며져 있어요",
+            "id": 183,
+            "placeName": "피셔맨스 워프",
+            "description": "맛있는 해산물과 멋진 바다 전경을 즐길 수 있는 곳.",
             "position": {
-              "lat": "37.9296",
-              "lng": "127.784"
+              "id": 189,
+              "lat": "37.8080",
+              "lng": "-122.4177"
             },
             "photoUrls": [
-              "https://dev.touroot.kr/images/d0373743-6f80-4fe9-bef0-3225e1a75751.jpeg",
-              "https://dev.touroot.kr/images/0957de55-79e2-4d7f-95c2-53c4b0a6c5fc.jpg"
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 162,
+        "places": [
+          {
+            "id": 184,
+            "placeName": "알카트라즈 섬",
+            "description": "역사적인 감옥, 알카트라즈 섬은 꼭 가봐야 해.",
+            "position": {
+              "id": 190,
+              "lat": "37.8267",
+              "lng": "-122.4230"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 185,
+            "placeName": "유니언 스퀘어",
+            "description": "샌프란시스코의 중심지, 유니언 스퀘어에서 쇼핑을 즐겨보세요.",
+            "position": {
+              "id": 191,
+              "lat": "37.7881",
+              "lng": "-122.4075"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
             ]
           }
         ]
@@ -589,47 +584,146 @@
     ]
   },
   {
-    "id": 1,
-    "title": "지니의 일본 여행기",
-    "thumbnail": "https://dev.touroot.kr/images/25f502d6-d5fe-4451-8c83-c06032d57de8.webp",
+    "id": 122,
+    "title": "크리스의 베를린 여행",
+    "authorId": 10,
+    "authorNickname": "크리스",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-01-05",
+    "isLiked": false,
+    "likeCount": 90,
     "days": [
       {
-        "id": 1,
+        "id": 163,
         "places": [
           {
-            "id": 1,
-            "placeName": "유니버설 스튜디오 재팬",
-            "description": "유니버셜 스튜디오에서 버터맥주 마시기!",
+            "id": 186,
+            "placeName": "브란덴부르크 문",
+            "description": "베를린의 상징, 브란덴부르크 문은 역사적인 장소.",
             "position": {
-              "lat": "34.6657",
-              "lng": "135.432"
+              "id": 192,
+              "lat": "52.5163",
+              "lng": "13.3777"
             },
-            "photoUrls": ["https://dev.touroot.kr/images/adcf97e6-9184-4ee8-91fb-52aed00664ad.webp"]
+            "photoUrls": ["https://via.placeholder.com/600x400"]
           },
           {
-            "id": 2,
-            "placeName": "돈키호테 도톤보리점",
-            "description": "돈키호테에서 물품 많이 많이 사야지~!",
+            "id": 187,
+            "placeName": "베를린 장벽",
+            "description": "베를린의 역사를 간직한 베를린 장벽.",
             "position": {
-              "lat": "34.6693",
-              "lng": "135.503"
+              "id": 193,
+              "lat": "52.5358",
+              "lng": "13.3903"
             },
-            "photoUrls": ["https://dev.touroot.kr/images/fa194393-f664-4ab0-b892-50b3948a7ba3.jpg"]
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
           }
         ]
       },
       {
-        "id": 2,
+        "id": 164,
         "places": [
           {
-            "id": 3,
-            "placeName": "도톤보리",
-            "description": "도톤보리에서 재밌게 놀기~",
+            "id": 188,
+            "placeName": "홀로코스트 기념관",
+            "description": "역사를 잊지 않기 위한 기념관.",
             "position": {
-              "lat": "34.6686",
-              "lng": "135.503"
+              "id": 194,
+              "lat": "52.5170",
+              "lng": "13.3777"
             },
-            "photoUrls": ["https://dev.touroot.kr/images/4b091625-12ee-4026-ab1f-7d824e3bc6e3.jpg"]
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 189,
+            "placeName": "박물관 섬",
+            "description": "다양한 박물관이 모여 있는 곳, 문화와 역사를 느껴보세요.",
+            "position": {
+              "id": 195,
+              "lat": "52.5169",
+              "lng": "13.4013"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 123,
+    "title": "올리비아의 토론토 여행",
+    "authorId": 11,
+    "authorNickname": "올리비아",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2023-12-20",
+    "isLiked": true,
+    "likeCount": 140,
+    "days": [
+      {
+        "id": 165,
+        "places": [
+          {
+            "id": 190,
+            "placeName": "CN 타워",
+            "description": "토론토의 상징, CN 타워는 꼭 가봐야 해!",
+            "position": {
+              "id": 196,
+              "lat": "43.6426",
+              "lng": "-79.3871"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 191,
+            "placeName": "토론토 아일랜드",
+            "description": "토론토 아일랜드에서 도심 속의 자연을 느껴보세요.",
+            "position": {
+              "id": 197,
+              "lat": "43.6205",
+              "lng": "-79.3782"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 166,
+        "places": [
+          {
+            "id": 192,
+            "placeName": "로열 온타리오 박물관",
+            "description": "다양한 전시를 즐길 수 있는 곳, 꼭 방문해보세요.",
+            "position": {
+              "id": 198,
+              "lat": "43.6677",
+              "lng": "-79.3948"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 193,
+            "placeName": "디스틸러리 디스트릭트",
+            "description": "역사적인 건물과 현대적인 상점이 공존하는 곳.",
+            "position": {
+              "id": 199,
+              "lat": "43.6503",
+              "lng": "-79.3595"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
           }
         ]
       }
