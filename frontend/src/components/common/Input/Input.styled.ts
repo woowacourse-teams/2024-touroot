@@ -2,7 +2,6 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import theme from "@styles/theme";
-import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 import type { InputVariants } from "./Input.type";
 
