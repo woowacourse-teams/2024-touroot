@@ -4,6 +4,7 @@ import static kr.touroot.travelogue.domain.QTravelogue.travelogue;
 
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import kr.touroot.travelogue.domain.Travelogue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,9 +20,11 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
 
     @Override
     public Page<Travelogue> findByTitleContaining(String keyword, Pageable pageable) {
-        return new PageImpl<>(jpaQueryFactory.selectFrom(travelogue)
+        List<Travelogue> results = jpaQueryFactory.selectFrom(travelogue)
                 .where(Expressions.stringTemplate("replace({0}, ' ', '')", travelogue.title)
                         .containsIgnoreCase(keyword.replace(" ", "")))
-                .fetch());
+                .fetch();
+        
+        return new PageImpl<>(results, pageable, results.size());
     }
 }

@@ -9,6 +9,9 @@ import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -31,13 +34,15 @@ public class TravelogueResponseFixture {
     }
 
     public static Page<TravelogueSimpleResponse> getTravelogueSimpleResponses() {
-        return new PageImpl<>(List.of(TravelogueSimpleResponse.builder()
+        TravelogueSimpleResponse response = TravelogueSimpleResponse.builder()
                 .id(1L)
                 .title("제주에 하영 옵서")
                 .authorNickname("리비")
                 .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
                 .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
-                .build()));
+                .build();
+
+        return new PageImpl<>(List.of(response), PageRequest.of(0, 5, Sort.by(Direction.DESC, "id")), 1);
     }
 
     public static List<TravelogueDayResponse> getTravelogueDayResponses() {
