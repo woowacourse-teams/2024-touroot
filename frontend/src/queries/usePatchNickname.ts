@@ -9,7 +9,7 @@ const usePutNickname = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (nickname: string) => authClient.put(API_ENDPOINT_MAP.modifyNickname, { nickname }),
+    mutationFn: (nickname: string) => authClient.patch(API_ENDPOINT_MAP.profile, { nickname }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS_MAP.member.me(),

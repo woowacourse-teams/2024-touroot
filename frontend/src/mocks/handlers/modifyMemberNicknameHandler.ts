@@ -4,8 +4,8 @@ import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { isTestEnvironment } from "@constants/environment";
 
 const apiRequestUrl = isTestEnvironment
-  ? `${API_ENDPOINT_MAP.modifyNickname}`
-  : `${process.env.REACT_APP_BASE_URL}${API_ENDPOINT_MAP.modifyNickname.slice(1)}`;
+  ? `${API_ENDPOINT_MAP.profile}`
+  : `${process.env.REACT_APP_BASE_URL}${API_ENDPOINT_MAP.profile.slice(1)}`;
 
 interface NicknameRequest {
   nickname: string;
@@ -14,7 +14,6 @@ interface NicknameRequest {
 export const modifyMemberNicknameHandler = http.put(apiRequestUrl, async ({ request }) => {
   const requestBody = (await request.json()) as NicknameRequest;
   const newNickname = requestBody.nickname;
-  console.log({ newNickname });
 
   return HttpResponse.json(
     {
