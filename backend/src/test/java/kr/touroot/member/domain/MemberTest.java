@@ -1,7 +1,9 @@
 package kr.touroot.member.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import kr.touroot.global.exception.BadRequestException;
 import org.junit.jupiter.api.DisplayName;
@@ -113,5 +115,24 @@ class MemberTest {
         assertThatThrownBy(() -> new Member(VALID_SOCIAl_ID, VALID_NICKNAME, invalidProfileImageUrl, KAKAO))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("이미지 url 형식이 잘못되었습니다");
+    }
+
+    @DisplayName("멤버의 ID가 특정 ID인지 확인할 수 있다")
+    @Test
+    void hasIdTest() {
+        Member member = new Member(
+                1L,
+                VALID_SOCIAl_ID,
+                VALID_EMAIL,
+                VALID_PASSWORD,
+                VALID_NICKNAME,
+                VALID_PROFILE_IMAGE_URL,
+                LoginType.KAKAO
+        );
+
+        assertAll(
+                () -> assertThat(member.hasId(1L)).isTrue(),
+                () -> assertThat(member.hasId(2L)).isFalse()
+        );
     }
 }

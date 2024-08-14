@@ -114,4 +114,8 @@ public class Member extends BaseEntity {
             throw new BadRequestException("이미지 url 형식이 잘못되었습니다");
         }
     }
+
+    public boolean hasId(Long target) {
+        return id.equals(target);
+    }
 }
