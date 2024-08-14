@@ -22,6 +22,7 @@ export const MainPageTraveloguesList = styled.ul`
   flex-direction: column;
 
   gap: 4rem;
+  padding: 0 1.6rem;
 `;
 
 export const MainPageContentContainer = styled.div`
