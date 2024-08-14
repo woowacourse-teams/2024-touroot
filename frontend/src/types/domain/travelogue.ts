@@ -19,14 +19,14 @@ export interface TravelogueResponse {
   thumbnail: string;
   days: TravelogueDay[];
   authorNickname: string;
+  authorProfileUrl: string;
   authorId: number;
   createdAt: string;
+  likeCount: number;
+  isLiked: boolean;
 }
 
-export type TraveloguePayload = Omit<
-  TravelogueResponse,
-  "authorNickname" | "createdAt" | "id" | "authorId"
->;
+export type TraveloguePayload = Pick<TravelogueResponse, "title" | "thumbnail" | "days">;
 
 export interface MyTravelogue {
   id: string;
