@@ -19,6 +19,7 @@ import useUser from "@hooks/useUser";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import theme from "@styles/theme";
+import { SEMANTIC_COLORS } from "@styles/tokens";
 
 import TravelogueDeleteModal from "./TravelogueDeleteModal/TravelogueDeleteModal";
 import * as S from "./TravelogueDetailPage.styled";
@@ -105,11 +106,14 @@ const TravelogueDetailPage = () => {
             </Text>
           </S.AuthorDateContainer>
           <S.IconButtonContainer>
-            {/* //TODO: 하트 버튼 추가시 이용
             <S.LikesContainer>
-              <IconButton iconType="empty-heart" size="24" />
-              <Text textType="detail">7</Text>
-            </S.LikesContainer> */}
+              {data.isLiked ? (
+                <IconButton iconType="heart" color={SEMANTIC_COLORS.heart} size="20" />
+              ) : (
+                <IconButton iconType="empty-heart" size="20" />
+              )}
+              <Text textType="detail">{data.likeCount}</Text>
+            </S.LikesContainer>
             {isAuthor && (
               <div ref={moreContainerRef}>
                 <IconButton

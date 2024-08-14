@@ -27,7 +27,7 @@ export const AuthorDateContainer = styled.div`
 
 export const IconButtonContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   position: relative;
 
@@ -36,7 +36,7 @@ export const IconButtonContainer = styled.div`
 
 export const LikesContainer = styled.div`
   display: flex;
-  gap: 0.3rem;
+  gap: 0.8rem;
   align-items: center;
 `;
 
