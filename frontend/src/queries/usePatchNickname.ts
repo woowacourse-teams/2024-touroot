@@ -13,7 +13,7 @@ const usePutNickname = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS_MAP.member.me(),
-        refetchType: "inactive",
+        refetchType: "active",
       });
     },
     onError: (error) => {
