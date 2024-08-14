@@ -1,1 +1,1 @@
-export type InputVariants = "fullBorder" | "bottomBorder" | "focusBottomBorder";
+export type InputVariants = "round" | "bottom" | "none";

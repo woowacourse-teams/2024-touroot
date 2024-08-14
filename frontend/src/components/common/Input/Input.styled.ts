@@ -37,12 +37,12 @@ export const Input = styled.input<{ variant: InputVariants }>`
   }
 
   ${({ variant }) => {
-    if (variant === "fullBorder") return fullBottomStyle;
-    if (variant === "bottomBorder") return bottomBorderStyle;
-    if (variant === "focusBottomBorder") return focusBottomBorderStyle;
+    if (variant === "round") return roundStyle;
+    if (variant === "bottom") return bottomStyle;
+    if (variant === "none") return noneStyle;
   }}
 `;
-export const fullBottomStyle = css`
+export const roundStyle = css`
   border: 0.1rem solid ${theme.colors.border};
 
   &:focus {
@@ -51,7 +51,7 @@ export const fullBottomStyle = css`
   }
 `;
 
-export const bottomBorderStyle = css`
+export const bottomStyle = css`
   border: none;
   border-bottom: 1px solid ${theme.colors.border};
   border-radius: 0;
@@ -67,7 +67,7 @@ export const bottomBorderStyle = css`
   }
 `;
 
-export const focusBottomBorderStyle = css`
+export const noneStyle = css`
   border: none;
   border-radius: 0;
 

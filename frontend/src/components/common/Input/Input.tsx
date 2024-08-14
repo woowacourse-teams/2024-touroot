@@ -12,7 +12,7 @@ interface InputProps extends React.ComponentPropsWithRef<"input"> {
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, count, maxCount, variants = "fullBorder", ...props }, ref) => {
+  ({ label, count, maxCount, variants = "round", ...props }, ref) => {
     return (
       <S.InputContainer>
         <S.Label>{label}</S.Label>
