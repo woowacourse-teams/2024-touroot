@@ -47,25 +47,24 @@ public class TravelogueResponseFixture {
     }
 
     public static Page<TravelogueSimpleResponse> getTravelogueSimpleResponses() {
-        return new PageImpl<>(List.of(TravelogueSimpleResponse.builder()
-                .id(1L)
-                .title("제주에 하영 옵서")
-                .authorNickname("리비")
-                .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
-                .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
-                .tags(List.of())
-                .build()));
-    }
-
-    public static Page<TravelogueSimpleResponse> getTravelogueSimpleResponsesWithTag() {
-        return new PageImpl<>(List.of(TravelogueSimpleResponse.builder()
-                .id(1L)
-                .title("제주에 하영 옵서")
-                .authorNickname("리비")
-                .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
-                .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
-                .tags(List.of(TagFixture.TAG.getResponse(1L)))
-                .build()));
+        return new PageImpl<>(List.of(
+                TravelogueSimpleResponse.builder()
+                        .id(2L)
+                        .title("제주에 하영 옵서")
+                        .authorNickname("리비")
+                        .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
+                        .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
+                        .tags(List.of(TagFixture.TAG.getResponse(1L)))
+                        .build(),
+                TravelogueSimpleResponse.builder()
+                        .id(1L)
+                        .title("제주에 하영 옵서")
+                        .authorNickname("리비")
+                        .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
+                        .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
+                        .tags(List.of())
+                        .build()
+        ));
     }
 
     public static List<TravelogueDayResponse> getTravelogueDayResponses() {

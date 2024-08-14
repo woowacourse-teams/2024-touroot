@@ -231,26 +231,12 @@ class TravelogueControllerTest {
                 .body(is(objectMapper.writeValueAsString(response)));
     }
 
-    @DisplayName("메인 페이지 조회 시, 최신 작성 순으로 여행기를 조회한다. (태그 미포함)")
+    @DisplayName("메인 페이지 조회 시, 최신 작성 순으로 여행기를 조회한다.")
     @Test
     void findMainPageTravelogues() throws JsonProcessingException {
         testHelper.initTravelogueTestData();
-        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
-
-        RestAssured.given().log().all()
-                .accept(ContentType.JSON)
-                .when().get("/api/v1/travelogues")
-                .then().log().all()
-                .statusCode(200).assertThat()
-                .body(is(objectMapper.writeValueAsString(responses)));
-    }
-
-
-    @DisplayName("메인 페이지 조회 시, 최신 작성 순으로 여행기를 조회한다.")
-    @Test
-    void findMainPageTraveloguesWithTag() throws JsonProcessingException {
         testHelper.initTravelogueTestDataWithTag(member);
-        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponsesWithTag();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         RestAssured.given().log().all()
                 .accept(ContentType.JSON)
