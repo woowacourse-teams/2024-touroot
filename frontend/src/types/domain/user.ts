@@ -1,5 +1,6 @@
 export interface AuthTokenResponse {
   accessToken: string;
+  refreshToken: string;
   memberId: number;
 }
 

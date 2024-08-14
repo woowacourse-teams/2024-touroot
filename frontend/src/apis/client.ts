@@ -10,7 +10,7 @@ export const authClient = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
 });
 
-authClient.interceptors.request.use(handlePreviousRequest, handleAPIError);
+authClient.interceptors.request.use(handlePreviousRequest);
 authClient.interceptors.response.use((response) => response, handleAPIError);
 
 client.interceptors.response.use((response) => response, handleAPIError);
