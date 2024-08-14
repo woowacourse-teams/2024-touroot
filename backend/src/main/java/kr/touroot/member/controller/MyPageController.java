@@ -117,7 +117,7 @@ public class MyPageController {
             ),
             @ApiResponse(
                     responseCode = "401",
-                    description = "로그인하지 않은 사용자가 프로필 정보 수정에 시도할 때",
+                    description = "로그인하지 않은 사용자가 프로필 정보 수정을 시도할 때",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             )
     })
