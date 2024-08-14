@@ -20,16 +20,16 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Selected: Story = {
+export const Default: Story = {
   args: {
-    isSelected: true,
+    isSelected: false,
     label: "🐾 반려동물",
   },
 };
 
-export const UnSelected: Story = {
+export const Selected: Story = {
   args: {
-    isSelected: false,
+    isSelected: true,
     label: "🐾 반려동물",
   },
 };

@@ -4,11 +4,11 @@ import Text from "../Text/Text";
 import * as S from "./Chip.styled";
 
 interface ChipProps extends ComponentPropsWithoutRef<"button"> {
-  isSelected: boolean;
+  isSelected?: boolean;
   label: string;
 }
 
-const Chip = ({ isSelected, label, ...props }: ChipProps) => {
+const Chip = ({ isSelected = false, label, ...props }: ChipProps) => {
   return (
     <S.Chip $isSelected={isSelected} {...props}>
       {isSelected ? (
