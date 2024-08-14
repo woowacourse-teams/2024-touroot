@@ -27,6 +27,9 @@ import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -234,8 +237,7 @@ class TravelogueControllerTest {
     @DisplayName("메인 페이지 조회 시, 최신 작성 순으로 여행기를 조회한다.")
     @Test
     void findMainPageTravelogues() throws JsonProcessingException {
-        testHelper.initTravelogueTestData();
-        testHelper.initTravelogueTestDataWithTag(member);
+        testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         RestAssured.given().log().all()
@@ -255,6 +257,53 @@ class TravelogueControllerTest {
                 .then().log().all()
                 .statusCode(400).assertThat()
                 .body("message", is("존재하지 않는 여행기입니다."));
+    }
+
+    @DisplayName("제목 키워드를 기준으로 여행기를 조회할 수 있다.")
+    @Test
+    void findTraveloguesByTitleKeyword() throws JsonProcessingException {
+        testHelper.initAllTravelogueTestData();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
+
+        RestAssured.given().param("keyword", "제주")
+                .log().all()
+                .accept(ContentType.JSON)
+                .when().get("/api/v1/travelogues/search")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body(is(objectMapper.writeValueAsString(responses)));
+    }
+
+    @DisplayName("제목 키워드는 2글자 이상이어야 한다.")
+    @ParameterizedTest
+    @NullSource
+    @ValueSource(strings = {"", " "})
+    void findTraveloguesKeywordNotBlank(String keyword) {
+        testHelper.initTravelogueTestData();
+
+        RestAssured.given().param("keyword", keyword)
+                .log().all()
+                .accept(ContentType.JSON)
+                .when().get("/api/v1/travelogues/search")
+                .then().log().all()
+                .statusCode(400).assertThat()
+                .body("message", is("검색어는 2글자 이상이어야 합니다."));
+    }
+
+    @DisplayName("제목 키워드는 중간 공백 상관 없이 검색되어야 한다.")
+    @ParameterizedTest
+    @ValueSource(strings = {"제 주", "제주 에하영옵 서"})
+    void findTraveloguesKeywordWithMiddleBlank(String keyword) throws JsonProcessingException {
+        testHelper.initAllTravelogueTestData();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
+
+        RestAssured.given().param("keyword", keyword)
+                .log().all()
+                .accept(ContentType.JSON)
+                .when().get("/api/v1/travelogues/search")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body(is(objectMapper.writeValueAsString(responses)));
     }
 
     @DisplayName("여행기를 삭제한다.")

@@ -15,13 +15,13 @@ import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
+import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.dto.response.TravelogueDayResponse;
 import kr.touroot.travelogue.dto.response.TraveloguePlaceResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -108,9 +108,14 @@ public class TravelogueFacadeService {
     public Page<TravelogueSimpleResponse> findSimpleTravelogues(final Pageable pageable) {
         Page<Travelogue> travelogues = travelogueService.findAll(pageable);
 
-        return new PageImpl<>(travelogues.stream()
-                .map(this::getTravelogueSimpleResponse)
-                .toList());
+        return travelogues.map(this::getTravelogueSimpleResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TravelogueSimpleResponse> findSimpleTravelogues(Pageable pageable, TravelogueSearchRequest request) {
+        Page<Travelogue> travelogues = travelogueService.findByKeyword(request.keyword(), pageable);
+
+        return travelogues.map(this::getTravelogueSimpleResponse);
     }
 
     private TravelogueSimpleResponse getTravelogueSimpleResponse(Travelogue travelogue) {

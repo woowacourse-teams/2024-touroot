@@ -59,8 +59,8 @@ class MyPageControllerTest {
     @Test
     void readTravelogues() {
         // given
-        travelogueTestHelper.initTravelogueTestDate(member);
-        travelogueTestHelper.initTravelogueTestDate(member);
+        travelogueTestHelper.initTravelogueTestData(member);
+        travelogueTestHelper.initTravelogueTestData(member);
         travelogueTestHelper.initTravelogueTestData();
 
         // when & then

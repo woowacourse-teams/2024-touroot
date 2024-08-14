@@ -8,6 +8,7 @@ import java.util.List;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
@@ -16,20 +17,21 @@ import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
+import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @DisplayName("여행기 Facade 서비스")
 @Import(value = {
@@ -42,7 +44,8 @@ import org.springframework.data.domain.Pageable;
         MemberService.class,
         TravelogueTestHelper.class,
         AwsS3Provider.class,
-        PasswordEncryptor.class
+        PasswordEncryptor.class,
+        TestQueryDslConfig.class
 })
 @ServiceTest
 class TravelogueFacadeServiceTest {
@@ -102,15 +105,29 @@ class TravelogueFacadeServiceTest {
                 .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
     }
 
-    @Disabled
     @DisplayName("메인 페이지에 표시할 여행기 목록을 조회한다.")
     @Test
     void findTravelogues() {
-        testHelper.initTravelogueTestData();
+        testHelper.initAllTravelogueTestData();
+        Page<TravelogueSimpleResponse> expect = TravelogueResponseFixture.getTravelogueSimpleResponses();
+
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
+        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(pageRequest);
+
+        assertThat(result).containsAll(expect);
+    }
+
+    @DisplayName("제목 키워드를 기반으로 여행기 목록을 조회한다.")
+    @Test
+    void findTraveloguesByKeyword() {
+        testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
-        assertThat(service.findSimpleTravelogues(Pageable.ofSize(5)))
-                .isEqualTo(responses);
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("제주");
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(pageRequest, searchRequest);
+
+        assertThat(searchResults).containsAll(responses);
     }
 
     @DisplayName("여행기를 ID를 기준으로 삭제한다.")
