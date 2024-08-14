@@ -50,3 +50,73 @@ export const ListStyle = css`
     font-weight: 700;
   }
 `;
+
+export const FormWrapper = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: ${({ theme }) => theme.spacing.m};
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+`;
+
+export const Button = styled.button`
+  padding: ${({ theme }) => theme.spacing.s} ${({ theme }) => theme.spacing.m};
+  border: solid 1px ${({ theme }) => theme.colors.border};
+  ${({ theme }) => theme.typography.mobile.detail};
+  border-radius: 10px;
+`;
+
+export const InputWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  background: black;
+`;
+
+export const NicknameWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 3rem;
+`;
+
+export const inputStyle = css`
+  ${theme.typography.mobile.bodyBold};
+  width: 12rem;
+  margin: 0 auto;
+  border: none;
+  border-bottom: 1px solid ${theme.colors.border};
+  border-radius: 0;
+
+  text-align: center;
+
+  &::placeholder {
+    color: #999;
+    text-align: center;
+  }
+
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid ${theme.colors.border};
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-bottom: 1px solid ${theme.colors.border};
+  }
+`;
+
+export const NicknameStyle = css`
+  margin-bottom: calc(1.2rem + 1px);
+
+  font-weight: 700;
+`;
