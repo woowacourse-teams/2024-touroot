@@ -1,7 +1,5 @@
 package kr.touroot.global.exception;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -34,22 +32,6 @@ public class GlobalExceptionHandler {
                 .getAllErrors()
                 .get(0)
                 .getDefaultMessage();
-        ExceptionResponse data = new ExceptionResponse(message);
-        return ResponseEntity.badRequest()
-                .body(data);
-    }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ExceptionResponse> handleConstraintViolationException(
-            ConstraintViolationException exception
-    ) {
-        log.warn("CONSTRAINT_VIOLATION_EXCEPTION :: message = {}", exception.getMessage());
-
-        String message = exception.getConstraintViolations()
-                .stream()
-                .map(ConstraintViolation::getMessage)
-                .findFirst()
-                .orElseThrow();
         ExceptionResponse data = new ExceptionResponse(message);
         return ResponseEntity.badRequest()
                 .body(data);
