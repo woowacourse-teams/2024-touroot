@@ -6,25 +6,24 @@ import * as S from "./Tab.styled";
 import { FIRST_TAB_INDEX, INITIAL_SCROLL_LEFT, INITIAL_START_X } from "./constants";
 
 interface TabProps extends React.PropsWithChildren<ComponentPropsWithoutRef<"ul">> {
+  storageKey?: string;
   tabContent: (selectedIndex: number) => JSX.Element;
   labels: string[];
 }
 
-const Tab = ({ labels, tabContent, ...props }: TabProps) => {
+const Tab = ({
+  storageKey = STORAGE_KEYS_MAP.selectedTabIndex,
+  labels,
+  tabContent,
+  ...props
+}: TabProps) => {
   const [selectedIndex, setSelectedIndex] = useState(() =>
-    JSON.parse(
-      localStorage.getItem(STORAGE_KEYS_MAP.selectedTabIndex) ?? FIRST_TAB_INDEX.toString(),
-    ),
+    parseInt(JSON.parse(localStorage.getItem(storageKey) ?? FIRST_TAB_INDEX.toString())),
   );
 
   useEffect(() => {
-    const storedIndex = localStorage.getItem(STORAGE_KEYS_MAP.selectedTabIndex);
-    if (storedIndex !== null) {
-      setSelectedIndex(parseInt(storedIndex));
-    }
-
     return () => {
-      localStorage.setItem(STORAGE_KEYS_MAP.selectedTabIndex, FIRST_TAB_INDEX.toString());
+      localStorage.setItem(storageKey, FIRST_TAB_INDEX.toString());
     };
   }, []);
 
@@ -36,7 +35,7 @@ const Tab = ({ labels, tabContent, ...props }: TabProps) => {
 
   const handleClickTab = (index: number) => {
     setSelectedIndex(index);
-    localStorage.setItem(STORAGE_KEYS_MAP.selectedTabIndex, JSON.stringify(index));
+    localStorage.setItem(storageKey, JSON.stringify(index));
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {

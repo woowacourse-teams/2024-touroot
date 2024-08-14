@@ -1,4 +1,6 @@
-import { Carousel } from "@components/common";
+import { Carousel, FallbackImage } from "@components/common";
+
+import useImageError from "@hooks/useImageError";
 
 import * as S from "./PlaceDetailCard.styled";
 
@@ -15,11 +17,19 @@ const PlaceDetailCard: React.FC<PlaceDetailCardProps> = ({
   imageUrls,
   description,
 }) => {
+  const { imageError, handleImageError } = useImageError({ imageUrl: imageUrls[0] });
+
   return (
     <S.PlaceDetailCardLayout>
       <S.PlaceDetailCardTitle>{`${index}. ${title}`}</S.PlaceDetailCardTitle>
       {imageUrls.length === 1 ? (
-        <S.Image src={imageUrls[0]} alt={`${title} place`} />
+        !imageError ? (
+          <S.Image src={imageUrls[0]} alt={`${title} place`} onError={handleImageError} />
+        ) : (
+          <S.ImageWrapper>
+            <FallbackImage />
+          </S.ImageWrapper>
+        )
       ) : (
         <Carousel imageUrls={imageUrls} />
       )}
