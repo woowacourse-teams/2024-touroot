@@ -5,7 +5,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
 import useDeleteTravelogue from "@queries/useDeleteTravelogue";
+import useDeleteUpdateHeart from "@queries/useDeleteUpdateHeart";
 import { useGetTravelogue } from "@queries/useGetTravelogue";
+import usePostUpdateHeart from "@queries/usePostUpdateHeart";
 
 import { Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
 import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
@@ -81,6 +83,9 @@ const TravelogueDetailPage = () => {
     });
   };
 
+  const { mutate: handleActiveHeart } = usePostUpdateHeart();
+  const { mutate: handleInactiveHeart } = useDeleteUpdateHeart();
+
   if (status === "pending") return <TravelogueDetailSkeleton />;
 
   if (status === "error") {
@@ -108,9 +113,18 @@ const TravelogueDetailPage = () => {
           <S.IconButtonContainer>
             <S.LikesContainer>
               {data.isLiked ? (
-                <IconButton iconType="heart" color={SEMANTIC_COLORS.heart} size="20" />
+                <IconButton
+                  onClick={() => handleInactiveHeart(id)}
+                  iconType="heart"
+                  color={SEMANTIC_COLORS.heart}
+                  size="20"
+                />
               ) : (
-                <IconButton iconType="empty-heart" size="20" />
+                <IconButton
+                  onClick={() => handleActiveHeart(id)}
+                  iconType="empty-heart"
+                  size="20"
+                />
               )}
               <Text textType="detail">{data.likeCount}</Text>
             </S.LikesContainer>
