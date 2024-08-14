@@ -3,6 +3,7 @@ package kr.touroot.travelogue.dto.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDate;
 import java.util.List;
+import kr.touroot.tag.dto.TagResponse;
 import kr.touroot.travelogue.domain.Travelogue;
 import lombok.Builder;
 
@@ -22,11 +23,13 @@ public record TravelogueResponse(
         String thumbnail,
         @Schema(description = "작성 날짜")
         LocalDate createdAt,
+        @Schema(description = "여행기 태그")
+        List<TagResponse> tags,
         @Schema(description = "여행기 일자 목록")
         List<TravelogueDayResponse> days
 ) {
 
-    public static TravelogueResponse of(Travelogue travelogue, List<TravelogueDayResponse> days) {
+    public static TravelogueResponse of(Travelogue travelogue, List<TravelogueDayResponse> days, List<TagResponse> tags) {
         return TravelogueResponse.builder()
                 .id(travelogue.getId())
                 .createdAt(travelogue.getCreatedAt().toLocalDate())
@@ -36,6 +39,7 @@ public record TravelogueResponse(
                 .title(travelogue.getTitle())
                 .thumbnail(travelogue.getThumbnail())
                 .days(days)
+                .tags(tags)
                 .build();
     }
 }

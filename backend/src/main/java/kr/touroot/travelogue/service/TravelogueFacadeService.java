@@ -6,6 +6,7 @@ import java.util.Map;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.service.MemberService;
+import kr.touroot.tag.dto.TagResponse;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TraveloguePhoto;
@@ -33,14 +34,15 @@ public class TravelogueFacadeService {
     private final TravelogueDayService travelogueDayService;
     private final TraveloguePlaceService traveloguePlaceService;
     private final TraveloguePhotoService traveloguePhotoService;
+    private final TravelogueTagService travelogueTagService;
     private final MemberService memberService;
 
     @Transactional
     public TravelogueResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.createTravelogue(author, request);
-
-        return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue));
+        List<TagResponse> tags = travelogueTagService.createTravelogueTags(travelogue, request.tags());
+        return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue), tags);
     }
 
     private List<TravelogueDayResponse> createDays(List<TravelogueDayRequest> requests, Travelogue travelogue) {
@@ -72,17 +74,12 @@ public class TravelogueFacadeService {
     @Transactional(readOnly = true)
     public TravelogueResponse findTravelogueById(Long id) {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
-
-        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue));
+        return getTravelogueResponse(travelogue);
     }
 
-    @Transactional(readOnly = true)
-    public Page<TravelogueSimpleResponse> findSimpleTravelogues(final Pageable pageable) {
-        Page<Travelogue> travelogues = travelogueService.findAll(pageable);
-
-        return new PageImpl<>(travelogues.stream()
-                .map(TravelogueSimpleResponse::from)
-                .toList());
+    private TravelogueResponse getTravelogueResponse(Travelogue travelogue) {
+        List<TagResponse> tagResponses = travelogueTagService.readTagByTravelogue(travelogue);
+        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue), tagResponses);
     }
 
     private List<TravelogueDayResponse> findDaysOfTravelogue(Travelogue travelogue) {
@@ -105,6 +102,20 @@ public class TravelogueFacadeService {
 
     private List<String> findPhotoUrlsOfTraveloguePlace(TraveloguePlace place) {
         return traveloguePhotoService.findPhotoUrlsByPlace(place);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TravelogueSimpleResponse> findSimpleTravelogues(final Pageable pageable) {
+        Page<Travelogue> travelogues = travelogueService.findAll(pageable);
+
+        return new PageImpl<>(travelogues.stream()
+                .map(this::getTravelogueSimpleResponse)
+                .toList());
+    }
+
+    private TravelogueSimpleResponse getTravelogueSimpleResponse(Travelogue travelogue) {
+        List<TagResponse> tagResponses = travelogueTagService.readTagByTravelogue(travelogue);
+        return TravelogueSimpleResponse.of(travelogue, tagResponses);
     }
 
     @Transactional
