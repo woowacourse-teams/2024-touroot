@@ -14,6 +14,7 @@ import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
+import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.dto.response.TravelogueDayResponse;
 import kr.touroot.travelogue.dto.response.TraveloguePlaceResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
@@ -76,15 +77,15 @@ public class TravelogueFacadeService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TravelogueSimpleResponse> findSimpleTravelogues(final Pageable pageable) {
+    public Page<TravelogueSimpleResponse> findSimpleTravelogues(Pageable pageable) {
         Page<Travelogue> travelogues = travelogueService.findAll(pageable);
 
         return travelogues.map(TravelogueSimpleResponse::from);
     }
 
     @Transactional(readOnly = true)
-    public Page<TravelogueSimpleResponse> findSimpleTraveloguesByKeyword(Pageable pageable, String keyword) {
-        Page<Travelogue> travelogues = travelogueService.findByKeyword(keyword, pageable);
+    public Page<TravelogueSimpleResponse> findSimpleTravelogues(Pageable pageable, TravelogueSearchRequest request) {
+        Page<Travelogue> travelogues = travelogueService.findByKeyword(request.keyword(), pageable);
 
         return travelogues.map(TravelogueSimpleResponse::from);
     }
