@@ -19,6 +19,7 @@ export interface TravelogueResponse {
   thumbnail: string;
   days: TravelogueDay[];
   authorNickname: string;
+  authorProfileUrl: string;
   authorId: number;
   createdAt: string;
   likeCount: number;

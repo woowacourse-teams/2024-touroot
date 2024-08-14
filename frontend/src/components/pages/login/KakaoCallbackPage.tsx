@@ -1,6 +1,10 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { AxiosResponse } from "axios";
+
+import { AuthTokenResponse } from "@type/domain/user";
+
 import { client } from "@apis/client";
 
 import { SaveUserContext } from "@contexts/UserProvider";
@@ -24,8 +28,12 @@ const KakaoCallbackPage = () => {
     if (code) {
       client
         .post(API_ENDPOINT_MAP.loginOauth(code, encodedRedirectUri))
-        .then((res) => {
-          saveUser({ accessToken: res.data.accessToken, memberId: res.data.memberId });
+        .then((res: AxiosResponse<AuthTokenResponse>) => {
+          saveUser({
+            accessToken: res.data.accessToken,
+            memberId: res.data.memberId,
+            refreshToken: res.data.refreshToken,
+          });
           navigate(ROUTE_PATHS_MAP.root);
         })
         .catch(() => {

@@ -1,23 +1,24 @@
 import { useNavigate } from "react-router-dom";
 
-import { TravelogueOverview } from "types";
+import { TravelogueResponse } from "@type/domain/travelogue";
 
-import { AvatarCircle, FallbackImage } from "@components/common";
+import { AvatarCircle, FallbackImage, IconButton, Text } from "@components/common";
 
 import useImageError from "@hooks/useImageError";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
-import { EmptyHeart } from "@assets/svg";
-
 import * as S from "./TravelogueCard.styled";
 
 interface TravelogueCardProps {
-  travelogueOverview: TravelogueOverview;
+  travelogueOverview: Pick<
+    TravelogueResponse,
+    "id" | "authorProfileUrl" | "title" | "thumbnail" | "authorNickname" | "likeCount"
+  >;
 }
 
 const TravelogueCard = ({
-  travelogueOverview: { id, authorProfileUrl, title, thumbnail, likes = 0 },
+  travelogueOverview: { id, authorProfileUrl, title, thumbnail, authorNickname, likeCount = 0 },
 }: TravelogueCardProps) => {
   const navigate = useNavigate();
 
@@ -33,6 +34,12 @@ const TravelogueCard = ({
 
   return (
     <S.TravelogueCardLayout onClick={handleCardClick}>
+      <S.TravelogueCardHeader>
+        <Text textType="body" css={S.textBoldStyle}>
+          {title}
+        </Text>
+      </S.TravelogueCardHeader>
+
       <S.TravelogueCardThumbnailContainer>
         {!imageError ? (
           <S.TravelogueCardThumbnail
@@ -44,17 +51,17 @@ const TravelogueCard = ({
           <FallbackImage />
         )}
       </S.TravelogueCardThumbnailContainer>
-      <S.TravelogueCardHeader>
+      <S.TravelogueCardFooter>
         <S.TravelogueCardTitleContainer>
           <AvatarCircle profileImageUrl={authorProfileUrl} />
-          <h2>{title}</h2>
+          <Text textType="detail">{authorNickname}</Text>
         </S.TravelogueCardTitleContainer>
 
-        <S.TravelogueCardLikesContainer onClick={handleLikeClick}>
-          <EmptyHeart />
-          <p>{likes}</p>
+        <S.TravelogueCardLikesContainer>
+          <IconButton onClick={handleLikeClick} iconType="empty-heart" size="20" />
+          <Text textType="detail">{likeCount}</Text>
         </S.TravelogueCardLikesContainer>
-      </S.TravelogueCardHeader>
+      </S.TravelogueCardFooter>
     </S.TravelogueCardLayout>
   );
 };
