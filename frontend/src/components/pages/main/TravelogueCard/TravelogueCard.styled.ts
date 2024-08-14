@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 export const TravelogueCardLayout = styled.li`
   display: flex;
   flex-direction: column;
-  padding-bottom: 1.6rem;
+  padding: 1.6rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 0.8rem;
@@ -24,7 +24,6 @@ export const TravelogueCardLayout = styled.li`
 export const TravelogueCardHeader = styled.div`
   display: flex;
   align-items: center;
-  padding: 1.6rem 1.6rem 0;
 `;
 
 export const TravelogueCardFooter = styled.div`
@@ -32,7 +31,6 @@ export const TravelogueCardFooter = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 0 1.6rem;
 `;
 
 export const TravelogueCardTitleContainer = styled.div`
@@ -63,7 +61,6 @@ export const TravelogueCardThumbnailContainer = styled.div`
 
   width: 100%;
   height: 25rem;
-  padding: 0 1.6rem;
   border-radius: 0.8rem 0.8rem 0 0;
 
   line-height: 0;
