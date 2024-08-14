@@ -13,6 +13,7 @@ import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
+import kr.touroot.travelogue.dto.request.TravelogueUpdateRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.service.TravelogueFacadeService;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -123,6 +125,26 @@ public class TravelogueController {
             TravelogueSearchRequest searchRequest
     ) {
         return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(pageable, searchRequest));
+    }
+
+    @Operation(summary = "여행기 수정")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "요청 Body에 올바르지 않은 값이 전달되었을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @PutMapping
+    public ResponseEntity<TravelogueResponse> updateTravelogue(
+            @Valid MemberAuth member,
+            @Valid @RequestBody TravelogueUpdateRequest request
+    ) {
+        return ResponseEntity.ok(travelogueFacadeService.updateTravelogue(member, request));
     }
 
     @Operation(summary = "여행기 삭제")

@@ -37,4 +37,16 @@ public class TravelogueTagService {
                 .map(travelogueTag -> TagResponse.from(travelogueTag.getTag()))
                 .toList();
     }
+
+
+    public List<TagResponse> updateTravelogueTags(Travelogue travelogue, List<Long> tagIds) {
+        travelogueTagRepository.deleteAllByTravelogue(travelogue);
+        
+        return tagIds.stream()
+                .map(id -> {
+                    Tag tag = getTagById(id);
+                    travelogueTagRepository.save(new TravelogueTag(travelogue, tag));
+                    return TagResponse.from(tag);
+                }).toList();
+    }
 }

@@ -12,10 +12,13 @@ import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
+import kr.touroot.travelogue.dto.request.TravelogueDayUpdateRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePlaceUpdateRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
+import kr.touroot.travelogue.dto.request.TravelogueUpdateRequest;
 import kr.touroot.travelogue.dto.response.TravelogueDayResponse;
 import kr.touroot.travelogue.dto.response.TraveloguePlaceResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
@@ -124,10 +127,39 @@ public class TravelogueFacadeService {
     }
 
     @Transactional
+    public TravelogueResponse updateTravelogue(MemberAuth member, TravelogueUpdateRequest request) {
+        Member author = memberService.getById(member.memberId());
+        Travelogue travelogue = travelogueService.getTravelogueById(request.id());
+        List<TravelogueDayResponse> days = updateDays(request.days(), travelogue);
+        List<TagResponse> tags = travelogueTagService.updateTravelogueTags(travelogue, request.tags());
+
+        return TravelogueResponse.of(travelogueService.update(travelogue, author), days, tags);
+    }
+
+    private List<TravelogueDayResponse> updateDays(List<TravelogueDayUpdateRequest> requests, Travelogue travelogue) {
+        Map<TravelogueDay, List<TraveloguePlaceUpdateRequest>> days = travelogueDayService.updateDays(requests,
+                travelogue);
+
+        return days.keySet()
+                .stream()
+                .map(day -> TravelogueDayResponse.of(day, updatePlaces(days.get(day), day)))
+                .toList();
+    }
+
+    private List<TraveloguePlaceResponse> updatePlaces(List<TraveloguePlaceUpdateRequest> requests, TravelogueDay day) {
+        Map<TraveloguePlace, List<TraveloguePhotoRequest>> places = traveloguePlaceService.updatePlaces(requests, day);
+
+        return places.keySet()
+                .stream()
+                .map(place -> TraveloguePlaceResponse.of(place, createPhotos(places.get(place), place)))
+                .toList();
+    }
+
+    @Transactional
     public void deleteTravelogueById(Long id, MemberAuth member) {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.getTravelogueById(id);
-        travelogueService.validateDeleteByAuthor(travelogue, author);
+        travelogueService.validateAuthor(travelogue, author);
 
         traveloguePhotoService.deleteByTravelogue(travelogue);
         traveloguePlaceService.deleteByTravelogue(travelogue);

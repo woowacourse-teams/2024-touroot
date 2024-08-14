@@ -45,13 +45,24 @@ public class TravelogueService {
     }
 
     public void delete(Travelogue travelogue, Member author) {
-        validateDeleteByAuthor(travelogue, author);
+        validateAuthor(travelogue, author);
         travelogueRepository.delete(travelogue);
     }
 
-    public void validateDeleteByAuthor(Travelogue travelogue, Member author) {
+    public Travelogue update(Travelogue travelogue, Member author) {
+        validateAuthor(travelogue, author);
+
+        Long id = travelogue.getId();
+        String title = travelogue.getTitle();
+        String thumbnail = travelogue.getThumbnail();
+        Travelogue updatedTravelogue = new Travelogue(id, author, title, thumbnail);
+
+        return travelogueRepository.save(updatedTravelogue);
+    }
+
+    public void validateAuthor(Travelogue travelogue, Member author) {
         if (!travelogue.isAuthor(author)) {
-            throw new ForbiddenException("여행기 삭제는 작성자만 가능합니다.");
+            throw new ForbiddenException("본인이 작성한 여행기만 수정하거나 삭제할 수 있습니다.");
         }
     }
 }

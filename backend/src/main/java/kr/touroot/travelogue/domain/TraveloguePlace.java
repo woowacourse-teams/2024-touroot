@@ -46,7 +46,7 @@ public class TraveloguePlace extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelogueDay travelogueDay;
 
-    private TraveloguePlace(Long id, Integer order, String description, Place place, TravelogueDay travelogueDay) {
+    public TraveloguePlace(Long id, Integer order, String description, Place place, TravelogueDay travelogueDay) {
         validate(order, description, place, travelogueDay);
         this.id = id;
         this.order = order;
