@@ -15,7 +15,21 @@ public class TravelogueRequestFixture {
     }
 
     public static TravelogueRequest getTravelogueRequest(List<TravelogueDayRequest> days) {
-        return new TravelogueRequest("제주에 하영 옵서", "https://dev.touroot.kr/temporary/jeju_thumbnail.png", days);
+        return new TravelogueRequest(
+                "제주에 하영 옵서",
+                "https://dev.touroot.kr/temporary/jeju_thumbnail.png",
+                List.of(),
+                days
+        );
+    }
+
+    public static TravelogueRequest getTravelogueRequest(List<TravelogueDayRequest> days, List<Long> tags) {
+        return new TravelogueRequest(
+                "제주에 하영 옵서",
+                "https://dev.touroot.kr/temporary/jeju_thumbnail.png",
+                tags,
+                days
+        );
     }
 
     public static List<TravelogueDayRequest> getTravelogueDayRequests(List<TraveloguePlaceRequest> places) {

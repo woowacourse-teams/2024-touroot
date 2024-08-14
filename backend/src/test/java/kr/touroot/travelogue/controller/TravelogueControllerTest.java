@@ -76,7 +76,7 @@ class TravelogueControllerTest {
                 .accessToken();
     }
 
-    @DisplayName("여행기를 작성한다.")
+    @DisplayName("태그가 없는 여행기를 작성한다.")
     @Test
     void createTravelogue() {
         Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
@@ -86,6 +86,29 @@ class TravelogueControllerTest {
         List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
         List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .body(request)
+                .when().post("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(201)
+                .header("Location", "/api/v1/travelogues/1");
+    }
+
+    @DisplayName("태그가 있는 여행기를 작성한다.")
+    @Test
+    void createTravelogueWithTags() {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
+
+        testHelper.initTagTestData();
+
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days, List.of(1L));
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -194,10 +217,25 @@ class TravelogueControllerTest {
                 .body(is(objectMapper.writeValueAsString(response)));
     }
 
+    @DisplayName("태그가 있는 여행기를 상세 조회한다.")
+    @Test
+    void findTravelogueWithTags() throws JsonProcessingException {
+        testHelper.initTravelogueTestDataWithTag(member);
+        TravelogueResponse response = TravelogueResponseFixture.getTravelogueResponseWithTag();
+
+        RestAssured.given().log().all()
+                .accept(ContentType.JSON)
+                .when().get("/api/v1/travelogues/1")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body(is(objectMapper.writeValueAsString(response)));
+    }
+
     @DisplayName("메인 페이지 조회 시, 최신 작성 순으로 여행기를 조회한다.")
     @Test
     void findMainPageTravelogues() throws JsonProcessingException {
         testHelper.initTravelogueTestData();
+        testHelper.initTravelogueTestDataWithTag(member);
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         RestAssured.given().log().all()
