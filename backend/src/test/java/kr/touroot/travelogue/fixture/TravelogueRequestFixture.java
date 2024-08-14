@@ -18,6 +18,7 @@ public class TravelogueRequestFixture {
         return new TravelogueRequest(
                 "제주에 하영 옵서",
                 "https://dev.touroot.kr/temporary/jeju_thumbnail.png",
+                List.of(),
                 days
         );
     }

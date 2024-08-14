@@ -18,6 +18,7 @@ public record TravelogueRequest(
         @NotNull(message = "여행기 썸네일은 비어있을 수 없습니다.")
         String thumbnail,
         @Schema(description = "선택된 여행기 태그의 id 목록", example = "[1, 2, 3]")
+        @NotNull(message = "여행기 태그 필드는 비어있을 수 없습니다.")
         @Size(max = 5, message = "여행기 태그는 최대 5개까지 입력할 수 있습니다.")
         List<Long> tags,
         @Schema(description = "여행기 일자 목록")
@@ -28,10 +29,14 @@ public record TravelogueRequest(
 ) {
 
     public TravelogueRequest(String title, String thumbnail, List<TravelogueDayRequest> days) {
-        this(title, thumbnail, null, days);
+        this(title, thumbnail, List.of(), days);
     }
 
     public Travelogue toTravelogueOf(Member author, String url) {
         return new Travelogue(author, title, url);
+    }
+
+    public boolean isEmptyTag() {
+        return tags.isEmpty();
     }
 }
