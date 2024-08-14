@@ -237,8 +237,7 @@ class TravelogueControllerTest {
     @DisplayName("메인 페이지 조회 시, 최신 작성 순으로 여행기를 조회한다.")
     @Test
     void findMainPageTravelogues() throws JsonProcessingException {
-        testHelper.initTravelogueTestData();
-        testHelper.initTravelogueTestDataWithTag(member);
+        testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         RestAssured.given().log().all()
@@ -263,7 +262,7 @@ class TravelogueControllerTest {
     @DisplayName("제목 키워드를 기준으로 여행기를 조회할 수 있다.")
     @Test
     void findTraveloguesByTitleKeyword() throws JsonProcessingException {
-        testHelper.initTravelogueTestData();
+        testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         RestAssured.given().param("keyword", "제주")
@@ -295,7 +294,7 @@ class TravelogueControllerTest {
     @ParameterizedTest
     @ValueSource(strings = {"제 주", "제주 에하영옵 서"})
     void findTraveloguesKeywordWithMiddleBlank(String keyword) throws JsonProcessingException {
-        testHelper.initTravelogueTestData();
+        testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         RestAssured.given().param("keyword", keyword)

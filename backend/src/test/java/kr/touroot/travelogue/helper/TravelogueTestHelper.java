@@ -61,6 +61,12 @@ public class TravelogueTestHelper {
         this.travelogueTagRepository = travelogueTagRepository;
     }
 
+    public void initAllTravelogueTestData() {
+        Member author = persistMember();
+        initTravelogueTestData(author);
+        initTravelogueTestDataWithTag(author);
+    }
+
     public Travelogue initTravelogueTestData() {
         Member author = persistMember();
         return initTravelogueTestData(author);
@@ -90,14 +96,6 @@ public class TravelogueTestHelper {
     private void persisTravelogueTag(Travelogue travelogue) {
         Tag tag = initTagTestData();
         travelogueTagRepository.save(new TravelogueTag(travelogue, tag));
-    }
-
-    public void initTravelogueTestDate(Member author) {
-        Travelogue travelogue = persistTravelogue(author);
-        TravelogueDay day = persistTravelogueDay(travelogue);
-        Place position = persistPlace();
-        TraveloguePlace place = persistTraveloguePlace(position, day);
-        persistTraveloguePhoto(place);
     }
 
     public Member persistMember() {

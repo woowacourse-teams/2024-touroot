@@ -24,7 +24,6 @@ import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,11 +105,10 @@ class TravelogueFacadeServiceTest {
                 .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
     }
 
-    @Disabled
     @DisplayName("메인 페이지에 표시할 여행기 목록을 조회한다.")
     @Test
     void findTravelogues() {
-        testHelper.initTravelogueTestData();
+        testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> expect = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
@@ -122,7 +120,7 @@ class TravelogueFacadeServiceTest {
     @DisplayName("제목 키워드를 기반으로 여행기 목록을 조회한다.")
     @Test
     void findTraveloguesByKeyword() {
-        testHelper.initTravelogueTestData();
+        testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("제주");
