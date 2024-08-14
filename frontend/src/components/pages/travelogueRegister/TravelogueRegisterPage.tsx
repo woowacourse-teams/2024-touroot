@@ -142,7 +142,7 @@ const TravelogueRegisterPage = () => {
             onClickButton={handleButtonClick}
           />
         </S.PageInfoContainer>
-        <S.AccordionRootContainer>
+        <div>
           <GoogleMapLoadScript
             loadingElement={
               <S.LoadingWrapper>
@@ -159,7 +159,7 @@ const TravelogueRegisterPage = () => {
             }
             libraries={["places", "maps"]}
           >
-            <Accordion.Root>
+            <Accordion.Root css={S.accordionRootStyle}>
               {travelogueDays.map((travelogueDay, dayIndex) => (
                 <TravelogueDayAccordion
                   key={travelogueDay.id}
@@ -179,7 +179,7 @@ const TravelogueRegisterPage = () => {
               size="16"
               iconType="plus"
               position="left"
-              css={[S.addButtonStyle, S.addDayButtonStyle]}
+              css={[S.addButtonStyle]}
               onClick={() => onAddDay()}
             >
               일자 추가하기
@@ -188,7 +188,7 @@ const TravelogueRegisterPage = () => {
           <Button variants="primary" onClick={handleOpenBottomSheet}>
             등록
           </Button>
-        </S.AccordionRootContainer>
+        </div>
       </S.Layout>
       <ModalBottomSheet
         isOpen={isOpen}

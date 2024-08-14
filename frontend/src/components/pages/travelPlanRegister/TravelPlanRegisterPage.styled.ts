@@ -16,9 +16,7 @@ export const Layout = styled.div`
 `;
 
 export const AccordionRootContainer = styled.div`
-  & > * {
-    margin-bottom: 1.6rem;
-  }
+  margin-top: 1.6rem;
 `;
 
 export const PageInfoContainer = styled.div`
@@ -90,4 +88,18 @@ export const addTravelAddButtonStyle = css`
 
 export const loadingButtonStyle = css`
   margin-top: 3.2rem;
+`;
+
+export const startDateInputStyle = css`
+  margin: 1.6rem 0 3.2rem;
+`;
+
+export const calendarStyle = css`
+  margin-bottom: 3.2rem;
+`;
+
+export const accordionRootStyle = css`
+  & > :last-child {
+    margin-bottom: 3.2rem;
+  }
 `;
