@@ -1,4 +1,3 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 export const TravelogueCardLayout = styled.li`
@@ -26,14 +25,14 @@ export const TravelogueCardHeader = styled.div`
   align-items: center;
 `;
 
-export const TravelogueCardFooter = styled.div`
+export const TravelogueCardInfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 `;
 
-export const TravelogueCardTitleContainer = styled.div`
+export const TravelogueCardAuthorContainer = styled.div`
   display: flex;
   gap: 0.4rem;
   align-items: center;
@@ -76,6 +75,8 @@ export const TravelogueCardThumbnail = styled.img`
   object-position: center;
 `;
 
-export const textBoldStyle = css`
-  font-weight: 700;
+export const TravelogueCartTags = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
 `;

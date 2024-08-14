@@ -31,7 +31,7 @@ const MainPage = () => {
       )}
       <S.MainPageTraveloguesList>
         {travelogues.map(
-          ({ authorProfileUrl, authorNickname, id, title, thumbnail, likeCount }) => (
+          ({ authorProfileUrl, authorNickname, id, title, thumbnail, likeCount, tags }) => (
             <TravelogueCard
               key={id}
               travelogueOverview={{
@@ -41,6 +41,7 @@ const MainPage = () => {
                 thumbnail,
                 likeCount,
                 authorNickname,
+                tags,
               }}
             />
           ),

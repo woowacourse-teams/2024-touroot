@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { TravelogueResponse } from "@type/domain/travelogue";
 
-import { AvatarCircle, FallbackImage, IconButton, Text } from "@components/common";
+import { AvatarCircle, Chip, FallbackImage, IconButton, Text } from "@components/common";
 
 import useImageError from "@hooks/useImageError";
 
@@ -13,12 +13,20 @@ import * as S from "./TravelogueCard.styled";
 interface TravelogueCardProps {
   travelogueOverview: Pick<
     TravelogueResponse,
-    "id" | "authorProfileUrl" | "title" | "thumbnail" | "authorNickname" | "likeCount"
+    "id" | "authorProfileUrl" | "title" | "thumbnail" | "authorNickname" | "likeCount" | "tags"
   >;
 }
 
 const TravelogueCard = ({
-  travelogueOverview: { id, authorProfileUrl, title, thumbnail, authorNickname, likeCount = 0 },
+  travelogueOverview: {
+    id,
+    authorProfileUrl,
+    title,
+    thumbnail,
+    authorNickname,
+    likeCount = 0,
+    tags,
+  },
 }: TravelogueCardProps) => {
   const navigate = useNavigate();
 
@@ -35,9 +43,7 @@ const TravelogueCard = ({
   return (
     <S.TravelogueCardLayout onClick={handleCardClick}>
       <S.TravelogueCardHeader>
-        <Text textType="body" css={S.textBoldStyle}>
-          {title}
-        </Text>
+        <Text textType="bodyBold">{title}</Text>
       </S.TravelogueCardHeader>
 
       <S.TravelogueCardThumbnailContainer>
@@ -51,17 +57,24 @@ const TravelogueCard = ({
           <FallbackImage />
         )}
       </S.TravelogueCardThumbnailContainer>
-      <S.TravelogueCardFooter>
-        <S.TravelogueCardTitleContainer>
+
+      <S.TravelogueCardInfoContainer>
+        <S.TravelogueCardAuthorContainer>
           <AvatarCircle profileImageUrl={authorProfileUrl} />
           <Text textType="detail">{authorNickname}</Text>
-        </S.TravelogueCardTitleContainer>
+        </S.TravelogueCardAuthorContainer>
 
         <S.TravelogueCardLikesContainer>
           <IconButton onClick={handleLikeClick} iconType="empty-heart" size="20" />
           <Text textType="detail">{likeCount}</Text>
         </S.TravelogueCardLikesContainer>
-      </S.TravelogueCardFooter>
+      </S.TravelogueCardInfoContainer>
+
+      <S.TravelogueCartTags>
+        {tags.map((tag) => (
+          <Chip key={tag.id} label={tag.tag} />
+        ))}
+      </S.TravelogueCartTags>
     </S.TravelogueCardLayout>
   );
 };
