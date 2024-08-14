@@ -23,8 +23,11 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         List<Travelogue> results = jpaQueryFactory.selectFrom(travelogue)
                 .where(Expressions.stringTemplate("replace({0}, ' ', '')", travelogue.title)
                         .containsIgnoreCase(keyword.replace(" ", "")))
+                .orderBy(travelogue.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
-        
+
         return new PageImpl<>(results, pageable, results.size());
     }
 }
