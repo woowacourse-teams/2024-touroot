@@ -114,14 +114,18 @@ const TravelogueDetailPage = () => {
             <S.LikesContainer>
               {data.isLiked ? (
                 <IconButton
-                  onClick={() => handleInactiveHeart(id)}
+                  onClick={() => {
+                    isAuthor && handleInactiveHeart(id);
+                  }}
                   iconType="heart"
                   color={SEMANTIC_COLORS.heart}
                   size="20"
                 />
               ) : (
                 <IconButton
-                  onClick={() => handleActiveHeart(id)}
+                  onClick={() => {
+                    isAuthor && handleActiveHeart(id);
+                  }}
                   iconType="empty-heart"
                   size="20"
                 />
