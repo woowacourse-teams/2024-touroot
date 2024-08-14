@@ -1,12 +1,16 @@
 package kr.touroot.member.service;
 
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
+import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
+import kr.touroot.member.dto.ProfileResponse;
 import kr.touroot.member.dto.request.MemberRequest;
+import kr.touroot.member.dto.request.ProfileUpdateRequest;
 import kr.touroot.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -43,5 +47,13 @@ public class MemberService {
         if (memberRepository.findByNickname(nickname).isPresent()) {
             throw new BadRequestException("이미 사용 중인 닉네임입니다.");
         }
+    }
+
+    @Transactional
+    public ProfileResponse updateProfile(ProfileUpdateRequest request, MemberAuth memberAuth) {
+        Member member = getById(memberAuth.memberId());
+        member.changeNickname(request.nickname());
+
+        return ProfileResponse.from(member);
     }
 }

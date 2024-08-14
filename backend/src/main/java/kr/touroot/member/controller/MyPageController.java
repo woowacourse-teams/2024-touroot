@@ -7,11 +7,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.member.dto.MyTravelogueResponse;
 import kr.touroot.member.dto.ProfileResponse;
+import kr.touroot.member.dto.request.ProfileUpdateRequest;
 import kr.touroot.member.service.MyPageFacadeService;
 import kr.touroot.travelplan.dto.response.TravelPlanResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -97,5 +101,30 @@ public class MyPageController {
     ) {
         Page<TravelPlanResponse> data = myPageFacadeService.readTravelPlans(memberAuth, pageable);
         return ResponseEntity.ok(data);
+    }
+
+    @Operation(summary = "나의 프로필 정보 수정")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "내 프로필 정보 수정에 성공했을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "요청 Body에 올바르지 않은 값이 전달되었을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "로그인하지 않은 사용자가 프로필 정보 수정을 시도할 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
+    })
+    @PatchMapping("/profile")
+    public ResponseEntity<ProfileResponse> updateProfile(
+            @Valid @RequestBody ProfileUpdateRequest request,
+            @NotNull MemberAuth memberAuth
+    ) {
+        return ResponseEntity.ok(myPageFacadeService.updateProfile(request, memberAuth));
     }
 }
