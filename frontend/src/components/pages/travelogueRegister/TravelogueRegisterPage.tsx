@@ -115,6 +115,7 @@ const TravelogueRegisterPage = () => {
           value={title}
           maxLength={MAX_TITLE_LENGTH}
           label="제목"
+          placeholder="여행기 제목을 입력해주세요"
           count={title.length}
           maxCount={MAX_TITLE_LENGTH}
           onChange={handleChangeTitle}
@@ -183,13 +184,17 @@ const TravelogueRegisterPage = () => {
           </Button>
         </S.AccordionRootContainer>
       </S.Layout>
-      <ModalBottomSheet
-        isOpen={isOpen}
-        mainText="여행기를 등록할까요?"
-        subText="등록한 후에도 다시 여행기를 수정할 수 있어요!"
-        onClose={handleCloseBottomSheet}
-        onConfirm={handleConfirmBottomSheet}
-      />
+      {isOpen && (
+        <ModalBottomSheet
+          isOpen={isOpen}
+          mainText="여행기를 등록할까요?"
+          subText="등록한 후에도 다시 여행기를 수정할 수 있어요!"
+          secondaryButtonLabel="취소"
+          primaryButtonLabel="확인"
+          onClose={handleCloseBottomSheet}
+          onConfirm={handleConfirmBottomSheet}
+        />
+      )}
     </>
   );
 };
