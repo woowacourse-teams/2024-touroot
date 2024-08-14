@@ -8,9 +8,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.ServiceTest;
+import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.dto.request.MemberRequest;
+import kr.touroot.member.dto.request.ProfileUpdateRequest;
 import kr.touroot.member.helper.MemberTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
@@ -90,5 +92,18 @@ class MemberServiceTest {
         assertThatThrownBy(() -> memberService.createMember(request))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("이미 사용 중인 닉네임입니다.");
+    }
+
+    @DisplayName("멤버의 프로필을 업데이트 한다.")
+    @Test
+    void updateProfile() {
+        Member member = testHelper.persistMember();
+        MemberAuth memberAuth = new MemberAuth(member.getId());
+        ProfileUpdateRequest request = new ProfileUpdateRequest("newNickname");
+
+        memberService.updateProfile(request, memberAuth);
+
+        assertThat(memberService.getById(member.getId()).getNickname())
+                .isEqualTo("newNickname");
     }
 }
