@@ -12,6 +12,7 @@ import java.net.URI;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
+import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.service.TravelogueFacadeService;
@@ -98,6 +99,30 @@ public class TravelogueController {
             Pageable pageable
     ) {
         return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(pageable));
+    }
+
+    @Operation(summary = "여행기 검색")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "올바르지 않은 페이지네이션 옵션 또는 키워드로 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @PageableAsQueryParam
+    @GetMapping("/search")
+    public ResponseEntity<Page<TravelogueSimpleResponse>> findTraveloguesByKeyword(
+            @Parameter(hidden = true)
+            @PageableDefault(size = 5, sort = "id", direction = Direction.DESC)
+            Pageable pageable,
+            @Valid
+            TravelogueSearchRequest searchRequest
+    ) {
+        return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(pageable, searchRequest));
     }
 
     @Operation(summary = "여행기 삭제")

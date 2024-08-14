@@ -7,6 +7,7 @@ import io.restassured.http.ContentType;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
 import kr.touroot.member.domain.Member;
+import kr.touroot.member.dto.request.ProfileUpdateRequest;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
@@ -50,15 +51,16 @@ class MyPageControllerTest {
         databaseCleaner.executeTruncate();
 
         member = travelogueTestHelper.initKakaoMemberTestData();
-        accessToken = jwtTokenProvider.createToken(member.getId());
+        accessToken = jwtTokenProvider.createToken(member.getId())
+                .accessToken();
     }
 
     @DisplayName("마이 페이지 컨트롤러는 내 여행기 조회 요청이 들어오면 로그인한 사용자의 여행기를 조회한다.")
     @Test
     void readTravelogues() {
         // given
-        travelogueTestHelper.initTravelogueTestDate(member);
-        travelogueTestHelper.initTravelogueTestDate(member);
+        travelogueTestHelper.initTravelogueTestData(member);
+        travelogueTestHelper.initTravelogueTestData(member);
         travelogueTestHelper.initTravelogueTestData();
 
         // when & then
@@ -89,5 +91,24 @@ class MyPageControllerTest {
                 .then().log().all()
                 .statusCode(200)
                 .body("content.size()", is(2));
+    }
+
+    @DisplayName("마이 페이지 컨트롤러는 내 프로필 수정 요청이 들어오면 로그인한 사용자의 프로필을 수정한다.")
+    @Test
+    void updateProfile() {
+        // given
+        String newNickname = "newNickname";
+        ProfileUpdateRequest request = new ProfileUpdateRequest(newNickname);
+
+        // when & then
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .body(request)
+                .when().log().all()
+                .patch("/api/v1/member/me/profile")
+                .then().log().all()
+                .statusCode(200)
+                .body("nickname", is(newNickname));
     }
 }

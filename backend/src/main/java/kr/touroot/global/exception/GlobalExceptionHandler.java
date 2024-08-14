@@ -79,4 +79,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(data);
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ExceptionResponse> handleUnauthorized(UnauthorizedException exception) {
+        log.warn("UNAUTHORIZED_EXCEPTION :: message = {}", exception.getMessage());
+
+        ExceptionResponse data = new ExceptionResponse(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(data);
+    }
 }

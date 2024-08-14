@@ -2,6 +2,7 @@ package kr.touroot.tag.fixture;
 
 import kr.touroot.tag.domain.Tag;
 import kr.touroot.tag.dto.TagCreateRequest;
+import kr.touroot.tag.dto.TagResponse;
 
 public enum TagFixture {
 
@@ -20,5 +21,9 @@ public enum TagFixture {
 
     public TagCreateRequest getCreateRequest() {
         return new TagCreateRequest(tag);
+    }
+
+    public TagResponse getResponse(Long id) {
+        return new TagResponse(id, tag);
     }
 }
