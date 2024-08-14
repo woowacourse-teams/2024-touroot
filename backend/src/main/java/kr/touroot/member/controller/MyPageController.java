@@ -13,7 +13,6 @@ import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.member.dto.MyTravelogueResponse;
 import kr.touroot.member.dto.ProfileResponse;
-import kr.touroot.member.dto.ProfileUpdateResponse;
 import kr.touroot.member.dto.request.ProfileUpdateRequest;
 import kr.touroot.member.service.MyPageFacadeService;
 import kr.touroot.travelplan.dto.response.TravelPlanResponse;
@@ -122,7 +121,7 @@ public class MyPageController {
             )
     })
     @PatchMapping("/profile")
-    public ResponseEntity<ProfileUpdateResponse> updateProfile(
+    public ResponseEntity<ProfileResponse> updateProfile(
             @Valid @RequestBody ProfileUpdateRequest request,
             @NotNull MemberAuth memberAuth
     ) {

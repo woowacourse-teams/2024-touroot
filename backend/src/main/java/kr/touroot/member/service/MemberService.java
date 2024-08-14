@@ -4,7 +4,7 @@ import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
-import kr.touroot.member.dto.ProfileUpdateResponse;
+import kr.touroot.member.dto.ProfileResponse;
 import kr.touroot.member.dto.request.MemberRequest;
 import kr.touroot.member.dto.request.ProfileUpdateRequest;
 import kr.touroot.member.repository.MemberRepository;
@@ -50,10 +50,10 @@ public class MemberService {
     }
 
     @Transactional
-    public ProfileUpdateResponse updateProfile(ProfileUpdateRequest request, MemberAuth memberAuth) {
+    public ProfileResponse updateProfile(ProfileUpdateRequest request, MemberAuth memberAuth) {
         Member member = getById(memberAuth.memberId());
         member.changeNickname(request.nickname());
 
-        return ProfileUpdateResponse.from(member);
+        return ProfileResponse.from(member);
     }
 }

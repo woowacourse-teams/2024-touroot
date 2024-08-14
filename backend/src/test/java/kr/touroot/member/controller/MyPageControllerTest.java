@@ -97,7 +97,8 @@ class MyPageControllerTest {
     @Test
     void updateProfile() {
         // given
-        ProfileUpdateRequest request = new ProfileUpdateRequest("newNickname");
+        String newNickname = "newNickname";
+        ProfileUpdateRequest request = new ProfileUpdateRequest(newNickname);
 
         // when & then
         RestAssured.given().log().all()
@@ -108,6 +109,6 @@ class MyPageControllerTest {
                 .patch("/api/v1/member/me/profile")
                 .then().log().all()
                 .statusCode(200)
-                .body("id", is(1));
+                .body("nickname", is(newNickname));
     }
 }
