@@ -2,7 +2,7 @@ import type { MapPosition } from "./common";
 import type { TravelTransformDetail } from "./travelTransform";
 
 export interface TravelPlanTodo {
-  id: number;
+  id: number | string;
   content: string;
   order?: number;
   checked?: boolean;
