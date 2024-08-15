@@ -78,7 +78,7 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
       const place = newTravelPlans[dayIndex]?.places[placeIndex];
       if (!place) return prevTravelPlansDays;
 
-      place.todos = [...(place.todos || []), { id: uuidv4(), content: "" }];
+      place.todos = [...(place.todos ?? []), { id: uuidv4(), content: "" }];
 
       return newTravelPlans;
     });
