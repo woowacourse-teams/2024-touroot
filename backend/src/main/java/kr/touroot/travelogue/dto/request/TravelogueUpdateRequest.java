@@ -26,6 +26,6 @@ public record TravelogueUpdateRequest(
         @NotNull(message = "여행기 일자 목록은 비어있을 수 없습니다.")
         @Size(message = "여행기 일자는 최소 1일은 포함되어야 합니다.", min = 1)
         @Valid
-        List<TravelogueDayUpdateRequest> days
+        List<TravelogueDayRequest> days
 ) {
 }
