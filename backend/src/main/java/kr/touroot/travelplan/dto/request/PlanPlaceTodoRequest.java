@@ -14,6 +14,6 @@ public record PlanPlaceTodoRequest(
 ) {
 
     public TravelPlaceTodo toUncheckedPlaceTodo(TravelPlanPlace travelPlanPlace, Integer order) {
-        return new TravelPlaceTodo(travelPlanPlace, content, order, true);
+        return new TravelPlaceTodo(travelPlanPlace, content, order, false);
     }
 }
