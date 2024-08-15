@@ -182,8 +182,8 @@ public class TravelPlanService {
         Member author = getMemberByMemberAuth(memberAuth);
         validateDeleteByAuthor(travelPlan, author);
 
-        travelPlanPlaceRepository.deleteByDayPlan(travelPlan);
         placeTodoRepository.deleteByTravelPlanPlaceDayPlan(travelPlan);
+        travelPlanPlaceRepository.deleteByDayPlan(travelPlan);
         travelPlanDayRepository.deleteByPlan(travelPlan);
         travelPlanRepository.delete(travelPlan);
     }

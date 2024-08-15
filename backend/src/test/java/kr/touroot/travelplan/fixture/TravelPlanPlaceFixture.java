@@ -22,6 +22,6 @@ public enum TravelPlanPlaceFixture {
     }
 
     public TravelPlanPlace get() {
-        return new TravelPlanPlace(description, order, travelPlanDay, place);
+        return new TravelPlanPlace(order, travelPlanDay, place);
     }
 }

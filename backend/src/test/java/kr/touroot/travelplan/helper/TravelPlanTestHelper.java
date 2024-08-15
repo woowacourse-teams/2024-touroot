@@ -61,8 +61,8 @@ public class TravelPlanTestHelper {
         return new TravelPlanDay(order, travelPlan);
     }
 
-    public static TravelPlanPlace getTravelPlanPlace(String description, int order, Place place, TravelPlanDay day) {
-        return new TravelPlanPlace(description, order, day, place);
+    public static TravelPlanPlace getTravelPlanPlace(int order, Place place, TravelPlanDay day) {
+        return new TravelPlanPlace(order, day, place);
     }
 
     public static TravelPlaceTodo getTravelPlaceTodo(TravelPlanPlace travelPlanPlace, String content, Integer order,
@@ -76,7 +76,7 @@ public class TravelPlanTestHelper {
         TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
         Place place = getPlace("장소", "37.5175896", "127.0867236", "");
-        TravelPlanPlace travelPlanPlace = getTravelPlanPlace("설명", 0, place, travelPlanDay);
+        TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, place, travelPlanDay);
         TravelPlaceTodo travelPlaceTodo = getTravelPlaceTodo(travelPlanPlace, "테스트짜기", 0, false);
 
         travelPlanRepository.save(travelPlan);
@@ -92,7 +92,7 @@ public class TravelPlanTestHelper {
         TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
         Place place = getPlace("장소", "37.5175896", "127.0867236", "");
-        TravelPlanPlace travelPlanPlace = getTravelPlanPlace("설명", 0, place, travelPlanDay);
+        TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, place, travelPlanDay);
         TravelPlaceTodo travelPlaceTodo = getTravelPlaceTodo(travelPlanPlace, "테스트짜기", 0, false);
 
         travelPlanRepository.save(travelPlan);
