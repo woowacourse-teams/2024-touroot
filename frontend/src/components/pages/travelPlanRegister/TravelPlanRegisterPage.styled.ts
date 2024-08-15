@@ -49,6 +49,12 @@ export const LoadingWrapper = styled.div`
   height: 5.6rem;
 `;
 
+export const PlaceTodoListItemContainer = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+`;
+
 export const addDayButtonStyle = css`
   margin-top: 1.6rem;
 `;

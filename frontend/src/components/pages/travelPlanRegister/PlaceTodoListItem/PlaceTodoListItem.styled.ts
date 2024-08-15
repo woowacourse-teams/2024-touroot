@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const Layout = styled.div`
+export const Layout = styled.li`
   display: flex;
   justify-content: space-between;
   width: 100%;

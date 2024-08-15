@@ -42,8 +42,10 @@ const TravelPlanRegisterPage = () => {
     onAddDay,
     onAddPlace,
     onDeleteDay,
-    onChangePlaceDescription,
     onDeletePlace,
+    onAddPlaceTodo,
+    onDeletePlaceTodo,
+    onChangeContent,
   } = useTravelPlanDays(transformDetail?.days ?? []);
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,6 +114,8 @@ const TravelPlanRegisterPage = () => {
     setIsShowCalendar(false);
   };
 
+  console.log("travelPlanDays", travelPlanDays);
+
   return (
     <>
       <S.Layout>
@@ -167,12 +171,14 @@ const TravelPlanRegisterPage = () => {
                 <TravelPlanDayAccordion
                   key={travelDay.id}
                   startDate={startDate}
+                  onDeletePlaceTodo={onDeletePlaceTodo}
+                  onChangeContent={onChangeContent}
                   travelPlanDay={travelDay}
                   dayIndex={dayIndex}
                   onAddPlace={onAddPlace}
                   onDeletePlace={onDeletePlace}
                   onDeleteDay={onDeleteDay}
-                  onChangePlaceDescription={onChangePlaceDescription}
+                  onAddPlaceTodo={onAddPlaceTodo}
                 />
               ))}
             </Accordion.Root>
