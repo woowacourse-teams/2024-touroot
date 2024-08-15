@@ -16,7 +16,7 @@ const usePatchNickname = () => {
       });
     },
     onError: (error) => {
-      console.log(error.message);
+      alert(error.message);
     },
   });
 };
