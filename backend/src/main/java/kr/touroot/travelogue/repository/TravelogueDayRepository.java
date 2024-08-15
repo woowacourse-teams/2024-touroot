@@ -10,4 +10,6 @@ public interface TravelogueDayRepository extends JpaRepository<TravelogueDay, Lo
     List<TravelogueDay> findByTravelogue(Travelogue travelogue);
 
     void deleteByTravelogue(Travelogue travelogue);
+
+    void deleteAllByTravelogue(Travelogue travelogue);
 }

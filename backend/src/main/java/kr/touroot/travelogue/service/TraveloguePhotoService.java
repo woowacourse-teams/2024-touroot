@@ -46,4 +46,9 @@ public class TraveloguePhotoService {
     public void deleteByTravelogue(Travelogue travelogue) {
         traveloguePhotoRepository.deleteByTraveloguePlaceTravelogueDayTravelogue(travelogue);
     }
+
+    @Transactional
+    public void deleteAllByTravelogue(Travelogue travelogue) {
+        traveloguePhotoRepository.deleteAllByTraveloguePlaceTravelogueDayTravelogue(travelogue);
+    }
 }

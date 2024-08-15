@@ -11,7 +11,6 @@ import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
-import kr.touroot.travelogue.dto.request.TraveloguePlaceUpdateRequest;
 import kr.touroot.travelogue.repository.TraveloguePlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,14 +48,6 @@ public class TraveloguePlaceService {
         ).orElseGet(() -> placeRepository.save(request.toPlace()));
     }
 
-    private Place getPlace(TraveloguePlaceUpdateRequest request) {
-        return placeRepository.findByNameAndLatitudeAndLongitude(
-                request.placeName(),
-                request.position().lat(),
-                request.position().lng()
-        ).orElseGet(() -> placeRepository.save(request.toPlace()));
-    }
-
     public List<TraveloguePlace> findTraveloguePlacesByDay(TravelogueDay travelogueDay) {
         return traveloguePlaceRepository.findByTravelogueDay(travelogueDay);
     }
@@ -66,25 +57,13 @@ public class TraveloguePlaceService {
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기 장소입니다."));
     }
 
-    public Map<TraveloguePlace, List<TraveloguePhotoRequest>> updatePlaces(
-            List<TraveloguePlaceUpdateRequest> requests,
-            TravelogueDay day
-    ) {
-        Map<TraveloguePlace, List<TraveloguePhotoRequest>> places = new LinkedHashMap<>();
-
-        for (int i = 0; i < requests.size(); i++) {
-            TraveloguePlaceUpdateRequest request = requests.get(i);
-            Place place = getPlace(request);
-
-            TraveloguePlace traveloguePlace = request.toTraveloguePlace(i, place, day);
-            places.put(traveloguePlaceRepository.save(traveloguePlace), request.photoUrls());
-        }
-
-        return places;
-    }
-
     @Transactional
     public void deleteByTravelogue(Travelogue travelogue) {
         traveloguePlaceRepository.deleteByTravelogueDayTravelogue(travelogue);
+    }
+
+    @Transactional
+    public void deleteAllByTravelogue(Travelogue travelogue) {
+        traveloguePlaceRepository.deleteAllByTravelogueDayTravelogue(travelogue);
     }
 }

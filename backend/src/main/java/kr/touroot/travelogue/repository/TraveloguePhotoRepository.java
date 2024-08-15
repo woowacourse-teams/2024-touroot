@@ -11,4 +11,6 @@ public interface TraveloguePhotoRepository extends JpaRepository<TraveloguePhoto
     List<TraveloguePhoto> findByTraveloguePlace(TraveloguePlace traveloguePlace);
 
     void deleteByTraveloguePlaceTravelogueDayTravelogue(Travelogue travelogue);
+
+    void deleteAllByTraveloguePlaceTravelogueDayTravelogue(Travelogue travelogue);
 }

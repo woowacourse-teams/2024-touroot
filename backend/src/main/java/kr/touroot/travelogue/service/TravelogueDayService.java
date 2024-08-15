@@ -7,9 +7,7 @@ import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
-import kr.touroot.travelogue.dto.request.TravelogueDayUpdateRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
-import kr.touroot.travelogue.dto.request.TraveloguePlaceUpdateRequest;
 import kr.touroot.travelogue.repository.TravelogueDayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,23 +43,13 @@ public class TravelogueDayService {
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기 일자입니다."));
     }
 
-    public Map<TravelogueDay, List<TraveloguePlaceUpdateRequest>> updateDays(
-            List<TravelogueDayUpdateRequest> requests,
-            Travelogue travelogue
-    ) {
-        Map<TravelogueDay, List<TraveloguePlaceUpdateRequest>> daysWithPlaceRequests = new LinkedHashMap<>();
-
-        for (int i = 0; i < requests.size(); i++) {
-            TravelogueDayUpdateRequest request = requests.get(i);
-            TravelogueDay travelogueDay = request.toTravelogueDay(i, travelogue);
-            daysWithPlaceRequests.put(travelogueDayRepository.save(travelogueDay), request.places());
-        }
-
-        return daysWithPlaceRequests;
-    }
-
     @Transactional
     public void deleteByTravelogue(Travelogue travelogue) {
         travelogueDayRepository.deleteByTravelogue(travelogue);
+    }
+
+    @Transactional
+    public void deleteAllByTravelogue(Travelogue travelogue) {
+        travelogueDayRepository.deleteAllByTravelogue(travelogue);
     }
 }
