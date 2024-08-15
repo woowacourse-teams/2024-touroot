@@ -5,7 +5,7 @@ import { authClient } from "@apis/client";
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { QUERY_KEYS_MAP } from "@constants/queryKey";
 
-const usePutNickname = () => {
+const usePatchNickname = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -22,4 +22,4 @@ const usePutNickname = () => {
   });
 };
 
-export default usePutNickname;
+export default usePatchNickname;
