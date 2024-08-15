@@ -138,6 +138,11 @@ public class TravelogueController {
                     description = "요청 Body에 올바르지 않은 값이 전달되었을 때",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "작성자가 아닌 사용자가 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
     })
     @PutMapping
     public ResponseEntity<TravelogueResponse> updateTravelogue(
