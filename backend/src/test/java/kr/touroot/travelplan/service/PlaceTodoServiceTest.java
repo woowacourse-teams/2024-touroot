@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.dto.request.TodoStatusUpdateRequest;
@@ -80,7 +81,7 @@ class PlaceTodoServiceTest {
 
         TodoStatusUpdateRequest updateRequest = new TodoStatusUpdateRequest(true);
         assertThatThrownBy(() -> placeTodoService.updateTodoStatus(1L, nonAuthorAccessor, updateRequest))
-                .isInstanceOf(BadRequestException.class)
+                .isInstanceOf(ForbiddenException.class)
                 .hasMessage("TODO 체크는 작성자만 가능합니다");
     }
 }
