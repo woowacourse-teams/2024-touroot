@@ -100,7 +100,7 @@ export const inputStyle = css`
   text-align: center;
 
   &::placeholder {
-    color: #999;
+    color: ${theme.colors.text.secondary};
     text-align: center;
   }
 
