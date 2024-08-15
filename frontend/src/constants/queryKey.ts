@@ -23,4 +23,7 @@ export const QUERY_KEYS_MAP = {
     all: ["member"],
     me: () => [...QUERY_KEYS_MAP.member.all, "me"],
   },
+  tags: {
+    all: ["tags"],
+  },
 };
