@@ -1,12 +1,12 @@
 import { useCallback, useRef, useState } from "react";
 
 export const useDragScroll = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLUListElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
-  const onMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+  const onMouseDown = useCallback((e: React.MouseEvent<HTMLUListElement>) => {
     if (!scrollRef.current) return;
     setIsDragging(true);
     setStartX(e.pageX - scrollRef.current.offsetLeft);
@@ -18,7 +18,7 @@ export const useDragScroll = () => {
   }, []);
 
   const onMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
+    (e: React.MouseEvent<HTMLUListElement>) => {
       if (!isDragging || !scrollRef.current) return;
       e.preventDefault();
       const x = e.pageX - scrollRef.current.offsetLeft;
