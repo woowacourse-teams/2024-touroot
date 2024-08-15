@@ -6,6 +6,7 @@ import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
+import kr.touroot.travelogue.dto.request.TravelogueUpdateRequest;
 import kr.touroot.travelogue.repository.TravelogueQueryRepository;
 import kr.touroot.travelogue.repository.TravelogueRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,20 +45,19 @@ public class TravelogueService {
         return travelogueQueryRepository.findByTitleContaining(keyword, pageable);
     }
 
+    public Travelogue update(Member author, TravelogueUpdateRequest request) {
+        Travelogue travelogue = travelogueRepository.findById(request.id())
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기입니다."));
+        validateAuthor(travelogue, author);
+
+        travelogue.update(request.title(), request.thumbnail());
+
+        return travelogueRepository.save(travelogue);
+    }
+
     public void delete(Travelogue travelogue, Member author) {
         validateAuthor(travelogue, author);
         travelogueRepository.delete(travelogue);
-    }
-
-    public Travelogue update(Travelogue travelogue, Member author) {
-        validateAuthor(travelogue, author);
-
-        Long id = travelogue.getId();
-        String title = travelogue.getTitle();
-        String thumbnail = travelogue.getThumbnail();
-        Travelogue updatedTravelogue = new Travelogue(id, author, title, thumbnail);
-
-        return travelogueRepository.save(updatedTravelogue);
     }
 
     public void validateAuthor(Travelogue travelogue, Member author) {
