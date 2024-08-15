@@ -1,20 +1,19 @@
 import type { MapPosition } from "./common";
 import type { TravelTransformDetail } from "./travelTransform";
 
-export interface TravelPlanResponse {
-  id: string;
-  shareKey: string;
-  title: string;
-  startDate: string;
-  days: TravelTransformDetail["days"];
+export interface TravelPlanTodo {
+  id: number;
+  content: string;
+  order?: number;
+  checked?: boolean;
 }
-
-export type TravelPlanPlace = {
+export interface TravelPlanPlace {
   id: string;
   placeName: string;
   description?: string;
+  todos?: TravelPlanTodo[];
   position: MapPosition;
-};
+}
 
 export interface TravelPlanDay {
   id: string;
@@ -22,10 +21,11 @@ export interface TravelPlanDay {
 }
 
 export interface TravelPlanResponse {
+  id: string;
+  shareKey: string;
   title: string;
   startDate: string;
-  days: TravelPlanDay[];
-  shareKey: string;
+  days: TravelTransformDetail["days"];
 }
 
 export type TravelPlanPayload = Omit<TravelPlanResponse, "shareKey" | "id">;
