@@ -2,6 +2,7 @@ package kr.touroot.travelplan.service;
 
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlaceTodo;
 import kr.touroot.travelplan.dto.request.TodoStatusUpdateRequest;
@@ -26,7 +27,7 @@ public class PlaceTodoService {
                 .orElseThrow(() -> new BadRequestException("TODO 작성자가 존재하지 않습니다"));
 
         if (!owner.hasId(memberAuth.memberId())) {
-            throw new BadRequestException("TODO 체크는 작성자만 가능합니다");
+            throw new ForbiddenException("TODO 체크는 작성자만 가능합니다");
         }
 
         todo.updateCheckedStatus(updateRequest.checked());

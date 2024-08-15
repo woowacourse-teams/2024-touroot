@@ -9,12 +9,10 @@ import lombok.Getter;
 @Getter
 public enum MemberFixture {
 
-
-    KAKAO_MEMBER(1L, "email@gmail.com", "password", "https://dev.touroot.kr/temporary/profile.png", "리비",
+    KAKAO_MEMBER(1L, null, null, "https://dev.touroot.kr/temporary/profile.png", "리비",
             LoginType.KAKAO),
     DEFAULT_MEMBER(null, "email@gmail.com", "password", "https://dev.touroot.kr/temporary/profile.png", "뚜리",
-            LoginType.DEFAULT),
-    ;
+            LoginType.DEFAULT);
 
     private final Long socialId;
     private final String email;

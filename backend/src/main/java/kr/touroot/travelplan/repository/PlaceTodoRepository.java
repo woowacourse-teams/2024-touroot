@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlaceTodo;
+import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +24,5 @@ public interface PlaceTodoRepository extends JpaRepository<TravelPlaceTodo, Long
             """)
     Optional<Member> findOwnerOf(@Param("placeTodo") TravelPlaceTodo placeTodo);
 
+    void deleteByTravelPlanPlaceDayPlan(TravelPlan travelPlan);
 }

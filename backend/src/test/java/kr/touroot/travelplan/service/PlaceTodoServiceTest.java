@@ -1,9 +1,11 @@
 package kr.touroot.travelplan.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.dto.request.TodoStatusUpdateRequest;
@@ -59,5 +61,26 @@ class PlaceTodoServiceTest {
         PlanPlaceTodoResponse updateTodoResponse = placeTodoService.updateTodoStatus(1L, memberAuth, updateRequest);
 
         assertThat(updateTodoResponse.checked()).isTrue();
+    }
+
+    @DisplayName("존재하지 않는 TODO의 체크 상태를 업데이트 하려고 할 경우 예외가 발생한다")
+    @Test
+    void updateNonExistTodoCheckStatus() {
+        TodoStatusUpdateRequest updateRequest = new TodoStatusUpdateRequest(true);
+        assertThatThrownBy(() -> placeTodoService.updateTodoStatus(1L, memberAuth, updateRequest))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 TODO 입니다");
+    }
+
+    @DisplayName("작성자가 아닌 멤버가 TODO를 업데이트하려고 하는 경우 예외가 발생한다")
+    @Test
+    void updateTodoCheckStatusFromNonAuthor() {
+        TravelPlan savedPlan = testHelper.initTravelPlanTestData(author);
+        MemberAuth nonAuthorAccessor = new MemberAuth(2L);
+
+        TodoStatusUpdateRequest updateRequest = new TodoStatusUpdateRequest(true);
+        assertThatThrownBy(() -> placeTodoService.updateTodoStatus(1L, nonAuthorAccessor, updateRequest))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("TODO 체크는 작성자만 가능합니다");
     }
 }
