@@ -10,7 +10,6 @@ export interface TravelPlanTodo {
 export interface TravelPlanPlace {
   id: string;
   placeName: string;
-  description?: string;
   todos?: TravelPlanTodo[];
   position: MapPosition;
 }
