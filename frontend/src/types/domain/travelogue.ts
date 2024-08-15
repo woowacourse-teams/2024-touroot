@@ -32,7 +32,9 @@ export interface TravelogueResponse {
   tags: Tag[];
 }
 
-export type TraveloguePayload = Pick<TravelogueResponse, "title" | "thumbnail" | "days">;
+export type TraveloguePayload = Pick<TravelogueResponse, "title" | "thumbnail" | "days"> & {
+  tags: number[];
+};
 
 export interface MyTravelogue {
   id: string;
