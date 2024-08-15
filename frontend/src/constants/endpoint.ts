@@ -10,4 +10,5 @@ export const API_ENDPOINT_MAP = {
   profile: "/member/me/profile",
   myTravelogues: "/member/me/travelogues",
   myTravelPlans: "/member/me/travel-plans",
+  searchTravelogues: "/travelogues/search",
 } as const;
