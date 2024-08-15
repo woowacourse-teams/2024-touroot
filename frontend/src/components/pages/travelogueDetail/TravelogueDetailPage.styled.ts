@@ -53,14 +53,10 @@ export const TravelogueOverview = styled.div`
   padding: 0 1.6rem;
 `;
 
-export const TravelogueCardTags = styled.div`
+export const TravelogueCardChips = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing.s};
-
-  & > * {
-    cursor: default;
-  }
 `;
 
 export const titleStyle = css`

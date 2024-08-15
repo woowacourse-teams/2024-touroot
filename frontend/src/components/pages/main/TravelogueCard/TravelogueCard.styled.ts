@@ -75,7 +75,7 @@ export const TravelogueCardThumbnail = styled.img`
   object-position: center;
 `;
 
-export const TravelogueCartTags = styled.div`
+export const TravelogueCardChips = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
