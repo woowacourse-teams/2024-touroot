@@ -13,17 +13,6 @@ export const Layout = styled.div`
   padding: ${(props) => props.theme.spacing.l};
 `;
 
-export const BoxButton = styled.button`
-  display: flex;
-  gap: ${(props) => props.theme.spacing.m};
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  padding: ${(props) => props.theme.spacing.m};
-  border: 1px solid ${(props) => props.theme.colors.border};
-  border-radius: 10px;
-`;
-
 export const TabContentContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -72,15 +61,6 @@ export const Button = styled.button`
   border-radius: 10px;
 `;
 
-export const InputWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-
-  background: black;
-`;
-
 export const NicknameWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -116,7 +96,7 @@ export const inputStyle = css`
 `;
 
 export const NicknameStyle = css`
-  margin-bottom: calc(1.2rem + 1px);
+  margin-bottom: calc(1.2rem + 2px);
 
   font-weight: 700;
 `;
