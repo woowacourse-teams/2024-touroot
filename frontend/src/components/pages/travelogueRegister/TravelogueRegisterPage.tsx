@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { css } from "@emotion/react";
+import { Tag } from "@type/domain/travelogue";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
 import { usePostTravelogue, usePostUploadImages } from "@queries/index";
+import useGetTags from "@queries/useGetTags";
 
 import {
   Accordion,
   Button,
+  Chip,
   GoogleMapLoadScript,
   IconButton,
   Input,
@@ -21,6 +23,7 @@ import {
 import TravelogueDayAccordion from "@components/pages/travelogueRegister/TravelogueDayAccordion/TravelogueDayAccordion";
 
 import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
+import { useDragScroll } from "@hooks/useDragScroll";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useUser from "@hooks/useUser";
 
@@ -43,6 +46,33 @@ const TravelogueRegisterPage = () => {
     setTitle(title);
   };
 
+  const { data: tags } = useGetTags();
+
+  const [sortedTags, setSortedTags] = useState<Tag[]>([]);
+  const [selectedTagIDs, setSelectedTagIDs] = useState<number[]>([]);
+
+  useEffect(() => {
+    if (tags) {
+      setSortedTags(tags);
+    }
+  }, [tags]);
+
+  const handleClickChip = (id: number) => {
+    setSelectedTagIDs((prevSelectedIDs) => {
+      const newSelectedIDs = prevSelectedIDs.includes(id)
+        ? prevSelectedIDs.filter((selectedTagID) => selectedTagID !== id)
+        : [...prevSelectedIDs, id];
+
+      setSortedTags((prevSortedTags) => {
+        const selected = prevSortedTags.filter((tag) => newSelectedIDs.includes(tag.id));
+        const unselected = prevSortedTags.filter((tag) => !newSelectedIDs.includes(tag.id));
+        return [...selected, ...unselected];
+      });
+
+      return newSelectedIDs;
+    });
+  };
+
   const {
     travelogueDays,
     onAddDay,
@@ -60,12 +90,12 @@ const TravelogueRegisterPage = () => {
     thumbnailFileInputRef.current?.click();
   };
 
+  const { mutateAsync: handleAddImage } = usePostUploadImages();
+
   const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const thumbnail = await handleAddImage(Array.from(e.target.files as FileList));
     setThumbnail(thumbnail[0]);
   };
-
-  const { mutateAsync: handleAddImage } = usePostUploadImages();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -79,9 +109,11 @@ const TravelogueRegisterPage = () => {
 
   const navigate = useNavigate();
 
+  const { mutate: registerTravelogueMutate } = usePostTravelogue();
+
   const handleRegisterTravelogue = () => {
     registerTravelogueMutate(
-      { title, thumbnail, days: travelogueDays },
+      { title, thumbnail, tags: selectedTagIDs, days: travelogueDays },
       {
         onSuccess: (data) => {
           handleCloseBottomSheet();
@@ -96,8 +128,6 @@ const TravelogueRegisterPage = () => {
   const handleConfirmBottomSheet = () => {
     debouncedRegisterTravelogue();
   };
-
-  const { mutate: registerTravelogueMutate } = usePostTravelogue();
 
   const { user } = useUser();
 
@@ -114,10 +144,13 @@ const TravelogueRegisterPage = () => {
     };
   }, [user?.accessToken, navigate]);
 
+  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll();
+
   return (
     <>
       <S.Layout>
-        <PageInfo mainText="여행기 등록" subText="소중한 여행기를 공유해주세요." />
+        <PageInfo mainText="여행기 등록" subText="소중한 여행기를 공유해 주세요." />
+
         <Input
           value={title}
           maxLength={MAX_TITLE_LENGTH}
@@ -126,22 +159,39 @@ const TravelogueRegisterPage = () => {
           maxCount={MAX_TITLE_LENGTH}
           onChange={handleChangeTitle}
         />
-        <S.PageInfoContainer>
-          <Text
-            css={css`
-              font-weight: 700;
-            `}
-            textType="body"
-          >
-            썸네일
+
+        <S.ChipContainer>
+          <Text textType="bodyBold">태그</Text>
+          <Text textType="detail" css={S.subTextColor}>
+            다녀온 여행에 대한 태그를 선택해 주세요.
           </Text>
+          <S.Chips
+            ref={scrollRef}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}
+            onMouseMove={onMouseMove}
+          >
+            {sortedTags.map((tag) => (
+              <Chip
+                key={tag.id}
+                label={tag.tag}
+                isSelected={selectedTagIDs.includes(tag.id)}
+                onClick={() => handleClickChip(tag.id)}
+              />
+            ))}
+          </S.Chips>
+        </S.ChipContainer>
+
+        <S.ThumbnailContainer>
+          <Text textType="bodyBold">썸네일</Text>
           <ThumbnailUpload
             previewUrls={[thumbnail]}
             fileInputRef={thumbnailFileInputRef}
             onChangeImage={handleChangeThumbnail}
             onClickButton={handleButtonClick}
           />
-        </S.PageInfoContainer>
+        </S.ThumbnailContainer>
+
         <S.AccordionRootContainer>
           <GoogleMapLoadScript
             loadingElement={
@@ -190,6 +240,7 @@ const TravelogueRegisterPage = () => {
           </Button>
         </S.AccordionRootContainer>
       </S.Layout>
+
       <ModalBottomSheet
         isOpen={isOpen}
         mainText="여행기를 등록할까요?"

@@ -4,6 +4,60 @@ import styled from "@emotion/styled";
 import theme from "@styles/theme";
 import { PRIMITIVE_COLORS, SPACING } from "@styles/tokens";
 
+export const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${SPACING.xl};
+
+  padding: 1.6rem;
+`;
+
+export const AccordionRootContainer = styled.div`
+  & > * {
+    margin-bottom: 1.6rem;
+  }
+`;
+
+export const ChipContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${SPACING.s};
+`;
+
+export const Chips = styled.ul`
+  display: flex;
+  overflow: scroll hidden;
+  gap: ${SPACING.s};
+
+  white-space: no-wrap;
+  -webkit-overflow-scrolling: touch;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  & > li {
+    flex: 0 0 auto;
+
+    cursor: pointer;
+  }
+`;
+
+export const ThumbnailContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${SPACING.s};
+`;
+
+export const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 5.6rem;
+`;
+
+export const subTextColor = css`
+  color: ${PRIMITIVE_COLORS.gray[700]};
+`;
+
 export const addButtonStyle = css`
   display: flex;
   width: 100%;
@@ -31,30 +85,6 @@ export const addTravelAddButtonStyle = css`
   font-weight: 700;
   font-size: 1.6rem;
   gap: ${SPACING.s};
-`;
-
-export const Layout = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 1.6rem;
-  gap: 3.2rem;
-`;
-
-export const AccordionRootContainer = styled.div`
-  & > * {
-    margin-bottom: 1.6rem;
-  }
-`;
-
-export const PageInfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-`;
-
-export const LoadingWrapper = styled.div`
-  width: 100%;
-  height: 5.6rem;
 `;
 
 export const addDayButtonStyle = css`
