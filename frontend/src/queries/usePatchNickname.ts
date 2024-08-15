@@ -13,7 +13,6 @@ const usePatchNickname = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS_MAP.member.me(),
-        refetchType: "active",
       });
     },
     onError: (error) => {
