@@ -6,6 +6,7 @@ import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePositionRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
+import kr.touroot.travelogue.dto.request.TravelogueUpdateRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,6 +28,36 @@ public class TravelogueRequestFixture {
         return new TravelogueRequest(
                 "제주에 하영 옵서",
                 "https://dev.touroot.kr/temporary/jeju_thumbnail.png",
+                tags,
+                days
+        );
+    }
+
+    public static TravelogueUpdateRequest getTravelogueUpdateRequest(List<TravelogueDayRequest> days) {
+        return new TravelogueUpdateRequest(
+                1L,
+                "삼춘! 제주에 하영 옵서!",
+                "https://dev.touroot.kr/temporary/jeju_thumbnail_2.png",
+                List.of(),
+                days
+        );
+    }
+
+    public static TravelogueUpdateRequest getTravelogueUpdateRequestNotExist(List<TravelogueDayRequest> days) {
+        return new TravelogueUpdateRequest(
+                2L,
+                "삼춘! 제주에 하영 옵서!",
+                "https://dev.touroot.kr/temporary/jeju_thumbnail_2.png",
+                List.of(),
+                days
+        );
+    }
+
+    public static TravelogueUpdateRequest getTravelogueUpdateRequest(List<TravelogueDayRequest> days, List<Long> tags) {
+        return new TravelogueUpdateRequest(
+                1L,
+                "삼춘! 제주에 하영 옵서!",
+                "https://dev.touroot.kr/temporary/jeju_thumbnail_2.png",
                 tags,
                 days
         );
