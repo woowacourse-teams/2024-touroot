@@ -24,9 +24,9 @@ const getButtonColorStyling = (isSelected: boolean) => {
   }
 };
 
-export const Chip = styled.button<{ $isSelected: boolean }>`
+export const Chip = styled.li<{ $isSelected: boolean }>`
   padding: 0.8rem 1.6rem;
   border-radius: 1rem;
 
-  ${({ $isSelected }) => getButtonColorStyling($isSelected)}
+  ${({ $isSelected }) => getButtonColorStyling($isSelected)};
 `;

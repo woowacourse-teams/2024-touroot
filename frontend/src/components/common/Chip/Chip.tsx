@@ -3,7 +3,7 @@ import { ComponentPropsWithoutRef } from "react";
 import Text from "../Text/Text";
 import * as S from "./Chip.styled";
 
-interface ChipProps extends ComponentPropsWithoutRef<"button"> {
+interface ChipProps extends ComponentPropsWithoutRef<"li"> {
   isSelected?: boolean;
   label: string;
 }
