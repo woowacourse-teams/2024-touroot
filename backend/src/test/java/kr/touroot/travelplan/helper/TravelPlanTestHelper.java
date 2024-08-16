@@ -7,9 +7,11 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
 import kr.touroot.place.repository.PlaceRepository;
+import kr.touroot.travelplan.domain.TravelPlaceTodo;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.domain.TravelPlanDay;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
+import kr.touroot.travelplan.repository.PlaceTodoRepository;
 import kr.touroot.travelplan.repository.TravelPlanDayRepository;
 import kr.touroot.travelplan.repository.TravelPlanPlaceRepository;
 import kr.touroot.travelplan.repository.TravelPlanRepository;
@@ -24,6 +26,7 @@ public class TravelPlanTestHelper {
     private final TravelPlanDayRepository travelPlanDayRepository;
     private final TravelPlanPlaceRepository travelPlanPlaceRepository;
     private final MemberRepository memberRepository;
+    private final PlaceTodoRepository placeTodoRepository;
 
     @Autowired
     public TravelPlanTestHelper(
@@ -31,13 +34,15 @@ public class TravelPlanTestHelper {
             TravelPlanRepository travelPlanRepository,
             TravelPlanDayRepository travelPlanDayRepository,
             TravelPlanPlaceRepository travelPlanPlaceRepository,
-            MemberRepository memberRepository
+            MemberRepository memberRepository,
+            PlaceTodoRepository placeTodoRepository
     ) {
         this.placeRepository = placeRepository;
         this.travelPlanRepository = travelPlanRepository;
         this.travelPlanDayRepository = travelPlanDayRepository;
         this.travelPlanPlaceRepository = travelPlanPlaceRepository;
         this.memberRepository = memberRepository;
+        this.placeTodoRepository = placeTodoRepository;
     }
 
     public static Member getKakaoMember(Long kakaoId, String nickname, String profileImageUri) {
@@ -56,21 +61,29 @@ public class TravelPlanTestHelper {
         return new TravelPlanDay(order, travelPlan);
     }
 
-    public static TravelPlanPlace getTravelPlanPlace(String description, int order, Place place, TravelPlanDay day) {
-        return new TravelPlanPlace(description, order, day, place);
+    public static TravelPlanPlace getTravelPlanPlace(int order, Place place, TravelPlanDay day) {
+        return new TravelPlanPlace(order, day, place);
     }
+
+    public static TravelPlaceTodo getTravelPlaceTodo(TravelPlanPlace travelPlanPlace, String content, Integer order,
+                                                     Boolean isChecked) {
+        return new TravelPlaceTodo(travelPlanPlace, content, order, isChecked);
+    }
+
 
     public TravelPlan initTravelPlanTestData() {
         Member author = initMemberTestData();
         TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
         Place place = getPlace("장소", "37.5175896", "127.0867236", "");
-        TravelPlanPlace travelPlanPlace = getTravelPlanPlace("설명", 0, place, travelPlanDay);
+        TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, place, travelPlanDay);
+        TravelPlaceTodo travelPlaceTodo = getTravelPlaceTodo(travelPlanPlace, "테스트짜기", 0, false);
 
         travelPlanRepository.save(travelPlan);
         travelPlanDayRepository.save(travelPlanDay);
         placeRepository.save(place);
         travelPlanPlaceRepository.save(travelPlanPlace);
+        placeTodoRepository.save(travelPlaceTodo);
 
         return travelPlan;
     }
@@ -79,12 +92,14 @@ public class TravelPlanTestHelper {
         TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
         Place place = getPlace("장소", "37.5175896", "127.0867236", "");
-        TravelPlanPlace travelPlanPlace = getTravelPlanPlace("설명", 0, place, travelPlanDay);
+        TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, place, travelPlanDay);
+        TravelPlaceTodo travelPlaceTodo = getTravelPlaceTodo(travelPlanPlace, "테스트짜기", 0, false);
 
         travelPlanRepository.save(travelPlan);
         travelPlanDayRepository.save(travelPlanDay);
         placeRepository.save(place);
         travelPlanPlaceRepository.save(travelPlanPlace);
+        placeTodoRepository.save(travelPlaceTodo);
 
         return travelPlan;
     }

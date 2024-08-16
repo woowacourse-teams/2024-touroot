@@ -1,6 +1,5 @@
 package kr.touroot.member.service;
 
-import static kr.touroot.member.fixture.MemberRequestFixture.DUPLICATE_EMAIL_MEMBER;
 import static kr.touroot.member.fixture.MemberRequestFixture.DUPLICATE_NICKNAME_MEMBER;
 import static kr.touroot.member.fixture.MemberRequestFixture.VALID_MEMBER;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -75,10 +74,11 @@ class MemberServiceTest {
     @DisplayName("중복된 이메일을 가진 회원을 생성하려하면 예외가 발생한다.")
     @Test
     void createMemberWithDuplicatedEmail() {
-        testHelper.persistMember();
-        MemberRequest request = DUPLICATE_EMAIL_MEMBER.getRequest();
+        Member member = testHelper.persistMember();
+        MemberRequest duplicateRequest = new MemberRequest(member.getEmail(), "testPassword", "nickname",
+                "https://dev.touroot.kr/images/f8c26e9f.png");
 
-        assertThatThrownBy(() -> memberService.createMember(request))
+        assertThatThrownBy(() -> memberService.createMember(duplicateRequest))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("이미 회원 가입되어 있는 이메일입니다.");
     }
