@@ -12,8 +12,6 @@ public interface TraveloguePlaceRepository extends JpaRepository<TraveloguePlace
 
     List<TraveloguePlace> findByTravelogueDay(TravelogueDay travelogueDay);
 
-    void deleteByTravelogueDayTravelogue(Travelogue travelogue);
-
     @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Query("UPDATE TraveloguePlace tp SET tp.deletedAt = NOW() WHERE tp.travelogueDay.travelogue = :travelogue")
     void deleteAllByTravelogueDayTravelogue(Travelogue travelogue);
