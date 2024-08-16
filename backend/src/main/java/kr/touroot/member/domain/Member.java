@@ -11,12 +11,14 @@ import java.net.URL;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@EqualsAndHashCode(of = "id", callSuper = false)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Member extends BaseEntity {
 

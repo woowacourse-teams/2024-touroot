@@ -8,7 +8,7 @@ import kr.touroot.member.dto.request.ProfileUpdateRequest;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.service.TravelogueService;
 import kr.touroot.travelplan.domain.TravelPlan;
-import kr.touroot.travelplan.dto.response.TravelPlanResponse;
+import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.service.TravelPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -39,7 +39,7 @@ public class MyPageFacadeService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TravelPlanResponse> readTravelPlans(MemberAuth memberAuth, Pageable pageable) {
+    public Page<PlanResponse> readTravelPlans(MemberAuth memberAuth, Pageable pageable) {
         Member member = memberService.getById(memberAuth.memberId());
         Page<TravelPlan> travelPlans = travelPlanService.getAllByAuthor(member, pageable);
 

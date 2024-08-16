@@ -24,14 +24,9 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 public class TravelPlanPlace extends BaseEntity {
 
-    private static final int MAX_DESCRIPTION_LENGTH = 300;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(columnDefinition = "VARCHAR(300)")
-    private String description;
 
     @Column(name = "PLAN_PLACE_ORDER", nullable = false)
     private Integer order;
@@ -44,34 +39,26 @@ public class TravelPlanPlace extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Place place;
 
-    private TravelPlanPlace(Long id, String description, Integer order, TravelPlanDay day, Place place) {
-        validate(description, order, day, place);
+    private TravelPlanPlace(Long id, Integer order, TravelPlanDay day, Place place) {
+        validate(order, day, place);
         this.id = id;
-        this.description = description;
         this.order = order;
         this.day = day;
         this.place = place;
     }
 
-    public TravelPlanPlace(String description, Integer order, TravelPlanDay day, Place place) {
-        this(null, description, order, day, place);
+    public TravelPlanPlace(Integer order, TravelPlanDay day, Place place) {
+        this(null, order, day, place);
     }
 
-    private void validate(String description, Integer order, TravelPlanDay day, Place place) {
+    private void validate(Integer order, TravelPlanDay day, Place place) {
         validateNotNull(order, day, place);
-        validateDescriptionLength(description);
         validateOrderRange(order);
     }
 
     private void validateNotNull(Integer order, TravelPlanDay day, Place place) {
         if (order == null || day == null || place == null) {
             throw new BadRequestException("여행 계획 장소에서 순서와 날짜, 그리고 장소 상세는 비어 있을 수 없습니다");
-        }
-    }
-
-    private void validateDescriptionLength(String description) {
-        if (description != null && description.length() > MAX_DESCRIPTION_LENGTH) {
-            throw new BadRequestException("장소 설명은 " + MAX_DESCRIPTION_LENGTH + "자를 넘을 수 없습니다");
         }
     }
 
