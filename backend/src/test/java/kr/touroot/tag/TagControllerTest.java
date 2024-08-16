@@ -41,7 +41,7 @@ class TagControllerTest {
     @Test
     void createTag() {
         // given
-        TagCreateRequest request = TagFixture.TAG.getCreateRequest();
+        TagCreateRequest request = TagFixture.TAG_1.getCreateRequest();
 
         // when & then
         RestAssured.given().log().all()

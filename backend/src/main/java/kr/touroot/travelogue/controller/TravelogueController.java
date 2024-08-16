@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
@@ -29,12 +30,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "여행기")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/travelogues")
+@RequestMapping("/api/v1/travelogues")
 public class TravelogueController {
 
     private final TravelogueFacadeService travelogueFacadeService;
@@ -99,6 +101,29 @@ public class TravelogueController {
             Pageable pageable
     ) {
         return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(pageable));
+    }
+
+    @Operation(summary = "여행기 메인 페이지 필터링")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "올바르지 않은 페이지네이션 옵션으로 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @PageableAsQueryParam
+    @GetMapping(params = {"tagFilter"})
+    public ResponseEntity<Page<TravelogueSimpleResponse>> findMainPageTravelogues(
+            @Parameter(hidden = true)
+            @PageableDefault(size = 5, sort = "id", direction = Direction.DESC)
+            Pageable pageable,
+            @RequestParam(required = false) List<Long> tagFilter
+    ) {
+        return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(tagFilter, pageable));
     }
 
     @Operation(summary = "여행기 검색")
