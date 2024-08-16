@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback } from "react";
 
+import { css } from "@emotion/react";
+
 import { GoogleMap, MarkerF, Polyline } from "@react-google-maps/api";
 
 import theme from "@styles/theme";
@@ -50,10 +52,19 @@ const GoogleMapView = ({ places }: GoogleMapViewProps) => {
   );
 
   return (
-    <div>
+    <div
+      css={css`
+        a[href^="https://maps.google.com/maps"]
+        {
+          display: none !important;
+        }
+      `}
+    >
       <GoogleMap
         options={{
           disableDefaultUI: true,
+          clickableIcons: false,
+          disableDoubleClickZoom: true,
           styles: [
             {
               featureType: "poi",
