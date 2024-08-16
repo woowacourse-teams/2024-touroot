@@ -49,3 +49,11 @@ export const Image = styled.img`
   object-position: center;
   object-fit: cover;
 `;
+
+export const ImageWrapper = styled.div`
+  width: 100%;
+  height: 233px;
+
+  object-position: center;
+  object-fit: cover;
+`;
