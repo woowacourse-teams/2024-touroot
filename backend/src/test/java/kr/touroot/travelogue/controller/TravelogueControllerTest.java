@@ -258,7 +258,7 @@ class TravelogueControllerTest {
 
         RestAssured.given().log().all()
                 .accept(ContentType.JSON)
-                .params("tagFilter", "2,3")
+                .params("tag-filter", "2,3")
                 .when().get("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(200).assertThat()

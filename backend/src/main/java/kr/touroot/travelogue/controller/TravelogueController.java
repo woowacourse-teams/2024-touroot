@@ -117,12 +117,12 @@ public class TravelogueController {
             ),
     })
     @PageableAsQueryParam
-    @GetMapping(params = {"tagFilter"})
+    @GetMapping(params = {"tag-filter"})
     public ResponseEntity<Page<TravelogueSimpleResponse>> findMainPageTravelogues(
             @Parameter(hidden = true)
             @PageableDefault(size = 5, sort = "id", direction = Direction.DESC)
             Pageable pageable,
-            @RequestParam(required = false) List<Long> tagFilter
+            @RequestParam(name = "tag-filter", required = false) List<Long> tagFilter
     ) {
         return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(tagFilter, pageable));
     }
