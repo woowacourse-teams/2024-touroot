@@ -29,8 +29,4 @@ public record PlanPlaceCreateRequest(
     public Place toPlace() {
         return new Place(placeName, position.lat(), position.lng());
     }
-
-    public boolean hasTodos() {
-        return todos.isEmpty();
-    }
 }

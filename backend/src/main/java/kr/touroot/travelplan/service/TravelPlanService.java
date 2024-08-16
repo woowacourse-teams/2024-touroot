@@ -80,12 +80,9 @@ public class TravelPlanService {
         for (int order = 0; order < request.size(); order++) {
             PlanPlaceCreateRequest planRequest = request.get(order);
             Place place = getPlace(planRequest);
-            TravelPlanPlace travelPlanPlace = travelPlanPlaceRepository.save(
-                    planRequest.toPlanPlace(order, travelPlanDay, place)
-            );
-            if (planRequest.hasTodos()) {
-                createPlaceTodo(planRequest.todos(), travelPlanPlace);
-            }
+            TravelPlanPlace planPlace = planRequest.toPlanPlace(order, travelPlanDay, place);
+            TravelPlanPlace travelPlanPlace = travelPlanPlaceRepository.save(planPlace);
+            createPlaceTodo(planRequest.todos(), travelPlanPlace);
         }
     }
 
