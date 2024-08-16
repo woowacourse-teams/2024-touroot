@@ -18,6 +18,7 @@ public record PlanPlaceCreateRequest(
         @NotNull(message = "위치는 비어있을 수 없습니다.")
         PlanPositionCreateRequest position,
         @Valid
+        @NotNull(message = "TODO 리스트는 필수 입니다.")
         List<PlanPlaceTodoRequest> todos
 ) {
 
