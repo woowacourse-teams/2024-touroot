@@ -41,43 +41,16 @@ export const MenuList = styled.ul`
   background-color: ${PRIMITIVE_COLORS.white};
 `;
 
-export const HeaderTitle = styled.span`
-  ${({ theme }) => theme.typography.mobile.bodyBold}
-  color: ${({ theme }) => theme.colors.text.primary};
-`;
-
-export const HiddenDiv = styled.div`
-  width: 2.4rem;
-  height: 2.4rem;
-`;
-
-export const HeaderRightContainer = styled.div`
+export const LeftWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const RightWrapper = styled.div<{ $isRightContentFull?: boolean }>`
+  display: flex;
   gap: ${({ theme }) => theme.spacing.m};
-`;
-
-export const FormWrapper = styled.form`
-  flex: 1;
-  position: relative;
-  padding-left: 1.6rem;
-`;
-
-export const DeleteButton = styled.button`
-  display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.8rem;
-  border-radius: 50%;
-  background: rgb(0 0 0/ 10%);
-`;
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  gap: 1.2rem;
-  position: absolute;
-  top: 50%;
-  right: 1.6rem;
-  transform: translateY(-50%);
+  ${({ $isRightContentFull = false }) => $isRightContentFull && "flex: 1;"}
 `;
