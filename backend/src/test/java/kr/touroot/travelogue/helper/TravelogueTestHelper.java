@@ -107,14 +107,26 @@ public class TravelogueTestHelper {
         Place position = persistPlace();
         TraveloguePlace place = persistTraveloguePlace(position, day);
         persistTraveloguePhoto(place);
-        persisTravelogueTag(travelogue);
+        persisTravelogueTag(travelogue, TagFixture.TAG_1.get());
 
         return travelogue;
     }
 
-    private void persisTravelogueTag(Travelogue travelogue) {
-        Tag tag = initTagTestData();
-        travelogueTagRepository.save(new TravelogueTag(travelogue, tag));
+    public Travelogue initTravelogueTestDataWithTag(Member author, List<Tag> tags) {
+        Travelogue travelogue = persistTravelogue(author);
+        TravelogueDay day = persistTravelogueDay(travelogue);
+        Place position = persistPlace();
+        TraveloguePlace place = persistTraveloguePlace(position, day);
+        persistTraveloguePhoto(place);
+
+        tags.forEach(tag -> persisTravelogueTag(travelogue, tag));
+
+        return travelogue;
+    }
+
+    private void persisTravelogueTag(Travelogue travelogue, Tag tag) {
+        Tag savedTag = initTagTestData(tag);
+        travelogueTagRepository.save(new TravelogueTag(travelogue, savedTag));
     }
 
     public Member persistMember() {
@@ -159,6 +171,10 @@ public class TravelogueTestHelper {
     }
 
     public Tag initTagTestData() {
-        return tagRepository.save(TagFixture.TAG.get());
+        return tagRepository.save(TagFixture.TAG_1.get());
+    }
+
+    public Tag initTagTestData(Tag tag) {
+        return tagRepository.save(tag);
     }
 }

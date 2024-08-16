@@ -14,6 +14,7 @@ import kr.touroot.global.AcceptanceTest;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
+import kr.touroot.tag.fixture.TagFixture;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
@@ -247,6 +248,21 @@ class TravelogueControllerTest {
                 .then().log().all()
                 .statusCode(200).assertThat()
                 .body(is(objectMapper.writeValueAsString(responses)));
+    }
+
+    @DisplayName("메인 페이지 조회 시, 최신 작성 순으로 여행기를 조회한다.")
+    @Test
+    void filterMainPageTravelogues() throws JsonProcessingException {
+        testHelper.initAllTravelogueTestData();
+        testHelper.initTravelogueTestDataWithTag(member, List.of(TagFixture.TAG_2.get(), TagFixture.TAG_3.get()));
+
+        RestAssured.given().log().all()
+                .accept(ContentType.JSON)
+                .params("tag-filter", "2,3")
+                .when().get("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body("content.size()", is(1));
     }
 
     @DisplayName("존재하지 않는 여행기를 조회하면 예외가 발생한다.")

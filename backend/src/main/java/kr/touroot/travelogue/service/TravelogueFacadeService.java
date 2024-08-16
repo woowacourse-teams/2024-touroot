@@ -105,9 +105,14 @@ public class TravelogueFacadeService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TravelogueSimpleResponse> findSimpleTravelogues(final Pageable pageable) {
+    public Page<TravelogueSimpleResponse> findSimpleTravelogues(Pageable pageable) {
         Page<Travelogue> travelogues = travelogueService.findAll(pageable);
+        return travelogues.map(this::getTravelogueSimpleResponse);
+    }
 
+    @Transactional(readOnly = true)
+    public Page<TravelogueSimpleResponse> findSimpleTravelogues(List<Long> tagFilter, Pageable pageable) {
+        Page<Travelogue> travelogues = travelogueService.findAllByFilter(tagFilter, pageable);
         return travelogues.map(this::getTravelogueSimpleResponse);
     }
 

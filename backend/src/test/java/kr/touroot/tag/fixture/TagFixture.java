@@ -6,7 +6,9 @@ import kr.touroot.tag.dto.TagResponse;
 
 public enum TagFixture {
 
-    TAG("강아지와 함께"),
+    TAG_1("강아지와 함께"),
+    TAG_2("고양이와 함께"),
+    TAG_3("알파카와 함께"),
     ;
 
     private final String tag;

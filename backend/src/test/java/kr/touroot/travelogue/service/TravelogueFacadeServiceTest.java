@@ -125,6 +125,21 @@ class TravelogueFacadeServiceTest {
         assertThat(result).containsAll(expect);
     }
 
+    @DisplayName("필터링된 여행기 목록을 조회한다.")
+    @Test
+    void filterTravelogues() {
+        // given
+        testHelper.initAllTravelogueTestData();
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
+        List<Long> tagFilters = List.of(1L);
+
+        // when
+        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(tagFilters, pageRequest);
+
+        // then
+        assertThat(result.getContent()).hasSize(1);
+    }
+
     @DisplayName("제목 키워드를 기반으로 여행기 목록을 조회한다.")
     @Test
     void findTraveloguesByKeyword() {

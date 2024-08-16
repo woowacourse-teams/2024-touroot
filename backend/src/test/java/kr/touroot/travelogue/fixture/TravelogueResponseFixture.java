@@ -59,7 +59,7 @@ public class TravelogueResponseFixture {
                 .authorProfileImageUrl("https://dev.touroot.kr/temporary/profile.png")
                 .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                 .days(getTravelogueDayResponses())
-                .tags(List.of(TagFixture.TAG.getResponse(1L)))
+                .tags(List.of(TagFixture.TAG_1.getResponse(1L)))
                 .build();
     }
 
@@ -71,7 +71,7 @@ public class TravelogueResponseFixture {
                         .authorNickname("리비")
                         .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
                         .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
-                        .tags(List.of(TagFixture.TAG.getResponse(1L)))
+                        .tags(List.of(TagFixture.TAG_1.getResponse(1L)))
                         .build(),
                 TravelogueSimpleResponse.builder()
                         .id(1L)
