@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import kr.touroot.global.ServiceTest;
@@ -69,6 +70,7 @@ class TravelPlanServiceTest {
         PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
+                .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
@@ -93,6 +95,7 @@ class TravelPlanServiceTest {
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
                 .position(locationRequest)
+                .todos(Collections.EMPTY_LIST)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
         PlanCreateRequest request = PlanCreateRequest.builder()
@@ -114,6 +117,7 @@ class TravelPlanServiceTest {
         PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
+                .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));

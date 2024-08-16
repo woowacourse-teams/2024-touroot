@@ -31,6 +31,6 @@ public record PlanPlaceCreateRequest(
     }
 
     public boolean hasTodos() {
-        return todos != null;
+        return todos.isEmpty();
     }
 }
