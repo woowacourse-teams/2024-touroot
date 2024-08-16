@@ -19,11 +19,11 @@ const TravelPlanTodoItem = ({ todo }: { todo: TravelPlanTodo }) => {
   return (
     <S.TodoListItemContainer key={todo.id}>
       <Checkbox
-        onClick={() => {
+        onClick={(e) => {
           if (!isUUID(id))
             onUpdateTodoStatus({
               todoId: todo.id as string,
-              checked: todo.checked as boolean,
+              checked: e.currentTarget.checked,
             });
         }}
         isChecked={todo.checked ?? false}
