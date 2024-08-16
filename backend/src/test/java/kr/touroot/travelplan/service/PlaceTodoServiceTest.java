@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
@@ -12,7 +13,6 @@ import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.dto.request.TodoStatusUpdateRequest;
 import kr.touroot.travelplan.dto.response.PlanPlaceTodoResponse;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
-import kr.touroot.travelplan.repository.PlaceTodoRepository;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,12 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
 @DisplayName("TODO 서비스")
-@Import({PlaceTodoService.class, TravelPlanTestHelper.class})
+@Import({PlaceTodoService.class, TravelPlanTestHelper.class, TestQueryDslConfig.class})
 @ServiceTest
 class PlaceTodoServiceTest {
 
     private final PlaceTodoService placeTodoService;
-    private final PlaceTodoRepository placeTodoRepository;
     private final DatabaseCleaner databaseCleaner;
     private final TravelPlanTestHelper testHelper;
 
@@ -36,12 +35,10 @@ class PlaceTodoServiceTest {
     @Autowired
     public PlaceTodoServiceTest(
             PlaceTodoService placeTodoService,
-            PlaceTodoRepository placeTodoRepository,
             DatabaseCleaner databaseCleaner,
             TravelPlanTestHelper testHelper
     ) {
         this.placeTodoService = placeTodoService;
-        this.placeTodoRepository = placeTodoRepository;
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
     }

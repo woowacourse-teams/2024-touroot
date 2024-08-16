@@ -21,13 +21,15 @@ public class PlaceTodoQueryRepositoryImpl implements PlaceTodoQueryRepository {
 
     @Override
     public Optional<Member> findOwnerOf(TravelPlaceTodo placeTodo) {
-        jpaQueryFactory.selectFrom(member)
-                .innerJoin(travelPlan.author, member)
-                .innerJoin(travelPlanDay.plan, travelPlan)
-                .innerJoin(travelPlanPlace.day, travelPlanDay)
-                .innerJoin(travelPlaceTodo.travelPlanPlace, travelPlanPlace)
-                .where(travelPlaceTodo.eq(placeTodo))
-                .fetch();
-        return Optional.empty();
+        return Optional.ofNullable(
+                jpaQueryFactory.select(member)
+                        .from(member)
+                        .innerJoin(travelPlan).on(travelPlan.author.eq(member))
+                        .innerJoin(travelPlanDay).on(travelPlanDay.plan.eq(travelPlan))
+                        .innerJoin(travelPlanPlace).on(travelPlanPlace.day.eq(travelPlanDay))
+                        .innerJoin(travelPlaceTodo).on(travelPlaceTodo.travelPlanPlace.eq(travelPlanPlace))
+                        .where(travelPlaceTodo.eq(placeTodo))
+                        .fetchOne()
+        );
     }
 }

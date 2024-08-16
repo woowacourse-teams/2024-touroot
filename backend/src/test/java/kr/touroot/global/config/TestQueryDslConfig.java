@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import kr.touroot.travelogue.repository.TravelogueQueryRepository;
 import kr.touroot.travelogue.repository.TravelogueQueryRepositoryImpl;
+import kr.touroot.travelplan.repository.PlaceTodoQueryRepository;
+import kr.touroot.travelplan.repository.PlaceTodoQueryRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -24,5 +26,10 @@ public class TestQueryDslConfig {
     @Bean
     public TravelogueQueryRepository travelogueQueryRepository() {
         return new TravelogueQueryRepositoryImpl(jpaQueryFactory());
+    }
+
+    @Bean
+    public PlaceTodoQueryRepository placeTodoQueryRepository() {
+        return new PlaceTodoQueryRepositoryImpl(jpaQueryFactory());
     }
 }

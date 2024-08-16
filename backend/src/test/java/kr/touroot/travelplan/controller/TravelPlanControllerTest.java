@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
@@ -67,8 +68,10 @@ class TravelPlanControllerTest {
         PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
+                .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
+
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
         PlanCreateRequest request = PlanCreateRequest.builder()
                 .title("신나는 한강 여행")
@@ -95,6 +98,7 @@ class TravelPlanControllerTest {
         PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
+                .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));

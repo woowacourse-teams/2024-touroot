@@ -7,6 +7,7 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlaceTodo;
 import kr.touroot.travelplan.dto.request.TodoStatusUpdateRequest;
 import kr.touroot.travelplan.dto.response.PlanPlaceTodoResponse;
+import kr.touroot.travelplan.repository.PlaceTodoQueryRepository;
 import kr.touroot.travelplan.repository.PlaceTodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlaceTodoService {
 
     private final PlaceTodoRepository placeTodoRepository;
+    private final PlaceTodoQueryRepository placeTodoQueryRepository;
 
     @Transactional
     public PlanPlaceTodoResponse updateTodoStatus(Long id, MemberAuth memberAuth,
                                                   TodoStatusUpdateRequest updateRequest) {
         TravelPlaceTodo todo = placeTodoRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 TODO 입니다"));
-        Member owner = placeTodoRepository.findOwnerOf(todo)
+        Member owner = placeTodoQueryRepository.findOwnerOf(todo)
                 .orElseThrow(() -> new BadRequestException("TODO 작성자가 존재하지 않습니다"));
 
         if (!owner.hasId(memberAuth.memberId())) {
