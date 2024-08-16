@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -123,6 +124,32 @@ public class TravelogueController {
             TravelogueSearchRequest searchRequest
     ) {
         return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(pageable, searchRequest));
+    }
+
+    @Operation(summary = "여행기 수정")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "요청 Body에 올바르지 않은 값이 전달되었을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "작성자가 아닌 사용자가 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<TravelogueResponse> updateTravelogue(
+            @PathVariable Long id,
+            @Valid MemberAuth member,
+            @Valid @RequestBody TravelogueRequest request
+    ) {
+        return ResponseEntity.ok(travelogueFacadeService.updateTravelogue(id, member, request));
     }
 
     @Operation(summary = "여행기 삭제")

@@ -124,14 +124,31 @@ public class TravelogueFacadeService {
     }
 
     @Transactional
+    public TravelogueResponse updateTravelogue(Long id, MemberAuth member, TravelogueRequest request) {
+        Member author = memberService.getById(member.memberId());
+        Travelogue travelogue = travelogueService.getTravelogueById(id);
+
+        Travelogue updatedTravelogue = travelogueService.update(id, author, request);
+        List<TagResponse> tags = travelogueTagService.updateTravelogueTags(travelogue, request.tags());
+
+        clearTravelogueContents(travelogue);
+
+        return TravelogueResponse.of(updatedTravelogue, createDays(request.days(), updatedTravelogue), tags);
+    }
+
+    private void clearTravelogueContents(Travelogue travelogue) {
+        traveloguePhotoService.deleteAllByTravelogue(travelogue);
+        traveloguePlaceService.deleteAllByTravelogue(travelogue);
+        travelogueDayService.deleteAllByTravelogue(travelogue);
+    }
+
+    @Transactional
     public void deleteTravelogueById(Long id, MemberAuth member) {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.getTravelogueById(id);
-        travelogueService.validateDeleteByAuthor(travelogue, author);
+        travelogueService.validateAuthor(travelogue, author);
 
-        traveloguePhotoService.deleteByTravelogue(travelogue);
-        traveloguePlaceService.deleteByTravelogue(travelogue);
-        travelogueDayService.deleteByTravelogue(travelogue);
+        clearTravelogueContents(travelogue);
         travelogueService.delete(travelogue, author);
     }
 }

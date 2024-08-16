@@ -23,6 +23,7 @@ public class TraveloguePlaceService {
     private final PlaceRepository placeRepository;
     private final TraveloguePlaceRepository traveloguePlaceRepository;
 
+    @Transactional
     public Map<TraveloguePlace, List<TraveloguePhotoRequest>> createPlaces(
             List<TraveloguePlaceRequest> requests,
             TravelogueDay day
@@ -48,17 +49,19 @@ public class TraveloguePlaceService {
         ).orElseGet(() -> placeRepository.save(request.toPlace()));
     }
 
+    @Transactional(readOnly = true)
     public List<TraveloguePlace> findTraveloguePlacesByDay(TravelogueDay travelogueDay) {
         return traveloguePlaceRepository.findByTravelogueDay(travelogueDay);
     }
 
+    @Transactional(readOnly = true)
     public TraveloguePlace findTraveloguePlaceById(Long id) {
         return traveloguePlaceRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기 장소입니다."));
     }
 
     @Transactional
-    public void deleteByTravelogue(Travelogue travelogue) {
-        traveloguePlaceRepository.deleteByTravelogueDayTravelogue(travelogue);
+    public void deleteAllByTravelogue(Travelogue travelogue) {
+        traveloguePlaceRepository.deleteAllByTravelogueDayTravelogue(travelogue);
     }
 }

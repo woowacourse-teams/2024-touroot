@@ -10,6 +10,7 @@ import kr.touroot.travelogue.domain.TravelogueTag;
 import kr.touroot.travelogue.repository.TravelogueTagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -18,6 +19,7 @@ public class TravelogueTagService {
     private final TagRepository tagRepository;
     private final TravelogueTagRepository travelogueTagRepository;
 
+    @Transactional
     public List<TagResponse> createTravelogueTags(Travelogue travelogue, List<Long> tagIds) {
         return tagIds.stream()
                 .map(id -> {
@@ -32,9 +34,22 @@ public class TravelogueTagService {
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 태그입니다."));
     }
 
+    @Transactional(readOnly = true)
     public List<TagResponse> readTagByTravelogue(Travelogue travelogue) {
         return travelogueTagRepository.findAllByTravelogue(travelogue).stream()
                 .map(travelogueTag -> TagResponse.from(travelogueTag.getTag()))
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<TagResponse> updateTravelogueTags(Travelogue travelogue, List<Long> tagIds) {
+        travelogueTagRepository.deleteAllByTravelogue(travelogue);
+
+        return tagIds.stream()
+                .map(id -> {
+                    Tag tag = getTagById(id);
+                    travelogueTagRepository.save(new TravelogueTag(travelogue, tag));
+                    return TagResponse.from(tag);
+                }).toList();
     }
 }

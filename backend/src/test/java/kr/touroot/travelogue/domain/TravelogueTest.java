@@ -1,7 +1,9 @@
 package kr.touroot.travelogue.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
@@ -17,6 +19,20 @@ class TravelogueTest {
     private static final Member VALID_AUTHOR = MemberFixture.KAKAO_MEMBER.build();
     private static final String VALID_TITLE = "올바른 여행기 제목";
     private static final String VALID_THUMBNAIL = "http://valid-thumbnail.com";
+    private static final String UPDATED_TITLE = "수정된 여행기 제목";
+    private static final String UPDATED_THUMBNAIL = "http://updated-thumbnail.com";
+
+    @DisplayName("여행기를 수정한다.")
+    @Test
+    void update() {
+        Travelogue travelogue = new Travelogue(VALID_AUTHOR, VALID_TITLE, VALID_THUMBNAIL);
+        travelogue.update(UPDATED_TITLE, UPDATED_THUMBNAIL);
+
+        assertAll(
+                () -> assertThat(travelogue.getTitle()).isEqualTo(UPDATED_TITLE),
+                () -> assertThat(travelogue.getThumbnail()).isEqualTo(UPDATED_THUMBNAIL)
+        );
+    }
 
     @DisplayName("검증 규칙에 어긋나지 않는 여행기 생성 시 예외가 발생하지 않는다")
     @Test

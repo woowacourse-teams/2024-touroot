@@ -12,6 +12,7 @@ import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
+import kr.touroot.member.domain.Member;
 import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
@@ -77,23 +78,30 @@ class TravelogueFacadeServiceTest {
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
-        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
-        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
-        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
+        List<TravelogueDayRequest> days = getTravelogueDayRequests();
+        saveImages(days);
+
+        testHelper.initKakaoMemberTestData();
+        MemberAuth memberAuth = new MemberAuth(1L);
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
+
+        assertThat(service.createTravelogue(memberAuth, request))
+                .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
+    }
+
+    private void saveImages(List<TravelogueDayRequest> days) {
         when(s3Provider.copyImageToPermanentStorage(
                 TravelogueRequestFixture.getTravelogueRequest(days).thumbnail())
         ).thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
         when(s3Provider.copyImageToPermanentStorage(
                 TravelogueRequestFixture.getTraveloguePhotoRequests().get(0).url())
         ).thenReturn(TravelogueResponseFixture.getTraveloguePhotoUrls().get(0));
+    }
 
-        testHelper.initKakaoMemberTestData();
-
-        MemberAuth memberAuth = new MemberAuth(1L);
-        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
-
-        assertThat(service.createTravelogue(memberAuth, request))
-                .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
+    private List<TravelogueDayRequest> getTravelogueDayRequests() {
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        return TravelogueRequestFixture.getTravelogueDayRequests(places);
     }
 
     @DisplayName("여행기를 ID를 기준으로 조회한다.")
@@ -130,6 +138,61 @@ class TravelogueFacadeServiceTest {
         assertThat(searchResults).containsAll(responses);
     }
 
+    @DisplayName("여행기를 수정할 수 있다.")
+    @Test
+    void updateTravelogue() {
+        List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
+        saveImages(days);
+
+        Member author = testHelper.initKakaoMemberTestData();
+        testHelper.initTravelogueTestData(author);
+
+        MemberAuth memberAuth = new MemberAuth(author.getId());
+        TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
+
+        assertThat(service.updateTravelogue(1L, memberAuth, request))
+                .isEqualTo(TravelogueResponseFixture.getUpdatedTravelogueResponse());
+    }
+
+    private List<TravelogueDayRequest> getUpdateTravelogueDayRequests() {
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getUpdateTraveloguePlaceRequests(photos);
+        return TravelogueRequestFixture.getUpdateTravelogueDayRequests(places);
+    }
+
+    @DisplayName("존재하지 않는 여행기를 수정하면 예외가 발생한다.")
+    @Test
+    void updateTravelogueWithNotExist() {
+        List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
+        saveImages(days);
+
+        Member author = testHelper.initKakaoMemberTestData();
+        testHelper.initTravelogueTestData(author);
+
+        MemberAuth memberAuth = new MemberAuth(author.getId());
+        TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
+
+        assertThatThrownBy(() -> service.updateTravelogue(0L, memberAuth, request))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행기입니다.");
+    }
+
+    @DisplayName("작성자가 아닌 사용자가 여행기를 수정하면 예외가 발생한다.")
+    @Test
+    void updateByIdWithNotAuthor() {
+        testHelper.initTravelogueTestData();
+        MemberAuth notAuthorAuth = new MemberAuth(testHelper.initKakaoMemberTestData().getId());
+
+        List<TravelogueDayRequest> days = getTravelogueDayRequests();
+        saveImages(days);
+
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
+
+        assertThatThrownBy(() -> service.updateTravelogue(1L, notAuthorAuth, request))
+                .isInstanceOf(ForbiddenException.class)
+                .hasMessage("본인이 작성한 여행기만 수정하거나 삭제할 수 있습니다.");
+    }
+
     @DisplayName("여행기를 ID를 기준으로 삭제한다.")
     @Test
     void deleteById() {
@@ -160,6 +223,6 @@ class TravelogueFacadeServiceTest {
 
         assertThatThrownBy(() -> service.deleteTravelogueById(1L, notAuthorAuth))
                 .isInstanceOf(ForbiddenException.class)
-                .hasMessage("여행기 삭제는 작성자만 가능합니다.");
+                .hasMessage("본인이 작성한 여행기만 수정하거나 삭제할 수 있습니다.");
     }
 }

@@ -6,6 +6,7 @@ import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
 import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
 import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
 
+import java.util.List;
 import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.fixture.MemberFixture;
@@ -72,12 +73,30 @@ public class TravelogueTestHelper {
         return initTravelogueTestData(author);
     }
 
+    public Travelogue initTravelogueTestDataWithSeveralDays() {
+        Member author = persistMember();
+        return initTravelogueTestDataWithSeveralDays(author);
+    }
+
     public Travelogue initTravelogueTestData(Member author) {
         Travelogue travelogue = persistTravelogue(author);
         TravelogueDay day = persistTravelogueDay(travelogue);
         Place position = persistPlace();
         TraveloguePlace place = persistTraveloguePlace(position, day);
         persistTraveloguePhoto(place);
+
+        return travelogue;
+    }
+
+    public Travelogue initTravelogueTestDataWithSeveralDays(Member author) {
+        Travelogue travelogue = persistTravelogue(author);
+        List<TravelogueDay> days = List.of(persistTravelogueDay(travelogue), persistTravelogueDay(travelogue));
+        Place position = persistPlace();
+
+        days.stream()
+                .map(day -> persistTraveloguePlace(position, day))
+                .map(this::persistTraveloguePhoto)
+                .toList();
 
         return travelogue;
     }
