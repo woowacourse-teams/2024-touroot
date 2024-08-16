@@ -106,8 +106,8 @@ class MemberTest {
         );
 
         assertAll(
-                () -> assertThat(member.hasId(1L)).isTrue(),
-                () -> assertThat(member.hasId(2L)).isFalse()
+                () -> assertThat(member.isId(1L)).isTrue(),
+                () -> assertThat(member.isId(2L)).isFalse()
         );
     }
 

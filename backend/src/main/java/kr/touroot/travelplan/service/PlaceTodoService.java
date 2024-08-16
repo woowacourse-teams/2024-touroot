@@ -28,7 +28,7 @@ public class PlaceTodoService {
         Member owner = placeTodoQueryRepository.findOwnerOf(todo)
                 .orElseThrow(() -> new BadRequestException("TODO 작성자가 존재하지 않습니다"));
 
-        if (!owner.hasId(memberAuth.memberId())) {
+        if (!owner.isId(memberAuth.memberId())) {
             throw new ForbiddenException("TODO 체크는 작성자만 가능합니다");
         }
 

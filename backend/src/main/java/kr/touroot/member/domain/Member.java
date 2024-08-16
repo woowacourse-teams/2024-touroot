@@ -126,7 +126,7 @@ public class Member extends BaseEntity {
         }
     }
 
-    public boolean hasId(Long target) {
+    public boolean isId(Long target) {
         return id.equals(target);
     }
 
