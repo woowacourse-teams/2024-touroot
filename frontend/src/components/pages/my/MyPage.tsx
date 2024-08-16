@@ -15,7 +15,6 @@ const MyPage = () => {
   const [isModifying, setIsModifying] = useState(false);
   const { mutate: modifyNickname } = usePatchNickname();
   const inputRef = useRef<HTMLInputElement>(null);
-  const newNickname = inputRef.current?.value;
 
   const handleStartNicknameEdit = () => {
     setIsModifying(true);
@@ -27,11 +26,10 @@ const MyPage = () => {
 
     if (data?.nickname && !trimmedNickname) {
       modifyNickname(data?.nickname);
-      setIsModifying(false);
-    } else if (isModifying && trimmedNickname) {
+    } else if (trimmedNickname) {
       modifyNickname(trimmedNickname);
-      setIsModifying(false);
     }
+    setIsModifying(false);
   };
 
   const handleButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -56,7 +54,7 @@ const MyPage = () => {
         <S.NicknameWrapper>
           {!isModifying ? (
             <Text textType="body" css={S.NicknameStyle}>
-              {newNickname ?? data?.nickname}
+              {data?.nickname}
             </Text>
           ) : (
             <Input
@@ -64,6 +62,7 @@ const MyPage = () => {
               placeholder={data?.nickname}
               defaultValue={data?.nickname}
               autoFocus
+              spellCheck={false}
               css={S.inputStyle}
             />
           )}
