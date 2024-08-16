@@ -11,7 +11,7 @@ export const HeaderLayout = styled.header`
   z-index: ${({ theme }) => theme.zIndex.header};
 
   width: 100%;
-  height: fit-content;
+  height: 6rem;
   max-width: 48rem;
   padding: 1.6rem;
   border-bottom: 0.1rem solid ${({ theme }) => theme.colors.border};
@@ -49,4 +49,35 @@ export const HeaderTitle = styled.span`
 export const HiddenDiv = styled.div`
   width: 2.4rem;
   height: 2.4rem;
+`;
+
+export const HeaderRightContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.m};
+`;
+
+export const FormWrapper = styled.form`
+  flex: 1;
+  position: relative;
+  padding-left: 1.6rem;
+`;
+
+export const DeleteButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.8rem;
+  border-radius: 50%;
+  background: rgb(0 0 0/ 10%);
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  gap: 1.2rem;
+  position: absolute;
+  top: 50%;
+  right: 1.6rem;
+  transform: translateY(-50%);
 `;
