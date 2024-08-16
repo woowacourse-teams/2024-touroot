@@ -102,9 +102,9 @@ class TravelogueDayServiceTest {
     @DisplayName("주어진 여행기의 여행기 일자를 삭제할 수 있다.")
     @Test
     void deleteTravelogueDayById() {
-        Travelogue travelogue = testHelper.initTravelogueTestData();
+        Travelogue travelogue = testHelper.initTravelogueTestDataWithSeveralDays();
         long travelogueId = travelogue.getId();
-        dayService.deleteByTravelogue(travelogue);
+        dayService.deleteAllByTravelogue(travelogue);
 
         assertThat(dayRepository.findAll()
                 .stream()

@@ -141,7 +141,7 @@ class TravelogueFacadeServiceTest {
     @DisplayName("여행기를 수정할 수 있다.")
     @Test
     void updateTravelogue() {
-        List<TravelogueDayRequest> days = getTravelogueDayRequests();
+        List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
         saveImages(days);
 
         Member author = testHelper.initKakaoMemberTestData();
@@ -154,10 +154,16 @@ class TravelogueFacadeServiceTest {
                 .isEqualTo(TravelogueResponseFixture.getUpdatedTravelogueResponse());
     }
 
+    private List<TravelogueDayRequest> getUpdateTravelogueDayRequests() {
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getUpdateTraveloguePlaceRequests(photos);
+        return TravelogueRequestFixture.getUpdateTravelogueDayRequests(places);
+    }
+
     @DisplayName("존재하지 않는 여행기를 수정하면 예외가 발생한다.")
     @Test
     void updateTravelogueWithNotExist() {
-        List<TravelogueDayRequest> days = getTravelogueDayRequests();
+        List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
         saveImages(days);
 
         Member author = testHelper.initKakaoMemberTestData();

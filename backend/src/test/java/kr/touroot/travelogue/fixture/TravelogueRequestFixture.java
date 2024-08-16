@@ -45,11 +45,24 @@ public class TravelogueRequestFixture {
         return List.of(new TravelogueDayRequest(places));
     }
 
+    public static List<TravelogueDayRequest> getUpdateTravelogueDayRequests(List<TraveloguePlaceRequest> places) {
+        return List.of(new TravelogueDayRequest(places), new TravelogueDayRequest(places));
+    }
+
     public static List<TraveloguePlaceRequest> getTraveloguePlaceRequests(List<TraveloguePhotoRequest> photos) {
         return List.of(new TraveloguePlaceRequest(
                 "함덕해수욕장",
                 getTraveloguePositionRequest(),
                 "에메랄드 빛 해변",
+                photos
+        ));
+    }
+
+    public static List<TraveloguePlaceRequest> getUpdateTraveloguePlaceRequests(List<TraveloguePhotoRequest> photos) {
+        return List.of(new TraveloguePlaceRequest(
+                "함덕해수욕장",
+                getTraveloguePositionRequest(),
+                "에메랄드 빛 해변은 해외 휴양지와 견줘도 밀리지 않습니다.",
                 photos
         ));
     }

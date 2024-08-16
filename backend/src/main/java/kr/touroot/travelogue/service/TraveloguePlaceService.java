@@ -56,12 +56,7 @@ public class TraveloguePlaceService {
         return traveloguePlaceRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기 장소입니다."));
     }
-
-    @Transactional
-    public void deleteByTravelogue(Travelogue travelogue) {
-        traveloguePlaceRepository.deleteByTravelogueDayTravelogue(travelogue);
-    }
-
+    
     @Transactional
     public void deleteAllByTravelogue(Travelogue travelogue) {
         traveloguePlaceRepository.deleteAllByTravelogueDayTravelogue(travelogue);

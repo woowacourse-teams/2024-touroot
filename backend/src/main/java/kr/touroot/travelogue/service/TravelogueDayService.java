@@ -44,11 +44,6 @@ public class TravelogueDayService {
     }
 
     @Transactional
-    public void deleteByTravelogue(Travelogue travelogue) {
-        travelogueDayRepository.deleteByTravelogue(travelogue);
-    }
-
-    @Transactional
     public void deleteAllByTravelogue(Travelogue travelogue) {
         travelogueDayRepository.deleteAllByTravelogue(travelogue);
     }

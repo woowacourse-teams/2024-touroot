@@ -96,9 +96,13 @@ public class TravelogueResponseFixture {
 
     public static List<TravelogueDayResponse> getUpdatedTravelogueDayResponses() {
         return List.of(TravelogueDayResponse.builder()
-                .id(2L)
-                .places(getUpdatedTraveloguePlaceResponses())
-                .build()
+                        .id(2L)
+                        .places(getUpdatedTraveloguePlaceResponses())
+                        .build(),
+                TravelogueDayResponse.builder()
+                        .id(3L)
+                        .places(getAddedTraveloguePlaceResponsesWhenUpdate())
+                        .build()
         );
     }
 
@@ -117,7 +121,18 @@ public class TravelogueResponseFixture {
         return List.of(TraveloguePlaceResponse.builder()
                 .id(2L)
                 .placeName("함덕해수욕장")
-                .description("에메랄드 빛 해변")
+                .description("에메랄드 빛 해변은 해외 휴양지와 견줘도 밀리지 않습니다.")
+                .position(getTraveloguePositionResponse())
+                .photoUrls(getTraveloguePhotoUrls())
+                .build()
+        );
+    }
+
+    public static List<TraveloguePlaceResponse> getAddedTraveloguePlaceResponsesWhenUpdate() {
+        return List.of(TraveloguePlaceResponse.builder()
+                .id(3L)
+                .placeName("함덕해수욕장")
+                .description("에메랄드 빛 해변은 해외 휴양지와 견줘도 밀리지 않습니다.")
                 .position(getTraveloguePositionResponse())
                 .photoUrls(getTraveloguePhotoUrls())
                 .build()

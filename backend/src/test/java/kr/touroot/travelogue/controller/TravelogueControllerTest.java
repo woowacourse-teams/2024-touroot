@@ -312,7 +312,7 @@ class TravelogueControllerTest {
     void updateTravelogue() throws JsonProcessingException {
         Travelogue travelogue = testHelper.initTravelogueTestData(member);
 
-        List<TravelogueDayRequest> days = getTravelogueDayRequests();
+        List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
         saveImages(days);
 
         TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
@@ -326,6 +326,12 @@ class TravelogueControllerTest {
                 .then().log().all()
                 .statusCode(200)
                 .body(is(objectMapper.writeValueAsString(response)));
+    }
+
+    private List<TravelogueDayRequest> getUpdateTravelogueDayRequests() {
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getUpdateTraveloguePlaceRequests(photos);
+        return TravelogueRequestFixture.getUpdateTravelogueDayRequests(places);
     }
 
     private void saveImages(List<TravelogueDayRequest> days) {

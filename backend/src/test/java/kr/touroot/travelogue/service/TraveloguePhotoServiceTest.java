@@ -95,7 +95,7 @@ class TraveloguePhotoServiceTest {
     void deleteTraveloguePhotoById() {
         Travelogue travelogue = testHelper.initTravelogueTestData();
         long travelogueId = travelogue.getId();
-        photoService.deleteByTravelogue(travelogue);
+        photoService.deleteAllByTravelogue(travelogue);
 
         assertThat(photoRepository.findAll()
                 .stream()

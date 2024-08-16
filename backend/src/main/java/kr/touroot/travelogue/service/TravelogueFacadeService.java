@@ -137,9 +137,9 @@ public class TravelogueFacadeService {
     }
 
     private void clearTravelogueContents(Travelogue travelogue) {
-        travelogueDayService.deleteAllByTravelogue(travelogue);
-        traveloguePlaceService.deleteAllByTravelogue(travelogue);
         traveloguePhotoService.deleteAllByTravelogue(travelogue);
+        traveloguePlaceService.deleteAllByTravelogue(travelogue);
+        travelogueDayService.deleteAllByTravelogue(travelogue);
     }
 
     @Transactional
@@ -148,9 +148,7 @@ public class TravelogueFacadeService {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
         travelogueService.validateAuthor(travelogue, author);
 
-        traveloguePhotoService.deleteByTravelogue(travelogue);
-        traveloguePlaceService.deleteByTravelogue(travelogue);
-        travelogueDayService.deleteByTravelogue(travelogue);
+        clearTravelogueContents(travelogue);
         travelogueService.delete(travelogue, author);
     }
 }
