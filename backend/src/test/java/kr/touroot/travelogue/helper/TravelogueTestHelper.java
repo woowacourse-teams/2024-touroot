@@ -1,6 +1,5 @@
 package kr.touroot.travelogue.helper;
 
-import static kr.touroot.authentication.fixture.MemberFixture.MEMBER_KAKAO;
 import static kr.touroot.place.fixture.PlaceFixture.PLACE;
 import static kr.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
 import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
@@ -10,6 +9,7 @@ import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PL
 import java.util.List;
 import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
+import kr.touroot.member.fixture.MemberFixture;
 import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.place.domain.Place;
 import kr.touroot.place.repository.PlaceRepository;
@@ -73,12 +73,30 @@ public class TravelogueTestHelper {
         return initTravelogueTestData(author);
     }
 
+    public Travelogue initTravelogueTestDataWithSeveralDays() {
+        Member author = persistMember();
+        return initTravelogueTestDataWithSeveralDays(author);
+    }
+
     public Travelogue initTravelogueTestData(Member author) {
         Travelogue travelogue = persistTravelogue(author);
         TravelogueDay day = persistTravelogueDay(travelogue);
         Place position = persistPlace();
         TraveloguePlace place = persistTraveloguePlace(position, day);
         persistTraveloguePhoto(place);
+
+        return travelogue;
+    }
+
+    public Travelogue initTravelogueTestDataWithSeveralDays(Member author) {
+        Travelogue travelogue = persistTravelogue(author);
+        List<TravelogueDay> days = List.of(persistTravelogueDay(travelogue), persistTravelogueDay(travelogue));
+        Place position = persistPlace();
+
+        days.stream()
+                .map(day -> persistTraveloguePlace(position, day))
+                .map(this::persistTraveloguePhoto)
+                .toList();
 
         return travelogue;
     }
@@ -112,7 +130,7 @@ public class TravelogueTestHelper {
     }
 
     public Member persistMember() {
-        Member author = MEMBER_KAKAO.getMember();
+        Member author = MemberFixture.KAKAO_MEMBER.build();
 
         return memberRepository.save(author);
     }

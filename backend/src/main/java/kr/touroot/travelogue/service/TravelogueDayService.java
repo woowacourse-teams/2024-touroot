@@ -19,6 +19,7 @@ public class TravelogueDayService {
 
     private final TravelogueDayRepository travelogueDayRepository;
 
+    @Transactional
     public Map<TravelogueDay, List<TraveloguePlaceRequest>> createDays(
             List<TravelogueDayRequest> requests,
             Travelogue travelogue
@@ -34,17 +35,19 @@ public class TravelogueDayService {
         return daysWithPlaceRequests;
     }
 
+    @Transactional(readOnly = true)
     public List<TravelogueDay> findDaysByTravelogue(Travelogue travelogue) {
         return travelogueDayRepository.findByTravelogue(travelogue);
     }
 
+    @Transactional(readOnly = true)
     public TravelogueDay findDayById(Long id) {
         return travelogueDayRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기 일자입니다."));
     }
 
     @Transactional
-    public void deleteByTravelogue(Travelogue travelogue) {
-        travelogueDayRepository.deleteByTravelogue(travelogue);
+    public void deleteAllByTravelogue(Travelogue travelogue) {
+        travelogueDayRepository.deleteAllByTravelogue(travelogue);
     }
 }

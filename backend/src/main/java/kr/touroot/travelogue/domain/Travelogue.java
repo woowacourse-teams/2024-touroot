@@ -57,6 +57,11 @@ public class Travelogue extends BaseEntity {
         this(null, author, title, thumbnail);
     }
 
+    public void update(String title, String thumbnail) {
+        this.title = title;
+        this.thumbnail = thumbnail;
+    }
+
     private void validate(Member author, String title, String thumbnail) {
         validateNotNull(author, title, thumbnail);
         validateNotBlank(title, thumbnail);

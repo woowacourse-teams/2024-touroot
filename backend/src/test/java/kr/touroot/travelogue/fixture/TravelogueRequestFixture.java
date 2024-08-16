@@ -32,8 +32,21 @@ public class TravelogueRequestFixture {
         );
     }
 
+    public static TravelogueRequest getUpdateTravelogueRequest(List<TravelogueDayRequest> days) {
+        return new TravelogueRequest(
+                "삼춘! 제주에 하영 옵서!",
+                "https://dev.touroot.kr/temporary/jeju_thumbnail_2.png",
+                List.of(),
+                days
+        );
+    }
+
     public static List<TravelogueDayRequest> getTravelogueDayRequests(List<TraveloguePlaceRequest> places) {
         return List.of(new TravelogueDayRequest(places));
+    }
+
+    public static List<TravelogueDayRequest> getUpdateTravelogueDayRequests(List<TraveloguePlaceRequest> places) {
+        return List.of(new TravelogueDayRequest(places), new TravelogueDayRequest(places));
     }
 
     public static List<TraveloguePlaceRequest> getTraveloguePlaceRequests(List<TraveloguePhotoRequest> photos) {
@@ -41,6 +54,15 @@ public class TravelogueRequestFixture {
                 "함덕해수욕장",
                 getTraveloguePositionRequest(),
                 "에메랄드 빛 해변",
+                photos
+        ));
+    }
+
+    public static List<TraveloguePlaceRequest> getUpdateTraveloguePlaceRequests(List<TraveloguePhotoRequest> photos) {
+        return List.of(new TraveloguePlaceRequest(
+                "함덕해수욕장",
+                getTraveloguePositionRequest(),
+                "에메랄드 빛 해변은 해외 휴양지와 견줘도 밀리지 않습니다.",
                 photos
         ));
     }

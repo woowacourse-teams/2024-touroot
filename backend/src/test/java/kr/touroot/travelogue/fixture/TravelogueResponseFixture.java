@@ -35,6 +35,20 @@ public class TravelogueResponseFixture {
                 .build();
     }
 
+    public static TravelogueResponse getUpdatedTravelogueResponse() {
+        return TravelogueResponse.builder()
+                .id(1L)
+                .title("삼춘! 제주에 하영 옵서!")
+                .createdAt(LocalDate.now())
+                .authorNickname("리비")
+                .authorId(1L)
+                .authorProfileImageUrl("https://dev.touroot.kr/temporary/profile.png")
+                .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail_2.png")
+                .days(getUpdatedTravelogueDayResponses())
+                .tags(List.of())
+                .build();
+    }
+
     public static TravelogueResponse getTravelogueResponseWithTag() {
         return TravelogueResponse.builder()
                 .id(1L)
@@ -80,11 +94,45 @@ public class TravelogueResponseFixture {
         );
     }
 
+    public static List<TravelogueDayResponse> getUpdatedTravelogueDayResponses() {
+        return List.of(TravelogueDayResponse.builder()
+                        .id(2L)
+                        .places(getUpdatedTraveloguePlaceResponses())
+                        .build(),
+                TravelogueDayResponse.builder()
+                        .id(3L)
+                        .places(getAddedTraveloguePlaceResponsesWhenUpdate())
+                        .build()
+        );
+    }
+
     public static List<TraveloguePlaceResponse> getTraveloguePlaceResponses() {
         return List.of(TraveloguePlaceResponse.builder()
                 .id(1L)
                 .placeName("함덕해수욕장")
                 .description("에메랄드 빛 해변")
+                .position(getTraveloguePositionResponse())
+                .photoUrls(getTraveloguePhotoUrls())
+                .build()
+        );
+    }
+
+    public static List<TraveloguePlaceResponse> getUpdatedTraveloguePlaceResponses() {
+        return List.of(TraveloguePlaceResponse.builder()
+                .id(2L)
+                .placeName("함덕해수욕장")
+                .description("에메랄드 빛 해변은 해외 휴양지와 견줘도 밀리지 않습니다.")
+                .position(getTraveloguePositionResponse())
+                .photoUrls(getTraveloguePhotoUrls())
+                .build()
+        );
+    }
+
+    public static List<TraveloguePlaceResponse> getAddedTraveloguePlaceResponsesWhenUpdate() {
+        return List.of(TraveloguePlaceResponse.builder()
+                .id(3L)
+                .placeName("함덕해수욕장")
+                .description("에메랄드 빛 해변은 해외 휴양지와 견줘도 밀리지 않습니다.")
                 .position(getTraveloguePositionResponse())
                 .photoUrls(getTraveloguePhotoUrls())
                 .build()

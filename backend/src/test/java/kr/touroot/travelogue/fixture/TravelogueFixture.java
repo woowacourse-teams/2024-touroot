@@ -1,15 +1,15 @@
 package kr.touroot.travelogue.fixture;
 
-import static kr.touroot.authentication.fixture.MemberFixture.MEMBER_KAKAO;
 
 import kr.touroot.member.domain.Member;
+import kr.touroot.member.fixture.MemberFixture;
 import kr.touroot.travelogue.domain.Travelogue;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum TravelogueFixture {
 
-    TRAVELOGUE(MEMBER_KAKAO.getMember(), "제주에 하영 옵서", "https://dev.touroot.kr/temporary/jeju_thumbnail.png");
+    TRAVELOGUE(MemberFixture.KAKAO_MEMBER.build(), "제주에 하영 옵서", "https://dev.touroot.kr/temporary/jeju_thumbnail.png");
 
     private final Member author;
     private final String title;
