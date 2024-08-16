@@ -9,12 +9,12 @@ export const Layout = styled.div`
   flex-direction: column;
   gap: ${SPACING.xl};
 
-  padding: 1.6rem;
+  padding: ${SPACING.m};
 `;
 
 export const AccordionRootContainer = styled.div`
   & > * {
-    margin-bottom: 1.6rem;
+    margin-bottom: ${SPACING.m};
   }
 `;
 
@@ -29,7 +29,10 @@ export const Chips = styled.ul`
   overflow: scroll hidden;
   gap: ${SPACING.s};
 
-  white-space: no-wrap;
+  margin: 0 -${SPACING.m};
+  padding: 0 ${SPACING.m};
+
+  white-space: nowrap;
   -webkit-overflow-scrolling: touch;
 
   ::-webkit-scrollbar {

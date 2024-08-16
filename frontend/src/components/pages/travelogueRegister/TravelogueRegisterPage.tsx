@@ -32,10 +32,13 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import * as S from "./TravelogueRegisterPage.styled";
 
-const MIN_TITLE_LENGTH = 0;
-const MAX_TITLE_LENGTH = 20;
-
 const TravelogueRegisterPage = () => {
+  const MIN_TITLE_LENGTH = 0;
+  const MAX_TITLE_LENGTH = 20;
+  const MAX_TAGS_COUNT = 3;
+
+  const navigate = useNavigate();
+
   const { transformDetail } = useTravelTransformDetailContext();
 
   const [title, setTitle] = useState("");
@@ -46,7 +49,12 @@ const TravelogueRegisterPage = () => {
     setTitle(title);
   };
 
-  const { data: tags } = useGetTags();
+  const { data: tags, status: tagsStatus, error: tagsError } = useGetTags();
+
+  if (tagsStatus === "error") {
+    alert(tagsError.message);
+    navigate(ROUTE_PATHS_MAP.back);
+  }
 
   const [sortedTags, setSortedTags] = useState<Tag[]>([]);
   const [selectedTagIDs, setSelectedTagIDs] = useState<number[]>([]);
@@ -63,6 +71,8 @@ const TravelogueRegisterPage = () => {
         ? prevSelectedIDs.filter((selectedTagID) => selectedTagID !== id)
         : [...prevSelectedIDs, id];
 
+      if (newSelectedIDs.length > MAX_TAGS_COUNT) return prevSelectedIDs;
+
       setSortedTags((prevSortedTags) => {
         const selected = prevSortedTags.filter((tag) => newSelectedIDs.includes(tag.id));
         const unselected = prevSortedTags.filter((tag) => !newSelectedIDs.includes(tag.id));
@@ -72,6 +82,8 @@ const TravelogueRegisterPage = () => {
       return newSelectedIDs;
     });
   };
+
+  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll();
 
   const {
     travelogueDays,
@@ -106,8 +118,6 @@ const TravelogueRegisterPage = () => {
   const handleCloseBottomSheet = () => {
     setIsOpen(false);
   };
-
-  const navigate = useNavigate();
 
   const { mutate: registerTravelogueMutate } = usePostTravelogue();
 
@@ -144,8 +154,6 @@ const TravelogueRegisterPage = () => {
     };
   }, [user?.accessToken, navigate]);
 
-  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll();
-
   return (
     <>
       <S.Layout>
@@ -163,7 +171,7 @@ const TravelogueRegisterPage = () => {
         <S.ChipContainer>
           <Text textType="bodyBold">태그</Text>
           <Text textType="detail" css={S.subTextColor}>
-            다녀온 여행에 대한 태그를 선택해 주세요.
+            {`다녀온 여행에 대한 태그를 선택해 주세요. (최대 3개)`}
           </Text>
           <S.Chips
             ref={scrollRef}
