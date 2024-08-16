@@ -1,0 +1,27 @@
+import { useNavigate } from "react-router-dom";
+
+import IconButton from "@components/common/IconButton/IconButton";
+
+import { ROUTE_PATHS_MAP } from "@constants/route";
+
+import Header from "../Header";
+
+const LogoHeader = () => {
+  const navigation = useNavigate();
+
+  return (
+    <Header
+      useLogo
+      rightContent={
+        <IconButton
+          iconType="search-icon"
+          size="18"
+          onClick={() => navigation(ROUTE_PATHS_MAP.searchMain)}
+        />
+      }
+      useHamburger
+    />
+  );
+};
+
+export default LogoHeader;
