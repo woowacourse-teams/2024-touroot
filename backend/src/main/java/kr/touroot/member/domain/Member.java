@@ -11,12 +11,14 @@ import java.net.URL;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@EqualsAndHashCode(of = "id", callSuper = false)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Member extends BaseEntity {
 
@@ -124,10 +126,6 @@ public class Member extends BaseEntity {
         } catch (Exception e) {
             throw new BadRequestException("이미지 url 형식이 잘못되었습니다");
         }
-    }
-
-    public boolean isId(Long target) {
-        return id.equals(target);
     }
 
     public void changeNickname(String nickname) {

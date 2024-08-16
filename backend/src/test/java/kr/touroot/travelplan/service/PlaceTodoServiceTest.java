@@ -74,7 +74,8 @@ class PlaceTodoServiceTest {
     @Test
     void updateTodoCheckStatusFromNonAuthor() {
         TravelPlan savedPlan = testHelper.initTravelPlanTestData(author);
-        MemberAuth nonAuthorAccessor = new MemberAuth(2L);
+        Member notAuthor = testHelper.initMemberTestData();
+        MemberAuth nonAuthorAccessor = new MemberAuth(notAuthor.getId());
 
         TodoStatusUpdateRequest updateRequest = new TodoStatusUpdateRequest(true);
         assertThatThrownBy(() -> placeTodoService.updateTodoStatus(1L, nonAuthorAccessor, updateRequest))
