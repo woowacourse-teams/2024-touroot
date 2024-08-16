@@ -18,7 +18,6 @@ import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
-import kr.touroot.travelogue.dto.request.TravelogueUpdateRequest;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
@@ -140,8 +139,8 @@ class TravelogueServiceTest {
         testHelper.initTravelogueTestData(author);
 
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        TravelogueUpdateRequest request = TravelogueRequestFixture.getTravelogueUpdateRequest(days);
-        Travelogue updatedTravelogue = travelogueService.update(author, request);
+        TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
+        Travelogue updatedTravelogue = travelogueService.update(1L, author, request);
 
         assertAll(
                 () -> assertThat(updatedTravelogue.getId()).isEqualTo(1L),
@@ -159,9 +158,9 @@ class TravelogueServiceTest {
         testHelper.initTravelogueTestData();
 
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        TravelogueUpdateRequest request = TravelogueRequestFixture.getTravelogueUpdateRequest(days);
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
-        assertThatThrownBy(() -> travelogueService.update(author, request))
+        assertThatThrownBy(() -> travelogueService.update(1L, author, request))
                 .isInstanceOf(ForbiddenException.class)
                 .hasMessage("본인이 작성한 여행기만 수정하거나 삭제할 수 있습니다.");
     }
@@ -176,9 +175,9 @@ class TravelogueServiceTest {
         testHelper.initTravelogueTestData(author);
 
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        TravelogueUpdateRequest request = TravelogueRequestFixture.getTravelogueUpdateRequestNotExist(days);
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
-        assertThatThrownBy(() -> travelogueService.update(author, request))
+        assertThatThrownBy(() -> travelogueService.update(0L, author, request))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행기입니다.");
     }

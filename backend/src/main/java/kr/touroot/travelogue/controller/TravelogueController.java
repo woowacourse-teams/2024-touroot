@@ -13,7 +13,6 @@ import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
-import kr.touroot.travelogue.dto.request.TravelogueUpdateRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.service.TravelogueFacadeService;
@@ -144,12 +143,13 @@ public class TravelogueController {
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             )
     })
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<TravelogueResponse> updateTravelogue(
+            @PathVariable Long id,
             @Valid MemberAuth member,
-            @Valid @RequestBody TravelogueUpdateRequest request
+            @Valid @RequestBody TravelogueRequest request
     ) {
-        return ResponseEntity.ok(travelogueFacadeService.updateTravelogue(member, request));
+        return ResponseEntity.ok(travelogueFacadeService.updateTravelogue(id, member, request));
     }
 
     @Operation(summary = "여행기 삭제")

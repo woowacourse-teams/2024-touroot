@@ -19,7 +19,6 @@ import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
-import kr.touroot.travelogue.dto.request.TravelogueUpdateRequest;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
@@ -311,19 +310,19 @@ class TravelogueControllerTest {
     @DisplayName("여행기를 수정한다.")
     @Test
     void updateTravelogue() throws JsonProcessingException {
-        testHelper.initTravelogueTestData(member);
+        Travelogue travelogue = testHelper.initTravelogueTestData(member);
 
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
         saveImages(days);
 
-        TravelogueUpdateRequest request = TravelogueRequestFixture.getTravelogueUpdateRequest(days);
+        TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
         TravelogueResponse response = TravelogueResponseFixture.getUpdatedTravelogueResponse();
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .body(request)
-                .when().put("/api/v1/travelogues")
+                .when().put("/api/v1/travelogues/" + travelogue.getId())
                 .then().log().all()
                 .statusCode(200)
                 .body(is(objectMapper.writeValueAsString(response)));
@@ -346,13 +345,13 @@ class TravelogueControllerTest {
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        TravelogueUpdateRequest request = TravelogueRequestFixture.getTravelogueUpdateRequestNotExist(days);
+        TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .body(request)
-                .when().put("/api/v1/travelogues")
+                .when().put("/api/v1/travelogues/" + 0)
                 .then().log().all()
                 .statusCode(400)
                 .body("message", is("존재하지 않는 여행기입니다."));
@@ -361,18 +360,18 @@ class TravelogueControllerTest {
     @DisplayName("작성자가 아닌 사용자가 여행기 수정 시 403을 응답한다.")
     @Test
     void updateTravelogueWithNotAuthor() {
-        testHelper.initTravelogueTestData();
+        Travelogue travelogue = testHelper.initTravelogueTestData();
         Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        TravelogueUpdateRequest request = TravelogueRequestFixture.getTravelogueUpdateRequest(days);
+        TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .body(request)
-                .when().put("/api/v1/travelogues")
+                .when().put("/api/v1/travelogues/" + travelogue.getId())
                 .then().log().all()
                 .statusCode(403)
                 .body("message", is("본인이 작성한 여행기만 수정하거나 삭제할 수 있습니다."));

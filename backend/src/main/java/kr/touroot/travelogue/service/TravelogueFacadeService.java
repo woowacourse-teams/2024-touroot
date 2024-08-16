@@ -16,7 +16,6 @@ import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
-import kr.touroot.travelogue.dto.request.TravelogueUpdateRequest;
 import kr.touroot.travelogue.dto.response.TravelogueDayResponse;
 import kr.touroot.travelogue.dto.response.TraveloguePlaceResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
@@ -125,11 +124,11 @@ public class TravelogueFacadeService {
     }
 
     @Transactional
-    public TravelogueResponse updateTravelogue(MemberAuth member, TravelogueUpdateRequest request) {
+    public TravelogueResponse updateTravelogue(Long id, MemberAuth member, TravelogueRequest request) {
         Member author = memberService.getById(member.memberId());
-        Travelogue travelogue = travelogueService.getTravelogueById(request.id());
+        Travelogue travelogue = travelogueService.getTravelogueById(id);
 
-        Travelogue updatedTravelogue = travelogueService.update(author, request);
+        Travelogue updatedTravelogue = travelogueService.update(id, author, request);
         List<TagResponse> tags = travelogueTagService.updateTravelogueTags(travelogue, request.tags());
 
         clearTravelogueContents(travelogue);
