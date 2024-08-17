@@ -13,6 +13,15 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    label: {
+      description: "태그 라벨",
+      control: {
+        type: "select",
+      },
+      options: ["🏡 가족", "🐾 반려동물", "⛱️ 여름", "💕 연인", "🍴 맛집", "🚶 도보"],
+    },
+  },
   tags: ["autodocs"],
 } satisfies Meta<typeof Chip>;
 
