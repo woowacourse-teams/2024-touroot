@@ -263,4 +263,24 @@ class TravelogueFacadeServiceTest {
                 .isInstanceOf(ForbiddenException.class)
                 .hasMessage("본인이 작성한 여행기만 수정하거나 삭제할 수 있습니다.");
     }
+
+    @DisplayName("여행기에 좋아요를 취소 할 수 있다.")
+    @Test
+    void unlikeTravelogue() {
+        Member liker = testHelper.initKakaoMemberTestData();
+        Travelogue travelogue = testHelper.initTravelogueTestDataWithLike(liker);
+
+        assertThat(service.unlikeTravelogue(travelogue.getId(), new MemberAuth(liker.getId())))
+                .isEqualTo(new TravelogueLikeResponse(false, 0L));
+    }
+
+    @DisplayName("존재하지 않는 여행기에 좋아요를 취소 하면 예외가 발생한다.")
+    @Test
+    void unlikeTravelogueWithNotExist() {
+        Member liker = testHelper.initKakaoMemberTestData();
+
+        assertThatThrownBy(() -> service.unlikeTravelogue(1L, new MemberAuth(liker.getId())))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행기입니다.");
+    }
 }

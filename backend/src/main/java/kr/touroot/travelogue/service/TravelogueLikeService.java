@@ -17,9 +17,22 @@ public class TravelogueLikeService {
 
     @Transactional
     public TravelogueLikeResponse likeTravelogue(Travelogue travelogue, Member liker) {
-        TravelogueLike travelogueLike = new TravelogueLike(travelogue, liker);
-        travelogueLikeRepository.save(travelogueLike);
+        boolean notExists = !travelogueLikeRepository.existsByTravelogueAndLiker(travelogue, liker);
+        if (notExists) {
+            TravelogueLike travelogueLike = new TravelogueLike(travelogue, liker);
+            travelogueLikeRepository.save(travelogueLike);
+        }
 
         return new TravelogueLikeResponse(true, travelogueLikeRepository.countByTravelogue(travelogue));
+    }
+
+    @Transactional
+    public TravelogueLikeResponse unlikeTravelogue(Travelogue travelogue, Member liker) {
+        boolean exists = travelogueLikeRepository.existsByTravelogueAndLiker(travelogue, liker);
+        if (exists) {
+            travelogueLikeRepository.deleteByTravelogueAndLiker(travelogue, liker);
+        }
+
+        return new TravelogueLikeResponse(false, travelogueLikeRepository.countByTravelogue(travelogue));
     }
 }

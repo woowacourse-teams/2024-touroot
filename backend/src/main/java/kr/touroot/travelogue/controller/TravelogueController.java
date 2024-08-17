@@ -85,7 +85,6 @@ public class TravelogueController {
     })
     @PostMapping("/{id}/like")
     public ResponseEntity<TravelogueLikeResponse> likeTravelogue(@PathVariable Long id, @Valid MemberAuth member) {
-
         return ResponseEntity.ok()
                 .body(travelogueFacadeService.likeTravelogue(id, member));
     }
@@ -224,5 +223,28 @@ public class TravelogueController {
         travelogueFacadeService.deleteTravelogueById(id, memberAuth);
         return ResponseEntity.noContent()
                 .build();
+    }
+
+    @Operation(summary = "여행기 좋아요 취소")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "존재하지 않는 여행기 ID로 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "로그인하지 않은 사용자가 좋아요를 취소 할 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @DeleteMapping("/{id}/like")
+    public ResponseEntity<TravelogueLikeResponse> dislikeTravelogue(@PathVariable Long id, @Valid MemberAuth member) {
+        return ResponseEntity.ok()
+                .body(travelogueFacadeService.unlikeTravelogue(id, member));
     }
 }

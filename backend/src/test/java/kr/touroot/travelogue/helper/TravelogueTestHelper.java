@@ -18,10 +18,12 @@ import kr.touroot.tag.fixture.TagFixture;
 import kr.touroot.tag.repository.TagRepository;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
+import kr.touroot.travelogue.domain.TravelogueLike;
 import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.domain.TravelogueTag;
 import kr.touroot.travelogue.repository.TravelogueDayRepository;
+import kr.touroot.travelogue.repository.TravelogueLikeRepository;
 import kr.touroot.travelogue.repository.TraveloguePhotoRepository;
 import kr.touroot.travelogue.repository.TraveloguePlaceRepository;
 import kr.touroot.travelogue.repository.TravelogueRepository;
@@ -40,6 +42,7 @@ public class TravelogueTestHelper {
     private final MemberRepository memberRepository;
     private final TagRepository tagRepository;
     private final TravelogueTagRepository travelogueTagRepository;
+    private final TravelogueLikeRepository travelogueLikeRepository;
 
     @Autowired
     public TravelogueTestHelper(
@@ -50,7 +53,8 @@ public class TravelogueTestHelper {
             TraveloguePhotoRepository traveloguePhotoRepository,
             MemberRepository memberRepository,
             TagRepository tagRepository,
-            TravelogueTagRepository travelogueTagRepository
+            TravelogueTagRepository travelogueTagRepository,
+            TravelogueLikeRepository travelogueLikeRepository
     ) {
         this.placeRepository = placeRepository;
         this.travelogueRepository = travelogueRepository;
@@ -60,6 +64,7 @@ public class TravelogueTestHelper {
         this.memberRepository = memberRepository;
         this.tagRepository = tagRepository;
         this.travelogueTagRepository = travelogueTagRepository;
+        this.travelogueLikeRepository = travelogueLikeRepository;
     }
 
     public void initAllTravelogueTestData() {
@@ -120,6 +125,13 @@ public class TravelogueTestHelper {
         persistTraveloguePhoto(place);
 
         tags.forEach(tag -> persisTravelogueTag(travelogue, tag));
+
+        return travelogue;
+    }
+
+    public Travelogue initTravelogueTestDataWithLike(Member liker) {
+        Travelogue travelogue = initTravelogueTestData();
+        travelogueLikeRepository.save(new TravelogueLike(travelogue, liker));
 
         return travelogue;
     }

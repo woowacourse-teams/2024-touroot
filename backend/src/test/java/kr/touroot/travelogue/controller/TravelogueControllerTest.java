@@ -476,4 +476,40 @@ class TravelogueControllerTest {
                 .statusCode(403)
                 .body("message", is("본인이 작성한 여행기만 수정하거나 삭제할 수 있습니다."));
     }
+
+    @DisplayName("여행기에 좋아요 취소를 한다.")
+    @Test
+    void unlikeTravelogue() throws JsonProcessingException {
+        testHelper.initTravelogueTestDataWithLike(member);
+        TravelogueLikeResponse response = new TravelogueLikeResponse(false, 0L);
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().delete("/api/v1/travelogues/1/like")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body(is(objectMapper.writeValueAsString(response)));
+    }
+
+    @DisplayName("존재하지 않는 여행기에 좋아요 취소를 하면 예외가 발생한다.")
+    @Test
+    void unlikeTravelogueWithNotExistThrowException() throws JsonProcessingException {
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().delete("/api/v1/travelogues/1/like")
+                .then().log().all()
+                .statusCode(400).assertThat()
+                .body("message", is("존재하지 않는 여행기입니다."));
+    }
+
+    @DisplayName("여행기 좋아요 취소를 할 때 로그인 되어 있지 않으면 예외가 발생한다.")
+    @Test
+    void unlikeTravelogueWithNotLoginThrowException() {
+        testHelper.initTravelogueTestDataWithLike(member);
+
+        RestAssured.given().log().all()
+                .when().delete("/api/v1/travelogues/1/like")
+                .then().log().all()
+                .statusCode(401);
+    }
 }

@@ -166,4 +166,12 @@ public class TravelogueFacadeService {
         clearTravelogueContents(travelogue);
         travelogueService.delete(travelogue, author);
     }
+
+    @Transactional
+    public TravelogueLikeResponse unlikeTravelogue(Long travelogueId, MemberAuth member) {
+        Travelogue travelogue = travelogueService.getTravelogueById(travelogueId);
+        Member liker = memberService.getById(member.memberId());
+
+        return travelogueLikeService.unlikeTravelogue(travelogue, liker);
+    }
 }
