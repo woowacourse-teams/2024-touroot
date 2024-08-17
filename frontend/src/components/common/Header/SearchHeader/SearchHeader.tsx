@@ -11,13 +11,17 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 import Header from "../Header";
 import * as S from "./SearchHeader.styled";
 
+const MIN_KEYWORD_LENGTH = 2;
+
 const SearchHeader = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
 
   const encodedKeyword =
-    location.pathname.split("/").length > 2 ? location.pathname.split("/").pop() : "";
+    location.pathname.split("/").length > MIN_KEYWORD_LENGTH
+      ? location.pathname.split("/").pop()
+      : "";
 
   const receivedKeyword = encodedKeyword ? decodeURIComponent(encodedKeyword) : "";
 
@@ -27,8 +31,8 @@ const SearchHeader = () => {
 
   const handleClickSearchButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (keyword.length < 2) {
-      alert("2글자 이상 검색해주세요.");
+    if (keyword.length < MIN_KEYWORD_LENGTH) {
+      alert(`${MIN_KEYWORD_LENGTH}글자 이상 검색해주세요.`);
     } else {
       navigate(ROUTE_PATHS_MAP.search(keyword));
     }
