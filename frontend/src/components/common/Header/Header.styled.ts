@@ -47,7 +47,7 @@ export const LeftWrapper = styled.div`
   align-items: center;
 `;
 
-export const RightWrapper = styled.div<{ $isRightContentFull?: boolean }>`
+export const RightContainer = styled.div<{ $isRightContentFull?: boolean }>`
   display: flex;
   gap: ${({ theme }) => theme.spacing.m};
   justify-content: center;

@@ -57,14 +57,14 @@ const Header = ({
           />
         </S.LeftWrapper>
 
-        <S.RightWrapper $isRightContentFull={$isRightContentFull}>
+        <S.RightContainer $isRightContentFull={$isRightContentFull}>
           {rightContent}
           {useHamburger && (
             <Drawer.Trigger>
               <IconButton iconType="hamburger" />
             </Drawer.Trigger>
           )}
-        </S.RightWrapper>
+        </S.RightContainer>
       </S.HeaderLayout>
 
       <Drawer.Header>
