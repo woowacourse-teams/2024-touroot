@@ -79,7 +79,7 @@ export const LogoHeader: Story = {
   },
 };
 
-export const NavigationHeader: Story = {
+export const SearchResultPageHeader: Story = {
   args: {
     isHamburgerUsed: true,
     rightContent: "SearchIcon",

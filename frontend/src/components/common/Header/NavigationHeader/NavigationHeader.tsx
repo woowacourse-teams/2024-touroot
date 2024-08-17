@@ -6,7 +6,7 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import Header from "../Header";
 
-const NavigationHeader = () => {
+const SearchResultPageHeader = () => {
   const navigation = useNavigate();
 
   return (
@@ -23,4 +23,4 @@ const NavigationHeader = () => {
   );
 };
 
-export default NavigationHeader;
+export default SearchResultPageHeader;
