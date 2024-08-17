@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
@@ -16,8 +16,8 @@ const MIN_KEYWORD_LENGTH = 2;
 
 const SearchHeader = () => {
   const navigate = useNavigate();
-
   const location = useLocation();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const encodedKeyword =
     location.pathname.split("/").length > MIN_KEYWORD_LENGTH
@@ -43,7 +43,7 @@ const SearchHeader = () => {
     e.preventDefault();
     e.stopPropagation();
     setKeyword("");
-    document.querySelector("input")?.focus();
+    inputRef.current?.focus();
   };
 
   return (
@@ -51,6 +51,7 @@ const SearchHeader = () => {
       rightContent={
         <S.FormWrapper onSubmit={handleClickSearchButton}>
           <Input
+            ref={inputRef}
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             autoFocus
