@@ -64,14 +64,14 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const HomeHeader: Story = {
+export const DefaultHeader: Story = {
   args: {
     isHamburgerUsed: true,
     rightContent: "HomeIcon",
   },
 };
 
-export const LogoHeader: Story = {
+export const HomePageHeader: Story = {
   args: {
     isLogoUsed: true,
     isHamburgerUsed: true,

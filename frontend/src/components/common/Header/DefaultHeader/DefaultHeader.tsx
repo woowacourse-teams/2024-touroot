@@ -6,17 +6,15 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import Header from "../Header";
 
-const LogoHeader = () => {
+const DefaultHeader = () => {
   const navigation = useNavigate();
-
   return (
     <Header
-      isLogoUsed
       rightContent={
         <IconButton
-          iconType="search-icon"
-          size="18"
-          onClick={() => navigation(ROUTE_PATHS_MAP.searchMain)}
+          iconType="home-icon"
+          size="20"
+          onClick={() => navigation(ROUTE_PATHS_MAP.root)}
         />
       }
       isHamburgerUsed
@@ -24,4 +22,4 @@ const LogoHeader = () => {
   );
 };
 
-export default LogoHeader;
+export default DefaultHeader;
