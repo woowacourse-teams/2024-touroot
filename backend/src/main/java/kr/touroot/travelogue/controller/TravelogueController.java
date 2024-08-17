@@ -261,7 +261,7 @@ public class TravelogueController {
             ),
     })
     @DeleteMapping("/{id}/like")
-    public ResponseEntity<TravelogueLikeResponse> dislikeTravelogue(@PathVariable Long id, @Valid MemberAuth member) {
+    public ResponseEntity<TravelogueLikeResponse> unlikeTravelogue(@PathVariable Long id, @Valid MemberAuth member) {
         return ResponseEntity.ok()
                 .body(travelogueFacadeService.unlikeTravelogue(id, member));
     }
