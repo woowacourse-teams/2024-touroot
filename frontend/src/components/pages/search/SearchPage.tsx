@@ -21,6 +21,7 @@ const SearchPage = () => {
   const encodedKeyword =
     location.pathname.split("/").length > 2 ? location.pathname.split("/").pop() : "";
   const keyword = encodedKeyword ? decodeURIComponent(encodedKeyword) : "";
+
   const { travelogues, status, fetchNextPage } = useInfiniteSearchTravelogues(keyword);
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
