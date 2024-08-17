@@ -109,7 +109,7 @@ export const MultiImageUploadHiddenInput = styled.input`
   display: none;
 `;
 
-export const ImageScrollContainer = styled.ul<{ $isDragging: boolean }>`
+export const ImageScrollContainer = styled.div<{ $isDragging: boolean }>`
   display: flex;
   flex: 1;
   justify-content: flex-start;
