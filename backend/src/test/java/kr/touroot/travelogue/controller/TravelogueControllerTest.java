@@ -206,7 +206,8 @@ class TravelogueControllerTest {
                 .body(request)
                 .when().post("/api/v1/travelogues")
                 .then().log().all()
-                .statusCode(401);
+                .statusCode(401)
+                .body("message", is("로그인을 해주세요."));
     }
 
     @DisplayName("여행기에 좋아요를 한다.")
@@ -244,7 +245,8 @@ class TravelogueControllerTest {
         RestAssured.given().log().all()
                 .when().post("/api/v1/travelogues/1/like")
                 .then().log().all()
-                .statusCode(401);
+                .statusCode(401)
+                .body("message", is("로그인을 해주세요."));
     }
 
     @DisplayName("여행기를 상세 조회한다.")
@@ -525,6 +527,7 @@ class TravelogueControllerTest {
         RestAssured.given().log().all()
                 .when().delete("/api/v1/travelogues/1/like")
                 .then().log().all()
-                .statusCode(401);
+                .statusCode(401)
+                .body("message", is("로그인을 해주세요."));
     }
 }
