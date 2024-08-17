@@ -69,6 +69,10 @@ const TravelogueMultiImageUpload = ({
       onChangeImageUrls(dayIndex, placeIndex, allImageUrls);
     } catch (error) {
       setImageStates((prevStates) => prevStates.slice(0, prevStates.length - files.length));
+    } finally {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
   };
 
