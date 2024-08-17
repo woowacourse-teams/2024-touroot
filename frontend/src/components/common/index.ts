@@ -22,3 +22,4 @@ export { default as FallbackImage } from "./FallbackImage/FallbackImage";
 export { default as AvatarCircle } from "./AvatarCircle/AvatarCircle";
 export { default as Dropdown } from "./Dropdown/Dropdown";
 export { default as Modal } from "./Modal/Modal";
+export * from "./Header/index";

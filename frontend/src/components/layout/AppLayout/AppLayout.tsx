@@ -1,8 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 
-import DefaultHeader from "@components/common/Header/DefaultHeader/DefaultHeader";
-import HomePageHeader from "@components/common/Header/HomePageHeader/HomePageHeader";
-import SearchHeader from "@components/common/Header/SearchHeader/SearchHeader";
+import { DefaultHeader, HomePageHeader, SearchHeader } from "@components/common";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
