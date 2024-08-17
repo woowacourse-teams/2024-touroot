@@ -50,8 +50,7 @@ class TravelogueLikeServiceTest {
         TravelogueLikeResponse response = travelogueLikeService.findLikeByTravelogue(travelogue);
 
         // then
-        assertThat(response)
-                .isEqualTo(new TravelogueLikeResponse(false, 1L));
+        assertThat(response).isEqualTo(new TravelogueLikeResponse(false, 1L));
     }
 
     @DisplayName("여행기와 좋아요 한 사람을 기반으로 좋아요 정보를 조회할 수 있다.")
@@ -65,8 +64,7 @@ class TravelogueLikeServiceTest {
         TravelogueLikeResponse response = travelogueLikeService.findLikeByTravelogueAndLiker(travelogue, liker);
 
         // then
-        assertThat(response)
-                .isEqualTo(new TravelogueLikeResponse(true, 1L));
+        assertThat(response).isEqualTo(new TravelogueLikeResponse(true, 1L));
     }
 
     @DisplayName("여행기에 좋아요를 할 수 있다.")
@@ -80,8 +78,7 @@ class TravelogueLikeServiceTest {
         TravelogueLikeResponse response = travelogueLikeService.likeTravelogue(travelogue, liker);
 
         // then
-        assertThat(response)
-                .isEqualTo(new TravelogueLikeResponse(true, 1L));
+        assertThat(response).isEqualTo(new TravelogueLikeResponse(true, 1L));
     }
 
     @DisplayName("여행기에 좋아요를 취소 할 수 있다.")
@@ -95,7 +92,6 @@ class TravelogueLikeServiceTest {
         TravelogueLikeResponse response = travelogueLikeService.unlikeTravelogue(travelogue, liker);
 
         // then
-        assertThat(response)
-                .isEqualTo(new TravelogueLikeResponse(false, 0L));
+        assertThat(response).isEqualTo(new TravelogueLikeResponse(false, 0L));
     }
 }
