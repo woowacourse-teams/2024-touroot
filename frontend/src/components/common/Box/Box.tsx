@@ -13,9 +13,7 @@ const Box = ({
 }: React.ComponentPropsWithoutRef<"div"> & React.PropsWithChildren<BoxProps>) => {
   return (
     <S.Box {...props}>
-      <>
-        <S.PlaceName>{placeName}</S.PlaceName>
-      </>
+      <S.PlaceName>{placeName}</S.PlaceName>
       {children}
     </S.Box>
   );
