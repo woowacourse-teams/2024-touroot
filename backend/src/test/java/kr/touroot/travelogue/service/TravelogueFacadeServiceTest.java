@@ -136,6 +136,16 @@ class TravelogueFacadeServiceTest {
                 .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
     }
 
+    @DisplayName("여행기를 ID와 로그인한 사용자를 기준으로 조회한다.")
+    @Test
+    void findTravelogueByIdAndLiker() {
+        Member liker = testHelper.initKakaoMemberTestData();
+        Long travelogueId = testHelper.initTravelogueTestDataWithLike(liker).getId();
+
+        assertThat(service.findTravelogueById(travelogueId, new MemberAuth(liker.getId())))
+                .isEqualTo(TravelogueResponseFixture.getTravelogueResponseWithLike());
+    }
+
     @DisplayName("메인 페이지에 표시할 여행기 목록을 조회한다.")
     @Test
     void findTravelogues() {

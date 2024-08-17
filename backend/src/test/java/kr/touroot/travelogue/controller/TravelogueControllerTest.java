@@ -261,6 +261,21 @@ class TravelogueControllerTest {
                 .body(is(objectMapper.writeValueAsString(response)));
     }
 
+    @DisplayName("여행기에 좋아요를 누른 사용자가 여행기를 상세 조회한다.")
+    @Test
+    void findTravelogueWithLike() throws JsonProcessingException {
+        testHelper.initTravelogueTestDataWithLike(member);
+        TravelogueResponse response = TravelogueResponseFixture.getTravelogueResponseWithLike();
+
+        RestAssured.given().log().all()
+                .accept(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().get("/api/v1/travelogues/1")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body(is(objectMapper.writeValueAsString(response)));
+    }
+
     @DisplayName("태그가 있는 여행기를 상세 조회한다.")
     @Test
     void findTravelogueWithTags() throws JsonProcessingException {

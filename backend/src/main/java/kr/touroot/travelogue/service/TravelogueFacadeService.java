@@ -44,7 +44,8 @@ public class TravelogueFacadeService {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.createTravelogue(author, request);
         List<TagResponse> tags = travelogueTagService.createTravelogueTags(travelogue, request.tags());
-        return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue), tags);
+        TravelogueLikeResponse like = travelogueLikeService.findLikeByTravelogueAndLiker(travelogue, author);
+        return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue), tags, like);
     }
 
     private List<TravelogueDayResponse> createDays(List<TravelogueDayRequest> requests, Travelogue travelogue) {
@@ -87,9 +88,24 @@ public class TravelogueFacadeService {
         return getTravelogueResponse(travelogue);
     }
 
+    @Transactional(readOnly = true)
+    public TravelogueResponse findTravelogueById(Long id, MemberAuth member) {
+        Travelogue travelogue = travelogueService.getTravelogueById(id);
+        return getTravelogueResponse(travelogue, member);
+    }
+
     private TravelogueResponse getTravelogueResponse(Travelogue travelogue) {
         List<TagResponse> tagResponses = travelogueTagService.readTagByTravelogue(travelogue);
-        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue), tagResponses);
+        TravelogueLikeResponse likeResponse = travelogueLikeService.findLikeByTravelogue(travelogue);
+        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue), tagResponses, likeResponse);
+    }
+
+    private TravelogueResponse getTravelogueResponse(Travelogue travelogue, MemberAuth member) {
+        Member liker = memberService.getById(member.memberId());
+
+        List<TagResponse> tagResponses = travelogueTagService.readTagByTravelogue(travelogue);
+        TravelogueLikeResponse likeResponse = travelogueLikeService.findLikeByTravelogueAndLiker(travelogue, liker);
+        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue), tagResponses, likeResponse);
     }
 
     private List<TravelogueDayResponse> findDaysOfTravelogue(Travelogue travelogue) {
@@ -145,10 +161,11 @@ public class TravelogueFacadeService {
 
         Travelogue updatedTravelogue = travelogueService.update(id, author, request);
         List<TagResponse> tags = travelogueTagService.updateTravelogueTags(travelogue, request.tags());
+        TravelogueLikeResponse like = travelogueLikeService.findLikeByTravelogueAndLiker(travelogue, author);
 
         clearTravelogueContents(travelogue);
 
-        return TravelogueResponse.of(updatedTravelogue, createDays(request.days(), updatedTravelogue), tags);
+        return TravelogueResponse.of(updatedTravelogue, createDays(request.days(), updatedTravelogue), tags, like);
     }
 
     private void clearTravelogueContents(Travelogue travelogue) {
