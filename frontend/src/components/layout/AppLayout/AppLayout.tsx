@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 
-import HomeHeader from "@components/common/Header/HomeHeader/HomeHeader";
+import HomeHeader from "@components/common/Header/HomePageHeader/HomePageHeader";
 import LogoHeader from "@components/common/Header/LogoHeader/LogoHeader";
 import SearchHeader from "@components/common/Header/SearchHeader/SearchHeader";
 
