@@ -14,14 +14,7 @@ interface ImageState {
   isLoading: boolean;
 }
 
-const TravelogueMultiImageUpload = ({
-  dayIndex,
-  placeIndex,
-  imageUrls,
-  onRequestAddImage,
-  onChangeImageUrls,
-  onDeleteImageUrls,
-}: {
+interface TravelogueMultiImageUploadProps {
   imageUrls: string[];
   dayIndex: number;
   placeIndex: number;
@@ -31,7 +24,16 @@ const TravelogueMultiImageUpload = ({
   ) => Promise<string[]>;
   onChangeImageUrls: (dayIndex: number, placeIndex: number, imgUrls: string[]) => void;
   onDeleteImageUrls: (dayIndex: number, targetPlaceIndex: number, imageIndex: number) => void;
-}) => {
+}
+
+const TravelogueMultiImageUpload = ({
+  dayIndex,
+  placeIndex,
+  imageUrls,
+  onRequestAddImage,
+  onChangeImageUrls,
+  onDeleteImageUrls,
+}: TravelogueMultiImageUploadProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageStates, setImageStates] = useState<ImageState[]>(
     imageUrls.map((url) => ({ url, isLoading: false })),
@@ -59,9 +61,7 @@ const TravelogueMultiImageUpload = ({
         const updatedStates = [...prevStates];
         const startIndex = updatedStates.findIndex((state) => state.isLoading);
         newImageUrls.forEach((url, index) => {
-          if (startIndex + index < updatedStates.length) {
-            updatedStates[startIndex + index] = { url, isLoading: false };
-          }
+          updatedStates[startIndex + index] = { url, isLoading: false };
         });
         return updatedStates;
       });
