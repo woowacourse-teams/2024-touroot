@@ -1,10 +1,8 @@
-import { css } from "@emotion/react";
-
 import type { Meta, StoryObj } from "@storybook/react";
 
 import Icon from "../Icon/Icon";
 import IconButton from "../IconButton/IconButton";
-import { Input } from "../Input/Input.styled";
+import Input from "../Input/Input";
 import Header from "./Header";
 import * as S from "./SearchHeader/SearchHeader.styled";
 
@@ -17,9 +15,7 @@ const rightContentOptions = {
       <Input
         autoFocus
         placeholder="검색해주세요"
-        css={css`
-          height: 4rem;
-        `}
+        style={{ height: "4rem", marginBottom: "-1rem" }}
       />
       <S.ButtonContainer>
         <S.DeleteButton title="delete keyword button" type="button">
