@@ -41,6 +41,7 @@ const useInfiniteSearchTravelogues = (keyword: string) => {
       pages: data.pages.flatMap((page) => page),
       pageParams: data.pageParams,
     }),
+    enabled: keyword.trim() !== "",
   });
 
   return {

@@ -32,8 +32,9 @@ const SearchHeader = () => {
 
   const handleClickSearchButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (keyword.length < MIN_KEYWORD_LENGTH) {
+    if (keyword.trim().length < MIN_KEYWORD_LENGTH) {
       alert(`${MIN_KEYWORD_LENGTH}글자 이상 검색해주세요.`);
+      setKeyword(keyword.trim());
     } else {
       navigate(ROUTE_PATHS_MAP.search(keyword));
     }
