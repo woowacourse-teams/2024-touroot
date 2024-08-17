@@ -10,7 +10,7 @@ interface PlaceTodoListItemProps {
 const PlaceTodoListItem = ({ onChangeContent, onDeleteTodo }: PlaceTodoListItemProps) => {
   return (
     <S.Layout>
-      <S.ToDoListItemWrapper>
+      <S.ToDoListItemContainer>
         <Checkbox isChecked={false} />
         <Input
           placeholder="할 일을 입력해주세요."
@@ -18,7 +18,7 @@ const PlaceTodoListItem = ({ onChangeContent, onDeleteTodo }: PlaceTodoListItemP
           variants="none"
           spellCheck="false"
         />
-      </S.ToDoListItemWrapper>
+      </S.ToDoListItemContainer>
       <IconButton size="16" iconType="recycle-bin" onClick={onDeleteTodo} />
     </S.Layout>
   );

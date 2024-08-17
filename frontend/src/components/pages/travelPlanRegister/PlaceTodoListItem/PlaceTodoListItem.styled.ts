@@ -7,9 +7,9 @@ export const Layout = styled.li`
   padding-bottom: 0.1rem;
 `;
 
-export const ToDoListItemWrapper = styled.div`
+export const ToDoListItemContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 0.8rem;
+  gap: ${({ theme }) => theme.spacing.s};
 `;
