@@ -69,8 +69,9 @@ public class TravelogueTestHelper {
 
     public void initAllTravelogueTestData() {
         Member author = persistMember();
-        initTravelogueTestData(author);
+        Travelogue travelogue = initTravelogueTestData(author);
         initTravelogueTestDataWithTag(author);
+        persistTravelogueLike(travelogue, author);
     }
 
     public Travelogue initTravelogueTestData() {
@@ -131,7 +132,7 @@ public class TravelogueTestHelper {
 
     public Travelogue initTravelogueTestDataWithLike(Member liker) {
         Travelogue travelogue = initTravelogueTestData();
-        travelogueLikeRepository.save(new TravelogueLike(travelogue, liker));
+        persistTravelogueLike(travelogue, liker);
 
         return travelogue;
     }
@@ -175,6 +176,12 @@ public class TravelogueTestHelper {
         TraveloguePhoto photo = TRAVELOGUE_PHOTO.create(place);
 
         return traveloguePhotoRepository.save(photo);
+    }
+
+    public TravelogueLike persistTravelogueLike(Travelogue travelogue, Member liker) {
+        TravelogueLike like = new TravelogueLike(travelogue, liker);
+
+        return travelogueLikeRepository.save(like);
     }
 
     public Member initKakaoMemberTestData() {

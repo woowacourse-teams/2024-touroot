@@ -19,10 +19,15 @@ public record TravelogueSimpleResponse(
         @Schema(description = "작성자 프로필 사진 URL", example = "https://dev.touroot.kr/images/profile.png")
         String authorProfileUrl,
         @Schema(description = "여행기 태그 목록")
-        List<TagResponse> tags
+        List<TagResponse> tags,
+        @Schema(description = "작성자 프로필 사진 URL", example = "10")
+        Long likeCount
 ) {
 
-    public static TravelogueSimpleResponse of(Travelogue travelogue, List<TagResponse> tags) {
+    public static TravelogueSimpleResponse of(
+            Travelogue travelogue,
+            List<TagResponse> tags,
+            TravelogueLikeResponse like) {
         return TravelogueSimpleResponse.builder()
                 .id(travelogue.getId())
                 .title(travelogue.getTitle())
@@ -30,6 +35,7 @@ public record TravelogueSimpleResponse(
                 .authorNickname(travelogue.getAuthorNickname())
                 .authorProfileUrl(travelogue.getAuthorProfileImageUrl())
                 .tags(tags)
+                .likeCount(like.likeCount())
                 .build();
     }
 }

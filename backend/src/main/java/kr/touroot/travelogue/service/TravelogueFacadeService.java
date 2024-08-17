@@ -151,7 +151,8 @@ public class TravelogueFacadeService {
 
     private TravelogueSimpleResponse getTravelogueSimpleResponse(Travelogue travelogue) {
         List<TagResponse> tagResponses = travelogueTagService.readTagByTravelogue(travelogue);
-        return TravelogueSimpleResponse.of(travelogue, tagResponses);
+        TravelogueLikeResponse likeResponse = travelogueLikeService.findLikeByTravelogue(travelogue);
+        return TravelogueSimpleResponse.of(travelogue, tagResponses, likeResponse);
     }
 
     @Transactional
