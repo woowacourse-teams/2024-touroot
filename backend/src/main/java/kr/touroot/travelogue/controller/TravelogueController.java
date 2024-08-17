@@ -79,7 +79,7 @@ public class TravelogueController {
             ),
             @ApiResponse(
                     responseCode = "401",
-                    description = "로그인하지 않은 사용자가 생성을 시도할 때",
+                    description = "로그인하지 않은 사용자가 좋아요를 할 때",
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             ),
     })
