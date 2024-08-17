@@ -53,7 +53,7 @@ export const TravelogueOverview = styled.div`
   padding: 0 1.6rem;
 `;
 
-export const TravelogueCardChips = styled.ul`
+export const TravelogueCardChipsContainer = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing.s};

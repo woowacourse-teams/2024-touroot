@@ -70,11 +70,11 @@ const TravelogueCard = ({
         </S.TravelogueCardLikesContainer>
       </S.TravelogueCardInfoContainer>
 
-      <S.TravelogueCardChips>
+      <S.TravelogueCardChipsContainer>
         {tags.map((tag) => (
           <Chip key={tag.id} label={tag.tag} />
         ))}
-      </S.TravelogueCardChips>
+      </S.TravelogueCardChipsContainer>
     </S.TravelogueCardLayout>
   );
 };

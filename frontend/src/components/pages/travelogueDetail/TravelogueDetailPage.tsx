@@ -145,11 +145,11 @@ const TravelogueDetailPage = () => {
 
         <S.TravelogueOverview>
           <Text textType="subTitle">{daysAndNights} 여행 한눈에 보기</Text>
-          <S.TravelogueCardChips>
+          <S.TravelogueCardChipsContainer>
             {data.tags.map((tag) => (
               <Chip key={tag.id} label={tag.tag} />
             ))}
-          </S.TravelogueCardChips>
+          </S.TravelogueCardChipsContainer>
         </S.TravelogueOverview>
 
         <Tab

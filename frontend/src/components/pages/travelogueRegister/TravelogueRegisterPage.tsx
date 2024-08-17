@@ -27,16 +27,13 @@ import { useDragScroll } from "@hooks/useDragScroll";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useUser from "@hooks/useUser";
 
+import { CONDITIONS_MAP } from "@constants/condition";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import * as S from "./TravelogueRegisterPage.styled";
 
 const TravelogueRegisterPage = () => {
-  const MIN_TITLE_LENGTH = 0;
-  const MAX_TITLE_LENGTH = 20;
-  const MAX_TAGS_COUNT = 3;
-
   const navigate = useNavigate();
 
   const { transformDetail } = useTravelTransformDetailContext();
@@ -45,7 +42,10 @@ const TravelogueRegisterPage = () => {
   const [thumbnail, setThumbnail] = useState("");
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value.slice(MIN_TITLE_LENGTH, MAX_TITLE_LENGTH);
+    const title = e.target.value.slice(
+      CONDITIONS_MAP.title.minLength,
+      CONDITIONS_MAP.title.maxLength,
+    );
     setTitle(title);
   };
 
@@ -71,7 +71,7 @@ const TravelogueRegisterPage = () => {
         ? prevSelectedIDs.filter((selectedTagID) => selectedTagID !== id)
         : [...prevSelectedIDs, id];
 
-      if (newSelectedIDs.length > MAX_TAGS_COUNT) return prevSelectedIDs;
+      if (newSelectedIDs.length > CONDITIONS_MAP.tags.maxCount) return prevSelectedIDs;
 
       setSortedTags((prevSortedTags) => {
         const selected = prevSortedTags.filter((tag) => newSelectedIDs.includes(tag.id));
@@ -83,7 +83,7 @@ const TravelogueRegisterPage = () => {
     });
   };
 
-  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll();
+  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
   const {
     travelogueDays,
@@ -161,19 +161,19 @@ const TravelogueRegisterPage = () => {
 
         <Input
           value={title}
-          maxLength={MAX_TITLE_LENGTH}
+          maxLength={CONDITIONS_MAP.title.maxLength}
           label="제목"
           count={title.length}
-          maxCount={MAX_TITLE_LENGTH}
+          maxCount={CONDITIONS_MAP.title.maxLength}
           onChange={handleChangeTitle}
         />
 
         <S.ChipContainer>
           <Text textType="bodyBold">태그</Text>
           <Text textType="detail" css={S.subTextColor}>
-            {`다녀온 여행에 대한 태그를 선택해 주세요. (최대 3개)`}
+            {`다녀온 여행에 대한 태그를 선택해 주세요. (최대 ${CONDITIONS_MAP.tags.maxCount}개)`}
           </Text>
-          <S.Chips
+          <S.ChipsContainer
             ref={scrollRef}
             onMouseDown={onMouseDown}
             onMouseUp={onMouseUp}
@@ -187,7 +187,7 @@ const TravelogueRegisterPage = () => {
                 onClick={() => handleClickChip(tag.id)}
               />
             ))}
-          </S.Chips>
+          </S.ChipsContainer>
         </S.ChipContainer>
 
         <S.ThumbnailContainer>

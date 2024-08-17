@@ -24,7 +24,7 @@ export const ChipContainer = styled.div`
   gap: ${SPACING.s};
 `;
 
-export const Chips = styled.ul`
+export const ChipsContainer = styled.ul`
   display: flex;
   overflow: scroll hidden;
   gap: ${SPACING.s};
