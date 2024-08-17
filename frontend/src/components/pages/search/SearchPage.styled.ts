@@ -10,11 +10,6 @@ export const Layout = styled.div`
   h1 {
     ${({ theme }) => theme.typography.mobile.title};
   }
-
-  p {
-    color: ${(props) => props.theme.colors.text.secondary};
-    font-size: 1.2rem;
-  }
 `;
 
 export const MainPageTraveloguesList = styled.ul`

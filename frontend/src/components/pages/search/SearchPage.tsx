@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 
 import useInfiniteSearchTravelogues from "@queries/useInfiniteSearchTravelogues";
 
+import { Text } from "@components/common";
 import FloatingButton from "@components/common/FloatingButton/FloatingButton";
 import TravelogueCard from "@components/pages/main/TravelogueCard/TravelogueCard";
 
@@ -36,7 +37,7 @@ const SearchPage = () => {
   return (
     <S.Layout>
       <FloatingButton />
-      <S.Layout>{keyword && <h1>{`"${keyword}" 검색 결과`}</h1>}</S.Layout>
+      <S.Layout>{keyword && <Text textType="title">{`"${keyword}" 검색 결과`}</Text>}</S.Layout>
       {status === "pending" && (
         <S.MainPageTraveloguesList>
           {Array.from({ length: SKELETON_COUNT }, (_, index) => (
