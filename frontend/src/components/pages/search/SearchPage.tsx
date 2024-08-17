@@ -23,6 +23,7 @@ const SearchPage = () => {
   const keyword = encodedKeyword ? decodeURIComponent(encodedKeyword) : "";
 
   const { travelogues, status, fetchNextPage } = useInfiniteSearchTravelogues(keyword);
+
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
   if (!keyword) {
