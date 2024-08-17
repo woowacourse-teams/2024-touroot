@@ -29,7 +29,7 @@ public record TravelogueResponse(
         List<TravelogueDayResponse> days,
         @Schema(description = "여행기 좋아요 숫자", example = "10")
         Long likeCount,
-        @Schema(description = "여행기 좋아요 여부", example = "true")
+        @Schema(description = "사용자의 여행기 좋아요 여부", example = "true")
         Boolean isLiked
 ) {
 
