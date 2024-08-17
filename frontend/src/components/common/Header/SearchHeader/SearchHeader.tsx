@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
@@ -29,6 +29,10 @@ const SearchHeader = () => {
   const [keyword, setKeyword] = useState(() => {
     return receivedKeyword === ":id" ? "" : receivedKeyword;
   });
+
+  useEffect(() => {
+    setKeyword(receivedKeyword);
+  }, [receivedKeyword]);
 
   const handleClickSearchButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
