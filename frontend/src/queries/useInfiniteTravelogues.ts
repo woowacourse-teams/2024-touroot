@@ -20,13 +20,12 @@ export const getTravelogues = async ({
 
   return response.data;
 };
+const INITIAL_PAGE = 0;
+const DATA_LOAD_COUNT = 5;
 
 const useInfiniteTravelogues = (selectedTagIDs: number[]) => {
-  const INITIAL_PAGE = 0;
-  const DATA_LOAD_COUNT = 5;
-
   const { data, status, error, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: [QUERY_KEYS_MAP.travelogue.all, ...selectedTagIDs],
+    queryKey: QUERY_KEYS_MAP.travelogue.tag(selectedTagIDs),
     queryFn: ({ pageParam = INITIAL_PAGE }) => {
       const page = pageParam;
       const size = DATA_LOAD_COUNT;
