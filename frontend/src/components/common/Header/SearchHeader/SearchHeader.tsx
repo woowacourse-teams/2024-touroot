@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import Icon from "@components/common/Icon/Icon";
+import IconButton from "@components/common/IconButton/IconButton";
 import { Input } from "@components/common/Input/Input.styled";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
@@ -66,9 +67,7 @@ const SearchHeader = () => {
             >
               <Icon iconType="x-icon" size="8" />
             </S.DeleteButton>
-            <button title="search button" type="submit">
-              <Icon iconType="search-icon" size="18" />
-            </button>
+            <IconButton iconType="search-icon" size="18" title="search button" type="submit" />
           </S.ButtonContainer>
         </S.FormWrapper>
       }
