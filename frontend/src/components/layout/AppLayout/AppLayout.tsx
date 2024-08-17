@@ -19,8 +19,7 @@ const AppLayout = () => {
   const getHeader = (pathName: string) => {
     if (pathName === ROUTE_PATHS_MAP.root) return <LogoHeader />;
     if (pathName === ROUTE_PATHS_MAP.searchMain) return <SearchHeader />;
-    if (receivedKeyword && pathName.includes(ROUTE_PATHS_MAP.search().split("/")[1]))
-      return <SearchHeader />;
+    if (receivedKeyword && pathName.includes(ROUTE_PATHS_MAP.searchMain)) return <SearchHeader />;
     return <HomeHeader />;
   };
 
