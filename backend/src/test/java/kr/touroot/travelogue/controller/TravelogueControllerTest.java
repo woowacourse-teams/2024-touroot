@@ -20,6 +20,7 @@ import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
+import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
@@ -204,6 +205,44 @@ class TravelogueControllerTest {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when().post("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(401);
+    }
+
+    @DisplayName("여행기에 좋아요를 한다.")
+    @Test
+    void likeTravelogue() throws JsonProcessingException {
+        Member author = testHelper.initKakaoMemberTestData();
+        testHelper.initTravelogueTestData(author);
+        TravelogueLikeResponse response = new TravelogueLikeResponse(true, 1L);
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().post("/api/v1/travelogues/1/like")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body(is(objectMapper.writeValueAsString(response)));
+    }
+
+    @DisplayName("존재하지 않는 여행기에 좋아요를 하면 예외가 발생한다.")
+    @Test
+    void likeTravelogueWithNotExistThrowException() throws JsonProcessingException {
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().post("/api/v1/travelogues/1/like")
+                .then().log().all()
+                .statusCode(400).assertThat()
+                .body("message", is("존재하지 않는 여행기입니다."));
+    }
+
+    @DisplayName("여행기를 좋아요 할 때 로그인 되어 있지 않으면 예외가 발생한다.")
+    @Test
+    void likeTravelogueWithNotLoginThrowException() {
+        Member author = testHelper.initKakaoMemberTestData();
+        testHelper.initTravelogueTestData(author);
+
+        RestAssured.given().log().all()
+                .when().post("/api/v1/travelogues/1/like")
                 .then().log().all()
                 .statusCode(401);
     }

@@ -14,6 +14,7 @@ import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
+import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.service.TravelogueFacadeService;
@@ -63,6 +64,30 @@ public class TravelogueController {
 
         return ResponseEntity.created(URI.create("/api/v1/travelogues/" + response.id()))
                 .body(response);
+    }
+
+    @Operation(summary = "여행기 좋아요")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "존재하지 않는 여행기 ID로 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "로그인하지 않은 사용자가 생성을 시도할 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @PostMapping("/{id}/like")
+    public ResponseEntity<TravelogueLikeResponse> likeTravelogue(@PathVariable Long id, @Valid MemberAuth member) {
+
+        return ResponseEntity.ok()
+                .body(travelogueFacadeService.likeTravelogue(id, member));
     }
 
     @Operation(summary = "여행기 상세 조회")

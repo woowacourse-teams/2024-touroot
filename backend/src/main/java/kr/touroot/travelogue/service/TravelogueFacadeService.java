@@ -17,6 +17,7 @@ import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.dto.response.TravelogueDayResponse;
+import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.dto.response.TraveloguePlaceResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
@@ -35,6 +36,7 @@ public class TravelogueFacadeService {
     private final TraveloguePlaceService traveloguePlaceService;
     private final TraveloguePhotoService traveloguePhotoService;
     private final TravelogueTagService travelogueTagService;
+    private final TravelogueLikeService travelogueLikeService;
     private final MemberService memberService;
 
     @Transactional
@@ -69,6 +71,13 @@ public class TravelogueFacadeService {
         return photos.stream()
                 .map(TraveloguePhoto::getKey)
                 .toList();
+    }
+
+    public TravelogueLikeResponse likeTravelogue(Long travelogueId, MemberAuth member) {
+        Travelogue travelogue = travelogueService.getTravelogueById(travelogueId);
+        Member liker = memberService.getById(member.memberId());
+
+        return travelogueLikeService.likeTravelogue(travelogue, liker);
     }
 
     @Transactional(readOnly = true)
