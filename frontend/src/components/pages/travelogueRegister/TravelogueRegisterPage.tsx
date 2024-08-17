@@ -1,12 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Tag } from "@type/domain/travelogue";
-
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
 import { usePostTravelogue, usePostUploadImages } from "@queries/index";
-import useGetTags from "@queries/useGetTags";
 
 import {
   Accordion,
@@ -25,6 +22,7 @@ import TravelogueDayAccordion from "@components/pages/travelogueRegister/Travelo
 import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
 import { useDragScroll } from "@hooks/useDragScroll";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
+import useTagSelection from "@hooks/useTagSelection";
 import useUser from "@hooks/useUser";
 
 import { CONDITIONS_MAP } from "@constants/condition";
@@ -49,39 +47,9 @@ const TravelogueRegisterPage = () => {
     setTitle(title);
   };
 
-  const { data: tags, status: tagsStatus, error: tagsError } = useGetTags();
+  const { selectedTagIDs, handleClickTag, createSortedTags } = useTagSelection();
 
-  if (tagsStatus === "error") {
-    alert(tagsError.message);
-    navigate(ROUTE_PATHS_MAP.back);
-  }
-
-  const [sortedTags, setSortedTags] = useState<Tag[]>([]);
-  const [selectedTagIDs, setSelectedTagIDs] = useState<number[]>([]);
-
-  useEffect(() => {
-    if (tags) {
-      setSortedTags(tags);
-    }
-  }, [tags]);
-
-  const handleClickChip = (id: number) => {
-    setSelectedTagIDs((prevSelectedIDs) => {
-      const newSelectedIDs = prevSelectedIDs.includes(id)
-        ? prevSelectedIDs.filter((selectedTagID) => selectedTagID !== id)
-        : [...prevSelectedIDs, id];
-
-      if (newSelectedIDs.length > CONDITIONS_MAP.tags.maxCount) return prevSelectedIDs;
-
-      setSortedTags((prevSortedTags) => {
-        const selected = prevSortedTags.filter((tag) => newSelectedIDs.includes(tag.id));
-        const unselected = prevSortedTags.filter((tag) => !newSelectedIDs.includes(tag.id));
-        return [...selected, ...unselected];
-      });
-
-      return newSelectedIDs;
-    });
-  };
+  const sortedTags = createSortedTags();
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
@@ -184,7 +152,7 @@ const TravelogueRegisterPage = () => {
                 key={tag.id}
                 label={tag.tag}
                 isSelected={selectedTagIDs.includes(tag.id)}
-                onClick={() => handleClickChip(tag.id)}
+                onClick={() => handleClickTag(tag.id)}
               />
             ))}
           </S.ChipsContainer>

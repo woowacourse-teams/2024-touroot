@@ -1,10 +1,5 @@
-import { useEffect, useState } from "react";
-
 import { css } from "@emotion/react";
 
-import { Tag } from "@type/domain/travelogue";
-
-import useGetTags from "@queries/useGetTags";
 import useInfiniteTravelogues from "@queries/useInfiniteTravelogues";
 
 import { Chip, Text } from "@components/common";
@@ -13,8 +8,7 @@ import TravelogueCard from "@components/pages/main/TravelogueCard/TravelogueCard
 
 import { useDragScroll } from "@hooks/useDragScroll";
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
-
-import { CONDITIONS_MAP } from "@constants/condition";
+import useTagSelection from "@hooks/useTagSelection";
 
 import * as S from "./MainPage.styled";
 import TravelogueCardSkeleton from "./TravelogueCard/skeleton/TravelogueCardSkeleton";
@@ -22,39 +16,14 @@ import TravelogueCardSkeleton from "./TravelogueCard/skeleton/TravelogueCardSkel
 const SKELETON_COUNT = 5;
 
 const MainPage = () => {
-  const { data: tags } = useGetTags();
-
-  const [sortedTags, setSortedTags] = useState<Tag[]>([]);
-  const [selectedTagIDs, setSelectedTagIDs] = useState<number[]>([]);
-
-  useEffect(() => {
-    if (tags) {
-      setSortedTags(tags);
-    }
-  }, [tags]);
-
+  const { selectedTagIDs, handleClickTag, createSortedTags } = useTagSelection();
   const { travelogues, status, fetchNextPage } = useInfiniteTravelogues(selectedTagIDs);
-  const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
-  const handleClickChip = (id: number) => {
-    setSelectedTagIDs((prevSelectedTagIDs) => {
-      const newSelectedTagIDs = prevSelectedTagIDs.includes(id)
-        ? prevSelectedTagIDs.filter((selectedTagID) => selectedTagID !== id)
-        : [...prevSelectedTagIDs, id];
-
-      if (newSelectedTagIDs.length > CONDITIONS_MAP.tags.maxCount) return prevSelectedTagIDs;
-
-      setSortedTags((prevSortedTags) => {
-        const selected = prevSortedTags.filter((tag) => newSelectedTagIDs.includes(tag.id));
-        const unselected = prevSortedTags.filter((tag) => !newSelectedTagIDs.includes(tag.id));
-        return [...selected, ...unselected];
-      });
-
-      return newSelectedTagIDs;
-    });
-  };
+  const sortedTags = createSortedTags();
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
+
+  const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
   return (
     <S.MainPageContentContainer>
@@ -76,7 +45,7 @@ const MainPage = () => {
             key={tag.id}
             label={tag.tag}
             isSelected={selectedTagIDs.includes(tag.id)}
-            onClick={() => handleClickChip(tag.id)}
+            onClick={() => handleClickTag(tag.id)}
           />
         ))}
       </S.ChipsContainer>
