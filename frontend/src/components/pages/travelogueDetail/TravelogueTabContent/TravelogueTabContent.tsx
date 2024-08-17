@@ -27,7 +27,7 @@ const TravelogueTabContent = ({ places }: { places: TraveloguePlace[] }) => {
         />
         <S.BoxContainer>
           {places.map((place, index) => (
-            <Box key={place.id} placeName={`${index + 1}. ${place.placeName}`} tags={[]}>
+            <Box key={place.id} placeName={`${index + 1}. ${place.placeName}`}>
               <S.IconButtonWrapper>
                 <a
                   href={`https://www.google.com/maps/search/${place.placeName}/@${place.position.lat},${place.position.lng}`}
