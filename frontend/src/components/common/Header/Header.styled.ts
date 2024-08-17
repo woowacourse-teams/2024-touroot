@@ -16,7 +16,7 @@ export const HeaderLayout = styled.header`
   padding: 1.6rem;
   border-bottom: 0.1rem solid ${({ theme }) => theme.colors.border};
 
-  background-color: #fff;
+  background-color: ${PRIMITIVE_COLORS.white};
 `;
 
 export const DrawHeaderContainer = styled.div`
