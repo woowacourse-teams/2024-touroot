@@ -53,12 +53,12 @@ const TravelogueMultiImageUpload = ({
     setImageStates((prevStates) => [...prevStates, ...newImageStates]);
 
     try {
-      const newImgUrls = await onRequestAddImage(files);
+      const newImageUrls = await onRequestAddImage(files);
 
       setImageStates((prevStates) => {
         const updatedStates = [...prevStates];
         const startIndex = updatedStates.findIndex((state) => state.isLoading);
-        newImgUrls.forEach((url, index) => {
+        newImageUrls.forEach((url, index) => {
           if (startIndex + index < updatedStates.length) {
             updatedStates[startIndex + index] = { url, isLoading: false };
           }
@@ -66,7 +66,7 @@ const TravelogueMultiImageUpload = ({
         return updatedStates;
       });
 
-      const allImageUrls = [...imageUrls, ...newImgUrls];
+      const allImageUrls = [...imageUrls, ...newImageUrls];
       onChangeImageUrls(dayIndex, placeIndex, allImageUrls);
     } catch (error) {
       setImageStates((prevStates) => prevStates.slice(0, prevStates.length - files.length));
