@@ -18,7 +18,7 @@ const NavigationHeader = () => {
           onClick={() => navigation(ROUTE_PATHS_MAP.searchMain)}
         />
       }
-      useHamburger
+      isHamburgerUsed
     />
   );
 };

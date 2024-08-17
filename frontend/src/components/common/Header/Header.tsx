@@ -14,17 +14,17 @@ import IconButton from "../IconButton/IconButton";
 import * as S from "./Header.styled";
 
 interface HeaderProps {
-  useLogo?: boolean;
+  isLogoUsed?: boolean;
   rightContent: React.ReactNode;
   $isRightContentFull?: boolean;
-  useHamburger?: boolean;
+  isHamburgerUsed?: boolean;
 }
 
 const Header = ({
-  useLogo = false,
+  isLogoUsed = false,
   rightContent,
   $isRightContentFull = false,
-  useHamburger = false,
+  isHamburgerUsed = false,
 }: HeaderProps) => {
   const { user, saveUser } = useUser();
   const location = useLocation();
@@ -49,17 +49,19 @@ const Header = ({
       <S.HeaderLayout>
         <S.LeftWrapper>
           <IconButton
-            color={useLogo ? theme.colors.primary : PRIMITIVE_COLORS.black}
-            iconType={useLogo ? "korean-logo" : "back-icon"}
+            color={isLogoUsed ? theme.colors.primary : PRIMITIVE_COLORS.black}
+            iconType={isLogoUsed ? "korean-logo" : "back-icon"}
             onClick={
-              useLogo ? () => navigate(ROUTE_PATHS_MAP.root) : () => navigate(ROUTE_PATHS_MAP.back)
+              isLogoUsed
+                ? () => navigate(ROUTE_PATHS_MAP.root)
+                : () => navigate(ROUTE_PATHS_MAP.back)
             }
           />
         </S.LeftWrapper>
 
         <S.RightContainer $isRightContentFull={$isRightContentFull}>
           {rightContent}
-          {useHamburger && (
+          {isHamburgerUsed && (
             <Drawer.Trigger>
               <IconButton iconType="hamburger" />
             </Drawer.Trigger>

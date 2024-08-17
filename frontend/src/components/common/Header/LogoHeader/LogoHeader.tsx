@@ -11,7 +11,7 @@ const LogoHeader = () => {
 
   return (
     <Header
-      useLogo
+      isLogoUsed
       rightContent={
         <IconButton
           iconType="search-icon"
@@ -19,7 +19,7 @@ const LogoHeader = () => {
           onClick={() => navigation(ROUTE_PATHS_MAP.searchMain)}
         />
       }
-      useHamburger
+      isHamburgerUsed
     />
   );
 };

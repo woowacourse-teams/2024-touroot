@@ -37,8 +37,8 @@ const meta = {
   title: "common/Header",
   component: Header,
   argTypes: {
-    useHamburger: { control: "boolean" },
-    useLogo: { control: "boolean" },
+    isHamburgerUsed: { control: "boolean" },
+    isLogoUsed: { control: "boolean" },
     rightContent: {
       options: Object.keys(rightContentOptions),
       mapping: rightContentOptions,
@@ -66,22 +66,22 @@ type Story = StoryObj<typeof meta>;
 
 export const HomeHeader: Story = {
   args: {
-    useHamburger: true,
+    isHamburgerUsed: true,
     rightContent: "HomeIcon",
   },
 };
 
 export const LogoHeader: Story = {
   args: {
-    useLogo: true,
-    useHamburger: true,
+    isLogoUsed: true,
+    isHamburgerUsed: true,
     rightContent: "SearchIcon",
   },
 };
 
 export const NavigationHeader: Story = {
   args: {
-    useHamburger: true,
+    isHamburgerUsed: true,
     rightContent: "SearchIcon",
   },
 };

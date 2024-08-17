@@ -17,7 +17,7 @@ const HomeHeader = () => {
           onClick={() => navigation(ROUTE_PATHS_MAP.root)}
         />
       }
-      useHamburger
+      isHamburgerUsed
     />
   );
 };
