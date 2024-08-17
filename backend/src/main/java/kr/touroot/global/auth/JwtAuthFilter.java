@@ -79,12 +79,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         AntPathMatcher antPathMatcher = new AntPathMatcher();
 
         String url = request.getRequestURI();
         String method = request.getMethod();
 
         return WHITE_LIST.stream()
-                .anyMatch(white -> white.method().matches(method) && antPathMatcher.match(white.urlPattern(), url));
+                .anyMatch(white -> white.method().matches(method) && antPathMatcher.match(white.urlPattern(), url))
+                && (token == null || token.isBlank());
     }
 }
