@@ -14,13 +14,14 @@ import TravelogueCard from "@components/pages/main/TravelogueCard/TravelogueCard
 import { useDragScroll } from "@hooks/useDragScroll";
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
 
+import { CONDITIONS_MAP } from "@constants/condition";
+
 import * as S from "./MainPage.styled";
 import TravelogueCardSkeleton from "./TravelogueCard/skeleton/TravelogueCardSkeleton";
 
-const MainPage = () => {
-  const SKELETON_COUNT = 5;
-  const MAX_TAGS_COUNT = 3;
+const SKELETON_COUNT = 5;
 
+const MainPage = () => {
   const { data: tags } = useGetTags();
 
   const [sortedTags, setSortedTags] = useState<Tag[]>([]);
@@ -41,7 +42,7 @@ const MainPage = () => {
         ? prevSelectedTagIDs.filter((selectedTagID) => selectedTagID !== id)
         : [...prevSelectedTagIDs, id];
 
-      if (newSelectedTagIDs.length > MAX_TAGS_COUNT) return prevSelectedTagIDs;
+      if (newSelectedTagIDs.length > CONDITIONS_MAP.tags.maxCount) return prevSelectedTagIDs;
 
       setSortedTags((prevSortedTags) => {
         const selected = prevSortedTags.filter((tag) => newSelectedTagIDs.includes(tag.id));
@@ -53,7 +54,7 @@ const MainPage = () => {
     });
   };
 
-  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll();
+  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
   return (
     <S.MainPageContentContainer>
@@ -64,7 +65,7 @@ const MainPage = () => {
         </Text>
       </S.MainPageHeaderContainer>
 
-      <S.Chips
+      <S.ChipsContainer
         ref={scrollRef}
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
@@ -78,7 +79,7 @@ const MainPage = () => {
             onClick={() => handleClickChip(tag.id)}
           />
         ))}
-      </S.Chips>
+      </S.ChipsContainer>
 
       {status === "pending" && (
         <S.MainPageTraveloguesList>
