@@ -13,8 +13,8 @@ const Checkbox = ({
   ...props
 }: React.InputHTMLAttributes<HTMLInputElement> & CheckboxProps) => {
   return (
-    <S.Layout $isChecked={isChecked}>
-      <S.Checkbox type="checkbox" defaultChecked={isChecked} {...props} />
+    <S.Layout $isChecked={isChecked ?? false}>
+      <S.Checkbox type="checkbox" {...props} />
       {isChecked && <Icon size="15" color={PRIMITIVE_COLORS.white} iconType="check" />}
     </S.Layout>
   );
