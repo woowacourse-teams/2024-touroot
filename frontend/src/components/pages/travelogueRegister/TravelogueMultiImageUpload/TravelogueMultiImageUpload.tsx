@@ -5,6 +5,7 @@ import { css } from "@emotion/react";
 import { MutateOptions } from "@tanstack/react-query";
 
 import { MultiImageUpload } from "@components/common";
+import { MAX_IMAGE_UPLOAD_COUNT } from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/TravelogueMultiImageUpload.constants";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 
@@ -36,14 +37,14 @@ const TravelogueMultiImageUpload = ({
     imageUrls.map((url) => ({ url, isLoading: false })),
   );
 
-  const handleButtonClick = () => {
+  const handleClickButton = () => {
     fileInputRef.current?.click();
   };
 
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files as FileList);
 
-    if (imageStates.length + files.length > 10) {
+    if (imageStates.length + files.length > MAX_IMAGE_UPLOAD_COUNT) {
       alert(ERROR_MESSAGE_MAP.imageUpload);
       return;
     }
@@ -85,9 +86,9 @@ const TravelogueMultiImageUpload = ({
     <MultiImageUpload
       previewImageStates={imageStates}
       fileInputRef={fileInputRef}
-      onImageChange={handleImageChange}
+      onImageChange={handleChangeImage}
       onDeleteImage={handleDeleteImage}
-      onButtonClick={handleButtonClick}
+      onButtonClick={handleClickButton}
       css={css`
         margin-bottom: 1.6rem;
       `}
