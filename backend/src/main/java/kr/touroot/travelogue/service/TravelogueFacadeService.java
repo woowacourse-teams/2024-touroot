@@ -73,6 +73,7 @@ public class TravelogueFacadeService {
                 .toList();
     }
 
+    @Transactional
     public TravelogueLikeResponse likeTravelogue(Long travelogueId, MemberAuth member) {
         Travelogue travelogue = travelogueService.getTravelogueById(travelogueId);
         Member liker = memberService.getById(member.memberId());
