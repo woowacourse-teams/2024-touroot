@@ -1,20 +1,11 @@
-import React, { useRef, useState } from "react";
-
 import { css } from "@emotion/react";
 
 import { MutateOptions } from "@tanstack/react-query";
 
 import { MultiImageUpload } from "@components/common";
-import { MAX_IMAGE_UPLOAD_COUNT } from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/TravelogueMultiImageUpload.constants";
+import { useTravelogueMultiImageUpload } from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/hooks/useMultiImageUpload";
 
-import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
-
-interface ImageState {
-  url: string;
-  isLoading: boolean;
-}
-
-interface TravelogueMultiImageUploadProps {
+export interface TravelogueMultiImageUploadProps {
   imageUrls: string[];
   dayIndex: number;
   placeIndex: number;
@@ -34,53 +25,15 @@ const TravelogueMultiImageUpload = ({
   onChangeImageUrls,
   onDeleteImageUrls,
 }: TravelogueMultiImageUploadProps) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imageStates, setImageStates] = useState<ImageState[]>(
-    imageUrls.map((url) => ({ url, isLoading: false })),
-  );
-
-  const handleClickButton = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files as FileList);
-
-    if (imageStates.length + files.length > MAX_IMAGE_UPLOAD_COUNT) {
-      alert(ERROR_MESSAGE_MAP.imageUpload);
-      return;
-    }
-
-    const newImageStates = files.map(() => ({ url: "", isLoading: true }));
-    setImageStates((prevStates) => [...prevStates, ...newImageStates]);
-
-    try {
-      const newImageUrls = await onRequestAddImage(files);
-
-      setImageStates((prevStates) => {
-        const updatedStates = [...prevStates];
-        const startIndex = updatedStates.findIndex((state) => state.isLoading);
-        newImageUrls.forEach((url, index) => {
-          updatedStates[startIndex + index] = { url, isLoading: false };
-        });
-        return updatedStates;
-      });
-
-      const allImageUrls = [...imageUrls, ...newImageUrls];
-      onChangeImageUrls(dayIndex, placeIndex, allImageUrls);
-    } catch (error) {
-      setImageStates((prevStates) => prevStates.slice(0, prevStates.length - files.length));
-    } finally {
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-    }
-  };
-
-  const handleDeleteImage = (imageIndex: number) => {
-    setImageStates((prevStates) => prevStates.filter((_, index) => index !== imageIndex));
-    onDeleteImageUrls(dayIndex, placeIndex, imageIndex);
-  };
+  const { imageStates, fileInputRef, handleChangeImage, handleClickButton, handleDeleteImage } =
+    useTravelogueMultiImageUpload({
+      imageUrls,
+      dayIndex,
+      placeIndex,
+      onRequestAddImage,
+      onChangeImageUrls,
+      onDeleteImageUrls,
+    });
 
   return (
     <MultiImageUpload
