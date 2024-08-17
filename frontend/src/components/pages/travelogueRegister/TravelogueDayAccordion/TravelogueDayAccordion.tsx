@@ -62,8 +62,6 @@ const TravelogueDayAccordion = ({
     setIsPopupOpen(true);
   };
 
-  console.log(travelogueDay.places);
-
   return (
     <Accordion.Item key={travelogueDay.id} value={travelogueDay.id}>
       <Accordion.Trigger onDeleteItem={() => onDeleteDay(dayIndex)}>

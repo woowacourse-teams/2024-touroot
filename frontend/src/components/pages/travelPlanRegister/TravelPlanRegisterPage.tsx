@@ -114,8 +114,6 @@ const TravelPlanRegisterPage = () => {
     setIsShowCalendar(false);
   };
 
-  console.log("travelPlanDays", travelPlanDays);
-
   return (
     <>
       <S.Layout>
