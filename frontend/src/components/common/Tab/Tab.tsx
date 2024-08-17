@@ -30,7 +30,7 @@ const Tab = ({
   }, []);
 
   const tabRefs = useRef<(HTMLLIElement | null)[]>([]);
-  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll();
+  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
   const handleClickTab = (index: number) => {
     setSelectedIndex(index);
