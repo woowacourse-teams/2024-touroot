@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"travelogue", "liker"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"TRAVELOGUE_ID", "LIKER_ID"})})
 @Entity
 public class TravelogueLike {
 
