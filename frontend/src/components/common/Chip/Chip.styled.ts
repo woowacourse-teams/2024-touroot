@@ -28,5 +28,7 @@ export const Chip = styled.li<{ $isSelected: boolean }>`
   padding: 0.8rem 1.6rem;
   border-radius: 1rem;
 
+  line-height: 1;
+
   ${({ $isSelected }) => getButtonColorStyling($isSelected)};
 `;
