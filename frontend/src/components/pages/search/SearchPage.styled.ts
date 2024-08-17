@@ -5,7 +5,7 @@ export const Layout = styled.div`
   flex-direction: column;
   padding: 1.6rem;
 
-  gap: 8px;
+  gap: ${({ theme }) => theme.spacing.s};
 
   h1 {
     ${({ theme }) => theme.typography.mobile.title};
