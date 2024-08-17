@@ -19,7 +19,7 @@ export const useTravelogueMultiImageUpload = ({
   onDeleteImageUrls,
 }: TravelogueMultiImageUploadProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imageStates, setImageStates] = useState<ImageState[]>(
+  const [imageStates, setImageStates] = useState<ImageState[]>(() =>
     imageUrls.map((url) => ({ url, isLoading: false })),
   );
 
