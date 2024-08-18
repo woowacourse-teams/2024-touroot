@@ -9,6 +9,10 @@ const useTagSelection = () => {
 
   const [selectedTagIDs, setSelectedTagIDs] = useState<number[]>([]);
 
+  const changeSelectedTagIDs = (newSelectedTagIDs: number[]) => {
+    setSelectedTagIDs(newSelectedTagIDs);
+  };
+
   const createSortedTags = () => {
     if (!tags) return [];
 
@@ -30,7 +34,7 @@ const useTagSelection = () => {
     });
   };
 
-  return { selectedTagIDs, createSortedTags, handleClickTag };
+  return { selectedTagIDs, changeSelectedTagIDs, createSortedTags, handleClickTag };
 };
 
 export default useTagSelection;
