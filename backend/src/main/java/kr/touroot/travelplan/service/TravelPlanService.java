@@ -15,10 +15,10 @@ import kr.touroot.travelplan.domain.TravelPlaceTodo;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.domain.TravelPlanDay;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
-import kr.touroot.travelplan.dto.request.PlanCreateRequest;
-import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
-import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
+import kr.touroot.travelplan.dto.request.PlanDayRequest;
+import kr.touroot.travelplan.dto.request.PlanPlaceRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceTodoRequest;
+import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.dto.response.PlanCreateResponse;
 import kr.touroot.travelplan.dto.response.PlanDayResponse;
 import kr.touroot.travelplan.dto.response.PlanPlaceResponse;
@@ -46,7 +46,7 @@ public class TravelPlanService {
     private final PlaceTodoRepository placeTodoRepository;
 
     @Transactional
-    public PlanCreateResponse createTravelPlan(PlanCreateRequest request, MemberAuth memberAuth) {
+    public PlanCreateResponse createTravelPlan(PlanRequest request, MemberAuth memberAuth) {
         Member author = getMemberByMemberAuth(memberAuth);
         TravelPlan travelPlan = request.toTravelPlan(author, UUID.randomUUID());
         validateCreateTravelPlan(travelPlan);
@@ -68,17 +68,17 @@ public class TravelPlanService {
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 사용자입니다."));
     }
 
-    private void createPlanDay(List<PlanDayCreateRequest> request, TravelPlan savedTravelPlan) {
+    private void createPlanDay(List<PlanDayRequest> request, TravelPlan savedTravelPlan) {
         for (int order = 0; order < request.size(); order++) {
-            PlanDayCreateRequest dayRequest = request.get(order);
+            PlanDayRequest dayRequest = request.get(order);
             TravelPlanDay travelPlanDay = travelPlanDayRepository.save(dayRequest.toPlanDay(order, savedTravelPlan));
             createPlanPlace(dayRequest.places(), travelPlanDay);
         }
     }
 
-    private void createPlanPlace(List<PlanPlaceCreateRequest> request, TravelPlanDay travelPlanDay) {
+    private void createPlanPlace(List<PlanPlaceRequest> request, TravelPlanDay travelPlanDay) {
         for (int order = 0; order < request.size(); order++) {
-            PlanPlaceCreateRequest planRequest = request.get(order);
+            PlanPlaceRequest planRequest = request.get(order);
             Place place = getPlace(planRequest);
             TravelPlanPlace planPlace = planRequest.toPlanPlace(order, travelPlanDay, place);
             TravelPlanPlace travelPlanPlace = travelPlanPlaceRepository.save(planPlace);
@@ -94,7 +94,7 @@ public class TravelPlanService {
         }
     }
 
-    private Place getPlace(PlanPlaceCreateRequest planRequest) {
+    private Place getPlace(PlanPlaceRequest planRequest) {
         return placeRepository.findByNameAndLatitudeAndLongitude(
                 planRequest.placeName(),
                 planRequest.position().lat(),
@@ -174,7 +174,7 @@ public class TravelPlanService {
     }
 
     @Transactional
-    public PlanCreateResponse updateTravelPlan(Long planId, MemberAuth memberAuth, PlanCreateRequest request) {
+    public PlanCreateResponse updateTravelPlan(Long planId, MemberAuth memberAuth, PlanRequest request) {
         TravelPlan travelPlan = getTravelPlanById(planId);
         Member author = getMemberByMemberAuth(memberAuth);
         validateUpdateByAuthor(travelPlan, author);
@@ -196,7 +196,7 @@ public class TravelPlanService {
         travelPlanDayRepository.deleteByPlan(travelPlan);
     }
 
-    private void updateTravelPlanContents(PlanCreateRequest request, TravelPlan travelPlan) {
+    private void updateTravelPlanContents(PlanRequest request, TravelPlan travelPlan) {
         travelPlan.update(request.title(), request.startDate());
         travelPlanRepository.save(travelPlan);
         createPlanDay(request.days(), travelPlan);

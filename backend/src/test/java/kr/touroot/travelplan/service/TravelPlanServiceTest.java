@@ -14,10 +14,10 @@ import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
-import kr.touroot.travelplan.dto.request.PlanCreateRequest;
-import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
-import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
-import kr.touroot.travelplan.dto.request.PlanPositionCreateRequest;
+import kr.touroot.travelplan.dto.request.PlanDayRequest;
+import kr.touroot.travelplan.dto.request.PlanPlaceRequest;
+import kr.touroot.travelplan.dto.request.PlanPositionRequest;
+import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.dto.response.PlanCreateResponse;
 import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
@@ -67,17 +67,17 @@ class TravelPlanServiceTest {
     @Test
     void createTravelPlan() {
         // given
-        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
-        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
+        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
-        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        PlanCreateRequest request = PlanCreateRequest.builder()
+        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
+        PlanRequest request = PlanRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MAX)
-                .days(List.of(planDayCreateRequest))
+                .days(List.of(planDayRequest))
                 .build();
 
         // when
@@ -91,17 +91,17 @@ class TravelPlanServiceTest {
     @Test
     void createTravelPlanWithInvalidStartDate() {
         // given
-        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
-        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
+        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
                 .placeName("잠실한강공원")
                 .position(locationRequest)
                 .todos(Collections.EMPTY_LIST)
                 .build();
-        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        PlanCreateRequest request = PlanCreateRequest.builder()
+        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
+        PlanRequest request = PlanRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MIN)
-                .days(List.of(planDayCreateRequest))
+                .days(List.of(planDayRequest))
                 .build();
 
         // when & then=
@@ -114,17 +114,17 @@ class TravelPlanServiceTest {
     @Test
     void createTravelPlanStartsAtToday() {
         // given
-        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
-        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
+        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
-        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        PlanCreateRequest request = PlanCreateRequest.builder()
+        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
+        PlanRequest request = PlanRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.now())
-                .days(List.of(planDayCreateRequest))
+                .days(List.of(planDayRequest))
                 .build();
 
         // when & then=
@@ -189,17 +189,17 @@ class TravelPlanServiceTest {
     void updateTravelPlan() {
         // given
         TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
-        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
-        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
+        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
-        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        PlanCreateRequest request = PlanCreateRequest.builder()
+        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
+        PlanRequest request = PlanRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MAX)
-                .days(List.of(planDayCreateRequest))
+                .days(List.of(planDayRequest))
                 .build();
 
         // when
@@ -214,17 +214,17 @@ class TravelPlanServiceTest {
     @Test
     void updateTravelPlanWitNonExist() {
         // given
-        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
-        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
+        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
-        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        PlanCreateRequest request = PlanCreateRequest.builder()
+        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
+        PlanRequest request = PlanRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MAX)
-                .days(List.of(planDayCreateRequest))
+                .days(List.of(planDayRequest))
                 .build();
 
         // when & then
@@ -239,17 +239,17 @@ class TravelPlanServiceTest {
         // given
         Long id = testHelper.initTravelPlanTestData(author).getId();
         MemberAuth notAuthor = new MemberAuth(testHelper.initMemberTestData().getId());
-        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
-        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
+        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
-        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        PlanCreateRequest request = PlanCreateRequest.builder()
+        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
+        PlanRequest request = PlanRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MAX)
-                .days(List.of(planDayCreateRequest))
+                .days(List.of(planDayRequest))
                 .build();
 
         // when & then

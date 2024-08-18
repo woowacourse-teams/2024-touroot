@@ -12,7 +12,7 @@ import java.net.URI;
 import java.util.UUID;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
-import kr.touroot.travelplan.dto.request.PlanCreateRequest;
+import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.dto.response.PlanCreateResponse;
 import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.service.TravelPlanService;
@@ -54,7 +54,7 @@ public class TravelPlanController {
     })
     @PostMapping
     public ResponseEntity<PlanCreateResponse> createTravelPlan(
-            @Valid @RequestBody PlanCreateRequest request,
+            @Valid @RequestBody PlanRequest request,
             MemberAuth memberAuth
     ) {
         PlanCreateResponse data = travelPlanService.createTravelPlan(request, memberAuth);
@@ -109,7 +109,7 @@ public class TravelPlanController {
     public ResponseEntity<PlanCreateResponse> updateTravelPlan(
             @PathVariable Long id,
             @Valid MemberAuth memberAuth,
-            @Valid @RequestBody PlanCreateRequest request
+            @Valid @RequestBody PlanRequest request
     ) {
         return ResponseEntity.ok(travelPlanService.updateTravelPlan(id, memberAuth, request));
     }
