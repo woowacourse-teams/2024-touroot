@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import useGetTags from "@queries/useGetTags";
 
-import { CONDITIONS_MAP } from "@constants/condition";
+import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
 const useTagSelection = () => {
   const { data: tags } = useGetTags();
@@ -24,7 +24,7 @@ const useTagSelection = () => {
         ? prevSelectedTagIDs.filter((selectedTagID) => selectedTagID !== id)
         : [...prevSelectedTagIDs, id];
 
-      if (newSelectedTagIDs.length > CONDITIONS_MAP.tags.maxCount) return prevSelectedTagIDs;
+      if (newSelectedTagIDs.length > FORM_VALIDATIONS_MAP.tags.maxCount) return prevSelectedTagIDs;
 
       return newSelectedTagIDs;
     });

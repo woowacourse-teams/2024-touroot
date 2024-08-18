@@ -1,4 +1,4 @@
-export const CONDITIONS_MAP = {
+export const FORM_VALIDATIONS_MAP = {
   title: {
     maxLength: 20,
     minLength: 0,

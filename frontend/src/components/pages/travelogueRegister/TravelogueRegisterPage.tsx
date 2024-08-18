@@ -25,8 +25,8 @@ import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useTagSelection from "@hooks/useTagSelection";
 import useUser from "@hooks/useUser";
 
-import { CONDITIONS_MAP } from "@constants/condition";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import * as S from "./TravelogueRegisterPage.styled";
@@ -41,8 +41,8 @@ const TravelogueRegisterPage = () => {
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value.slice(
-      CONDITIONS_MAP.title.minLength,
-      CONDITIONS_MAP.title.maxLength,
+      FORM_VALIDATIONS_MAP.title.minLength,
+      FORM_VALIDATIONS_MAP.title.maxLength,
     );
     setTitle(title);
   };
@@ -129,17 +129,17 @@ const TravelogueRegisterPage = () => {
 
         <Input
           value={title}
-          maxLength={CONDITIONS_MAP.title.maxLength}
+          maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
           label="제목"
           count={title.length}
-          maxCount={CONDITIONS_MAP.title.maxLength}
+          maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
           onChange={handleChangeTitle}
         />
 
         <S.ChipContainer>
           <Text textType="bodyBold">태그</Text>
           <Text textType="detail" css={S.subTextColor}>
-            {`다녀온 여행에 대한 태그를 선택해 주세요. (최대 ${CONDITIONS_MAP.tags.maxCount}개)`}
+            {`다녀온 여행에 대한 태그를 선택해 주세요. (최대 ${FORM_VALIDATIONS_MAP.tags.maxCount}개)`}
           </Text>
           <S.ChipsContainer
             ref={scrollRef}
