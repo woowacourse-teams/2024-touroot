@@ -49,7 +49,7 @@ public class TravelPlanService {
     public PlanCreateResponse createTravelPlan(PlanCreateRequest request, MemberAuth memberAuth) {
         Member author = getMemberByMemberAuth(memberAuth);
         TravelPlan travelPlan = request.toTravelPlan(author, UUID.randomUUID());
-        validateTravelPlan(travelPlan);
+        validateCreateTravelPlan(travelPlan);
 
         TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);
         createPlanDay(request.days(), savedTravelPlan);
@@ -57,7 +57,7 @@ public class TravelPlanService {
         return new PlanCreateResponse(savedTravelPlan.getId());
     }
 
-    private void validateTravelPlan(TravelPlan travelPlan) {
+    private void validateCreateTravelPlan(TravelPlan travelPlan) {
         if (travelPlan.isStartDateBefore(LocalDate.now())) {
             throw new BadRequestException("지난 날짜에 대한 계획은 작성할 수 없습니다.");
         }
@@ -171,6 +171,35 @@ public class TravelPlanService {
     public int calculateTravelPeriod(TravelPlan travelPlan) {
         return travelPlanDayRepository.findByPlan(travelPlan)
                 .size();
+    }
+
+    @Transactional
+    public PlanCreateResponse updateTravelPlan(Long planId, MemberAuth memberAuth, PlanCreateRequest request) {
+        TravelPlan travelPlan = getTravelPlanById(planId);
+        Member author = getMemberByMemberAuth(memberAuth);
+        validateUpdateByAuthor(travelPlan, author);
+
+        clearTravelPlanContents(travelPlan);
+        updateTravelPlanContents(request, travelPlan);
+        return new PlanCreateResponse(travelPlan.getId());
+    }
+
+    private void validateUpdateByAuthor(TravelPlan travelPlan, Member member) {
+        if (!travelPlan.isAuthor(member)) {
+            throw new ForbiddenException("여행 계획 수정은 작성자만 가능합니다.");
+        }
+    }
+
+    private void clearTravelPlanContents(TravelPlan travelPlan) {
+        placeTodoRepository.deleteByTravelPlanPlaceDayPlan(travelPlan);
+        travelPlanPlaceRepository.deleteByDayPlan(travelPlan);
+        travelPlanDayRepository.deleteByPlan(travelPlan);
+    }
+
+    private void updateTravelPlanContents(PlanCreateRequest request, TravelPlan travelPlan) {
+        travelPlan.update(request.title(), request.startDate());
+        travelPlanRepository.save(travelPlan);
+        createPlanDay(request.days(), travelPlan);
     }
 
     @Transactional

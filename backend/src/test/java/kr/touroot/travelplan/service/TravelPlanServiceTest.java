@@ -184,6 +184,80 @@ class TravelPlanServiceTest {
         assertThat(actual).isEqualTo(1);
     }
 
+    @DisplayName("여행 계획 서비스는 새로운 정보로 여행 계획을 수정한다.")
+    @Test
+    void updateTravelPlan() {
+        // given
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
+        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
+        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+                .placeName("잠실한강공원")
+                .todos(Collections.EMPTY_LIST)
+                .position(locationRequest)
+                .build();
+        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
+        PlanCreateRequest request = PlanCreateRequest.builder()
+                .title("신나는 한강 여행")
+                .startDate(LocalDate.MAX)
+                .days(List.of(planDayCreateRequest))
+                .build();
+
+        // when
+        PlanCreateResponse updatedTravelPlan = travelPlanService.updateTravelPlan(travelPlan.getId(), memberAuth,
+                request);
+
+        // then
+        assertThat(updatedTravelPlan.id()).isEqualTo(1L);
+    }
+
+    @DisplayName("여행 계획 서비스는 존재하지 않는 여행 계획 수정 시 예외를 반환한다.")
+    @Test
+    void updateTravelPlanWitNonExist() {
+        // given
+        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
+        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+                .placeName("잠실한강공원")
+                .todos(Collections.EMPTY_LIST)
+                .position(locationRequest)
+                .build();
+        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
+        PlanCreateRequest request = PlanCreateRequest.builder()
+                .title("신나는 한강 여행")
+                .startDate(LocalDate.MAX)
+                .days(List.of(planDayCreateRequest))
+                .build();
+
+        // when & then
+        assertThatThrownBy(() -> travelPlanService.updateTravelPlan(1L, memberAuth, request))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행 계획입니다.");
+    }
+
+    @DisplayName("여행 계획 서비스는 작성자가 아닌 사용자가 수정 시 예외를 반환한다.")
+    @Test
+    void updateTravelPlanWithNotAuthor() {
+        // given
+        Long id = testHelper.initTravelPlanTestData(author).getId();
+        MemberAuth notAuthor = new MemberAuth(testHelper.initMemberTestData().getId());
+        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
+        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+                .placeName("잠실한강공원")
+                .todos(Collections.EMPTY_LIST)
+                .position(locationRequest)
+                .build();
+        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
+        PlanCreateRequest request = PlanCreateRequest.builder()
+                .title("신나는 한강 여행")
+                .startDate(LocalDate.MAX)
+                .days(List.of(planDayCreateRequest))
+                .build();
+
+        // when & then
+        assertThatThrownBy(() -> travelPlanService.updateTravelPlan(id, notAuthor, request))
+                .isInstanceOf(ForbiddenException.class)
+                .hasMessage("여행 계획 수정은 작성자만 가능합니다.");
+    }
+
     @DisplayName("여행계획을 ID 기준으로 삭제할 수 있다.")
     @Test
     void deleteTravelPlanById() {
