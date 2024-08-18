@@ -12,4 +12,5 @@ export const API_ENDPOINT_MAP = {
   myTravelogues: "/member/me/travelogues",
   myTravelPlans: "/member/me/travel-plans",
   reissueToken: "/login/reissue-token",
+  tags: "/tags",
 } as const;

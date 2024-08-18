@@ -23,12 +23,10 @@ import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useUser from "@hooks/useUser";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import * as S from "./TravelPlanRegisterPage.styled";
-
-const MIN_TITLE_LENGTH = 0;
-const MAX_TITLE_LENGTH = 20;
 
 const TravelPlanRegisterPage = () => {
   const { transformDetail, saveTransformDetail } = useTravelTransformDetailContext();
@@ -49,7 +47,10 @@ const TravelPlanRegisterPage = () => {
   } = useTravelPlanDays(transformDetail?.days ?? []);
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value.slice(MIN_TITLE_LENGTH, MAX_TITLE_LENGTH);
+    const title = e.target.value.slice(
+      FORM_VALIDATIONS_MAP.title.minLength,
+      FORM_VALIDATIONS_MAP.title.maxLength,
+    );
     setTitle(title);
   };
 
@@ -120,11 +121,11 @@ const TravelPlanRegisterPage = () => {
         <PageInfo mainText="여행 계획 등록" />
         <Input
           value={title}
-          maxLength={MAX_TITLE_LENGTH}
+          maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
           label="제목"
           placeholder="여행 계획 제목을 입력해주세요"
           count={title.length}
-          maxCount={MAX_TITLE_LENGTH}
+          maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
           onChange={handleChangeTitle}
         />
         <S.StartDateContainer>
