@@ -136,7 +136,7 @@ const TravelogueRegisterPage = () => {
           onChange={handleChangeTitle}
         />
 
-        <S.ChipContainer>
+        <S.TagsContainer>
           <Text textType="bodyBold">태그</Text>
           <Text textType="detail" css={S.subTextColor}>
             {`다녀온 여행에 대한 태그를 선택해 주세요. (최대 ${FORM_VALIDATIONS_MAP.tags.maxCount}개)`}
@@ -156,7 +156,7 @@ const TravelogueRegisterPage = () => {
               />
             ))}
           </S.ChipsContainer>
-        </S.ChipContainer>
+        </S.TagsContainer>
 
         <S.ThumbnailContainer>
           <Text textType="bodyBold">썸네일</Text>
@@ -168,7 +168,7 @@ const TravelogueRegisterPage = () => {
           />
         </S.ThumbnailContainer>
 
-        <S.AccordionRootContainer>
+        <div>
           <GoogleMapLoadScript
             loadingElement={
               <S.LoadingWrapper>
@@ -185,7 +185,7 @@ const TravelogueRegisterPage = () => {
             }
             libraries={["places", "maps"]}
           >
-            <Accordion.Root>
+            <Accordion.Root css={S.accordionRootStyle}>
               {travelogueDays.map((travelogueDay, dayIndex) => (
                 <TravelogueDayAccordion
                   key={travelogueDay.id}
@@ -205,7 +205,7 @@ const TravelogueRegisterPage = () => {
               size="16"
               iconType="plus"
               position="left"
-              css={[S.addButtonStyle, S.addDayButtonStyle]}
+              css={[S.addButtonStyle]}
               onClick={() => onAddDay()}
             >
               일자 추가하기
@@ -214,7 +214,7 @@ const TravelogueRegisterPage = () => {
           <Button variants="primary" onClick={handleOpenBottomSheet}>
             등록
           </Button>
-        </S.AccordionRootContainer>
+        </div>
       </S.Layout>
 
       <ModalBottomSheet

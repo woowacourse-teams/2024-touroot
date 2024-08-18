@@ -16,9 +16,7 @@ export const Layout = styled.div`
 `;
 
 export const AccordionRootContainer = styled.div`
-  & > * {
-    margin-bottom: 1.6rem;
-  }
+  margin-top: 1.6rem;
 `;
 
 export const PageInfoContainer = styled.div`
@@ -49,6 +47,12 @@ export const DayDetailText = styled.span`
 export const LoadingWrapper = styled.div`
   width: 100%;
   height: 5.6rem;
+`;
+
+export const PlaceTodoListItemContainer = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
 `;
 
 export const addDayButtonStyle = css`
@@ -90,4 +94,18 @@ export const addTravelAddButtonStyle = css`
 
 export const loadingButtonStyle = css`
   margin-top: 3.2rem;
+`;
+
+export const startDateInputStyle = css`
+  margin: 1.6rem 0 3.2rem;
+`;
+
+export const calendarStyle = css`
+  margin-bottom: 3.2rem;
+`;
+
+export const accordionRootStyle = css`
+  & > :last-child {
+    margin-bottom: 3.2rem;
+  }
 `;

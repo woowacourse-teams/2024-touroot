@@ -40,8 +40,10 @@ const TravelPlanRegisterPage = () => {
     onAddDay,
     onAddPlace,
     onDeleteDay,
-    onChangePlaceDescription,
     onDeletePlace,
+    onAddPlaceTodo,
+    onDeletePlaceTodo,
+    onChangeContent,
   } = useTravelPlanDays(transformDetail?.days ?? []);
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,11 +138,13 @@ const TravelPlanRegisterPage = () => {
             onClick={handleInputClick}
             readOnly
             placeholder="시작일을 입력해주세요"
+            css={S.startDateInputStyle}
           />
           {isShowCalendar && (
             <Calendar
               onSelectDate={handleSelectDate}
               onClose={() => setIsShowCalendar((prev) => !prev)}
+              css={S.calendarStyle}
             />
           )}
         </S.StartDateContainer>
@@ -152,7 +156,7 @@ const TravelPlanRegisterPage = () => {
                   size="16"
                   iconType="plus"
                   position="left"
-                  css={[S.addButtonStyle, S.addDayButtonStyle, S.loadingButtonStyle]}
+                  css={[S.addButtonStyle, S.loadingButtonStyle]}
                   onClick={() => onAddDay()}
                 >
                   일자 추가하기
@@ -161,17 +165,19 @@ const TravelPlanRegisterPage = () => {
             }
             libraries={["places", "maps"]}
           >
-            <Accordion.Root>
+            <Accordion.Root css={S.accordionRootStyle}>
               {travelPlanDays.map((travelDay, dayIndex) => (
                 <TravelPlanDayAccordion
                   key={travelDay.id}
                   startDate={startDate}
+                  onDeletePlaceTodo={onDeletePlaceTodo}
+                  onChangeContent={onChangeContent}
                   travelPlanDay={travelDay}
                   dayIndex={dayIndex}
                   onAddPlace={onAddPlace}
                   onDeletePlace={onDeletePlace}
                   onDeleteDay={onDeleteDay}
-                  onChangePlaceDescription={onChangePlaceDescription}
+                  onAddPlaceTodo={onAddPlaceTodo}
                 />
               ))}
             </Accordion.Root>
@@ -179,7 +185,7 @@ const TravelPlanRegisterPage = () => {
               size="16"
               iconType="plus"
               position="left"
-              css={[S.addButtonStyle, S.addDayButtonStyle]}
+              css={[S.addButtonStyle]}
               onClick={() => onAddDay()}
             >
               일자 추가하기

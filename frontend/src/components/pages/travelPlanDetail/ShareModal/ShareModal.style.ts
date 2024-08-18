@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 export const ShareInputContainer = styled.div`
   position: relative;
   width: 29rem;
+  margin-bottom: 1.6rem;
 `;
 
 export const TTuriImg = styled.img`
@@ -28,7 +29,7 @@ export const notOutlineStyle = css`
 
 export const copyUrlButtonStyle = css`
   position: absolute;
-  top: 1.6rem;
+  top: 0.8rem;
   right: 1rem;
 
   width: 4rem;

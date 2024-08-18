@@ -1,16 +1,17 @@
 import type { TravelPlanPlace } from "@type/domain/travelPlan";
 
-import { Box, GoogleMapLoadScript, GoogleMapView, Text } from "@components/common";
+import { Box, GoogleMapLoadScript, GoogleMapView } from "@components/common";
 import Skeleton from "@components/common/Skeleton/Skeleton";
+import TravelPlanTodoItem from "@components/pages/travelPlanDetail/TravelPlanTodoItem/TravelPlanTodoItem";
 
 import * as S from "./TravelPlansTabContent.styled";
 
 const TravelPlansTabContent = ({ places }: { places: TravelPlanPlace[] }) => {
-  if (places.length === 0) return null;
-
   const positions = places.map((place) => {
     return { lat: Number(place.position.lat), lng: Number(place.position.lng) };
   });
+
+  if (places.length === 0) return null;
 
   return (
     <div>
@@ -28,9 +29,9 @@ const TravelPlansTabContent = ({ places }: { places: TravelPlanPlace[] }) => {
             placeName={`${index + 1}. ${place.placeName}`}
             tags={[]}
           >
-            <Text css={S.textStyle} textType="detail">
-              {place.description}
-            </Text>
+            <S.TodoListContainer>
+              {place.todos?.map((todo) => <TravelPlanTodoItem key={todo.id} todo={todo} />)}
+            </S.TodoListContainer>
           </Box>
         ))}
       </S.BoxContainer>

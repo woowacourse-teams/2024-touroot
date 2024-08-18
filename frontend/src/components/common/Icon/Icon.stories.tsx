@@ -19,9 +19,9 @@ const meta = {
   argTypes: {
     iconType: {
       description: "아이콘 타입",
+      options: Object.keys(SVG_ICONS_MAP),
       control: {
         type: "select",
-        options: Object.keys(SVG_ICONS_MAP),
       },
     },
     color: {
@@ -31,20 +31,26 @@ const meta = {
       control: "text",
     },
   },
-  args: {
-    iconType: "chevrons-right",
-    color: "black",
-    size: "24",
-  },
 } satisfies Meta<typeof Icon>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {};
+export const Primary: Story = {
+  args: {
+    iconType: "back-icon",
+    color: "black",
+    size: "24",
+  },
+};
 
 export const AllIcons: Story = {
+  args: {
+    iconType: "back-icon",
+    color: "black",
+    size: "24",
+  },
   render: () => (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
       {Object.keys(SVG_ICONS_MAP).map((iconType) => (

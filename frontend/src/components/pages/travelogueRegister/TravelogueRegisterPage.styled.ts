@@ -12,13 +12,7 @@ export const Layout = styled.div`
   padding: ${SPACING.m};
 `;
 
-export const AccordionRootContainer = styled.div`
-  & > * {
-    margin-bottom: ${SPACING.m};
-  }
-`;
-
-export const ChipContainer = styled.div`
+export const TagsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${SPACING.s};
@@ -63,6 +57,8 @@ export const subTextColor = css`
 
 export const addButtonStyle = css`
   display: flex;
+  gap: ${SPACING.s};
+
   width: 100%;
   height: 4rem;
   margin-bottom: 3.2rem;
@@ -73,7 +69,6 @@ export const addButtonStyle = css`
   color: ${PRIMITIVE_COLORS.black};
   font-weight: 700;
   font-size: 1.6rem;
-  gap: ${SPACING.s};
 `;
 
 export const addTravelAddButtonStyle = css`
@@ -96,4 +91,10 @@ export const addDayButtonStyle = css`
 
 export const loadingButtonStyle = css`
   margin-top: 3.2rem;
+`;
+
+export const accordionRootStyle = css`
+  & > :last-child {
+    margin-bottom: 3.2rem;
+  }
 `;
