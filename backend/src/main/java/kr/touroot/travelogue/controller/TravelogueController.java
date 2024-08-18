@@ -14,6 +14,7 @@ import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
+import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.service.TravelogueFacadeService;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,6 +67,29 @@ public class TravelogueController {
                 .body(response);
     }
 
+    @Operation(summary = "여행기 좋아요")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "존재하지 않는 여행기 ID로 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "로그인하지 않은 사용자가 좋아요를 할 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @PostMapping("/{id}/like")
+    public ResponseEntity<TravelogueLikeResponse> likeTravelogue(@PathVariable Long id, @Valid MemberAuth member) {
+        return ResponseEntity.ok()
+                .body(travelogueFacadeService.likeTravelogue(id, member));
+    }
+
     @Operation(summary = "여행기 상세 조회")
     @ApiResponses(value = {
             @ApiResponse(
@@ -80,6 +105,23 @@ public class TravelogueController {
     @GetMapping("/{id}")
     public ResponseEntity<TravelogueResponse> findTravelogue(@PathVariable Long id) {
         return ResponseEntity.ok(travelogueFacadeService.findTravelogueById(id));
+    }
+
+    @Operation(summary = "여행기 상세 조회")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "존재하지 않는 여행기 ID로 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @GetMapping(value = "/{id}", headers = {HttpHeaders.AUTHORIZATION})
+    public ResponseEntity<TravelogueResponse> findTravelogue(@PathVariable Long id, MemberAuth member) {
+        return ResponseEntity.ok(travelogueFacadeService.findTravelogueById(id, member));
     }
 
     @Operation(summary = "여행기 메인 페이지 조회")
@@ -199,5 +241,28 @@ public class TravelogueController {
         travelogueFacadeService.deleteTravelogueById(id, memberAuth);
         return ResponseEntity.noContent()
                 .build();
+    }
+
+    @Operation(summary = "여행기 좋아요 취소")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "존재하지 않는 여행기 ID로 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "로그인하지 않은 사용자가 좋아요를 취소 할 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+    })
+    @DeleteMapping("/{id}/like")
+    public ResponseEntity<TravelogueLikeResponse> unlikeTravelogue(@PathVariable Long id, @Valid MemberAuth member) {
+        return ResponseEntity.ok()
+                .body(travelogueFacadeService.unlikeTravelogue(id, member));
     }
 }

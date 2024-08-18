@@ -32,6 +32,8 @@ public class TravelogueResponseFixture {
                 .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                 .days(getTravelogueDayResponses())
                 .tags(List.of())
+                .isLiked(false)
+                .likeCount(0L)
                 .build();
     }
 
@@ -46,6 +48,8 @@ public class TravelogueResponseFixture {
                 .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail_2.png")
                 .days(getUpdatedTravelogueDayResponses())
                 .tags(List.of())
+                .isLiked(false)
+                .likeCount(0L)
                 .build();
     }
 
@@ -60,6 +64,24 @@ public class TravelogueResponseFixture {
                 .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                 .days(getTravelogueDayResponses())
                 .tags(List.of(TagFixture.TAG_1.getResponse(1L)))
+                .likeCount(0L)
+                .isLiked(false)
+                .build();
+    }
+
+    public static TravelogueResponse getTravelogueResponseWithLike() {
+        return TravelogueResponse.builder()
+                .id(1L)
+                .title("제주에 하영 옵서")
+                .createdAt(LocalDate.now())
+                .authorNickname("리비")
+                .authorId(2L)
+                .authorProfileImageUrl("https://dev.touroot.kr/temporary/profile.png")
+                .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
+                .days(getTravelogueDayResponses())
+                .tags(List.of())
+                .isLiked(true)
+                .likeCount(1L)
                 .build();
     }
 
@@ -72,6 +94,7 @@ public class TravelogueResponseFixture {
                         .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
                         .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                         .tags(List.of(TagFixture.TAG_1.getResponse(1L)))
+                        .likeCount(0L)
                         .build(),
                 TravelogueSimpleResponse.builder()
                         .id(1L)
@@ -80,6 +103,7 @@ public class TravelogueResponseFixture {
                         .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
                         .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
                         .tags(List.of())
+                        .likeCount(1L)
                         .build()
         );
 

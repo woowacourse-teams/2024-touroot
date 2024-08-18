@@ -18,10 +18,12 @@ import kr.touroot.tag.fixture.TagFixture;
 import kr.touroot.tag.repository.TagRepository;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
+import kr.touroot.travelogue.domain.TravelogueLike;
 import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.domain.TravelogueTag;
 import kr.touroot.travelogue.repository.TravelogueDayRepository;
+import kr.touroot.travelogue.repository.TravelogueLikeRepository;
 import kr.touroot.travelogue.repository.TraveloguePhotoRepository;
 import kr.touroot.travelogue.repository.TraveloguePlaceRepository;
 import kr.touroot.travelogue.repository.TravelogueRepository;
@@ -40,6 +42,7 @@ public class TravelogueTestHelper {
     private final MemberRepository memberRepository;
     private final TagRepository tagRepository;
     private final TravelogueTagRepository travelogueTagRepository;
+    private final TravelogueLikeRepository travelogueLikeRepository;
 
     @Autowired
     public TravelogueTestHelper(
@@ -50,7 +53,8 @@ public class TravelogueTestHelper {
             TraveloguePhotoRepository traveloguePhotoRepository,
             MemberRepository memberRepository,
             TagRepository tagRepository,
-            TravelogueTagRepository travelogueTagRepository
+            TravelogueTagRepository travelogueTagRepository,
+            TravelogueLikeRepository travelogueLikeRepository
     ) {
         this.placeRepository = placeRepository;
         this.travelogueRepository = travelogueRepository;
@@ -60,12 +64,14 @@ public class TravelogueTestHelper {
         this.memberRepository = memberRepository;
         this.tagRepository = tagRepository;
         this.travelogueTagRepository = travelogueTagRepository;
+        this.travelogueLikeRepository = travelogueLikeRepository;
     }
 
     public void initAllTravelogueTestData() {
         Member author = persistMember();
-        initTravelogueTestData(author);
+        Travelogue travelogue = initTravelogueTestData(author);
         initTravelogueTestDataWithTag(author);
+        persistTravelogueLike(travelogue, author);
     }
 
     public Travelogue initTravelogueTestData() {
@@ -124,6 +130,13 @@ public class TravelogueTestHelper {
         return travelogue;
     }
 
+    public Travelogue initTravelogueTestDataWithLike(Member liker) {
+        Travelogue travelogue = initTravelogueTestData();
+        persistTravelogueLike(travelogue, liker);
+
+        return travelogue;
+    }
+
     private void persisTravelogueTag(Travelogue travelogue, Tag tag) {
         Tag savedTag = initTagTestData(tag);
         travelogueTagRepository.save(new TravelogueTag(travelogue, savedTag));
@@ -163,6 +176,12 @@ public class TravelogueTestHelper {
         TraveloguePhoto photo = TRAVELOGUE_PHOTO.create(place);
 
         return traveloguePhotoRepository.save(photo);
+    }
+
+    public TravelogueLike persistTravelogueLike(Travelogue travelogue, Member liker) {
+        TravelogueLike like = new TravelogueLike(travelogue, liker);
+
+        return travelogueLikeRepository.save(like);
     }
 
     public Member initKakaoMemberTestData() {

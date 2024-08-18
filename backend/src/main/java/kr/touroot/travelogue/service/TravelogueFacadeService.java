@@ -17,6 +17,7 @@ import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.dto.response.TravelogueDayResponse;
+import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.dto.response.TraveloguePlaceResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
@@ -35,6 +36,7 @@ public class TravelogueFacadeService {
     private final TraveloguePlaceService traveloguePlaceService;
     private final TraveloguePhotoService traveloguePhotoService;
     private final TravelogueTagService travelogueTagService;
+    private final TravelogueLikeService travelogueLikeService;
     private final MemberService memberService;
 
     @Transactional
@@ -42,7 +44,8 @@ public class TravelogueFacadeService {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.createTravelogue(author, request);
         List<TagResponse> tags = travelogueTagService.createTravelogueTags(travelogue, request.tags());
-        return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue), tags);
+        TravelogueLikeResponse like = travelogueLikeService.findLikeByTravelogueAndLiker(travelogue, author);
+        return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue), tags, like);
     }
 
     private List<TravelogueDayResponse> createDays(List<TravelogueDayRequest> requests, Travelogue travelogue) {
@@ -71,15 +74,38 @@ public class TravelogueFacadeService {
                 .toList();
     }
 
+    @Transactional
+    public TravelogueLikeResponse likeTravelogue(Long travelogueId, MemberAuth member) {
+        Travelogue travelogue = travelogueService.getTravelogueById(travelogueId);
+        Member liker = memberService.getById(member.memberId());
+
+        return travelogueLikeService.likeTravelogue(travelogue, liker);
+    }
+
     @Transactional(readOnly = true)
     public TravelogueResponse findTravelogueById(Long id) {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
         return getTravelogueResponse(travelogue);
     }
 
+    @Transactional(readOnly = true)
+    public TravelogueResponse findTravelogueById(Long id, MemberAuth member) {
+        Travelogue travelogue = travelogueService.getTravelogueById(id);
+        return getTravelogueResponse(travelogue, member);
+    }
+
     private TravelogueResponse getTravelogueResponse(Travelogue travelogue) {
         List<TagResponse> tagResponses = travelogueTagService.readTagByTravelogue(travelogue);
-        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue), tagResponses);
+        TravelogueLikeResponse likeResponse = travelogueLikeService.findLikeByTravelogue(travelogue);
+        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue), tagResponses, likeResponse);
+    }
+
+    private TravelogueResponse getTravelogueResponse(Travelogue travelogue, MemberAuth member) {
+        Member liker = memberService.getById(member.memberId());
+
+        List<TagResponse> tagResponses = travelogueTagService.readTagByTravelogue(travelogue);
+        TravelogueLikeResponse likeResponse = travelogueLikeService.findLikeByTravelogueAndLiker(travelogue, liker);
+        return TravelogueResponse.of(travelogue, findDaysOfTravelogue(travelogue), tagResponses, likeResponse);
     }
 
     private List<TravelogueDayResponse> findDaysOfTravelogue(Travelogue travelogue) {
@@ -125,7 +151,8 @@ public class TravelogueFacadeService {
 
     private TravelogueSimpleResponse getTravelogueSimpleResponse(Travelogue travelogue) {
         List<TagResponse> tagResponses = travelogueTagService.readTagByTravelogue(travelogue);
-        return TravelogueSimpleResponse.of(travelogue, tagResponses);
+        TravelogueLikeResponse likeResponse = travelogueLikeService.findLikeByTravelogue(travelogue);
+        return TravelogueSimpleResponse.of(travelogue, tagResponses, likeResponse);
     }
 
     @Transactional
@@ -135,10 +162,11 @@ public class TravelogueFacadeService {
 
         Travelogue updatedTravelogue = travelogueService.update(id, author, request);
         List<TagResponse> tags = travelogueTagService.updateTravelogueTags(travelogue, request.tags());
+        TravelogueLikeResponse like = travelogueLikeService.findLikeByTravelogueAndLiker(travelogue, author);
 
         clearTravelogueContents(travelogue);
 
-        return TravelogueResponse.of(updatedTravelogue, createDays(request.days(), updatedTravelogue), tags);
+        return TravelogueResponse.of(updatedTravelogue, createDays(request.days(), updatedTravelogue), tags, like);
     }
 
     private void clearTravelogueContents(Travelogue travelogue) {
@@ -155,5 +183,13 @@ public class TravelogueFacadeService {
 
         clearTravelogueContents(travelogue);
         travelogueService.delete(travelogue, author);
+    }
+
+    @Transactional
+    public TravelogueLikeResponse unlikeTravelogue(Long travelogueId, MemberAuth member) {
+        Travelogue travelogue = travelogueService.getTravelogueById(travelogueId);
+        Member liker = memberService.getById(member.memberId());
+
+        return travelogueLikeService.unlikeTravelogue(travelogue, liker);
     }
 }
