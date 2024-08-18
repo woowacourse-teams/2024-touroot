@@ -3,8 +3,6 @@ import { HttpResponse, http } from "msw";
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { isTestEnvironment } from "@constants/environment";
 
-import { isUUID } from "@utils/uuid";
-
 import TRAVEL_PLANS from "../data/travelPlan.json";
 
 const apiRequestUrl = isTestEnvironment
@@ -15,10 +13,6 @@ export const travelPlanHandler = http.get(apiRequestUrl, ({ request }) => {
   const pathname = new URL(request.url).pathname;
 
   const id = pathname.split("/").pop();
-
-  if (isUUID(id ?? "")) {
-    return HttpResponse.json(TRAVEL_PLANS[0]);
-  }
 
   if (!Number.isNaN(Number(id))) {
     const plan = TRAVEL_PLANS.find((plan) => plan.id === parseInt(id ?? ""));

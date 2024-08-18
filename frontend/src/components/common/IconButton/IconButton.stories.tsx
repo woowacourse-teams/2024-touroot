@@ -4,7 +4,7 @@ import { fn } from "@storybook/test";
 import theme from "@styles/theme";
 import { PRIMITIVE_COLORS, SPACING } from "@styles/tokens";
 
-import SVG_ICON_MAP from "../Icon/svg-icons.json";
+import SVG_ICONS_MAP from "../Icon/svg-icons.json";
 import IconButton from "./IconButton";
 
 const meta = {
@@ -33,9 +33,9 @@ const meta = {
     },
     iconType: {
       description: "아이콘 타입",
+      options: Object.keys(SVG_ICONS_MAP),
       control: {
-        type: "radio",
-        options: Object.keys({ ...SVG_ICON_MAP }),
+        type: "select",
       },
     },
     size: {
@@ -43,6 +43,10 @@ const meta = {
       control: {
         type: "text",
       },
+    },
+    children: {
+      description: "버튼 내부 텍스트",
+      control: "text",
     },
   },
   args: {
@@ -56,7 +60,6 @@ type Story = StoryObj<typeof meta>;
 
 const buttonStyle = {
   display: "flex",
-  width: "100%",
   height: "4rem",
   padding: "1.2rem 1.6rem",
   border: `1px solid ${theme.colors.border}`,
@@ -67,39 +70,39 @@ const buttonStyle = {
   borderRadius: SPACING.s,
 };
 
-export const PositionLeftIcon = {
-  render: () => {
-    return (
-      <div>
-        <IconButton size="16" iconType="plus" position="left" style={buttonStyle} onClick={fn()}>
-          장소 추가하기
-        </IconButton>
-      </div>
-    );
+export const PositionLeftIcon: Story = {
+  args: {
+    size: "16",
+    iconType: "plus",
+    position: "left",
+    children: "장소 추가하기",
   },
+  render: (args) => (
+    <IconButton {...args} style={buttonStyle}>
+      {args.children}
+    </IconButton>
+  ),
 };
 
-export const PositionRightIcon = {
-  render: () => {
-    return (
-      <div>
-        <IconButton
-          size="16"
-          iconType="empty-heart"
-          position="right"
-          style={buttonStyle}
-          onClick={fn()}
-        >
-          취소
-        </IconButton>
-      </div>
-    );
+export const PositionRightIcon: Story = {
+  args: {
+    size: "16",
+    iconType: "hamburger",
+    position: "right",
+    children: "메뉴",
   },
+  render: (args) => (
+    <IconButton {...args} style={buttonStyle}>
+      {args.children}
+    </IconButton>
+  ),
 };
 
 export const CenteredIcon: Story = {
   args: {
-    iconType: "hamburger",
+    size: "16",
+    iconType: "empty-heart",
     position: "center",
   },
+  render: (args) => <IconButton {...args} />,
 };

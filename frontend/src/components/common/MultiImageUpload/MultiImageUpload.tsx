@@ -22,7 +22,8 @@ const MultiImageUpload = ({
   onButtonClick,
   ...props
 }: MultiImageUploadProps) => {
-  const { scrollRef, onMouseDown, onMouseUp, onMouseMove, isDragging } = useDragScroll();
+  const { scrollRef, onMouseDown, onMouseUp, onMouseMove, isDragging } =
+    useDragScroll<HTMLDivElement>();
 
   const hasPictures = previewUrls.length !== 0;
 
