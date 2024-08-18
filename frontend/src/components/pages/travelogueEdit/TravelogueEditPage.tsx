@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { css } from "@emotion/react";
-
-import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
-
-import { usePostTravelogue, usePostUploadImages } from "@queries/index";
+import { usePostUploadImages } from "@queries/index";
+import { useGetTravelogue } from "@queries/useGetTravelogue";
+import { usePutTravelogue } from "@queries/usePutTravelogue";
 
 import {
   Accordion,
   Button,
+  Chip,
   GoogleMapLoadScript,
   IconButton,
   Input,
@@ -21,29 +20,46 @@ import {
 import TravelogueDayAccordion from "@components/pages/travelogueRegister/TravelogueDayAccordion/TravelogueDayAccordion";
 
 import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
+import { useDragScroll } from "@hooks/useDragScroll";
+import useLeadingDebounce from "@hooks/useLeadingDebounce";
+import useTagSelection from "@hooks/useTagSelection";
 import useUser from "@hooks/useUser";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import * as S from "./TravelogueEditPage.styled";
 
-const MIN_TITLE_LENGTH = 0;
-const MAX_TITLE_LENGTH = 20;
-
 const TravelogueEditPage = () => {
-  const { transformDetail } = useTravelTransformDetailContext();
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const id = location.pathname.replace(/[^\d]/g, "");
+
+  const { data } = useGetTravelogue(id);
 
   const [title, setTitle] = useState("");
   const [thumbnail, setThumbnail] = useState("");
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value.slice(MIN_TITLE_LENGTH, MAX_TITLE_LENGTH);
+    const title = e.target.value.slice(
+      FORM_VALIDATIONS_MAP.title.minLength,
+      FORM_VALIDATIONS_MAP.title.maxLength,
+    );
     setTitle(title);
   };
 
+  const { selectedTagIDs, changeSelectedTagIDs, handleClickTag, createSortedTags } =
+    useTagSelection();
+
+  const sortedTags = createSortedTags();
+
+  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
+
   const {
     travelogueDays,
+    changeTravelogueDays,
     onAddDay,
     onAddPlace,
     onDeleteDay,
@@ -51,7 +67,7 @@ const TravelogueEditPage = () => {
     onDeletePlace,
     onChangeImageUrls,
     onDeleteImageUrls,
-  } = useTravelogueDays(transformDetail?.days ?? []);
+  } = useTravelogueDays([]);
 
   const thumbnailFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -59,12 +75,12 @@ const TravelogueEditPage = () => {
     thumbnailFileInputRef.current?.click();
   };
 
+  const { mutateAsync: handleAddImage } = usePostUploadImages();
+
   const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const thumbnail = await handleAddImage(Array.from(e.target.files as FileList));
     setThumbnail(thumbnail[0]);
   };
-
-  const { mutateAsync: handleAddImage } = usePostUploadImages();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -76,11 +92,14 @@ const TravelogueEditPage = () => {
     setIsOpen(false);
   };
 
-  const navigate = useNavigate();
+  const { mutate: editTravelogueMutate } = usePutTravelogue();
 
-  const handleConfirmBottomSheet = () => {
-    handleRegisterTravelogue(
-      { title, thumbnail, days: travelogueDays },
+  const handleEditTravelogue = () => {
+    editTravelogueMutate(
+      {
+        travelogue: { title, thumbnail, tags: selectedTagIDs, days: travelogueDays },
+        id: Number(id),
+      },
       {
         onSuccess: (data) => {
           handleCloseBottomSheet();
@@ -90,53 +109,81 @@ const TravelogueEditPage = () => {
     );
   };
 
-  const { mutate: handleRegisterTravelogue } = usePostTravelogue();
+  const debouncedEditTravelogue = useLeadingDebounce(() => handleEditTravelogue(), 3000);
+
+  const handleConfirmBottomSheet = () => {
+    debouncedEditTravelogue();
+  };
+
+  useEffect(() => {
+    if (data) {
+      setTitle(data.title);
+      setThumbnail(data.thumbnail);
+      changeSelectedTagIDs(data.tags.map((tag) => tag.id));
+      changeTravelogueDays(data.days);
+    }
+  }, [data]);
 
   const { user } = useUser();
 
-  const { saveTransformDetail } = useTravelTransformDetailContext();
-
   useEffect(() => {
-    if (!user?.accessToken) {
-      alert(ERROR_MESSAGE_MAP.api.login);
-      navigate(ROUTE_PATHS_MAP.login);
-    }
+    const isAuthor = data?.authorId === user?.memberId;
 
-    return () => {
-      saveTransformDetail(null);
-    };
-  }, [user?.accessToken, navigate]);
+    if (data && !isAuthor) {
+      alert(ERROR_MESSAGE_MAP.api.travelogueEditOnlyWriter);
+      navigate(ROUTE_PATHS_MAP.back);
+      return;
+    }
+  }, [user, navigate, data]);
 
   return (
     <>
       <S.Layout>
         <PageInfo mainText="여행기 수정" />
+
         <Input
           value={title}
-          maxLength={MAX_TITLE_LENGTH}
+          maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
           label="제목"
           placeholder="여행기 제목을 입력해주세요"
           count={title.length}
-          maxCount={MAX_TITLE_LENGTH}
+          maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
           onChange={handleChangeTitle}
         />
-        <S.PageInfoContainer>
-          <Text
-            css={css`
-              font-weight: 700;
-            `}
-            textType="body"
-          >
-            썸네일
+
+        <S.TagsContainer>
+          <Text textType="bodyBold">태그</Text>
+          <Text textType="detail" css={S.subTextColor}>
+            {`다녀온 여행에 대한 태그를 선택해 주세요. (최대 ${FORM_VALIDATIONS_MAP.tags.maxCount}개)`}
           </Text>
+          <S.ChipsContainer
+            ref={scrollRef}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}
+            onMouseMove={onMouseMove}
+          >
+            {sortedTags.map((tag) => (
+              <Chip
+                key={tag.id}
+                label={tag.tag}
+                isSelected={selectedTagIDs.includes(tag.id)}
+                onClick={() => handleClickTag(tag.id)}
+              />
+            ))}
+          </S.ChipsContainer>
+        </S.TagsContainer>
+
+        <S.ThumbnailContainer>
+          <Text textType="bodyBold">썸네일</Text>
           <ThumbnailUpload
             previewUrls={[thumbnail]}
             fileInputRef={thumbnailFileInputRef}
             onChangeImage={handleChangeThumbnail}
             onClickButton={handleButtonClick}
           />
-        </S.PageInfoContainer>
-        <S.AccordionRootContainer>
+        </S.ThumbnailContainer>
+
+        <div>
           <GoogleMapLoadScript
             loadingElement={
               <S.LoadingWrapper>
@@ -153,7 +200,7 @@ const TravelogueEditPage = () => {
             }
             libraries={["places", "maps"]}
           >
-            <Accordion.Root>
+            <Accordion.Root css={S.accordionRootStyle}>
               {travelogueDays.map((travelogueDay, dayIndex) => (
                 <TravelogueDayAccordion
                   key={travelogueDay.id}
@@ -173,7 +220,7 @@ const TravelogueEditPage = () => {
               size="16"
               iconType="plus"
               position="left"
-              css={[S.addButtonStyle, S.addDayButtonStyle]}
+              css={[S.addButtonStyle]}
               onClick={() => onAddDay()}
             >
               일자 추가하기
@@ -182,15 +229,15 @@ const TravelogueEditPage = () => {
           <Button variants="primary" onClick={handleOpenBottomSheet}>
             수정
           </Button>
-        </S.AccordionRootContainer>
+        </div>
       </S.Layout>
       {isOpen && (
         <ModalBottomSheet
           isOpen={isOpen}
           mainText="여행기를 수정할까요?"
-          subText="수정한 후에도 재수정이 가능해요!"
+          subText="수정한 후에도 다시 여행기를 변경할 수 있어요!"
           secondaryButtonLabel="취소"
-          primaryButtonLabel="수정"
+          primaryButtonLabel="확인"
           onClose={handleCloseBottomSheet}
           onConfirm={handleConfirmBottomSheet}
         />
