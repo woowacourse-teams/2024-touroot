@@ -9,9 +9,7 @@ import kr.touroot.image.domain.ImageFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CopyObjectRequest;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
@@ -20,6 +18,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 @Component
 public class AwsS3Provider {
 
+    private final S3Client s3Client;
     private final String bucket;
     private final String imageBaseUri;
     private final String tourootStoragePath;
@@ -27,12 +26,14 @@ public class AwsS3Provider {
     private final String imageStoragePath;
 
     public AwsS3Provider(
+            S3Client s3Client,
             @Value("${cloud.aws.s3.bucket}") String bucket,
             @Value("${cloud.aws.s3.image-base-uri}") String imageBaseUri,
             @Value("${cloud.aws.s3.base-storage-path}") String tourootStoragePath,
             @Value("${cloud.aws.s3.temporary-storage-path}") String temporaryStoragePath,
             @Value("${cloud.aws.s3.image-storage-path}") String imageStoragePath
     ) {
+        this.s3Client = s3Client;
         this.bucket = bucket;
         this.imageBaseUri = imageBaseUri;
         this.tourootStoragePath = tourootStoragePath;
@@ -43,29 +44,20 @@ public class AwsS3Provider {
     public List<String> uploadImages(List<ImageFile> files) {
         List<String> urls = new ArrayList<>();
 
-        try (S3Client s3Client = getS3Client()) {
-            files.stream()
-                    .map(ImageFile::getFile)
-                    .forEach(file -> {
-                        String newFileName = createNewFileName(file.getOriginalFilename());
-                        String filePath = tourootStoragePath + temporaryStoragePath + newFileName;
-                        uploadFile(file, filePath, s3Client);
-                        String s3Key = imageBaseUri + temporaryStoragePath + newFileName;
-                        urls.add(s3Key);
-                    });
-            return urls;
-        }
+        files.stream()
+                .map(ImageFile::getFile)
+                .forEach(file -> {
+                    String newFileName = createNewFileName(file.getOriginalFilename());
+                    String filePath = tourootStoragePath + temporaryStoragePath + newFileName;
+                    uploadFile(file, filePath, s3Client);
+                    String s3Key = imageBaseUri + temporaryStoragePath + newFileName;
+                    urls.add(s3Key);
+                });
+        return urls;
     }
 
     private String createNewFileName(String fileName) {
         return UUID.randomUUID() + fileName.substring(fileName.lastIndexOf("."));
-    }
-
-    S3Client getS3Client() {
-        return S3Client.builder()
-                .region(Region.AP_NORTHEAST_2)
-                .credentialsProvider(InstanceProfileCredentialsProvider.create())
-                .build();
     }
 
     private void uploadFile(MultipartFile file, String filePath, S3Client s3Client) {
@@ -100,7 +92,7 @@ public class AwsS3Provider {
     }
 
     private void copyFile(String sourceKey, String destinationKey) {
-        try (S3Client s3Client = getS3Client()) {
+        try {
             CopyObjectRequest request = CopyObjectRequest.builder()
                     .sourceBucket(bucket)
                     .sourceKey(sourceKey)

@@ -10,6 +10,7 @@ import java.util.List;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,7 @@ public class ImageController {
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             )
     })
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<List<String>> uploadImages(@RequestPart List<MultipartFile> files) {
         List<String> imageUrls = imageService.uploadImages(files);
         return ResponseEntity.ok(imageUrls);
