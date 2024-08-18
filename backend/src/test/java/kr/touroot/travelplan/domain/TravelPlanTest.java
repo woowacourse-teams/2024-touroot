@@ -1,6 +1,5 @@
 package kr.touroot.travelplan.domain;
 
-import static kr.touroot.authentication.fixture.MemberFixture.MEMBER_KAKAO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -11,6 +10,7 @@ import java.util.UUID;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
+import kr.touroot.member.fixture.MemberFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,7 +19,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @DisplayName("여행 계획")
 class TravelPlanTest {
 
-    private static final Member VALID_AUTHOR = MEMBER_KAKAO.getMember();
+    private static final Member VALID_AUTHOR = MemberFixture.KAKAO_MEMBER.build();
     private static final String VALID_TITLE = "제주도 여행 계획";
     private static final UUID VALID_UUID = UUID.randomUUID();
     private static final LocalDate VALID_START_DATE = LocalDate.now().plusDays(2);

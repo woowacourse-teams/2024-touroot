@@ -6,16 +6,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
+import kr.touroot.travelplan.dto.request.PlanCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPositionCreateRequest;
-import kr.touroot.travelplan.dto.request.TravelPlanCreateRequest;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,11 +68,12 @@ class TravelPlanControllerTest {
         PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
-                .description("신나는 여행 장소")
+                .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
+
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+        PlanCreateRequest request = PlanCreateRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MAX)
                 .days(List.of(planDayCreateRequest))
@@ -96,11 +98,11 @@ class TravelPlanControllerTest {
         PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
-                .description("신나는 여행 장소")
+                .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+        PlanCreateRequest request = PlanCreateRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MIN)
                 .days(List.of(planDayCreateRequest))

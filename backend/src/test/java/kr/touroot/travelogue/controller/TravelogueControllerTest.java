@@ -2,6 +2,7 @@ package kr.touroot.travelogue.controller;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,11 +14,13 @@ import kr.touroot.global.AcceptanceTest;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
+import kr.touroot.tag.fixture.TagFixture;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
+import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
@@ -85,9 +88,7 @@ class TravelogueControllerTest {
         Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
-        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
-        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
-        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
+        List<TravelogueDayRequest> days = getTravelogueDayRequests();
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
         RestAssured.given().log().all()
@@ -100,6 +101,12 @@ class TravelogueControllerTest {
                 .header("Location", "/api/v1/travelogues/1");
     }
 
+    private List<TravelogueDayRequest> getTravelogueDayRequests() {
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        return TravelogueRequestFixture.getTravelogueDayRequests(places);
+    }
+
     @DisplayName("태그가 있는 여행기를 작성한다.")
     @Test
     void createTravelogueWithTags() {
@@ -108,9 +115,7 @@ class TravelogueControllerTest {
 
         testHelper.initTagTestData();
 
-        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
-        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
-        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
+        List<TravelogueDayRequest> days = getTravelogueDayRequests();
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days, List.of(1L));
 
         RestAssured.given().log().all()
@@ -193,9 +198,7 @@ class TravelogueControllerTest {
     @DisplayName("여행기를 작성할 때 로그인 되어 있지 않으면 예외가 발생한다.")
     @Test
     void createTravelogueWithNotLoginThrowException() {
-        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
-        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
-        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
+        List<TravelogueDayRequest> days = getTravelogueDayRequests();
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
         RestAssured.given().log().all()
@@ -203,7 +206,47 @@ class TravelogueControllerTest {
                 .body(request)
                 .when().post("/api/v1/travelogues")
                 .then().log().all()
-                .statusCode(401);
+                .statusCode(401)
+                .body("message", is("로그인을 해주세요."));
+    }
+
+    @DisplayName("여행기에 좋아요를 한다.")
+    @Test
+    void likeTravelogue() throws JsonProcessingException {
+        Member author = testHelper.initKakaoMemberTestData();
+        testHelper.initTravelogueTestData(author);
+        TravelogueLikeResponse response = new TravelogueLikeResponse(true, 1L);
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().post("/api/v1/travelogues/1/like")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body(is(objectMapper.writeValueAsString(response)));
+    }
+
+    @DisplayName("존재하지 않는 여행기에 좋아요를 하면 예외가 발생한다.")
+    @Test
+    void likeTravelogueWithNotExistThrowException() throws JsonProcessingException {
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().post("/api/v1/travelogues/1/like")
+                .then().log().all()
+                .statusCode(400).assertThat()
+                .body("message", is("존재하지 않는 여행기입니다."));
+    }
+
+    @DisplayName("여행기를 좋아요 할 때 로그인 되어 있지 않으면 예외가 발생한다.")
+    @Test
+    void likeTravelogueWithNotLoginThrowException() {
+        Member author = testHelper.initKakaoMemberTestData();
+        testHelper.initTravelogueTestData(author);
+
+        RestAssured.given().log().all()
+                .when().post("/api/v1/travelogues/1/like")
+                .then().log().all()
+                .statusCode(401)
+                .body("message", is("로그인을 해주세요."));
     }
 
     @DisplayName("여행기를 상세 조회한다.")
@@ -214,6 +257,21 @@ class TravelogueControllerTest {
 
         RestAssured.given().log().all()
                 .accept(ContentType.JSON)
+                .when().get("/api/v1/travelogues/1")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body(is(objectMapper.writeValueAsString(response)));
+    }
+
+    @DisplayName("여행기에 좋아요를 누른 사용자가 여행기를 상세 조회한다.")
+    @Test
+    void findTravelogueWithLike() throws JsonProcessingException {
+        testHelper.initTravelogueTestDataWithLike(member);
+        TravelogueResponse response = TravelogueResponseFixture.getTravelogueResponseWithLike();
+
+        RestAssured.given().log().all()
+                .accept(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .when().get("/api/v1/travelogues/1")
                 .then().log().all()
                 .statusCode(200).assertThat()
@@ -246,6 +304,21 @@ class TravelogueControllerTest {
                 .then().log().all()
                 .statusCode(200).assertThat()
                 .body(is(objectMapper.writeValueAsString(responses)));
+    }
+
+    @DisplayName("메인 페이지 조회 시, 최신 작성 순으로 여행기를 조회한다.")
+    @Test
+    void filterMainPageTravelogues() throws JsonProcessingException {
+        testHelper.initAllTravelogueTestData();
+        testHelper.initTravelogueTestDataWithTag(member, List.of(TagFixture.TAG_2.get(), TagFixture.TAG_3.get()));
+
+        RestAssured.given().log().all()
+                .accept(ContentType.JSON)
+                .params("tag-filter", "2,3")
+                .when().get("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body("content.size()", is(1));
     }
 
     @DisplayName("존재하지 않는 여행기를 조회하면 예외가 발생한다.")
@@ -306,6 +379,82 @@ class TravelogueControllerTest {
                 .body(is(objectMapper.writeValueAsString(responses)));
     }
 
+    @DisplayName("여행기를 수정한다.")
+    @Test
+    void updateTravelogue() throws JsonProcessingException {
+        Travelogue travelogue = testHelper.initTravelogueTestData(member);
+
+        List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
+        saveImages(days);
+
+        TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
+        TravelogueResponse response = TravelogueResponseFixture.getUpdatedTravelogueResponse();
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .body(request)
+                .when().put("/api/v1/travelogues/" + travelogue.getId())
+                .then().log().all()
+                .statusCode(200)
+                .body(is(objectMapper.writeValueAsString(response)));
+    }
+
+    private List<TravelogueDayRequest> getUpdateTravelogueDayRequests() {
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getUpdateTraveloguePlaceRequests(photos);
+        return TravelogueRequestFixture.getUpdateTravelogueDayRequests(places);
+    }
+
+    private void saveImages(List<TravelogueDayRequest> days) {
+        when(s3Provider.copyImageToPermanentStorage(
+                TravelogueRequestFixture.getTravelogueRequest(days).thumbnail())
+        ).thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
+        when(s3Provider.copyImageToPermanentStorage(
+                TravelogueRequestFixture.getTraveloguePhotoRequests().get(0).url())
+        ).thenReturn(TravelogueResponseFixture.getTraveloguePhotoUrls().get(0));
+    }
+
+    @DisplayName("존재하지 않는 여행기를 수정 시, 400을 응답한다.")
+    @Test
+    void updateTravelogueWithNotExist() {
+        testHelper.initTravelogueTestData(member);
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
+
+        List<TravelogueDayRequest> days = getTravelogueDayRequests();
+        TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .body(request)
+                .when().put("/api/v1/travelogues/" + 0)
+                .then().log().all()
+                .statusCode(400)
+                .body("message", is("존재하지 않는 여행기입니다."));
+    }
+
+    @DisplayName("작성자가 아닌 사용자가 여행기 수정 시 403을 응답한다.")
+    @Test
+    void updateTravelogueWithNotAuthor() {
+        Travelogue travelogue = testHelper.initTravelogueTestData();
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
+
+        List<TravelogueDayRequest> days = getTravelogueDayRequests();
+        TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .body(request)
+                .when().put("/api/v1/travelogues/" + travelogue.getId())
+                .then().log().all()
+                .statusCode(403)
+                .body("message", is("본인이 작성한 여행기만 수정하거나 삭제할 수 있습니다."));
+    }
+
     @DisplayName("여행기를 삭제한다.")
     @Test
     void deleteTravelogue() {
@@ -342,6 +491,43 @@ class TravelogueControllerTest {
                 .when().delete("/api/v1/travelogues/" + travelogue.getId())
                 .then().log().all()
                 .statusCode(403)
-                .body("message", is("여행기 삭제는 작성자만 가능합니다."));
+                .body("message", is("본인이 작성한 여행기만 수정하거나 삭제할 수 있습니다."));
+    }
+
+    @DisplayName("여행기에 좋아요 취소를 한다.")
+    @Test
+    void unlikeTravelogue() throws JsonProcessingException {
+        testHelper.initTravelogueTestDataWithLike(member);
+        TravelogueLikeResponse response = new TravelogueLikeResponse(false, 0L);
+
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().delete("/api/v1/travelogues/1/like")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body(is(objectMapper.writeValueAsString(response)));
+    }
+
+    @DisplayName("존재하지 않는 여행기에 좋아요 취소를 하면 예외가 발생한다.")
+    @Test
+    void unlikeTravelogueWithNotExistThrowException() throws JsonProcessingException {
+        RestAssured.given().log().all()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().delete("/api/v1/travelogues/1/like")
+                .then().log().all()
+                .statusCode(400).assertThat()
+                .body("message", is("존재하지 않는 여행기입니다."));
+    }
+
+    @DisplayName("여행기 좋아요 취소를 할 때 로그인 되어 있지 않으면 예외가 발생한다.")
+    @Test
+    void unlikeTravelogueWithNotLoginThrowException() {
+        testHelper.initTravelogueTestDataWithLike(member);
+
+        RestAssured.given().log().all()
+                .when().delete("/api/v1/travelogues/1/like")
+                .then().log().all()
+                .statusCode(401)
+                .body("message", is("로그인을 해주세요."));
     }
 }

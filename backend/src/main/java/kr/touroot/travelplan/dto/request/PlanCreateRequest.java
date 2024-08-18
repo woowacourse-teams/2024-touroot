@@ -13,7 +13,7 @@ import kr.touroot.travelplan.domain.TravelPlan;
 import lombok.Builder;
 
 @Builder
-public record TravelPlanCreateRequest(
+public record PlanCreateRequest(
         @Schema(description = "여행 계획 제목", example = "신나는 잠실 한강 여행")
         @NotBlank(message = "여행 계획 제목은 비어있을 수 없습니다.")
         String title,

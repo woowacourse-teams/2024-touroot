@@ -40,7 +40,7 @@ class TagServiceTest {
     @Test
     void validateDuplicated() {
         // given
-        Tag tag = TagFixture.TAG.get();
+        Tag tag = TagFixture.TAG_1.get();
         testHelper.initTagData(tag);
         TagCreateRequest request = new TagCreateRequest(tag.getTag());
 

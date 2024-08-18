@@ -69,9 +69,7 @@ class TravelogueServiceTest {
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
         Member author = testHelper.initKakaoMemberTestData();
-        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
-        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
-        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
+        List<TravelogueDayRequest> days = getTravelogueDayRequests();
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
         Travelogue createdTravelogue = travelogueService.createTravelogue(author, request);
@@ -80,6 +78,12 @@ class TravelogueServiceTest {
                 () -> assertThat(createdTravelogue.getId()).isEqualTo(1L),
                 () -> assertThat(createdTravelogue.getTitle()).isEqualTo("제주에 하영 옵서")
         );
+    }
+
+    private static List<TravelogueDayRequest> getTravelogueDayRequests() {
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        return TravelogueRequestFixture.getTravelogueDayRequests(places);
     }
 
     @DisplayName("여행기는 ID를 기준으로 조회할 수 있다.")
@@ -97,7 +101,6 @@ class TravelogueServiceTest {
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행기입니다.");
     }
-
 
     @DisplayName("여행기를 전체 조회할 수 있다.")
     @Test
@@ -126,6 +129,59 @@ class TravelogueServiceTest {
                 .isEmpty();
     }
 
+    @DisplayName("여행기를 수정할 수 있다.")
+    @Test
+    void updateTravelogue() {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
+
+        Member author = testHelper.initKakaoMemberTestData();
+        testHelper.initTravelogueTestData(author);
+
+        List<TravelogueDayRequest> days = getTravelogueDayRequests();
+        TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
+        Travelogue updatedTravelogue = travelogueService.update(1L, author, request);
+
+        assertAll(
+                () -> assertThat(updatedTravelogue.getId()).isEqualTo(1L),
+                () -> assertThat(updatedTravelogue.getTitle()).isEqualTo("삼춘! 제주에 하영 옵서!")
+        );
+    }
+
+    @DisplayName("작성자가 아닌 사람이 여행기를 수정하면 예외가 발생한다.")
+    @Test
+    void updateTravelogueWithNotAuthor() {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
+
+        Member author = testHelper.initKakaoMemberTestData();
+        testHelper.initTravelogueTestData();
+
+        List<TravelogueDayRequest> days = getTravelogueDayRequests();
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
+
+        assertThatThrownBy(() -> travelogueService.update(1L, author, request))
+                .isInstanceOf(ForbiddenException.class)
+                .hasMessage("본인이 작성한 여행기만 수정하거나 삭제할 수 있습니다.");
+    }
+
+    @DisplayName("존재하지 않는 여행기를 수정하면 예외가 발생한다.")
+    @Test
+    void updateTravelogueWithNotExist() {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
+
+        Member author = testHelper.initKakaoMemberTestData();
+        testHelper.initTravelogueTestData(author);
+
+        List<TravelogueDayRequest> days = getTravelogueDayRequests();
+        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
+
+        assertThatThrownBy(() -> travelogueService.update(0L, author, request))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행기입니다.");
+    }
+
     @DisplayName("여행기를 삭제할 수 있다.")
     @Test
     void deleteTravelogueById() {
@@ -148,6 +204,6 @@ class TravelogueServiceTest {
 
         assertThatThrownBy(() -> travelogueService.delete(travelogue, notAuthor))
                 .isInstanceOf(ForbiddenException.class)
-                .hasMessage("여행기 삭제는 작성자만 가능합니다.");
+                .hasMessage("본인이 작성한 여행기만 수정하거나 삭제할 수 있습니다.");
     }
 }

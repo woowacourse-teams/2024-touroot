@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import kr.touroot.global.ServiceTest;
@@ -13,12 +14,12 @@ import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
+import kr.touroot.travelplan.dto.request.PlanCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanPositionCreateRequest;
-import kr.touroot.travelplan.dto.request.TravelPlanCreateRequest;
-import kr.touroot.travelplan.dto.response.TravelPlanCreateResponse;
-import kr.touroot.travelplan.dto.response.TravelPlanResponse;
+import kr.touroot.travelplan.dto.response.PlanCreateResponse;
+import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
 import kr.touroot.travelplan.repository.TravelPlanRepository;
 import kr.touroot.utils.DatabaseCleaner;
@@ -69,18 +70,18 @@ class TravelPlanServiceTest {
         PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
-                .description("신나는 여행 장소")
+                .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+        PlanCreateRequest request = PlanCreateRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MAX)
                 .days(List.of(planDayCreateRequest))
                 .build();
 
         // when
-        TravelPlanCreateResponse actual = travelPlanService.createTravelPlan(request, memberAuth);
+        PlanCreateResponse actual = travelPlanService.createTravelPlan(request, memberAuth);
 
         // then
         assertThat(actual.id()).isEqualTo(1L);
@@ -93,11 +94,11 @@ class TravelPlanServiceTest {
         PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
-                .description("신나는 여행 장소")
                 .position(locationRequest)
+                .todos(Collections.EMPTY_LIST)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+        PlanCreateRequest request = PlanCreateRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MIN)
                 .days(List.of(planDayCreateRequest))
@@ -116,11 +117,11 @@ class TravelPlanServiceTest {
         PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
         PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
                 .placeName("잠실한강공원")
-                .description("신나는 여행 장소")
+                .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
         PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        TravelPlanCreateRequest request = TravelPlanCreateRequest.builder()
+        PlanCreateRequest request = PlanCreateRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.now())
                 .days(List.of(planDayCreateRequest))
@@ -138,7 +139,7 @@ class TravelPlanServiceTest {
         Long id = testHelper.initTravelPlanTestData(author).getId();
 
         // when
-        TravelPlanResponse actual = travelPlanService.readTravelPlan(id, memberAuth);
+        PlanResponse actual = travelPlanService.readTravelPlan(id, memberAuth);
 
         // then
         assertThat(actual.id()).isEqualTo(id);
@@ -226,7 +227,7 @@ class TravelPlanServiceTest {
         TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
 
         // when
-        TravelPlanResponse actual = travelPlanService.readTravelPlan(travelPlan.getShareKey());
+        PlanResponse actual = travelPlanService.readTravelPlan(travelPlan.getShareKey());
 
         // then
         assertThat(actual.shareKey()).isEqualTo(travelPlan.getShareKey());

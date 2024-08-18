@@ -17,7 +17,7 @@ public class TagTestHelper {
     }
 
     public Tag initTagData() {
-        Tag tag = TagFixture.TAG.get();;
+        Tag tag = TagFixture.TAG_1.get();;
         return tagRepository.save(tag);
     }
 

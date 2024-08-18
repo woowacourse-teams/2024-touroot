@@ -26,10 +26,18 @@ public record TravelogueResponse(
         @Schema(description = "여행기 태그")
         List<TagResponse> tags,
         @Schema(description = "여행기 일자 목록")
-        List<TravelogueDayResponse> days
+        List<TravelogueDayResponse> days,
+        @Schema(description = "여행기 좋아요 숫자", example = "10")
+        Long likeCount,
+        @Schema(description = "사용자의 여행기 좋아요 여부", example = "true")
+        Boolean isLiked
 ) {
 
-    public static TravelogueResponse of(Travelogue travelogue, List<TravelogueDayResponse> days, List<TagResponse> tags) {
+    public static TravelogueResponse of(
+            Travelogue travelogue,
+            List<TravelogueDayResponse> days,
+            List<TagResponse> tags,
+            TravelogueLikeResponse like) {
         return TravelogueResponse.builder()
                 .id(travelogue.getId())
                 .createdAt(travelogue.getCreatedAt().toLocalDate())
@@ -40,6 +48,8 @@ public record TravelogueResponse(
                 .thumbnail(travelogue.getThumbnail())
                 .days(days)
                 .tags(tags)
+                .likeCount(like.likeCount())
+                .isLiked(like.isLiked())
                 .build();
     }
 }

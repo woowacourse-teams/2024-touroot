@@ -107,7 +107,7 @@ class TraveloguePlaceServiceTest {
     void deleteTraveloguePlaceById() {
         Travelogue travelogue = testHelper.initTravelogueTestData();
         long travelogueId = travelogue.getId();
-        placeService.deleteByTravelogue(travelogue);
+        placeService.deleteAllByTravelogue(travelogue);
 
         assertThat(placeRepository.findAll()
                 .stream()

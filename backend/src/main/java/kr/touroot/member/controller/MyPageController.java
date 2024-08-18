@@ -15,7 +15,7 @@ import kr.touroot.member.dto.MyTravelogueResponse;
 import kr.touroot.member.dto.ProfileResponse;
 import kr.touroot.member.dto.request.ProfileUpdateRequest;
 import kr.touroot.member.service.MyPageFacadeService;
-import kr.touroot.travelplan.dto.response.TravelPlanResponse;
+import kr.touroot.travelplan.dto.response.PlanResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.data.domain.Page;
@@ -93,13 +93,13 @@ public class MyPageController {
     })
     @PageableAsQueryParam
     @GetMapping("/travel-plans")
-    public ResponseEntity<Page<TravelPlanResponse>> readTravelPlans(
+    public ResponseEntity<Page<PlanResponse>> readTravelPlans(
             @NotNull MemberAuth memberAuth,
             @Parameter(hidden = true)
             @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)
             Pageable pageable
     ) {
-        Page<TravelPlanResponse> data = myPageFacadeService.readTravelPlans(memberAuth, pageable);
+        Page<PlanResponse> data = myPageFacadeService.readTravelPlans(memberAuth, pageable);
         return ResponseEntity.ok(data);
     }
 

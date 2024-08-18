@@ -7,17 +7,17 @@ import kr.touroot.travelplan.domain.TravelPlanDay;
 import lombok.Builder;
 
 @Builder
-public record TravelPlanDayResponse(
+public record PlanDayResponse(
         @Schema(description = "여행 날짜 Id") Long id,
         @Schema(description = "여행 일자") LocalDate date,
-        @Schema(description = "여행 장소별 정보") List<TravelPlanPlaceResponse> places
+        @Schema(description = "여행 장소별 정보") List<PlanPlaceResponse> places
 ) {
 
-    public static TravelPlanDayResponse of(
+    public static PlanDayResponse of(
             TravelPlanDay planDay,
-            List<TravelPlanPlaceResponse> places
+            List<PlanPlaceResponse> places
     ) {
-        return TravelPlanDayResponse.builder()
+        return PlanDayResponse.builder()
                 .id(planDay.getId())
                 .date(planDay.getCurrentDate())
                 .places(places)

@@ -20,6 +20,7 @@ public class TraveloguePhotoService {
     private final TraveloguePhotoRepository traveloguePhotoRepository;
     private final AwsS3Provider s3Provider;
 
+    @Transactional
     public List<TraveloguePhoto> createPhotos(List<TraveloguePhotoRequest> requests, TraveloguePlace place) {
         List<TraveloguePhoto> photos = new ArrayList<>();
 
@@ -33,6 +34,7 @@ public class TraveloguePhotoService {
         return photos;
     }
 
+    @Transactional(readOnly = true)
     public List<String> findPhotoUrlsByPlace(TraveloguePlace traveloguePlace) {
         List<TraveloguePhoto> photos = traveloguePhotoRepository.findByTraveloguePlace(traveloguePlace);
 
@@ -43,7 +45,7 @@ public class TraveloguePhotoService {
     }
 
     @Transactional
-    public void deleteByTravelogue(Travelogue travelogue) {
-        traveloguePhotoRepository.deleteByTraveloguePlaceTravelogueDayTravelogue(travelogue);
+    public void deleteAllByTravelogue(Travelogue travelogue) {
+        traveloguePhotoRepository.deleteAllByTraveloguePlaceTravelogueDayTravelogue(travelogue);
     }
 }

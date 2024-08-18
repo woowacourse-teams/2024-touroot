@@ -12,9 +12,9 @@ import java.net.URI;
 import java.util.UUID;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
-import kr.touroot.travelplan.dto.request.TravelPlanCreateRequest;
-import kr.touroot.travelplan.dto.response.TravelPlanCreateResponse;
-import kr.touroot.travelplan.dto.response.TravelPlanResponse;
+import kr.touroot.travelplan.dto.request.PlanCreateRequest;
+import kr.touroot.travelplan.dto.response.PlanCreateResponse;
+import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.service.TravelPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -52,11 +52,11 @@ public class TravelPlanController {
             )
     })
     @PostMapping
-    public ResponseEntity<TravelPlanCreateResponse> createTravelPlan(
-            @Valid @RequestBody TravelPlanCreateRequest request,
+    public ResponseEntity<PlanCreateResponse> createTravelPlan(
+            @Valid @RequestBody PlanCreateRequest request,
             MemberAuth memberAuth
     ) {
-        TravelPlanCreateResponse data = travelPlanService.createTravelPlan(request, memberAuth);
+        PlanCreateResponse data = travelPlanService.createTravelPlan(request, memberAuth);
         return ResponseEntity.created(URI.create("/api/v1/travel-plans/" + data.id()))
                 .body(data);
     }
@@ -79,11 +79,11 @@ public class TravelPlanController {
             )
     })
     @GetMapping("/{id}")
-    public ResponseEntity<TravelPlanResponse> readTravelPlan(
+    public ResponseEntity<PlanResponse> readTravelPlan(
             @Parameter(description = "여행 계획 id") @PathVariable Long id,
             MemberAuth memberAuth
     ) {
-        TravelPlanResponse data = travelPlanService.readTravelPlan(id, memberAuth);
+        PlanResponse data = travelPlanService.readTravelPlan(id, memberAuth);
         return ResponseEntity.ok(data);
     }
 
@@ -124,10 +124,10 @@ public class TravelPlanController {
             ),
     })
     @GetMapping("shared/{shareKey}")
-    public ResponseEntity<TravelPlanResponse> readSharedTravelPlan(
+    public ResponseEntity<PlanResponse> readSharedTravelPlan(
             @Parameter(description = "여행 계획 공유 키") @PathVariable UUID shareKey
     ) {
-        TravelPlanResponse data = travelPlanService.readTravelPlan(shareKey);
+        PlanResponse data = travelPlanService.readTravelPlan(shareKey);
         return ResponseEntity.ok(data);
     }
 }

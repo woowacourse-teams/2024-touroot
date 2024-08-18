@@ -49,7 +49,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (token == null || token.isBlank()) {
+        if (isTokenBlank(token)) {
             sendUnauthorizedResponse(response, "로그인을 해주세요.");
             return;
         }
@@ -79,12 +79,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        AntPathMatcher antPathMatcher = new AntPathMatcher();
-
-        String url = request.getRequestURI();
         String method = request.getMethod();
+        String requestURI = request.getRequestURI();
+        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+
+        return isInWhiteList(method, requestURI) && isTokenBlank(token);
+    }
+
+    private boolean isInWhiteList(String method, String url) {
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
 
         return WHITE_LIST.stream()
                 .anyMatch(white -> white.method().matches(method) && antPathMatcher.match(white.urlPattern(), url));
+    }
+
+    private boolean isTokenBlank(String token) {
+        return token == null || token.isBlank();
     }
 }

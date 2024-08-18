@@ -1,7 +1,7 @@
 package kr.touroot.authentication.helper;
 
-import kr.touroot.authentication.fixture.MemberFixture;
 import kr.touroot.member.domain.Member;
+import kr.touroot.member.fixture.MemberFixture;
 import kr.touroot.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ public class LoginTestHelper {
     private final MemberRepository memberRepository;
 
     public Member initMemberTestData() {
-        Member member = MemberFixture.MEMBER_DEFAULT.getMember();
+        Member member = MemberFixture.DEFAULT_MEMBER.build();
         return memberRepository.save(member);
     }
 }
