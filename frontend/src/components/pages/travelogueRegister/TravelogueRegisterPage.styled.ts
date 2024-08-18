@@ -40,12 +40,6 @@ export const Layout = styled.div`
   gap: 3.2rem;
 `;
 
-export const AccordionRootContainer = styled.div`
-  & > * {
-    margin-bottom: 1.6rem;
-  }
-`;
-
 export const PageInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -63,4 +57,10 @@ export const addDayButtonStyle = css`
 
 export const loadingButtonStyle = css`
   margin-top: 3.2rem;
+`;
+
+export const accordionRootStyle = css`
+  & > :last-child {
+    margin-bottom: 3.2rem;
+  }
 `;

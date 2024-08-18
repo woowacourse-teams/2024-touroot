@@ -2,11 +2,12 @@ import { useState } from "react";
 
 import type { Meta } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { copyLinkToClipboard } from "@utils/clipboard";
 
 import Button from "@components/common/Button/Button";
 import Input from "@components/common/Input/Input";
 import Text from "@components/common/Text/Text";
+
+import { copyLinkToClipboard } from "@utils/clipboard";
 
 import theme from "@styles/theme";
 
@@ -49,7 +50,7 @@ export const ShareModal = {
               <Text textType="body" style={{ fontWeight: 700 }}>
                 여행기를 공유할까요?
               </Text>
-              <div style={{ width: "29rem", position: "relative" }}>
+              <div style={{ width: "29rem", position: "relative", marginBottom: "1.6rem" }}>
                 <Input
                   disabled
                   value={"https://touroot.kr/travel-plans/a932jdfnd3"}
@@ -62,7 +63,7 @@ export const ShareModal = {
                     height: "2.4rem",
                     position: "absolute",
                     right: "1rem",
-                    top: "1.6rem",
+                    top: "0.8rem",
                     fontSize: "1.2rem",
                   }}
                   onClick={() => {

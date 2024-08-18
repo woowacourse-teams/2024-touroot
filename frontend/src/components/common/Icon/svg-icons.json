@@ -241,5 +241,14 @@
     "strokeWidth": "0",
     "strokeLinecap": "",
     "strokeLinejoin": ""
+  },
+  "check": {
+    "width": 24,
+    "height": 24,
+    "path": "M6 12.0001L10.243 16.2431L18.727 7.75708",
+    "stroke": "#F8F8F8",
+    "strokeWidth": "2",
+    "strokeLinecap": "round",
+    "strokeLinejoin": "round"
   }
 }
