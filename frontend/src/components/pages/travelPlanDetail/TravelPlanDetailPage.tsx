@@ -39,7 +39,7 @@ const TravelPlanDetailPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (error instanceof ApiError && error.message === ERROR_MESSAGE_MAP.api.onlyWriter) {
+    if (error instanceof ApiError && error.message === ERROR_MESSAGE_MAP.api.travelPlanOnlyWriter) {
       alert(error.message);
       navigate(ROUTE_PATHS_MAP.back);
     }
