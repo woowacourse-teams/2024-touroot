@@ -3,10 +3,12 @@ oauth:
     user-information-request-uri: https://kapi.kakao.com/v2/user/me
     access-token-request-uri: https://kauth.kakao.com/oauth/token
     rest-api-key: ENC(i6J7NWUsDpXVbJrbSUcNFI3h0oc6v8PxuHShU9UA7EVuUNLtQN/ANII+8j5HjhGO)
+
 jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
 cloud:
   aws:
     s3:
@@ -125,3 +127,7 @@ security:
     refresh:
       secret-key: ENC(KzrDzCSz4dIMMP6Vsyd9cYvOvGXMbetrCDAX0/IpHfVW7kdsbV2+ZlGcBz+RCS2whMPuoCxdhyE=)
       expire-length: 1209600000 # 14 days
+
+springdoc:
+  api-docs:
+    enabled: false
