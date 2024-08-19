@@ -13,6 +13,6 @@ public interface TraveloguePhotoRepository extends JpaRepository<TraveloguePhoto
     List<TraveloguePhoto> findByTraveloguePlace(TraveloguePlace traveloguePlace);
 
     @Modifying(flushAutomatically = true, clearAutomatically = true)
-    @Query("UPDATE TraveloguePhoto tp SET tp.deletedAt = NOW() WHERE tp.traveloguePlace.travelogueDay.travelogue = :travelogue")
+    @Query("UPDATE TraveloguePhoto to SET to.deletedAt = NOW() WHERE to.traveloguePlace.travelogueDay.travelogue = :travelogue")
     void deleteAllByTraveloguePlaceTravelogueDayTravelogue(Travelogue travelogue);
 }
