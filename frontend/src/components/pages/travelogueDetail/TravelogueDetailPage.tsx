@@ -121,7 +121,7 @@ const TravelogueDetailPage = () => {
                   }}
                   iconType="heart"
                   color={SEMANTIC_COLORS.heart}
-                  size="20"
+                  size="16"
                 />
               ) : (
                 <IconButton
@@ -129,7 +129,7 @@ const TravelogueDetailPage = () => {
                     isAuthor && handleActiveHeart(id);
                   }}
                   iconType="empty-heart"
-                  size="20"
+                  size="16"
                 />
               )}
               <Text textType="detail">{data.likeCount}</Text>
