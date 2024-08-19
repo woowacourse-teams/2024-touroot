@@ -3,6 +3,7 @@ package kr.touroot.travelogue.service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.place.domain.Place;
 import kr.touroot.place.repository.PlaceRepository;
@@ -14,6 +15,7 @@ import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.repository.TraveloguePlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class TraveloguePlaceService {
     private final PlaceRepository placeRepository;
     private final TraveloguePlaceRepository traveloguePlaceRepository;
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public Map<TraveloguePlace, List<TraveloguePhotoRequest>> createPlaces(
             List<TraveloguePlaceRequest> requests,
             TravelogueDay day
@@ -42,11 +44,24 @@ public class TraveloguePlaceService {
     }
 
     private Place getPlace(TraveloguePlaceRequest request) {
+        Optional<Place> place = findPlaceByNameAndLatitudeAndLongitude(request);
+
+        if (place.isPresent()) {
+            return place.get();
+        }
+
+        synchronized (this) {
+            return findPlaceByNameAndLatitudeAndLongitude(request)
+                    .orElseGet(() -> placeRepository.save(request.toPlace()));
+        }
+    }
+
+    private Optional<Place> findPlaceByNameAndLatitudeAndLongitude(TraveloguePlaceRequest request) {
         return placeRepository.findByNameAndLatitudeAndLongitude(
                 request.placeName(),
                 request.position().lat(),
                 request.position().lng()
-        ).orElseGet(() -> placeRepository.save(request.toPlace()));
+        );
     }
 
     @Transactional(readOnly = true)

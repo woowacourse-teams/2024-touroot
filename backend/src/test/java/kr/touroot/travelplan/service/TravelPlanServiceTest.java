@@ -8,11 +8,15 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
+import kr.touroot.place.repository.PlaceRepository;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.dto.request.PlanCreateRequest;
 import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
@@ -36,6 +40,7 @@ class TravelPlanServiceTest {
 
     private final TravelPlanService travelPlanService;
     private final TravelPlanRepository travelPlanRepository;
+    private final PlaceRepository placeRepository;
     private final DatabaseCleaner databaseCleaner;
     private final TravelPlanTestHelper testHelper;
 
@@ -46,11 +51,13 @@ class TravelPlanServiceTest {
     public TravelPlanServiceTest(
             TravelPlanService travelPlanService,
             TravelPlanRepository travelPlanRepository,
+            PlaceRepository placeRepository,
             DatabaseCleaner databaseCleaner,
             TravelPlanTestHelper testHelper
     ) {
         this.travelPlanService = travelPlanService;
         this.travelPlanRepository = travelPlanRepository;
+        this.placeRepository = placeRepository;
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
     }
@@ -130,6 +137,38 @@ class TravelPlanServiceTest {
         // when & then=
         assertThatCode(() -> travelPlanService.createTravelPlan(request, memberAuth))
                 .doesNotThrowAnyException();
+    }
+
+    @DisplayName("존재하지 않는 같은 장소에 대해 동시에 여행계획을 생성해도 장소가 중복으로 생성되지 않는다.")
+    @Test
+    void createTravelPlanWithConcurrency() throws InterruptedException {
+        // given
+        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
+        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+                .placeName("잠실한강공원")
+                .todos(Collections.EMPTY_LIST)
+                .position(locationRequest)
+                .build();
+        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
+        PlanCreateRequest request = PlanCreateRequest.builder()
+                .title("신나는 한강 여행")
+                .startDate(LocalDate.MAX)
+                .days(List.of(planDayCreateRequest))
+                .build();
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        for (int i = 1; i <= 10; i++) {
+            executorService.execute(() -> travelPlanService.createTravelPlan(request, memberAuth));
+        }
+
+        executorService.shutdown();
+        executorService.awaitTermination(30, TimeUnit.SECONDS);
+
+        String placeName = planPlaceCreateRequest.placeName();
+
+        assertThat(placeRepository.findByNameAndLatitudeAndLongitude(
+                placeName, locationRequest.lat(), locationRequest.lng()))
+                .isPresent();
     }
 
     @DisplayName("여행 계획 서비스는 여행 계획 조회 시 상세 정보를 반환한다.")

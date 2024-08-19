@@ -7,15 +7,20 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.place.domain.Place;
+import kr.touroot.place.repository.PlaceRepository;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePositionRequest;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import kr.touroot.travelogue.repository.TraveloguePlaceRepository;
@@ -31,19 +36,22 @@ import org.springframework.context.annotation.Import;
 @ServiceTest
 class TraveloguePlaceServiceTest {
 
-    private final TraveloguePlaceService placeService;
-    private final TraveloguePlaceRepository placeRepository;
+    private final TraveloguePlaceService traveloguePlaceService;
+    private final TraveloguePlaceRepository traveloguePlaceRepository;
+    private final PlaceRepository placeRepository;
     private final DatabaseCleaner databaseCleaner;
     private final TravelogueTestHelper testHelper;
 
     @Autowired
     public TraveloguePlaceServiceTest(
-            TraveloguePlaceService placeService,
-            TraveloguePlaceRepository placeRepository,
+            TraveloguePlaceService traveloguePlaceService,
+            TraveloguePlaceRepository TraveloguePlaceRepository,
+            PlaceRepository placeRepository,
             DatabaseCleaner databaseCleaner,
             TravelogueTestHelper testHelper
     ) {
-        this.placeService = placeService;
+        this.traveloguePlaceService = traveloguePlaceService;
+        this.traveloguePlaceRepository = TraveloguePlaceRepository;
         this.placeRepository = placeRepository;
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
@@ -63,13 +71,39 @@ class TraveloguePlaceServiceTest {
         Travelogue travelogue = testHelper.persistTravelogue(author);
         TravelogueDay day = testHelper.persistTravelogueDay(travelogue);
 
-        Map<TraveloguePlace, List<TraveloguePhotoRequest>> placesMap = placeService.createPlaces(requests, day);
+        Map<TraveloguePlace, List<TraveloguePhotoRequest>> placesMap = traveloguePlaceService.createPlaces(requests,
+                day);
         List<TraveloguePlace> places = placesMap.keySet().stream().toList();
 
         assertAll(
                 () -> assertThat(placesMap.keySet()).hasSize(requests.size()),
                 () -> assertThat(placesMap).containsEntry(places.get(0), requests.get(0).photoUrls())
         );
+    }
+
+    @DisplayName("존재하지 않는 같은 장소에 대해 동시에 여행기 장소를 생성해도 장소가 중복으로 생성되지 않는다.")
+    @Test
+    void createTraveloguePlacesWithConcurrency() throws InterruptedException {
+        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
+        List<TraveloguePlaceRequest> requests = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
+        Member author = testHelper.persistMember();
+        Travelogue travelogue = testHelper.persistTravelogue(author);
+        TravelogueDay day = testHelper.persistTravelogueDay(travelogue);
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        for (int i = 1; i <= 10; i++) {
+            executorService.execute(() -> traveloguePlaceService.createPlaces(requests, day));
+        }
+
+        executorService.shutdown();
+        executorService.awaitTermination(30, TimeUnit.SECONDS);
+
+        TraveloguePlaceRequest request = requests.get(0);
+        String placeName = request.placeName();
+        TraveloguePositionRequest position = request.position();
+
+        assertThat(placeRepository.findByNameAndLatitudeAndLongitude(placeName, position.lat(), position.lng()))
+                .isPresent();
     }
 
     @DisplayName("여행기 장소를 여행기 일자를 기준으로 조회한다.")
@@ -81,7 +115,7 @@ class TraveloguePlaceServiceTest {
         Place position = testHelper.persistPlace();
         TraveloguePlace place = testHelper.persistTraveloguePlace(position, day);
 
-        List<TraveloguePlace> places = placeService.findTraveloguePlacesByDay(day);
+        List<TraveloguePlace> places = traveloguePlaceService.findTraveloguePlacesByDay(day);
 
         assertThat(places).contains(place);
     }
@@ -91,13 +125,13 @@ class TraveloguePlaceServiceTest {
     void findTraveloguePlaceById() {
         testHelper.initTravelogueTestData();
 
-        assertDoesNotThrow(() -> placeService.findTraveloguePlaceById(1L));
+        assertDoesNotThrow(() -> traveloguePlaceService.findTraveloguePlaceById(1L));
     }
 
     @DisplayName("존재하지 않는 여행기 장소 ID로 조회하면 예외가 발생한다.")
     @Test
     void findDayByInvalidIdThrowException() {
-        assertThatThrownBy(() -> placeService.findTraveloguePlaceById(1L))
+        assertThatThrownBy(() -> traveloguePlaceService.findTraveloguePlaceById(1L))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행기 장소입니다.");
     }
@@ -107,9 +141,9 @@ class TraveloguePlaceServiceTest {
     void deleteTraveloguePlaceById() {
         Travelogue travelogue = testHelper.initTravelogueTestData();
         long travelogueId = travelogue.getId();
-        placeService.deleteAllByTravelogue(travelogue);
+        traveloguePlaceService.deleteAllByTravelogue(travelogue);
 
-        assertThat(placeRepository.findAll()
+        assertThat(traveloguePlaceRepository.findAll()
                 .stream()
                 .noneMatch(place -> extractTravelogue(place).getId() == travelogueId))
                 .isTrue();
