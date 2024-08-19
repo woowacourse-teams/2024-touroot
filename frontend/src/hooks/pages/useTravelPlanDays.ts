@@ -8,9 +8,9 @@ import type { TravelTransformPlaces } from "@type/domain/travelTransform";
 export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
   const [travelPlanDays, setTravelPlanDays] = useState<TravelPlanDay[]>(days);
 
-  const onChangeTravelPlanDays = (newDays: TravelPlanDay[]) => {
+  const onChangeTravelPlanDays = useCallback((newDays: TravelPlanDay[]) => {
     setTravelPlanDays(newDays);
-  };
+  }, []);
 
   const onAddDay = useCallback((dayIndex?: number) => {
     setTravelPlanDays((prevTravelDays) =>

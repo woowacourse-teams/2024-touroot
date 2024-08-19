@@ -11,9 +11,9 @@ const MAX_DESCRIPTION_LENGTH = 300;
 export const useTravelogueDays = (days: TravelTransformPlaces[]) => {
   const [travelogueDays, setTravelogueDays] = useState<TravelogueDay[]>(days);
 
-  const onChangeTravelogueDays = (newDays: TravelogueDay[]) => {
+  const onChangeTravelogueDays = useCallback((newDays: TravelogueDay[]) => {
     setTravelogueDays(newDays);
-  };
+  }, []);
 
   const onAddDay = useCallback((dayIndex?: number) => {
     setTravelogueDays((prevTravelDays) =>
