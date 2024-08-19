@@ -2,8 +2,7 @@ import { css } from "@emotion/react";
 
 import useInfiniteTravelogues from "@queries/useInfiniteTravelogues";
 
-import { Chip, Text } from "@components/common";
-import FloatingButton from "@components/common/FloatingButton/FloatingButton";
+import { Chip, FloatingButton, SearchFallback, Text } from "@components/common";
 import TravelogueCard from "@components/pages/main/TravelogueCard/TravelogueCard";
 
 import { useDragScroll } from "@hooks/useDragScroll";
@@ -24,6 +23,8 @@ const MainPage = () => {
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
+
+  const hasTravelogue = travelogues.length > 0;
 
   return (
     <S.MainPageContentContainer>
@@ -58,21 +59,25 @@ const MainPage = () => {
         </S.MainPageTraveloguesList>
       )}
       <S.MainPageTraveloguesList>
-        {travelogues.map(
-          ({ authorProfileUrl, authorNickname, id, title, thumbnail, likeCount, tags }) => (
-            <TravelogueCard
-              key={id}
-              travelogueOverview={{
-                authorProfileUrl,
-                id,
-                title,
-                thumbnail,
-                likeCount,
-                authorNickname,
-                tags,
-              }}
-            />
-          ),
+        {hasTravelogue ? (
+          travelogues.map(
+            ({ authorProfileUrl, authorNickname, id, title, thumbnail, likeCount, tags }) => (
+              <TravelogueCard
+                key={id}
+                travelogueOverview={{
+                  authorProfileUrl,
+                  id,
+                  title,
+                  thumbnail,
+                  likeCount,
+                  authorNickname,
+                  tags,
+                }}
+              />
+            ),
+          )
+        ) : (
+          <SearchFallback title="휑" text="다른 태그를 선택해 주세요!" />
         )}
       </S.MainPageTraveloguesList>
       <FloatingButton />
