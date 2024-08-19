@@ -5,8 +5,13 @@ export const Layout = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 6rem);
   gap: ${({ theme }) => theme.spacing.l};
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 100%;
 `;
 
 export const TextContainer = styled.div`
