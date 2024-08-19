@@ -17,7 +17,7 @@ public record PlanPlaceTodoRequest(
         Boolean isChecked
 ) {
 
-    public TravelPlaceTodo toUncheckedPlaceTodo(TravelPlanPlace travelPlanPlace, Integer order) {
+    public TravelPlaceTodo toPlaceTodo(TravelPlanPlace travelPlanPlace, Integer order) {
         return new TravelPlaceTodo(travelPlanPlace, content, order, isChecked);
     }
 }
