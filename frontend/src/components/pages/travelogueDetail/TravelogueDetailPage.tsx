@@ -18,6 +18,8 @@ import useUser from "@hooks/useUser";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
+import { extractId } from "@utils/extractId";
+
 import theme from "@styles/theme";
 
 import TravelogueDeleteModal from "./TravelogueDeleteModal/TravelogueDeleteModal";
@@ -25,7 +27,7 @@ import * as S from "./TravelogueDetailPage.styled";
 
 const TravelogueDetailPage = () => {
   const location = useLocation();
-  const id = location.pathname.replace(/[^\d]/g, "");
+  const id = extractId(location.pathname);
 
   const { user } = useUser();
 
