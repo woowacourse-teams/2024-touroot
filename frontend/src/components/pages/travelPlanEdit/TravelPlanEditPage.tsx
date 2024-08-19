@@ -20,9 +20,15 @@ import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelP
 import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
 
+import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
+
+import { extractId } from "@utils/extractId";
+import { extractUTCDate } from "@utils/extractUTCDate";
+
+import theme from "@styles/theme";
 
 import * as S from "./TravelPlanEditPage.styled";
 
@@ -30,7 +36,7 @@ const TravelPlanEditPage = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const id = location.pathname.replace(/[^\d]/g, "");
+  const id = extractId(location.pathname);
 
   const { data, status, error } = useGetTravelPlan(id);
 
@@ -68,16 +74,12 @@ const TravelPlanEditPage = () => {
     setIsOpen(false);
   };
 
-  const { mutate: travelPlanEditMutate } = usePutTravelPlan();
+  const { mutate: mutateTravelPlanEdit } = usePutTravelPlan();
 
   const handleEditTravelPlan = () => {
-    const formattedStartDate = startDate
-      ? new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
-          .toISOString()
-          .split("T")[0]
-      : "";
+    const formattedStartDate = extractUTCDate(startDate);
 
-    travelPlanEditMutate(
+    mutateTravelPlanEdit(
       {
         travelPlan: { title, startDate: formattedStartDate, days: travelPlanDays },
         id: Number(id),
@@ -91,7 +93,7 @@ const TravelPlanEditPage = () => {
     );
   };
 
-  const debouncedEditTravelPlan = useLeadingDebounce(() => handleEditTravelPlan(), 3000);
+  const debouncedEditTravelPlan = useLeadingDebounce(() => handleEditTravelPlan(), DEBOUNCED_TIME);
 
   const handleConfirmBottomSheet = () => {
     debouncedEditTravelPlan();
@@ -114,7 +116,7 @@ const TravelPlanEditPage = () => {
       setStartDate(new Date(data.startDate));
       onChangeTravelPlanDays(data.days);
     }
-  }, [data]);
+  }, [data, onChangeTravelPlanDays]);
 
   if (status === "error") {
     const errorMessage =
@@ -124,8 +126,6 @@ const TravelPlanEditPage = () => {
 
     alert(errorMessage);
     navigate(ROUTE_PATHS_MAP.back);
-
-    return;
   }
 
   return (
@@ -142,8 +142,8 @@ const TravelPlanEditPage = () => {
           onChange={handleChangeTitle}
         />
         <S.StartDateContainer>
-          <S.StartDateLabel>시작일</S.StartDateLabel>
-          <Text textType="detail" css={S.detailTextColorStyle}>
+          <Text textType="bodyBold">시작일</Text>
+          <Text textType="detail" color={theme.colors.text.secondary}>
             시작일을 선택하면 마감일은 투룻이 계산 해드릴게요!
           </Text>
           <Input
@@ -172,7 +172,7 @@ const TravelPlanEditPage = () => {
                   css={[S.addButtonStyle, S.loadingButtonStyle]}
                   onClick={() => onAddDay()}
                 >
-                  일자 추가하기
+                  <Text textType="bodyBold">일자 추가하기</Text>
                 </IconButton>
               </S.LoadingWrapper>
             }
@@ -201,7 +201,7 @@ const TravelPlanEditPage = () => {
               css={[S.addButtonStyle]}
               onClick={() => onAddDay()}
             >
-              일자 추가하기
+              <Text textType="bodyBold">일자 추가하기</Text>
             </IconButton>
           </GoogleMapLoadScript>
           <Button variants="primary" onClick={handleOpenBottomSheet}>

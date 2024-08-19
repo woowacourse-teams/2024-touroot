@@ -17,6 +17,7 @@ import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlan
 import useClickAway from "@hooks/useClickAway";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
 
+import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
@@ -50,7 +51,7 @@ const TravelPlanDetailPage = () => {
       ? `${data?.days.length - 1}박 ${data?.days.length}일`
       : "당일치기";
 
-  const { mutate: deleteTravelPlan } = useDeleteTravelPlan();
+  const { mutate: mutateDeleteTravelPlan } = useDeleteTravelPlan();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -68,7 +69,10 @@ const TravelPlanDetailPage = () => {
     setIsDeleteModalOpen((prev) => !prev);
   };
 
-  const debouncedClickDeleteButton = useLeadingDebounce(() => deleteTravelPlan(Number(id)), 3000);
+  const debouncedClickDeleteButton = useLeadingDebounce(
+    () => mutateDeleteTravelPlan(Number(id)),
+    DEBOUNCED_TIME,
+  );
 
   const handleClickDeleteButton = () => {
     debouncedClickDeleteButton();

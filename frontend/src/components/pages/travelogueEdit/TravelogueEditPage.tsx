@@ -25,9 +25,12 @@ import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useTagSelection from "@hooks/useTagSelection";
 import useUser from "@hooks/useUser";
 
+import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
+
+import { extractId } from "@utils/extractId";
 
 import * as S from "./TravelogueEditPage.styled";
 
@@ -35,7 +38,7 @@ const TravelogueEditPage = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const id = location.pathname.replace(/[^\d]/g, "");
+  const id = extractId(location.pathname);
 
   const { data } = useGetTravelogue(id);
 
@@ -50,7 +53,7 @@ const TravelogueEditPage = () => {
     setTitle(title);
   };
 
-  const { selectedTagIDs, changeSelectedTagIDs, handleClickTag, createSortedTags } =
+  const { selectedTagIDs, onChangeSelectedTagIDs, handleClickTag, createSortedTags } =
     useTagSelection();
 
   const sortedTags = createSortedTags();
@@ -75,10 +78,10 @@ const TravelogueEditPage = () => {
     thumbnailFileInputRef.current?.click();
   };
 
-  const { mutateAsync: handleAddImage } = usePostUploadImages();
+  const { mutateAsync: mutateAddImage } = usePostUploadImages();
 
   const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const thumbnail = await handleAddImage(Array.from(e.target.files as FileList));
+    const thumbnail = await mutateAddImage(Array.from(e.target.files as FileList));
     setThumbnail(thumbnail[0]);
   };
 
@@ -92,10 +95,10 @@ const TravelogueEditPage = () => {
     setIsOpen(false);
   };
 
-  const { mutate: travelogueEditMutate } = usePutTravelogue();
+  const { mutate: mutateTravelogueEdit } = usePutTravelogue();
 
   const handleEditTravelogue = () => {
-    travelogueEditMutate(
+    mutateTravelogueEdit(
       {
         travelogue: { title, thumbnail, tags: selectedTagIDs, days: travelogueDays },
         id: Number(id),
@@ -109,7 +112,7 @@ const TravelogueEditPage = () => {
     );
   };
 
-  const debouncedEditTravelogue = useLeadingDebounce(() => handleEditTravelogue(), 3000);
+  const debouncedEditTravelogue = useLeadingDebounce(() => handleEditTravelogue(), DEBOUNCED_TIME);
 
   const handleConfirmBottomSheet = () => {
     debouncedEditTravelogue();
@@ -119,10 +122,10 @@ const TravelogueEditPage = () => {
     if (data) {
       setTitle(data.title);
       setThumbnail(data.thumbnail);
-      changeSelectedTagIDs(data.tags.map((tag) => tag.id));
+      onChangeSelectedTagIDs(data.tags.map((tag) => tag.id));
       onChangeTravelogueDays(data.days);
     }
-  }, [data]);
+  }, [data, onChangeSelectedTagIDs, onChangeTravelogueDays]);
 
   const { user } = useUser();
 
@@ -132,7 +135,6 @@ const TravelogueEditPage = () => {
     if (data && !isAuthor) {
       alert(ERROR_MESSAGE_MAP.api.travelogueEditOnlyWriter);
       navigate(ROUTE_PATHS_MAP.back);
-      return;
     }
   }, [user, navigate, data]);
 
@@ -212,7 +214,7 @@ const TravelogueEditPage = () => {
                   onChangePlaceDescription={onChangePlaceDescription}
                   onChangeImageUrls={onChangeImageUrls}
                   onDeleteImageUrls={onDeleteImageUrls}
-                  onRequestAddImage={handleAddImage}
+                  onRequestAddImage={mutateAddImage}
                 />
               ))}
             </Accordion.Root>

@@ -14,7 +14,7 @@ import * as S from "./TravelPlanTodoItem.styled";
 const TravelPlanTodoItem = ({ todo }: { todo: TravelPlanTodo }) => {
   const location = useLocation();
   const id = extractId(location.pathname);
-  const { mutate: onUpdateTodoStatus } = usePatchTravelPlanTodo(id);
+  const { mutate: mutateUpdateTodoStatus } = usePatchTravelPlanTodo(id);
 
   return (
     <S.TodoListItemContainer key={todo.id}>
@@ -22,7 +22,7 @@ const TravelPlanTodoItem = ({ todo }: { todo: TravelPlanTodo }) => {
         checked={todo.checked}
         onChange={(e) => {
           if (!isUUID(id))
-            onUpdateTodoStatus({
+            mutateUpdateTodoStatus({
               todoId: todo.id as string,
               checked: e.target.checked,
             });

@@ -16,6 +16,7 @@ import useClickAway from "@hooks/useClickAway";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useUser from "@hooks/useUser";
 
+import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractId } from "@utils/extractId";
@@ -43,7 +44,7 @@ const TravelogueDetailPage = () => {
       : "당일치기";
 
   const { onTransformTravelDetail } = useTravelTransformDetailContext();
-  const { mutate: deleteTravelogue } = useDeleteTravelogue();
+  const { mutate: mutateDeleteTravelogue } = useDeleteTravelogue();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -61,7 +62,10 @@ const TravelogueDetailPage = () => {
     setIsDeleteModalOpen((prev) => !prev);
   };
 
-  const debouncedClickDeleteButton = useLeadingDebounce(() => deleteTravelogue(Number(id)), 3000);
+  const debouncedClickDeleteButton = useLeadingDebounce(
+    () => mutateDeleteTravelogue(Number(id)),
+    DEBOUNCED_TIME,
+  );
 
   const handleClickDeleteButton = () => {
     debouncedClickDeleteButton();

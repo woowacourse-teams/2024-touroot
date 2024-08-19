@@ -22,9 +22,14 @@ import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useUser from "@hooks/useUser";
 
+import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
+
+import { extractUTCDate } from "@utils/extractUTCDate";
+
+import theme from "@styles/theme";
 
 import * as S from "./TravelPlanRegisterPage.styled";
 
@@ -66,16 +71,12 @@ const TravelPlanRegisterPage = () => {
 
   const navigate = useNavigate();
 
-  const { mutate: travelPlanRegisterMutate } = usePostTravelPlan();
+  const { mutate: mutateTravelPlanRegister } = usePostTravelPlan();
 
   const handleRegisterTravelPlan = () => {
-    const formattedStartDate = startDate
-      ? new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
-          .toISOString()
-          .split("T")[0]
-      : "";
+    const formattedStartDate = extractUTCDate(startDate);
 
-    travelPlanRegisterMutate(
+    mutateTravelPlanRegister(
       { title, startDate: formattedStartDate, days: travelPlanDays },
       {
         onSuccess: (data) => {
@@ -86,7 +87,10 @@ const TravelPlanRegisterPage = () => {
     );
   };
 
-  const debouncedRegisterTravelPlan = useLeadingDebounce(() => handleRegisterTravelPlan(), 3000);
+  const debouncedRegisterTravelPlan = useLeadingDebounce(
+    () => handleRegisterTravelPlan(),
+    DEBOUNCED_TIME,
+  );
 
   const handleConfirmBottomSheet = () => {
     debouncedRegisterTravelPlan();
@@ -129,8 +133,8 @@ const TravelPlanRegisterPage = () => {
           onChange={handleChangeTitle}
         />
         <S.StartDateContainer>
-          <S.StartDateLabel>시작일</S.StartDateLabel>
-          <Text textType="detail" css={S.detailTextColorStyle}>
+          <Text textType="bodyBold">시작일</Text>
+          <Text textType="detail" color={theme.colors.text.secondary}>
             시작일을 선택하면 마감일은 투룻이 계산 해드릴게요!
           </Text>
           <Input
@@ -159,7 +163,7 @@ const TravelPlanRegisterPage = () => {
                   css={[S.addButtonStyle, S.loadingButtonStyle]}
                   onClick={() => onAddDay()}
                 >
-                  일자 추가하기
+                  <Text textType="bodyBold">일자 추가하기</Text>
                 </IconButton>
               </S.LoadingWrapper>
             }
@@ -188,7 +192,7 @@ const TravelPlanRegisterPage = () => {
               css={[S.addButtonStyle]}
               onClick={() => onAddDay()}
             >
-              일자 추가하기
+              <Text textType="bodyBold">일자 추가하기</Text>
             </IconButton>
           </GoogleMapLoadScript>
           <Button variants="primary" onClick={handleOpenBottomSheet}>

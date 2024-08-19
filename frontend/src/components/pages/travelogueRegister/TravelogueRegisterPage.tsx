@@ -25,6 +25,7 @@ import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useTagSelection from "@hooks/useTagSelection";
 import useUser from "@hooks/useUser";
 
+import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
@@ -70,10 +71,10 @@ const TravelogueRegisterPage = () => {
     thumbnailFileInputRef.current?.click();
   };
 
-  const { mutateAsync: handleAddImage } = usePostUploadImages();
+  const { mutateAsync: mutateAddImage } = usePostUploadImages();
 
   const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const thumbnail = await handleAddImage(Array.from(e.target.files as FileList));
+    const thumbnail = await mutateAddImage(Array.from(e.target.files as FileList));
     setThumbnail(thumbnail[0]);
   };
 
@@ -87,10 +88,10 @@ const TravelogueRegisterPage = () => {
     setIsOpen(false);
   };
 
-  const { mutate: registerTravelogueMutate } = usePostTravelogue();
+  const { mutate: mutateRegisterTravelogue } = usePostTravelogue();
 
   const handleRegisterTravelogue = () => {
-    registerTravelogueMutate(
+    mutateRegisterTravelogue(
       { title, thumbnail, tags: selectedTagIDs, days: travelogueDays },
       {
         onSuccess: (data) => {
@@ -101,7 +102,10 @@ const TravelogueRegisterPage = () => {
     );
   };
 
-  const debouncedRegisterTravelogue = useLeadingDebounce(() => handleRegisterTravelogue(), 3000);
+  const debouncedRegisterTravelogue = useLeadingDebounce(
+    () => handleRegisterTravelogue(),
+    DEBOUNCED_TIME,
+  );
 
   const handleConfirmBottomSheet = () => {
     debouncedRegisterTravelogue();
@@ -198,7 +202,7 @@ const TravelogueRegisterPage = () => {
                   onChangePlaceDescription={onChangePlaceDescription}
                   onChangeImageUrls={onChangeImageUrls}
                   onDeleteImageUrls={onDeleteImageUrls}
-                  onRequestAddImage={handleAddImage}
+                  onRequestAddImage={mutateAddImage}
                 />
               ))}
             </Accordion.Root>
