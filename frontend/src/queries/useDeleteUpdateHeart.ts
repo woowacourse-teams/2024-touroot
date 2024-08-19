@@ -23,7 +23,6 @@ export const useDeleteUpdateHeart = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS_MAP.travelogue.all,
-        refetchType: "all",
       });
     },
     onError: (error) => {
