@@ -89,7 +89,7 @@ public class TravelPlanService {
     private void createPlaceTodo(List<PlanPlaceTodoRequest> request, TravelPlanPlace travelPlanPlace) {
         for (int order = 0; order < request.size(); order++) {
             PlanPlaceTodoRequest todoRequest = request.get(order);
-정            TravelPlaceTodo travelPlaceTodo = todoRequest.toPlaceTodo(travelPlanPlace, order);
+            TravelPlaceTodo travelPlaceTodo = todoRequest.toPlaceTodo(travelPlanPlace, order);
             placeTodoRepository.save(travelPlaceTodo);
         }
     }
