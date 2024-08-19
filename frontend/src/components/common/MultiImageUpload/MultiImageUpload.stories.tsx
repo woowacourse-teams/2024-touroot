@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    previewUrls: [],
+    previewImageStates: [],
     fileInputRef: React.createRef(),
     onImageChange: () => {},
     onDeleteImage: () => {},
@@ -35,18 +35,21 @@ export const Default: Story = {
 export const WithImages: Story = {
   args: {
     ...Default.args,
-    previewUrls: [
-      "https://example.com/image1.jpg",
-      "https://example.com/image2.jpg",
-      "https://example.com/image3.jpg",
+    previewImageStates: [
+      { url: "https://example.com/image1.jpg", isLoading: false },
+      { url: "https://example.com/image2.jpg", isLoading: false },
+      { url: "https://example.com/image3.jpg", isLoading: false },
     ],
   },
 };
 
-export const WithManyImages: Story = {
+export const WithLoadingImages: Story = {
   args: {
     ...Default.args,
-    previewUrls: Array(7).fill("https://example.com/image.jpg"),
+    previewImageStates: Array.from({ length: 3 }, (_, index) => ({
+      url: `https://example.com/image${index}.jpg`,
+      isLoading: true,
+    })),
   },
 };
 
