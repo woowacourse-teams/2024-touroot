@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { useGetTravelPlan } from "@queries/useGetTravelPlan";
-import { usePostTravelPlan } from "@queries/usePostTravelPlan";
+import { usePutTravelPlan } from "@queries/usePutTravelPlan";
 
 import {
   Accordion,
@@ -18,25 +18,19 @@ import Calendar from "@components/common/Calendar/Calendar";
 import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
 
 import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
-import useUser from "@hooks/useUser";
+import useLeadingDebounce from "@hooks/useLeadingDebounce";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
-
-import { extractId } from "@utils/extractId";
 
 import * as S from "./TravelPlanEditPage.styled";
 
-const MIN_TITLE_LENGTH = 0;
-const MAX_TITLE_LENGTH = 20;
-
 const TravelPlanEditPage = () => {
-  const location = useLocation();
   const navigate = useNavigate();
 
-  const id = extractId(location.pathname);
-
-  console.log(location.pathname);
+  const location = useLocation();
+  const id = location.pathname.replace(/[^\d]/g, "");
 
   const { data, status, error } = useGetTravelPlan(id);
 
@@ -46,25 +40,21 @@ const TravelPlanEditPage = () => {
 
   const {
     travelPlanDays,
+    onChangeTravelPlanDays,
     onAddDay,
     onAddPlace,
     onDeleteDay,
-    onChangePlaceDescription,
     onDeletePlace,
-  } = useTravelPlanDays(data?.days ?? []);
-
-  if (status === "success") {
-    setTitle(data.title);
-    setStartDate(new Date(data.startDate));
-  }
-
-  if (status === "error") {
-    alert(error.message);
-    navigate(ROUTE_PATHS_MAP.back);
-  }
+    onAddPlaceTodo,
+    onDeletePlaceTodo,
+    onChangeContent,
+  } = useTravelPlanDays([]);
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value.slice(MIN_TITLE_LENGTH, MAX_TITLE_LENGTH);
+    const title = e.target.value.slice(
+      FORM_VALIDATIONS_MAP.title.minLength,
+      FORM_VALIDATIONS_MAP.title.maxLength,
+    );
     setTitle(title);
   };
 
@@ -78,15 +68,20 @@ const TravelPlanEditPage = () => {
     setIsOpen(false);
   };
 
-  const handleConfirmBottomSheet = async () => {
+  const { mutate: travelPlanEditMutate } = usePutTravelPlan();
+
+  const handleEditTravelPlan = () => {
     const formattedStartDate = startDate
       ? new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
           .toISOString()
           .split("T")[0]
       : "";
 
-    handleAddTravelPlan(
-      { title, startDate: formattedStartDate, days: travelPlanDays },
+    travelPlanEditMutate(
+      {
+        travelPlan: { title, startDate: formattedStartDate, days: travelPlanDays },
+        id: Number(id),
+      },
       {
         onSuccess: (data) => {
           handleCloseBottomSheet();
@@ -94,20 +89,13 @@ const TravelPlanEditPage = () => {
         },
       },
     );
-
-    handleCloseBottomSheet();
   };
 
-  const { mutate: handleAddTravelPlan } = usePostTravelPlan();
+  const debouncedEditTravelPlan = useLeadingDebounce(() => handleEditTravelPlan(), 3000);
 
-  const { user } = useUser();
-
-  useEffect(() => {
-    if (!user?.accessToken) {
-      alert(ERROR_MESSAGE_MAP.api.login);
-      navigate(ROUTE_PATHS_MAP.login);
-    }
-  }, [user?.accessToken, navigate]);
+  const handleConfirmBottomSheet = () => {
+    debouncedEditTravelPlan();
+  };
 
   const [isShowCalendar, setIsShowCalendar] = useState(false);
 
@@ -120,17 +108,37 @@ const TravelPlanEditPage = () => {
     setIsShowCalendar(false);
   };
 
+  useEffect(() => {
+    if (data) {
+      setTitle(data.title);
+      setStartDate(new Date(data.startDate));
+      onChangeTravelPlanDays(data.days);
+    }
+  }, [data]);
+
+  if (status === "error") {
+    const errorMessage =
+      error.message === ERROR_MESSAGE_MAP.api.travelPlanOnlyWriter
+        ? ERROR_MESSAGE_MAP.api.travelPlanEditOnlyWriter
+        : error.message;
+
+    alert(errorMessage);
+    navigate(ROUTE_PATHS_MAP.back);
+
+    return;
+  }
+
   return (
     <>
       <S.Layout>
         <PageInfo mainText="여행 계획 수정" />
         <Input
           value={title}
-          maxLength={MAX_TITLE_LENGTH}
+          maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
           label="제목"
           placeholder="여행 계획 제목을 입력해주세요"
           count={title.length}
-          maxCount={MAX_TITLE_LENGTH}
+          maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
           onChange={handleChangeTitle}
         />
         <S.StartDateContainer>
@@ -143,11 +151,13 @@ const TravelPlanEditPage = () => {
             onClick={handleInputClick}
             readOnly
             placeholder="시작일을 입력해주세요"
+            css={S.startDateInputStyle}
           />
           {isShowCalendar && (
             <Calendar
               onSelectDate={handleSelectDate}
               onClose={() => setIsShowCalendar((prev) => !prev)}
+              css={S.calendarStyle}
             />
           )}
         </S.StartDateContainer>
@@ -159,7 +169,7 @@ const TravelPlanEditPage = () => {
                   size="16"
                   iconType="plus"
                   position="left"
-                  css={[S.addButtonStyle, S.addDayButtonStyle, S.loadingButtonStyle]}
+                  css={[S.addButtonStyle, S.loadingButtonStyle]}
                   onClick={() => onAddDay()}
                 >
                   일자 추가하기
@@ -168,17 +178,19 @@ const TravelPlanEditPage = () => {
             }
             libraries={["places", "maps"]}
           >
-            <Accordion.Root>
+            <Accordion.Root css={S.accordionRootStyle}>
               {travelPlanDays.map((travelDay, dayIndex) => (
                 <TravelPlanDayAccordion
                   key={travelDay.id}
                   startDate={startDate}
+                  onDeletePlaceTodo={onDeletePlaceTodo}
+                  onChangeContent={onChangeContent}
                   travelPlanDay={travelDay}
                   dayIndex={dayIndex}
                   onAddPlace={onAddPlace}
                   onDeletePlace={onDeletePlace}
                   onDeleteDay={onDeleteDay}
-                  onChangePlaceDescription={onChangePlaceDescription}
+                  onAddPlaceTodo={onAddPlaceTodo}
                 />
               ))}
             </Accordion.Root>
@@ -186,7 +198,7 @@ const TravelPlanEditPage = () => {
               size="16"
               iconType="plus"
               position="left"
-              css={[S.addButtonStyle, S.addDayButtonStyle]}
+              css={[S.addButtonStyle]}
               onClick={() => onAddDay()}
             >
               일자 추가하기
@@ -201,9 +213,9 @@ const TravelPlanEditPage = () => {
         <ModalBottomSheet
           isOpen={isOpen}
           mainText="여행 계획을 수정할까요?"
-          subText="수정한 후에도 재수정이 가능해요!"
+          subText="수정한 후에도 다시 여행 계획을 변경할 수 있어요."
           secondaryButtonLabel="취소"
-          primaryButtonLabel="수정"
+          primaryButtonLabel="확인"
           onClose={handleCloseBottomSheet}
           onConfirm={handleConfirmBottomSheet}
         />
