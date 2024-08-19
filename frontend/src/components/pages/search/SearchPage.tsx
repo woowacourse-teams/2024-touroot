@@ -48,12 +48,22 @@ const SearchPage = () => {
         </S.MainPageTraveloguesList>
       )}
       <S.MainPageTraveloguesList>
-        {travelogues.map(({ id, title, thumbnail, authorProfileUrl, likes }) => (
-          <TravelogueCard
-            key={id}
-            travelogueOverview={{ id, title, thumbnail, authorProfileUrl, likes }}
-          />
-        ))}
+        {travelogues.map(
+          ({ id, title, thumbnail, authorProfileUrl, likeCount, tags, authorNickname }) => (
+            <TravelogueCard
+              key={id}
+              travelogueOverview={{
+                id,
+                title,
+                thumbnail,
+                authorProfileUrl,
+                likeCount,
+                tags,
+                authorNickname,
+              }}
+            />
+          ),
+        )}
       </S.MainPageTraveloguesList>
       <div
         ref={lastElementRef}

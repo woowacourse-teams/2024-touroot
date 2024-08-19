@@ -64,6 +64,7 @@ const SearchHeader = () => {
             css={css`
               height: 4rem;
             `}
+            variant="round"
           />
           <S.ButtonContainer>
             <S.DeleteButton
