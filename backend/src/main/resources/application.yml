@@ -116,8 +116,8 @@ spring:
 server:
   ssl:
     key-store-type: PKCS12
-    key-store-password: ENC(faQYah2QoIaNVRZD9J6/junPRWkc5gaiAs+mEbxDk+I=)
-    key-store: ENC(7VQCNdI7mXATwc4AiymZoyf3mz9SiskXpLnenpMSFBI=)
+    key-store-password: ENC(WyJqMojCOPDe932QhOR52Ll0EhthbUe5ycHs0WWifQg=)
+    key-store: ENC(DtVtAx+kVnU581+bjT7A3vCLbJ8fe3JqUritO+0WJ/Q=)
 
 security:
   jwt:
