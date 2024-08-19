@@ -20,7 +20,25 @@ export const usePostTravelPlan = () => {
     unknown
   >({
     mutationFn: (travelPlan: TravelPlanPayload) =>
-      authClient.post(API_ENDPOINT_MAP.travelPlans, travelPlan),
+      authClient.post(API_ENDPOINT_MAP.travelPlans, {
+        ...travelPlan,
+        days: travelPlan.days.map((day) => {
+          return {
+            ...day,
+            places: day.places.map((place) => {
+              return {
+                ...place,
+                todos: place.todos?.map((todo) => {
+                  return {
+                    ...todo,
+                    isChecked: todo.checked,
+                  };
+                }),
+              };
+            }),
+          };
+        }),
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS_MAP.travelPlan.all,
