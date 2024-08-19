@@ -11,12 +11,12 @@ export const HeaderLayout = styled.header`
   z-index: ${({ theme }) => theme.zIndex.header};
 
   width: 100%;
-  height: fit-content;
+  height: 6rem;
   max-width: 48rem;
   padding: 1.6rem;
   border-bottom: 0.1rem solid ${({ theme }) => theme.colors.border};
 
-  background-color: #fff;
+  background-color: ${PRIMITIVE_COLORS.white};
 `;
 
 export const DrawHeaderContainer = styled.div`
@@ -41,12 +41,16 @@ export const MenuList = styled.ul`
   background-color: ${PRIMITIVE_COLORS.white};
 `;
 
-export const HeaderTitle = styled.span`
-  ${({ theme }) => theme.typography.mobile.bodyBold}
-  color: ${({ theme }) => theme.colors.text.primary};
+export const LeftWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-export const HiddenDiv = styled.div`
-  width: 2.4rem;
-  height: 2.4rem;
+export const RightContainer = styled.div<{ $isRightContentFull?: boolean }>`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.m};
+  justify-content: center;
+  align-items: center;
+  ${({ $isRightContentFull = false }) => $isRightContentFull && "flex: 1;"}
 `;

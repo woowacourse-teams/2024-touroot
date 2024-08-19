@@ -15,7 +15,11 @@ interface CalendarProps {
   onClose: () => void;
 }
 
-const Calendar = ({ onSelectDate, onClose }: CalendarProps) => {
+const Calendar = ({
+  onSelectDate,
+  onClose,
+  ...props
+}: CalendarProps & React.ComponentPropsWithoutRef<"div">) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -30,7 +34,7 @@ const Calendar = ({ onSelectDate, onClose }: CalendarProps) => {
   } = useCalendar();
 
   return (
-    <S.Layout ref={calendarRef}>
+    <S.Layout ref={calendarRef} {...props}>
       <S.HeaderContainer>
         <IconButton
           size="12"

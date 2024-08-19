@@ -15,9 +15,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, count, maxCount, variants = "round", ...props }, ref) => {
     return (
       <S.InputContainer>
-        <S.Label>{label}</S.Label>
+        {label && <S.Label>{label}</S.Label>}
         <S.Input variant={variants} {...props} ref={ref} />
-        <CharacterCount count={count} maxCount={maxCount} />
+        {count && maxCount ? <CharacterCount count={count} maxCount={maxCount} /> : null}
       </S.InputContainer>
     );
   },

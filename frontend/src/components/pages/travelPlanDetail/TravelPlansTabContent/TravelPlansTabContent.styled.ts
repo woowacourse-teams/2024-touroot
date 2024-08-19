@@ -10,6 +10,12 @@ export const BoxContainer = styled.div`
   gap: 0.8rem;
 `;
 
+export const TodoListContainer = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+`;
+
 export const boxStyle = css`
   display: flex;
   flex-direction: column;
