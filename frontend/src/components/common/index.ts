@@ -23,3 +23,5 @@ export { default as AvatarCircle } from "./AvatarCircle/AvatarCircle";
 export { default as Dropdown } from "./Dropdown/Dropdown";
 export { default as Modal } from "./Modal/Modal";
 export * from "./Header/index";
+export { default as Checkbox } from "./Checkbox/Checkbox";
+export { default as Chip } from "./Chip/Chip";

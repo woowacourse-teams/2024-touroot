@@ -3,11 +3,10 @@ import styled from "@emotion/styled";
 export const TravelogueCardLayout = styled.li`
   display: flex;
   flex-direction: column;
-  padding-bottom: 1rem;
+  padding: 1.6rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 0.8rem;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
 
   gap: 1rem;
 
@@ -16,23 +15,26 @@ export const TravelogueCardLayout = styled.li`
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
+
     border-radius: 8px;
   }
 `;
 
-export const TravelogueCardHeader = styled.header`
+export const TravelogueCardHeader = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const TravelogueCardInfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 0 1.6rem;
 `;
 
-export const TravelogueCardTitleContainer = styled.div`
+export const TravelogueCardAuthorContainer = styled.div`
   display: flex;
-  gap: 4px;
-  justify-content: flex-start;
+  gap: 0.4rem;
   align-items: center;
 
   h2 {
@@ -68,6 +70,13 @@ export const TravelogueCardThumbnail = styled.img`
   display: block;
   width: 100%;
   height: 100%;
+  border-radius: ${({ theme }) => theme.spacing.s};
   object-fit: cover;
   object-position: center;
+`;
+
+export const TravelogueCardChipsContainer = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
 `;

@@ -9,6 +9,8 @@ export const QUERY_KEYS_MAP = {
     ],
     me: () => [...QUERY_KEYS_MAP.travelogue.member("me")],
     search: (keyword: string) => [...QUERY_KEYS_MAP.travelogue.all, keyword],
+    tag: (selectedTagIDs: number[]) => [...QUERY_KEYS_MAP.travelogue.all, ...selectedTagIDs],
+
   },
   travelPlan: {
     all: ["travel-plans"],
@@ -23,5 +25,8 @@ export const QUERY_KEYS_MAP = {
   member: {
     all: ["member"],
     me: () => [...QUERY_KEYS_MAP.member.all, "me"],
+  },
+  tags: {
+    all: ["tags"],
   },
 };

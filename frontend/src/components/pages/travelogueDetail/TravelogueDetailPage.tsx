@@ -7,12 +7,13 @@ import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetail
 import useDeleteTravelogue from "@queries/useDeleteTravelogue";
 import { useGetTravelogue } from "@queries/useGetTravelogue";
 
-import { Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
+import { Chip, Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
 import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
 import TravelogueDetailSkeleton from "@components/pages/travelogueDetail/TravelogueDetailSkeleton/TravelogueDetailSkeleton";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
 
 import useClickAway from "@hooks/useClickAway";
+import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useUser from "@hooks/useUser";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
@@ -58,8 +59,10 @@ const TravelogueDetailPage = () => {
     setIsDeleteModalOpen((prev) => !prev);
   };
 
+  const debouncedClickDeleteButton = useLeadingDebounce(() => deleteTravelogue(Number(id)), 3000);
+
   const handleClickDeleteButton = () => {
-    deleteTravelogue(Number(id));
+    debouncedClickDeleteButton();
   };
 
   //TODO: 수정 이벤트 추가해야함
@@ -87,20 +90,22 @@ const TravelogueDetailPage = () => {
 
   return (
     <>
-      <S.TitleLayout>
-        <Thumbnail imageUrl={data?.thumbnail} />
-        <S.TitleContainer>
-          <Text textType="title" css={S.titleStyle}>
-            {data?.title}
-          </Text>
-          <S.AuthorDateContainer>
-            <Text textType="detail" css={S.authorDateStyle}>
-              {data?.authorNickname}
+      <S.TravelogueDetailLayout>
+        <S.TravelogueDetailHeader>
+          <Thumbnail imageUrl={data?.thumbnail} />
+          <S.TitleContainer>
+            <Text textType="title" css={S.titleStyle}>
+              {data?.title}
             </Text>
-            <Text textType="detail" css={S.authorDateStyle}>
-              {data?.createdAt}
-            </Text>
-          </S.AuthorDateContainer>
+            <S.AuthorInfoContainer>
+              <Text textType="detail" css={S.authorDateStyle}>
+                {data?.authorNickname}
+              </Text>
+              <Text textType="detail" css={S.authorDateStyle}>
+                {data?.createdAt}
+              </Text>
+            </S.AuthorInfoContainer>
+          </S.TitleContainer>
           <S.IconButtonContainer>
             {/* //TODO: 하트 버튼 추가시 이용
             <S.LikesContainer>
@@ -136,18 +141,24 @@ const TravelogueDetailPage = () => {
               </div>
             )}
           </S.IconButtonContainer>
+        </S.TravelogueDetailHeader>
 
-          <Text textType="subTitle" css={S.summaryTitleStyle}>
-            {daysAndNights} 여행 한눈에 보기
-          </Text>
-        </S.TitleContainer>
-      </S.TitleLayout>
-      <Tab
-        labels={data?.days.map((_, index) => `Day ${index + 1}`) ?? []}
-        tabContent={(selectedIndex) => (
-          <TravelogueTabContent places={data?.days[selectedIndex]?.places ?? []} />
-        )}
-      />
+        <S.TravelogueOverview>
+          <Text textType="subTitle">{daysAndNights} 여행 한눈에 보기</Text>
+          <S.TravelogueCardChipsContainer>
+            {data.tags.map((tag) => (
+              <Chip key={tag.id} label={tag.tag} />
+            ))}
+          </S.TravelogueCardChipsContainer>
+        </S.TravelogueOverview>
+
+        <Tab
+          labels={data?.days.map((_, index) => `Day ${index + 1}`) ?? []}
+          tabContent={(selectedIndex) => (
+            <TravelogueTabContent places={data?.days[selectedIndex]?.places ?? []} />
+          )}
+        />
+      </S.TravelogueDetailLayout>
       <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행 계획으로 전환">
         <Text textType="detail" css={S.transformBottomSheetTextStyle}>
           이 여행기를 따라가고 싶으신가요?

@@ -3,24 +3,28 @@ import styled from "@emotion/styled";
 
 import theme from "@styles/theme";
 
-export const TitleLayout = styled.section`
+export const TravelogueDetailLayout = styled.section`
   display: flex;
   flex-direction: column;
 
+  gap: ${({ theme }) => theme.spacing.xl};
+`;
+
+export const TravelogueDetailHeader = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: ${({ theme }) => theme.spacing.m};
 `;
 
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 15rem;
-  gap: ${({ theme }) => theme.spacing.m};
+  gap: ${({ theme }) => theme.spacing.s};
 
-  width: 100%;
   padding: 0 1.6rem;
 `;
 
-export const AuthorDateContainer = styled.div`
+export const AuthorInfoContainer = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing.m};
 `;
@@ -32,6 +36,7 @@ export const IconButtonContainer = styled.div`
   position: relative;
 
   width: 100%;
+  padding: 0 1.6rem;
 `;
 
 export const LikesContainer = styled.div`
@@ -40,17 +45,18 @@ export const LikesContainer = styled.div`
   align-items: center;
 `;
 
-export const MoreContainer = styled.div`
+export const TravelogueOverview = styled.div`
   display: flex;
-  justify-content: flex-end;
-  position: relative;
-
-  width: 100%;
+  flex-direction: column;
   gap: ${({ theme }) => theme.spacing.m};
+
+  padding: 0 1.6rem;
 `;
 
-export const ContentContainer = styled.div`
-  margin-top: 3rem;
+export const TravelogueCardChipsContainer = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.s};
 `;
 
 export const titleStyle = css`
@@ -63,10 +69,6 @@ export const authorDateStyle = css`
 
 export const cursorPointerStyle = css`
   cursor: pointer;
-`;
-
-export const summaryTitleStyle = css`
-  margin: 1.6rem 0 3.2rem;
 `;
 
 export const transformBottomSheetTextStyle = css`

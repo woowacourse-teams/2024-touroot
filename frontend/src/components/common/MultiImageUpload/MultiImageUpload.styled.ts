@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 
+import { PRIMITIVE_COLORS } from "@styles/tokens";
+
 export const MultiImageUploadContainer = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -91,14 +93,14 @@ export const MultiImageUploadDeleteButton = styled.button`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: -1rem;
+  top: -0.6rem;
   right: -1rem;
   width: 2rem;
   height: 2rem;
   border: 1px solid ${(props) => props.theme.colors.border};
   border-radius: 50%;
 
-  background-color: #fff;
+  background-color: ${PRIMITIVE_COLORS.white};
 
   svg {
     width: 0.8rem;

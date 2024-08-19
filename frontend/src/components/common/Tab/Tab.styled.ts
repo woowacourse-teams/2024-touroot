@@ -5,7 +5,7 @@ export const TabList = styled.ul`
   overflow: scroll hidden;
   width: 100%;
 
-  white-space: no-wrap;
+  white-space: nowrap;
   -webkit-overflow-scrolling: touch;
 
   ::-webkit-scrollbar {
