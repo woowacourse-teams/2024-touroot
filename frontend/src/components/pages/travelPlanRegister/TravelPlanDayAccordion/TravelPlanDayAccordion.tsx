@@ -84,6 +84,7 @@ const TravelPlanDayAccordion = ({
                   {place.todos?.map((todo) => (
                     <PlaceTodoListItem
                       key={todo.id}
+                      todo={todo}
                       onChangeContent={(e) =>
                         onChangeContent({
                           content: e.target.value,
