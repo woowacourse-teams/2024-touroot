@@ -6,8 +6,8 @@ export const Box = styled.div`
   align-items: center;
 
   width: 100%;
-  height: 3.98rem;
-  padding-left: 1.6rem;
+  height: 4.8rem;
+  padding: 0 1.6rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 4px;
 `;

@@ -21,13 +21,13 @@ initialize(
   handlers,
 );
 
-const rootStyle = {
+const getRootStyle = (storyId: string) => ({
   width: "48rem",
-  padding: "1.6rem",
+  padding: storyId.startsWith("common-header--") ? 0 : "1.6rem",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-};
+});
 
 const preview: Preview = {
   parameters: {
@@ -39,14 +39,14 @@ const preview: Preview = {
     },
   },
   decorators: [
-    (Story) => {
+    (Story, context) => {
       const queryClient = new QueryClient();
       return (
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>
             <Global styles={globalStyle} />
             <div id="root">
-              <div style={rootStyle}>
+              <div style={getRootStyle(context.id)}>
                 <Story />
               </div>
             </div>

@@ -2,9 +2,11 @@ import { css } from "@emotion/react";
 
 import type { TraveloguePlace } from "@type/domain/travelogue";
 
-import { Box, GoogleMapLoadScript, GoogleMapView } from "@components/common";
+import { Box, GoogleMapLoadScript, GoogleMapView, IconButton } from "@components/common";
 import Skeleton from "@components/common/Skeleton/Skeleton";
 import PlaceDetailCard from "@components/pages/travelogueDetail/TravelogueTabContent/PlaceDetailCard/PlaceDetailCard";
+
+import theme from "@styles/theme";
 
 import * as S from "./TravelogueTabContent.styled";
 
@@ -25,7 +27,23 @@ const TravelogueTabContent = ({ places }: { places: TraveloguePlace[] }) => {
         />
         <S.BoxContainer>
           {places.map((place, index) => (
-            <Box key={place.id} placeName={`${index + 1}. ${place.placeName}`} tags={[]} />
+            <Box key={place.id} placeName={`${index + 1}. ${place.placeName}`}>
+              <S.IconButtonWrapper>
+                <a
+                  href={`https://www.google.com/maps/search/${place.placeName}/@${place.position.lat},${place.position.lng}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={`${place.placeName} 지도 상세보기 링크 버튼`}
+                >
+                  <IconButton
+                    iconType="map-icon"
+                    color={theme.colors.primary}
+                    size="16"
+                    css={S.IconButtonStyle}
+                  />
+                </a>
+              </S.IconButtonWrapper>
+            </Box>
           ))}
         </S.BoxContainer>
         <S.Title
