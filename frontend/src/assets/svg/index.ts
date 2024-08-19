@@ -20,3 +20,4 @@ export { default as KaKao } from "./kakao.svg";
 export { default as KoreanLogo } from "./korean-logo.svg";
 export { default as Plus } from "./plus.svg";
 export { default as tturiUrl } from "./tturi.svg?url";
+export { default as HomeIcon } from "./home-icon.svg";

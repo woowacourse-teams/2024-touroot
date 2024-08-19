@@ -9,4 +9,6 @@ export const ROUTE_PATHS_MAP = {
   loginCallback: "/oauth",
   loginOauth: "/login/oauth/kakao",
   my: "/my",
+  searchMain: "/search",
+  search: (keyword?: string) => (keyword ? `/search/${keyword}` : "/search/:id"),
 } as const;
