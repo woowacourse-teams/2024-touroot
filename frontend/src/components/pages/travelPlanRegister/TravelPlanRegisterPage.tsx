@@ -66,6 +66,8 @@ const TravelPlanRegisterPage = () => {
 
   const navigate = useNavigate();
 
+  const { mutate: travelPlanRegisterMutate } = usePostTravelPlan();
+
   const handleRegisterTravelPlan = () => {
     const formattedStartDate = startDate
       ? new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
@@ -73,7 +75,7 @@ const TravelPlanRegisterPage = () => {
           .split("T")[0]
       : "";
 
-    handleAddTravelPlan(
+    travelPlanRegisterMutate(
       { title, startDate: formattedStartDate, days: travelPlanDays },
       {
         onSuccess: (data) => {
@@ -89,8 +91,6 @@ const TravelPlanRegisterPage = () => {
   const handleConfirmBottomSheet = () => {
     debouncedRegisterTravelPlan();
   };
-
-  const { mutate: handleAddTravelPlan } = usePostTravelPlan();
 
   const { user } = useUser();
 
