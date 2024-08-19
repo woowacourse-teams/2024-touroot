@@ -4,15 +4,13 @@ import { css } from "@emotion/react";
 
 import useInfiniteSearchTravelogues from "@queries/useInfiniteSearchTravelogues";
 
-import { Text } from "@components/common";
-import FloatingButton from "@components/common/FloatingButton/FloatingButton";
+import { FloatingButton, SearchFallback, Text } from "@components/common";
 import TravelogueCard from "@components/pages/main/TravelogueCard/TravelogueCard";
 
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
 
 import TravelogueCardSkeleton from "../main/TravelogueCard/skeleton/TravelogueCardSkeleton";
 import * as S from "./SearchPage.styled";
-import SearchFallback from "./fallback/SearchFallback";
 
 const SearchPage = () => {
   const SKELETON_COUNT = 5;
