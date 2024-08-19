@@ -8,6 +8,10 @@ import type { TravelTransformPlaces } from "@type/domain/travelTransform";
 export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
   const [travelPlanDays, setTravelPlanDays] = useState<TravelPlanDay[]>(days);
 
+  const onChangeTravelPlanDays = (newDays: TravelPlanDay[]) => {
+    setTravelPlanDays(newDays);
+  };
+
   const onAddDay = useCallback((dayIndex?: number) => {
     setTravelPlanDays((prevTravelDays) =>
       dayIndex
@@ -78,7 +82,7 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
       const place = newTravelPlans[dayIndex]?.places[placeIndex];
       if (!place) return prevTravelPlansDays;
 
-      place.todos = [...(place.todos ?? []), { id: uuidv4(), content: "" }];
+      place.todos = [...(place.todos ?? []), { id: uuidv4(), content: "", checked: false }];
 
       return newTravelPlans;
     });
@@ -98,6 +102,7 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
 
   return {
     travelPlanDays,
+    onChangeTravelPlanDays,
     onAddDay,
     onDeleteDay,
     onAddPlace,
