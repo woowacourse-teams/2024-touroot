@@ -1,5 +1,7 @@
 import React from "react";
 
+import Spinner from "@components/common/Spinner/Spinner";
+
 import { useDragScroll } from "@hooks/index";
 
 import * as S from "./MultiImageUpload.styled";
@@ -7,7 +9,7 @@ import * as S from "./MultiImageUpload.styled";
 const MAX_PICTURES_COUNT = 10;
 
 interface MultiImageUploadProps extends React.ComponentPropsWithoutRef<"div"> {
-  previewUrls: string[];
+  previewImageStates: { url: string; isLoading: boolean }[];
   fileInputRef: React.RefObject<HTMLInputElement>;
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onDeleteImage: (index: number) => void;
@@ -15,16 +17,45 @@ interface MultiImageUploadProps extends React.ComponentPropsWithoutRef<"div"> {
 }
 
 const MultiImageUpload = ({
-  previewUrls,
+  previewImageStates,
   fileInputRef,
   onImageChange,
   onDeleteImage,
   onButtonClick,
   ...props
 }: MultiImageUploadProps) => {
-  const { scrollRef, onMouseDown, onMouseUp, onMouseMove, isDragging } = useDragScroll();
+  const { scrollRef, onMouseDown, onMouseUp, onMouseMove, isDragging } =
+    useDragScroll<HTMLDivElement>();
 
-  const hasPictures = previewUrls.length !== 0;
+  const hasPictures = previewImageStates.length !== 0;
+
+  const renderImageOrSpinner = (imageState: { url: string; isLoading: boolean }, index: number) => (
+    <S.MultiImageUploadPictureWrapper key={index}>
+      <S.MultiImageUploadDeleteButton onClick={() => onDeleteImage(index)}>
+        <svg
+          width="11"
+          height="11"
+          viewBox="0 0 11 11"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1.1002 11L0 9.9L4.40079 5.5L0 1.1L1.1002 0L5.50098 4.4L9.90177 0L11.002 1.1L6.60118 5.5L11.002 9.9L9.90177 11L5.50098 6.6L1.1002 11Z"
+            fill="#616161"
+          />
+        </svg>
+      </S.MultiImageUploadDeleteButton>
+      {imageState.isLoading ? (
+        <Spinner variants="circle" size={40} />
+      ) : (
+        <S.MultiImageUploadPicture
+          src={imageState.url}
+          alt={`업로드된 이미지 ${index + 1}`}
+          draggable="false"
+        />
+      )}
+    </S.MultiImageUploadPictureWrapper>
+  );
 
   return (
     <S.MultiImageUploadContainer {...props}>
@@ -51,7 +82,7 @@ const MultiImageUpload = ({
             </S.MultiImageUploadSVGWrapper>
 
             <p>
-              {previewUrls.length} / {MAX_PICTURES_COUNT}
+              {previewImageStates.length} / {MAX_PICTURES_COUNT}
             </p>
           </S.MultiImageUploadPictureAddButton>
           <S.MultiImageUploadHiddenInput
@@ -72,29 +103,7 @@ const MultiImageUpload = ({
             onMouseLeave={onMouseUp}
             $isDragging={isDragging}
           >
-            {previewUrls.map((previewUrl, index) => (
-              <S.MultiImageUploadPictureWrapper key={previewUrl}>
-                <S.MultiImageUploadDeleteButton onClick={() => onDeleteImage(index)}>
-                  <svg
-                    width="11"
-                    height="11"
-                    viewBox="0 0 11 11"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M1.1002 11L0 9.9L4.40079 5.5L0 1.1L1.1002 0L5.50098 4.4L9.90177 0L11.002 1.1L6.60118 5.5L11.002 9.9L9.90177 11L5.50098 6.6L1.1002 11Z"
-                      fill="#616161"
-                    />
-                  </svg>
-                </S.MultiImageUploadDeleteButton>
-                <S.MultiImageUploadPicture
-                  src={previewUrl}
-                  alt={`업로드된 이미지 ${index + 1}`}
-                  draggable="false"
-                />
-              </S.MultiImageUploadPictureWrapper>
-            ))}
+            {previewImageStates.map((imageState, index) => renderImageOrSpinner(imageState, index))}
           </S.ImageScrollContainer>
         </S.MultiImageUploadPictureContainer>
       )}
@@ -138,7 +147,7 @@ const MultiImageUpload = ({
             </S.MultiImageUploadSVGWrapper>
 
             <p>
-              {previewUrls.length} / {MAX_PICTURES_COUNT}
+              {previewImageStates.length} / {MAX_PICTURES_COUNT}
             </p>
           </S.MultiImageUploadPictureAddButton>
           <S.MultiImageUploadHiddenInput

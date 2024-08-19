@@ -5,6 +5,7 @@ export const API_ENDPOINT_MAP = {
   travelPlanDetail: (id: number | string) => `/travel-plans/${id}`,
   sharedTravelPlanDetail: (uuid: string) => `/travel-plans/shared/${uuid}`,
   travelogueLike: (id: number | string) => `${API_ENDPOINT_MAP.travelogueDetail(id)}/like`,
+  todos: (todoId: string) => `/todos/${todoId}`,
   travelogues: "/travelogues",
   travelPlans: "/travel-plans",
   image: "/image",
@@ -12,4 +13,5 @@ export const API_ENDPOINT_MAP = {
   myTravelogues: "/member/me/travelogues",
   myTravelPlans: "/member/me/travel-plans",
   reissueToken: "/login/reissue-token",
+  tags: "/tags",
 } as const;

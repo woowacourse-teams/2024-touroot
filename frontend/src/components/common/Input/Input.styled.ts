@@ -68,12 +68,13 @@ export const bottomStyle = css`
 `;
 
 export const noneStyle = css`
+  padding: 0;
   border: none;
   border-radius: 0;
 
   &:focus {
-    outline: none;
     border-bottom: 1px solid ${theme.colors.border};
+    outline: none;
   }
 
   &:focus-visible {

@@ -11,7 +11,9 @@ const TAG_MAP = {
   title: "h2",
   subTitle: "h3",
   body: "p",
+  bodyBold: "p",
   detail: "span",
+  detailBold: "span",
 } as const;
 
 const Text = ({ children, textType = "body", ...attributes }: TextProps) => {

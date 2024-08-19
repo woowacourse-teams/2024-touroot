@@ -16,12 +16,20 @@ export const travelogueInfiniteHandler = http.get(apiRequestUrl, ({ request }) =
 
   const page = Number(url.searchParams.get("page") ?? "5");
   const size = Number(url.searchParams.get("size") ?? "5");
+  const tagFilter = url.searchParams.get("tagFilter");
 
   const start = page * size;
   const end = (page + 1) * size;
 
   const last = MOCK_TRAVELOGUES.length <= end;
-  const paginatedPage = MOCK_TRAVELOGUES.slice(start, end);
+  const paginatedPage = tagFilter
+    ? MOCK_TRAVELOGUES.filter((travelogue) =>
+        travelogue.tags
+          .map((tag) => tag.id)
+          .join(",")
+          .includes(tagFilter),
+      ).slice(start, end)
+    : MOCK_TRAVELOGUES.slice(start, end);
 
   return HttpResponse.json({ content: paginatedPage, last });
 });
