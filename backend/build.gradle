@@ -36,6 +36,7 @@ dependencies {
     implementation 'software.amazon.awssdk:s3:2.20.28'
     implementation 'software.amazon.awssdk:sts:2.20.28'
     implementation 'software.amazon.awssdk:auth:2.20.28'
+    implementation 'io.findify:s3mock_2.13:0.2.6'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'
@@ -44,6 +45,7 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.rest-assured:rest-assured:5.5.0'
+    testImplementation 'io.findify:s3mock_2.13:0.2.6'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

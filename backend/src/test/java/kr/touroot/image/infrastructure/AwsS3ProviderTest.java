@@ -2,49 +2,48 @@ package kr.touroot.image.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
+import java.util.List;
+import kr.touroot.global.AcceptanceTest;
 import kr.touroot.global.exception.S3UploadException;
+import kr.touroot.image.domain.ImageFile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.CopyObjectRequest;
-import software.amazon.awssdk.services.s3.model.CopyObjectResponse;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = AwsS3Provider.class)
+@AcceptanceTest
 class AwsS3ProviderTest {
 
-    @MockBean
-    private S3Client s3Client;
+    private final AwsS3Provider s3Provider;
+    private final String temporaryStoragePath;
+    private final String imageStoragePath;
 
-    @SpyBean
-    private AwsS3Provider s3Provider;
-
-    @Value("${cloud.aws.s3.image-base-uri}")
-    private String imageBaseUri;
-    @Value("${cloud.aws.s3.temporary-storage-path}")
-    private String temporaryStoragePath;
-    @Value("${cloud.aws.s3.image-storage-path}")
-    private String imageStoragePath;
+    public AwsS3ProviderTest(
+            @Autowired AwsS3Provider s3Provider,
+            @Value("${cloud.aws.s3.temporary-storage-path}") String temporaryStoragePath,
+            @Value("${cloud.aws.s3.image-storage-path}") String imageStoragePath
+    ) {
+        this.s3Provider = s3Provider;
+        this.temporaryStoragePath = temporaryStoragePath;
+        this.imageStoragePath = imageStoragePath;
+    }
 
     @DisplayName("유효한 url을 통해 이미지를 영구 폴더로 복사하면 새로운 url을 반환한다.")
     @Test
     void copyImageToPermanentStorage() {
-        when(s3Provider.getS3Client())
-                .thenReturn(s3Client);
-        when(s3Client.copyObject(any(CopyObjectRequest.class)))
-                .thenReturn(CopyObjectResponse.builder().build());
+        MultipartFile multipartFile = new MockMultipartFile(
+                "file",
+                "test-image.png",
+                "image/png",
+                "test image content".getBytes()
+        );
+        String temporaryUrl = s3Provider.uploadImages(List.of(new ImageFile(multipartFile)))
+                .get(0);
+        String imageUrl = temporaryUrl.replace(temporaryStoragePath, imageStoragePath);
 
-        String temporaryUrl = imageBaseUri + temporaryStoragePath + "valid.png";
-        String imageUrl = imageBaseUri + imageStoragePath + "valid.png";
         assertThat(s3Provider.copyImageToPermanentStorage(temporaryUrl))
                 .isEqualTo(imageUrl);
     }
