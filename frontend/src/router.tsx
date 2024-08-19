@@ -6,7 +6,7 @@ import LoginPage from "@components/pages/login/LoginPage";
 import MainPage from "@components/pages/main/MainPage";
 import MyPage from "@components/pages/my/MyPage";
 import TravelPlanDetailPage from "@components/pages/travelPlanDetail/TravelPlanDetailPage";
-import TravelPlanEditPage from "@components/pages/travelPlanEdit/travelPlanEditPage";
+import TravelPlanEditPage from "@components/pages/travelPlanEdit/TravelPlanEditPage";
 import TravelPlanRegisterPage from "@components/pages/travelPlanRegister/TravelPlanRegisterPage";
 import TravelogueDetailPage from "@components/pages/travelogueDetail/TravelogueDetailPage";
 import TravelogueEditPage from "@components/pages/travelogueEdit/TravelogueEditPage";
