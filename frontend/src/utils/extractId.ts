@@ -1,3 +1,3 @@
 export const extractId = (pathname: string) => {
-  return pathname.split("/").pop() ?? "";
+  return pathname.replace(/[^\d]/g, "") ?? "";
 };
