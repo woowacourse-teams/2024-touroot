@@ -11,7 +11,7 @@ const MAX_DESCRIPTION_LENGTH = 300;
 export const useTravelogueDays = (days: TravelTransformPlaces[]) => {
   const [travelogueDays, setTravelogueDays] = useState<TravelogueDay[]>(days);
 
-  const changeTravelogueDays = (newDays: TravelogueDay[]) => {
+  const onChangeTravelogueDays = (newDays: TravelogueDay[]) => {
     setTravelogueDays(newDays);
   };
 
@@ -107,7 +107,7 @@ export const useTravelogueDays = (days: TravelTransformPlaces[]) => {
 
   return {
     travelogueDays,
-    changeTravelogueDays,
+    onChangeTravelogueDays,
     onAddDay,
     onDeleteDay,
     onAddPlace,

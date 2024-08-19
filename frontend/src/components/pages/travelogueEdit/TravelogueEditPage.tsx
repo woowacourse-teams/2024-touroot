@@ -59,7 +59,7 @@ const TravelogueEditPage = () => {
 
   const {
     travelogueDays,
-    changeTravelogueDays,
+    onChangeTravelogueDays,
     onAddDay,
     onAddPlace,
     onDeleteDay,
@@ -92,10 +92,10 @@ const TravelogueEditPage = () => {
     setIsOpen(false);
   };
 
-  const { mutate: editTravelogueMutate } = usePutTravelogue();
+  const { mutate: travelogueEditMutate } = usePutTravelogue();
 
   const handleEditTravelogue = () => {
-    editTravelogueMutate(
+    travelogueEditMutate(
       {
         travelogue: { title, thumbnail, tags: selectedTagIDs, days: travelogueDays },
         id: Number(id),
@@ -120,7 +120,7 @@ const TravelogueEditPage = () => {
       setTitle(data.title);
       setThumbnail(data.thumbnail);
       changeSelectedTagIDs(data.tags.map((tag) => tag.id));
-      changeTravelogueDays(data.days);
+      onChangeTravelogueDays(data.days);
     }
   }, [data]);
 
