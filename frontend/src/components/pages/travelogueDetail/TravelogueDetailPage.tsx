@@ -19,7 +19,7 @@ import useUser from "@hooks/useUser";
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
-import { extractId } from "@utils/extractId";
+import { extractID } from "@utils/extractId";
 
 import theme from "@styles/theme";
 
@@ -28,7 +28,7 @@ import * as S from "./TravelogueDetailPage.styled";
 
 const TravelogueDetailPage = () => {
   const location = useLocation();
-  const id = extractId(location.pathname);
+  const id = extractID(location.pathname);
 
   const { user } = useUser();
 

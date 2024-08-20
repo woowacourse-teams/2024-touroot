@@ -30,7 +30,7 @@ import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
-import { extractId } from "@utils/extractId";
+import { extractID } from "@utils/extractId";
 
 import * as S from "./TravelogueEditPage.styled";
 
@@ -38,7 +38,7 @@ const TravelogueEditPage = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const id = extractId(location.pathname);
+  const id = extractID(location.pathname);
 
   const { data } = useGetTravelogue(id);
 
@@ -233,17 +233,16 @@ const TravelogueEditPage = () => {
           </Button>
         </div>
       </S.Layout>
-      {isOpen && (
-        <ModalBottomSheet
-          isOpen={isOpen}
-          mainText="여행기를 수정할까요?"
-          subText="수정한 후에도 다시 여행기를 변경할 수 있어요!"
-          secondaryButtonLabel="취소"
-          primaryButtonLabel="확인"
-          onClose={handleCloseBottomSheet}
-          onConfirm={handleConfirmBottomSheet}
-        />
-      )}
+
+      <ModalBottomSheet
+        isOpen={isOpen}
+        mainText="여행기를 수정할까요?"
+        subText="수정한 후에도 다시 여행기를 변경할 수 있어요!"
+        secondaryButtonLabel="취소"
+        primaryButtonLabel="확인"
+        onClose={handleCloseBottomSheet}
+        onConfirm={handleConfirmBottomSheet}
+      />
     </>
   );
 };

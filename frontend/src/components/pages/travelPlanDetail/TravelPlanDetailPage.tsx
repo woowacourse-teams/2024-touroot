@@ -21,7 +21,6 @@ import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
-import { extractId } from "@utils/extractId";
 import getDateRange from "@utils/getDateRange";
 import { isUUID } from "@utils/uuid";
 
@@ -32,7 +31,7 @@ import * as S from "./TravelPlanDetailPage.styled";
 
 const TravelPlanDetailPage = () => {
   const location = useLocation();
-  const id = extractId(location.pathname);
+  const id = location.pathname.split("/").pop() ?? "";
 
   const { onTransformTravelDetail } = useTravelTransformDetailContext();
   const { data, status, error } = useGetTravelPlan(id);
@@ -106,7 +105,6 @@ const TravelPlanDetailPage = () => {
   if (status === "error") {
     alert(error.message);
     navigate(ROUTE_PATHS_MAP.back);
-    return;
   }
 
   return (
