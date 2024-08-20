@@ -1,7 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
-import IconButton from "@components/common/IconButton/IconButton";
-
 import useUser from "@hooks/useUser";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
@@ -12,19 +10,27 @@ import { PRIMITIVE_COLORS } from "@styles/tokens";
 import { DoubleRightArrow } from "@assets/svg";
 
 import Drawer from "../Drawer/Drawer";
+import IconButton from "../IconButton/IconButton";
 import * as S from "./Header.styled";
 
-const Header = () => {
+interface HeaderProps {
+  isLogoUsed?: boolean;
+  rightContent: React.ReactNode;
+  $isRightContentFull?: boolean;
+  isHamburgerUsed?: boolean;
+}
+
+const Header = ({
+  isLogoUsed = false,
+  rightContent,
+  $isRightContentFull = false,
+  isHamburgerUsed = false,
+}: HeaderProps) => {
   const { user, saveUser } = useUser();
   const location = useLocation();
   const pathName = location.pathname;
 
   const navigate = useNavigate();
-
-  const handleClickButton =
-    pathName === ROUTE_PATHS_MAP.root || pathName === ROUTE_PATHS_MAP.login
-      ? () => navigate(ROUTE_PATHS_MAP.root)
-      : () => navigate(ROUTE_PATHS_MAP.back);
 
   const handleClickLogout = () => {
     if (
@@ -34,31 +40,36 @@ const Header = () => {
       navigate(ROUTE_PATHS_MAP.login);
     }
 
+
     saveUser({ accessToken: "", memberId: 0, refreshToken: "" });
+
   };
 
   const handleClickMyPage = () => navigate(ROUTE_PATHS_MAP.my);
 
-  const handleClickHome = () => navigate(ROUTE_PATHS_MAP.root);
-
   return (
     <Drawer>
       <S.HeaderLayout>
-        <IconButton
-          color={pathName === ROUTE_PATHS_MAP.root ? theme.colors.primary : PRIMITIVE_COLORS.black}
-          onClick={handleClickButton}
-          iconType={pathName === ROUTE_PATHS_MAP.root ? "korean-logo" : "back-icon"}
-        />
-        {pathName === ROUTE_PATHS_MAP.login ? (
-          <>
-            <S.HeaderTitle>로그인</S.HeaderTitle>
-            <S.HiddenDiv />
-          </>
-        ) : (
-          <Drawer.Trigger>
-            <IconButton iconType={"hamburger"} />
-          </Drawer.Trigger>
-        )}
+        <S.LeftWrapper>
+          <IconButton
+            color={isLogoUsed ? theme.colors.primary : PRIMITIVE_COLORS.black}
+            iconType={isLogoUsed ? "korean-logo" : "back-icon"}
+            onClick={
+              isLogoUsed
+                ? () => navigate(ROUTE_PATHS_MAP.root)
+                : () => navigate(ROUTE_PATHS_MAP.back)
+            }
+          />
+        </S.LeftWrapper>
+
+        <S.RightContainer $isRightContentFull={$isRightContentFull}>
+          {rightContent}
+          {isHamburgerUsed && (
+            <Drawer.Trigger>
+              <IconButton iconType="hamburger" />
+            </Drawer.Trigger>
+          )}
+        </S.RightContainer>
       </S.HeaderLayout>
 
       <Drawer.Header>
@@ -70,9 +81,6 @@ const Header = () => {
       </Drawer.Header>
       <Drawer.Content>
         <S.MenuList>
-          <Drawer.Trigger>
-            <S.MenuItem onClick={handleClickHome}>홈</S.MenuItem>
-          </Drawer.Trigger>
           <Drawer.Trigger>
             <S.MenuItem onClick={handleClickMyPage}>마이페이지</S.MenuItem>
           </Drawer.Trigger>

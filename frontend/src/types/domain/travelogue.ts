@@ -13,6 +13,11 @@ export interface TravelogueDay {
   places: TraveloguePlace[];
 }
 
+export interface Tag {
+  id: number;
+  tag: string;
+}
+
 export interface TravelogueResponse {
   id: number;
   title: string;
@@ -24,9 +29,12 @@ export interface TravelogueResponse {
   createdAt: string;
   likeCount: number;
   isLiked: boolean;
+  tags: Tag[];
 }
 
-export type TraveloguePayload = Pick<TravelogueResponse, "title" | "thumbnail" | "days">;
+export type TraveloguePayload = Pick<TravelogueResponse, "title" | "thumbnail" | "days"> & {
+  tags: number[];
+};
 
 export interface MyTravelogue {
   id: string;

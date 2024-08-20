@@ -37,6 +37,13 @@ export const Default: Story = {
       title: "갱얼쥐랑 캠핑 🐶",
       thumbnail: "https://i.pinimg.com/564x/20/bb/6d/20bb6d47bb88b8df862520c19c18600a.jpg",
       likeCount: 10,
+      tags: [
+        { id: 1, tag: "🏡 가족" },
+        { id: 2, tag: "🐾 반려동물" },
+        { id: 3, tag: "⛱️ 여름" },
+        { id: 4, tag: "💕 연인" },
+        { id: 5, tag: "🍴 맛집" },
+      ],
     },
   },
 };
@@ -50,6 +57,13 @@ export const WithInvalidThumbnail: Story = {
       authorNickname: "리버",
       thumbnail: "invalidUrl",
       likeCount: 10,
+      tags: [
+        { id: 1, tag: "🏡 가족" },
+        { id: 2, tag: "🐾 반려동물" },
+        { id: 3, tag: "⛱️ 여름" },
+        { id: 4, tag: "💕 연인" },
+        { id: 5, tag: "🍴 맛집" },
+      ],
     },
   },
 };

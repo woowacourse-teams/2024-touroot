@@ -1,10 +1,9 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 export const TravelogueCardLayout = styled.li`
   display: flex;
   flex-direction: column;
-  padding-bottom: 1.6rem;
+  padding: 1.6rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 0.8rem;
@@ -24,18 +23,16 @@ export const TravelogueCardLayout = styled.li`
 export const TravelogueCardHeader = styled.div`
   display: flex;
   align-items: center;
-  padding: 1.6rem 1.6rem 0;
 `;
 
-export const TravelogueCardFooter = styled.div`
+export const TravelogueCardInfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 0 1.6rem;
 `;
 
-export const TravelogueCardTitleContainer = styled.div`
+export const TravelogueCardAuthorContainer = styled.div`
   display: flex;
   gap: 0.4rem;
   align-items: center;
@@ -63,7 +60,6 @@ export const TravelogueCardThumbnailContainer = styled.div`
 
   width: 100%;
   height: 25rem;
-  padding: 0 1.6rem;
   border-radius: 0.8rem 0.8rem 0 0;
 
   line-height: 0;
@@ -79,6 +75,8 @@ export const TravelogueCardThumbnail = styled.img`
   object-position: center;
 `;
 
-export const textBoldStyle = css`
-  font-weight: 700;
+export const TravelogueCardChipsContainer = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
 `;
