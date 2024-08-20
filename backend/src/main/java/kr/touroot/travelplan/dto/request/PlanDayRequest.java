@@ -8,12 +8,12 @@ import java.util.List;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.domain.TravelPlanDay;
 
-public record PlanDayCreateRequest(
+public record PlanDayRequest(
         @Schema(description = "여행 장소 정보")
         @Valid
         @Size(min = 1, message = "여행 장소는 한 개 이상이어야 합니다.")
         @NotNull(message = "여행 장소 정보는 비어있을 수 없습니다.")
-        List<PlanPlaceCreateRequest> places
+        List<PlanPlaceRequest> places
 ) {
 
     public TravelPlanDay toPlanDay(int order, TravelPlan plan) {

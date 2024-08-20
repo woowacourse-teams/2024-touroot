@@ -13,7 +13,7 @@ import kr.touroot.travelplan.domain.TravelPlan;
 import lombok.Builder;
 
 @Builder
-public record PlanCreateRequest(
+public record PlanRequest(
         @Schema(description = "여행 계획 제목", example = "신나는 잠실 한강 여행")
         @NotBlank(message = "여행 계획 제목은 비어있을 수 없습니다.")
         String title,
@@ -24,7 +24,7 @@ public record PlanCreateRequest(
         @Valid
         @Size(min = 1, message = "여행 날짜는 하루 이상 있어야 합니다.")
         @NotNull(message = "여행 날짜 정보는 비어있을 수 없습니다.")
-        List<PlanDayCreateRequest> days
+        List<PlanDayRequest> days
 ) {
 
     public TravelPlan toTravelPlan(Member author, UUID shareKey) {

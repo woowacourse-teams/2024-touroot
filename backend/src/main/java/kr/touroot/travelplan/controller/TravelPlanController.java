@@ -12,7 +12,7 @@ import java.net.URI;
 import java.util.UUID;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
-import kr.touroot.travelplan.dto.request.PlanCreateRequest;
+import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.dto.response.PlanCreateResponse;
 import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.service.TravelPlanService;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,7 +54,7 @@ public class TravelPlanController {
     })
     @PostMapping
     public ResponseEntity<PlanCreateResponse> createTravelPlan(
-            @Valid @RequestBody PlanCreateRequest request,
+            @Valid @RequestBody PlanRequest request,
             MemberAuth memberAuth
     ) {
         PlanCreateResponse data = travelPlanService.createTravelPlan(request, memberAuth);
@@ -85,6 +86,32 @@ public class TravelPlanController {
     ) {
         PlanResponse data = travelPlanService.readTravelPlan(id, memberAuth);
         return ResponseEntity.ok(data);
+    }
+
+    @Operation(summary = "여행 계획 수정")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "요청이 정상적으로 처리되었을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "요청 Body에 올바르지 않은 값이 전달되었을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "작성자가 아닌 사용자가 요청했을 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<PlanCreateResponse> updateTravelPlan(
+            @PathVariable Long id,
+            @Valid MemberAuth memberAuth,
+            @Valid @RequestBody PlanRequest request
+    ) {
+        return ResponseEntity.ok(travelPlanService.updateTravelPlan(id, memberAuth, request));
     }
 
     @Operation(summary = "여행 계획 삭제")
