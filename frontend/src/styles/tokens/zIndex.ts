@@ -5,7 +5,7 @@ export const Z_INDEX = {
   modal: 1000,
   bottomSheet: 1000,
   overlay: 900,
-  floatingButton: 850,
+  floatingButton: 1050,
   dropdown: 800,
   header: 700,
   footer: 600,
