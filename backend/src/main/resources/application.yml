@@ -47,6 +47,9 @@ security:
     refresh:
       secret-key: ENC(tneEW6IKq9XuDoxAoKvBEVER4xjLHCycWXMa+Rnzb700ndTnrkJ2mOtBPP5hEIJLRNgj5MLIhYs=)
       expire-length: 1209600000 # 14 days
+
+cors:
+  allowed-origins: http://localhost:3000, https://dev.touroot.kr
 ---
 # dev profile
 spring:
@@ -87,6 +90,9 @@ security:
     refresh:
       secret-key: ENC(cDstTL4/ajLm3NohJwMR9vEBsIZeD9Vt+jE1obdwL8Q6gMnWvY3N+bmNsC9N0csaa6AaYIZLbFM=)
       expire-length: 1209600000 # 14 days
+
+cors:
+  allowed-origins: http://localhost:3000, https://dev.touroot.kr
 ---
 # prod profile
 spring:
@@ -131,3 +137,6 @@ security:
 springdoc:
   api-docs:
     enabled: false
+
+cors:
+  allowed-origins: https://touroot.kr
