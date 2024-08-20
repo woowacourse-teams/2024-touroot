@@ -1,3 +1,3 @@
-export const extractId = (pathname: string) => {
+export const extractID = (pathname: string) => {
   return pathname.replace(/[^\d]/g, "") ?? "";
 };
