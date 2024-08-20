@@ -26,12 +26,22 @@ public class TraveloguePhotoService {
 
         for (int i = 0; i < requests.size(); i++) {
             TraveloguePhotoRequest request = requests.get(i);
-            String url = s3Provider.copyImageToPermanentStorage(request.url());
+            String url = request.url();
+            if (isNotInPermanentStorage(request.url())) {
+                url = s3Provider.copyImageToPermanentStorage(request.url());
+            }
             TraveloguePhoto photo = new TraveloguePhoto(i, url, place);
             photos.add(traveloguePhotoRepository.save(photo));
         }
 
         return photos;
+    }
+
+    private boolean isNotInPermanentStorage(String imageUrl) {
+        if (imageUrl.startsWith("https://dev.touroot.kr/temporary/")) {
+            return true;
+        }
+        return false;
     }
 
     @Transactional(readOnly = true)
