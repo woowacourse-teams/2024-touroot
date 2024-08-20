@@ -1,4 +1,4 @@
-import { FormEvent, MouseEvent, useRef, useState } from "react";
+import { FormEvent, MouseEvent, useEffect, useState } from "react";
 
 import usePatchNickname from "@queries/usePatchNickname";
 import { useUserProfile } from "@queries/useUserProfile";
@@ -15,8 +15,20 @@ import MyTravelogues from "./MyTravelogues/MyTravelogues";
 const MyPage = () => {
   const { data, isLoading } = useUserProfile();
   const [isModifying, setIsModifying] = useState(false);
-  const { mutate: modifyNickname } = usePatchNickname();
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [nickname, setNickname] = useState(data?.nickname ?? "");
+
+  const onError = (error: Error) => {
+    alert(error.message);
+    setNickname(data?.nickname ?? "");
+  };
+
+  const { mutate: modifyNickname } = usePatchNickname(onError);
+
+  useEffect(() => {
+    if (data?.nickname) {
+      setNickname(data.nickname);
+    }
+  }, [data?.nickname]);
 
   const handleStartNicknameEdit = () => {
     setIsModifying(true);
@@ -24,13 +36,16 @@ const MyPage = () => {
 
   const handleSubmitNicknameChange = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const trimmedNickname = inputRef.current?.value?.trim();
+    const trimmedNickname = nickname.trim();
 
     if (data?.nickname && !trimmedNickname) {
+      setNickname(data?.nickname);
       modifyNickname(data?.nickname);
     } else if (trimmedNickname) {
       modifyNickname(trimmedNickname);
+      setNickname(trimmedNickname);
     }
+
     setIsModifying(false);
   };
 
@@ -56,16 +71,18 @@ const MyPage = () => {
         <S.NicknameWrapper>
           {!isModifying ? (
             <Text textType="body" css={S.NicknameStyle}>
-              {data?.nickname}
+              {nickname}
             </Text>
           ) : (
             <Input
-              ref={inputRef}
               placeholder={data?.nickname}
-              defaultValue={data?.nickname}
+              value={nickname}
               autoFocus
+              maxCount={20}
+              count={nickname?.length}
               spellCheck={false}
               css={S.inputStyle}
+              onChange={(e) => setNickname(e.target.value)}
             />
           )}
         </S.NicknameWrapper>
