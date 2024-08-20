@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TraveloguePhotoService {
 
+    private static final String TEMPORARY_IMAGE_PATH = "https://dev.touroot.kr/temporary/";
+
     private final TraveloguePhotoRepository traveloguePhotoRepository;
     private final AwsS3Provider s3Provider;
 
@@ -26,12 +28,22 @@ public class TraveloguePhotoService {
 
         for (int i = 0; i < requests.size(); i++) {
             TraveloguePhotoRequest request = requests.get(i);
-            String url = s3Provider.copyImageToPermanentStorage(request.url());
+            String url = request.url();
+            if (isNotInPermanentStorage(request.url())) {
+                url = s3Provider.copyImageToPermanentStorage(request.url());
+            }
             TraveloguePhoto photo = new TraveloguePhoto(i, url, place);
             photos.add(traveloguePhotoRepository.save(photo));
         }
 
         return photos;
+    }
+
+    private boolean isNotInPermanentStorage(String imageUrl) {
+        if (imageUrl.startsWith(TEMPORARY_IMAGE_PATH)) {
+            return true;
+        }
+        return false;
     }
 
     @Transactional(readOnly = true)
