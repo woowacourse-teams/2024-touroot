@@ -3,10 +3,12 @@ oauth:
     user-information-request-uri: https://kapi.kakao.com/v2/user/me
     access-token-request-uri: https://kauth.kakao.com/oauth/token
     rest-api-key: ENC(i6J7NWUsDpXVbJrbSUcNFI3h0oc6v8PxuHShU9UA7EVuUNLtQN/ANII+8j5HjhGO)
+
 jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
 cloud:
   aws:
     s3:
@@ -17,14 +19,6 @@ cloud:
       image-storage-path: images/
 ---
 # local profile
-security:
-  jwt:
-    token:
-      secret-key: ENC(SNwFG2NQDZkmIK3nNoZFdwQ0ZxKuoe+qcw10ljdW941YEx/Qky9PEEl+wvAN9S1KR26D3a83SnU=)
-      expire-length: 1800000 # 30 min
-    refresh:
-      secret-key: ENC(tneEW6IKq9XuDoxAoKvBEVER4xjLHCycWXMa+Rnzb700ndTnrkJ2mOtBPP5hEIJLRNgj5MLIhYs=)
-      expire-length: 1209600000 # 14 days
 spring:
   config:
     activate:
@@ -40,34 +34,29 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        format_sql: true
         dialect: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
     defer-datasource-initialization: true
----
-# dev profile
+
 security:
   jwt:
     token:
-      secret-key: ENC(L36WWjoZtP2nHHkqxDGlYLsMHMp+EBL2Fnl+X2de2KHk+PIfViyVM7rCYcbcFpo7yB4MaP++atU=)
+      secret-key: ENC(SNwFG2NQDZkmIK3nNoZFdwQ0ZxKuoe+qcw10ljdW941YEx/Qky9PEEl+wvAN9S1KR26D3a83SnU=)
       expire-length: 1800000 # 30 min
     refresh:
-      secret-key: ENC(cDstTL4/ajLm3NohJwMR9vEBsIZeD9Vt+jE1obdwL8Q6gMnWvY3N+bmNsC9N0csaa6AaYIZLbFM=)
+      secret-key: ENC(tneEW6IKq9XuDoxAoKvBEVER4xjLHCycWXMa+Rnzb700ndTnrkJ2mOtBPP5hEIJLRNgj5MLIhYs=)
       expire-length: 1209600000 # 14 days
-server:
-  ssl:
-    key-store-type: PKCS12
-    key-store-password: ENC(faQYah2QoIaNVRZD9J6/junPRWkc5gaiAs+mEbxDk+I=)
-    key-store: ENC(7VQCNdI7mXATwc4AiymZoyf3mz9SiskXpLnenpMSFBI=)
+---
+# dev profile
 spring:
+  config:
+    activate:
+      on-profile: dev
   servlet:
     multipart:
       max-file-size: 25MB
       max-request-size: 250MB
-  config:
-    activate:
-      on-profile: dev
   h2:
     console:
       enabled: false
@@ -80,7 +69,65 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: none
+
+server:
+  ssl:
+    key-store-type: PKCS12
+    key-store-password: ENC(faQYah2QoIaNVRZD9J6/junPRWkc5gaiAs+mEbxDk+I=)
+    key-store: ENC(7VQCNdI7mXATwc4AiymZoyf3mz9SiskXpLnenpMSFBI=)
+
+security:
+  jwt:
+    token:
+      secret-key: ENC(L36WWjoZtP2nHHkqxDGlYLsMHMp+EBL2Fnl+X2de2KHk+PIfViyVM7rCYcbcFpo7yB4MaP++atU=)
+      expire-length: 1800000 # 30 min
+    refresh:
+      secret-key: ENC(cDstTL4/ajLm3NohJwMR9vEBsIZeD9Vt+jE1obdwL8Q6gMnWvY3N+bmNsC9N0csaa6AaYIZLbFM=)
+      expire-length: 1209600000 # 14 days
+---
+# prod profile
+spring:
+  config:
+    activate:
+      on-profile: prod
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 250MB
+  h2:
+    console:
+      enabled: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ENC(BLlw5HyZCuuLnw9MN5Ez395f+9INR7KoyWKUArAGc5QuMNJw07P06/1HLSZZ6y8M)
+    username: ENC(s5TCLskHnyopzJBsWU9Akg==)
+    password: ENC(MlRZxamsKXaRANlE3dX9T3vrdJhtsoE0r6LvSaKZoSU=)
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: none
+
+server:
+  ssl:
+    key-store-type: PKCS12
+    key-store-password: ENC(WyJqMojCOPDe932QhOR52Ll0EhthbUe5ycHs0WWifQg=)
+    key-store: ENC(DtVtAx+kVnU581+bjT7A3vCLbJ8fe3JqUritO+0WJ/Q=)
+
+security:
+  jwt:
+    token:
+      secret-key: ENC(1oFbXL7gi5RoZ3477IE75WnKK6t/Mq18IRzKB4TjRI/kb5ViYqbkBesMhPzjakFnAeqwiIWg0cQ=)
+      expire-length: 1800000 # 30 min
+    refresh:
+      secret-key: ENC(KzrDzCSz4dIMMP6Vsyd9cYvOvGXMbetrCDAX0/IpHfVW7kdsbV2+ZlGcBz+RCS2whMPuoCxdhyE=)
+      expire-length: 1209600000 # 14 days
+
+springdoc:
+  api-docs:
+    enabled: false
