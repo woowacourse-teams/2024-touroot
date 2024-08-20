@@ -75,7 +75,7 @@ const TravelogueRegisterPage = () => {
 
   const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const thumbnail = await handleAddImage(Array.from(e.target.files as FileList));
+      const thumbnail = await mutateAddImage(Array.from(e.target.files as FileList));
       setThumbnail(thumbnail[0]);
     } catch (error) {
       if (error instanceof Error) {
