@@ -22,7 +22,7 @@ export const textBoldStyle = css`
 
 export const notOutlineStyle = css`
   width: 100%;
-  padding-right: 5.2rem;
+  padding-right: 6.2rem;
 
   overflow-x: scroll;
 `;
@@ -30,7 +30,7 @@ export const notOutlineStyle = css`
 export const copyUrlButtonStyle = css`
   position: absolute;
   top: 0.8rem;
-  right: 1rem;
+  right: 1.6rem;
 
   width: 4rem;
   height: 2.4rem;
