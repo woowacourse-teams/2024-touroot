@@ -78,7 +78,7 @@ const SearchHeader = () => {
           </S.ButtonContainer>
         </S.FormWrapper>
       }
-      $isRightContentFull
+      isRightContentFull
     />
   );
 };

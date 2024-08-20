@@ -42,7 +42,7 @@ const meta = {
         type: "select",
       },
     },
-    $isRightContentFull: { control: "boolean" },
+    isRightContentFull: { control: "boolean" },
   },
   decorators: [
     (Story, context) => {
@@ -85,6 +85,6 @@ export const SearchResultPageHeader: Story = {
 export const SearchHeader: Story = {
   args: {
     rightContent: "SearchForm",
-    $isRightContentFull: true,
+    isRightContentFull: true,
   },
 };
