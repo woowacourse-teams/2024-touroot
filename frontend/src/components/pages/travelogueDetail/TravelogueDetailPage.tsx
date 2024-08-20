@@ -127,13 +127,13 @@ const TravelogueDetailPage = () => {
                   onClick={() => handleInactiveHeart(id)}
                   iconType="heart"
                   color={SEMANTIC_COLORS.heart}
-                  size="16"
+                  size="24"
                 />
               ) : (
                 <IconButton
                   onClick={() => handleActiveHeart(id)}
                   iconType="empty-heart"
-                  size="16"
+                  size="24"
                 />
               )}
               <Text textType="detail">{data.likeCount}</Text>
