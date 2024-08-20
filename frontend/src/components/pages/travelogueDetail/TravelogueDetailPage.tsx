@@ -5,7 +5,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
 import useDeleteTravelogue from "@queries/useDeleteTravelogue";
+import useDeleteUpdateHeart from "@queries/useDeleteUpdateHeart";
 import { useGetTravelogue } from "@queries/useGetTravelogue";
+import usePostUpdateHeart from "@queries/usePostUpdateHeart";
 
 import { Chip, Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
 import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
@@ -19,6 +21,7 @@ import useUser from "@hooks/useUser";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import theme from "@styles/theme";
+import { SEMANTIC_COLORS } from "@styles/tokens";
 
 import TravelogueDeleteModal from "./TravelogueDeleteModal/TravelogueDeleteModal";
 import * as S from "./TravelogueDetailPage.styled";
@@ -80,6 +83,9 @@ const TravelogueDetailPage = () => {
     });
   };
 
+  const { mutate: handleActiveHeart } = usePostUpdateHeart();
+  const { mutate: handleInactiveHeart } = useDeleteUpdateHeart();
+
   if (status === "pending") return <TravelogueDetailSkeleton />;
 
   if (status === "error") {
@@ -107,11 +113,23 @@ const TravelogueDetailPage = () => {
             </S.AuthorInfoContainer>
           </S.TitleContainer>
           <S.IconButtonContainer>
-            {/* //TODO: 하트 버튼 추가시 이용
             <S.LikesContainer>
-              <IconButton iconType="empty-heart" size="24" />
-              <Text textType="detail">7</Text>
-            </S.LikesContainer> */}
+              {data.isLiked ? (
+                <IconButton
+                  onClick={() => handleInactiveHeart(id)}
+                  iconType="heart"
+                  color={SEMANTIC_COLORS.heart}
+                  size="16"
+                />
+              ) : (
+                <IconButton
+                  onClick={() => handleActiveHeart(id)}
+                  iconType="empty-heart"
+                  size="16"
+                />
+              )}
+              <Text textType="detail">{data.likeCount}</Text>
+            </S.LikesContainer>
             {isAuthor && (
               <div ref={moreContainerRef}>
                 <IconButton
