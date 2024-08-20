@@ -12,9 +12,8 @@ export const Layout = styled.div`
 
 export const LabelContainer = styled.label`
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.xs};
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.s};
 `;
 
 export const SubtitleStyle = css`
@@ -23,6 +22,7 @@ export const SubtitleStyle = css`
 
 export const TextContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.s};
+  justify-content: flex-start;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
