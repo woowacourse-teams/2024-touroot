@@ -18,10 +18,7 @@ public class TraveloguePlaceQueryRepositoryImpl implements TraveloguePlaceQueryR
     public void deleteAllByTravelogue(Travelogue travelogue) {
         jpaQueryFactory.update(traveloguePlace)
                 .set(traveloguePlace.deletedAt, LocalDateTime.now())
-                .where(traveloguePlace
-                        .travelogueDay
-                        .travelogue
-                        .eq(travelogue))
+                .where(traveloguePlace.travelogueDay.travelogue.eq(travelogue))
                 .execute();
     }
 }
