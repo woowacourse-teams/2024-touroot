@@ -26,8 +26,5 @@ export const usePostUploadImages = () => {
 
       return response.data;
     },
-    onError: (error) => {
-      alert(error.message);
-    },
   });
 };
