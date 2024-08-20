@@ -3,8 +3,16 @@ package kr.touroot.global.config;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import kr.touroot.travelogue.repository.query.TravelogueDayQueryRepository;
+import kr.touroot.travelogue.repository.query.TravelogueDayQueryRepositoryImpl;
+import kr.touroot.travelogue.repository.query.TraveloguePhotoQueryRepository;
+import kr.touroot.travelogue.repository.query.TraveloguePhotoQueryRepositoryImpl;
+import kr.touroot.travelogue.repository.query.TraveloguePlaceQueryRepository;
+import kr.touroot.travelogue.repository.query.TraveloguePlaceQueryRepositoryImpl;
 import kr.touroot.travelogue.repository.query.TravelogueQueryRepository;
 import kr.touroot.travelogue.repository.query.TravelogueQueryRepositoryImpl;
+import kr.touroot.travelogue.repository.query.TravelogueTagQueryRepository;
+import kr.touroot.travelogue.repository.query.TravelogueTagQueryRepositoryImpl;
 import kr.touroot.travelplan.repository.PlaceTodoQueryRepository;
 import kr.touroot.travelplan.repository.PlaceTodoQueryRepositoryImpl;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +34,26 @@ public class TestQueryDslConfig {
     @Bean
     public TravelogueQueryRepository travelogueQueryRepository() {
         return new TravelogueQueryRepositoryImpl(jpaQueryFactory());
+    }
+
+    @Bean
+    public TravelogueDayQueryRepository travelogueDayQueryRepository() {
+        return new TravelogueDayQueryRepositoryImpl(jpaQueryFactory());
+    }
+
+    @Bean
+    public TraveloguePlaceQueryRepository traveloguePlaceQueryRepository() {
+        return new TraveloguePlaceQueryRepositoryImpl(jpaQueryFactory());
+    }
+
+    @Bean
+    public TraveloguePhotoQueryRepository traveloguePhotoQueryRepository() {
+        return new TraveloguePhotoQueryRepositoryImpl(jpaQueryFactory());
+    }
+
+    @Bean
+    public TravelogueTagQueryRepository travelogueTagQueryRepository() {
+        return new TravelogueTagQueryRepositoryImpl(jpaQueryFactory());
     }
 
     @Bean

@@ -12,6 +12,7 @@ import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.repository.TraveloguePlaceRepository;
+import kr.touroot.travelogue.repository.query.TraveloguePlaceQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ public class TraveloguePlaceService {
 
     private final PlaceRepository placeRepository;
     private final TraveloguePlaceRepository traveloguePlaceRepository;
+    private final TraveloguePlaceQueryRepository traveloguePlaceQueryRepository;
 
     @Transactional
     public Map<TraveloguePlace, List<TraveloguePhotoRequest>> createPlaces(
@@ -62,6 +64,6 @@ public class TraveloguePlaceService {
 
     @Transactional
     public void deleteAllByTravelogue(Travelogue travelogue) {
-        traveloguePlaceRepository.deleteAllByTravelogueDayTravelogue(travelogue);
+        traveloguePlaceQueryRepository.deleteAllByTravelogue(travelogue);
     }
 }

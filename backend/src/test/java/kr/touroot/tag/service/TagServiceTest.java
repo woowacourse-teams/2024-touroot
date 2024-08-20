@@ -3,6 +3,7 @@ package kr.touroot.tag.service;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import kr.touroot.global.ServiceTest;
+import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.tag.domain.Tag;
 import kr.touroot.tag.dto.TagCreateRequest;
@@ -16,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
 @DisplayName("태그 서비스")
-@Import(value = {TagService.class, TagTestHelper.class})
+@Import(value = {TagService.class, TagTestHelper.class, TestQueryDslConfig.class})
 @ServiceTest
 class TagServiceTest {
 
