@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TraveloguePhotoService {
 
+    private static final String TEMPORARY_IMAGE_PATH = "https://dev.touroot.kr/temporary/";
+
     private final TraveloguePhotoRepository traveloguePhotoRepository;
     private final AwsS3Provider s3Provider;
 
@@ -38,7 +40,7 @@ public class TraveloguePhotoService {
     }
 
     private boolean isNotInPermanentStorage(String imageUrl) {
-        if (imageUrl.startsWith("https://dev.touroot.kr/temporary/")) {
+        if (imageUrl.startsWith(TEMPORARY_IMAGE_PATH)) {
             return true;
         }
         return false;
