@@ -97,7 +97,7 @@ export const loadingButtonStyle = css`
 `;
 
 export const startDateInputStyle = css`
-  margin: 1.6rem 0 3.2rem;
+  margin-bottom: 3.2rem;
 `;
 
 export const calendarStyle = css`
