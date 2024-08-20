@@ -9,6 +9,8 @@ import { useDragScroll } from "@hooks/useDragScroll";
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
 import useTagSelection from "@hooks/useTagSelection";
 
+import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
+
 import * as S from "./MainPage.styled";
 import TravelogueCardSkeleton from "./TravelogueCard/skeleton/TravelogueCardSkeleton";
 
@@ -31,7 +33,7 @@ const MainPage = () => {
       <S.MainPageHeaderContainer>
         <Text textType="title">지금 뜨고 있는 여행기</Text>
         <Text textType="detail" css={S.subTitleColorStyle}>
-          다른 이들의 여행을 한 번 구경해보세요.
+          {`다른 이들의 여행을 한 번 구경해보세요. (태그는 최대 ${FORM_VALIDATIONS_MAP.tags.maxCount}개까지 가능해요!)`}
         </Text>
       </S.MainPageHeaderContainer>
 
