@@ -9,7 +9,6 @@ import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.repository.TraveloguePhotoRepository;
-import kr.touroot.travelogue.repository.query.TraveloguePhotoQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,6 @@ public class TraveloguePhotoService {
 
     private final TraveloguePhotoRepository traveloguePhotoRepository;
     private final AwsS3Provider s3Provider;
-    private final TraveloguePhotoQueryRepository traveloguePhotoQueryRepository;
 
     @Transactional
     public List<TraveloguePhoto> createPhotos(List<TraveloguePhotoRequest> requests, TraveloguePlace place) {
@@ -48,6 +46,6 @@ public class TraveloguePhotoService {
 
     @Transactional
     public void deleteAllByTravelogue(Travelogue travelogue) {
-        traveloguePhotoQueryRepository.deleteAllByTravelogue(travelogue);
+        traveloguePhotoRepository.deleteAllByTraveloguePlaceTravelogueDayTravelogue(travelogue);
     }
 }
