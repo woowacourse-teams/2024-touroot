@@ -28,7 +28,7 @@ const ModalBottomSheet = ({
 }: ModalBottomSheetProps) => {
   const { sheetRef, currentY } = useBottomSheet(isOpen, onClose);
 
-  return (
+  return isOpen ? (
     <section>
       <BackDrop onClose={onClose} />
       <Container ref={sheetRef} currentY={currentY}>
@@ -44,7 +44,7 @@ const ModalBottomSheet = ({
         </Footer>
       </Container>
     </section>
-  );
+  ) : null;
 };
 
 export default ModalBottomSheet;

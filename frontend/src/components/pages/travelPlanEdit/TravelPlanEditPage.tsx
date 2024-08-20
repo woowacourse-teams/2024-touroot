@@ -25,7 +25,7 @@ import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
-import { extractId } from "@utils/extractId";
+import { extractID } from "@utils/extractId";
 import { extractUTCDate } from "@utils/extractUTCDate";
 
 import theme from "@styles/theme";
@@ -36,7 +36,7 @@ const TravelPlanEditPage = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const id = extractId(location.pathname);
+  const id = extractID(location.pathname);
 
   const { data, status, error } = useGetTravelPlan(id);
 
@@ -209,17 +209,16 @@ const TravelPlanEditPage = () => {
           </Button>
         </S.AccordionRootContainer>
       </S.Layout>
-      {isOpen && (
-        <ModalBottomSheet
-          isOpen={isOpen}
-          mainText="여행 계획을 수정할까요?"
-          subText="수정한 후에도 다시 여행 계획을 변경할 수 있어요."
-          secondaryButtonLabel="취소"
-          primaryButtonLabel="확인"
-          onClose={handleCloseBottomSheet}
-          onConfirm={handleConfirmBottomSheet}
-        />
-      )}
+
+      <ModalBottomSheet
+        isOpen={isOpen}
+        mainText="여행 계획을 수정할까요?"
+        subText="수정한 후에도 다시 여행 계획을 변경할 수 있어요."
+        secondaryButtonLabel="취소"
+        primaryButtonLabel="확인"
+        onClose={handleCloseBottomSheet}
+        onConfirm={handleConfirmBottomSheet}
+      />
     </>
   );
 };
