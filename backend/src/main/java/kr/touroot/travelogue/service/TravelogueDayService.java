@@ -9,7 +9,6 @@ import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.repository.TravelogueDayRepository;
-import kr.touroot.travelogue.repository.query.TravelogueDayQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelogueDayService {
 
     private final TravelogueDayRepository travelogueDayRepository;
-    private final TravelogueDayQueryRepository travelogueDayQueryRepository;
 
     @Transactional
     public Map<TravelogueDay, List<TraveloguePlaceRequest>> createDays(
@@ -50,6 +48,6 @@ public class TravelogueDayService {
 
     @Transactional
     public void deleteAllByTravelogue(Travelogue travelogue) {
-        travelogueDayQueryRepository.deleteAllByTravelogue(travelogue);
+        travelogueDayRepository.deleteAllByTravelogue(travelogue);
     }
 }
