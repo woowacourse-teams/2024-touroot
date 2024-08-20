@@ -11,12 +11,12 @@ import kr.touroot.travelplan.domain.TravelPlanPlace;
 import lombok.Builder;
 
 @Builder
-public record PlanPlaceCreateRequest(
+public record PlanPlaceRequest(
         @Schema(description = "여행 장소 이름", example = "잠실한강공원")
         @NotBlank(message = "장소명은 비어있을 수 없습니다.") String placeName,
         @Valid
         @NotNull(message = "위치는 비어있을 수 없습니다.")
-        PlanPositionCreateRequest position,
+        PlanPositionRequest position,
         @Valid
         @NotNull(message = "TODO 리스트는 필수 입니다.")
         List<PlanPlaceTodoRequest> todos

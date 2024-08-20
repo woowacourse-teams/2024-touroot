@@ -14,10 +14,10 @@ import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
-import kr.touroot.travelplan.dto.request.PlanCreateRequest;
-import kr.touroot.travelplan.dto.request.PlanDayCreateRequest;
-import kr.touroot.travelplan.dto.request.PlanPlaceCreateRequest;
-import kr.touroot.travelplan.dto.request.PlanPositionCreateRequest;
+import kr.touroot.travelplan.dto.request.PlanDayRequest;
+import kr.touroot.travelplan.dto.request.PlanPlaceRequest;
+import kr.touroot.travelplan.dto.request.PlanPositionRequest;
+import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.dto.response.PlanCreateResponse;
 import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
@@ -67,17 +67,17 @@ class TravelPlanServiceTest {
     @Test
     void createTravelPlan() {
         // given
-        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
-        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
+        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
-        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        PlanCreateRequest request = PlanCreateRequest.builder()
+        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
+        PlanRequest request = PlanRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MAX)
-                .days(List.of(planDayCreateRequest))
+                .days(List.of(planDayRequest))
                 .build();
 
         // when
@@ -91,17 +91,17 @@ class TravelPlanServiceTest {
     @Test
     void createTravelPlanWithInvalidStartDate() {
         // given
-        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
-        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
+        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
                 .placeName("잠실한강공원")
                 .position(locationRequest)
                 .todos(Collections.EMPTY_LIST)
                 .build();
-        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        PlanCreateRequest request = PlanCreateRequest.builder()
+        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
+        PlanRequest request = PlanRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.MIN)
-                .days(List.of(planDayCreateRequest))
+                .days(List.of(planDayRequest))
                 .build();
 
         // when & then=
@@ -114,17 +114,17 @@ class TravelPlanServiceTest {
     @Test
     void createTravelPlanStartsAtToday() {
         // given
-        PlanPositionCreateRequest locationRequest = new PlanPositionCreateRequest("37.5175896", "127.0867236");
-        PlanPlaceCreateRequest planPlaceCreateRequest = PlanPlaceCreateRequest.builder()
+        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
+        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
                 .build();
-        PlanDayCreateRequest planDayCreateRequest = new PlanDayCreateRequest(List.of(planPlaceCreateRequest));
-        PlanCreateRequest request = PlanCreateRequest.builder()
+        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
+        PlanRequest request = PlanRequest.builder()
                 .title("신나는 한강 여행")
                 .startDate(LocalDate.now())
-                .days(List.of(planDayCreateRequest))
+                .days(List.of(planDayRequest))
                 .build();
 
         // when & then=
@@ -182,6 +182,80 @@ class TravelPlanServiceTest {
 
         // then
         assertThat(actual).isEqualTo(1);
+    }
+
+    @DisplayName("여행 계획 서비스는 새로운 정보로 여행 계획을 수정한다.")
+    @Test
+    void updateTravelPlan() {
+        // given
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
+        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
+        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
+                .placeName("잠실한강공원")
+                .todos(Collections.EMPTY_LIST)
+                .position(locationRequest)
+                .build();
+        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
+        PlanRequest request = PlanRequest.builder()
+                .title("신나는 한강 여행")
+                .startDate(LocalDate.MAX)
+                .days(List.of(planDayRequest))
+                .build();
+
+        // when
+        PlanCreateResponse updatedTravelPlan = travelPlanService.updateTravelPlan(travelPlan.getId(), memberAuth,
+                request);
+
+        // then
+        assertThat(updatedTravelPlan.id()).isEqualTo(1L);
+    }
+
+    @DisplayName("여행 계획 서비스는 존재하지 않는 여행 계획 수정 시 예외를 반환한다.")
+    @Test
+    void updateTravelPlanWitNonExist() {
+        // given
+        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
+        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
+                .placeName("잠실한강공원")
+                .todos(Collections.EMPTY_LIST)
+                .position(locationRequest)
+                .build();
+        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
+        PlanRequest request = PlanRequest.builder()
+                .title("신나는 한강 여행")
+                .startDate(LocalDate.MAX)
+                .days(List.of(planDayRequest))
+                .build();
+
+        // when & then
+        assertThatThrownBy(() -> travelPlanService.updateTravelPlan(1L, memberAuth, request))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행 계획입니다.");
+    }
+
+    @DisplayName("여행 계획 서비스는 작성자가 아닌 사용자가 수정 시 예외를 반환한다.")
+    @Test
+    void updateTravelPlanWithNotAuthor() {
+        // given
+        Long id = testHelper.initTravelPlanTestData(author).getId();
+        MemberAuth notAuthor = new MemberAuth(testHelper.initMemberTestData().getId());
+        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
+        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
+                .placeName("잠실한강공원")
+                .todos(Collections.EMPTY_LIST)
+                .position(locationRequest)
+                .build();
+        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
+        PlanRequest request = PlanRequest.builder()
+                .title("신나는 한강 여행")
+                .startDate(LocalDate.MAX)
+                .days(List.of(planDayRequest))
+                .build();
+
+        // when & then
+        assertThatThrownBy(() -> travelPlanService.updateTravelPlan(id, notAuthor, request))
+                .isInstanceOf(ForbiddenException.class)
+                .hasMessage("여행 계획 수정은 작성자만 가능합니다.");
     }
 
     @DisplayName("여행계획을 ID 기준으로 삭제할 수 있다.")

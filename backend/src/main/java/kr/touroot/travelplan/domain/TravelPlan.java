@@ -83,6 +83,11 @@ public class TravelPlan extends BaseEntity {
         }
     }
 
+    public void update(String title, LocalDate startDate) {
+        this.title = title;
+        this.startDate = startDate;
+    }
+
     public boolean isStartDateBefore(LocalDate date) {
         return startDate.isBefore(date);
     }
