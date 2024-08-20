@@ -1,24 +1,25 @@
 import styled from "@emotion/styled";
 
+import { SPACING } from "@styles/tokens";
+
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1.6rem;
+  gap: ${SPACING.m};
 
-  gap: ${({ theme }) => theme.spacing.s};
+  margin-top: ${SPACING.m};
+  min-height: calc(100vh - 6rem);
+  padding: ${SPACING.m};
+`;
 
-  h1 {
-    ${({ theme }) => theme.typography.mobile.title};
-  }
+export const SearchFallbackWrapper = styled.div`
+  flex: 1;
+  position: relative;
 `;
 
 export const MainPageTraveloguesList = styled.ul`
   display: flex;
   flex-direction: column;
 
-  gap: ${({ theme }) => theme.spacing.m};
-`;
-
-export const MainPageContentContainer = styled.div`
-  padding-top: 1.6rem;
+  gap: ${SPACING.m};
 `;

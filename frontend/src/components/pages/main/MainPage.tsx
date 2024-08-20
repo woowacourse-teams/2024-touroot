@@ -79,7 +79,9 @@ const MainPage = () => {
             ),
           )
         ) : (
-          <SearchFallback title="휑" text="다른 태그를 선택해 주세요!" />
+          <S.SearchFallbackWrapper>
+            <SearchFallback title="휑" text="다른 태그를 선택해 주세요!" />
+          </S.SearchFallbackWrapper>
         )}
       </S.MainPageTraveloguesList>
       <FloatingButton />

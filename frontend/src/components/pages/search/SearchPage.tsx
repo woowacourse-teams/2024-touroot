@@ -28,27 +28,32 @@ const SearchPage = () => {
 
   if (!keyword) {
     return (
-      <S.MainPageTraveloguesList>
-        <SearchFallback
-          title="보고 싶은 여행기를 검색해주세요!"
-          text="여행기 키워드를 입력해봐요!"
-        />
-      </S.MainPageTraveloguesList>
+      <S.Layout>
+        <S.SearchFallbackWrapper>
+          <SearchFallback
+            title="보고 싶은 여행기를 검색해주세요!"
+            text="여행기 키워드를 입력해봐요!"
+          />
+        </S.SearchFallbackWrapper>
+      </S.Layout>
     );
   }
 
   if (travelogues.length === 0 && status === "success") {
     return (
-      <S.MainPageTraveloguesList>
-        <SearchFallback title="휑" text="검색 결과가 없어요." />
-      </S.MainPageTraveloguesList>
+      <S.Layout>
+        {keyword && <Text textType="title">{`"${keyword}" 검색 결과`}</Text>}
+        <S.SearchFallbackWrapper>
+          <SearchFallback title="휑" text="검색 결과가 없어요." />
+        </S.SearchFallbackWrapper>
+      </S.Layout>
     );
   }
 
   return (
     <S.Layout>
       <FloatingButton />
-      <S.Layout>{keyword && <Text textType="title">{`"${keyword}" 검색 결과`}</Text>}</S.Layout>
+      {keyword && <Text textType="title">{`"${keyword}" 검색 결과`}</Text>}
       {status === "pending" && (
         <S.MainPageTraveloguesList>
           {Array.from({ length: SKELETON_COUNT }, (_, index) => (
