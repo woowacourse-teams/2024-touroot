@@ -20,7 +20,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    label: "제목",
     placeholder: "제목을 입력해 주세요.",
     count: 0,
     maxCount: 20,
@@ -29,7 +28,6 @@ export const Default: Story = {
 
 export const BottomBorderInput: Story = {
   args: {
-    label: "제목",
     placeholder: "제목을 입력해 주세요.",
     variants: "bottom",
   },
@@ -37,7 +35,6 @@ export const BottomBorderInput: Story = {
 
 export const FocusBottomBorderInput: Story = {
   args: {
-    label: "제목",
     placeholder: "제목을 입력해 주세요.",
     variants: "none",
   },
