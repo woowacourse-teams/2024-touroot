@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 import java.util.List;
 import kr.touroot.global.ServiceTest;
+import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.place.domain.Place;
@@ -26,7 +27,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 @DisplayName("여행기 사진 서비스")
-@Import(value = {TraveloguePhotoService.class, TravelogueTestHelper.class, AwsS3Provider.class})
+@Import(value = {TraveloguePhotoService.class, TravelogueTestHelper.class, AwsS3Provider.class,
+        TestQueryDslConfig.class})
 @ServiceTest
 class TraveloguePhotoServiceTest {
 
