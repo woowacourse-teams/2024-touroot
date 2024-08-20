@@ -47,4 +47,5 @@ export const SEMANTIC_COLORS = {
     base: PRIMITIVE_COLORS.gray[200],
     highlight: PRIMITIVE_COLORS.gray[100],
   },
+  heart: "#f1591c",
 } as const;

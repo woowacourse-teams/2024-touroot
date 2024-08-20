@@ -65,7 +65,7 @@ const TravelogueCard = ({
         </S.TravelogueCardAuthorContainer>
 
         <S.TravelogueCardLikesContainer>
-          <IconButton onClick={handleLikeClick} iconType="empty-heart" size="20" />
+          <IconButton onClick={handleLikeClick} iconType="empty-heart" size="16" />
           <Text textType="detail">{likeCount}</Text>
         </S.TravelogueCardLikesContainer>
       </S.TravelogueCardInfoContainer>
