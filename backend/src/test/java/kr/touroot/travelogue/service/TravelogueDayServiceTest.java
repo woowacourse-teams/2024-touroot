@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.util.List;
 import java.util.Map;
 import kr.touroot.global.ServiceTest;
+import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
@@ -26,7 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
 @DisplayName("여행기 일자 서비스")
-@Import(value = {TravelogueDayService.class, TravelogueTestHelper.class})
+@Import(value = {TravelogueDayService.class, TravelogueTestHelper.class, TestQueryDslConfig.class})
 @ServiceTest
 class TravelogueDayServiceTest {
 

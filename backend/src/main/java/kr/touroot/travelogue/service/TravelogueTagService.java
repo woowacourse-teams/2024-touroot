@@ -8,6 +8,7 @@ import kr.touroot.tag.repository.TagRepository;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueTag;
 import kr.touroot.travelogue.repository.TravelogueTagRepository;
+import kr.touroot.travelogue.repository.query.TravelogueTagQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ public class TravelogueTagService {
 
     private final TagRepository tagRepository;
     private final TravelogueTagRepository travelogueTagRepository;
+    private final TravelogueTagQueryRepository travelogueTagQueryRepository;
 
     @Transactional
     public List<TagResponse> createTravelogueTags(Travelogue travelogue, List<Long> tagIds) {
@@ -43,7 +45,7 @@ public class TravelogueTagService {
 
     @Transactional(readOnly = true)
     public List<TagResponse> updateTravelogueTags(Travelogue travelogue, List<Long> tagIds) {
-        travelogueTagRepository.deleteAllByTravelogue(travelogue);
+        travelogueTagQueryRepository.deleteAllByTravelogue(travelogue);
 
         return tagIds.stream()
                 .map(id -> {

@@ -3,6 +3,8 @@ package kr.touroot.global.config;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import kr.touroot.travelogue.repository.query.TravelogueDayQueryRepository;
+import kr.touroot.travelogue.repository.query.TravelogueDayQueryRepositoryImpl;
 import kr.touroot.travelogue.repository.query.TravelogueQueryRepository;
 import kr.touroot.travelogue.repository.query.TravelogueQueryRepositoryImpl;
 import kr.touroot.travelplan.repository.PlaceTodoQueryRepository;
@@ -26,6 +28,11 @@ public class TestQueryDslConfig {
     @Bean
     public TravelogueQueryRepository travelogueQueryRepository() {
         return new TravelogueQueryRepositoryImpl(jpaQueryFactory());
+    }
+
+    @Bean
+    public TravelogueDayQueryRepository travelogueDayQueryRepository() {
+        return new TravelogueDayQueryRepositoryImpl(jpaQueryFactory());
     }
 
     @Bean
