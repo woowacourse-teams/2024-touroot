@@ -6,14 +6,14 @@ import { usePatchTravelPlanTodo } from "@queries/usePatchTravelPlanTodo";
 
 import { Checkbox, Text } from "@components/common";
 
-import { extractId } from "@utils/extractId";
+import { extractLastPath } from "@utils/extractId";
 import { isUUID } from "@utils/uuid";
 
 import * as S from "./TravelPlanTodoItem.styled";
 
 const TravelPlanTodoItem = ({ todo }: { todo: TravelPlanTodo }) => {
   const location = useLocation();
-  const id = extractId(location.pathname);
+  const id = extractLastPath(location.pathname);
   const { mutate: mutateUpdateTodoStatus } = usePatchTravelPlanTodo(id);
 
   return (
