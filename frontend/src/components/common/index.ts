@@ -25,3 +25,5 @@ export { default as Modal } from "./Modal/Modal";
 export * from "./Header/index";
 export { default as Checkbox } from "./Checkbox/Checkbox";
 export { default as Chip } from "./Chip/Chip";
+export { default as SearchFallback } from "./SearchFallback/SearchFallback";
+export { default as FloatingButton } from "./FloatingButton/FloatingButton";

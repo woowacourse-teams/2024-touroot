@@ -6,7 +6,6 @@ import theme from "@styles/theme";
 export const TravelogueDetailLayout = styled.section`
   display: flex;
   flex-direction: column;
-
   gap: ${({ theme }) => theme.spacing.xl};
 `;
 

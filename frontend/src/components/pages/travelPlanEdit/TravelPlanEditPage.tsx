@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
-
-import { usePostTravelPlan } from "@queries/usePostTravelPlan";
+import { useGetTravelPlan } from "@queries/useGetTravelPlan";
+import { usePutTravelPlan } from "@queries/usePutTravelPlan";
 
 import {
   Accordion,
@@ -20,21 +19,26 @@ import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelP
 
 import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
-import useUser from "@hooks/useUser";
 
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
+import { extractID } from "@utils/extractId";
 import { extractUTCDate } from "@utils/extractUTCDate";
 
 import theme from "@styles/theme";
 
-import * as S from "./TravelPlanRegisterPage.styled";
+import * as S from "./TravelPlanEditPage.styled";
 
-const TravelPlanRegisterPage = () => {
-  const { transformDetail, saveTransformDetail } = useTravelTransformDetailContext();
+const TravelPlanEditPage = () => {
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const id = extractID(location.pathname);
+
+  const { data, status, error } = useGetTravelPlan(id);
 
   const [title, setTitle] = useState("");
 
@@ -42,6 +46,7 @@ const TravelPlanRegisterPage = () => {
 
   const {
     travelPlanDays,
+    onChangeTravelPlanDays,
     onAddDay,
     onAddPlace,
     onDeleteDay,
@@ -49,7 +54,7 @@ const TravelPlanRegisterPage = () => {
     onAddPlaceTodo,
     onDeletePlaceTodo,
     onChangeContent,
-  } = useTravelPlanDays(transformDetail?.days ?? []);
+  } = useTravelPlanDays([]);
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value.slice(
@@ -69,15 +74,16 @@ const TravelPlanRegisterPage = () => {
     setIsOpen(false);
   };
 
-  const navigate = useNavigate();
+  const { mutate: mutateTravelPlanEdit } = usePutTravelPlan();
 
-  const { mutate: mutateTravelPlanRegister } = usePostTravelPlan();
-
-  const handleRegisterTravelPlan = () => {
+  const handleEditTravelPlan = () => {
     const formattedStartDate = extractUTCDate(startDate);
 
-    mutateTravelPlanRegister(
-      { title, startDate: formattedStartDate, days: travelPlanDays },
+    mutateTravelPlanEdit(
+      {
+        travelPlan: { title, startDate: formattedStartDate, days: travelPlanDays },
+        id: Number(id),
+      },
       {
         onSuccess: (data) => {
           handleCloseBottomSheet();
@@ -87,26 +93,11 @@ const TravelPlanRegisterPage = () => {
     );
   };
 
-  const debouncedRegisterTravelPlan = useLeadingDebounce(
-    () => handleRegisterTravelPlan(),
-    DEBOUNCED_TIME,
-  );
+  const debouncedEditTravelPlan = useLeadingDebounce(() => handleEditTravelPlan(), DEBOUNCED_TIME);
 
   const handleConfirmBottomSheet = () => {
-    debouncedRegisterTravelPlan();
+    debouncedEditTravelPlan();
   };
-
-  const { user } = useUser();
-
-  useEffect(() => {
-    if (!user?.accessToken) {
-      alert(ERROR_MESSAGE_MAP.api.login);
-      navigate(ROUTE_PATHS_MAP.login);
-    }
-    return () => {
-      saveTransformDetail(null);
-    };
-  }, [user?.accessToken, navigate, saveTransformDetail]);
 
   const [isShowCalendar, setIsShowCalendar] = useState(false);
 
@@ -119,13 +110,28 @@ const TravelPlanRegisterPage = () => {
     setIsShowCalendar(false);
   };
 
+  useEffect(() => {
+    if (data) {
+      setTitle(data.title);
+      setStartDate(new Date(data.startDate));
+      onChangeTravelPlanDays(data.days);
+    }
+  }, [data, onChangeTravelPlanDays]);
+
+  if (status === "error") {
+    const errorMessage =
+      error.message === ERROR_MESSAGE_MAP.api.travelPlanOnlyWriter
+        ? ERROR_MESSAGE_MAP.api.travelPlanEditOnlyWriter
+        : error.message;
+
+    alert(errorMessage);
+    navigate(ROUTE_PATHS_MAP.back);
+  }
+
   return (
     <>
       <S.Layout>
-        <PageInfo
-          mainText="여행 계획 등록"
-          subText="여행 계획은 비공개지만, 링크를 통해 원하는 사람과 공유 할 수 있어요!"
-        />
+        <PageInfo mainText="여행 계획 수정" />
         <Input
           value={title}
           maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
@@ -199,15 +205,15 @@ const TravelPlanRegisterPage = () => {
             </IconButton>
           </GoogleMapLoadScript>
           <Button variants="primary" onClick={handleOpenBottomSheet}>
-            등록
+            수정
           </Button>
         </S.AccordionRootContainer>
       </S.Layout>
 
       <ModalBottomSheet
         isOpen={isOpen}
-        mainText="여행 계획을 등록할까요?"
-        subText="등록한 후에도 다시 여행 계획을 수정할 수 있어요."
+        mainText="여행 계획을 수정할까요?"
+        subText="수정한 후에도 다시 여행 계획을 변경할 수 있어요."
         secondaryButtonLabel="취소"
         primaryButtonLabel="확인"
         onClose={handleCloseBottomSheet}
@@ -217,4 +223,4 @@ const TravelPlanRegisterPage = () => {
   );
 };
 
-export default TravelPlanRegisterPage;
+export default TravelPlanEditPage;

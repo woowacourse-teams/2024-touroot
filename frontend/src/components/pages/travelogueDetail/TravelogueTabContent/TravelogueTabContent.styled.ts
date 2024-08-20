@@ -3,6 +3,10 @@ import styled from "@emotion/styled";
 
 import theme from "@styles/theme";
 
+export const TravelogueTapContentLayout = styled.div`
+  margin-top: -${({ theme }) => theme.spacing.xl};
+`;
+
 export const BoxContainer = styled.div`
   display: flex;
   flex-direction: column;

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
 
-import { Accordion, GoogleMapView, GoogleSearchPopup, IconButton } from "@components/common";
+import { Accordion, GoogleMapView, GoogleSearchPopup, IconButton, Text } from "@components/common";
 import PlaceTodoListItem from "@components/pages/travelPlanRegister/PlaceTodoListItem/PlaceTodoListItem";
 
 import * as S from "../TravelPlanRegisterPage.styled";
@@ -84,6 +84,7 @@ const TravelPlanDayAccordion = ({
                   {place.todos?.map((todo) => (
                     <PlaceTodoListItem
                       key={todo.id}
+                      todo={todo}
                       onChangeContent={(e) =>
                         onChangeContent({
                           content: e.target.value,
@@ -105,7 +106,7 @@ const TravelPlanDayAccordion = ({
                   css={[S.addTravelAddButtonStyle, S.addDayButtonStyle]}
                   onClick={() => onAddPlaceTodo(dayIndex, placeIndex)}
                 >
-                  할 일 추가하기
+                  <Text textType="bodyBold">할 일 추가하기</Text>
                 </IconButton>
               </Accordion.Content>
             </Accordion.Item>
@@ -118,7 +119,7 @@ const TravelPlanDayAccordion = ({
           css={[S.addTravelAddButtonStyle, S.addDayButtonStyle]}
           onClick={onClickAddPlaceButton}
         >
-          장소 추가하기
+          <Text textType="bodyBold">장소 추가하기</Text>
         </IconButton>
       </Accordion.Content>
       {isPopupOpen && (
