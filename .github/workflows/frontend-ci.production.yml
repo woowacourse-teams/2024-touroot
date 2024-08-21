@@ -1,0 +1,60 @@
+name: 'frontend-ci'
+
+on:
+  pull_request:
+    branches:
+      - production/fe
+    paths:
+      - frontend/**
+defaults:
+  run:
+    working-directory: frontend
+jobs:
+  frontend-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 노드 버전 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.15.1'
+
+      - name: 의존성 캐싱
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+
+      - name: 의존성 설치
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: yarn
+
+      - name: eslint 실행
+        run: yarn lint
+
+      - name: 빌드 실행
+        run: yarn build
+
+      - name: stylelint 실행
+        run: yarn lint:styled
+
+      - name: 테스트 실행
+        run: yarn test
+
+      - name: 테스트 결과 PR에 코멘트 등록
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: frontend/test-results/results.xml
+
+      - name: 테스트 실패 시, 실패한 코드 라인에 Check 코멘트 등록
+        uses: mikepenz/action-junit-report@v3
+        if: always()
+        with:
+          report_paths: frontend/test-results/results.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
