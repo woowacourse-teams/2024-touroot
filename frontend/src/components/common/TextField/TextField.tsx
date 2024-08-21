@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React from "react";
 
 import Text from "../Text/Text";
 import * as S from "./TextField.styled";
@@ -7,17 +7,12 @@ interface TextFieldProps {
   title: string;
   subTitle?: string;
   isRequired?: boolean;
-  children: ((id: string) => React.ReactNode) | React.ReactNode;
+  children: React.ReactNode | ((id: string) => React.ReactNode);
 }
 
 const REQUIRED_SYMBOL = "*";
 
-const TextField = ({
-  title,
-  subTitle,
-  isRequired = false,
-  children,
-}: PropsWithChildren<TextFieldProps>) => {
+const TextField = ({ title, subTitle, isRequired = false, children }: TextFieldProps) => {
   const id = React.useId();
 
   const renderChildren = () => {
