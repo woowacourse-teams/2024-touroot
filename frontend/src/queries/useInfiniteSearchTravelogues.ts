@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { authClient } from "@apis/client";
+import { client } from "@apis/client";
 
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { QUERY_KEYS_MAP } from "@constants/queryKey";
@@ -14,7 +14,7 @@ export const getSearchTravelogues = async ({
   size: number;
   keyword: string;
 }) => {
-  const response = await authClient.get(API_ENDPOINT_MAP.searchTravelogues, {
+  const response = await client.get(API_ENDPOINT_MAP.searchTravelogues, {
     params: { page, size, keyword },
   });
 
