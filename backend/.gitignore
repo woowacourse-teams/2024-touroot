@@ -1,0 +1,7 @@
+.gradle
+.idea
+build
+
+**/.DS_Store
+/log
+/src/main/resources/keystore.p12

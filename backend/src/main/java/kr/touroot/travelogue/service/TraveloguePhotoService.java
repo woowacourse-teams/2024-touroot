@@ -1,0 +1,63 @@
+package kr.touroot.travelogue.service;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import kr.touroot.image.infrastructure.AwsS3Provider;
+import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.domain.TraveloguePhoto;
+import kr.touroot.travelogue.domain.TraveloguePlace;
+import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
+import kr.touroot.travelogue.repository.TraveloguePhotoRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@RequiredArgsConstructor
+@Service
+public class TraveloguePhotoService {
+
+    private static final String TEMPORARY_IMAGE_PATH = "https://dev.touroot.kr/temporary/";
+
+    private final TraveloguePhotoRepository traveloguePhotoRepository;
+    private final AwsS3Provider s3Provider;
+
+    @Transactional
+    public List<TraveloguePhoto> createPhotos(List<TraveloguePhotoRequest> requests, TraveloguePlace place) {
+        List<TraveloguePhoto> photos = new ArrayList<>();
+
+        for (int i = 0; i < requests.size(); i++) {
+            TraveloguePhotoRequest request = requests.get(i);
+            String url = request.url();
+            if (isNotInPermanentStorage(request.url())) {
+                url = s3Provider.copyImageToPermanentStorage(request.url());
+            }
+            TraveloguePhoto photo = new TraveloguePhoto(i, url, place);
+            photos.add(traveloguePhotoRepository.save(photo));
+        }
+
+        return photos;
+    }
+
+    private boolean isNotInPermanentStorage(String imageUrl) {
+        if (imageUrl.startsWith(TEMPORARY_IMAGE_PATH)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> findPhotoUrlsByPlace(TraveloguePlace traveloguePlace) {
+        List<TraveloguePhoto> photos = traveloguePhotoRepository.findByTraveloguePlace(traveloguePlace);
+
+        return photos.stream()
+                .sorted(Comparator.comparing(TraveloguePhoto::getOrder))
+                .map(TraveloguePhoto::getKey)
+                .toList();
+    }
+
+    @Transactional
+    public void deleteAllByTravelogue(Travelogue travelogue) {
+        traveloguePhotoRepository.deleteAllByTraveloguePlaceTravelogueDayTravelogue(travelogue);
+    }
+}
