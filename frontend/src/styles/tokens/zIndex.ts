@@ -1,7 +1,7 @@
 export const Z_INDEX = {
   toast: 1200,
-  drawer: 1100,
-  drawerOverlay: 1050,
+  drawer: 1150,
+  drawerOverlay: 1100,
   modal: 1000,
   bottomSheet: 1000,
   overlay: 900,
