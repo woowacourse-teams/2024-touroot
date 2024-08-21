@@ -29,8 +29,6 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractUTCDate } from "@utils/extractUTCDate";
 
-import theme from "@styles/theme";
-
 import * as S from "./TravelPlanRegisterPage.styled";
 
 const TravelPlanRegisterPage = () => {
