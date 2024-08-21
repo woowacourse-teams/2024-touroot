@@ -22,7 +22,7 @@ const MyPage = () => {
     setNickname(data?.nickname ?? "");
   };
 
-  const { mutate: modifyNickname } = usePatchNickname(onError);
+  const { mutate: mutateModifyNickname } = usePatchNickname(onError);
 
   useEffect(() => {
     if (data?.nickname) {
@@ -40,9 +40,9 @@ const MyPage = () => {
 
     if (data?.nickname && !trimmedNickname) {
       setNickname(data?.nickname);
-      modifyNickname(data?.nickname);
+      mutateModifyNickname(data?.nickname);
     } else if (trimmedNickname) {
-      modifyNickname(trimmedNickname);
+      mutateModifyNickname(trimmedNickname);
       setNickname(trimmedNickname);
     }
 
