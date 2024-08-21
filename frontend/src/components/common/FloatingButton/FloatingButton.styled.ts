@@ -21,11 +21,11 @@ export const SubButtonContainer = styled.div<{ $isOpen: boolean }>`
   align-items: flex-start;
 
   width: 15rem;
-  padding: ${({ theme }) => theme.spacing.m};
+  padding: ${({ theme }) => theme.spacing.l} ${({ theme }) => theme.spacing.m};
   border-radius: ${({ theme }) => theme.spacing.s};
 
   background-color: ${PRIMITIVE_COLORS.gray[700]};
-  gap: ${({ theme }) => theme.spacing.m};
+  gap: ${({ theme }) => theme.spacing.l};
 
   transition: all 0.3s ease-out;
 
