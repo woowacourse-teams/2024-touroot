@@ -79,6 +79,7 @@ const MyPage = () => {
               value={nickname}
               autoFocus
               maxCount={20}
+              maxLength={20}
               count={nickname?.length}
               spellCheck={false}
               css={S.inputStyle}
