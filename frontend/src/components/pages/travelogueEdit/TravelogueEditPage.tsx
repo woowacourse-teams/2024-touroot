@@ -146,7 +146,6 @@ const TravelogueEditPage = () => {
         <Input
           value={title}
           maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-          label="제목"
           placeholder="여행기 제목을 입력해주세요"
           count={title.length}
           maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
