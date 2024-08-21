@@ -50,6 +50,11 @@ security:
 
 cors:
   allowed-origins: http://localhost:3000, https://dev.touroot.kr
+
+cloud:
+  aws:
+    s3:
+      image-base-uri: https://dev.touroot.kr/
 ---
 # dev profile
 spring:
@@ -93,6 +98,11 @@ security:
 
 cors:
   allowed-origins: http://localhost:3000, https://dev.touroot.kr
+
+cloud:
+  aws:
+    s3:
+      image-base-uri: https://dev.touroot.kr/
 ---
 # prod profile
 spring:
@@ -140,3 +150,8 @@ springdoc:
 
 cors:
   allowed-origins: https://touroot.kr
+
+cloud:
+  aws:
+    s3:
+      image-base-uri: https://touroot.kr/

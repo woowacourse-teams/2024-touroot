@@ -9,7 +9,7 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
 @Configuration
-@Profile({"dev"})
+@Profile("dev|prod")
 public class AwsS3Config {
 
     @Primary
