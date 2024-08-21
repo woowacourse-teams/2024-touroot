@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import type { TravelogueDay, TraveloguePayload } from "@type/domain/travelogue";
+
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
 import { usePostTravelogue, usePostUploadImages } from "@queries/index";
@@ -96,9 +98,26 @@ const TravelogueRegisterPage = () => {
 
   const { mutate: registerTravelogueMutate } = usePostTravelogue();
 
+  const normalizeTravelogueDays = (days: TravelogueDay[]): TravelogueDay[] => {
+    return days.map((day) => ({
+      ...day,
+      places: day.places.map((place) => ({
+        ...place,
+        photoUrls: place.photoUrls ?? [],
+      })),
+    }));
+  };
+
   const handleRegisterTravelogue = () => {
+    const normalizedDays = normalizeTravelogueDays(travelogueDays);
+
     registerTravelogueMutate(
-      { title, thumbnail, tags: selectedTagIDs, days: travelogueDays },
+      {
+        title,
+        thumbnail,
+        tags: selectedTagIDs,
+        days: normalizedDays,
+      } as TraveloguePayload,
       {
         onSuccess: (data) => {
           handleCloseBottomSheet();
@@ -107,6 +126,18 @@ const TravelogueRegisterPage = () => {
       },
     );
   };
+
+  // const handleRegisterTravelogue = () => {
+  //   registerTravelogueMutate(
+  //     { title, thumbnail, tags: selectedTagIDs, days: travelogueDays },
+  //     {
+  //       onSuccess: (data) => {
+  //         handleCloseBottomSheet();
+  //         navigate(ROUTE_PATHS_MAP.travelogue(data?.data?.id));
+  //       },
+  //     },
+  //   );
+  // };
 
   const debouncedRegisterTravelogue = useLeadingDebounce(() => handleRegisterTravelogue(), 3000);
 
