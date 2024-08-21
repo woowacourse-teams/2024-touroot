@@ -38,7 +38,7 @@ jobs:
         run: yarn lint
 
       - name: 빌드 실행
-        run: yarn build
+        run: yarn build:development
 
       - name: stylelint 실행
         run: yarn lint:styled
