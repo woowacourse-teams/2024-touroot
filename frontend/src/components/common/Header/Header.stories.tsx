@@ -21,9 +21,7 @@ const rightContentOptions = {
         <S.DeleteButton title="delete keyword button" type="button">
           <Icon iconType="x-icon" size="8" />
         </S.DeleteButton>
-        <button title="search button" type="submit">
-          <Icon iconType="search-icon" size="18" />
-        </button>
+        <IconButton iconType="search-icon" size="18" />
       </S.ButtonContainer>
     </S.FormWrapper>
   ),
