@@ -120,14 +120,17 @@ const TravelPlanRegisterPage = () => {
       <S.Layout>
         <PageInfo mainText="여행 계획 등록" />
         <TextField title="제목" isRequired>
-          <Input
-            value={title}
-            maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-            placeholder="여행 계획 제목을 입력해주세요"
-            count={title.length}
-            maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-            onChange={handleChangeTitle}
-          />
+          {(id) => (
+            <Input
+              id={id}
+              value={title}
+              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+              placeholder="여행 계획 제목을 입력해주세요"
+              count={title.length}
+              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              onChange={handleChangeTitle}
+            />
+          )}
         </TextField>
 
         <TextField
@@ -135,22 +138,25 @@ const TravelPlanRegisterPage = () => {
           subTitle="시작일을 선택하면 마감일은 투룻이 계산 해드릴게요!"
           isRequired
         >
-          <>
-            <Input
-              value={startDate ? startDate.toLocaleDateString().slice(0, -1) : ""}
-              onClick={handleInputClick}
-              readOnly
-              placeholder="시작일을 입력해주세요"
-              css={S.startDateInputStyle}
-            />
-            {isShowCalendar && (
-              <Calendar
-                onSelectDate={handleSelectDate}
-                onClose={() => setIsShowCalendar((prev) => !prev)}
-                css={S.calendarStyle}
+          {(id) => (
+            <>
+              <Input
+                id={id}
+                value={startDate ? startDate.toLocaleDateString().slice(0, -1) : ""}
+                onClick={handleInputClick}
+                readOnly
+                placeholder="시작일을 입력해주세요"
+                css={S.startDateInputStyle}
               />
-            )}
-          </>
+              {isShowCalendar && (
+                <Calendar
+                  onSelectDate={handleSelectDate}
+                  onClose={() => setIsShowCalendar((prev) => !prev)}
+                  css={S.calendarStyle}
+                />
+              )}
+            </>
+          )}
         </TextField>
         <S.AccordionRootContainer>
           <GoogleMapLoadScript

@@ -135,13 +135,16 @@ const TravelogueRegisterPage = () => {
         <PageInfo mainText="여행기 등록" subText="소중한 여행기를 공유해 주세요." />
 
         <TextField title="제목" isRequired>
-          <Input
-            value={title}
-            maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-            count={title.length}
-            maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-            onChange={handleChangeTitle}
-          />
+          {(id) => (
+            <Input
+              id={id}
+              value={title}
+              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+              count={title.length}
+              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              onChange={handleChangeTitle}
+            />
+          )}
         </TextField>
 
         <S.TagsContainer>
@@ -168,12 +171,15 @@ const TravelogueRegisterPage = () => {
 
         <S.ThumbnailContainer>
           <TextField title="썸네일" isRequired>
-            <ThumbnailUpload
-              previewUrls={[thumbnail]}
-              fileInputRef={thumbnailFileInputRef}
-              onChangeImage={handleChangeThumbnail}
-              onClickButton={handleButtonClick}
-            />
+            {(id) => (
+              <ThumbnailUpload
+                id={id}
+                previewUrls={[thumbnail]}
+                fileInputRef={thumbnailFileInputRef}
+                onChangeImage={handleChangeThumbnail}
+                onClickButton={handleButtonClick}
+              />
+            )}
           </TextField>
         </S.ThumbnailContainer>
 
