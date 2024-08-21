@@ -40,6 +40,7 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
                 .where(travelogueTag.tag.id.in(tagFilter))
                 .groupBy(travelogueTag.travelogue)
                 .having(isSameCountWithFilter(tagFilter))
+                .orderBy(travelogueTag.travelogue.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

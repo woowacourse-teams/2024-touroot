@@ -40,3 +40,6 @@ spring:
   sql:
     init:
       mode: never
+
+cors:
+  allowed-origins: http://localhost:3000
