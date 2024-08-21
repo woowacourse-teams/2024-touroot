@@ -32,24 +32,9 @@ export const StartDateContainer = styled.div`
   gap: ${SPACING.s};
 `;
 
-export const DayDetailText = styled.span`
-  display: inline-block;
-
-  margin-left: 0.2rem;
-
-  ${({ theme }) => theme.typography.mobile.detail}
-  color: ${({ theme }) => theme.colors.text.secondary};
-`;
-
 export const LoadingWrapper = styled.div`
   width: 100%;
   height: 5.6rem;
-`;
-
-export const PlaceTodoListItemContainer = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: ${SPACING.s};
 `;
 
 export const addDayButtonStyle = css`
@@ -62,20 +47,9 @@ export const addButtonStyle = css`
 
   width: 100%;
   height: 4rem;
-  margin-bottom: 3.2rem;
+  margin-bottom: ${SPACING.xl};
   padding: 1.2rem 1.6rem;
-  border: 1px solid ${theme.colors.border};
-  border-radius: ${SPACING.s};
-`;
-
-export const addTravelAddButtonStyle = css`
-  display: flex;
-  gap: ${SPACING.s};
-
-  width: 100%;
-  height: 4rem;
-  padding: 1.2rem 1.6rem;
-  border: 1px solid ${theme.colors.border};
+  border: 0.1rem solid ${theme.colors.border};
   border-radius: ${SPACING.s};
 `;
 
@@ -84,7 +58,7 @@ export const loadingButtonStyle = css`
 `;
 
 export const startDateInputStyle = css`
-  margin-bottom: 3.2rem;
+  margin: 0 0 ${SPACING.xl};
 `;
 
 export const calendarStyle = css`

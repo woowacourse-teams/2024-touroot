@@ -11,6 +11,8 @@ export interface ModalBottomSheetProps {
   mainText: string;
   subText: string;
   isOpen: boolean;
+  primaryButtonLabel: string;
+  secondaryButtonLabel: string;
   onClose: () => void;
   onConfirm: () => void;
 }
@@ -19,6 +21,8 @@ const ModalBottomSheet = ({
   mainText,
   subText,
   isOpen,
+  primaryButtonLabel,
+  secondaryButtonLabel,
   onClose,
   onConfirm,
 }: ModalBottomSheetProps) => {
@@ -32,10 +36,10 @@ const ModalBottomSheet = ({
         <Content mainText={mainText} subText={subText} />
         <Footer>
           <Button variants="secondary" onClick={onClose}>
-            취소
+            {secondaryButtonLabel}
           </Button>
           <Button variants="primary" onClick={onConfirm}>
-            확인
+            {primaryButtonLabel}
           </Button>
         </Footer>
       </Container>

@@ -1,5 +1,4 @@
 import type { MapPosition } from "./common";
-import type { TravelTransformDetail } from "./travelTransform";
 
 export interface TravelPlanTodo {
   id: number | string;
@@ -24,7 +23,7 @@ export interface TravelPlanResponse {
   shareKey: string;
   title: string;
   startDate: string;
-  days: TravelTransformDetail["days"];
+  days: TravelPlanDay[];
 }
 
 export type TravelPlanPayload = Omit<TravelPlanResponse, "shareKey" | "id">;

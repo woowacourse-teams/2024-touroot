@@ -11,16 +11,21 @@ import { authClient } from "@apis/client";
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { QUERY_KEYS_MAP } from "@constants/queryKey";
 
-export const usePostTravelPlan = () => {
+interface MutationFnVariables {
+  travelPlan: TravelPlanPayload;
+  id: number;
+}
+
+export const usePutTravelPlan = () => {
   const queryClient = useQueryClient();
   return useMutation<
     AxiosResponse<TravelPlanResponse & { id: number }, unknown>,
     ApiError | AxiosError<ErrorResponse>,
-    TravelPlanPayload,
+    MutationFnVariables,
     unknown
   >({
-    mutationFn: (travelPlan: TravelPlanPayload) =>
-      authClient.post(API_ENDPOINT_MAP.travelPlans, {
+    mutationFn: ({ travelPlan, id }) =>
+      authClient.put(API_ENDPOINT_MAP.travelPlanDetail(id), {
         ...travelPlan,
         days: travelPlan.days.map((day) => {
           return {
