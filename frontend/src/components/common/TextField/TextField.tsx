@@ -1,6 +1,4 @@
-import React, { PropsWithChildren, ReactElement, cloneElement } from "react";
-
-import { css } from "@emotion/react";
+import React, { PropsWithChildren } from "react";
 
 import Text from "../Text/Text";
 import * as S from "./TextField.styled";
@@ -9,6 +7,7 @@ interface TextFieldProps {
   title: string;
   subTitle?: string;
   isRequired?: boolean;
+  children: ((id: string) => React.ReactNode) | React.ReactNode;
 }
 
 const REQUIRED_SYMBOL = "*";
@@ -20,8 +19,13 @@ const TextField = ({
   children,
 }: PropsWithChildren<TextFieldProps>) => {
   const id = React.useId();
-  const child = children as ReactElement;
-  const childWithId = cloneElement(child, { id });
+
+  const renderChildren = () => {
+    if (typeof children === "function") {
+      return children(id);
+    }
+    return children;
+  };
 
   return (
     <S.Layout>
@@ -45,7 +49,7 @@ const TextField = ({
           </Text>
         )}
       </S.LabelContainer>
-      {childWithId}
+      {renderChildren()}
     </S.Layout>
   );
 };
