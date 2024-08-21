@@ -4,9 +4,7 @@ const common = require("./webpack.common");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const dotenv = require("dotenv");
 
-const isDevelopment = process.env.NODE_ENV !== "production";
-
-const env = dotenv.config({ path: isDevelopment ? ".env.development" : ".env.production" }).parsed;
+const env = dotenv.config({ path: ".env.production" }).parsed;
 
 module.exports = merge(common, {
   mode: "production",
