@@ -11,21 +11,20 @@ const rightContentOptions = {
   HomeIcon: <IconButton iconType="home-icon" size="20" />,
   SearchIcon: <IconButton iconType="search-icon" size="18" />,
   SearchForm: (
-    <S.FormWrapper>
-      <Input
-        autoFocus
-        placeholder="검색해주세요"
-        style={{ height: "4rem", marginBottom: "-1rem" }}
-      />
-      <S.ButtonContainer>
-        <S.DeleteButton title="delete keyword button" type="button">
-          <Icon iconType="x-icon" size="8" />
-        </S.DeleteButton>
-        <button title="search button" type="submit">
-          <Icon iconType="search-icon" size="18" />
-        </button>
-      </S.ButtonContainer>
-    </S.FormWrapper>
+    <>
+      <S.FormWrapper>
+        <Input autoFocus placeholder="검색해주세요" />
+        <S.ButtonContainer>
+          <S.DeleteButton title="delete keyword button" type="button">
+            <Icon iconType="x-icon" size="8" />
+          </S.DeleteButton>
+          <button title="search button" type="submit">
+            <Icon iconType="search-icon" size="18" />
+          </button>
+        </S.ButtonContainer>
+      </S.FormWrapper>
+      <IconButton iconType="home-icon" size="20" onClick={() => {}} />
+    </>
   ),
 };
 
