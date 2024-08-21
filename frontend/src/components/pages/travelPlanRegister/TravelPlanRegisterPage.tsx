@@ -14,6 +14,7 @@ import {
   Input,
   ModalBottomSheet,
   PageInfo,
+  Text,
   TextField,
 } from "@components/common";
 import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
