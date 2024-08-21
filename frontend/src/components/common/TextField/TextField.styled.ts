@@ -26,3 +26,7 @@ export const TextContainer = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xs};
 `;
+
+export const SymbolStyle = css`
+  color: red;
+`;

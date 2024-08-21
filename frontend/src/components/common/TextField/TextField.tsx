@@ -33,12 +33,7 @@ const TextField = ({
         <S.TextContainer>
           <Text textType="bodyBold">{title}</Text>
           {isRequired && (
-            <Text
-              textType="bodyBold"
-              css={css`
-                color: red;
-              `}
-            >
+            <Text textType="bodyBold" css={S.SymbolStyle}>
               {REQUIRED_SYMBOL}
             </Text>
           )}
