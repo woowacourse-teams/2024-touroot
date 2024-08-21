@@ -22,12 +22,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 모의 함수들을 생성합니다
 const mockOnChangeImage = () => {};
 const mockOnClickButton = () => {};
 
 export const Default: Story = {
   args: {
+    id: "1",
     previewUrls: [],
     fileInputRef: React.createRef<HTMLInputElement>(),
     onChangeImage: mockOnChangeImage,
@@ -38,6 +38,7 @@ export const Default: Story = {
 export const WithImage: Story = {
   args: {
     ...Default.args,
+    id: "thumbnail-upload-2",
     previewUrls: ["https://example.com/mock-image.jpg"],
   },
   decorators: [
