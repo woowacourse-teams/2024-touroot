@@ -1,4 +1,4 @@
-import { keyframes } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { PRIMITIVE_COLORS } from "@styles/tokens";
@@ -19,6 +19,12 @@ const slideDown = keyframes`
   to {
     height: 5rem;
   }
+`;
+
+export const iconButtonStyle = css`
+  justify-content: center;
+
+  width: 100%;
 `;
 
 export const BottomSheetLayout = styled.div<{ $isOpen: boolean }>`
