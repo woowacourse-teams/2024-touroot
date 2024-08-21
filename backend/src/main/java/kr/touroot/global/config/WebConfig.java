@@ -2,17 +2,25 @@ package kr.touroot.global.config;
 
 import java.util.List;
 import kr.touroot.global.auth.MemberAuthMethodArgumentResolver;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@RequiredArgsConstructor
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     private final MemberAuthMethodArgumentResolver memberAuthMethodArgumentResolver;
+    private final String[] allowedOrigins;
+
+    public WebConfig(
+            MemberAuthMethodArgumentResolver memberAuthMethodArgumentResolver,
+            @Value("${cors.allowed-origins}") String[] allowedOrigins
+    ) {
+        this.memberAuthMethodArgumentResolver = memberAuthMethodArgumentResolver;
+        this.allowedOrigins = allowedOrigins;
+    }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
@@ -22,7 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "https://dev.touroot.kr")
+                .allowedOrigins(allowedOrigins)
                 .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS");
     }
 }
