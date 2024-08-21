@@ -127,18 +127,6 @@ const TravelogueRegisterPage = () => {
     );
   };
 
-  // const handleRegisterTravelogue = () => {
-  //   registerTravelogueMutate(
-  //     { title, thumbnail, tags: selectedTagIDs, days: travelogueDays },
-  //     {
-  //       onSuccess: (data) => {
-  //         handleCloseBottomSheet();
-  //         navigate(ROUTE_PATHS_MAP.travelogue(data?.data?.id));
-  //       },
-  //     },
-  //   );
-  // };
-
   const debouncedRegisterTravelogue = useLeadingDebounce(() => handleRegisterTravelogue(), 3000);
 
   const handleConfirmBottomSheet = () => {
