@@ -14,7 +14,7 @@ export const getSearchTravelogues = async ({
   size: number;
   keyword: string;
 }) => {
-  const response = await client.get(API_ENDPOINT_MAP.searchTravelogues + "ㅋㅋ", {
+  const response = await client.get(API_ENDPOINT_MAP.searchTravelogues, {
     params: { page, size, keyword },
   });
 
