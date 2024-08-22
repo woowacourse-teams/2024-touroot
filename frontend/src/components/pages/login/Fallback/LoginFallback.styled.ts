@@ -1,19 +1,19 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-export const TturiImg = styled.img`
-  width: 26rem;
-  height: 26rem;
-`;
+import theme from "@styles/theme";
 
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3.2rem;
+  gap: ${({ theme }) => theme.spacing.xl};
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  width: 100%;
 `;
 
 export const TextContainer = styled.div`
@@ -23,11 +23,6 @@ export const TextContainer = styled.div`
   gap: ${({ theme }) => theme.spacing.m};
 `;
 
-export const MainText = styled.span`
-  ${({ theme }) => theme.typography.mobile.title};
-`;
-
-export const SubText = styled.span`
-  ${({ theme }) => theme.typography.mobile.bodyBold};
-  color: ${({ theme }) => theme.colors.text.secondary};
+export const subTextStyle = css`
+  color: ${theme.colors.text.secondary};
 `;
