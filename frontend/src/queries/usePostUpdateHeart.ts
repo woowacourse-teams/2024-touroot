@@ -9,6 +9,7 @@ import ApiError from "@apis/ApiError";
 import { authClient } from "@apis/client";
 
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { QUERY_KEYS_MAP } from "@constants/queryKey";
 
 export const usePostUpdateHeart = () => {
@@ -26,6 +27,10 @@ export const usePostUpdateHeart = () => {
       });
     },
     onError: (error) => {
+      if (error instanceof ApiError && error.message === ERROR_MESSAGE_MAP.api.login) {
+        return;
+      }
+
       alert(error.message);
     },
   });
