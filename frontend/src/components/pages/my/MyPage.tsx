@@ -13,7 +13,7 @@ import MyTravelPlans from "./MyTravelPlans/MyTravelPlans";
 import MyTravelogues from "./MyTravelogues/MyTravelogues";
 
 const MyPage = () => {
-  const { data, isLoading } = useUserProfile();
+  const { data, isLoading, error } = useUserProfile();
   const [isModifying, setIsModifying] = useState(false);
   const [nickname, setNickname] = useState(data?.nickname ?? "");
 
@@ -33,6 +33,8 @@ const MyPage = () => {
   const handleStartNicknameEdit = () => {
     setIsModifying(true);
   };
+
+  if (error) alert(error.message);
 
   const handleSubmitNicknameChange = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -93,7 +95,15 @@ const MyPage = () => {
         storageKey={STORAGE_KEYS_MAP.myPageSelectedTabIndex}
         labels={["내 여행 계획", "내 여행기"]}
         tabContent={(selectedIndex) => (
-          <>{selectedIndex === 0 ? <MyTravelPlans /> : <MyTravelogues />}</>
+          <>
+            {selectedIndex === 0 ? (
+              data ? (
+                <MyTravelPlans userData={data} />
+              ) : null
+            ) : data ? (
+              <MyTravelogues userData={data} />
+            ) : null}
+          </>
         )}
         css={S.ListStyle}
       />

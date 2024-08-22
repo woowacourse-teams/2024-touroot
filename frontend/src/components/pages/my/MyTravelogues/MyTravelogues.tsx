@@ -1,6 +1,9 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
+
+import type { UserResponse } from "@type/domain/user";
 
 import useInfiniteMyTravelogues from "@queries/useInfiniteMyTravelogues";
 
@@ -9,6 +12,7 @@ import MyPageTabContentSkeleton from "@components/pages/my/MyPageTabContentSkele
 
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import theme from "@styles/theme";
@@ -16,8 +20,13 @@ import theme from "@styles/theme";
 import TabContent from "../MyPageTabContent/MyPageTabContent";
 import * as S from "./MyTravelogues.styled";
 
-const MyTravelogues = () => {
-  const { myTravelogues, fetchNextPage, status } = useInfiniteMyTravelogues();
+interface MyTraveloguesProps {
+  userData: UserResponse;
+}
+
+const MyTravelogues = ({ userData }: MyTraveloguesProps) => {
+  const { myTravelogues, fetchNextPage, status, isPaused, error } =
+    useInfiniteMyTravelogues(userData);
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
   const navigate = useNavigate();
@@ -30,7 +39,13 @@ const MyTravelogues = () => {
     navigate(ROUTE_PATHS_MAP.travelogue(Number(id)));
   };
 
+  useEffect(() => {
+    if (isPaused) alert(ERROR_MESSAGE_MAP.network);
+  }, [isPaused]);
+
   if (status === "pending") return <MyPageTabContentSkeleton />;
+
+  if (error) alert(error.message);
 
   return (
     <>

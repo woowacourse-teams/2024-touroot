@@ -9,6 +9,8 @@ import TravelogueCard from "@components/pages/main/TravelogueCard/TravelogueCard
 
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+
 import { extractLastPath } from "@utils/extractId";
 
 import TravelogueCardSkeleton from "../main/TravelogueCard/skeleton/TravelogueCardSkeleton";
@@ -22,7 +24,8 @@ const SearchPage = () => {
     location.pathname.split("/").length > 2 ? extractLastPath(location.pathname) : "";
   const keyword = encodedKeyword ? decodeURIComponent(encodedKeyword) : "";
 
-  const { travelogues, status, fetchNextPage } = useInfiniteSearchTravelogues(keyword);
+  const { travelogues, status, fetchNextPage, isPaused, error } =
+    useInfiniteSearchTravelogues(keyword);
 
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
@@ -49,6 +52,14 @@ const SearchPage = () => {
       </S.Layout>
     );
   }
+
+  if (status === "error") {
+    error && alert(error.message);
+
+    return <SearchFallback title="휑" text="검색 결과가 없어요." />;
+  }
+
+  if (isPaused) alert(ERROR_MESSAGE_MAP.network);
 
   return (
     <S.Layout>

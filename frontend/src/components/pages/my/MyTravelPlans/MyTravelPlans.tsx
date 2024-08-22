@@ -1,6 +1,9 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
+
+import type { UserResponse } from "@type/domain/user";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
@@ -11,6 +14,7 @@ import MyPageTabContentSkeleton from "@components/pages/my/MyPageTabContentSkele
 
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import addDaysToDateString from "@utils/addDaysToDateString";
@@ -20,11 +24,16 @@ import theme from "@styles/theme";
 import TabContent from "../MyPageTabContent/MyPageTabContent";
 import * as S from "./MyTravelPlans.styled";
 
-const MyTravelPlans = () => {
+interface MyTravelPlansProps {
+  userData: UserResponse;
+}
+
+const MyTravelPlans = ({ userData }: MyTravelPlansProps) => {
   const { onTransformTravelDetail } = useTravelTransformDetailContext();
   const navigate = useNavigate();
 
-  const { myTravelPlans, status, fetchNextPage } = useInfiniteMyTravelPlans();
+  const { myTravelPlans, status, fetchNextPage, isPaused, error } =
+    useInfiniteMyTravelPlans(userData);
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
   const handleClickAddButton = () => {
@@ -35,7 +44,13 @@ const MyTravelPlans = () => {
     navigate(ROUTE_PATHS_MAP.travelPlan(Number(id)));
   };
 
+  useEffect(() => {
+    if (isPaused) alert(ERROR_MESSAGE_MAP.network);
+  }, [isPaused]);
+
   if (status === "pending") return <MyPageTabContentSkeleton />;
+
+  if (error) alert(error.message);
 
   return (
     <>
