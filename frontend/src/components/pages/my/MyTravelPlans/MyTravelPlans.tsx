@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
@@ -24,7 +25,7 @@ const MyTravelPlans = () => {
   const { onTransformTravelDetail } = useTravelTransformDetailContext();
   const navigate = useNavigate();
 
-  const { myTravelPlans, status, fetchNextPage } = useInfiniteMyTravelPlans();
+  const { myTravelPlans, status, fetchNextPage, isPaused, error } =
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
   const handleClickAddButton = () => {
@@ -35,7 +36,13 @@ const MyTravelPlans = () => {
     navigate(ROUTE_PATHS_MAP.travelPlan(Number(id)));
   };
 
+  useEffect(() => {
+    if (isPaused) alert(ERROR_MESSAGE_MAP.network);
+  }, [isPaused]);
+
   if (status === "pending") return <MyPageTabContentSkeleton />;
+
+  if (error) alert(error.message);
 
   return (
     <>

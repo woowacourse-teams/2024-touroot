@@ -94,6 +94,9 @@ const MyPage = () => {
         labels={["내 여행 계획", "내 여행기"]}
         tabContent={(selectedIndex) => (
           <>{selectedIndex === 0 ? <MyTravelPlans /> : <MyTravelogues />}</>
+            ) : data ? (
+              <MyTravelogues userData={data} />
+            ) : null}
         )}
         css={S.ListStyle}
       />
