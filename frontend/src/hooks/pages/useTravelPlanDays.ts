@@ -6,7 +6,19 @@ import type { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
 import type { TravelTransformPlaces } from "@type/domain/travelTransform";
 
 export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
-  const [travelPlanDays, setTravelPlanDays] = useState<TravelPlanDay[]>(days);
+  const transformedDetailData = [...days].map((day) => {
+    return {
+      ...day,
+      places: day.places.map((place) => {
+        return {
+          ...place,
+          todos: [],
+        };
+      }),
+    };
+  });
+
+  const [travelPlanDays, setTravelPlanDays] = useState<TravelPlanDay[]>(transformedDetailData);
 
   const onChangeTravelPlanDays = useCallback((newDays: TravelPlanDay[]) => {
     setTravelPlanDays(newDays);
