@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ReactGA from "react-ga4";
 import { useLocation, useNavigate } from "react-router-dom";
-
-import ApiError from "@apis/ApiError";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
@@ -18,7 +16,6 @@ import useClickAway from "@hooks/useClickAway";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
 
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
-import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractLastPath } from "@utils/extractId";
@@ -38,13 +35,6 @@ const TravelPlanDetailPage = () => {
   const { data, status, error } = useGetTravelPlan(id);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (error instanceof ApiError && error.message === ERROR_MESSAGE_MAP.api.travelPlanOnlyWriter) {
-      alert(error.message);
-      navigate(ROUTE_PATHS_MAP.back);
-    }
-  }, [error, navigate]);
 
   const daysAndNights =
     data?.days.length && data?.days.length > 1
