@@ -46,4 +46,9 @@ public class TravelogueLikeService {
 
         return new TravelogueLikeResponse(false, travelogueLikeRepository.countByTravelogue(travelogue));
     }
+
+    @Transactional
+    public void deleteAllByTravelogue(Travelogue travelogue) {
+        travelogueLikeRepository.deleteAllByTravelogue(travelogue);
+    }
 }

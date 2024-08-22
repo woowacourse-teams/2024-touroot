@@ -11,5 +11,7 @@ public interface TravelogueLikeRepository extends JpaRepository<TravelogueLike, 
 
     boolean existsByTravelogueAndLiker(Travelogue travelogue, Member liker);
 
+    void deleteAllByTravelogue(Travelogue travelogue);
+
     void deleteByTravelogueAndLiker(Travelogue travelogue, Member liker);
 }

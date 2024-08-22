@@ -43,15 +43,8 @@ public class TravelogueTagService {
                 .toList();
     }
 
-    @Transactional(readOnly = true)
-    public List<TagResponse> updateTravelogueTags(Travelogue travelogue, List<Long> tagIds) {
+    @Transactional
+    public void deleteAllByTravelogue(Travelogue travelogue) {
         travelogueTagQueryRepository.deleteAllByTravelogue(travelogue);
-
-        return tagIds.stream()
-                .map(id -> {
-                    Tag tag = getTagById(id);
-                    travelogueTagRepository.save(new TravelogueTag(travelogue, tag));
-                    return TagResponse.from(tag);
-                }).toList();
     }
 }
