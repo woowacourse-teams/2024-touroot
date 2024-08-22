@@ -72,7 +72,7 @@ const TravelogueRegisterPage = () => {
     thumbnailFileInputRef.current?.click();
   };
 
-  const { mutateAsync: mutateAddImage } = usePostUploadImages();
+  const { mutateAsync: mutateAddImage, isPaused } = usePostUploadImages();
 
   const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -99,7 +99,12 @@ const TravelogueRegisterPage = () => {
 
   const handleRegisterTravelogue = () => {
     mutateRegisterTravelogue(
-      { title, thumbnail, tags: selectedTagIDs, days: travelogueDays },
+      {
+        title,
+        thumbnail: thumbnail || (process.env.DEFAULT_THUMBNAIL_IMAGE ?? ""),
+        tags: selectedTagIDs,
+        days: travelogueDays,
+      },
       {
         onSuccess: (data) => {
           handleCloseBottomSheet();
@@ -208,6 +213,7 @@ const TravelogueRegisterPage = () => {
               {travelogueDays.map((travelogueDay, dayIndex) => (
                 <TravelogueDayAccordion
                   key={travelogueDay.id}
+                  isPaused={isPaused}
                   travelogueDay={travelogueDay}
                   dayIndex={dayIndex}
                   onAddPlace={onAddPlace}

@@ -9,11 +9,12 @@ import ApiError from "@apis/ApiError";
 import { authClient } from "@apis/client";
 
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { QUERY_KEYS_MAP } from "@constants/queryKey";
 
 export const usePostTravelogue = () => {
   const queryClient = useQueryClient();
-  return useMutation<
+  const { isPaused, ...rest } = useMutation<
     AxiosResponse<TravelogueResponse, unknown>,
     ApiError | AxiosError<ErrorResponse>,
     TraveloguePayload,
@@ -40,4 +41,8 @@ export const usePostTravelogue = () => {
       alert(error.message);
     },
   });
+
+  if (isPaused) alert(ERROR_MESSAGE_MAP.network);
+
+  return { isPaused, ...rest };
 };

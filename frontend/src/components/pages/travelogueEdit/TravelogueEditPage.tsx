@@ -79,7 +79,7 @@ const TravelogueEditPage = () => {
     thumbnailFileInputRef.current?.click();
   };
 
-  const { mutateAsync: mutateAddImage } = usePostUploadImages();
+  const { mutateAsync: mutateAddImage, isPaused } = usePostUploadImages();
 
   const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const thumbnail = await mutateAddImage(Array.from(e.target.files as FileList));
@@ -215,6 +215,7 @@ const TravelogueEditPage = () => {
             <Accordion.Root css={S.accordionRootStyle}>
               {travelogueDays.map((travelogueDay, dayIndex) => (
                 <TravelogueDayAccordion
+                  isPaused={isPaused}
                   key={travelogueDay.id}
                   travelogueDay={travelogueDay}
                   dayIndex={dayIndex}
