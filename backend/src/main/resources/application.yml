@@ -139,4 +139,4 @@ springdoc:
     enabled: false
 
 cors:
-  allowed-origins: https://touroot.kr
+  allowed-origins: https://touroot.kr, https://www.touroot.kr
