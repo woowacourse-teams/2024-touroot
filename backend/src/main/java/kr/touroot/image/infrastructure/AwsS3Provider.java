@@ -77,12 +77,20 @@ public class AwsS3Provider {
     }
 
     public String copyImageToPermanentStorage(String imageUrl) {
+        if (isInPermanentStorage(imageUrl)) {
+            return imageUrl;
+        }
+
         validateS3Path(imageUrl);
         String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
         String sourceKey = tourootStoragePath + temporaryStoragePath + fileName;
         String destinationKey = sourceKey.replace(temporaryStoragePath, imageStoragePath);
         copyFile(sourceKey, destinationKey);
         return imageUrl.replace(temporaryStoragePath, imageStoragePath);
+    }
+
+    private boolean isInPermanentStorage(String imageUrl) {
+        return imageUrl.startsWith(imageBaseUri + imageStoragePath);
     }
 
     private void validateS3Path(String imageKey) {
