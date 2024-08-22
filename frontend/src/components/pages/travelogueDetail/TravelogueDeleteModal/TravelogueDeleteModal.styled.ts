@@ -13,13 +13,15 @@ export const TextContainer = styled.div`
 
 export const modalBodyStyle = css`
   gap: ${theme.spacing.m};
-  padding: "2.6rem 0";
-`;
-
-export const mainTextStyle = css`
-  font-weight: 700;
+  padding: 2.6rem 0;
 `;
 
 export const subTextStyle = css`
   color: ${theme.colors.text.secondary};
+`;
+
+export const buttonStyle = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
