@@ -70,7 +70,8 @@ const TravelPlanRegisterPage = () => {
 
   const navigate = useNavigate();
 
-  const { mutate: mutateTravelPlanRegister } = usePostTravelPlan();
+  const { mutate: mutateTravelPlanRegister, isPending: isPostingTravelPlanPending } =
+    usePostTravelPlan();
 
   const handleRegisterTravelPlan = () => {
     const formattedStartDate = extractUTCDate(startDate);
@@ -212,6 +213,7 @@ const TravelPlanRegisterPage = () => {
 
       <ModalBottomSheet
         isOpen={isOpen}
+        isPending={isPostingTravelPlanPending}
         mainText="여행 계획을 등록할까요?"
         subText="등록한 후에도 다시 여행 계획을 수정할 수 있어요."
         secondaryButtonLabel="취소"

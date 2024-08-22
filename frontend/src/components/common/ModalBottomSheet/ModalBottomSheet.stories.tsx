@@ -25,6 +25,7 @@ export const Default: Story = {
     secondaryButtonLabel: "취소",
     primaryButtonLabel: "확인",
     isOpen: true,
+    isPending: false,
     onClose: () => {},
     onConfirm: () => {},
   },

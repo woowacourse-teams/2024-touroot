@@ -51,7 +51,7 @@ const TravelPlanDetailPage = () => {
       ? `${data?.days.length - 1}박 ${data?.days.length}일`
       : "당일치기";
 
-  const { mutate: mutateDeleteTravelPlan } = useDeleteTravelPlan();
+  const { mutate: mutateDeleteTravelPlan, isPending: isDeletingPending } = useDeleteTravelPlan();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -177,6 +177,7 @@ const TravelPlanDetailPage = () => {
       {isDeleteModalOpen && (
         <TravelPlanDeleteModal
           isOpen={isDeleteModalOpen}
+          isPending={isDeletingPending}
           onCloseModal={handleToggleDeleteModal}
           onClickDeleteButton={handleClickDeleteButton}
         />

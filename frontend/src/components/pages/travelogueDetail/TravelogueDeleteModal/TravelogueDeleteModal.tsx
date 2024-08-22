@@ -31,12 +31,7 @@ const TravelogueDeleteModal = ({
         </S.TextContainer>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          variants="primary"
-          onClick={onClickDeleteButton}
-          disabled={isPending}
-          css={S.buttonStyle}
-        >
+        <Button variants="primary" onClick={onClickDeleteButton} disabled={isPending}>
           {isPending ? <Spinner variants="circle" size={20} /> : "삭제"}
         </Button>
       </Modal.Footer>
