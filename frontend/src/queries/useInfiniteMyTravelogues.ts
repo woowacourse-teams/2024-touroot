@@ -25,7 +25,6 @@ const useInfiniteMyTravelogues = () => {
   const INITIAL_PAGE = 0;
   const DATA_LOAD_COUNT = 5;
 
-  const { data, status, error, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: QUERY_KEYS_MAP.travelogue.me(),
     queryFn: ({ pageParam = INITIAL_PAGE }) => {
       const page = pageParam;
@@ -42,6 +41,7 @@ const useInfiniteMyTravelogues = () => {
       pageParams: data.pageParams,
     }),
   });
+  const { data, status, error, fetchNextPage, isFetchingNextPage, hasNextPage, isPaused } =
 
   return {
     myTravelogues: data?.pages || [],
@@ -50,6 +50,7 @@ const useInfiniteMyTravelogues = () => {
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
+    isPaused,
   };
 };
 

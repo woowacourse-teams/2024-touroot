@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
@@ -17,7 +18,7 @@ import TabContent from "../MyPageTabContent/MyPageTabContent";
 import * as S from "./MyTravelogues.styled";
 
 const MyTravelogues = () => {
-  const { myTravelogues, fetchNextPage, status } = useInfiniteMyTravelogues();
+  const { myTravelogues, fetchNextPage, status, isPaused, error } =
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
   const navigate = useNavigate();
@@ -29,6 +30,10 @@ const MyTravelogues = () => {
   const handleClickTravelogue = (id: string) => {
     navigate(ROUTE_PATHS_MAP.travelogue(Number(id)));
   };
+
+  useEffect(() => {
+    if (isPaused) alert(ERROR_MESSAGE_MAP.network);
+  }, [isPaused]);
 
   if (status === "pending") return <MyPageTabContentSkeleton />;
 
