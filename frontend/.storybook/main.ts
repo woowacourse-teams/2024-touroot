@@ -56,6 +56,7 @@ const config: StorybookConfig = {
       transform: {
         react: {
           runtime: "automatic",
+          importSource: "@emotion/react",
         },
       },
     },
