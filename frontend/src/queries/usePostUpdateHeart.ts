@@ -27,7 +27,10 @@ export const usePostUpdateHeart = () => {
       });
     },
     onError: (error) => {
-      if (error instanceof ApiError && error.message === ERROR_MESSAGE_MAP.api.login) {
+      if (
+        (error instanceof ApiError && error.message === ERROR_MESSAGE_MAP.api.login) ||
+        error.message === "Network Error"
+      ) {
         return;
       }
 
