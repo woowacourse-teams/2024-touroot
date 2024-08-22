@@ -45,7 +45,9 @@ const SearchPage = () => {
   if (travelogues.length === 0 && status === "success") {
     return (
       <S.Layout>
-        {keyword && <Text textType="title">{`"${keyword}" 검색 결과`}</Text>}
+        {keyword && (
+          <Text css={S.searchResultTextStyle} textType="title">{`"${keyword}" 검색 결과`}</Text>
+        )}
         <S.SearchFallbackWrapper>
           <SearchFallback title="휑" text="검색 결과가 없어요." />
         </S.SearchFallbackWrapper>
@@ -64,7 +66,9 @@ const SearchPage = () => {
   return (
     <S.Layout>
       <FloatingButton />
-      {keyword && <Text textType="title">{`"${keyword}" 검색 결과`}</Text>}
+      {keyword && (
+        <Text css={S.searchResultTextStyle} textType="title">{`"${keyword}" 검색 결과`}</Text>
+      )}
       {status === "pending" && (
         <S.MainPageTraveloguesList>
           {Array.from({ length: SKELETON_COUNT }, (_, index) => (

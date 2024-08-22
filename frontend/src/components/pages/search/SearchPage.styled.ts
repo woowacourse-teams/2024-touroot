@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { SPACING } from "@styles/tokens";
@@ -22,4 +23,17 @@ export const MainPageTraveloguesList = styled.ul`
   flex-direction: column;
 
   gap: ${SPACING.m};
+`;
+
+export const searchResultTextStyle = css`
+  display: -webkit-box;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+
+  line-height: 1.5;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-overflow: ellipsis;
 `;
