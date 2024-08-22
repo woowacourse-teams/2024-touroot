@@ -5,6 +5,7 @@ import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueLike;
 import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.repository.TravelogueLikeRepository;
+import kr.touroot.travelogue.repository.query.TravelogueLikeQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelogueLikeService {
 
     private final TravelogueLikeRepository travelogueLikeRepository;
+    private final TravelogueLikeQueryRepository travelogueLikeQueryRepository;
 
     @Transactional(readOnly = true)
     public TravelogueLikeResponse findLikeByTravelogue(Travelogue travelogue) {
@@ -45,5 +47,10 @@ public class TravelogueLikeService {
         }
 
         return new TravelogueLikeResponse(false, travelogueLikeRepository.countByTravelogue(travelogue));
+    }
+
+    @Transactional
+    public void deleteAllByTravelogue(Travelogue travelogue) {
+        travelogueLikeQueryRepository.deleteAllByTravelogue(travelogue);
     }
 }

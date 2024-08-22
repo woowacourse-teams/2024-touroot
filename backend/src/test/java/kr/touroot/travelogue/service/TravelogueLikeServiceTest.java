@@ -3,6 +3,7 @@ package kr.touroot.travelogue.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import kr.touroot.global.ServiceTest;
+import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
@@ -15,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
 @DisplayName("여행기 좋아요 서비스")
-@Import(value = {TravelogueLikeService.class, TravelogueTestHelper.class})
+@Import(value = {TravelogueLikeService.class, TravelogueTestHelper.class, TestQueryDslConfig.class})
 @ServiceTest
 class TravelogueLikeServiceTest {
 

@@ -161,11 +161,11 @@ public class TravelogueFacadeService {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
 
         Travelogue updatedTravelogue = travelogueService.update(id, author, request);
-        List<TagResponse> tags = travelogueTagService.updateTravelogueTags(travelogue, request.tags());
         TravelogueLikeResponse like = travelogueLikeService.findLikeByTravelogueAndLiker(travelogue, author);
 
         clearTravelogueContents(travelogue);
 
+        List<TagResponse> tags = travelogueTagService.createTravelogueTags(travelogue, request.tags());
         return TravelogueResponse.of(updatedTravelogue, createDays(request.days(), updatedTravelogue), tags, like);
     }
 
@@ -173,6 +173,7 @@ public class TravelogueFacadeService {
         traveloguePhotoService.deleteAllByTravelogue(travelogue);
         traveloguePlaceService.deleteAllByTravelogue(travelogue);
         travelogueDayService.deleteAllByTravelogue(travelogue);
+        travelogueTagService.deleteAllByTravelogue(travelogue);
     }
 
     @Transactional
@@ -182,6 +183,7 @@ public class TravelogueFacadeService {
         travelogueService.validateAuthor(travelogue, author);
 
         clearTravelogueContents(travelogue);
+        travelogueLikeService.deleteAllByTravelogue(travelogue);
         travelogueService.delete(travelogue, author);
     }
 
