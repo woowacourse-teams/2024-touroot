@@ -9,7 +9,20 @@ const MIN_DESCRIPTION_LENGTH = 0;
 const MAX_DESCRIPTION_LENGTH = 300;
 
 export const useTravelogueDays = (days: TravelTransformPlaces[]) => {
-  const [travelogueDays, setTravelogueDays] = useState<TravelogueDay[]>(days);
+  const transformedDetailData = [...days].map((day) => {
+    return {
+      ...day,
+      places: day.places.map((place) => {
+        return {
+          ...place,
+          description: "",
+          photoUrls: [],
+        };
+      }),
+    };
+  });
+
+  const [travelogueDays, setTravelogueDays] = useState<TravelogueDay[]>(transformedDetailData);
 
   const onChangeTravelogueDays = useCallback((newDays: TravelogueDay[]) => {
     setTravelogueDays(newDays);

@@ -1,3 +1,4 @@
+import { Text } from "@components/common";
 import Spinner from "@components/common/Spinner/Spinner";
 
 import * as S from "./LoginFallback.styled";
@@ -12,8 +13,12 @@ const LoginFallback = ({ mainText, subText }: LoginFallbackProps) => {
     <S.Layout>
       <Spinner />
       <S.TextContainer>
-        <S.MainText>{mainText}</S.MainText>
-        {subText && <S.SubText>{subText}</S.SubText>}
+        <Text textType="title">{mainText}</Text>
+        {subText && (
+          <Text textType="bodyBold" css={S.subTextStyle}>
+            {subText}
+          </Text>
+        )}
       </S.TextContainer>
     </S.Layout>
   );

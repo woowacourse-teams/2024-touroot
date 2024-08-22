@@ -19,6 +19,7 @@ import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useUser from "@hooks/useUser";
 
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractID } from "@utils/extractId";
@@ -35,7 +36,7 @@ const TravelogueDetailPage = () => {
 
   const { user } = useUser();
 
-  const { data, status, error } = useGetTravelogue(id);
+  const { data, status, error, isPaused: isGettingTraveloguePaused } = useGetTravelogue(id);
 
   const isAuthor = data?.authorId === user?.memberId;
 
@@ -47,7 +48,11 @@ const TravelogueDetailPage = () => {
       : "당일치기";
 
   const { onTransformTravelDetail } = useTravelTransformDetailContext();
-  const { mutate: mutateDeleteTravelogue } = useDeleteTravelogue();
+  const {
+    mutate: mutateDeleteTravelogue,
+    isPaused: isDeletingTraveloguePaused,
+    isPending: isDeletingPending,
+  } = useDeleteTravelogue();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -91,15 +96,25 @@ const TravelogueDetailPage = () => {
     });
   };
 
-  const { mutate: handleActiveHeart } = usePostUpdateHeart();
-  const { mutate: handleInactiveHeart } = useDeleteUpdateHeart();
+  const { mutate: handleActiveHeart, isPaused: isPostingHeartPaused } = usePostUpdateHeart();
+  const { mutate: handleInactiveHeart, isPaused: isDeletingHeartPaused } = useDeleteUpdateHeart();
 
-  if (status === "pending") return <TravelogueDetailSkeleton />;
+  if (
+    isGettingTraveloguePaused ||
+    isDeletingTraveloguePaused ||
+    isPostingHeartPaused ||
+    isDeletingHeartPaused
+  ) {
+    alert(ERROR_MESSAGE_MAP.network);
+  }
 
-  if (status === "error") {
-    alert(error.message);
-    navigate(ROUTE_PATHS_MAP.back);
-    return;
+  if (status === "error" || status === "pending") {
+    if (status === "error") {
+      alert(error.message);
+      navigate(ROUTE_PATHS_MAP.back);
+    }
+
+    return <TravelogueDetailSkeleton />;
   }
 
   return (
@@ -122,7 +137,7 @@ const TravelogueDetailPage = () => {
           </S.TitleContainer>
           <S.IconButtonContainer>
             <S.LikesContainer>
-              {data.isLiked ? (
+              {data?.isLiked ? (
                 <IconButton
                   onClick={() => handleInactiveHeart(id)}
                   iconType="heart"
@@ -136,7 +151,7 @@ const TravelogueDetailPage = () => {
                   size="24"
                 />
               )}
-              <Text textType="detail">{data.likeCount}</Text>
+              <Text textType="detail">{data?.likeCount}</Text>
             </S.LikesContainer>
             {isAuthor && (
               <div ref={moreContainerRef}>
@@ -172,9 +187,7 @@ const TravelogueDetailPage = () => {
         <S.TravelogueOverview>
           <Text textType="subTitle">{daysAndNights} 여행 한눈에 보기</Text>
           <S.TravelogueCardChipsContainer>
-            {data.tags.map((tag) => (
-              <Chip key={tag.id} label={tag.tag} />
-            ))}
+            {data?.tags.map((tag) => <Chip key={tag.id} label={tag.tag} />)}
           </S.TravelogueCardChipsContainer>
         </S.TravelogueOverview>
 
@@ -195,6 +208,7 @@ const TravelogueDetailPage = () => {
       {isDeleteModalOpen && (
         <TravelogueDeleteModal
           isOpen={isDeleteModalOpen}
+          isPending={isDeletingPending}
           onCloseModal={handleToggleDeleteModal}
           onClickDeleteButton={handleClickDeleteButton}
         />

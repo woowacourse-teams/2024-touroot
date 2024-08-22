@@ -42,8 +42,9 @@ const MainPage = () => {
     <S.MainPageContentContainer>
       <S.MainPageHeaderContainer>
         <Text textType="title">지금 뜨고 있는 여행기</Text>
-        <Text textType="detail" css={S.subTitleColorStyle}>
-          {`다른 이들의 여행을 한 번 구경해보세요. (태그는 최대 ${FORM_VALIDATIONS_MAP.tags.maxCount}개까지 가능해요!)`}
+        <Text textType="detail" css={S.subTitleStyle}>
+          다른 이들의 여행을 구경해보세요.{" "}
+          <span>(태그는 최대 {FORM_VALIDATIONS_MAP.tags.maxCount}개까지 가능해요!)</span>
         </Text>
       </S.MainPageHeaderContainer>
 
@@ -91,7 +92,7 @@ const MainPage = () => {
             )
           ) : (
             <S.SearchFallbackWrapper>
-              <SearchFallback title="휑" text="다른 태그를 선택해 주세요!" />
+              <SearchFallback title="휑" text="여행기가 존재하지 않아요!" />
             </S.SearchFallbackWrapper>
           )}
         </S.MainPageTraveloguesList>
