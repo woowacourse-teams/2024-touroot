@@ -179,7 +179,7 @@ const TravelogueRegisterPage = () => {
         </S.TagsContainer>
 
         <S.ThumbnailContainer>
-          <TextField title="썸네일">
+          <TextField title="썸네일" isRequired>
             {(id) => (
               <ThumbnailUpload
                 id={id}
