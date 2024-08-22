@@ -1,7 +1,10 @@
 import { InputHTMLAttributes, useState } from "react";
 
+import { PRIMITIVE_COLORS } from "@styles/tokens";
+
 import { PictureIcon } from "@assets/svg";
 
+import IconButton from "../IconButton/IconButton";
 import Spinner from "../Spinner/Spinner";
 import * as S from "./ThumbnailUpload.styled";
 
@@ -11,6 +14,7 @@ interface ThumbnailUploadProps extends InputHTMLAttributes<HTMLInputElement> {
   fileInputRef: React.RefObject<HTMLInputElement>;
   onChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClickButton: () => void;
+  onDeleteButton?: () => void;
 }
 
 const ThumbnailUpload = ({
@@ -19,6 +23,7 @@ const ThumbnailUpload = ({
   fileInputRef,
   onChangeImage,
   onClickButton,
+  onDeleteButton,
 }: ThumbnailUploadProps) => {
   const [isShowEditButton, setIsShowEditButton] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -49,7 +54,17 @@ const ThumbnailUpload = ({
   );
 
   return (
-    <S.ThumbnailUploadContainer>
+    <S.ThumbnailUploadContainer $isLoading={isLoading}>
+      {image && (
+        <IconButton
+          onClick={onDeleteButton}
+          iconType="x-icon"
+          size="10"
+          color={PRIMITIVE_COLORS.white}
+          css={S.uploadDeleteButtonStyle}
+        />
+      )}
+
       {!image ? (
         <>
           <S.ThumbnailUploadButton type="button" onClick={onClickButton} aria-label="이미지 업로드">

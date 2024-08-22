@@ -1,15 +1,18 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import theme from "@styles/theme";
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
-export const ThumbnailUploadContainer = styled.div`
+export const ThumbnailUploadContainer = styled.div<{ $isLoading: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  position: relative;
   width: 100%;
   height: 20rem;
-  border: 1px solid ${(props) => props.theme.colors.border};
+  border: ${({ $isLoading }) => ($isLoading ? `1px solid ${theme.colors.border}` : "none")};
   border-radius: 0.8rem;
 `;
 
@@ -58,4 +61,20 @@ export const ThumbnailUploadLoadingContainer = styled.div`
   height: 100%;
 
   background-color: ${PRIMITIVE_COLORS.white};
+`;
+
+export const uploadDeleteButtonStyle = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 1.6rem;
+  right: 1.6rem;
+  z-index: ${theme.zIndex.default + 1};
+  z-index: 1000;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+
+  background-color: rgb(0 0 0 / 20%);
 `;
