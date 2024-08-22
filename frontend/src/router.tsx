@@ -5,6 +5,7 @@ import KakaoCallbackPage from "@components/pages/login/KakaoCallbackPage";
 import LoginPage from "@components/pages/login/LoginPage";
 import MainPage from "@components/pages/main/MainPage";
 import MyPage from "@components/pages/my/MyPage";
+import NotFoundPage from "@components/pages/notFound/NotFoundPage";
 import SearchPage from "@components/pages/search/SearchPage";
 import TravelPlanDetailPage from "@components/pages/travelPlanDetail/TravelPlanDetailPage";
 import TravelPlanEditPage from "@components/pages/travelPlanEdit/TravelPlanEditPage";
@@ -68,6 +69,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTE_PATHS_MAP.search(),
         element: <SearchPage />,
+      },
+      {
+        path: "*",
+        element: <NotFoundPage />,
       },
     ],
   },

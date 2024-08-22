@@ -5,7 +5,7 @@ import { PictureIcon } from "@assets/svg";
 import * as S from "./ThumbnailUpload.styled";
 
 interface ThumbnailUploadProps extends InputHTMLAttributes<HTMLInputElement> {
-  id: string;
+  id?: string;
   previewUrls: string[];
   fileInputRef: React.RefObject<HTMLInputElement>;
   onChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
