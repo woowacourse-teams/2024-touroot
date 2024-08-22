@@ -21,7 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @EqualsAndHashCode(of = "id", callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(indexes = @Index(name = "kakao_id_idx", columnList = "kakaoId"))
+@Table(indexes = @Index(name = "member_kakao_id_idx", columnList = "kakaoId"))
 @Entity
 public class Member extends BaseEntity {
 
