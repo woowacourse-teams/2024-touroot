@@ -49,7 +49,7 @@ export const Button = styled.button<{
   $position: ButtonProps["position"];
 }>`
   display: flex;
-  justify-content: ${({ $position = "center" }) => createPositionStyling($position)};
+  ${({ $position = "center" }) => createPositionStyling($position)};
   align-items: center;
 
   width: 100%;
