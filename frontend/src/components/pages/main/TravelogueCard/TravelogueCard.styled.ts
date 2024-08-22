@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 export const TravelogueCardLayout = styled.li`
   display: flex;
   flex-direction: column;
+  max-width: calc(48rem - 3.2rem);
   padding: 1.6rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
@@ -23,6 +24,18 @@ export const TravelogueCardLayout = styled.li`
 export const TravelogueCardHeader = styled.div`
   display: flex;
   align-items: center;
+  overflow: hidden;
+  width: 100%;
+`;
+
+export const TravelogueCardTitle = styled.h3`
+  ${(props) => props.theme.typography.mobile.bodyBold};
+  overflow: hidden;
+  width: 100%;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
 `;
 
 export const TravelogueCardInfoContainer = styled.div`

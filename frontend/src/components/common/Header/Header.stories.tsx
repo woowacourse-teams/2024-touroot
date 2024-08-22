@@ -11,19 +11,22 @@ const rightContentOptions = {
   HomeIcon: <IconButton iconType="home-icon" size="20" />,
   SearchIcon: <IconButton iconType="search-icon" size="18" />,
   SearchForm: (
-    <S.FormWrapper>
-      <Input
-        autoFocus
-        placeholder="검색해주세요"
-        style={{ height: "4rem", marginBottom: "-1rem" }}
-      />
-      <S.ButtonContainer>
-        <S.DeleteButton title="delete keyword button" type="button">
-          <Icon iconType="x-icon" size="8" />
-        </S.DeleteButton>
-        <IconButton iconType="search-icon" size="18" />
-      </S.ButtonContainer>
-    </S.FormWrapper>
+    <>
+      <S.FormWrapper>
+        <Input
+          autoFocus
+          placeholder="검색해주세요"
+          style={{ height: "4rem", marginBottom: "-1rem" }}
+        />
+        <S.ButtonContainer>
+          <S.DeleteButton title="delete keyword button" type="button">
+            <Icon iconType="x-icon" size="8" />
+          </S.DeleteButton>
+          <IconButton iconType="search-icon" size="18" />
+        </S.ButtonContainer>
+      </S.FormWrapper>
+      <IconButton iconType="home-icon" size="20" onClick={() => {}} />
+    </>
   ),
 };
 
@@ -40,7 +43,7 @@ const meta = {
         type: "select",
       },
     },
-    $isRightContentFull: { control: "boolean" },
+    isRightContentFull: { control: "boolean" },
   },
   decorators: [
     (Story, context) => {
@@ -83,6 +86,6 @@ export const SearchResultPageHeader: Story = {
 export const SearchHeader: Story = {
   args: {
     rightContent: "SearchForm",
-    $isRightContentFull: true,
+    isRightContentFull: true,
   },
 };

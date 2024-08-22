@@ -19,21 +19,32 @@ const PlaceDetailCard: React.FC<PlaceDetailCardProps> = ({
 }) => {
   const { imageError, handleImageError } = useImageError({ imageUrl: imageUrls[0] });
 
+  const renderImage = () => {
+    if (imageUrls.length === 0) {
+      return (
+        <S.ImageWrapper>
+          <FallbackImage />
+        </S.ImageWrapper>
+      );
+    }
+
+    if (imageUrls.length === 1) {
+      return imageError ? (
+        <S.ImageWrapper>
+          <FallbackImage />
+        </S.ImageWrapper>
+      ) : (
+        <S.Image src={imageUrls[0]} alt={`${title} place`} onError={handleImageError} />
+      );
+    }
+
+    return <Carousel imageUrls={imageUrls} />;
+  };
+
   return (
     <S.PlaceDetailCardLayout>
       <S.PlaceDetailCardTitle>{`${index}. ${title}`}</S.PlaceDetailCardTitle>
-      {imageUrls.length === 1 ? (
-        !imageError ? (
-          <S.Image src={imageUrls[0]} alt={`${title} place`} onError={handleImageError} />
-        ) : (
-          <S.ImageWrapper>
-            <FallbackImage />
-          </S.ImageWrapper>
-        )
-      ) : (
-        <Carousel imageUrls={imageUrls} />
-      )}
-
+      {renderImage()}
       <S.PlaceDetailCardDescription>{description}</S.PlaceDetailCardDescription>
     </S.PlaceDetailCardLayout>
   );
