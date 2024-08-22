@@ -29,7 +29,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     index: 1,
-    title: "제목 ㅋㅋ",
+    title: "제주도 3박 4일 여행기",
     imageUrls: ["https://i.pinimg.com/564x/e3/cc/52/e3cc52244f9b6810a0321b35fe249fbf.jpg"],
     description: "여행지 설명",
   },
@@ -38,8 +38,17 @@ export const Default: Story = {
 export const WithInvalidImage: Story = {
   args: {
     index: 1,
-    title: "제목 ㅋㅋ",
+    title: "제주도 3박 4일 여행기",
     imageUrls: ["invalidUrl.com"],
+    description: "여행지 설명",
+  },
+};
+
+export const WithNoImage: Story = {
+  args: {
+    index: 1,
+    title: "제주도 3박 4일 여행기",
+    imageUrls: [""],
     description: "여행지 설명",
   },
 };

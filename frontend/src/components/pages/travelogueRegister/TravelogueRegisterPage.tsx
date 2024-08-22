@@ -15,6 +15,7 @@ import {
   ModalBottomSheet,
   PageInfo,
   Text,
+  TextField,
   ThumbnailUpload,
 } from "@components/common";
 import TravelogueDayAccordion from "@components/pages/travelogueRegister/TravelogueDayAccordion/TravelogueDayAccordion";
@@ -137,15 +138,18 @@ const TravelogueRegisterPage = () => {
       <S.Layout>
         <PageInfo mainText="여행기 등록" subText="소중한 여행기를 공유해 주세요." />
 
-        <Input
-          value={title}
-          maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-          label="제목"
-          placeholder="여행기 제목을 입력해주세요"
-          count={title.length}
-          maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-          onChange={handleChangeTitle}
-        />
+        <TextField title="제목" isRequired>
+          {(id) => (
+            <Input
+              id={id}
+              value={title}
+              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+              count={title.length}
+              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              onChange={handleChangeTitle}
+            />
+          )}
+        </TextField>
 
         <S.TagsContainer>
           <Text textType="bodyBold">태그</Text>
@@ -170,13 +174,17 @@ const TravelogueRegisterPage = () => {
         </S.TagsContainer>
 
         <S.ThumbnailContainer>
-          <Text textType="bodyBold">썸네일</Text>
-          <ThumbnailUpload
-            previewUrls={[thumbnail]}
-            fileInputRef={thumbnailFileInputRef}
-            onChangeImage={handleChangeThumbnail}
-            onClickButton={handleButtonClick}
-          />
+          <TextField title="썸네일">
+            {(id) => (
+              <ThumbnailUpload
+                id={id}
+                previewUrls={[thumbnail]}
+                fileInputRef={thumbnailFileInputRef}
+                onChangeImage={handleChangeThumbnail}
+                onClickButton={handleButtonClick}
+              />
+            )}
+          </TextField>
         </S.ThumbnailContainer>
 
         <div>

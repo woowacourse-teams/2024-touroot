@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { InputHTMLAttributes, useState } from "react";
 
 import { PictureIcon } from "@assets/svg";
 
 import * as S from "./ThumbnailUpload.styled";
 
-interface ThumbnailUploadProps {
+interface ThumbnailUploadProps extends InputHTMLAttributes<HTMLInputElement> {
+  id?: string;
   previewUrls: string[];
   fileInputRef: React.RefObject<HTMLInputElement>;
   onChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -12,6 +13,7 @@ interface ThumbnailUploadProps {
 }
 
 const ThumbnailUpload = ({
+  id,
   previewUrls,
   fileInputRef,
   onChangeImage,
@@ -26,6 +28,7 @@ const ThumbnailUpload = ({
 
   const HiddenInput = (
     <S.ThumbnailUploadHiddenInput
+      id={id}
       ref={fileInputRef}
       type="file"
       accept="image/*"

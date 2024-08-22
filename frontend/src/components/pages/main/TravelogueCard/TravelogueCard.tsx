@@ -43,7 +43,7 @@ const TravelogueCard = ({
   return (
     <S.TravelogueCardLayout onClick={handleCardClick}>
       <S.TravelogueCardHeader>
-        <Text textType="bodyBold">{title}</Text>
+        <S.TravelogueCardTitle>{title}</S.TravelogueCardTitle>
       </S.TravelogueCardHeader>
 
       <S.TravelogueCardThumbnailContainer>

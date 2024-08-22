@@ -1,18 +1,16 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
-const DotenvWebpack = require("dotenv-webpack");
+const webpack = require("webpack");
 const dotenv = require("dotenv");
-const { sentryWebpackPlugin } = require("@sentry/webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
-const isDevelopment = process.env.NODE_ENV !== "production";
+const environmentVariablePath = `.env.${process.env.NODE_ENV}`;
 
-const env = dotenv.config({ path: isDevelopment ? ".env.development" : ".env.production" }).parsed;
+dotenv.config({ path: environmentVariablePath });
 
 module.exports = {
-  mode: isDevelopment ? "development" : "production",
   entry: "./src/main.tsx",
   output: {
-    filename: "touroot.js",
+    filename: "touroot-bundle.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
     publicPath: "/",
@@ -36,13 +34,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/i,
-        exclude: /node_modules/,
-        use: {
-          loader: "ts-loader",
-        },
-      },
-      {
         test: /\.svg$/i,
         type: "asset",
         resourceQuery: /url/,
@@ -58,32 +49,16 @@ module.exports = {
         type: "asset/resource",
       },
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        test: /\.(ts|tsx)$/i,
+        exclude: /node_modules/,
+        use: "babel-loader",
       },
     ],
   },
-  devtool: "hidden-source-map",
   plugins: [
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env),
     }),
-    new DotenvWebpack({
-      path: path.resolve(__dirname, isDevelopment ? ".env.development" : ".env.production"),
-    }),
-    sentryWebpackPlugin({
-      org: env.SENTRY_ORG,
-      project: env.SENTRY_ORG,
-      authToken: env.SENTRY_AUTH_TOKEN,
-      sourcemaps: {
-        filesToDeleteAfterUpload: "**/*.js.map",
-      },
-    }),
+    new ForkTsCheckerWebpackPlugin(),
   ],
-  devServer: {
-    compress: true,
-    port: 3000,
-    hot: true,
-    historyApiFallback: true,
-  },
 };

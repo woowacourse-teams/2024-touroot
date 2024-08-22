@@ -13,6 +13,7 @@ import {
   ModalBottomSheet,
   PageInfo,
   Text,
+  TextField,
 } from "@components/common";
 import Calendar from "@components/common/Calendar/Calendar";
 import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
@@ -27,8 +28,6 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractID } from "@utils/extractId";
 import { extractUTCDate } from "@utils/extractUTCDate";
-
-import theme from "@styles/theme";
 
 import * as S from "./TravelPlanEditPage.styled";
 
@@ -132,35 +131,45 @@ const TravelPlanEditPage = () => {
     <>
       <S.Layout>
         <PageInfo mainText="여행 계획 수정" />
-        <Input
-          value={title}
-          maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-          label="제목"
-          placeholder="여행 계획 제목을 입력해주세요"
-          count={title.length}
-          maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-          onChange={handleChangeTitle}
-        />
-        <S.StartDateContainer>
-          <Text textType="bodyBold">시작일</Text>
-          <Text textType="detail" color={theme.colors.text.secondary}>
-            시작일을 선택하면 마감일은 투룻이 계산 해드릴게요!
-          </Text>
-          <Input
-            value={startDate ? startDate.toLocaleDateString().slice(0, -1) : ""}
-            onClick={handleInputClick}
-            readOnly
-            placeholder="시작일을 입력해주세요"
-            css={S.startDateInputStyle}
-          />
-          {isShowCalendar && (
-            <Calendar
-              onSelectDate={handleSelectDate}
-              onClose={() => setIsShowCalendar((prev) => !prev)}
-              css={S.calendarStyle}
+        <TextField title="제목" isRequired>
+          {(id) => (
+            <Input
+              id={id}
+              value={title}
+              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+              placeholder="여행 계획 제목을 입력해주세요"
+              count={title.length}
+              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              onChange={handleChangeTitle}
             />
           )}
-        </S.StartDateContainer>
+        </TextField>
+
+        <TextField
+          title="시작일"
+          subTitle="시작일을 선택하면 마감일은 투룻이 계산 해드릴게요!"
+          isRequired
+        >
+          {(id) => (
+            <>
+              <Input
+                id={id}
+                value={startDate ? startDate.toLocaleDateString().slice(0, -1) : ""}
+                onClick={handleInputClick}
+                readOnly
+                placeholder="시작일을 입력해주세요"
+                css={S.startDateInputStyle}
+              />
+              {isShowCalendar && (
+                <Calendar
+                  onSelectDate={handleSelectDate}
+                  onClose={() => setIsShowCalendar((prev) => !prev)}
+                  css={S.calendarStyle}
+                />
+              )}
+            </>
+          )}
+        </TextField>
         <S.AccordionRootContainer>
           <GoogleMapLoadScript
             loadingElement={

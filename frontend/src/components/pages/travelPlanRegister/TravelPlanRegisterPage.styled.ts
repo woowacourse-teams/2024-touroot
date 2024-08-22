@@ -84,7 +84,7 @@ export const loadingButtonStyle = css`
 `;
 
 export const startDateInputStyle = css`
-  margin: 0 0 ${SPACING.xl};
+  margin-bottom: 3.2rem;
 `;
 
 export const calendarStyle = css`

@@ -56,31 +56,38 @@ const SearchHeader = () => {
   return (
     <Header
       rightContent={
-        <S.FormWrapper onSubmit={handleClickSearchButton}>
-          <Input
-            ref={inputRef}
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            autoFocus
-            placeholder="검색해주세요"
-            css={css`
-              height: 4rem;
-            `}
-            variant="round"
+        <>
+          <S.FormWrapper onSubmit={handleClickSearchButton}>
+            <Input
+              ref={inputRef}
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              autoFocus
+              placeholder="검색해주세요"
+              css={css`
+                height: 4rem;
+              `}
+              variant="round"
+            />
+            <S.ButtonContainer>
+              <S.DeleteButton
+                title="delete keyword button"
+                type="button"
+                onClick={handleClickDeleteButton}
+              >
+                <Icon iconType="x-icon" size="8" />
+              </S.DeleteButton>
+              <IconButton iconType="search-icon" size="18" title="search button" type="submit" />
+            </S.ButtonContainer>
+          </S.FormWrapper>
+          <IconButton
+            iconType="home-icon"
+            size="20"
+            onClick={() => navigate(ROUTE_PATHS_MAP.root)}
           />
-          <S.ButtonContainer>
-            <S.DeleteButton
-              title="delete keyword button"
-              type="button"
-              onClick={handleClickDeleteButton}
-            >
-              <Icon iconType="x-icon" size="8" />
-            </S.DeleteButton>
-            <IconButton iconType="search-icon" size="18" title="search button" type="submit" />
-          </S.ButtonContainer>
-        </S.FormWrapper>
+        </>
       }
-      $isRightContentFull
+      isRightContentFull
     />
   );
 };

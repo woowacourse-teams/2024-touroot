@@ -15,6 +15,7 @@ import {
   ModalBottomSheet,
   PageInfo,
   Text,
+  TextField,
   ThumbnailUpload,
 } from "@components/common";
 import TravelogueDayAccordion from "@components/pages/travelogueRegister/TravelogueDayAccordion/TravelogueDayAccordion";
@@ -143,41 +144,50 @@ const TravelogueEditPage = () => {
       <S.Layout>
         <PageInfo mainText="여행기 수정" />
 
-        <Input
-          value={title}
-          maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-          label="제목"
-          placeholder="여행기 제목을 입력해주세요"
-          count={title.length}
-          maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-          onChange={handleChangeTitle}
-        />
+        <TextField title="제목" isRequired>
+          {(id) => (
+            <Input
+              id={id}
+              value={title}
+              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+              placeholder="여행기 제목을 입력해주세요"
+              count={title.length}
+              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              onChange={handleChangeTitle}
+            />
+          )}
+        </TextField>
 
-        <S.TagsContainer>
-          <Text textType="bodyBold">태그</Text>
-          <Text textType="detail" css={S.subTextColor}>
-            {`다녀온 여행에 대한 태그를 선택해 주세요. (최대 ${FORM_VALIDATIONS_MAP.tags.maxCount}개)`}
-          </Text>
-          <S.ChipsContainer
-            ref={scrollRef}
-            onMouseDown={onMouseDown}
-            onMouseUp={onMouseUp}
-            onMouseMove={onMouseMove}
-          >
-            {sortedTags.map((tag) => (
-              <Chip
-                key={tag.id}
-                label={tag.tag}
-                isSelected={selectedTagIDs.includes(tag.id)}
-                onClick={() => handleClickTag(tag.id)}
-              />
-            ))}
-          </S.ChipsContainer>
-        </S.TagsContainer>
+        <TextField
+          title="태그"
+          subTitle={`다녀온 여행에 대한 태그를 선택해 주세요. (최대 ${FORM_VALIDATIONS_MAP.tags.maxCount}개)`}
+        >
+          {(id) => (
+            <S.TagsContainer>
+              <S.ChipsContainer
+                id={id}
+                ref={scrollRef}
+                onMouseDown={onMouseDown}
+                onMouseUp={onMouseUp}
+                onMouseMove={onMouseMove}
+              >
+                {sortedTags.map((tag) => (
+                  <Chip
+                    key={tag.id}
+                    label={tag.tag}
+                    isSelected={selectedTagIDs.includes(tag.id)}
+                    onClick={() => handleClickTag(tag.id)}
+                  />
+                ))}
+              </S.ChipsContainer>
+            </S.TagsContainer>
+          )}
+        </TextField>
 
         <S.ThumbnailContainer>
           <Text textType="bodyBold">썸네일</Text>
           <ThumbnailUpload
+            id=""
             previewUrls={[thumbnail]}
             fileInputRef={thumbnailFileInputRef}
             onChangeImage={handleChangeThumbnail}
