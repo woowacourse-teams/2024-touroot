@@ -101,7 +101,12 @@ const TravelogueEditPage = () => {
   const handleEditTravelogue = () => {
     mutateTravelogueEdit(
       {
-        travelogue: { title, thumbnail, tags: selectedTagIDs, days: travelogueDays },
+        travelogue: {
+          title,
+          thumbnail: thumbnail || (process.env.DEFAULT_THUMBNAIL_IMAGE ?? ""),
+          tags: selectedTagIDs,
+          days: travelogueDays,
+        },
         id: Number(id),
       },
       {

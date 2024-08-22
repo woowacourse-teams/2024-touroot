@@ -122,7 +122,10 @@ const TravelPlanRegisterPage = () => {
   return (
     <>
       <S.Layout>
-        <PageInfo mainText="여행 계획 등록" />
+        <PageInfo
+          mainText="여행 계획 등록"
+          subText="여행 계획은 비공개지만, 링크를 통해 원하는 사람과 공유 할 수 있어요."
+        />
         <TextField title="제목" isRequired>
           {(id) => (
             <Input

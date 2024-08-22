@@ -2,17 +2,25 @@ import addDaysToDateString from "./addDaysToDateString";
 
 const getDateRange = ({
   daysLength = 0,
-  startDate = "2024-00-00",
+  startDate = "",
 }: {
   daysLength?: number;
   startDate?: string;
 }) => {
-  return daysLength > 1
-    ? `${startDate} - ${addDaysToDateString({
-        dateString: startDate,
-        daysToAdd: daysLength,
-      })}`
-    : `${startDate}`;
+  if (!startDate) {
+    return "";
+  }
+
+  if (daysLength <= 1) {
+    return startDate;
+  }
+
+  const endDate = addDaysToDateString({
+    dateString: startDate,
+    daysToAdd: daysLength - 1,
+  });
+
+  return `${startDate} - ${endDate}`;
 };
 
 export default getDateRange;
