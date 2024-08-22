@@ -25,7 +25,7 @@ export const usePutTravelPlan = () => {
     unknown
   >({
     mutationFn: ({ travelPlan, id }) =>
-      authClient.put(API_ENDPOINT_MAP.travelPlanDetail(id) + "zz", {
+      authClient.put(API_ENDPOINT_MAP.travelPlanDetail(id), {
         ...travelPlan,
         days: travelPlan.days.map((day) => {
           return {
