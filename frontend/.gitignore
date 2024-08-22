@@ -25,3 +25,5 @@ build-storybook.log
 
 node_modules
 *storybook.log
+
+.env.local
