@@ -7,6 +7,8 @@ import kr.touroot.travelogue.repository.query.TravelogueLikeQueryRepository;
 import kr.touroot.travelogue.repository.query.TravelogueLikeQueryRepositoryImpl;
 import kr.touroot.travelogue.repository.query.TravelogueQueryRepository;
 import kr.touroot.travelogue.repository.query.TravelogueQueryRepositoryImpl;
+import kr.touroot.travelogue.repository.query.TravelogueTagQueryRepository;
+import kr.touroot.travelogue.repository.query.TravelogueTagQueryRepositoryImpl;
 import kr.touroot.travelplan.repository.PlaceTodoQueryRepository;
 import kr.touroot.travelplan.repository.PlaceTodoQueryRepositoryImpl;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,11 @@ public class TestQueryDslConfig {
     @Bean
     public TravelogueQueryRepository travelogueQueryRepository() {
         return new TravelogueQueryRepositoryImpl(jpaQueryFactory());
+    }
+
+    @Bean
+    public TravelogueTagQueryRepository travelogueTagQueryRepository() {
+        return new TravelogueTagQueryRepositoryImpl(jpaQueryFactory());
     }
 
     @Bean

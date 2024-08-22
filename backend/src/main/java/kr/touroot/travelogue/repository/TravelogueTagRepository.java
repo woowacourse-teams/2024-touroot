@@ -8,6 +8,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TravelogueTagRepository extends JpaRepository<TravelogueTag, Long> {
 
     List<TravelogueTag> findAllByTravelogue(Travelogue travelogue);
-
-    void deleteAllByTravelogue(Travelogue travelogue);
 }
