@@ -19,10 +19,6 @@ export const Layout = styled.div`
   padding: 0 ${({ theme }) => theme.spacing.m};
 `;
 
-export const ImageWrapper = styled.div`
-  margin-bottom: ${({ theme }) => theme.spacing.m};
-`;
-
 export const TextContainer = styled.div`
   ${flexColumnCenter}
   gap: ${({ theme }) => theme.spacing.xl};

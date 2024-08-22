@@ -8,7 +8,6 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { SEMANTIC_COLORS } from "@styles/tokens";
 
-// import { Tturi } from "@assets/svg";
 import * as S from "./NotFoundPage.styled";
 
 const NotFoundPage = () => {
@@ -18,10 +17,6 @@ const NotFoundPage = () => {
     <S.Layout>
       <S.TextContainer>
         <S.Title>
-          {/* <S.ImageWrapper>
-            <Tturi />
-          </S.ImageWrapper> */}
-
           <Text
             textType="title"
             css={css`

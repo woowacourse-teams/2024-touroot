@@ -71,7 +71,7 @@ export const router = createBrowserRouter([
         element: <SearchPage />,
       },
       {
-        path: "/404",
+        path: "*",
         element: <NotFoundPage />,
       },
     ],
