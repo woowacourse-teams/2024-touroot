@@ -1,0 +1,766 @@
+[
+  {
+    "id": 114,
+    "title": "🍜 지니의 여행기 🍤",
+    "authorId": 2,
+    "authorNickname": "손진영",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-08-09",
+    "isLiked": true,
+    "likeCount": 120,
+    "tags": [{ "id": 1, "tag": "⛱️ 여름" }],
+    "days": [
+      {
+        "id": 147,
+        "places": [
+          {
+            "id": 154,
+            "placeName": "이치란 본점",
+            "description": "이치란 라멘 일본에서 못 먹어본 맛이야~!",
+            "position": {
+              "id": 160,
+              "lat": "33.5932405",
+              "lng": "130.4045974"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 155,
+            "placeName": "후쿠오카시",
+            "description": "후쿠오카 넘 아름다운 도시 인 것 같다.",
+            "position": {
+              "id": 161,
+              "lat": "33.5901838",
+              "lng": "130.4016888"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 148,
+        "places": [
+          {
+            "id": 156,
+            "placeName": "후쿠오카",
+            "description": "일본에 있는 자판기 넘 이쁘다",
+            "position": {
+              "id": 162,
+              "lat": "38.3810516",
+              "lng": "140.7449254"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          },
+          {
+            "id": 157,
+            "placeName": "가마쿠라",
+            "description": "넘나 아름다웠던 곳!",
+            "position": {
+              "id": 163,
+              "lat": "35.7461183",
+              "lng": "139.8790478"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 115,
+    "title": "리버의 도쿄 여행",
+    "authorId": 3,
+    "authorNickname": "리버",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-08-01",
+    "isLiked": false,
+    "likeCount": 85,
+    "tags": [{ "id": 3, "tag": "🏡 가족" }],
+    "days": [
+      {
+        "id": 149,
+        "places": [
+          {
+            "id": 158,
+            "placeName": "도쿄 타워",
+            "description": "도쿄 타워는 정말 멋져!",
+            "position": {
+              "id": 164,
+              "lat": "35.6585805",
+              "lng": "139.7454329"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 159,
+            "placeName": "시부야 스크램블 교차로",
+            "description": "시부야의 교차로는 정말 유명해.",
+            "position": {
+              "id": 165,
+              "lat": "35.6595",
+              "lng": "139.7005"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 150,
+        "places": [
+          {
+            "id": 160,
+            "placeName": "우에노 공원",
+            "description": "우에노 공원에서 산책하는 건 정말 평화로워.",
+            "position": {
+              "id": 166,
+              "lat": "35.7128",
+              "lng": "139.7745"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 161,
+            "placeName": "아사쿠사",
+            "description": "아사쿠사에서 맛있는 음식들 먹기!",
+            "position": {
+              "id": 167,
+              "lat": "35.7104",
+              "lng": "139.7967"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 116,
+    "title": "소피아의 파리 여행",
+    "authorId": 4,
+    "authorNickname": "소피아",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-07-15",
+    "isLiked": true,
+    "likeCount": 200,
+    "tags": [{ "id": 6, "tag": "🚶 도보" }],
+    "days": [
+      {
+        "id": 151,
+        "places": [
+          {
+            "id": 162,
+            "placeName": "에펠탑",
+            "description": "파리의 상징, 에펠탑은 꼭 가봐야 해!",
+            "position": {
+              "id": 168,
+              "lat": "48.8584",
+              "lng": "2.2945"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 163,
+            "placeName": "루브르 박물관",
+            "description": "세계에서 가장 유명한 박물관 중 하나, 루브르.",
+            "position": {
+              "id": 169,
+              "lat": "48.8606",
+              "lng": "2.3376"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 152,
+        "places": [
+          {
+            "id": 164,
+            "placeName": "노트르담 대성당",
+            "description": "고딕 건축의 걸작, 노트르담 대성당.",
+            "position": {
+              "id": 170,
+              "lat": "48.8530",
+              "lng": "2.3499"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 165,
+            "placeName": "몽마르뜨 언덕",
+            "description": "예술가들의 거리, 몽마르뜨 언덕에서 바라본 파리 전경은 최고야!",
+            "position": {
+              "id": 171,
+              "lat": "48.8867",
+              "lng": "2.3431"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 117,
+    "title": "케빈의 뉴욕 여행",
+    "authorId": 5,
+    "authorNickname": "케빈",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-06-30",
+    "isLiked": true,
+    "likeCount": 150,
+    "tags": [
+      { "id": 3, "tag": "🏡 가족" },
+      { "id": 1, "tag": "⛱️ 여름" }
+    ],
+    "days": [
+      {
+        "id": 153,
+        "places": [
+          {
+            "id": 166,
+            "placeName": "타임스퀘어",
+            "description": "타임스퀘어의 야경은 정말 멋져!",
+            "position": {
+              "id": 172,
+              "lat": "40.7580",
+              "lng": "-73.9855"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 167,
+            "placeName": "센트럴 파크",
+            "description": "센트럴 파크에서의 산책은 정말 평화로워.",
+            "position": {
+              "id": 173,
+              "lat": "40.7851",
+              "lng": "-73.9683"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 154,
+        "places": [
+          {
+            "id": 168,
+            "placeName": "엠파이어 스테이트 빌딩",
+            "description": "뉴욕의 전경을 한눈에 볼 수 있는 곳!",
+            "position": {
+              "id": 174,
+              "lat": "40.748817",
+              "lng": "-73.985428"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 169,
+            "placeName": "브루클린 다리",
+            "description": "브루클린 다리에서 바라본 맨해튼은 정말 아름다워.",
+            "position": {
+              "id": 175,
+              "lat": "40.7061",
+              "lng": "-73.9969"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 118,
+    "title": "엘리사의 런던 여행",
+    "authorId": 6,
+    "authorNickname": "엘리사",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-05-20",
+    "isLiked": false,
+    "likeCount": 95,
+    "tags": [
+      { "id": 1, "tag": "⛱️ 여름" },
+      { "id": 6, "tag": "🚶 도보" }
+    ],
+    "days": [
+      {
+        "id": 155,
+        "places": [
+          {
+            "id": 170,
+            "placeName": "빅벤",
+            "description": "런던의 상징, 빅벤은 꼭 가봐야 해!",
+            "position": {
+              "id": 176,
+              "lat": "51.5007",
+              "lng": "-0.1246"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 171,
+            "placeName": "런던 타워",
+            "description": "역사와 현대가 공존하는 곳.",
+            "position": {
+              "id": 177,
+              "lat": "51.5081",
+              "lng": "-0.0759"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 156,
+        "places": [
+          {
+            "id": 172,
+            "placeName": "타워 브릿지",
+            "description": "런던의 대표적인 랜드마크 중 하나.",
+            "position": {
+              "id": 178,
+              "lat": "51.5055",
+              "lng": "-0.0754"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 173,
+            "placeName": "버킹엄 궁전",
+            "description": "여왕의 거처, 웅장함이 느껴지는 곳.",
+            "position": {
+              "id": 179,
+              "lat": "51.5014",
+              "lng": "-0.1419"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 119,
+    "title": "미셸의 로마 여행",
+    "authorId": 7,
+    "authorNickname": "미셸",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-04-18",
+    "isLiked": true,
+    "likeCount": 175,
+    "tags": [
+      { "id": 3, "tag": "🏡 가족" },
+      { "id": 1, "tag": "⛱️ 여름" },
+      { "id": 6, "tag": "🚶 도보" }
+    ],
+    "days": [
+      {
+        "id": 157,
+        "places": [
+          {
+            "id": 174,
+            "placeName": "콜로세움",
+            "description": "로마의 상징, 콜로세움은 웅장해.",
+            "position": {
+              "id": 180,
+              "lat": "41.8902",
+              "lng": "12.4922"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 175,
+            "placeName": "트레비 분수",
+            "description": "로마에 가면 동전을 던져 소원을 빌어봐!",
+            "position": {
+              "id": 181,
+              "lat": "41.9009",
+              "lng": "12.4833"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 158,
+        "places": [
+          {
+            "id": 176,
+            "placeName": "바티칸 시국",
+            "description": "세계에서 가장 작은 나라, 바티칸의 웅장함.",
+            "position": {
+              "id": 182,
+              "lat": "41.9029",
+              "lng": "12.4534"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 177,
+            "placeName": "판테온",
+            "description": "역사적인 건축물, 판테온은 꼭 가봐야 해.",
+            "position": {
+              "id": 183,
+              "lat": "41.8986",
+              "lng": "12.4769"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 120,
+    "title": "사라의 시드니 여행",
+    "authorId": 8,
+    "authorNickname": "사라",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-03-12",
+    "isLiked": false,
+    "likeCount": 110,
+    "tags": [
+      { "id": 4, "tag": "🍴 맛집" },
+      { "id": 6, "tag": "🚶 도보" }
+    ],
+    "days": [
+      {
+        "id": 159,
+        "places": [
+          {
+            "id": 178,
+            "placeName": "시드니 오페라 하우스",
+            "description": "세계적인 건축물, 오페라 하우스는 꼭 봐야 해.",
+            "position": {
+              "id": 184,
+              "lat": "-33.8568",
+              "lng": "151.2153"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 179,
+            "placeName": "시드니 하버 브릿지",
+            "description": "하버 브릿지를 건너며 보는 시드니 전경은 최고야.",
+            "position": {
+              "id": 185,
+              "lat": "-33.8523",
+              "lng": "151.2108"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 160,
+        "places": [
+          {
+            "id": 180,
+            "placeName": "본다이 비치",
+            "description": "세계적으로 유명한 해변, 본다이 비치는 꼭 가봐야 해.",
+            "position": {
+              "id": 186,
+              "lat": "-33.8908",
+              "lng": "151.2743"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 181,
+            "placeName": "타롱가 동물원",
+            "description": "시드니의 타롱가 동물원에서 다양한 동물을 만나보세요.",
+            "position": {
+              "id": 187,
+              "lat": "-33.8458",
+              "lng": "151.2411"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 121,
+    "title": "데이빗의 샌프란시스코 여행",
+    "authorId": 9,
+    "authorNickname": "데이빗",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-02-10",
+    "isLiked": true,
+    "likeCount": 130,
+    "tags": [
+      { "id": 2, "tag": "💕 연인" },
+      { "id": 4, "tag": "🍴 맛집" }
+    ],
+    "days": [
+      {
+        "id": 161,
+        "places": [
+          {
+            "id": 182,
+            "placeName": "금문교",
+            "description": "샌프란시스코의 상징, 금문교는 꼭 가봐야 해!",
+            "position": {
+              "id": 188,
+              "lat": "37.8199",
+              "lng": "-122.4783"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 183,
+            "placeName": "피셔맨스 워프",
+            "description": "맛있는 해산물과 멋진 바다 전경을 즐길 수 있는 곳.",
+            "position": {
+              "id": 189,
+              "lat": "37.8080",
+              "lng": "-122.4177"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 162,
+        "places": [
+          {
+            "id": 184,
+            "placeName": "알카트라즈 섬",
+            "description": "역사적인 감옥, 알카트라즈 섬은 꼭 가봐야 해.",
+            "position": {
+              "id": 190,
+              "lat": "37.8267",
+              "lng": "-122.4230"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 185,
+            "placeName": "유니언 스퀘어",
+            "description": "샌프란시스코의 중심지, 유니언 스퀘어에서 쇼핑을 즐겨보세요.",
+            "position": {
+              "id": 191,
+              "lat": "37.7881",
+              "lng": "-122.4075"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 122,
+    "title": "크리스의 베를린 여행",
+    "authorId": 10,
+    "authorNickname": "크리스",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2024-01-05",
+    "isLiked": false,
+    "likeCount": 90,
+    "tags": [
+      { "id": 2, "tag": "💕 연인" },
+      { "id": 4, "tag": "🍴 맛집" },
+      { "id": 6, "tag": "🚶 도보" }
+    ],
+    "days": [
+      {
+        "id": 163,
+        "places": [
+          {
+            "id": 186,
+            "placeName": "브란덴부르크 문",
+            "description": "베를린의 상징, 브란덴부르크 문은 역사적인 장소.",
+            "position": {
+              "id": 192,
+              "lat": "52.5163",
+              "lng": "13.3777"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 187,
+            "placeName": "베를린 장벽",
+            "description": "베를린의 역사를 간직한 베를린 장벽.",
+            "position": {
+              "id": 193,
+              "lat": "52.5358",
+              "lng": "13.3903"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 164,
+        "places": [
+          {
+            "id": 188,
+            "placeName": "홀로코스트 기념관",
+            "description": "역사를 잊지 않기 위한 기념관.",
+            "position": {
+              "id": 194,
+              "lat": "52.5170",
+              "lng": "13.3777"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 189,
+            "placeName": "박물관 섬",
+            "description": "다양한 박물관이 모여 있는 곳, 문화와 역사를 느껴보세요.",
+            "position": {
+              "id": 195,
+              "lat": "52.5169",
+              "lng": "13.4013"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 123,
+    "title": "올리비아의 토론토 여행",
+    "authorId": 11,
+    "authorNickname": "올리비아",
+    "authorProfileImageUrl": "https://via.placeholder.com/150",
+    "thumbnail": "https://via.placeholder.com/600x400",
+    "createdAt": "2023-12-20",
+    "isLiked": true,
+    "likeCount": 140,
+    "tags": [
+      { "id": 3, "tag": "🏡 가족" },
+      { "id": 5, "tag": "🐾 반려동물" },
+      { "id": 1, "tag": "⛱️ 여름" }
+    ],
+    "days": [
+      {
+        "id": 165,
+        "places": [
+          {
+            "id": 190,
+            "placeName": "CN 타워",
+            "description": "토론토의 상징, CN 타워는 꼭 가봐야 해!",
+            "position": {
+              "id": 196,
+              "lat": "43.6426",
+              "lng": "-79.3871"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 191,
+            "placeName": "토론토 아일랜드",
+            "description": "토론토 아일랜드에서 도심 속의 자연을 느껴보세요.",
+            "position": {
+              "id": 197,
+              "lat": "43.6205",
+              "lng": "-79.3782"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 166,
+        "places": [
+          {
+            "id": 192,
+            "placeName": "로열 온타리오 박물관",
+            "description": "다양한 전시를 즐길 수 있는 곳, 꼭 방문해보세요.",
+            "position": {
+              "id": 198,
+              "lat": "43.6677",
+              "lng": "-79.3948"
+            },
+            "photoUrls": ["https://via.placeholder.com/600x400"]
+          },
+          {
+            "id": 193,
+            "placeName": "디스틸러리 디스트릭트",
+            "description": "역사적인 건물과 현대적인 상점이 공존하는 곳.",
+            "position": {
+              "id": 199,
+              "lat": "43.6503",
+              "lng": "-79.3595"
+            },
+            "photoUrls": [
+              "https://via.placeholder.com/600x400",
+              "https://via.placeholder.com/600x400"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,1008 @@
+[
+  {
+    "id": 1,
+    "title": "서울 탐험",
+    "startDate": "2024-08-03",
+    "shareKey": "f34b8e0d-1d8f-4a2b-8b1d-c6a5f3e2b9c0",
+    "days": [
+      {
+        "id": "day1",
+        "date": "2024-08-03",
+        "places": [
+          {
+            "id": "place1",
+            "placeName": "경복궁",
+            "position": {
+              "lat": "37.5796",
+              "lng": "126.9770"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "입장권 구매",
+                "order": 0,
+                "checked": false
+              },
+              {
+                "id": 1,
+                "content": "해설사 예약",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place2",
+            "placeName": "북촌 한옥마을",
+            "position": {
+              "lat": "37.5826",
+              "lng": "126.9831"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "한복 대여",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "전통찻집 방문",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "day2",
+        "date": "2024-08-04",
+        "places": [
+          {
+            "id": "place3",
+            "placeName": "N서울타워",
+            "position": {
+              "lat": "37.5512",
+              "lng": "126.9882"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "전망대 티켓 구매",
+                "order": 0,
+                "checked": false
+              },
+              {
+                "id": 1,
+                "content": "사랑의 자물쇠 걸기",
+                "order": 1,
+                "checked": true
+              }
+            ]
+          },
+          {
+            "id": "place4",
+            "placeName": "명동 쇼핑 거리",
+            "position": {
+              "lat": "37.5633",
+              "lng": "126.9858"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "화장품 쇼핑",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "길거리 음식 맛보기",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "부산 해변 여행",
+    "startDate": "2024-08-03",
+    "shareKey": "7f9a4b3c-8f7d-4e5a-9b1d-6c3f8a5b2e7c",
+    "days": [
+      {
+        "id": "day1",
+        "date": "2024-08-03",
+        "places": [
+          {
+            "id": "place5",
+            "placeName": "해운대 해수욕장",
+            "position": {
+              "lat": "35.1587",
+              "lng": "129.1603"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "비치타월 준비",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "서핑 보드 대여",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place6",
+            "placeName": "광안리 해수욕장",
+            "position": {
+              "lat": "35.1539",
+              "lng": "129.1180"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "야경 촬영",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "바다 산책",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "day2",
+        "date": "2024-08-04",
+        "places": [
+          {
+            "id": "place7",
+            "placeName": "태종대",
+            "position": {
+              "lat": "35.0514",
+              "lng": "129.0840"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "전망대 방문",
+                "order": 0,
+                "checked": false
+              },
+              {
+                "id": 1,
+                "content": "케이블카 타기",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place8",
+            "placeName": "자갈치 시장",
+            "position": {
+              "lat": "35.0974",
+              "lng": "129.0360"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "회 구매",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "수산물 구경",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "제주도 자연 탐방",
+    "startDate": "2024-08-03",
+    "shareKey": "3b1a8f2c-6e5d-4b3f-a9d7-5c7b2a8f9e3d",
+    "days": [
+      {
+        "id": "day1",
+        "date": "2024-08-03",
+        "places": [
+          {
+            "id": "place9",
+            "placeName": "한라산 국립공원",
+            "position": {
+              "lat": "33.3622",
+              "lng": "126.5334"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "등산 준비물 체크",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "정상에서 사진 촬영",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place10",
+            "placeName": "성산 일출봉",
+            "position": {
+              "lat": "33.4588",
+              "lng": "126.9425"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "일출 시간 확인",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "드론 촬영 준비",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "day2",
+        "date": "2024-08-04",
+        "places": [
+          {
+            "id": "place11",
+            "placeName": "천지연 폭포",
+            "position": {
+              "lat": "33.2474",
+              "lng": "126.5587"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "폭포 근처에서 사진 촬영",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "산책로 걷기",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place12",
+            "placeName": "만장굴",
+            "position": {
+              "lat": "33.5256",
+              "lng": "126.7674"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "동굴 입구에서 기념사진 촬영",
+                "order": 0,
+                "checked": false
+              },
+              {
+                "id": 1,
+                "content": "동굴 내부 탐방",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "경주 역사 여행",
+    "startDate": "2024-08-03",
+    "shareKey": "5d2f8b6a-9e4b-4c7a-bd6e-3f1a9c8f5b7d",
+    "days": [
+      {
+        "id": "day1",
+        "date": "2024-08-03",
+        "places": [
+          {
+            "id": "place13",
+            "placeName": "불국사",
+            "position": {
+              "lat": "35.7903",
+              "lng": "129.3316"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "사찰 입장권 구매",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "석탑 관람",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place14",
+            "placeName": "첨성대",
+            "position": {
+              "lat": "35.8345",
+              "lng": "129.2190"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "천문대 관람",
+                "order": 0,
+                "checked": false
+              },
+              {
+                "id": 1,
+                "content": "주변 공원 산책",
+                "order": 1,
+                "checked": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "day2",
+        "date": "2024-08-04",
+        "places": [
+          {
+            "id": "place15",
+            "placeName": "경주 국립박물관",
+            "position": {
+              "lat": "35.8344",
+              "lng": "129.2241"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "신라 유물 관람",
+                "order": 0,
+                "checked": false
+              },
+              {
+                "id": 1,
+                "content": "기념품 구매",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place16",
+            "placeName": "석굴암",
+            "position": {
+              "lat": "35.7904",
+              "lng": "129.3325"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "불상 참배",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "주변 경관 감상",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "전주 문화 체험",
+    "startDate": "2024-08-03",
+    "shareKey": "7b8c2f4d-6e5a-4a3b-b1f9-2d8e3c7f9a1b",
+    "days": [
+      {
+        "id": "day1",
+        "date": "2024-08-03",
+        "places": [
+          {
+            "id": "place17",
+            "placeName": "전주 한옥마을",
+            "position": {
+              "lat": "35.8150",
+              "lng": "127.1522"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "한옥 체험",
+                "order": 0,
+                "checked": false
+              },
+              {
+                "id": 1,
+                "content": "전통 음식 맛보기",
+                "order": 1,
+                "checked": true
+              }
+            ]
+          },
+          {
+            "id": "place18",
+            "placeName": "경기전",
+            "position": {
+              "lat": "35.8155",
+              "lng": "127.1498"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "왕실 유물 관람",
+                "order": 0,
+                "checked": false
+              },
+              {
+                "id": 1,
+                "content": "기념 사진 촬영",
+                "order": 1,
+                "checked": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "day2",
+        "date": "2024-08-04",
+        "places": [
+          {
+            "id": "place19",
+            "placeName": "전주 동물원",
+            "position": {
+              "lat": "35.8315",
+              "lng": "127.1104"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "동물 구경",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "놀이 기구 타기",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place20",
+            "placeName": "전주 비빔밥 거리",
+            "position": {
+              "lat": "35.8201",
+              "lng": "127.1258"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "비빔밥 맛보기",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "전통 음식 구매",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "서울과 주변 지역 탐험",
+    "startDate": "2024-08-03",
+    "shareKey": "9d4a2f7b-8c3b-4e5a-b9f6-7c8d1a3e5b2c",
+    "days": [
+      {
+        "id": "day1",
+        "date": "2024-08-03",
+        "places": [
+          {
+            "id": "place21",
+            "placeName": "경복궁",
+            "position": {
+              "lat": "37.5796",
+              "lng": "126.9770"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "입장권 구매",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "해설사 예약",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place22",
+            "placeName": "북촌 한옥마을",
+            "position": {
+              "lat": "37.5826",
+              "lng": "126.9831"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "한복 대여",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "전통찻집 방문",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "day2",
+        "date": "2024-08-04",
+        "places": [
+          {
+            "id": "place23",
+            "placeName": "N서울타워",
+            "position": {
+              "lat": "37.5512",
+              "lng": "126.9882"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "전망대 티켓 구매",
+                "order": 0,
+                "checked": false
+              },
+              {
+                "id": 1,
+                "content": "사랑의 자물쇠 걸기",
+                "order": 1,
+                "checked": true
+              }
+            ]
+          },
+          {
+            "id": "place24",
+            "placeName": "명동 쇼핑 거리",
+            "position": {
+              "lat": "37.5633",
+              "lng": "126.9858"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "화장품 쇼핑",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "길거리 음식 맛보기",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "day3",
+        "date": "2024-08-05",
+        "places": [
+          {
+            "id": "place25",
+            "placeName": "인사동",
+            "position": {
+              "lat": "37.5740",
+              "lng": "126.9862"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "전통 공예품 구매",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "한식당 예약",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place26",
+            "placeName": "창덕궁",
+            "position": {
+              "lat": "37.5825",
+              "lng": "126.9910"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "궁궐 투어",
+                "order": 0,
+                "checked": false
+              },
+              {
+                "id": 1,
+                "content": "후원 방문",
+                "order": 1,
+                "checked": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "day4",
+        "date": "2024-08-06",
+        "places": [
+          {
+            "id": "place27",
+            "placeName": "남산 한옥마을",
+            "position": {
+              "lat": "37.5504",
+              "lng": "126.9896"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "한옥 체험",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "전통 공연 관람",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place28",
+            "placeName": "이태원",
+            "position": {
+              "lat": "37.5345",
+              "lng": "126.9937"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "글로벌 음식 맛보기",
+                "order": 0,
+                "checked": false
+              },
+              {
+                "id": 1,
+                "content": "쇼핑",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "서울과 한국 남부 지역 여행",
+    "startDate": "2024-08-03",
+    "shareKey": "8a6f3d2e-5b4c-4a3b-a8e9-1f7c6b5d2e3a",
+    "days": [
+      {
+        "id": "day1",
+        "date": "2024-08-03",
+        "places": [
+          {
+            "id": "place29",
+            "placeName": "경복궁",
+            "position": {
+              "lat": "37.5796",
+              "lng": "126.9770"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "입장권 구매",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "해설사 예약",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place30",
+            "placeName": "북촌 한옥마을",
+            "position": {
+              "lat": "37.5826",
+              "lng": "126.9831"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "한복 대여",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "전통찻집 방문",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "day2",
+        "date": "2024-08-04",
+        "places": [
+          {
+            "id": "place31",
+            "placeName": "N서울타워",
+            "position": {
+              "lat": "37.5512",
+              "lng": "126.9882"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "전망대 티켓 구매",
+                "order": 0,
+                "checked": false
+              },
+              {
+                "id": 1,
+                "content": "사랑의 자물쇠 걸기",
+                "order": 1,
+                "checked": true
+              }
+            ]
+          },
+          {
+            "id": "place32",
+            "placeName": "명동 쇼핑 거리",
+            "position": {
+              "lat": "37.5633",
+              "lng": "126.9858"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "화장품 쇼핑",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "길거리 음식 맛보기",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "day3",
+        "date": "2024-08-05",
+        "places": [
+          {
+            "id": "place33",
+            "placeName": "부산 해운대 해수욕장",
+            "position": {
+              "lat": "35.1587",
+              "lng": "129.1603"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "비치타월 준비",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "서핑 보드 대여",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place34",
+            "placeName": "광안리 해수욕장",
+            "position": {
+              "lat": "35.1539",
+              "lng": "129.1180"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "야경 촬영",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "바다 산책",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "day4",
+        "date": "2024-08-06",
+        "places": [
+          {
+            "id": "place35",
+            "placeName": "경주 불국사",
+            "position": {
+              "lat": "35.7903",
+              "lng": "129.3316"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "사찰 입장권 구매",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "석탑 관람",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place36",
+            "placeName": "첨성대",
+            "position": {
+              "lat": "35.8345",
+              "lng": "129.2190"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "천문대 관람",
+                "order": 0,
+                "checked": false
+              },
+              {
+                "id": 1,
+                "content": "주변 공원 산책",
+                "order": 1,
+                "checked": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "day5",
+        "date": "2024-08-07",
+        "places": [
+          {
+            "id": "place37",
+            "placeName": "제주도 성산 일출봉",
+            "position": {
+              "lat": "33.4588",
+              "lng": "126.9425"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "일출 시간 확인",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "드론 촬영 준비",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          },
+          {
+            "id": "place38",
+            "placeName": "천지연 폭포",
+            "position": {
+              "lat": "33.2474",
+              "lng": "126.5587"
+            },
+            "todos": [
+              {
+                "id": 0,
+                "content": "폭포 근처에서 사진 촬영",
+                "order": 0,
+                "checked": true
+              },
+              {
+                "id": 1,
+                "content": "산책로 걷기",
+                "order": 1,
+                "checked": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

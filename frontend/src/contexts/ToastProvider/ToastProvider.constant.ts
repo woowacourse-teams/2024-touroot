@@ -1,0 +1,2 @@
+export const ANIMATION_DURATION = 500;
+export const TOAST_DISPLAY_DURATION = 1000;
