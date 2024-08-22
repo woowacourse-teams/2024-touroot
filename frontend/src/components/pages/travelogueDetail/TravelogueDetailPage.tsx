@@ -185,11 +185,13 @@ const TravelogueDetailPage = () => {
           )}
         />
       </S.TravelogueDetailLayout>
-      <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행 계획으로 전환">
-        <Text textType="detail" css={S.transformBottomSheetTextStyle}>
-          이 여행기를 따라가고 싶으신가요?
-        </Text>
-      </TransformBottomSheet>
+      {!isAuthor && (
+        <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행 계획으로 전환">
+          <Text textType="detail" css={S.transformBottomSheetTextStyle}>
+            이 여행기를 따라가고 싶으신가요?
+          </Text>
+        </TransformBottomSheet>
+      )}
       {isDeleteModalOpen && (
         <TravelogueDeleteModal
           isOpen={isDeleteModalOpen}

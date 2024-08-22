@@ -32,7 +32,7 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
   ) => {
     setTravelPlanDays((prevTravelDays) => {
       const newTravelPlans = [...prevTravelDays];
-      newTravelPlans[dayIndex].places.push({ ...travelParams, id: uuidv4() });
+      newTravelPlans[dayIndex].places.push({ ...travelParams, id: uuidv4(), todos: [] });
       return newTravelPlans;
     });
   };

@@ -15,6 +15,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  max-width: calc(100% - 13.2rem);
   gap: ${(props) => props.theme.spacing.s};
 `;
 
@@ -25,4 +26,12 @@ export const iconButtonStyle = css`
   border: 1px solid ${theme.colors.border};
   border-radius: 10px;
   ${theme.typography.mobile.detail};
+`;
+
+export const titleStyle = css`
+  overflow: hidden;
+  max-width: 100%;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;

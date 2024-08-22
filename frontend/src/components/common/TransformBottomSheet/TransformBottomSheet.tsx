@@ -24,7 +24,13 @@ const TransformBottomSheet = ({
     <S.BottomSheetLayout $isOpen={isOpen}>
       {isOpen ? (
         <>
-          <IconButton iconType="down-arrow" onClick={handleToggle} size="12" />
+          <IconButton
+            iconType="down-arrow"
+            onClick={handleToggle}
+            size="12"
+            css={S.iconButtonStyle}
+          />
+
           {children}
           <S.BottomSheetButtonWrapper>
             <Button variants="primary" onClick={onTransform}>
@@ -33,7 +39,7 @@ const TransformBottomSheet = ({
           </S.BottomSheetButtonWrapper>
         </>
       ) : (
-        <IconButton iconType="up-arrow" onClick={handleToggle} size="12" />
+        <IconButton iconType="up-arrow" onClick={handleToggle} size="12" css={S.iconButtonStyle} />
       )}
     </S.BottomSheetLayout>
   );

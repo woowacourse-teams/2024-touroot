@@ -46,12 +46,7 @@ const MyTravelPlans = () => {
         renderItem={({ id, title, startDate, days }) => (
           <S.Layout onClick={() => handleClickTravelPlan(id)}>
             <S.Container>
-              <Text
-                textType="body"
-                css={css`
-                  font-weight: 500;
-                `}
-              >
+              <Text textType="bodyBold" css={S.titleStyle}>
                 {title}
               </Text>
               <Text

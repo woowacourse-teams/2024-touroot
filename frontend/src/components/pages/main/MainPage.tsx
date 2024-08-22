@@ -9,6 +9,7 @@ import { useDragScroll } from "@hooks/useDragScroll";
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
 import useTagSelection from "@hooks/useTagSelection";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
 import * as S from "./MainPage.styled";
@@ -18,7 +19,8 @@ const SKELETON_COUNT = 5;
 
 const MainPage = () => {
   const { selectedTagIDs, handleClickTag, createSortedTags } = useTagSelection();
-  const { travelogues, status, fetchNextPage } = useInfiniteTravelogues(selectedTagIDs);
+  const { travelogues, status, fetchNextPage, isPaused, error } =
+    useInfiniteTravelogues(selectedTagIDs);
 
   const sortedTags = createSortedTags();
 
@@ -27,6 +29,14 @@ const MainPage = () => {
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
   const hasTravelogue = travelogues.length > 0;
+
+  if (isPaused) {
+    alert(ERROR_MESSAGE_MAP.network);
+  }
+
+  if (status === "error") {
+    alert(error?.message);
+  }
 
   return (
     <S.MainPageContentContainer>
@@ -60,30 +70,32 @@ const MainPage = () => {
           ))}
         </S.MainPageTraveloguesList>
       )}
-      <S.MainPageTraveloguesList>
-        {hasTravelogue ? (
-          travelogues.map(
-            ({ authorProfileUrl, authorNickname, id, title, thumbnail, likeCount, tags }) => (
-              <TravelogueCard
-                key={id}
-                travelogueOverview={{
-                  authorProfileUrl,
-                  id,
-                  title,
-                  thumbnail,
-                  likeCount,
-                  authorNickname,
-                  tags,
-                }}
-              />
-            ),
-          )
-        ) : (
-          <S.SearchFallbackWrapper>
-            <SearchFallback title="휑" text="다른 태그를 선택해 주세요!" />
-          </S.SearchFallbackWrapper>
-        )}
-      </S.MainPageTraveloguesList>
+      {status === "success" && (
+        <S.MainPageTraveloguesList>
+          {hasTravelogue ? (
+            travelogues.map(
+              ({ authorProfileUrl, authorNickname, id, title, thumbnail, likeCount, tags }) => (
+                <TravelogueCard
+                  key={id}
+                  travelogueOverview={{
+                    authorProfileUrl,
+                    id,
+                    title,
+                    thumbnail,
+                    likeCount,
+                    authorNickname,
+                    tags,
+                  }}
+                />
+              ),
+            )
+          ) : (
+            <S.SearchFallbackWrapper>
+              <SearchFallback title="휑" text="다른 태그를 선택해 주세요!" />
+            </S.SearchFallbackWrapper>
+          )}
+        </S.MainPageTraveloguesList>
+      )}
       <FloatingButton />
       <div
         ref={lastElementRef}
