@@ -99,8 +99,6 @@ const TravelogueDetailPage = () => {
   const { mutate: handleActiveHeart, isPaused: isPostingHeartPaused } = usePostUpdateHeart();
   const { mutate: handleInactiveHeart, isPaused: isDeletingHeartPaused } = useDeleteUpdateHeart();
 
-  if (status === "pending") return <TravelogueDetailSkeleton />;
-
   if (
     isGettingTraveloguePaused ||
     isDeletingTraveloguePaused ||
@@ -110,9 +108,13 @@ const TravelogueDetailPage = () => {
     alert(ERROR_MESSAGE_MAP.network);
   }
 
-  if (status === "error") {
-    alert(error.message);
-    navigate(ROUTE_PATHS_MAP.back);
+  if (status === "error" || status === "pending") {
+    if (status === "error") {
+      alert(error.message);
+      navigate(ROUTE_PATHS_MAP.back);
+    }
+
+    return <TravelogueDetailSkeleton />;
   }
 
   return (
