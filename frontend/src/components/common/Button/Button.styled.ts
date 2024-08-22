@@ -26,7 +26,32 @@ const createVariantStyling = ($variants: Required<ButtonProps>["variants"]) => {
   return styles[$variants];
 };
 
-export const Button = styled.button<{ $variants: ButtonProps["variants"] }>`
+const createPositionStyling = ($position: Required<ButtonProps>["position"]) => {
+  const styles = {
+    left: css`
+      justify-content: flex-start;
+    `,
+
+    center: css`
+      justify-content: center;
+    `,
+
+    right: css`
+      justify-content: flex-end;
+    `,
+  };
+
+  return styles[$position];
+};
+
+export const Button = styled.button<{
+  $variants: ButtonProps["variants"];
+  $position: ButtonProps["position"];
+}>`
+  display: flex;
+  justify-content: ${({ $position = "center" }) => createPositionStyling($position)};
+  align-items: center;
+
   width: 100%;
   height: 4rem;
   border: none;
