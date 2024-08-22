@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
+import type { UserResponse } from "@type/domain/user";
+
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
 import useInfiniteMyTravelPlans from "@queries/useInfiniteMyTravelPlans";
@@ -22,10 +24,16 @@ import TabContent from "../MyPageTabContent/MyPageTabContent";
 import * as S from "./MyTravelPlans.styled";
 
 const MyTravelPlans = () => {
+interface MyTravelPlansProps {
+  userData: UserResponse;
+}
+
+const MyTravelPlans = ({ userData }: MyTravelPlansProps) => {
   const { onTransformTravelDetail } = useTravelTransformDetailContext();
   const navigate = useNavigate();
 
   const { myTravelPlans, status, fetchNextPage, isPaused, error } =
+    useInfiniteMyTravelPlans(userData);
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
   const handleClickAddButton = () => {
