@@ -57,9 +57,16 @@ const TravelPlanDayAccordion = ({
     setIsPopupOpen(true);
   };
 
-  const dateString = !startDate
-    ? ""
-    : `${startDate.getFullYear()}. ${startDate.getMonth() + 1}. ${startDate.getDate() + dayIndex}`;
+  const getDateString = (startDate: Date | null, dayIndex: number): string => {
+    if (!startDate) return "";
+
+    const currentDate = new Date(startDate);
+    currentDate.setDate(currentDate.getDate() + dayIndex);
+
+    return `${currentDate.getFullYear()}. ${currentDate.getMonth() + 1}. ${currentDate.getDate()}`;
+  };
+
+  const dateString = getDateString(startDate, dayIndex);
 
   return (
     <Accordion.Item value={travelPlanDay.id}>
