@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import theme from "@styles/theme";
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
-export const ThumbnailUploadContainer = styled.div<{ $isLoading: boolean }>`
+export const ThumbnailUploadContainer = styled.div<{ $hasBorder: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,7 +12,7 @@ export const ThumbnailUploadContainer = styled.div<{ $isLoading: boolean }>`
   position: relative;
   width: 100%;
   height: 20rem;
-  border: ${({ $isLoading }) => ($isLoading ? `1px solid ${theme.colors.border}` : "none")};
+  border: ${({ $hasBorder }) => ($hasBorder ? `1px solid ${theme.colors.border}` : "none")};
   border-radius: 0.8rem;
 `;
 

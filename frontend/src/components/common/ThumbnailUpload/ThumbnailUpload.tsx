@@ -37,8 +37,20 @@ const ThumbnailUpload = ({
 
   const image = previewUrls[0];
 
-  const handleImageLoad = () => {
+  const hasBorder = !!image === false || isLoading;
+
+  const handleLoadImage = () => {
     setIsLoading(false);
+  };
+
+  const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsLoading(true);
+    onChangeImage(e);
+  };
+
+  const handleDeleteImage = () => {
+    setIsLoading(false);
+    onDeleteButton && onDeleteButton();
   };
 
   const HiddenInput = (
@@ -47,17 +59,17 @@ const ThumbnailUpload = ({
       ref={fileInputRef}
       type="file"
       accept="image/*"
-      onChange={onChangeImage}
+      onChange={handleChangeImage}
       aria-label="썸네일 이미지 선택"
       title="이미지 파일을 선택하세요"
     />
   );
 
   return (
-    <S.ThumbnailUploadContainer $isLoading={isLoading}>
+    <S.ThumbnailUploadContainer $hasBorder={hasBorder}>
       {image && (
         <IconButton
-          onClick={onDeleteButton}
+          onClick={handleDeleteImage}
           iconType="x-icon"
           size="10"
           color={PRIMITIVE_COLORS.white}
@@ -90,7 +102,7 @@ const ThumbnailUpload = ({
           )}
           <S.ThumbnailUploadImage
             src={image}
-            onLoad={handleImageLoad}
+            onLoad={handleLoadImage}
             alt="썸네일 이미지"
             style={{ display: isLoading ? "none" : "block" }}
           />
