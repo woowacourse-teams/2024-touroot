@@ -18,9 +18,8 @@ export const FloatingButtonContainer = styled.div`
 export const SubButtonContainer = styled.div<{ $isOpen: boolean }>`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
 
-  width: 15rem;
+  width: 16rem;
   padding: ${({ theme }) => theme.spacing.l} ${({ theme }) => theme.spacing.m};
   border-radius: ${({ theme }) => theme.spacing.s};
 
@@ -34,6 +33,13 @@ export const SubButtonContainer = styled.div<{ $isOpen: boolean }>`
     transform: translateY(${$isOpen ? 0 : 2}rem);
     pointer-events: ${$isOpen ? "auto" : "none"};
   `}
+`;
+
+export const SubButton = styled.button`
+  display: flex;
+  justify-content: flex-start;
+
+  width: 100%;
 `;
 
 export const MainButtonWrapper = styled.div<{ $isOpen: boolean }>`

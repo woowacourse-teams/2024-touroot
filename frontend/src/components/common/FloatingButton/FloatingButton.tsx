@@ -30,16 +30,16 @@ const FloatingButton = () => {
     <S.FloatingButtonContainer>
       {isOpen && <Modal isOpen={isOpen} onCloseModal={handleToggleButton} />}
       <S.SubButtonContainer $isOpen={isOpen}>
-        <button onClick={handleClickTravelPlanRegister}>
+        <S.SubButton onClick={handleClickTravelPlanRegister}>
           <Text textType="body" css={S.subButtonTextStyle}>
             ✈️ 여행 계획 작성
           </Text>
-        </button>
-        <button onClick={handleClickTravelogueRegister}>
+        </S.SubButton>
+        <S.SubButton onClick={handleClickTravelogueRegister}>
           <Text textType="body" css={S.subButtonTextStyle}>
             📝 여행기 작성
           </Text>
-        </button>
+        </S.SubButton>
       </S.SubButtonContainer>
 
       <S.MainButtonWrapper onClick={handleToggleButton} $isOpen={isOpen}>
