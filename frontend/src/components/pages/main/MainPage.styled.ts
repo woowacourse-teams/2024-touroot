@@ -10,6 +10,7 @@ export const MainPageContentContainer = styled.div`
 
   margin-top: ${SPACING.m};
   padding: ${SPACING.m};
+  min-height: calc(100vh - 7.6rem);
 `;
 
 export const MainPageHeaderContainer = styled.div`
@@ -19,8 +20,14 @@ export const MainPageHeaderContainer = styled.div`
   gap: ${SPACING.s};
 `;
 
+export const SearchFallbackWrapper = styled.div`
+  flex: 1;
+  position: relative;
+`;
+
 export const MainPageTraveloguesList = styled.ul`
   display: flex;
+  flex: 1;
   flex-direction: column;
 
   gap: ${SPACING.m};

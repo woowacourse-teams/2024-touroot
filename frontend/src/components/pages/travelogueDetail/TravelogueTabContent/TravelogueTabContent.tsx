@@ -14,7 +14,7 @@ const TravelogueTabContent = ({ places }: { places: TraveloguePlace[] }) => {
   if (places.length === 0) return null;
 
   return (
-    <div>
+    <S.TravelogueTapContentLayout>
       <GoogleMapLoadScript
         loadingElement={<Skeleton width="100%" height="120px" />}
         libraries={["maps"]}
@@ -70,7 +70,7 @@ const TravelogueTabContent = ({ places }: { places: TraveloguePlace[] }) => {
           ))}
         </div>
       </GoogleMapLoadScript>
-    </div>
+    </S.TravelogueTapContentLayout>
   );
 };
 

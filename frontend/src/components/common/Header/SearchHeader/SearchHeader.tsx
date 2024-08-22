@@ -9,6 +9,8 @@ import { Input } from "@components/common/Input/Input.styled";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
+import { extractLastPath } from "@utils/extractId";
+
 import Header from "../Header";
 import * as S from "./SearchHeader.styled";
 
@@ -21,7 +23,7 @@ const SearchHeader = () => {
 
   const encodedKeyword =
     location.pathname.split("/").length > MIN_KEYWORD_LENGTH
-      ? location.pathname.split("/").pop()
+      ? extractLastPath(location.pathname)
       : "";
 
   const receivedKeyword = encodedKeyword ? decodeURIComponent(encodedKeyword) : "";

@@ -27,3 +27,5 @@ export { default as Checkbox } from "./Checkbox/Checkbox";
 export { default as Chip } from "./Chip/Chip";
 export { default as TextField } from "./TextField/TextField";
 export { default as Calendar } from "./Calendar/Calendar";
+export { default as SearchFallback } from "./SearchFallback/SearchFallback";
+export { default as FloatingButton } from "./FloatingButton/FloatingButton";

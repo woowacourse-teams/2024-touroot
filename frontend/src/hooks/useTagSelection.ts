@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import useGetTags from "@queries/useGetTags";
 
@@ -8,6 +8,10 @@ const useTagSelection = () => {
   const { data: tags } = useGetTags();
 
   const [selectedTagIDs, setSelectedTagIDs] = useState<number[]>([]);
+
+  const onChangeSelectedTagIDs = useCallback((newSelectedTagIDs: number[]) => {
+    setSelectedTagIDs(newSelectedTagIDs);
+  }, []);
 
   const createSortedTags = () => {
     if (!tags) return [];
@@ -30,7 +34,12 @@ const useTagSelection = () => {
     });
   };
 
-  return { selectedTagIDs, createSortedTags, handleClickTag };
+  return {
+    selectedTagIDs,
+    onChangeSelectedTagIDs,
+    createSortedTags,
+    handleClickTag,
+  };
 };
 
 export default useTagSelection;

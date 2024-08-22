@@ -19,6 +19,7 @@ const inputContents = {
   ),
   thumbnailUploader: (
     <ThumbnailUpload
+      id="thumbnail-upload-1"
       previewUrls={[]}
       fileInputRef={React.createRef()}
       onChangeImage={() => {}}

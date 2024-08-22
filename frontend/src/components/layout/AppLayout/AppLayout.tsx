@@ -4,6 +4,8 @@ import { DefaultHeader, HomePageHeader, SearchHeader } from "@components/common"
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
+import { extractLastPath } from "@utils/extractId";
+
 import * as S from "./AppLayout.styled";
 
 const MIN_KEYWORD_LENGTH = 2;
@@ -13,9 +15,7 @@ const AppLayout = () => {
   const pathName = location.pathname;
 
   const encodedKeyword =
-    location.pathname.split("/").length > MIN_KEYWORD_LENGTH
-      ? location.pathname.split("/").pop()
-      : "";
+    location.pathname.split("/").length > MIN_KEYWORD_LENGTH ? extractLastPath(pathName) : "";
   const receivedKeyword = encodedKeyword ? decodeURIComponent(encodedKeyword) : "";
 
   const getHeader = (pathName: string) => {

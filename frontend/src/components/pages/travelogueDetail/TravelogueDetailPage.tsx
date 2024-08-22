@@ -18,7 +18,10 @@ import useClickAway from "@hooks/useClickAway";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useUser from "@hooks/useUser";
 
+import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ROUTE_PATHS_MAP } from "@constants/route";
+
+import { extractID } from "@utils/extractId";
 
 import theme from "@styles/theme";
 import { SEMANTIC_COLORS } from "@styles/tokens";
@@ -28,7 +31,7 @@ import * as S from "./TravelogueDetailPage.styled";
 
 const TravelogueDetailPage = () => {
   const location = useLocation();
-  const id = location.pathname.replace(/[^\d]/g, "");
+  const id = extractID(location.pathname);
 
   const { user } = useUser();
 
@@ -44,7 +47,7 @@ const TravelogueDetailPage = () => {
       : "당일치기";
 
   const { onTransformTravelDetail } = useTravelTransformDetailContext();
-  const { mutate: deleteTravelogue } = useDeleteTravelogue();
+  const { mutate: mutateDeleteTravelogue } = useDeleteTravelogue();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -62,14 +65,19 @@ const TravelogueDetailPage = () => {
     setIsDeleteModalOpen((prev) => !prev);
   };
 
-  const debouncedClickDeleteButton = useLeadingDebounce(() => deleteTravelogue(Number(id)), 3000);
+  const debouncedClickDeleteButton = useLeadingDebounce(
+    () => mutateDeleteTravelogue(Number(id)),
+    DEBOUNCED_TIME,
+  );
 
   const handleClickDeleteButton = () => {
     debouncedClickDeleteButton();
   };
 
-  //TODO: 수정 이벤트 추가해야함
-  // const handleClickReviseButton = () => {};
+  const handleClickEditButton = () => {
+    navigate(ROUTE_PATHS_MAP.travelogueEdit(Number(id)));
+  };
+
   const moreContainerRef = useRef(null);
 
   useClickAway(moreContainerRef, handleCloseMoreDropdown);
@@ -119,13 +127,13 @@ const TravelogueDetailPage = () => {
                   onClick={() => handleInactiveHeart(id)}
                   iconType="heart"
                   color={SEMANTIC_COLORS.heart}
-                  size="16"
+                  size="24"
                 />
               ) : (
                 <IconButton
                   onClick={() => handleActiveHeart(id)}
                   iconType="empty-heart"
-                  size="16"
+                  size="24"
                 />
               )}
               <Text textType="detail">{data.likeCount}</Text>
@@ -140,13 +148,13 @@ const TravelogueDetailPage = () => {
                 />
                 {isDropdownOpen && (
                   <Dropdown size="small" position="right">
-                    {/* <Text
+                    <Text
                       textType="detail"
-                      onClick={handleClickReviseButton}
+                      onClick={handleClickEditButton}
                       css={S.cursorPointerStyle}
                     >
                       수정
-                    </Text> */}
+                    </Text>
                     <Text
                       textType="detail"
                       onClick={handleToggleDeleteModal}
@@ -177,11 +185,13 @@ const TravelogueDetailPage = () => {
           )}
         />
       </S.TravelogueDetailLayout>
-      <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행 계획으로 전환">
-        <Text textType="detail" css={S.transformBottomSheetTextStyle}>
-          이 여행기를 따라가고 싶으신가요?
-        </Text>
-      </TransformBottomSheet>
+      {!isAuthor && (
+        <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행 계획으로 전환">
+          <Text textType="detail" css={S.transformBottomSheetTextStyle}>
+            이 여행기를 따라가고 싶으신가요?
+          </Text>
+        </TransformBottomSheet>
+      )}
       {isDeleteModalOpen && (
         <TravelogueDeleteModal
           isOpen={isDeleteModalOpen}

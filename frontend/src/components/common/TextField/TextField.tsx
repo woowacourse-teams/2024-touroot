@@ -1,6 +1,4 @@
-import React, { PropsWithChildren, ReactElement, cloneElement } from "react";
-
-import { css } from "@emotion/react";
+import { useId } from "react";
 
 import Text from "../Text/Text";
 import * as S from "./TextField.styled";
@@ -9,19 +7,21 @@ interface TextFieldProps {
   title: string;
   subTitle?: string;
   isRequired?: boolean;
+
+  children: React.ReactNode | ((id: string) => React.ReactNode);
 }
 
 const REQUIRED_SYMBOL = "*";
 
-const TextField = ({
-  title,
-  subTitle,
-  isRequired = false,
-  children,
-}: PropsWithChildren<TextFieldProps>) => {
-  const id = React.useId();
-  const child = children as ReactElement;
-  const childWithId = cloneElement(child, { id });
+const TextField = ({ title, subTitle, isRequired = false, children }: TextFieldProps) => {
+  const id = useId();
+
+  const renderChildren = () => {
+    if (typeof children === "function") {
+      return children(id);
+    }
+    return children;
+  };
 
   return (
     <S.Layout>
@@ -29,12 +29,7 @@ const TextField = ({
         <S.TextContainer>
           <Text textType="bodyBold">{title}</Text>
           {isRequired && (
-            <Text
-              textType="bodyBold"
-              css={css`
-                color: red;
-              `}
-            >
+            <Text textType="bodyBold" css={S.symbolStyle}>
               {REQUIRED_SYMBOL}
             </Text>
           )}
@@ -45,7 +40,8 @@ const TextField = ({
           </Text>
         )}
       </S.LabelContainer>
-      {childWithId}
+
+      {renderChildren()}
     </S.Layout>
   );
 };
