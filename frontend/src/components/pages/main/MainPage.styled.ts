@@ -55,6 +55,16 @@ export const ChipsContainer = styled.ul`
   }
 `;
 
-export const subTitleColorStyle = css`
+export const subTitleStyle = css`
   color: ${PRIMITIVE_COLORS.gray[700]};
+
+  & > span {
+    @media (width > 360px) {
+      display: inline-block;
+    }
+
+    @media (width <= 360px) {
+      display: block;
+    }
+  }
 `;
