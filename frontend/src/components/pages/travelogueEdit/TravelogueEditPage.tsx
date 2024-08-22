@@ -101,7 +101,12 @@ const TravelogueEditPage = () => {
   const handleEditTravelogue = () => {
     mutateTravelogueEdit(
       {
-        travelogue: { title, thumbnail, tags: selectedTagIDs, days: travelogueDays },
+        travelogue: {
+          title,
+          thumbnail: thumbnail || (process.env.DEFAULT_THUMBNAIL_IMAGE ?? ""),
+          tags: selectedTagIDs,
+          days: travelogueDays,
+        },
         id: Number(id),
       },
       {
@@ -188,6 +193,7 @@ const TravelogueEditPage = () => {
           <Text textType="bodyBold">썸네일</Text>
           <ThumbnailUpload
             id=""
+            onDeleteButton={() => setThumbnail("")}
             previewUrls={[thumbnail]}
             fileInputRef={thumbnailFileInputRef}
             onChangeImage={handleChangeThumbnail}
