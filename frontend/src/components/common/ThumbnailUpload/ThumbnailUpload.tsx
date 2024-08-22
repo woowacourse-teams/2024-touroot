@@ -2,6 +2,7 @@ import { InputHTMLAttributes, useState } from "react";
 
 import { PictureIcon } from "@assets/svg";
 
+import Spinner from "../Spinner/Spinner";
 import * as S from "./ThumbnailUpload.styled";
 
 interface ThumbnailUploadProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -20,11 +21,20 @@ const ThumbnailUpload = ({
   onClickButton,
 }: ThumbnailUploadProps) => {
   const [isShowEditButton, setIsShowEditButton] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const handleMouseOver = () => setIsShowEditButton(true);
-  const handleMouseLeave = () => setIsShowEditButton(false);
+  const handleMouseOver = () => {
+    if (!isLoading) setIsShowEditButton(true);
+  };
+  const handleMouseLeave = () => {
+    if (!isLoading) setIsShowEditButton(false);
+  };
 
   const image = previewUrls[0];
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
+  };
 
   const HiddenInput = (
     <S.ThumbnailUploadHiddenInput
@@ -58,7 +68,17 @@ const ThumbnailUpload = ({
               썸네일 수정하기
             </S.ThumbnailUploadEditButton>
           )}
-          <S.ThumbnailUploadImage src={image} alt="썸네일 이미지" />
+          {isLoading && (
+            <S.ThumbnailUploadLoadingContainer>
+              <Spinner variants="circle" size={60} />
+            </S.ThumbnailUploadLoadingContainer>
+          )}
+          <S.ThumbnailUploadImage
+            src={image}
+            onLoad={handleImageLoad}
+            alt="썸네일 이미지"
+            style={{ display: isLoading ? "none" : "block" }}
+          />
           {HiddenInput}
         </S.ThumbnailUploadEditButtonContainer>
       )}

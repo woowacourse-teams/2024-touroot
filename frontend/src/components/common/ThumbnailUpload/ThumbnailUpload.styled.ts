@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 
+import { PRIMITIVE_COLORS } from "@styles/tokens";
+
 export const ThumbnailUploadContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -46,4 +48,14 @@ export const ThumbnailUploadEditButtonContainer = styled.div`
   z-index: ${({ theme }) => theme.zIndex.default};
   width: 100%;
   height: 100%;
+`;
+
+export const ThumbnailUploadLoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  background-color: ${PRIMITIVE_COLORS.white};
 `;
