@@ -19,9 +19,3 @@ export const modalBodyStyle = css`
 export const subTextStyle = css`
   color: ${theme.colors.text.secondary};
 `;
-
-export const buttonStyle = css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;

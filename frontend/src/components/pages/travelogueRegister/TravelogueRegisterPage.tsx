@@ -95,7 +95,8 @@ const TravelogueRegisterPage = () => {
     setIsOpen(false);
   };
 
-  const { mutate: mutateRegisterTravelogue } = usePostTravelogue();
+  const { mutate: mutateRegisterTravelogue, isPending: isPostingTraveloguePending } =
+    usePostTravelogue();
 
   const handleRegisterTravelogue = () => {
     mutateRegisterTravelogue(
@@ -244,6 +245,7 @@ const TravelogueRegisterPage = () => {
 
       <ModalBottomSheet
         isOpen={isOpen}
+        isPending={isPostingTraveloguePending}
         mainText="여행기를 등록할까요?"
         subText="등록한 후에도 다시 여행기를 수정할 수 있어요!"
         secondaryButtonLabel="취소"

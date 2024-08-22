@@ -96,7 +96,8 @@ const TravelogueEditPage = () => {
     setIsOpen(false);
   };
 
-  const { mutate: mutateTravelogueEdit } = usePutTravelogue();
+  const { mutate: mutateTravelogueEdit, isPending: isPuttingTraveloguePending } =
+    usePutTravelogue();
 
   const handleEditTravelogue = () => {
     mutateTravelogueEdit(
@@ -247,6 +248,7 @@ const TravelogueEditPage = () => {
 
       <ModalBottomSheet
         isOpen={isOpen}
+        isPending={isPuttingTraveloguePending}
         mainText="여행기를 수정할까요?"
         subText="수정한 후에도 다시 여행기를 변경할 수 있어요!"
         secondaryButtonLabel="취소"

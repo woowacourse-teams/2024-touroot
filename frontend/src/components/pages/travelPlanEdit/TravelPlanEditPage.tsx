@@ -73,7 +73,11 @@ const TravelPlanEditPage = () => {
     setIsOpen(false);
   };
 
-  const { mutate: mutateTravelPlanEdit, isPaused } = usePutTravelPlan();
+  const {
+    mutate: mutateTravelPlanEdit,
+    isPaused,
+    isPending: isPuttingTravelPlanPending,
+  } = usePutTravelPlan();
 
   const handleEditTravelPlan = () => {
     const formattedStartDate = extractUTCDate(startDate);
@@ -224,6 +228,7 @@ const TravelPlanEditPage = () => {
 
       <ModalBottomSheet
         isOpen={isOpen}
+        isPending={isPuttingTravelPlanPending}
         mainText="여행 계획을 수정할까요?"
         subText="수정한 후에도 다시 여행 계획을 변경할 수 있어요."
         secondaryButtonLabel="취소"
