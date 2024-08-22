@@ -27,3 +27,10 @@ export const Tag = styled.li`
   ${({ theme }) => theme.typography.mobile.detail}
   color: ${({ theme }) => theme.colors.text.secondary}
 `;
+
+export const Header = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+`;
