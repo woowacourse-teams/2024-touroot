@@ -193,7 +193,6 @@ const TravelogueEditPage = () => {
           <Text textType="bodyBold">썸네일</Text>
           <ThumbnailUpload
             id=""
-            onDeleteButton={() => setThumbnail("")}
             previewUrls={[thumbnail]}
             fileInputRef={thumbnailFileInputRef}
             onChangeImage={handleChangeThumbnail}
