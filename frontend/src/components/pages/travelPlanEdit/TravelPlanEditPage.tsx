@@ -37,7 +37,7 @@ const TravelPlanEditPage = () => {
   const location = useLocation();
   const id = extractID(location.pathname);
 
-  const { data, status, error } = useGetTravelPlan(id);
+  const { data, status, error, isLoading } = useGetTravelPlan(id);
 
   const [title, setTitle] = useState("");
 
@@ -127,6 +127,8 @@ const TravelPlanEditPage = () => {
     alert(errorMessage);
     navigate(ROUTE_PATHS_MAP.back);
   }
+
+  if (isLoading) <>Loadinggㅋㅋㅋㅋ</>;
 
   return (
     <>
