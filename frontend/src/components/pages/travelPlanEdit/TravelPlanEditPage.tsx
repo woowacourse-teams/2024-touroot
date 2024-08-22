@@ -73,7 +73,7 @@ const TravelPlanEditPage = () => {
     setIsOpen(false);
   };
 
-  const { mutate: mutateTravelPlanEdit } = usePutTravelPlan();
+  const { mutate: mutateTravelPlanEdit, isPaused } = usePutTravelPlan();
 
   const handleEditTravelPlan = () => {
     const formattedStartDate = extractUTCDate(startDate);
@@ -95,6 +95,7 @@ const TravelPlanEditPage = () => {
   const debouncedEditTravelPlan = useLeadingDebounce(() => handleEditTravelPlan(), DEBOUNCED_TIME);
 
   const handleConfirmBottomSheet = () => {
+    if (isPaused) alert(ERROR_MESSAGE_MAP.network);
     debouncedEditTravelPlan();
   };
 
