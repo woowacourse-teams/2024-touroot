@@ -14,6 +14,7 @@ import MyPageTabContentSkeleton from "@components/pages/my/MyPageTabContentSkele
 
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
 
+import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import addDaysToDateString from "@utils/addDaysToDateString";
@@ -23,7 +24,6 @@ import theme from "@styles/theme";
 import TabContent from "../MyPageTabContent/MyPageTabContent";
 import * as S from "./MyTravelPlans.styled";
 
-const MyTravelPlans = () => {
 interface MyTravelPlansProps {
   userData: UserResponse;
 }
