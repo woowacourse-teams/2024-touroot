@@ -35,7 +35,12 @@ export const useTravelogueDays = (days: TravelTransformPlaces[]) => {
   ) => {
     setTravelogueDays((prevTravelDays) => {
       const newTraveloguePlaces = [...prevTravelDays];
-      newTraveloguePlaces[dayIndex].places.push({ ...traveloguePlace, id: uuidv4() });
+      newTraveloguePlaces[dayIndex].places.push({
+        ...traveloguePlace,
+        id: uuidv4(),
+        photoUrls: [],
+        description: "",
+      });
       return newTraveloguePlaces;
     });
   };

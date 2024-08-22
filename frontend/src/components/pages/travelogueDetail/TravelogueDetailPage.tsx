@@ -127,13 +127,13 @@ const TravelogueDetailPage = () => {
                   onClick={() => handleInactiveHeart(id)}
                   iconType="heart"
                   color={SEMANTIC_COLORS.heart}
-                  size="16"
+                  size="24"
                 />
               ) : (
                 <IconButton
                   onClick={() => handleActiveHeart(id)}
                   iconType="empty-heart"
-                  size="16"
+                  size="24"
                 />
               )}
               <Text textType="detail">{data.likeCount}</Text>
@@ -185,11 +185,13 @@ const TravelogueDetailPage = () => {
           )}
         />
       </S.TravelogueDetailLayout>
-      <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행 계획으로 전환">
-        <Text textType="detail" css={S.transformBottomSheetTextStyle}>
-          이 여행기를 따라가고 싶으신가요?
-        </Text>
-      </TransformBottomSheet>
+      {!isAuthor && (
+        <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행 계획으로 전환">
+          <Text textType="detail" css={S.transformBottomSheetTextStyle}>
+            이 여행기를 따라가고 싶으신가요?
+          </Text>
+        </TransformBottomSheet>
+      )}
       {isDeleteModalOpen && (
         <TravelogueDeleteModal
           isOpen={isDeleteModalOpen}

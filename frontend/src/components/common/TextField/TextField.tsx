@@ -1,4 +1,4 @@
-import React from "react";
+import { useId } from "react";
 
 import Text from "../Text/Text";
 import * as S from "./TextField.styled";
@@ -7,13 +7,14 @@ interface TextFieldProps {
   title: string;
   subTitle?: string;
   isRequired?: boolean;
+
   children: React.ReactNode | ((id: string) => React.ReactNode);
 }
 
 const REQUIRED_SYMBOL = "*";
 
 const TextField = ({ title, subTitle, isRequired = false, children }: TextFieldProps) => {
-  const id = React.useId();
+  const id = useId();
 
   const renderChildren = () => {
     if (typeof children === "function") {
@@ -28,7 +29,7 @@ const TextField = ({ title, subTitle, isRequired = false, children }: TextFieldP
         <S.TextContainer>
           <Text textType="bodyBold">{title}</Text>
           {isRequired && (
-            <Text textType="bodyBold" css={S.SymbolStyle}>
+            <Text textType="bodyBold" css={S.symbolStyle}>
               {REQUIRED_SYMBOL}
             </Text>
           )}
@@ -39,6 +40,7 @@ const TextField = ({ title, subTitle, isRequired = false, children }: TextFieldP
           </Text>
         )}
       </S.LabelContainer>
+
       {renderChildren()}
     </S.Layout>
   );

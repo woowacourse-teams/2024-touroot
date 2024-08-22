@@ -29,7 +29,6 @@ export const MainPageTraveloguesList = styled.ul`
   display: flex;
   flex: 1;
   flex-direction: column;
-  justify-content: center;
 
   gap: ${SPACING.m};
 `;

@@ -43,7 +43,7 @@ const TravelogueCard = ({
   return (
     <S.TravelogueCardLayout onClick={handleCardClick}>
       <S.TravelogueCardHeader>
-        <Text textType="bodyBold">{title}</Text>
+        <S.TravelogueCardTitle>{title}</S.TravelogueCardTitle>
       </S.TravelogueCardHeader>
 
       <S.TravelogueCardThumbnailContainer>
@@ -65,7 +65,7 @@ const TravelogueCard = ({
         </S.TravelogueCardAuthorContainer>
 
         <S.TravelogueCardLikesContainer>
-          <IconButton onClick={handleLikeClick} iconType="empty-heart" size="16" />
+          <IconButton onClick={handleLikeClick} iconType="empty-heart" size="20" />
           <Text textType="detail">{likeCount}</Text>
         </S.TravelogueCardLikesContainer>
       </S.TravelogueCardInfoContainer>

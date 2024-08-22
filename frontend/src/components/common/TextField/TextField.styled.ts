@@ -27,6 +27,6 @@ export const TextContainer = styled.div`
   gap: ${({ theme }) => theme.spacing.xs};
 `;
 
-export const SymbolStyle = css`
-  color: red;
+export const symbolStyle = css`
+  color: ${theme.colors.text.required};
 `;

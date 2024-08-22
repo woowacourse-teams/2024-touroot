@@ -16,14 +16,14 @@ import * as S from "./Header.styled";
 interface HeaderProps {
   isLogoUsed?: boolean;
   rightContent: React.ReactNode;
-  $isRightContentFull?: boolean;
+  isRightContentFull?: boolean;
   isHamburgerUsed?: boolean;
 }
 
 const Header = ({
   isLogoUsed = false,
   rightContent,
-  $isRightContentFull = false,
+  isRightContentFull = false,
   isHamburgerUsed = false,
 }: HeaderProps) => {
   const { user, saveUser } = useUser();
@@ -40,9 +40,7 @@ const Header = ({
       navigate(ROUTE_PATHS_MAP.login);
     }
 
-
     saveUser({ accessToken: "", memberId: 0, refreshToken: "" });
-
   };
 
   const handleClickMyPage = () => navigate(ROUTE_PATHS_MAP.my);
@@ -62,7 +60,7 @@ const Header = ({
           />
         </S.LeftWrapper>
 
-        <S.RightContainer $isRightContentFull={$isRightContentFull}>
+        <S.RightContainer $isRightContentFull={isRightContentFull}>
           {rightContent}
           {isHamburgerUsed && (
             <Drawer.Trigger>

@@ -151,7 +151,6 @@ const TravelogueRegisterPage = () => {
           )}
         </TextField>
 
-
         <S.TagsContainer>
           <Text textType="bodyBold">태그</Text>
           <Text textType="detail" css={S.subTextColor}>
@@ -175,7 +174,7 @@ const TravelogueRegisterPage = () => {
         </S.TagsContainer>
 
         <S.ThumbnailContainer>
-          <TextField title="썸네일" isRequired>
+          <TextField title="썸네일">
             {(id) => (
               <ThumbnailUpload
                 id={id}
