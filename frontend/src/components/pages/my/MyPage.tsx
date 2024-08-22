@@ -7,6 +7,7 @@ import { AvatarCircle, Input, Tab, Text } from "@components/common";
 import MyPageSkeleton from "@components/pages/my/MyPageSkeleton/MyPageSkeleton";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { STORAGE_KEYS_MAP } from "@constants/storage";
 
 import * as S from "./MyPage.styled";
@@ -93,7 +94,14 @@ const MyPage = () => {
               count={nickname?.length}
               spellCheck={false}
               css={S.inputStyle}
-              onChange={(e) => setNickname(e.target.value)}
+              onChange={(e) =>
+                setNickname(
+                  e.target.value.slice(
+                    FORM_VALIDATIONS_MAP.title.minLength,
+                    FORM_VALIDATIONS_MAP.title.maxLength,
+                  ),
+                )
+              }
             />
           )}
         </S.NicknameWrapper>
