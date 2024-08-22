@@ -29,8 +29,6 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractUTCDate } from "@utils/extractUTCDate";
 
-import theme from "@styles/theme";
-
 import * as S from "./TravelPlanRegisterPage.styled";
 
 const TravelPlanRegisterPage = () => {
@@ -137,9 +135,7 @@ const TravelPlanRegisterPage = () => {
         />
         <S.StartDateContainer>
           <Text textType="bodyBold">시작일</Text>
-          <Text textType="detail" color={theme.colors.text.secondary}>
-            시작일을 선택하면 마감일은 투룻이 계산 해드릴게요!
-          </Text>
+          <Text textType="detail">시작일을 선택하면 마감일은 투룻이 계산 해드릴게요!</Text>
           <Input
             value={startDate ? startDate.toLocaleDateString().slice(0, -1) : ""}
             onClick={handleInputClick}
