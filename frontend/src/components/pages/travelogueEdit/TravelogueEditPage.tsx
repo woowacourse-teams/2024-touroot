@@ -14,7 +14,6 @@ import {
   Input,
   ModalBottomSheet,
   PageInfo,
-  Text,
   TextField,
   ThumbnailUpload,
 } from "@components/common";
@@ -186,14 +185,18 @@ const TravelogueEditPage = () => {
         </TextField>
 
         <S.ThumbnailContainer>
-          <Text textType="bodyBold">썸네일</Text>
-          <ThumbnailUpload
-            id=""
-            previewUrls={[thumbnail]}
-            fileInputRef={thumbnailFileInputRef}
-            onChangeImage={handleChangeThumbnail}
-            onClickButton={handleButtonClick}
-          />
+          <TextField title="썸네일">
+            {(id) => (
+              <ThumbnailUpload
+                id={id}
+                previewUrls={[thumbnail]}
+                onDeleteButton={() => setThumbnail("")}
+                fileInputRef={thumbnailFileInputRef}
+                onChangeImage={handleChangeThumbnail}
+                onClickButton={handleButtonClick}
+              />
+            )}
+          </TextField>
         </S.ThumbnailContainer>
 
         <div>

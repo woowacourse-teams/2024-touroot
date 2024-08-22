@@ -7,6 +7,7 @@ import Icon from "@components/common/Icon/Icon";
 import IconButton from "@components/common/IconButton/IconButton";
 import { Input } from "@components/common/Input/Input.styled";
 
+import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractLastPath } from "@utils/extractId";
@@ -61,11 +62,20 @@ const SearchHeader = () => {
             <Input
               ref={inputRef}
               value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
+              onChange={(e) =>
+                setKeyword(
+                  e.target.value.slice(
+                    FORM_VALIDATIONS_MAP.title.minLength,
+                    FORM_VALIDATIONS_MAP.title.maxLength,
+                  ),
+                )
+              }
               autoFocus
+              maxLength={20}
               placeholder="검색해주세요"
               css={css`
                 height: 4rem;
+                padding-right: 7.8rem;
               `}
               variant="round"
             />

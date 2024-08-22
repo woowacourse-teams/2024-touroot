@@ -184,6 +184,7 @@ const TravelogueRegisterPage = () => {
             {(id) => (
               <ThumbnailUpload
                 id={id}
+                onDeleteButton={() => setThumbnail("")}
                 previewUrls={[thumbnail]}
                 fileInputRef={thumbnailFileInputRef}
                 onChangeImage={handleChangeThumbnail}
