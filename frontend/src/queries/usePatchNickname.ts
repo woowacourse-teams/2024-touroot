@@ -5,7 +5,7 @@ import { authClient } from "@apis/client";
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { QUERY_KEYS_MAP } from "@constants/queryKey";
 
-const usePatchNickname = () => {
+const usePatchNickname = (onError: (error: Error) => void) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -15,9 +15,7 @@ const usePatchNickname = () => {
         queryKey: QUERY_KEYS_MAP.member.me(),
       });
     },
-    onError: (error) => {
-      alert(error.message);
-    },
+    onError,
   });
 };
 

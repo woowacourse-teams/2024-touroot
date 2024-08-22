@@ -45,8 +45,8 @@ export const useTravelogueMultiImageUpload = ({
 
   const handleUploadSuccess = (newUrls: string[]) => {
     updateImageStates(newUrls);
-    const allImageUrls = [...imageUrls, ...newUrls];
-    onChangeImageUrls(dayIndex, placeIndex, allImageUrls);
+
+    onChangeImageUrls(dayIndex, placeIndex, newUrls);
   };
 
   const revertImageStates = (failedCount: number) => {
@@ -67,9 +67,8 @@ export const useTravelogueMultiImageUpload = ({
       return;
     }
 
-    addLoadingImageStates(files);
-
     try {
+      addLoadingImageStates(files);
       const newImageUrls = await onRequestAddImage(files);
       handleUploadSuccess(newImageUrls);
     } catch (error) {
