@@ -24,25 +24,28 @@ const INITIAL_PAGE = 0;
 const DATA_LOAD_COUNT = 5;
 
 const useInfiniteTravelogues = (selectedTagIDs: number[]) => {
-  const { data, status, error, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: QUERY_KEYS_MAP.travelogue.tag(selectedTagIDs),
-    queryFn: ({ pageParam = INITIAL_PAGE }) => {
-      const page = pageParam;
-      const size = DATA_LOAD_COUNT;
-      const tagFilter = [...selectedTagIDs].join(",");
+  const { data, status, error, fetchNextPage, isFetchingNextPage, hasNextPage, isPaused } =
+    useInfiniteQuery({
+      queryKey: QUERY_KEYS_MAP.travelogue.tag(selectedTagIDs),
+      queryFn: ({ pageParam = INITIAL_PAGE }) => {
+        const page = pageParam;
+        const size = DATA_LOAD_COUNT;
+        const tagFilter = [...selectedTagIDs].join(",");
 
-      return tagFilter ? getTravelogues({ page, size, tagFilter }) : getTravelogues({ page, size });
-    },
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
-      const nextPage = lastPage.content.length ? allPages.length : undefined;
-      return nextPage;
-    },
-    select: (data) => ({
-      pages: data.pages.flatMap((page) => page.content),
-      pageParams: data.pageParams,
-    }),
-  });
+        return tagFilter
+          ? getTravelogues({ page, size, tagFilter })
+          : getTravelogues({ page, size });
+      },
+      initialPageParam: 0,
+      getNextPageParam: (lastPage, allPages) => {
+        const nextPage = lastPage.content.length ? allPages.length : undefined;
+        return nextPage;
+      },
+      select: (data) => ({
+        pages: data.pages.flatMap((page) => page.content),
+        pageParams: data.pageParams,
+      }),
+    });
 
   return {
     travelogues: data?.pages || [],
@@ -51,6 +54,7 @@ const useInfiniteTravelogues = (selectedTagIDs: number[]) => {
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
+    isPaused,
   };
 };
 

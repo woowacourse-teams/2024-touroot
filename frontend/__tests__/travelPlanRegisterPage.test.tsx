@@ -113,12 +113,13 @@ describe("여행 계획 등록 페이지 테스트", () => {
     test("사용자는 1일차에 '경복궁'이라는 장소를 추가할 수 있다.", () => {
       // given
       const { result } = renderHook(() => useTravelPlanDays([]));
-      const newPlace: Pick<TravelPlanPlace, "placeName" | "position"> = {
+      const newPlace: Pick<TravelPlanPlace, "placeName" | "position" | "todos"> = {
         placeName: "경복궁",
         position: {
           lat: 37.5796,
           lng: 126.977,
         },
+        todos: [],
       };
 
       // when
@@ -138,12 +139,13 @@ describe("여행 계획 등록 페이지 테스트", () => {
     test("사용자는 추가한 경복궁을 삭제할 수 있다.", () => {
       // given
       const { result } = renderHook(() => useTravelPlanDays([]));
-      const newPlace: Pick<TravelPlanPlace, "placeName" | "position"> = {
+      const newPlace: Pick<TravelPlanPlace, "placeName" | "position" | "todos"> = {
         placeName: "경복궁",
         position: {
           lat: 37.5796,
           lng: 126.977,
         },
+        todos: [],
       };
 
       // when

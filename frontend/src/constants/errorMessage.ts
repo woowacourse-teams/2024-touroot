@@ -10,4 +10,5 @@ export const ERROR_MESSAGE_MAP = {
   loginFailed: "로그인에 실패하였습니다. 다시 시도해주세요!",
   imageUpload: "사진은 10장 이하만 업로드 해주세요.",
   provider: "provider 바깥에 존재합니다!",
+  network: "네트워크 오류가 발생했어요. 잠시 후 다시 이용해 주세요!",
 } as const;
