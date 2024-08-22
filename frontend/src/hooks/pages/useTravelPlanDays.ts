@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 import type { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
 import type { TravelTransformPlaces } from "@type/domain/travelTransform";
 
+import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
+
 export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
   const transformedDetailData = [...days].map((day) => {
     return {
@@ -81,7 +83,15 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
       if (todoIndex === -1) return prevTravelPlansDays;
 
       place.todos = place.todos.map((todo, index) =>
-        index === todoIndex ? { ...todo, content } : todo,
+        index === todoIndex
+          ? {
+              ...todo,
+              content: content.slice(
+                FORM_VALIDATIONS_MAP.title.minLength,
+                FORM_VALIDATIONS_MAP.title.maxLength,
+              ),
+            }
+          : todo,
       );
 
       return newTravelPlans;
