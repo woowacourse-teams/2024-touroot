@@ -8,6 +8,7 @@ import { useTravelogueMultiImageUpload } from "@components/pages/travelogueRegis
 export interface TravelogueMultiImageUploadProps {
   imageUrls: string[];
   dayIndex: number;
+  isPaused: boolean;
   placeIndex: number;
   onRequestAddImage: (
     variables: File[],
@@ -20,6 +21,7 @@ export interface TravelogueMultiImageUploadProps {
 const TravelogueMultiImageUpload = ({
   dayIndex,
   placeIndex,
+  isPaused,
   imageUrls,
   onRequestAddImage,
   onChangeImageUrls,
@@ -29,6 +31,7 @@ const TravelogueMultiImageUpload = ({
     useTravelogueMultiImageUpload({
       imageUrls,
       dayIndex,
+      isPaused,
       placeIndex,
       onRequestAddImage,
       onChangeImageUrls,

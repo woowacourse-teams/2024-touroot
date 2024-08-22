@@ -18,6 +18,7 @@ import * as S from "../TravelogueRegisterPage.styled";
 interface TravelogueDayAccordionProps {
   travelogueDay: TravelogueDay;
   dayIndex: number;
+  isPaused: boolean;
   onDeleteDay: (dayIndex: number) => void;
   onDeletePlace: (dayIndex: number, placeIndex: number) => void;
   onChangePlaceDescription: (
@@ -39,6 +40,7 @@ interface TravelogueDayAccordionProps {
 
 const TravelogueDayAccordion = ({
   travelogueDay,
+  isPaused,
   dayIndex,
   onAddPlace,
   onDeleteDay,
@@ -82,6 +84,7 @@ const TravelogueDayAccordion = ({
               </Accordion.Trigger>
               <Accordion.Content>
                 <TravelogueMultiImageUpload
+                  isPaused={isPaused}
                   imageUrls={place.photoUrls ?? []}
                   dayIndex={dayIndex}
                   placeIndex={placeIndex}

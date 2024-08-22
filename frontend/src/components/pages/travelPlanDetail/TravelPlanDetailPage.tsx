@@ -101,11 +101,13 @@ const TravelPlanDetailPage = () => {
 
   useClickAway(iconButtonContainerRef, handleCloseMoreDropdown);
 
-  if (status === "pending") return <TravelPlanDetailSkeleton />;
+  if (status === "pending" || status === "error") {
+    if (status === "error") {
+      alert(error.message);
+      navigate(ROUTE_PATHS_MAP.back);
+    }
 
-  if (status === "error") {
-    alert(error.message);
-    navigate(ROUTE_PATHS_MAP.back);
+    return <TravelPlanDetailSkeleton />;
   }
 
   return (

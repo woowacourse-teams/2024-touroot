@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { TravelogueMultiImageUploadProps } from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/TravelogueMultiImageUpload";
 import { MAX_IMAGE_UPLOAD_COUNT } from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/TravelogueMultiImageUpload.constants";
@@ -14,6 +14,7 @@ export const useTravelogueMultiImageUpload = ({
   dayIndex,
   placeIndex,
   imageUrls,
+  isPaused,
   onRequestAddImage,
   onChangeImageUrls,
   onDeleteImageUrls,
@@ -22,6 +23,14 @@ export const useTravelogueMultiImageUpload = ({
   const [imageStates, setImageStates] = useState<ImageState[]>(() =>
     imageUrls.map((url) => ({ url, isLoading: false })),
   );
+
+  useEffect(() => {
+    if (isPaused) {
+      setImageStates((prevImageStates) =>
+        prevImageStates.filter((prevImageState) => !prevImageState.isLoading),
+      );
+    }
+  }, [isPaused]);
 
   const handleClickButton = () => {
     fileInputRef.current?.click();
@@ -60,6 +69,11 @@ export const useTravelogueMultiImageUpload = ({
   };
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isPaused) {
+      alert(ERROR_MESSAGE_MAP.network);
+      return;
+    }
+
     const files = Array.from(e.target.files as FileList);
 
     if (imageStates.length + files.length > MAX_IMAGE_UPLOAD_COUNT) {
@@ -72,6 +86,8 @@ export const useTravelogueMultiImageUpload = ({
       const newImageUrls = await onRequestAddImage(files);
       handleUploadSuccess(newImageUrls);
     } catch (error) {
+      if (error instanceof Error) alert(error.message);
+
       revertImageStates(files.length);
     } finally {
       resetFileInput();
