@@ -71,7 +71,6 @@ export const uploadDeleteButtonStyle = css`
   top: 1.6rem;
   right: 1.6rem;
   z-index: ${theme.zIndex.default + 1};
-  z-index: 1000;
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
