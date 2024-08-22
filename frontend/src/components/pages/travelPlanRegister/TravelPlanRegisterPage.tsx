@@ -14,6 +14,7 @@ import {
   Input,
   ModalBottomSheet,
   PageInfo,
+  Text,
   TextField,
 } from "@components/common";
 import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
@@ -28,8 +29,6 @@ import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractUTCDate } from "@utils/extractUTCDate";
-
-import theme from "@styles/theme";
 
 import * as S from "./TravelPlanRegisterPage.styled";
 
