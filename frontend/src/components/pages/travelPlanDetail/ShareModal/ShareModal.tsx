@@ -42,9 +42,7 @@ const ShareModal = ({ isOpen, onToggleModal, shareUrl }: ShareModalProps) => {
       <Modal.Header />
       <Modal.Body direction="column" css={S.shareModalBodyStyle}>
         <S.TTuriImg src={tturiUrl} />
-        <Text textType="body" css={S.textBoldStyle}>
-          여행기를 공유할까요?
-        </Text>
+        <Text textType="bodyBold">여행 계획을 공유할까요?</Text>
         <S.ShareInputContainer>
           <Input ref={inputRef} disabled value={shareUrl} css={S.notOutlineStyle} />
           <Button onClick={handleClickCopyButton} variants="primary" css={S.copyUrlButtonStyle}>

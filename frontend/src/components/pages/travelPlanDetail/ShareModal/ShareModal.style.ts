@@ -18,10 +18,6 @@ export const shareModalBodyStyle = css`
   gap: ${theme.spacing.m};
 `;
 
-export const textBoldStyle = css`
-  font-weight: 700;
-`;
-
 export const notOutlineStyle = css`
   width: 100%;
   padding-right: 6.2rem;
