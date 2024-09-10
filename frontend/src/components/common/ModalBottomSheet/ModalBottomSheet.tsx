@@ -1,6 +1,7 @@
 import useBottomSheet from "@hooks/useBottomSheet";
 
 import Button from "../Button/Button";
+import Spinner from "../Spinner/Spinner";
 import BackDrop from "./BackDrop/BackDrop";
 import Container from "./Container/Container";
 import Content from "./Content/Content";
@@ -11,6 +12,9 @@ export interface ModalBottomSheetProps {
   mainText: string;
   subText: string;
   isOpen: boolean;
+  isPending: boolean;
+  primaryButtonLabel: string;
+  secondaryButtonLabel: string;
   onClose: () => void;
   onConfirm: () => void;
 }
@@ -19,6 +23,9 @@ const ModalBottomSheet = ({
   mainText,
   subText,
   isOpen,
+  isPending,
+  primaryButtonLabel,
+  secondaryButtonLabel,
   onClose,
   onConfirm,
 }: ModalBottomSheetProps) => {
@@ -32,10 +39,10 @@ const ModalBottomSheet = ({
         <Content mainText={mainText} subText={subText} />
         <Footer>
           <Button variants="secondary" onClick={onClose}>
-            취소
+            {secondaryButtonLabel}
           </Button>
-          <Button variants="primary" onClick={onConfirm}>
-            확인
+          <Button variants="primary" onClick={onConfirm} disabled={isPending}>
+            {isPending ? <Spinner variants="circle" size={20} /> : primaryButtonLabel}
           </Button>
         </Footer>
       </Container>

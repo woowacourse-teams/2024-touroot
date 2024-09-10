@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import useModalControl from "./useModalControl";
 
 const BOTTOM_SHEET = {
   openPosition: 0,
@@ -88,22 +90,7 @@ const useBottomSheet = (isOpen: boolean, onClose: () => void) => {
     };
   }, [startY, currentY, onClose]);
 
-  const handleClickEsc = useCallback(
-    (e: KeyboardEvent) => {
-      const isEscClicked = e.key === "Escape";
-
-      if (isEscClicked) onClose();
-    },
-    [onClose],
-  );
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleClickEsc);
-
-    return () => {
-      document.removeEventListener("keydown", handleClickEsc);
-    };
-  }, [handleClickEsc]);
+  useModalControl(isOpen, onClose);
 
   return {
     sheetRef,

@@ -31,11 +31,6 @@ const calculateCenter = (places: { lat: number; lng: number }[]): { lat: number;
 };
 
 const GoogleMapView = ({ places }: GoogleMapViewProps) => {
-  const handleClickMarker = (position: { lat: number; lng: number }) => {
-    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${position.lat},${position.lng}`;
-    open(googleMapsUrl, "_blank");
-  };
-
   const center = calculateCenter(places);
 
   const onLoad = useCallback(
@@ -68,12 +63,7 @@ const GoogleMapView = ({ places }: GoogleMapViewProps) => {
         onLoad={onLoad}
       >
         {places.map((position, index) => (
-          <MarkerF
-            key={`${index}-${position.lat}`}
-            position={position}
-            icon={markerUrl}
-            onClick={() => handleClickMarker(position)}
-          />
+          <MarkerF key={`${index}-${position.lat}`} position={position} icon={markerUrl} />
         ))}
         {places.map((position, index) => (
           <MarkerF
@@ -89,7 +79,6 @@ const GoogleMapView = ({ places }: GoogleMapViewProps) => {
               color: theme.colors.primary,
               fontSize: "1.4rem",
             }}
-            onClick={() => handleClickMarker(position)}
           />
         ))}
         <Polyline path={places} options={{ strokeColor: "#72A2FFCC", strokeWeight: 3 }} />

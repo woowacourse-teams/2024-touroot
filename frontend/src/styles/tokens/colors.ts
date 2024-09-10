@@ -25,6 +25,7 @@ export const PRIMITIVE_COLORS = {
   black: "#000000",
   white: "#ffffff",
   green: "#2F8559",
+  red: "#FF3232",
 } as const;
 
 export const SEMANTIC_COLORS = {
@@ -33,6 +34,7 @@ export const SEMANTIC_COLORS = {
     secondary: PRIMITIVE_COLORS.gray[700],
     tertiary: PRIMITIVE_COLORS.gray[500],
     detail: PRIMITIVE_COLORS.gray[400],
+    required: PRIMITIVE_COLORS.red,
   },
   background: {
     cta: PRIMITIVE_COLORS.blue[900],
@@ -47,4 +49,5 @@ export const SEMANTIC_COLORS = {
     base: PRIMITIVE_COLORS.gray[200],
     highlight: PRIMITIVE_COLORS.gray[100],
   },
+  heart: "#f1591c",
 } as const;

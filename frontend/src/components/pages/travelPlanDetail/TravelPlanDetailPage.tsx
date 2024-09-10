@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ReactGA from "react-ga4";
 import { useLocation, useNavigate } from "react-router-dom";
-
-import ApiError from "@apis/ApiError";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
@@ -17,10 +15,10 @@ import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlan
 import useClickAway from "@hooks/useClickAway";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
 
-import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
-import { extractId } from "@utils/extractId";
+import { extractLastPath } from "@utils/extractId";
 import getDateRange from "@utils/getDateRange";
 import { isUUID } from "@utils/uuid";
 
@@ -31,26 +29,19 @@ import * as S from "./TravelPlanDetailPage.styled";
 
 const TravelPlanDetailPage = () => {
   const location = useLocation();
-  const id = extractId(location.pathname);
+  const id = extractLastPath(location.pathname);
 
   const { onTransformTravelDetail } = useTravelTransformDetailContext();
   const { data, status, error } = useGetTravelPlan(id);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (error instanceof ApiError && error.message === ERROR_MESSAGE_MAP.api.onlyWriter) {
-      alert(error.message);
-      navigate(ROUTE_PATHS_MAP.back);
-    }
-  }, [error, navigate]);
-
   const daysAndNights =
     data?.days.length && data?.days.length > 1
       ? `${data?.days.length - 1}박 ${data?.days.length}일`
       : "당일치기";
 
-  const { mutate: deleteTravelPlan } = useDeleteTravelPlan();
+  const { mutate: mutateDeleteTravelPlan, isPending: isDeletingPending } = useDeleteTravelPlan();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -68,14 +59,18 @@ const TravelPlanDetailPage = () => {
     setIsDeleteModalOpen((prev) => !prev);
   };
 
-  const debouncedClickDeleteButton = useLeadingDebounce(() => deleteTravelPlan(Number(id)), 3000);
+  const debouncedClickDeleteButton = useLeadingDebounce(
+    () => mutateDeleteTravelPlan(Number(id)),
+    DEBOUNCED_TIME,
+  );
 
   const handleClickDeleteButton = () => {
     debouncedClickDeleteButton();
   };
 
-  //TODO: 수정 이벤트 추가해야함
-  // const handleClickReviseButton = () => {};
+  const handleClickEditButton = () => {
+    navigate(ROUTE_PATHS_MAP.travelPlanEdit(Number(id)));
+  };
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
@@ -96,12 +91,13 @@ const TravelPlanDetailPage = () => {
 
   useClickAway(iconButtonContainerRef, handleCloseMoreDropdown);
 
-  if (status === "pending") return <TravelPlanDetailSkeleton />;
+  if (status === "pending" || status === "error") {
+    if (status === "error") {
+      alert(error.message);
+      navigate(ROUTE_PATHS_MAP.root);
+    }
 
-  if (status === "error") {
-    alert(error.message);
-    navigate(ROUTE_PATHS_MAP.back);
-    return;
+    return <TravelPlanDetailSkeleton />;
   }
 
   return (
@@ -129,13 +125,13 @@ const TravelPlanDetailPage = () => {
               />
               {isDropdownOpen && (
                 <Dropdown size="small" position="right">
-                  {/* <Text
+                  <Text
                     textType="detail"
-                    onClick={handleClickReviseButton}
+                    onClick={handleClickEditButton}
                     css={S.cursorPointerStyle}
                   >
                     수정
-                  </Text> */}
+                  </Text>
                   <Text
                     textType="detail"
                     onClick={handleToggleDeleteModal}
@@ -171,6 +167,7 @@ const TravelPlanDetailPage = () => {
       {isDeleteModalOpen && (
         <TravelPlanDeleteModal
           isOpen={isDeleteModalOpen}
+          isPending={isDeletingPending}
           onCloseModal={handleToggleDeleteModal}
           onClickDeleteButton={handleClickDeleteButton}
         />

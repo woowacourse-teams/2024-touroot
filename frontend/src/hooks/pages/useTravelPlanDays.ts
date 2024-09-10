@@ -5,11 +5,26 @@ import { v4 as uuidv4 } from "uuid";
 import type { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
 import type { TravelTransformPlaces } from "@type/domain/travelTransform";
 
-const MIN_DESCRIPTION_LENGTH = 0;
-const MAX_DESCRIPTION_LENGTH = 300;
+import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
 export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
-  const [travelPlanDays, setTravelPlanDays] = useState<TravelPlanDay[]>(days);
+  const transformedDetailData = [...days].map((day) => {
+    return {
+      ...day,
+      places: day.places.map((place) => {
+        return {
+          ...place,
+          todos: [],
+        };
+      }),
+    };
+  });
+
+  const [travelPlanDays, setTravelPlanDays] = useState<TravelPlanDay[]>(transformedDetailData);
+
+  const onChangeTravelPlanDays = useCallback((newDays: TravelPlanDay[]) => {
+    setTravelPlanDays(newDays);
+  }, []);
 
   const onAddDay = useCallback((dayIndex?: number) => {
     setTravelPlanDays((prevTravelDays) =>
@@ -31,7 +46,7 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
   ) => {
     setTravelPlanDays((prevTravelDays) => {
       const newTravelPlans = [...prevTravelDays];
-      newTravelPlans[dayIndex].places.push({ ...travelParams, id: uuidv4() });
+      newTravelPlans[dayIndex].places.push({ ...travelParams, id: uuidv4(), todos: [] });
       return newTravelPlans;
     });
   };
@@ -48,21 +63,74 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
     });
   };
 
-  const onChangePlaceDescription = (description: string, dayIndex: number, placeIndex: number) => {
-    const newTravelPlans = [...travelPlanDays];
-    newTravelPlans[dayIndex].places[placeIndex].description = description.slice(
-      MIN_DESCRIPTION_LENGTH,
-      MAX_DESCRIPTION_LENGTH,
-    );
-    setTravelPlanDays(newTravelPlans);
+  const onChangeContent = ({
+    content,
+    dayIndex,
+    placeIndex,
+    todoId,
+  }: {
+    content: string;
+    dayIndex: number;
+    placeIndex: number;
+    todoId: string;
+  }) => {
+    setTravelPlanDays((prevTravelPlansDays) => {
+      const newTravelPlans = [...prevTravelPlansDays];
+      const place = newTravelPlans[dayIndex]?.places[placeIndex];
+      if (!place?.todos) return prevTravelPlansDays;
+
+      const todoIndex = place.todos.findIndex((todo) => todo.id === todoId);
+      if (todoIndex === -1) return prevTravelPlansDays;
+
+      place.todos = place.todos.map((todo, index) =>
+        index === todoIndex
+          ? {
+              ...todo,
+              content: content.slice(
+                FORM_VALIDATIONS_MAP.title.minLength,
+                FORM_VALIDATIONS_MAP.title.maxLength,
+              ),
+            }
+          : todo,
+      );
+
+      return newTravelPlans;
+    });
+  };
+
+  const onAddPlaceTodo = (dayIndex: number, placeIndex: number) => {
+    setTravelPlanDays((prevTravelPlansDays) => {
+      const newTravelPlans = [...prevTravelPlansDays];
+      const place = newTravelPlans[dayIndex]?.places[placeIndex];
+      if (!place) return prevTravelPlansDays;
+
+      place.todos = [...(place.todos ?? []), { id: uuidv4(), content: "", checked: false }];
+
+      return newTravelPlans;
+    });
+  };
+
+  const onDeletePlaceTodo = (dayIndex: number, placeIndex: number, todoId: string) => {
+    setTravelPlanDays((prevTravelPlanDays) => {
+      const newTravelPlans = [...prevTravelPlanDays];
+      const place = newTravelPlans[dayIndex]?.places[placeIndex];
+      if (!place?.todos) return prevTravelPlanDays;
+
+      place.todos = place.todos.filter((todo) => todo.id !== todoId);
+
+      return newTravelPlans;
+    });
   };
 
   return {
     travelPlanDays,
+    onChangeTravelPlanDays,
     onAddDay,
     onDeleteDay,
     onAddPlace,
     onDeletePlace,
-    onChangePlaceDescription,
+    onChangeContent,
+    onAddPlaceTodo,
+    onDeletePlaceTodo,
   };
 };

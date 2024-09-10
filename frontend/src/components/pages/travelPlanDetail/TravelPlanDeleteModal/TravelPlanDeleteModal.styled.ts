@@ -16,10 +16,6 @@ export const modalBodyStyle = css`
   padding: "2.6rem 0";
 `;
 
-export const mainTextStyle = css`
-  font-weight: 700;
-`;
-
 export const subTextStyle = css`
   color: ${theme.colors.text.secondary};
 `;

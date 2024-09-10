@@ -113,12 +113,13 @@ describe("여행 계획 등록 페이지 테스트", () => {
     test("사용자는 1일차에 '경복궁'이라는 장소를 추가할 수 있다.", () => {
       // given
       const { result } = renderHook(() => useTravelPlanDays([]));
-      const newPlace: Pick<TravelPlanPlace, "placeName" | "position"> = {
+      const newPlace: Pick<TravelPlanPlace, "placeName" | "position" | "todos"> = {
         placeName: "경복궁",
         position: {
           lat: 37.5796,
           lng: 126.977,
         },
+        todos: [],
       };
 
       // when
@@ -138,12 +139,13 @@ describe("여행 계획 등록 페이지 테스트", () => {
     test("사용자는 추가한 경복궁을 삭제할 수 있다.", () => {
       // given
       const { result } = renderHook(() => useTravelPlanDays([]));
-      const newPlace: Pick<TravelPlanPlace, "placeName" | "position"> = {
+      const newPlace: Pick<TravelPlanPlace, "placeName" | "position" | "todos"> = {
         placeName: "경복궁",
         position: {
           lat: 37.5796,
           lng: 126.977,
         },
+        todos: [],
       };
 
       // when
@@ -163,35 +165,35 @@ describe("여행 계획 등록 페이지 테스트", () => {
       expect(result.current.travelPlanDays[0].places).toHaveLength(0);
     });
 
-    test("장소 설명을 변경할 수 있다.", () => {
-      // given
-      const { result } = renderHook(() => useTravelPlanDays([]));
-      const newDescription = "경복궁 너무 좋았다!";
+    // test("장소 설명을 변경할 수 있다.", () => {
+    //   // given
+    //   const { result } = renderHook(() => useTravelPlanDays([]));
+    //   const newDescription = "경복궁 너무 좋았다!";
 
-      const newPlace: Pick<TravelPlanPlace, "placeName" | "position"> = {
-        placeName: "경복궁",
-        position: {
-          lat: 37.5796,
-          lng: 126.977,
-        },
-      };
+    //   const newPlace: Pick<TravelPlanPlace, "placeName" | "position"> = {
+    //     placeName: "경복궁",
+    //     position: {
+    //       lat: 37.5796,
+    //       lng: 126.977,
+    //     },
+    //   };
 
-      // when
-      act(() => {
-        result.current.onAddDay();
-      });
+    //   // when
+    //   act(() => {
+    //     result.current.onAddDay();
+    //   });
 
-      act(() => {
-        result.current.onAddPlace(0, newPlace);
-      });
+    //   act(() => {
+    //     result.current.onAddPlace(0, newPlace);
+    //   });
 
-      act(() => {
-        result.current.onChangePlaceDescription(newDescription, 0, 0);
-      });
+    //   act(() => {
+    //     result.current.onChangePlaceDescription(newDescription, 0, 0);
+    //   });
 
-      // then
-      expect(result.current.travelPlanDays[0].places[0].description).toBe(newDescription);
-    });
+    //   // then
+    //   expect(result.current.travelPlanDays[0].places[0].description).toBe(newDescription);
+    // });
   });
 
   describe("여행 계획 등록 테스트", () => {

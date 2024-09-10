@@ -2,39 +2,34 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import theme from "@styles/theme";
-import { PRIMITIVE_COLORS, SPACING } from "@styles/tokens";
+import { SPACING } from "@styles/tokens";
 
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1.6rem;
-  gap: 3.2rem;
+  gap: ${SPACING.xl};
+
+  padding: ${SPACING.m};
 
   & > :last-child {
-    margin-top: -3.2rem;
+    margin-top: -${SPACING.xl};
   }
 `;
 
 export const AccordionRootContainer = styled.div`
-  & > * {
-    margin-bottom: 1.6rem;
-  }
+  margin-top: ${SPACING.m};
 `;
 
 export const PageInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: ${SPACING.s};
 `;
 
 export const StartDateContainer = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-export const StartDateLabel = styled.label`
-  ${({ theme }) => theme.typography.mobile.bodyBold}
-  margin:  0.8rem 0;
+  gap: ${SPACING.s};
 `;
 
 export const DayDetailText = styled.span`
@@ -51,43 +46,53 @@ export const LoadingWrapper = styled.div`
   height: 5.6rem;
 `;
 
-export const addDayButtonStyle = css`
-  margin-top: 1.6rem;
+export const PlaceTodoListItemContainer = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: ${SPACING.s};
 `;
 
-export const detailTextColorStyle = css`
-  color: ${theme.colors.text.secondary};
+export const addDayButtonStyle = css`
+  margin-top: ${SPACING.m};
 `;
 
 export const addButtonStyle = css`
   display: flex;
+  gap: ${SPACING.s};
+
   width: 100%;
   height: 4rem;
   margin-bottom: 3.2rem;
   padding: 1.2rem 1.6rem;
   border: 1px solid ${theme.colors.border};
   border-radius: ${SPACING.s};
-
-  color: ${PRIMITIVE_COLORS.black};
-  font-weight: 700;
-  font-size: 1.6rem;
-  gap: ${SPACING.s};
 `;
 
 export const addTravelAddButtonStyle = css`
   display: flex;
+  gap: ${SPACING.s};
+
   width: 100%;
   height: 4rem;
   padding: 1.2rem 1.6rem;
   border: 1px solid ${theme.colors.border};
   border-radius: ${SPACING.s};
-
-  color: ${PRIMITIVE_COLORS.black};
-  font-weight: 700;
-  font-size: 1.6rem;
-  gap: ${SPACING.s};
 `;
 
 export const loadingButtonStyle = css`
-  margin-top: 3.2rem;
+  margin-top: ${SPACING.xl};
+`;
+
+export const startDateInputStyle = css`
+  margin-bottom: 3.2rem;
+`;
+
+export const calendarStyle = css`
+  margin-bottom: ${SPACING.xl};
+`;
+
+export const accordionRootStyle = css`
+  & > :last-child {
+    margin-bottom: ${SPACING.xl};
+  }
 `;

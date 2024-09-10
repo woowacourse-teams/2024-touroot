@@ -1,9 +1,12 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import theme from "@styles/theme";
+
 export const ShareInputContainer = styled.div`
   position: relative;
   width: 29rem;
+  margin-bottom: ${({ theme }) => theme.spacing.m};
 `;
 
 export const TTuriImg = styled.img`
@@ -12,24 +15,20 @@ export const TTuriImg = styled.img`
 `;
 
 export const shareModalBodyStyle = css`
-  gap: 1.6rem;
-`;
-
-export const textBoldStyle = css`
-  font-weight: 700;
+  gap: ${theme.spacing.m};
 `;
 
 export const notOutlineStyle = css`
   width: 100%;
-  padding-right: 5.2rem;
+  padding-right: 6.2rem;
 
   overflow-x: scroll;
 `;
 
 export const copyUrlButtonStyle = css`
   position: absolute;
-  top: 1.6rem;
-  right: 1rem;
+  top: ${theme.spacing.s};
+  right: ${theme.spacing.m};
 
   width: 4rem;
   height: 2.4rem;

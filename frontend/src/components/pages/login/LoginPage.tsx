@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import { Text } from "@components/common";
+
 import { ExcitedTturi } from "@assets/gif";
 import { KakaoSymbol } from "@assets/svg";
 
@@ -36,10 +38,12 @@ const LoginPage = () => {
     <>
       <S.GreetingContainer>
         <S.TturiImg src={ExcitedTturi} alt={TTURI} />
-        <S.GreetingBox>
-          <S.GreetingMainText>{GREETING_MAIN_TEXT}</S.GreetingMainText>
-          <S.GreetingSubText>{GREETING_SUB_TEXT}</S.GreetingSubText>
-        </S.GreetingBox>
+        <S.GreetingTextContainer>
+          <Text textType="title">{GREETING_MAIN_TEXT}</Text>
+          <Text textType="bodyBold" css={S.greetingSubTextStyle}>
+            {GREETING_SUB_TEXT}
+          </Text>
+        </S.GreetingTextContainer>
       </S.GreetingContainer>
       <S.LoginButtonWrapper>
         <S.LoginButton onClick={handleKakaoLogin}>

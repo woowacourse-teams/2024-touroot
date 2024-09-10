@@ -7,17 +7,15 @@ import type { InputVariants } from "./Input.type";
 interface InputProps extends React.ComponentPropsWithRef<"input"> {
   count?: number;
   maxCount?: number;
-  label?: string;
   variants?: InputVariants;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, count, maxCount, variants = "round", ...props }, ref) => {
+  ({ count, maxCount, variants = "round", ...props }, ref) => {
     return (
       <S.InputContainer>
-        <S.Label>{label}</S.Label>
         <S.Input variant={variants} {...props} ref={ref} />
-        <CharacterCount count={count} maxCount={maxCount} />
+        {count && maxCount ? <CharacterCount count={count} maxCount={maxCount} /> : null}
       </S.InputContainer>
     );
   },

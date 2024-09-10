@@ -1,4 +1,7 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+
+import theme from "@styles/theme";
 
 export const TturiImg = styled.img`
   width: 26rem;
@@ -9,27 +12,18 @@ export const GreetingContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3.2rem;
+  gap: ${({ theme }) => theme.spacing.xl};
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 `;
 
-export const GreetingBox = styled.div`
+export const GreetingTextContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.8rem;
-`;
-
-export const GreetingMainText = styled.span`
-  ${({ theme }) => theme.typography.mobile.title};
-`;
-
-export const GreetingSubText = styled.span`
-  ${({ theme }) => theme.typography.mobile.bodyBold};
-  color: ${({ theme }) => theme.colors.text.secondary};
+  gap: ${({ theme }) => theme.spacing.s};
 `;
 
 export const LoginButtonWrapper = styled.div`
@@ -37,14 +31,14 @@ export const LoginButtonWrapper = styled.div`
   bottom: 0;
 
   width: 100%;
-  padding: 2.4rem;
+  padding: ${({ theme }) => theme.spacing.l};
 `;
 
 export const LoginButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.8rem;
+  gap: ${({ theme }) => theme.spacing.s};
 
   width: 100%;
   height: 6rem;
@@ -56,4 +50,8 @@ export const LoginButton = styled.button`
 export const LoginLabel = styled.span`
   ${({ theme }) => theme.typography.mobile.bodyBold};
   opacity: 0.85;
+`;
+
+export const greetingSubTextStyle = css`
+  color: ${theme.colors.text.secondary};
 `;

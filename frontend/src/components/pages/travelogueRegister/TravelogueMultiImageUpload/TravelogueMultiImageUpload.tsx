@@ -1,23 +1,14 @@
-import { useRef } from "react";
-
 import { css } from "@emotion/react";
 
 import { MutateOptions } from "@tanstack/react-query";
 
 import { MultiImageUpload } from "@components/common";
+import { useTravelogueMultiImageUpload } from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/hooks/useMultiImageUpload";
 
-import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
-
-const TravelogueMultiImageUpload = ({
-  dayIndex,
-  placeIndex,
-  imageUrls,
-  onRequestAddImage,
-  onChangeImageUrls,
-  onDeleteImageUrls,
-}: {
+export interface TravelogueMultiImageUploadProps {
   imageUrls: string[];
   dayIndex: number;
+  isPaused: boolean;
   placeIndex: number;
   onRequestAddImage: (
     variables: File[],
@@ -25,32 +16,35 @@ const TravelogueMultiImageUpload = ({
   ) => Promise<string[]>;
   onChangeImageUrls: (dayIndex: number, placeIndex: number, imgUrls: string[]) => void;
   onDeleteImageUrls: (dayIndex: number, targetPlaceIndex: number, imageIndex: number) => void;
-}) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+}
 
-  const handleButtonClick = () => {
-    fileInputRef.current?.click();
-  };
+const TravelogueMultiImageUpload = ({
+  dayIndex,
+  placeIndex,
+  isPaused,
+  imageUrls,
+  onRequestAddImage,
+  onChangeImageUrls,
+  onDeleteImageUrls,
+}: TravelogueMultiImageUploadProps) => {
+  const { imageStates, fileInputRef, handleChangeImage, handleClickButton, handleDeleteImage } =
+    useTravelogueMultiImageUpload({
+      imageUrls,
+      dayIndex,
+      isPaused,
+      placeIndex,
+      onRequestAddImage,
+      onChangeImageUrls,
+      onDeleteImageUrls,
+    });
 
   return (
     <MultiImageUpload
-      previewUrls={imageUrls}
+      previewImageStates={imageStates}
       fileInputRef={fileInputRef}
-      onImageChange={async (e) => {
-        const files = Array.from(e.target.files as FileList);
-
-        if (imageUrls.length + files.length > 10) {
-          alert(ERROR_MESSAGE_MAP.imageUpload);
-          return;
-        }
-
-        const imgUrls = await onRequestAddImage(files);
-        onChangeImageUrls(dayIndex, placeIndex, imgUrls);
-      }}
-      onDeleteImage={(imageIndex) => {
-        onDeleteImageUrls(dayIndex, placeIndex, imageIndex);
-      }}
-      onButtonClick={handleButtonClick}
+      onImageChange={handleChangeImage}
+      onDeleteImage={handleDeleteImage}
+      onButtonClick={handleClickButton}
       css={css`
         margin-bottom: 1.6rem;
       `}
