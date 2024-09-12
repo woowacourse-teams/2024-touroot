@@ -1,6 +1,6 @@
 /* eslint-disable jest/expect-expect */
-import { CYPRESS_SELECTOR_MAP } from "../../src/constants/cypress";
-import { ROUTE_PATHS_MAP } from "../../src/constants/route";
+import { CYPRESS_SELECTOR_MAP } from "@constants/cypress";
+import { ROUTE_PATHS_MAP } from "@constants/route";
 
 describe("여행 계획 등록 테스트", () => {
   beforeEach(() => {
