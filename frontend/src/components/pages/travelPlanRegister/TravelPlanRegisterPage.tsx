@@ -23,6 +23,7 @@ import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useUser from "@hooks/useUser";
 
+import { CYPRESS_DATA_MAP } from "@constants/cypress";
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
@@ -136,6 +137,7 @@ const TravelPlanRegisterPage = () => {
               count={title.length}
               maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
               onChange={handleChangeTitle}
+              data-cy={CYPRESS_DATA_MAP.travelPlanRegister.titleInput}
             />
           )}
         </TextField>
@@ -154,6 +156,7 @@ const TravelPlanRegisterPage = () => {
                 readOnly
                 placeholder="시작일을 입력해주세요"
                 css={S.startDateInputStyle}
+                data-cy={CYPRESS_DATA_MAP.travelPlanRegister.startDateInput}
               />
               {isShowCalendar && (
                 <Calendar
@@ -176,7 +179,12 @@ const TravelPlanRegisterPage = () => {
                   css={[S.addButtonStyle, S.loadingButtonStyle]}
                   onClick={() => onAddDay()}
                 >
-                  <Text textType="bodyBold">일자 추가하기</Text>
+                  <Text
+                    textType="bodyBold"
+                    data-cy={CYPRESS_DATA_MAP.travelPlanRegister.addDateButton}
+                  >
+                    일자 추가하기
+                  </Text>
                 </IconButton>
               </S.LoadingWrapper>
             }
@@ -205,10 +213,16 @@ const TravelPlanRegisterPage = () => {
               css={[S.addButtonStyle]}
               onClick={() => onAddDay()}
             >
-              <Text textType="bodyBold">일자 추가하기</Text>
+              <Text textType="bodyBold" data-cy={CYPRESS_DATA_MAP.travelPlanRegister.addDateButton}>
+                일자 추가하기
+              </Text>
             </IconButton>
           </GoogleMapLoadScript>
-          <Button variants="primary" onClick={handleOpenBottomSheet}>
+          <Button
+            variants="primary"
+            onClick={handleOpenBottomSheet}
+            data-cy={CYPRESS_DATA_MAP.travelPlanRegister.registerButton}
+          >
             등록
           </Button>
         </S.AccordionRootContainer>
