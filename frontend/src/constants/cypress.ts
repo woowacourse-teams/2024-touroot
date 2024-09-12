@@ -13,12 +13,18 @@ export const CYPRESS_DATA_MAP = {
     registerButton: "register-button",
   },
 
+  main: {
+    travelogueItem: "travelogue-item",
+  },
+
   calendar: {
     headTitle: "head-title",
     dayCell: "day-cell",
     previousMonthMoveButton: "previous-month-move-button",
     nextMonthMoveButton: "next-month-move-button",
   },
+
+  chip: "chip",
 
   accordion: {
     item: "accordion-item",

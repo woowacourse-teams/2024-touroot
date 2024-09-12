@@ -3,6 +3,8 @@
     "target": "es2020",
     "lib": ["es2020", "dom"],
     "types": ["cypress", "node"],
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "baseUrl": "../src",
     "paths": {
       "@styles/*": ["styles/*"],
@@ -16,7 +18,8 @@
       "@hooks/*": ["hooks/*"],
       "@contexts/*": ["contexts/*"],
       "@utils/*": ["utils/*"]
-    }
+    },
+    "resolveJsonModule": true
   },
   "include": ["**/*.ts"]
 }
