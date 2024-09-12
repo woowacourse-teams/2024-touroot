@@ -46,6 +46,9 @@ jobs:
       - name: 테스트 실행
         run: yarn test
 
+      - name: e2e 테스트 실행
+        run: yarn test-e2e:run
+
       - name: 테스트 결과 PR에 코멘트 등록
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
