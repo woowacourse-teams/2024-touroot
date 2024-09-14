@@ -1,5 +1,6 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
+import { useImmer } from "use-immer";
 import { v4 as uuidv4 } from "uuid";
 
 import type { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
@@ -20,107 +21,115 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
     };
   });
 
-  const [travelPlanDays, setTravelPlanDays] = useState<TravelPlanDay[]>(transformedDetailData);
+  const [travelPlanDays, setTravelPlanDays] = useImmer<TravelPlanDay[]>(transformedDetailData);
 
-  const onChangeTravelPlanDays = useCallback((newDays: TravelPlanDay[]) => {
-    setTravelPlanDays(newDays);
-  }, []);
+  const onChangeTravelPlanDays = useCallback(
+    (newDays: TravelPlanDay[]) => {
+      setTravelPlanDays(newDays);
+    },
+    [setTravelPlanDays],
+  );
 
-  const onAddDay = useCallback((dayIndex?: number) => {
-    setTravelPlanDays((prevTravelDays) =>
-      dayIndex
-        ? Array.from({ length: dayIndex }, () => ({ id: uuidv4(), places: [] }))
-        : [...prevTravelDays, { id: uuidv4(), places: [] }],
-    );
-  }, []);
-
-  const onDeleteDay = (targetDayIndex: number) => {
-    setTravelPlanDays((prevTravelDays) =>
-      prevTravelDays.filter((_, dayIndex) => dayIndex !== targetDayIndex),
-    );
-  };
-
-  const onAddPlace = (
-    dayIndex: number,
-    travelParams: Pick<TravelPlanPlace, "placeName" | "position">,
-  ) => {
-    setTravelPlanDays((prevTravelDays) => {
-      const newTravelPlans = [...prevTravelDays];
-      newTravelPlans[dayIndex].places.push({ ...travelParams, id: uuidv4(), todos: [] });
-      return newTravelPlans;
+  const onAddDay = useCallback(() => {
+    setTravelPlanDays((previousTravelPlanDays) => {
+      previousTravelPlanDays.push({ id: uuidv4(), places: [] });
     });
-  };
+  }, [setTravelPlanDays]);
 
-  const onDeletePlace = (dayIndex: number, placeIndex: number) => {
-    setTravelPlanDays((prevTravelDays) => {
-      const newTravelPlans = [...prevTravelDays];
-      newTravelPlans[dayIndex] = {
-        ...newTravelPlans[dayIndex],
-        places: newTravelPlans[dayIndex].places.filter((_, index) => index !== placeIndex),
-      };
+  const onDeleteDay = useCallback(
+    (targetDayIndex: number) => {
+      setTravelPlanDays((previousTravelPlanDays) => {
+        previousTravelPlanDays.splice(targetDayIndex, 1);
+      });
+    },
+    [setTravelPlanDays],
+  );
 
-      return newTravelPlans;
-    });
-  };
+  const onAddPlace = useCallback(
+    (dayIndex: number, travelParams: Pick<TravelPlanPlace, "placeName" | "position">) => {
+      setTravelPlanDays((previousTravelPlanDays) => {
+        const travelPlanDay = previousTravelPlanDays[dayIndex];
 
-  const onChangeContent = ({
-    content,
-    dayIndex,
-    placeIndex,
-    todoId,
-  }: {
-    content: string;
-    dayIndex: number;
-    placeIndex: number;
-    todoId: string;
-  }) => {
-    setTravelPlanDays((prevTravelPlansDays) => {
-      const newTravelPlans = [...prevTravelPlansDays];
-      const place = newTravelPlans[dayIndex]?.places[placeIndex];
-      if (!place?.todos) return prevTravelPlansDays;
+        if (travelPlanDay) {
+          travelPlanDay.places.push({
+            ...travelParams,
+            id: uuidv4(),
+            todos: [],
+          });
+        }
+      });
+    },
+    [setTravelPlanDays],
+  );
 
-      const todoIndex = place.todos.findIndex((todo) => todo.id === todoId);
-      if (todoIndex === -1) return prevTravelPlansDays;
+  const onDeletePlace = useCallback(
+    (dayIndex: number, placeIndex: number) => {
+      setTravelPlanDays((previousTravelPlanDays) => {
+        const travelPlanPlaces = previousTravelPlanDays[dayIndex]?.places;
 
-      place.todos = place.todos.map((todo, index) =>
-        index === todoIndex
-          ? {
-              ...todo,
-              content: content.slice(
-                FORM_VALIDATIONS_MAP.title.minLength,
-                FORM_VALIDATIONS_MAP.title.maxLength,
-              ),
-            }
-          : todo,
-      );
+        if (travelPlanPlaces) {
+          travelPlanPlaces.splice(placeIndex, 1);
+        }
+      });
+    },
+    [setTravelPlanDays],
+  );
 
-      return newTravelPlans;
-    });
-  };
+  const onChangeContent = useCallback(
+    ({
+      content,
+      dayIndex,
+      placeIndex,
+      todoId,
+    }: {
+      content: string;
+      dayIndex: number;
+      placeIndex: number;
+      todoId: string;
+    }) => {
+      setTravelPlanDays((previousTravelPlanDays) => {
+        const todo = previousTravelPlanDays[dayIndex]?.places[placeIndex]?.todos?.find(
+          (todo) => todo.id === todoId,
+        );
 
-  const onAddPlaceTodo = (dayIndex: number, placeIndex: number) => {
-    setTravelPlanDays((prevTravelPlansDays) => {
-      const newTravelPlans = [...prevTravelPlansDays];
-      const place = newTravelPlans[dayIndex]?.places[placeIndex];
-      if (!place) return prevTravelPlansDays;
+        if (todo) {
+          todo.content = content.slice(
+            FORM_VALIDATIONS_MAP.title.minLength,
+            FORM_VALIDATIONS_MAP.title.maxLength,
+          );
+        }
+      });
+    },
+    [setTravelPlanDays],
+  );
 
-      place.todos = [...(place.todos ?? []), { id: uuidv4(), content: "", checked: false }];
+  const onAddPlaceTodo = useCallback(
+    (dayIndex: number, placeIndex: number) => {
+      setTravelPlanDays((previousTravelPlanDays) => {
+        const travelPlanPlace = previousTravelPlanDays[dayIndex]?.places[placeIndex];
+        if (travelPlanPlace) {
+          if (!travelPlanPlace.todos) {
+            travelPlanPlace.todos = [];
+          }
+          travelPlanPlace.todos.push({ id: uuidv4(), content: "", checked: false });
+        }
+      });
+    },
+    [setTravelPlanDays],
+  );
 
-      return newTravelPlans;
-    });
-  };
+  const onDeletePlaceTodo = useCallback(
+    (dayIndex: number, placeIndex: number, todoId: string) => {
+      setTravelPlanDays((previousTravelPlanDays) => {
+        const travelPlanPlace = previousTravelPlanDays[dayIndex]?.places[placeIndex];
 
-  const onDeletePlaceTodo = (dayIndex: number, placeIndex: number, todoId: string) => {
-    setTravelPlanDays((prevTravelPlanDays) => {
-      const newTravelPlans = [...prevTravelPlanDays];
-      const place = newTravelPlans[dayIndex]?.places[placeIndex];
-      if (!place?.todos) return prevTravelPlanDays;
-
-      place.todos = place.todos.filter((todo) => todo.id !== todoId);
-
-      return newTravelPlans;
-    });
-  };
+        if (travelPlanPlace?.todos) {
+          travelPlanPlace.todos = travelPlanPlace.todos.filter((todo) => todo.id !== todoId);
+        }
+      });
+    },
+    [setTravelPlanDays],
+  );
 
   return {
     travelPlanDays,
