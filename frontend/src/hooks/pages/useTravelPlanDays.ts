@@ -8,20 +8,22 @@ import type { TravelTransformPlaces } from "@type/domain/travelTransform";
 
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
-export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
-  const transformedDetailData = [...days].map((day) => {
-    return {
-      ...day,
-      places: day.places.map((place) => {
-        return {
-          ...place,
-          todos: [],
-        };
-      }),
-    };
-  });
+const transformTravelPlanDays = (days: TravelTransformPlaces[]) => {
+  return [...days].map((day) => ({
+    ...day,
+    places: day.places.map((place) => {
+      return {
+        ...place,
+        todos: [],
+      };
+    }),
+  }));
+};
 
-  const [travelPlanDays, setTravelPlanDays] = useImmer<TravelPlanDay[]>(transformedDetailData);
+export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
+  const [travelPlanDays, setTravelPlanDays] = useImmer<TravelPlanDay[]>(() =>
+    transformTravelPlanDays(days),
+  );
 
   const onChangeTravelPlanDays = useCallback(
     (newDays: TravelPlanDay[]) => {
