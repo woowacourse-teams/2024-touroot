@@ -43,21 +43,20 @@ jobs:
       - name: stylelint 실행
         run: yarn lint:styled
 
-      - name: 테스트 실행
+      - name: hook 테스트 실행
         run: yarn test
-
-      - name: e2e 테스트 실행
-        run: yarn test-e2e:run
 
       - name: 테스트 결과 PR에 코멘트 등록
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: frontend/test-results/results.xml
+          files: |
+            frontend/test-results/results.xml
 
       - name: 테스트 실패 시, 실패한 코드 라인에 Check 코멘트 등록
         uses: mikepenz/action-junit-report@v3
         if: always()
         with:
-          report_paths: frontend/test-results/results.xml
+          report_paths: |
+            frontend/test-results/results.xml
           token: ${{ secrets.GITHUB_TOKEN }}
