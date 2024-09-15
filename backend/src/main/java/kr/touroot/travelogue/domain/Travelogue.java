@@ -8,7 +8,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
@@ -44,6 +47,15 @@ public class Travelogue extends BaseEntity {
 
     @Column(nullable = false)
     private String thumbnail;
+
+    @OneToMany(mappedBy = "travelogue")
+    private List<TravelogueDay> travelogueDays = new ArrayList<>();
+
+    @OneToMany(mappedBy = "travelogue")
+    private List<TravelogueLike> travelogueLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "travelogue")
+    private List<TravelogueTag> travelogueTags = new ArrayList<>();
 
     public Travelogue(Long id, Member author, String title, String thumbnail) {
         validate(author, title, thumbnail);
