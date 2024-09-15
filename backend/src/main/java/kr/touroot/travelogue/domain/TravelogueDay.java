@@ -1,5 +1,6 @@
 package kr.touroot.travelogue.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -39,7 +40,7 @@ public class TravelogueDay extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Travelogue travelogue;
 
-    @OneToMany(mappedBy = "travelogueDay")
+    @OneToMany(mappedBy = "travelogueDay", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TraveloguePlace> traveloguePlaces = new ArrayList<>();
 
     private TravelogueDay(Long id, Integer order, Travelogue travelogue) {
