@@ -2,6 +2,8 @@ import { TravelPlanTodo } from "@type/domain/travelPlan";
 
 import { Checkbox, IconButton, Input } from "@components/common";
 
+import { CYPRESS_DATA_MAP } from "@constants/cypress";
+
 import * as S from "./PlaceTodoListItem.styled";
 
 interface PlaceTodoListItemProps {
@@ -23,9 +25,15 @@ const PlaceTodoListItem = ({ todo, onChangeContent, onDeleteTodo }: PlaceTodoLis
           autoFocus
           variants="none"
           spellCheck="false"
+          data-cy={CYPRESS_DATA_MAP.travelPlanRegister.todoInput}
         />
       </S.ToDoListItemContainer>
-      <IconButton size="16" iconType="recycle-bin" onClick={onDeleteTodo} />
+      <IconButton
+        size="16"
+        iconType="recycle-bin"
+        onClick={onDeleteTodo}
+        data-cy={CYPRESS_DATA_MAP.travelPlanRegister.deleteTodoButton}
+      />
     </S.Layout>
   );
 };

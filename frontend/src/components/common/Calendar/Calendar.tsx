@@ -6,6 +6,8 @@ import Text from "@components/common/Text/Text";
 import useCalendar from "@hooks/useCalendar";
 import useClickAway from "@hooks/useClickAway";
 
+import { CYPRESS_DATA_MAP } from "@constants/cypress";
+
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 import * as S from "./Calendar.styled";
@@ -42,8 +44,9 @@ const Calendar = ({
           iconType="prev-arrow"
           onClick={prevMonth}
           disabled={today.getMonth() === calendarDetail.month}
+          data-cy={CYPRESS_DATA_MAP.calendar.previousMonthMoveButton}
         />
-        <Text textType="detail" css={S.boldTextStyle}>
+        <Text textType="detail" css={S.boldTextStyle} data-cy={CYPRESS_DATA_MAP.calendar.headTitle}>
           {calendarDetail.year}년 {calendarDetail.month + 1}월
         </Text>
         <IconButton
@@ -51,6 +54,7 @@ const Calendar = ({
           color={PRIMITIVE_COLORS.white}
           iconType="next-arrow"
           onClick={nextMonth}
+          data-cy={CYPRESS_DATA_MAP.calendar.nextMonthMoveButton}
         />
       </S.HeaderContainer>
       <S.WeekdayHeaderContainer>
@@ -69,6 +73,7 @@ const Calendar = ({
               $isCurrentMonth={isCurrentMonth}
               $isSelectable={isSelectable}
               onClick={() => isSelectable && onSelectDate(date)}
+              data-cy={CYPRESS_DATA_MAP.calendar.dayCell}
             >
               <Text textType="detail">{date.getDate()}</Text>
             </S.DayCell>

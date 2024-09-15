@@ -8,6 +8,8 @@ import type { TravelTransformPlace } from "@type/domain/travelTransform";
 
 import { Button } from "@components/common";
 
+import { CYPRESS_DATA_MAP } from "@constants/cypress";
+
 import * as S from "./GoogleSearchPopup.styled";
 
 interface GoogleSearchPopupProps {
@@ -61,11 +63,16 @@ const GoogleSearchPopup = ({ onClosePopup, onSearchPlaceInfo }: GoogleSearchPopu
   }, [onPlaceChanged]);
 
   return (
-    <S.Layout>
+    <S.Layout data-cy={CYPRESS_DATA_MAP.googleSearchPopup.container}>
       <Global styles={S.autocompleteStyles} />
       <Autocomplete onLoad={onLoadAutocomplete} onPlaceChanged={onPlaceChanged}>
         <S.InputContainer>
-          <S.StyledInput ref={inputRef} type="text" placeholder="예) 영동대로 517, 삼성동 159" />
+          <S.StyledInput
+            ref={inputRef}
+            type="text"
+            placeholder="예) 영동대로 517, 삼성동 159"
+            data-cy={CYPRESS_DATA_MAP.googleSearchPopup.searchInput}
+          />
         </S.InputContainer>
       </Autocomplete>
       <S.TipContainer>
