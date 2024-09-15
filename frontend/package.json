@@ -11,7 +11,7 @@
     "lint:styled": "stylelint './src/**/*.styled.ts' --fix",
     "test": "jest --passWithNoTests",
     "test-e2e": "cypress open",
-    "test-e2e:run": "cypress run",
+    "test-e2e:run": "cypress run --browser chrome",
     "storybook": "storybook dev -p 6006",
     "lint": "eslint src/",
     "build-storybook": "storybook build"
