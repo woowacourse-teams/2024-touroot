@@ -7,6 +7,7 @@ module.exports = {
     "plugin:compat/recommended",
     "plugin:storybook/recommended",
     "plugin:jest/recommended",
+    "plugin:cypress/recommended",
   ],
   plugins: ["react-refresh", "prettier", "@typescript-eslint"],
   ignorePatterns: ["dist", ".eslintrc.cjs"],

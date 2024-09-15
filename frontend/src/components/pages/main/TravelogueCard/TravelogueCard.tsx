@@ -6,6 +6,7 @@ import { AvatarCircle, Chip, FallbackImage, IconButton, Text } from "@components
 
 import useImageError from "@hooks/useImageError";
 
+import { CYPRESS_DATA_MAP } from "@constants/cypress";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import * as S from "./TravelogueCard.styled";
@@ -41,7 +42,10 @@ const TravelogueCard = ({
   };
 
   return (
-    <S.TravelogueCardLayout onClick={handleCardClick}>
+    <S.TravelogueCardLayout
+      data-cy={CYPRESS_DATA_MAP.main.travelogueItem}
+      onClick={handleCardClick}
+    >
       <S.TravelogueCardHeader>
         <Text textType="bodyBold">{title}</Text>
       </S.TravelogueCardHeader>

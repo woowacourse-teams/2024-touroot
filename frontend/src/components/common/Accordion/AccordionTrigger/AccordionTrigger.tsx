@@ -2,6 +2,8 @@ import { useAccordionItemContext } from "@components/common/Accordion/AccordionI
 import { useAccordionContext } from "@components/common/Accordion/AccordionRoot/accordionContext";
 import IconButton from "@components/common/IconButton/IconButton";
 
+import { CYPRESS_DATA_MAP } from "@constants/cypress";
+
 import { DownArrow, UpArrow } from "@assets/svg";
 
 import * as S from "./AccordionTrigger.styled";
@@ -23,7 +25,13 @@ const AccordionTrigger = ({ children, onDeleteItem }: AccordionTriggerProps) => 
         <button>{isClosed ? <UpArrow /> : <DownArrow />}</button>
         <S.Title>{children}</S.Title>
       </S.TitleContainer>
-      <IconButton size="16" iconType="recycle-bin" onClick={onDeleteItem} title="delete button" />
+      <IconButton
+        size="16"
+        iconType="recycle-bin"
+        onClick={onDeleteItem}
+        title="delete button"
+        data-cy={CYPRESS_DATA_MAP.accordion.trigger.deleteButton}
+      />
     </S.Layout>
   );
 };

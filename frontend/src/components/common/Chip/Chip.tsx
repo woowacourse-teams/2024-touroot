@@ -1,5 +1,7 @@
 import { ComponentPropsWithoutRef } from "react";
 
+import { CYPRESS_DATA_MAP } from "@constants/cypress";
+
 import Text from "../Text/Text";
 import * as S from "./Chip.styled";
 
@@ -10,7 +12,11 @@ interface ChipProps extends ComponentPropsWithoutRef<"li"> {
 
 const Chip = ({ isSelected = false, label, ...props }: ChipProps) => {
   return (
-    <S.Chip $isSelected={isSelected} {...props}>
+    <S.Chip
+      $isSelected={isSelected}
+      data-cy={isSelected ? `selected-${CYPRESS_DATA_MAP.chip}` : CYPRESS_DATA_MAP.chip}
+      {...props}
+    >
       {isSelected ? (
         <Text textType="detailBold">{label}</Text>
       ) : (

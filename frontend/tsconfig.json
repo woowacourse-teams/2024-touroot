@@ -27,9 +27,9 @@
       "@contexts/*": ["contexts/*"],
       "@utils/*": ["utils/*"]
     },
-    "types": ["jest", "node"],
+    "types": ["node", "jest"],
     "esModuleInterop": true
   },
-  "include": ["src", "jest-setup.ts", "__tests__"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "cypress"],
+  "include": ["src", "jest-setup.ts", "__tests__"]
 }
