@@ -109,11 +109,9 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
     (dayIndex: number, placeIndex: number) => {
       setTravelPlanDays((previousTravelPlanDays) => {
         const travelPlanPlace = previousTravelPlanDays[dayIndex]?.places[placeIndex];
+
         if (travelPlanPlace) {
-          if (!travelPlanPlace.todos) {
-            travelPlanPlace.todos = [];
-          }
-          travelPlanPlace.todos.push({ id: uuidv4(), content: "", checked: false });
+          travelPlanPlace.todos?.push({ id: uuidv4(), content: "", checked: false });
         }
       });
     },
@@ -126,7 +124,7 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
         const travelPlanPlace = previousTravelPlanDays[dayIndex]?.places[placeIndex];
 
         if (travelPlanPlace?.todos) {
-          travelPlanPlace.todos = travelPlanPlace.todos.filter((todo) => todo.id !== todoId);
+          travelPlanPlace.todos.splice(Number(todoId), 1);
         }
       });
     },
