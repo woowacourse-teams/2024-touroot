@@ -11,27 +11,27 @@ export const FloatingButtonContainer = styled.div`
   right: max(0vw + 2rem, calc(50vw - 22rem));
   bottom: 2rem;
   z-index: ${({ theme }) => theme.zIndex.floatingButton};
-
-  gap: ${({ theme }) => theme.spacing.s};
 `;
 
 export const SubButtonContainer = styled.div<{ $isOpen: boolean }>`
   display: flex;
   flex-direction: column;
+  position: absolute;
+  bottom: 100%;
+  gap: ${({ theme }) => theme.spacing.l};
 
   width: 16rem;
   padding: ${({ theme }) => theme.spacing.l} ${({ theme }) => theme.spacing.m};
   border-radius: ${({ theme }) => theme.spacing.s};
 
   background-color: ${PRIMITIVE_COLORS.gray[700]};
-  gap: ${({ theme }) => theme.spacing.l};
 
   transition: all 0.3s ease-out;
 
   ${({ $isOpen }) => css`
     opacity: ${$isOpen ? 1 : 0};
-    transform: translateY(${$isOpen ? 0 : 2}rem);
-    pointer-events: ${$isOpen ? "auto" : "none"};
+    visibility: ${$isOpen ? "visible" : "hidden"};
+    transform: translateY(${$isOpen ? -0.8 : 2}rem);
   `}
 `;
 
