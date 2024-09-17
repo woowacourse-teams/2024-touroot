@@ -17,11 +17,7 @@ const Chip = ({ isSelected = false, label, ...props }: ChipProps) => {
       data-cy={isSelected ? `selected-${CYPRESS_DATA_MAP.chip}` : CYPRESS_DATA_MAP.chip}
       {...props}
     >
-      {isSelected ? (
-        <Text textType="detailBold">{label}</Text>
-      ) : (
-        <Text textType="detail">{label}</Text>
-      )}
+      <Text textType={isSelected ? "detailBold" : "detail"}>{label}</Text>
     </S.Chip>
   );
 };
