@@ -24,7 +24,6 @@ interface GoogleMapViewProps {
 }
 
 const GoogleMapView = ({ places }: GoogleMapViewProps) => {
-  console.log(places);
   const center = calculateCenter(places);
 
   const { onLoad, onUnmount, onBoundsChanged } = useGoogleMap(places);
