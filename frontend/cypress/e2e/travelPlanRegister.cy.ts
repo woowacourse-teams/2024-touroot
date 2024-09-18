@@ -151,7 +151,7 @@ describe("여행 계획 등록 테스트", () => {
       cy.get(CYPRESS_SELECTOR_MAP.accordion.item).should("not.exist");
     });
 
-    it.only("장소 추가하기 버튼을 누르고 장소를 추가할 수 있다.", () => {
+    it("장소 추가하기 버튼을 누르고 장소를 추가할 수 있다.", () => {
       // given
       const INPUT_VALUE = "도쿄";
 
