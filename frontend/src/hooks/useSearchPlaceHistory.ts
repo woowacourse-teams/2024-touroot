@@ -15,8 +15,8 @@ const useSearchPlaceHistory = () => {
 
   useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
-      if (event.state.isPopupOpen) setIsPopupOpen(true);
-      else setIsPopupOpen(false);
+      if (event.state.isPopupOpen) return setIsPopupOpen(true);
+      setIsPopupOpen(false);
     };
 
     window.addEventListener("popstate", handlePopState);
