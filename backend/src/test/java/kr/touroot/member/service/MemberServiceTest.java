@@ -4,6 +4,7 @@ import static kr.touroot.member.fixture.MemberRequestFixture.DUPLICATE_NICKNAME_
 import static kr.touroot.member.fixture.MemberRequestFixture.VALID_MEMBER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.ServiceTest;
@@ -99,11 +100,45 @@ class MemberServiceTest {
     void updateProfile() {
         Member member = testHelper.persistMember();
         MemberAuth memberAuth = new MemberAuth(member.getId());
-        ProfileUpdateRequest request = new ProfileUpdateRequest("newNickname");
+        String newNickname = "newNickname";
+        String newProfileImageUrl = "https://dev.touroot.kr/profile-image-ex.png";
+        ProfileUpdateRequest request = new ProfileUpdateRequest(newNickname, newProfileImageUrl);
+
+        memberService.updateProfile(request, memberAuth);
+
+        assertAll(
+                () -> assertThat(memberService.getById(member.getId()).getNickname())
+                        .isEqualTo(newNickname),
+                () -> assertThat(memberService.getById(member.getId()).getProfileImageUrl())
+                        .isEqualTo(newProfileImageUrl)
+        );
+    }
+
+    @DisplayName("멤버의 닉네임을 업데이트 한다.")
+    @Test
+    void updateNickname() {
+        Member member = testHelper.persistMember();
+        MemberAuth memberAuth = new MemberAuth(member.getId());
+        String newNickname = "newNickname";
+        ProfileUpdateRequest request = new ProfileUpdateRequest(newNickname, null);
 
         memberService.updateProfile(request, memberAuth);
 
         assertThat(memberService.getById(member.getId()).getNickname())
-                .isEqualTo("newNickname");
+                .isEqualTo(newNickname);
+    }
+
+    @DisplayName("멤버의 프로필 사진을 업데이트 한다.")
+    @Test
+    void updateProfileImageUrl() {
+        Member member = testHelper.persistMember();
+        MemberAuth memberAuth = new MemberAuth(member.getId());
+        String newProfileImageUrl = "https://dev.touroot.kr/profile-image-ex.png";
+        ProfileUpdateRequest request = new ProfileUpdateRequest(null, newProfileImageUrl);
+
+        memberService.updateProfile(request, memberAuth);
+
+        assertThat(memberService.getById(member.getId()).getProfileImageUrl())
+                .isEqualTo(newProfileImageUrl);
     }
 }

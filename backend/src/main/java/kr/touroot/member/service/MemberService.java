@@ -52,7 +52,12 @@ public class MemberService {
     @Transactional
     public ProfileResponse updateProfile(ProfileUpdateRequest request, MemberAuth memberAuth) {
         Member member = getById(memberAuth.memberId());
-        member.changeNickname(request.nickname());
+        if (request.nickname() != null) {
+            member.changeNickname(request.nickname());
+        }
+        if (request.profileImageUrl() != null) {
+            member.changeProfileImageUrl(request.profileImageUrl());
+        }
 
         return ProfileResponse.from(member);
     }
