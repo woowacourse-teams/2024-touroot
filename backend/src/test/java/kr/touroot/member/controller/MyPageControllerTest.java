@@ -1,22 +1,31 @@
 package kr.touroot.member.controller;
 
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import java.util.List;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
+import kr.touroot.image.domain.ImageFile;
+import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.dto.request.ProfileUpdateRequest;
+import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 @DisplayName("마이 페이지 컨트롤러")
 @AcceptanceTest
@@ -31,18 +40,22 @@ class MyPageControllerTest {
     private int port;
     private String accessToken;
     private Member member;
+//    @MockBean
+    private final AwsS3Provider s3Provider;
 
     @Autowired
     public MyPageControllerTest(
             DatabaseCleaner databaseCleaner,
             JwtTokenProvider jwtTokenProvider,
             TravelogueTestHelper travelogueTestHelper,
-            TravelPlanTestHelper travelPlanTestHelper
+            TravelPlanTestHelper travelPlanTestHelper,
+            AwsS3Provider s3Provider
     ) {
         this.databaseCleaner = databaseCleaner;
         this.jwtTokenProvider = jwtTokenProvider;
         this.travelogueTestHelper = travelogueTestHelper;
         this.travelPlanTestHelper = travelPlanTestHelper;
+        this.s3Provider = s3Provider;
     }
 
     @BeforeEach
@@ -98,7 +111,10 @@ class MyPageControllerTest {
     void updateProfile() {
         // given
         String newNickname = "newNickname";
-        String newProfileImageUrl = "https://dev.touroot.kr/profile-image-ex.png";
+        MultipartFile multipartFile = new MockMultipartFile("file", "image.jpg", "image/jpeg", "image content".getBytes());
+        String newProfileImageUrl = s3Provider.uploadImages(List.of(new ImageFile(multipartFile)))
+                .get(0)
+                .replace("temporary", "images");
         ProfileUpdateRequest request = new ProfileUpdateRequest(newNickname, newProfileImageUrl);
 
         // when & then
@@ -137,7 +153,10 @@ class MyPageControllerTest {
     @Test
     void updateProfileImageUrl() {
         // given
-        String newProfileImageUrl = "https://dev.touroot.kr/profile-image-ex.png";
+        MultipartFile multipartFile = new MockMultipartFile("file", "image.jpg", "image/jpeg", "image content".getBytes());
+        String newProfileImageUrl = s3Provider.uploadImages(List.of(new ImageFile(multipartFile)))
+                .get(0)
+                .replace("temporary", "images");
         ProfileUpdateRequest request = new ProfileUpdateRequest(null, newProfileImageUrl);
 
         // when & then

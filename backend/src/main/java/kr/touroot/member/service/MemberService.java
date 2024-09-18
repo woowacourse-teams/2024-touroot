@@ -3,6 +3,7 @@ package kr.touroot.member.service;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.dto.ProfileResponse;
 import kr.touroot.member.dto.request.MemberRequest;
@@ -18,6 +19,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncryptor passwordEncryptor;
+    private final AwsS3Provider s3Provider;
 
     public Member getById(Long memberId) {
         return memberRepository.findById(memberId)
@@ -56,7 +58,8 @@ public class MemberService {
             member.changeNickname(request.nickname());
         }
         if (request.profileImageUrl() != null) {
-            member.changeProfileImageUrl(request.profileImageUrl());
+            String newProfileImageUrl = s3Provider.copyImageToPermanentStorage(request.profileImageUrl());
+            member.changeProfileImageUrl(newProfileImageUrl);
         }
 
         return ProfileResponse.from(member);
