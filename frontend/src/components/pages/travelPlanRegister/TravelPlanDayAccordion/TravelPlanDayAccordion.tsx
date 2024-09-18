@@ -1,9 +1,9 @@
-import { useState } from "react";
-
 import { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
 
 import { Accordion, GoogleMapView, GoogleSearchPopup, IconButton, Text } from "@components/common";
 import PlaceTodoListItem from "@components/pages/travelPlanRegister/PlaceTodoListItem/PlaceTodoListItem";
+
+import useSearchPlaceHistory from "@hooks/useSearchPlaceHistory";
 
 import { CYPRESS_DATA_MAP } from "@constants/cypress";
 
@@ -45,18 +45,14 @@ const TravelPlanDayAccordion = ({
   onDeletePlaceTodo,
   onChangeContent,
 }: TravelPlanDayAccordionProps) => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const { isPopupOpen, handleOpenPopup, handleClosePopup } = useSearchPlaceHistory();
 
-  const onSelectSearchResult = (
+  const handleSelectSearchResult = (
     placeInfo: Pick<TravelPlanPlace, "placeName" | "position">,
     dayIndex: number,
   ) => {
     onAddPlace(dayIndex, placeInfo);
-    setIsPopupOpen(false);
-  };
-
-  const onClickAddPlaceButton = () => {
-    setIsPopupOpen(true);
+    handleClosePopup();
   };
 
   const getDateString = (startDate: Date | null, dayIndex: number): string => {
@@ -127,7 +123,7 @@ const TravelPlanDayAccordion = ({
           iconType="plus"
           position="left"
           css={[S.addTravelAddButtonStyle, S.addDayButtonStyle]}
-          onClick={onClickAddPlaceButton}
+          onClick={handleOpenPopup}
           data-cy={CYPRESS_DATA_MAP.travelPlanRegister.addPlaceButton}
         >
           <Text textType="bodyBold">장소 추가하기</Text>
@@ -135,8 +131,8 @@ const TravelPlanDayAccordion = ({
       </Accordion.Content>
       {isPopupOpen && (
         <GoogleSearchPopup
-          onClosePopup={() => setIsPopupOpen(false)}
-          onSearchPlaceInfo={(placeInfo) => onSelectSearchResult(placeInfo, dayIndex)}
+          onClosePopup={handleClosePopup}
+          onSearchPlaceInfo={(placeInfo) => handleSelectSearchResult(placeInfo, dayIndex)}
         />
       )}
     </Accordion.Item>
