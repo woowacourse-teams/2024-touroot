@@ -25,6 +25,11 @@ const getButtonColorStyling = (isSelected: boolean) => {
 };
 
 export const Chip = styled.li<{ $isSelected: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
+
   padding: 0.8rem 1.6rem;
   border-radius: 1rem;
 

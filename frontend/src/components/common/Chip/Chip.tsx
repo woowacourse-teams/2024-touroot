@@ -10,7 +10,12 @@ interface ChipProps extends ComponentPropsWithoutRef<"li"> {
   label: string;
 }
 
-const Chip = ({ isSelected = false, label, ...props }: ChipProps) => {
+const Chip = ({
+  isSelected = false,
+  label,
+  children,
+  ...props
+}: React.PropsWithChildren<ChipProps>) => {
   return (
     <S.Chip
       $isSelected={isSelected}
@@ -18,6 +23,7 @@ const Chip = ({ isSelected = false, label, ...props }: ChipProps) => {
       {...props}
     >
       <Text textType={isSelected ? "detailBold" : "detail"}>{label}</Text>
+      {children}
     </S.Chip>
   );
 };
