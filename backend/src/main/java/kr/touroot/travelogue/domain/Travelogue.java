@@ -52,12 +52,6 @@ public class Travelogue extends BaseEntity {
     @OneToMany(mappedBy = "travelogue", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TravelogueDay> travelogueDays = new ArrayList<>();
 
-    @OneToMany(mappedBy = "travelogue", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TravelogueLike> travelogueLikes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "travelogue", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TravelogueTag> travelogueTags = new ArrayList<>();
-
     public Travelogue(Long id, Member author, String title, String thumbnail) {
         validate(author, title, thumbnail);
         this.id = id;
