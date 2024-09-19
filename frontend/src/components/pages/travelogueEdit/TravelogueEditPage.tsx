@@ -53,10 +53,7 @@ const TravelogueEditPage = () => {
     setTitle(title);
   };
 
-  const { selectedTagIDs, onChangeSelectedTagIDs, handleClickTag, createSortedTags } =
-    useTagSelection();
-
-  const sortedTags = createSortedTags();
+  const { selectedTagIDs, onChangeSelectedTagIDs, handleClickTag, sortedTags } = useTagSelection();
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 

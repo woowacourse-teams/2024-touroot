@@ -18,11 +18,9 @@ import TravelogueCardSkeleton from "./TravelogueCard/skeleton/TravelogueCardSkel
 const SKELETON_COUNT = 5;
 
 const MainPage = () => {
-  const { selectedTagIDs, handleClickTag, createSortedTags } = useTagSelection();
+  const { selectedTagIDs, handleClickTag, sortedTags } = useTagSelection();
   const { travelogues, status, fetchNextPage, isPaused, error } =
     useInfiniteTravelogues(selectedTagIDs);
-
-  const sortedTags = createSortedTags();
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
@@ -48,7 +46,7 @@ const MainPage = () => {
         </Text>
       </S.MainPageHeaderContainer>
 
-      <S.ChipsContainer
+      <S.MultiFilteringContainer
         ref={scrollRef}
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
@@ -62,7 +60,7 @@ const MainPage = () => {
             onClick={() => handleClickTag(tag.id)}
           />
         ))}
-      </S.ChipsContainer>
+      </S.MultiFilteringContainer>
 
       {status === "pending" && (
         <S.MainPageTraveloguesList>

@@ -37,7 +37,7 @@ const useTagSelection = () => {
   return {
     selectedTagIDs,
     onChangeSelectedTagIDs,
-    createSortedTags,
+    sortedTags: createSortedTags(),
     handleClickTag,
   };
 };

@@ -49,9 +49,7 @@ const TravelogueRegisterPage = () => {
     setTitle(title);
   };
 
-  const { selectedTagIDs, handleClickTag, createSortedTags } = useTagSelection();
-
-  const sortedTags = createSortedTags();
+  const { selectedTagIDs, handleClickTag, sortedTags } = useTagSelection();
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
