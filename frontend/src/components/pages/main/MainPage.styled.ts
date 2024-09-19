@@ -1,15 +1,15 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-import { PRIMITIVE_COLORS, SPACING } from "@styles/tokens";
+import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 export const MainPageContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${SPACING.m};
+  gap: ${({ theme }) => theme.spacing.m};
 
-  margin-top: ${SPACING.m};
-  padding: ${SPACING.m};
+  margin-top: ${({ theme }) => theme.spacing.m};
+  padding: ${({ theme }) => theme.spacing.m};
   min-height: calc(100vh - 7.6rem);
 `;
 
@@ -17,7 +17,7 @@ export const MainPageHeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  gap: ${SPACING.s};
+  gap: ${({ theme }) => theme.spacing.s};
 `;
 
 export const SearchFallbackWrapper = styled.div`
@@ -30,16 +30,21 @@ export const MainPageTraveloguesList = styled.ul`
   flex: 1;
   flex-direction: column;
 
-  gap: ${SPACING.m};
+  gap: ${({ theme }) => theme.spacing.m};
 `;
 
-export const ChipsContainer = styled.ul`
+export const SingleFilteringContainer = styled.ul`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.s};
+`;
+
+export const MultiFilteringContainer = styled.ul`
   display: flex;
   overflow: scroll hidden;
-  gap: ${SPACING.s};
+  gap: ${({ theme }) => theme.spacing.s};
 
-  margin: 0 -${SPACING.m};
-  padding: 0 ${SPACING.m};
+  margin: 0 -${({ theme }) => theme.spacing.m};
+  padding: 0 ${({ theme }) => theme.spacing.m};
 
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
