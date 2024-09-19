@@ -1,4 +1,4 @@
-import { Button, Modal, Text } from "@components/common";
+import { Button, IconButton, Modal, Text } from "@components/common";
 import Spinner from "@components/common/Spinner/Spinner";
 
 import { Tturi } from "@assets/svg";
@@ -20,7 +20,9 @@ const TravelogueDeleteModal = ({
 }: TravelogueDeleteModalProps) => {
   return (
     <Modal isOpen={isOpen} onCloseModal={onCloseModal}>
-      <Modal.Header />
+      <Modal.Header>
+        <IconButton onClick={onCloseModal} size="12" iconType="x-icon" />
+      </Modal.Header>
       <Modal.Body direction="column" css={S.modalBodyStyle}>
         <Tturi />
         <S.TextContainer>

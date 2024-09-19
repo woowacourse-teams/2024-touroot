@@ -2,7 +2,7 @@ import { useRef } from "react";
 
 import { useToastContext } from "@contexts/ToastProvider/ToastProvider";
 
-import { Button, Input, Modal, Text } from "@components/common";
+import { Button, IconButton, Input, Modal, Text } from "@components/common";
 
 import { copyLinkToClipboard } from "@utils/clipboard";
 
@@ -39,7 +39,9 @@ const ShareModal = ({ isOpen, onToggleModal, shareUrl }: ShareModalProps) => {
 
   return (
     <Modal isOpen={isOpen} onCloseModal={onToggleModal}>
-      <Modal.Header />
+      <Modal.Header>
+        <IconButton onClick={onToggleModal} size="12" iconType="x-icon" />
+      </Modal.Header>
       <Modal.Body direction="column" css={S.shareModalBodyStyle}>
         <S.TTuriImg src={tturiUrl} />
         <Text textType="bodyBold">여행 계획을 공유할까요?</Text>
