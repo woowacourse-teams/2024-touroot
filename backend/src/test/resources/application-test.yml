@@ -43,3 +43,19 @@ spring:
 
 cors:
   allowed-origins: http://localhost:3000
+
+management:
+  endpoint:
+    health:
+      show-components: always
+      enabled: true
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics
+      base-path: /test
+    enabled-by-default: false
