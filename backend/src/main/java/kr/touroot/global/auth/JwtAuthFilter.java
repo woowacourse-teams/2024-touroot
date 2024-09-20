@@ -30,6 +30,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtTokenProvider tokenProvider;
 
     private static final List<HttpRequestInfo> WHITE_LIST = List.of(
+            new HttpRequestInfo(HttpMethod.GET, "/actuator/**"),
             new HttpRequestInfo(HttpMethod.GET, "/h2-console/**"),
             new HttpRequestInfo(HttpMethod.POST, "/h2-console/**"),
             new HttpRequestInfo(HttpMethod.GET, "/favicon/**"),
