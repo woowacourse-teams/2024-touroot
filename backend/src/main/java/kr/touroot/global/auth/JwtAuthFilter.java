@@ -10,8 +10,8 @@ import java.util.List;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.auth.dto.HttpRequestInfo;
 import kr.touroot.global.exception.dto.ExceptionResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@RequiredArgsConstructor
 @Slf4j
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -28,23 +27,32 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final ObjectMapper objectMapper;
     private final JwtTokenProvider tokenProvider;
+    private final List<HttpRequestInfo> whiteList;
 
-    private static final List<HttpRequestInfo> WHITE_LIST = List.of(
-            new HttpRequestInfo(HttpMethod.GET, "/actuator/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/h2-console/**"),
-            new HttpRequestInfo(HttpMethod.POST, "/h2-console/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/favicon/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/swagger-ui/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/swagger-resources/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/v3/api-docs/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/api/v1/travelogues/**"),
-            new HttpRequestInfo(HttpMethod.POST, "/api/v1/login/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/api/v1/travel-plans/shared/**"),
-            new HttpRequestInfo(HttpMethod.POST, "/api/v1/tags/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/api/v1/tags/**"),
-            new HttpRequestInfo(HttpMethod.POST, "/api/v1/members"),
-            new HttpRequestInfo(HttpMethod.OPTIONS, "/**")
-    );
+    public JwtAuthFilter(
+            ObjectMapper objectMapper,
+            JwtTokenProvider tokenProvider,
+            @Value("${management.endpoints.web.base-path}") String basePath
+    ) {
+        this.objectMapper = objectMapper;
+        this.tokenProvider = tokenProvider;
+        this.whiteList = List.of(
+                new HttpRequestInfo(HttpMethod.GET, basePath + "/**"),
+                new HttpRequestInfo(HttpMethod.GET, "/h2-console/**"),
+                new HttpRequestInfo(HttpMethod.POST, "/h2-console/**"),
+                new HttpRequestInfo(HttpMethod.GET, "/favicon.ico"),
+                new HttpRequestInfo(HttpMethod.GET, "/swagger-ui/**"),
+                new HttpRequestInfo(HttpMethod.GET, "/swagger-resources/**"),
+                new HttpRequestInfo(HttpMethod.GET, "/v3/api-docs/**"),
+                new HttpRequestInfo(HttpMethod.GET, "/api/v1/travelogues/**"),
+                new HttpRequestInfo(HttpMethod.POST, "/api/v1/login/**"),
+                new HttpRequestInfo(HttpMethod.GET, "/api/v1/travel-plans/shared/**"),
+                new HttpRequestInfo(HttpMethod.POST, "/api/v1/tags/**"),
+                new HttpRequestInfo(HttpMethod.GET, "/api/v1/tags/**"),
+                new HttpRequestInfo(HttpMethod.POST, "/api/v1/members"),
+                new HttpRequestInfo(HttpMethod.OPTIONS, "/**")
+        );
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -90,7 +98,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private boolean isInWhiteList(String method, String url) {
         AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-        return WHITE_LIST.stream()
+        return whiteList.stream()
                 .anyMatch(white -> white.method().matches(method) && antPathMatcher.match(white.urlPattern(), url));
     }
 
