@@ -1,5 +1,6 @@
 package kr.touroot.travelogue.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,6 +9,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.place.domain.Place;
@@ -45,6 +49,9 @@ public class TraveloguePlace extends BaseEntity {
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelogueDay travelogueDay;
+
+    @OneToMany(mappedBy = "traveloguePlace", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TraveloguePhoto> traveloguePhotos = new ArrayList<>();
 
     public TraveloguePlace(Long id, Integer order, String description, Place place, TravelogueDay travelogueDay) {
         validate(order, description, place, travelogueDay);
