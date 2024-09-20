@@ -48,7 +48,7 @@ export const WithNoImage: Story = {
   args: {
     index: 1,
     title: "제주도 3박 4일 여행기",
-    imageUrls: [""],
+    imageUrls: [],
     description: "여행지 설명",
   },
 };
