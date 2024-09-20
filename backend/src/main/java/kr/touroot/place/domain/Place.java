@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import kr.touroot.global.entity.BaseEntity;
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(indexes = @Index(name = "place_name_latitude_longitude_idx", columnList = "name, latitude, longitude"))
 public class Place extends BaseEntity {
 
     private static final Pattern LATITUDE_PATTERN = Pattern.compile("^([-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?))$");
