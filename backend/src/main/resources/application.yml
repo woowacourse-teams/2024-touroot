@@ -31,6 +31,7 @@ management:
     web:
       exposure:
         include: info, health, metrics
+      base-path: ENC(zc5tP1eNIEjv3uN5Kuih7wlo5zILgWxq)
     enabled-by-default: false
 ---
 # local profile
