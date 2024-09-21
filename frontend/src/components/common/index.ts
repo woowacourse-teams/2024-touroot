@@ -31,3 +31,4 @@ export { default as FloatingButton } from "./FloatingButton/FloatingButton";
 export { default as Spinner } from "./Spinner/Spinner";
 export { default as EditRegisterModalBottomSheet } from "./EditRegisterModalBottomSheet/EditRegisterModalBottomSheet";
 export { default as DeleteModal } from "./DeleteModal/DeleteModal";
+export { default as SingleSelectionTagModalBottomSheet } from "./SingleSelectionTagModalBottomSheet/SingleSelectionTagModalBottomSheet";
