@@ -59,6 +59,10 @@ jobs:
     needs: build
     runs-on: [self-hosted, prod]
 
+    strategy:
+      matrix:
+        runner: [runner-a, runner-b]
+
     steps:
       - name: Docker Image pull
         run: sudo docker pull touroot/touroot-api:prod
