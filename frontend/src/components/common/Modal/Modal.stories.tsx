@@ -11,6 +11,7 @@ import { copyLinkToClipboard } from "@utils/clipboard";
 
 import theme from "@styles/theme";
 
+import Icon from "../Icon/Icon";
 import IconButton from "../IconButton/IconButton";
 import Modal from "./Modal";
 
@@ -181,6 +182,61 @@ export const EditRegisterModalBottomSheet = {
               </Button>
               <Button variants="primary" onClick={onToggleModal}>
                 확인
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
+      </>
+    );
+  },
+};
+
+export const SingleSelectionTagModalBottomSheet = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const onToggleModal = () => setIsOpen((prev) => !prev);
+
+    return (
+      <>
+        <Button onClick={onToggleModal} variants="primary">
+          모달 열기
+        </Button>
+        {isOpen && (
+          <Modal isOpen={isOpen} onCloseModal={onToggleModal} position="bottom" boxLayoutGap="l">
+            <Modal.Header buttonPosition="center">
+              <div
+                style={{
+                  width: "5.4rem",
+                  height: "0.3rem",
+                  borderRadius: "4px",
+                  backgroundColor: theme.colors.border,
+                  cursor: "pointer",
+                }}
+              />
+            </Modal.Header>
+            <Modal.Body direction="column" style={{ gap: "2.4rem", alignItems: "flex-start" }}>
+              <Text textType="bodyBold">여행기 정렬을 선택해 주세요!</Text>
+              <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                <Text
+                  textType="detailBold"
+                  onClick={onToggleModal}
+                  style={{ color: theme.colors.primary, cursor: "pointer" }}
+                >
+                  좋아요순
+                </Text>
+                <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
+              </div>
+              <Text
+                textType="detail"
+                onClick={onToggleModal}
+                style={{ color: theme.colors.text.secondary, cursor: "pointer" }}
+              >
+                최신순
+              </Text>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variants="secondary" onClick={onToggleModal}>
+                취소
               </Button>
             </Modal.Footer>
           </Modal>
