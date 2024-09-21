@@ -28,5 +28,4 @@ export const Layout = styled.header<{ $position: Required<ModalHeaderProps>["but
   ${({ $position }) => createPosition($position)};
 
   width: 100%;
-  padding: 1.6rem;
 `;
