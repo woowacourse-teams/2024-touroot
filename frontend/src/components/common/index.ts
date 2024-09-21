@@ -11,7 +11,6 @@ export { default as GoogleSearchPopup } from "./GoogleSearchPopup/GoogleSearchPo
 export { default as Icon } from "./Icon/Icon";
 export { default as IconButton } from "./IconButton/IconButton";
 export { default as Input } from "./Input/Input";
-export { default as ModalBottomSheet } from "./ModalBottomSheet/ModalBottomSheet";
 export { default as MultiImageUpload } from "./MultiImageUpload/MultiImageUpload";
 export { default as PageInfo } from "./PageInfo/PageInfo";
 export { default as GoogleMapLoadScript } from "./GoogleMapLoadScript/GoogleMapLoadScript";
@@ -29,3 +28,6 @@ export { default as TextField } from "./TextField/TextField";
 export { default as Calendar } from "./Calendar/Calendar";
 export { default as SearchFallback } from "./SearchFallback/SearchFallback";
 export { default as FloatingButton } from "./FloatingButton/FloatingButton";
+export { default as Spinner } from "./Spinner/Spinner";
+export { default as EditRegisterModalBottomSheet } from "./EditRegisterModalBottomSheet/EditRegisterModalBottomSheet";
+export { default as DeleteModal } from "./DeleteModal/DeleteModal";

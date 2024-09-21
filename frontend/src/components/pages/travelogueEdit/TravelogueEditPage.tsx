@@ -9,10 +9,10 @@ import {
   Accordion,
   Button,
   Chip,
+  EditRegisterModalBottomSheet,
   GoogleMapLoadScript,
   IconButton,
   Input,
-  ModalBottomSheet,
   PageInfo,
   TextField,
   ThumbnailUpload,
@@ -251,16 +251,16 @@ const TravelogueEditPage = () => {
         </div>
       </S.Layout>
 
-      <ModalBottomSheet
-        isOpen={isOpen}
-        isPending={isPuttingTraveloguePending}
-        mainText="여행기를 수정할까요?"
-        subText="수정한 후에도 다시 여행기를 변경할 수 있어요!"
-        secondaryButtonLabel="취소"
-        primaryButtonLabel="확인"
-        onClose={handleCloseBottomSheet}
-        onConfirm={handleConfirmBottomSheet}
-      />
+      {isOpen && (
+        <EditRegisterModalBottomSheet
+          isOpen={isOpen}
+          isPending={isPuttingTraveloguePending}
+          mainText="여행기를 수정할까요?"
+          subText="수정한 후에도 다시 여행기를 변경할 수 있어요!"
+          onClose={handleCloseBottomSheet}
+          onConfirm={handleConfirmBottomSheet}
+        />
+      )}
     </>
   );
 };

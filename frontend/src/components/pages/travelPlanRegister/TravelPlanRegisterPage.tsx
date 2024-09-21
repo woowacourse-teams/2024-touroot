@@ -9,10 +9,10 @@ import {
   Accordion,
   Button,
   Calendar,
+  EditRegisterModalBottomSheet,
   GoogleMapLoadScript,
   IconButton,
   Input,
-  ModalBottomSheet,
   PageInfo,
   Text,
   TextField,
@@ -211,16 +211,16 @@ const TravelPlanRegisterPage = () => {
         </S.AccordionRootContainer>
       </S.Layout>
 
-      <ModalBottomSheet
-        isOpen={isOpenBottomSheet}
-        isPending={isPostingTravelPlanPending}
-        mainText="여행 계획을 등록할까요?"
-        subText="등록한 후에도 다시 여행 계획을 수정할 수 있어요."
-        secondaryButtonLabel="취소"
-        primaryButtonLabel="확인"
-        onClose={handleCloseBottomSheet}
-        onConfirm={handleConfirmBottomSheet}
-      />
+      {isOpenBottomSheet && (
+        <EditRegisterModalBottomSheet
+          isOpen={isOpenBottomSheet}
+          isPending={isPostingTravelPlanPending}
+          mainText="여행 계획을 등록할까요?"
+          subText="등록한 후에도 다시 여행 계획을 수정할 수 있어요."
+          onClose={handleCloseBottomSheet}
+          onConfirm={handleConfirmBottomSheet}
+        />
+      )}
     </>
   );
 };
