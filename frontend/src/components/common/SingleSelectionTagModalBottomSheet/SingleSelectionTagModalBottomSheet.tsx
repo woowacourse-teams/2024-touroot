@@ -4,7 +4,6 @@ import * as S from "./SingleSelectionTagModalBottomSheet.styled";
 
 export interface EditRegisterModalBottomSheetProps extends React.PropsWithChildren {
   mainText: string;
-  subText: string;
   isOpen: boolean;
   onClose: () => void;
 }
