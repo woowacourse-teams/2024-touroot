@@ -1,5 +1,6 @@
 package kr.touroot.travelplan.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,7 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
 import lombok.AccessLevel;
@@ -34,6 +38,9 @@ public class TravelPlanDay extends BaseEntity {
     @JoinColumn(name = "PLAN_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelPlan plan;
+
+    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TravelPlanPlace> travelPlanPlaces = new ArrayList<>();
 
     private TravelPlanDay(Long id, Integer order, TravelPlan plan) {
         validate(order, plan);

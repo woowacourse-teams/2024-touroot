@@ -17,6 +17,22 @@ cloud:
       base-storage-path: touroot/
       temporary-storage-path: temporary/
       image-storage-path: images/
+
+management:
+  endpoint:
+    health:
+      show-components: always
+      enabled: true
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics
+      base-path: ENC(zc5tP1eNIEjv3uN5Kuih7wlo5zILgWxq)
+    enabled-by-default: false
 ---
 # local profile
 spring:
