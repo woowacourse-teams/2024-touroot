@@ -38,7 +38,7 @@ const ShareModal = ({ isOpen, onToggleModal, shareUrl }: ShareModalProps) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onCloseModal={onToggleModal}>
+    <Modal isOpen={isOpen} onCloseModal={onToggleModal} boxLayoutGap="xs">
       <Modal.Header>
         <IconButton onClick={onToggleModal} size="12" iconType="x-icon" />
       </Modal.Header>
