@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import useModalControl from "@hooks/useModalControl";
+
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 import IconButton from "../IconButton/IconButton";
-import Modal from "../Modal/Modal";
 import Text from "../Text/Text";
 import * as S from "./FloatingButton.styled";
 
@@ -26,9 +27,11 @@ const FloatingButton = () => {
     navigate(ROUTE_PATHS_MAP.travelPlanRegister);
   };
 
+  useModalControl(isOpen, handleToggleButton);
+
   return (
     <S.FloatingButtonContainer>
-      {isOpen && <Modal isOpen={isOpen} onCloseModal={handleToggleButton} />}
+      {isOpen && <S.BackdropLayout onClick={handleToggleButton} />}
       <S.SubButtonContainer $isOpen={isOpen}>
         <S.SubButton onClick={handleClickTravelPlanRegister}>
           <Text textType="body" css={S.subButtonTextStyle}>

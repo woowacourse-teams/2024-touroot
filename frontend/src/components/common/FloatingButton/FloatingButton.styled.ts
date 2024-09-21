@@ -13,6 +13,16 @@ export const FloatingButtonContainer = styled.div`
   z-index: ${({ theme }) => theme.zIndex.floatingButton};
 `;
 
+export const BackdropLayout = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+
+  background-color: ${({ theme }) => theme.colors.dimmed};
+  cursor: pointer;
+`;
+
 export const SubButtonContainer = styled.div<{ $isOpen: boolean }>`
   display: flex;
   flex-direction: column;
