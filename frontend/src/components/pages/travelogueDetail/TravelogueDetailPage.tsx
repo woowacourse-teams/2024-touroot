@@ -9,7 +9,15 @@ import useDeleteUpdateHeart from "@queries/useDeleteUpdateHeart";
 import { useGetTravelogue } from "@queries/useGetTravelogue";
 import usePostUpdateHeart from "@queries/usePostUpdateHeart";
 
-import { Chip, Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
+import {
+  Chip,
+  DeleteModal,
+  Dropdown,
+  IconButton,
+  Tab,
+  Text,
+  TransformBottomSheet,
+} from "@components/common";
 import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
 import TravelogueDetailSkeleton from "@components/pages/travelogueDetail/TravelogueDetailSkeleton/TravelogueDetailSkeleton";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
@@ -27,7 +35,6 @@ import { extractID } from "@utils/extractId";
 import theme from "@styles/theme";
 import { SEMANTIC_COLORS } from "@styles/tokens";
 
-import TravelogueDeleteModal from "./TravelogueDeleteModal/TravelogueDeleteModal";
 import * as S from "./TravelogueDetailPage.styled";
 
 const TravelogueDetailPage = () => {
@@ -206,9 +213,11 @@ const TravelogueDetailPage = () => {
         </TransformBottomSheet>
       )}
       {isDeleteModalOpen && (
-        <TravelogueDeleteModal
+        <DeleteModal
           isOpen={isDeleteModalOpen}
           isPending={isDeletingPending}
+          mainText="여행기를 삭제할까요?"
+          subText="삭제한 후에는 여행기를 다시 복구할 수 없어요."
           onCloseModal={handleToggleDeleteModal}
           onClickDeleteButton={handleClickDeleteButton}
         />

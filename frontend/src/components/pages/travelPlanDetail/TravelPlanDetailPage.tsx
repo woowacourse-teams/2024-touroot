@@ -7,7 +7,14 @@ import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetail
 import useDeleteTravelPlan from "@queries/useDeleteTravelPlan";
 import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
-import { Dropdown, IconButton, Tab, Text, TransformBottomSheet } from "@components/common";
+import {
+  DeleteModal,
+  Dropdown,
+  IconButton,
+  Tab,
+  Text,
+  TransformBottomSheet,
+} from "@components/common";
 import ShareModal from "@components/pages/travelPlanDetail/ShareModal/ShareModal";
 import TravelPlanDetailSkeleton from "@components/pages/travelPlanDetail/TravelPlanDetailSkeleton/TravelPlanDetailSkeleton";
 import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlansTabContent/TravelPlansTabContent";
@@ -24,7 +31,6 @@ import { isUUID } from "@utils/uuid";
 
 import theme from "@styles/theme";
 
-import TravelPlanDeleteModal from "./TravelPlanDeleteModal/TravelPlanDeleteModal";
 import * as S from "./TravelPlanDetailPage.styled";
 
 const TravelPlanDetailPage = () => {
@@ -164,10 +170,13 @@ const TravelPlanDetailPage = () => {
           여행은 즐겁게 다녀오셨나요?
         </Text>
       </TransformBottomSheet>
+
       {isDeleteModalOpen && (
-        <TravelPlanDeleteModal
+        <DeleteModal
           isOpen={isDeleteModalOpen}
           isPending={isDeletingPending}
+          mainText="여행 계획을 삭제할까요?"
+          subText="삭제한 후에는 여행 계획을 다시 복구할 수 없어요."
           onCloseModal={handleToggleDeleteModal}
           onClickDeleteButton={handleClickDeleteButton}
         />

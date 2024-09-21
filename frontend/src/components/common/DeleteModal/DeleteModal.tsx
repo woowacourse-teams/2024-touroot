@@ -1,34 +1,37 @@
-import { Button, IconButton, Modal, Text } from "@components/common";
-import Spinner from "@components/common/Spinner/Spinner";
+import { Button, IconButton, Modal, Spinner, Text } from "@components/common";
 
 import { Tturi } from "@assets/svg";
 
-import * as S from "./TravelPlanDeleteModal.styled";
+import * as S from "./DeleteModal.styled";
 
-interface TravelPlanDeleteModalProps {
+interface DeleteModalProps {
   isOpen: boolean;
   isPending: boolean;
+  mainText: string;
+  subText: string;
   onCloseModal: () => void;
   onClickDeleteButton: () => void;
 }
 
-const TravelPlanDeleteModal = ({
+const DeleteModal = ({
   isOpen,
   isPending,
+  mainText,
+  subText,
   onCloseModal,
   onClickDeleteButton,
-}: TravelPlanDeleteModalProps) => {
+}: DeleteModalProps) => {
   return (
-    <Modal isOpen={isOpen} onCloseModal={onCloseModal}>
+    <Modal isOpen={isOpen} onCloseModal={onCloseModal} boxLayoutGap="l">
       <Modal.Header>
         <IconButton onClick={onCloseModal} size="12" iconType="x-icon" />
       </Modal.Header>
       <Modal.Body direction="column" css={S.modalBodyStyle}>
         <Tturi />
         <S.TextContainer>
-          <Text textType="bodyBold">여행 계획을 삭제할까요?</Text>
+          <Text textType="bodyBold">{mainText}</Text>
           <Text textType="detail" css={S.subTextStyle}>
-            삭제한 후에는 여행 계획을 다시 복구할 수 없어요.
+            {subText}
           </Text>
         </S.TextContainer>
       </Modal.Body>
@@ -41,4 +44,4 @@ const TravelPlanDeleteModal = ({
   );
 };
 
-export default TravelPlanDeleteModal;
+export default DeleteModal;

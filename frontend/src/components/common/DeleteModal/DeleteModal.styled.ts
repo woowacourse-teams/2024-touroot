@@ -13,7 +13,6 @@ export const TextContainer = styled.div`
 
 export const modalBodyStyle = css`
   gap: ${theme.spacing.m};
-  padding: 2.6rem 0;
 `;
 
 export const subTextStyle = css`
