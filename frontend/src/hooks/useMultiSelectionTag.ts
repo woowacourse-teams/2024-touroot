@@ -4,7 +4,7 @@ import useGetTags from "@queries/useGetTags";
 
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
-const useTagSelection = () => {
+const useMultiSelectionTag = () => {
   const { data: tags } = useGetTags();
 
   const [selectedTagIDs, setSelectedTagIDs] = useState<number[]>([]);
@@ -42,4 +42,4 @@ const useTagSelection = () => {
   };
 };
 
-export default useTagSelection;
+export default useMultiSelectionTag;
