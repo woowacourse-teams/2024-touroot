@@ -29,7 +29,7 @@ const Modal = ({
   const { sheetRef, currentY } = useBottomSheet(isOpen, onCloseModal);
 
   return ReactDOM.createPortal(
-    <S.Layout $position={position}>
+    <S.Layout $position={position} $isOpen={isOpen}>
       <S.BackdropLayout onClick={onCloseModal} />
       {position === "center" ? (
         <S.ModalBoxLayout $position={position} $gap={boxLayoutGap}>

@@ -226,16 +226,14 @@ const TravelPlanEditPage = () => {
         </S.AccordionRootContainer>
       </S.Layout>
 
-      {isOpen && (
-        <EditRegisterModalBottomSheet
-          isOpen={isOpen}
-          isPending={isPuttingTravelPlanPending}
-          mainText="여행 계획을 수정할까요?"
-          subText="수정한 후에도 다시 여행 계획을 변경할 수 있어요."
-          onClose={handleCloseBottomSheet}
-          onConfirm={handleConfirmBottomSheet}
-        />
-      )}
+      <EditRegisterModalBottomSheet
+        isOpen={isOpen}
+        isPending={isPuttingTravelPlanPending}
+        mainText="여행 계획을 수정할까요?"
+        subText="수정한 후에도 다시 여행 계획을 변경할 수 있어요."
+        onClose={handleCloseBottomSheet}
+        onConfirm={handleConfirmBottomSheet}
+      />
     </>
   );
 };

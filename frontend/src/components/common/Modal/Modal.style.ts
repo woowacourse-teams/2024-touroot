@@ -27,13 +27,26 @@ const createPositionStyling = ($position: Required<ModalProps>["position"], $cur
   return styles[$position];
 };
 
-export const Layout = styled.section<{ $position: Required<ModalProps>["position"] }>`
+export const Layout = styled.section<{
+  $position: Required<ModalProps>["position"];
+  $isOpen: boolean;
+}>`
   display: flex;
   justify-content: center;
   align-items: ${({ $position }) => ($position === "center" ? "center" : "flex-end")};
   position: fixed;
-  inset: 0;
   z-index: ${({ theme }) => theme.zIndex.modal};
+  inset: 0;
+
+  ${({ $position }) => css`
+    align-items: ${$position === "center" ? "center" : "flex-end"};
+    ${$position === "bottom" && "transition: all 0.3s ease-out"};
+  `};
+
+  ${({ $isOpen }) => css`
+    opacity: ${$isOpen ? 1 : 0};
+    visibility: ${$isOpen ? "visible" : "hidden"};
+  `}
 `;
 
 export const BackdropLayout = styled.div`

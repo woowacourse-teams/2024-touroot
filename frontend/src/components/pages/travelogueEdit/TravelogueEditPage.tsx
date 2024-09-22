@@ -22,7 +22,7 @@ import TravelogueDayAccordion from "@components/pages/travelogueRegister/Travelo
 import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
 import { useDragScroll } from "@hooks/useDragScroll";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
-import useTagSelection from "@hooks/useTagSelection";
+import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
 import useUser from "@hooks/useUser";
 
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
@@ -53,7 +53,8 @@ const TravelogueEditPage = () => {
     setTitle(title);
   };
 
-  const { selectedTagIDs, onChangeSelectedTagIDs, handleClickTag, sortedTags } = useTagSelection();
+  const { selectedTagIDs, onChangeSelectedTagIDs, handleClickTag, sortedTags } =
+    useMultiSelectionTag();
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
@@ -251,16 +252,14 @@ const TravelogueEditPage = () => {
         </div>
       </S.Layout>
 
-      {isOpen && (
-        <EditRegisterModalBottomSheet
-          isOpen={isOpen}
-          isPending={isPuttingTraveloguePending}
-          mainText="여행기를 수정할까요?"
-          subText="수정한 후에도 다시 여행기를 변경할 수 있어요!"
-          onClose={handleCloseBottomSheet}
-          onConfirm={handleConfirmBottomSheet}
-        />
-      )}
+      <EditRegisterModalBottomSheet
+        isOpen={isOpen}
+        isPending={isPuttingTraveloguePending}
+        mainText="여행기를 수정할까요?"
+        subText="수정한 후에도 다시 여행기를 변경할 수 있어요!"
+        onClose={handleCloseBottomSheet}
+        onConfirm={handleConfirmBottomSheet}
+      />
     </>
   );
 };

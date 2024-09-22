@@ -212,16 +212,15 @@ const TravelogueDetailPage = () => {
           </Text>
         </TransformBottomSheet>
       )}
-      {isDeleteModalOpen && (
-        <DeleteModal
-          isOpen={isDeleteModalOpen}
-          isPending={isDeletingPending}
-          mainText="여행기를 삭제할까요?"
-          subText="삭제한 후에는 여행기를 다시 복구할 수 없어요."
-          onCloseModal={handleToggleDeleteModal}
-          onClickDeleteButton={handleClickDeleteButton}
-        />
-      )}
+
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        isPending={isDeletingPending}
+        mainText="여행기를 삭제할까요?"
+        subText="삭제한 후에는 여행기를 다시 복구할 수 없어요."
+        onCloseModal={handleToggleDeleteModal}
+        onClickDeleteButton={handleClickDeleteButton}
+      />
     </>
   );
 };
