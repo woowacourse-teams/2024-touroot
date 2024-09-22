@@ -12,6 +12,7 @@ import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
+import kr.touroot.travelogue.dto.request.TravelogueFilterCondition;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
@@ -137,8 +138,8 @@ public class TravelogueFacadeService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TravelogueSimpleResponse> findSimpleTravelogues(List<Long> tagFilter, Pageable pageable) {
-        Page<Travelogue> travelogues = travelogueService.findAllByFilter(tagFilter, pageable);
+    public Page<TravelogueSimpleResponse> findSimpleTravelogues(TravelogueFilterCondition filter, Pageable pageable) {
+        Page<Travelogue> travelogues = travelogueService.findAllByFilter(filter, pageable);
         return travelogues.map(this::getTravelogueSimpleResponse);
     }
 

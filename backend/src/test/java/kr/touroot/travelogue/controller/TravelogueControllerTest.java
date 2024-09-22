@@ -306,15 +306,15 @@ class TravelogueControllerTest {
                 .body(is(objectMapper.writeValueAsString(responses)));
     }
 
-    @DisplayName("메인 페이지 조회 시, 최신 작성 순으로 여행기를 조회한다.")
+    @DisplayName("메인 페이지 조회 시 태그 기반으로 필터링을 진행한다.")
     @Test
-    void filterMainPageTravelogues() throws JsonProcessingException {
+    void filterMainPageTravelogues() {
         testHelper.initAllTravelogueTestData();
         testHelper.initTravelogueTestDataWithTag(member, List.of(TagFixture.TAG_2.get(), TagFixture.TAG_3.get()));
 
         RestAssured.given().log().all()
                 .accept(ContentType.JSON)
-                .params("tag-filter", "2,3")
+                .params("tag", "2,3")
                 .when().get("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(200).assertThat()

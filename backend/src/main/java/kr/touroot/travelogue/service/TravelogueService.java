@@ -6,6 +6,7 @@ import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.dto.request.TravelogueFilterCondition;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.repository.query.TravelogueQueryRepository;
 import kr.touroot.travelogue.repository.TravelogueRepository;
@@ -52,7 +53,7 @@ public class TravelogueService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Travelogue> findAllByFilter(List<Long> filter, Pageable pageable) {
+    public Page<Travelogue> findAllByFilter(TravelogueFilterCondition filter, Pageable pageable) {
         return travelogueQueryRepository.findAllByTag(filter, pageable);
     }
 
