@@ -17,6 +17,6 @@ export const wrapper = ({ children }: React.PropsWithChildren) => (
 );
 
 export const createInfiniteTravelogueHook = () =>
-  renderHook(() => useInfiniteTravelogues([]), {
+  renderHook(() => useInfiniteTravelogues([], "likeCount", ""), {
     wrapper,
   });
