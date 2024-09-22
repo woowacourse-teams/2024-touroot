@@ -52,12 +52,12 @@ public class Travelogue extends BaseEntity {
 
     @Column(nullable = false)
     @ColumnDefault("0")
-    private Integer likeCount;
+    private Long likeCount;
 
     @OneToMany(mappedBy = "travelogue", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TravelogueDay> travelogueDays = new ArrayList<>();
 
-    private Travelogue(Long id, Member author, String title, String thumbnail, Integer likeCount) {
+    private Travelogue(Long id, Member author, String title, String thumbnail, Long likeCount) {
         validate(author, title, thumbnail);
         this.id = id;
         this.author = author;
@@ -67,7 +67,7 @@ public class Travelogue extends BaseEntity {
     }
 
     public Travelogue(Member author, String title, String thumbnail) {
-        this(null, author, title, thumbnail, 0);
+        this(null, author, title, thumbnail, 0L);
     }
 
     public void update(String title, String thumbnail) {
