@@ -1,26 +1,59 @@
-import { css } from "@emotion/react";
+import { SortingOption, TravelPeriodOption } from "@type/domain/travelogue";
 
 import useInfiniteTravelogues from "@queries/useInfiniteTravelogues";
 
-import { Chip, FloatingButton, SearchFallback, Text } from "@components/common";
+import {
+  Chip,
+  FloatingButton,
+  Icon,
+  SearchFallback,
+  SingleSelectionTagModalBottomSheet,
+  Text,
+} from "@components/common";
 import TravelogueCard from "@components/pages/main/TravelogueCard/TravelogueCard";
 
 import { useDragScroll } from "@hooks/useDragScroll";
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
-import useTagSelection from "@hooks/useTagSelection";
+import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
+import useSingleSelectionTag from "@hooks/useSingleSelectionTag";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
+
+import theme from "@styles/theme";
 
 import * as S from "./MainPage.styled";
 import TravelogueCardSkeleton from "./TravelogueCard/skeleton/TravelogueCardSkeleton";
 
 const SKELETON_COUNT = 5;
+const SORTING_OPTIONS: SortingOption[] = ["likeCount", "createdAt"];
+const TRAVEL_PERIOD_OPTIONS: TravelPeriodOption[] = ["", "1", "2", "3", "4", "5", "6", "7", "8"];
+
+const SORTING_OPTIONS_MAP = {
+  likeCount: "좋아요순",
+  createdAt: "최신순",
+};
+const TRAVEL_PERIOD_OPTIONS_MAP = {
+  "": "전체",
+  1: "당일치기",
+  2: "1박 2일",
+  3: "2박 3일",
+  4: "3박 4일",
+  5: "4박 5일",
+  6: "5박 6일",
+  7: "6박 7일",
+  8: "7박 이상",
+};
 
 const MainPage = () => {
-  const { selectedTagIDs, handleClickTag, sortedTags } = useTagSelection();
-  const { travelogues, status, fetchNextPage, isPaused, error } =
-    useInfiniteTravelogues(selectedTagIDs);
+  const { selectedTagIDs, handleClickTag, sortedTags } = useMultiSelectionTag();
+  const { sorting, travelPeriod } = useSingleSelectionTag();
+
+  const { travelogues, status, fetchNextPage, isPaused, error } = useInfiniteTravelogues(
+    selectedTagIDs,
+    sorting.selectedOption,
+    travelPeriod.selectedOption,
+  );
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
@@ -46,21 +79,96 @@ const MainPage = () => {
         </Text>
       </S.MainPageHeaderContainer>
 
-      <S.MultiFilteringContainer
-        ref={scrollRef}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onMouseMove={onMouseMove}
-      >
-        {sortedTags.map((tag) => (
+      <S.TagsContainer>
+        <S.SingleSelectionTagsContainer>
           <Chip
-            key={tag.id}
-            label={tag.tag}
-            isSelected={selectedTagIDs.includes(tag.id)}
-            onClick={() => handleClickTag(tag.id)}
-          />
-        ))}
-      </S.MultiFilteringContainer>
+            label={SORTING_OPTIONS_MAP[sorting.selectedOption]}
+            isSelected={true}
+            onClick={sorting.handleOpenModal}
+          >
+            <Icon iconType="down-arrow" size="8" color={theme.colors.primary} />
+          </Chip>
+          <Chip
+            label={
+              travelPeriod.selectedOption
+                ? TRAVEL_PERIOD_OPTIONS_MAP[travelPeriod.selectedOption]
+                : "여행 기간"
+            }
+            isSelected={!!travelPeriod.selectedOption}
+            onClick={travelPeriod.handleOpenModal}
+          >
+            <Icon
+              iconType="down-arrow"
+              size="8"
+              color={
+                travelPeriod.selectedOption ? theme.colors.primary : theme.colors.text.secondary
+              }
+            />
+          </Chip>
+        </S.SingleSelectionTagsContainer>
+
+        <SingleSelectionTagModalBottomSheet
+          isOpen={sorting.isModalOpen}
+          onClose={sorting.handleCloseModal}
+          mainText="여행기 정렬을 선택해 주세요!"
+        >
+          {SORTING_OPTIONS.map((option, index) => (
+            <S.OptionContainer key={index} onClick={() => sorting.handleClickOption(option)}>
+              {option === sorting.selectedOption ? (
+                <>
+                  <Text textType="detailBold" css={S.selectedOptionStyle}>
+                    {SORTING_OPTIONS_MAP[option]}
+                  </Text>
+                  <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
+                </>
+              ) : (
+                <Text textType="detail" css={S.unselectedOptionStyle}>
+                  {SORTING_OPTIONS_MAP[option]}
+                </Text>
+              )}
+            </S.OptionContainer>
+          ))}
+        </SingleSelectionTagModalBottomSheet>
+
+        <SingleSelectionTagModalBottomSheet
+          isOpen={travelPeriod.isModalOpen}
+          onClose={travelPeriod.handleCloseModal}
+          mainText="여행 기간을 선택해 주세요!"
+        >
+          {TRAVEL_PERIOD_OPTIONS.map((option, index) => (
+            <S.OptionContainer key={index} onClick={() => travelPeriod.handleClickOption(option)}>
+              {option === travelPeriod.selectedOption ? (
+                <>
+                  <Text textType="detailBold" css={S.selectedOptionStyle}>
+                    {TRAVEL_PERIOD_OPTIONS_MAP[option]}
+                  </Text>
+                  <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
+                </>
+              ) : (
+                <Text textType="detail" css={S.unselectedOptionStyle}>
+                  {TRAVEL_PERIOD_OPTIONS_MAP[option]}
+                </Text>
+              )}
+            </S.OptionContainer>
+          ))}
+        </SingleSelectionTagModalBottomSheet>
+
+        <S.MultiSelectionTagsContainer
+          ref={scrollRef}
+          onMouseDown={onMouseDown}
+          onMouseUp={onMouseUp}
+          onMouseMove={onMouseMove}
+        >
+          {sortedTags.map((tag) => (
+            <Chip
+              key={tag.id}
+              label={tag.tag}
+              isSelected={selectedTagIDs.includes(tag.id)}
+              onClick={() => handleClickTag(tag.id)}
+            />
+          ))}
+        </S.MultiSelectionTagsContainer>
+      </S.TagsContainer>
 
       {status === "pending" && (
         <S.MainPageTraveloguesList>
@@ -96,12 +204,7 @@ const MainPage = () => {
         </S.MainPageTraveloguesList>
       )}
       <FloatingButton />
-      <div
-        ref={lastElementRef}
-        css={css`
-          height: 1px;
-        `}
-      />
+      <S.LastElement ref={lastElementRef} />
     </S.MainPageContentContainer>
   );
 };

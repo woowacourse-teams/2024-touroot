@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import theme from "@styles/theme";
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 export const MainPageContentContainer = styled.div`
@@ -33,12 +34,22 @@ export const MainPageTraveloguesList = styled.ul`
   gap: ${({ theme }) => theme.spacing.m};
 `;
 
-export const SingleFilteringContainer = styled.ul`
+export const TagsContainer = styled.div`
   display: flex;
+  flex-direction: column;
   gap: ${({ theme }) => theme.spacing.s};
 `;
 
-export const MultiFilteringContainer = styled.ul`
+export const SingleSelectionTagsContainer = styled.ul`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.s};
+
+  & > li {
+    cursor: pointer;
+  }
+`;
+
+export const MultiSelectionTagsContainer = styled.ul`
   display: flex;
   overflow: scroll hidden;
   gap: ${({ theme }) => theme.spacing.s};
@@ -54,10 +65,21 @@ export const MultiFilteringContainer = styled.ul`
   }
 
   & > li {
-    flex: 0 0 auto;
-
     cursor: pointer;
   }
+`;
+
+export const OptionContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+
+  cursor: pointer;
+`;
+
+export const LastElement = styled.div`
+  height: 0.1rem;
 `;
 
 export const subTitleStyle = css`
@@ -72,4 +94,12 @@ export const subTitleStyle = css`
       display: block;
     }
   }
+`;
+
+export const selectedOptionStyle = css`
+  color: ${theme.colors.primary};
+`;
+
+export const unselectedOptionStyle = css`
+  color: ${theme.colors.text.secondary};
 `;

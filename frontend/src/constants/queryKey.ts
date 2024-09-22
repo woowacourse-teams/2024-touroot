@@ -1,3 +1,5 @@
+import { SortingOption, TravelPeriodOption } from "@type/domain/travelogue";
+
 export const QUERY_KEYS_MAP = {
   travelogue: {
     all: ["travelogues"],
@@ -9,8 +11,16 @@ export const QUERY_KEYS_MAP = {
     ],
     me: () => [...QUERY_KEYS_MAP.travelogue.member("me")],
     search: (keyword: string) => [...QUERY_KEYS_MAP.travelogue.all, keyword],
-    tag: (selectedTagIDs: number[]) => [...QUERY_KEYS_MAP.travelogue.all, ...selectedTagIDs],
-
+    tag: (
+      selectedTagIDs: number[],
+      selectedSortingOption: SortingOption,
+      selectedTravelPeriodOption: TravelPeriodOption,
+    ) => [
+      ...QUERY_KEYS_MAP.travelogue.all,
+      ...selectedTagIDs,
+      selectedSortingOption,
+      selectedTravelPeriodOption,
+    ],
   },
   travelPlan: {
     all: ["travel-plans"],
