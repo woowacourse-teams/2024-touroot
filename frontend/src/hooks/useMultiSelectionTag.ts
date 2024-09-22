@@ -8,6 +8,7 @@ const useMultiSelectionTag = () => {
   const { data: tags } = useGetTags();
 
   const [selectedTagIDs, setSelectedTagIDs] = useState<number[]>([]);
+  const [animationKey, setAnimationKey] = useState(0);
 
   const onChangeSelectedTagIDs = useCallback((newSelectedTagIDs: number[]) => {
     setSelectedTagIDs(newSelectedTagIDs);
@@ -30,6 +31,8 @@ const useMultiSelectionTag = () => {
 
       if (newSelectedTagIDs.length > FORM_VALIDATIONS_MAP.tags.maxCount) return prevSelectedTagIDs;
 
+      setAnimationKey((prev) => prev + 1);
+
       return newSelectedTagIDs;
     });
   };
@@ -39,6 +42,7 @@ const useMultiSelectionTag = () => {
     onChangeSelectedTagIDs,
     sortedTags: createSortedTags(),
     handleClickTag,
+    animationKey,
   };
 };
 

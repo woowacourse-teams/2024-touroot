@@ -46,7 +46,7 @@ const TRAVEL_PERIOD_OPTIONS_MAP = {
 };
 
 const MainPage = () => {
-  const { selectedTagIDs, handleClickTag, sortedTags } = useMultiSelectionTag();
+  const { selectedTagIDs, handleClickTag, sortedTags, animationKey } = useMultiSelectionTag();
   const { sorting, travelPeriod } = useSingleSelectionTag();
 
   const { travelogues, status, fetchNextPage, isPaused, error } = useInfiniteTravelogues(
@@ -107,61 +107,16 @@ const MainPage = () => {
           </Chip>
         </S.SingleSelectionTagsContainer>
 
-        <SingleSelectionTagModalBottomSheet
-          isOpen={sorting.isModalOpen}
-          onClose={sorting.handleCloseModal}
-          mainText="여행기 정렬을 선택해 주세요!"
-        >
-          {SORTING_OPTIONS.map((option, index) => (
-            <S.OptionContainer key={index} onClick={() => sorting.handleClickOption(option)}>
-              {option === sorting.selectedOption ? (
-                <>
-                  <Text textType="detailBold" css={S.selectedOptionStyle}>
-                    {SORTING_OPTIONS_MAP[option]}
-                  </Text>
-                  <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
-                </>
-              ) : (
-                <Text textType="detail" css={S.unselectedOptionStyle}>
-                  {SORTING_OPTIONS_MAP[option]}
-                </Text>
-              )}
-            </S.OptionContainer>
-          ))}
-        </SingleSelectionTagModalBottomSheet>
-
-        <SingleSelectionTagModalBottomSheet
-          isOpen={travelPeriod.isModalOpen}
-          onClose={travelPeriod.handleCloseModal}
-          mainText="여행 기간을 선택해 주세요!"
-        >
-          {TRAVEL_PERIOD_OPTIONS.map((option, index) => (
-            <S.OptionContainer key={index} onClick={() => travelPeriod.handleClickOption(option)}>
-              {option === travelPeriod.selectedOption ? (
-                <>
-                  <Text textType="detailBold" css={S.selectedOptionStyle}>
-                    {TRAVEL_PERIOD_OPTIONS_MAP[option]}
-                  </Text>
-                  <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
-                </>
-              ) : (
-                <Text textType="detail" css={S.unselectedOptionStyle}>
-                  {TRAVEL_PERIOD_OPTIONS_MAP[option]}
-                </Text>
-              )}
-            </S.OptionContainer>
-          ))}
-        </SingleSelectionTagModalBottomSheet>
-
         <S.MultiSelectionTagsContainer
           ref={scrollRef}
           onMouseDown={onMouseDown}
           onMouseUp={onMouseUp}
           onMouseMove={onMouseMove}
         >
-          {sortedTags.map((tag) => (
+          {sortedTags.map((tag, index) => (
             <Chip
-              key={tag.id}
+              key={`${tag.id}-${animationKey}`}
+              index={index}
               label={tag.tag}
               isSelected={selectedTagIDs.includes(tag.id)}
               onClick={() => handleClickTag(tag.id)}
@@ -205,6 +160,52 @@ const MainPage = () => {
       )}
       <FloatingButton />
       <S.LastElement ref={lastElementRef} />
+
+      <SingleSelectionTagModalBottomSheet
+        isOpen={sorting.isModalOpen}
+        onClose={sorting.handleCloseModal}
+        mainText="여행기 정렬을 선택해 주세요!"
+      >
+        {SORTING_OPTIONS.map((option, index) => (
+          <S.OptionContainer key={index} onClick={() => sorting.handleClickOption(option)}>
+            {option === sorting.selectedOption ? (
+              <>
+                <Text textType="detailBold" css={S.selectedOptionStyle}>
+                  {SORTING_OPTIONS_MAP[option]}
+                </Text>
+                <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
+              </>
+            ) : (
+              <Text textType="detail" css={S.unselectedOptionStyle}>
+                {SORTING_OPTIONS_MAP[option]}
+              </Text>
+            )}
+          </S.OptionContainer>
+        ))}
+      </SingleSelectionTagModalBottomSheet>
+
+      <SingleSelectionTagModalBottomSheet
+        isOpen={travelPeriod.isModalOpen}
+        onClose={travelPeriod.handleCloseModal}
+        mainText="여행 기간을 선택해 주세요!"
+      >
+        {TRAVEL_PERIOD_OPTIONS.map((option, index) => (
+          <S.OptionContainer key={index} onClick={() => travelPeriod.handleClickOption(option)}>
+            {option === travelPeriod.selectedOption ? (
+              <>
+                <Text textType="detailBold" css={S.selectedOptionStyle}>
+                  {TRAVEL_PERIOD_OPTIONS_MAP[option]}
+                </Text>
+                <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
+              </>
+            ) : (
+              <Text textType="detail" css={S.unselectedOptionStyle}>
+                {TRAVEL_PERIOD_OPTIONS_MAP[option]}
+              </Text>
+            )}
+          </S.OptionContainer>
+        ))}
+      </SingleSelectionTagModalBottomSheet>
     </S.MainPageContentContainer>
   );
 };
