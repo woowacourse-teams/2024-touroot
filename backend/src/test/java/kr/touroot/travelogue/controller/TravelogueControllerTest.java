@@ -497,12 +497,12 @@ class TravelogueControllerTest {
     @DisplayName("여행기에 좋아요 취소를 한다.")
     @Test
     void unlikeTravelogue() throws JsonProcessingException {
-        testHelper.initTravelogueTestDataWithLike(member);
+        Travelogue travelogue = testHelper.initTravelogueTestDataWithLike(member);
         TravelogueLikeResponse response = new TravelogueLikeResponse(false, 0L);
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .when().delete("/api/v1/travelogues/1/like")
+                .when().delete("/api/v1/travelogues/" + travelogue.getId() +"/like")
                 .then().log().all()
                 .statusCode(200).assertThat()
                 .body(is(objectMapper.writeValueAsString(response)));

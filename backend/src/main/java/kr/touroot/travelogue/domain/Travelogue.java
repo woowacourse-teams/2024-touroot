@@ -35,6 +35,7 @@ public class Travelogue extends BaseEntity {
 
     private static final int MIN_TITLE_LENGTH = 1;
     private static final int MAX_TITLE_LENGTH = 20;
+    private static final int LIKE_COUNT_WEIGHT = 1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -106,6 +107,14 @@ public class Travelogue extends BaseEntity {
         } catch (Exception e) {
             throw new BadRequestException("이미지 url 형식이 잘못되었습니다");
         }
+    }
+    
+    public void increaseLikeCount() {
+        likeCount += LIKE_COUNT_WEIGHT;
+    }
+    
+    public void decreaseLikeCount() {
+        likeCount -= LIKE_COUNT_WEIGHT;
     }
 
     public boolean isAuthor(Member author) {
