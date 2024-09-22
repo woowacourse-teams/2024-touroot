@@ -21,6 +21,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -49,19 +50,24 @@ public class Travelogue extends BaseEntity {
     @Column(nullable = false)
     private String thumbnail;
 
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private Integer likeCount;
+
     @OneToMany(mappedBy = "travelogue", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TravelogueDay> travelogueDays = new ArrayList<>();
 
-    public Travelogue(Long id, Member author, String title, String thumbnail) {
+    private Travelogue(Long id, Member author, String title, String thumbnail, Integer likeCount) {
         validate(author, title, thumbnail);
         this.id = id;
         this.author = author;
         this.title = title;
         this.thumbnail = thumbnail;
+        this.likeCount = likeCount;
     }
 
     public Travelogue(Member author, String title, String thumbnail) {
-        this(null, author, title, thumbnail);
+        this(null, author, title, thumbnail, 0);
     }
 
     public void update(String title, String thumbnail) {
