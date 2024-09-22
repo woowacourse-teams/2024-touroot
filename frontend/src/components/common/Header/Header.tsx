@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
+import usePreviousPage from "@hooks/usePreviousPage";
 import useUser from "@hooks/useUser";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
@@ -44,6 +45,7 @@ const Header = ({
   };
 
   const handleClickMyPage = () => navigate(ROUTE_PATHS_MAP.my);
+  const goBack = usePreviousPage();
 
   return (
     <Drawer>
@@ -52,11 +54,7 @@ const Header = ({
           <IconButton
             color={isLogoUsed ? theme.colors.primary : PRIMITIVE_COLORS.black}
             iconType={isLogoUsed ? "korean-logo" : "back-icon"}
-            onClick={
-              isLogoUsed
-                ? () => navigate(ROUTE_PATHS_MAP.root)
-                : () => navigate(ROUTE_PATHS_MAP.back)
-            }
+            onClick={isLogoUsed ? () => navigate(ROUTE_PATHS_MAP.root) : () => goBack()}
           />
         </S.LeftWrapper>
 
