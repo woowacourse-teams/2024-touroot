@@ -25,7 +25,7 @@ const SingleSelectionTagModalBottomSheet = ({
       </Modal.Body>
       <Modal.Footer>
         <Button variants="secondary" onClick={onClose}>
-          취소
+          닫기
         </Button>
       </Modal.Footer>
     </Modal>
