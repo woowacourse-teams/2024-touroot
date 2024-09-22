@@ -22,6 +22,7 @@ import TravelogueDayAccordion from "@components/pages/travelogueRegister/Travelo
 
 import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
 import { useDragScroll } from "@hooks/useDragScroll";
+import useInitialTripTitle from "@hooks/useInitialTripTitle";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useTagSelection from "@hooks/useTagSelection";
 import useUser from "@hooks/useUser";
@@ -38,7 +39,6 @@ const TravelogueRegisterPage = () => {
 
   const { transformDetail } = useTravelTransformDetailContext();
 
-  const [title, setTitle] = useState("");
   const [thumbnail, setThumbnail] = useState("");
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,6 +65,10 @@ const TravelogueRegisterPage = () => {
     onChangeImageUrls,
     onDeleteImageUrls,
   } = useTravelogueDays(transformDetail?.days ?? []);
+
+  const initialTitle = useInitialTripTitle({ days: transformDetail?.days, type: "travelogue" });
+
+  const [title, setTitle] = useState(initialTitle);
 
   const thumbnailFileInputRef = useRef<HTMLInputElement>(null);
 
