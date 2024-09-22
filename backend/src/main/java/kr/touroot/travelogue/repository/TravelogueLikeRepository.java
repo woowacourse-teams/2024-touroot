@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TravelogueLikeRepository extends JpaRepository<TravelogueLike, Long> {
 
-    Long countByTravelogue(Travelogue travelogue);
-
     boolean existsByTravelogueAndLiker(Travelogue travelogue, Member liker);
 
     void deleteAllByTravelogue(Travelogue travelogue);
