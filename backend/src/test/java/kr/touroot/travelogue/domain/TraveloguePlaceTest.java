@@ -31,7 +31,7 @@ class TraveloguePlaceTest {
     @Test
     void createTraveloguePlaceWithNullOrder() {
         assertThatThrownBy(() -> new TraveloguePlace(null, VALID_DESC, VALID_NAME, VALID_LAT, VALID_LNG, VALID_DAY))
-                .isInstanceOf(BadRequestException.class).hasMessage("여행기 장소에서 순서와 장소 상세 정보, 그리고 방문 날짜는 비어 있을 수 없습니다");
+                .isInstanceOf(BadRequestException.class).hasMessage("여행기 장소에서 순서와 장소 위치, 그리고 방문 날짜는 비어 있을 수 없습니다");
     }
 
     @DisplayName("여행기 장소 생성 시 이름 정보가 비어 있다면 예외가 발생한다")
@@ -39,23 +39,7 @@ class TraveloguePlaceTest {
     void createTraveloguePlaceWithNullPlaceName() {
         assertThatThrownBy(() -> new TraveloguePlace(VALID_ORDER, VALID_DESC, null, VALID_LAT, VALID_LNG, VALID_DAY))
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("여행기 장소에서 순서와 장소 상세 정보, 그리고 방문 날짜는 비어 있을 수 없습니다");
-    }
-
-    @DisplayName("여행기 장소 생성 시 위도 정보가 비어 있다면 예외가 발생한다")
-    @Test
-    void createTraveloguePlaceWithNullLat() {
-        assertThatThrownBy(() -> new TraveloguePlace(VALID_ORDER, VALID_DESC, VALID_NAME, null, VALID_LNG, VALID_DAY))
-                .isInstanceOf(BadRequestException.class)
-                .hasMessage("여행기 장소에서 순서와 장소 상세 정보, 그리고 방문 날짜는 비어 있을 수 없습니다");
-    }
-
-    @DisplayName("여행기 장소 생성 시 경도 정보가 비어 있다면 예외가 발생한다")
-    @Test
-    void createTraveloguePlaceWithNullLng() {
-        assertThatThrownBy(() -> new TraveloguePlace(VALID_ORDER, VALID_DESC, VALID_NAME, VALID_LAT, null, VALID_DAY))
-                .isInstanceOf(BadRequestException.class)
-                .hasMessage("여행기 장소에서 순서와 장소 상세 정보, 그리고 방문 날짜는 비어 있을 수 없습니다");
+                .hasMessage("여행기 장소에서 순서와 장소 위치, 그리고 방문 날짜는 비어 있을 수 없습니다");
     }
 
     @DisplayName("여행기 장소 생성 시 장소가 속한 날짜가 비어 있다면 예외가 발생한다")
@@ -63,7 +47,7 @@ class TraveloguePlaceTest {
     void createTraveloguePlaceWithNullDay() {
         assertThatThrownBy(() -> new TraveloguePlace(VALID_ORDER, VALID_DESC, VALID_NAME, VALID_LAT, VALID_LNG, null))
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("여행기 장소에서 순서와 장소 상세 정보, 그리고 방문 날짜는 비어 있을 수 없습니다");
+                .hasMessage("여행기 장소에서 순서와 장소 위치, 그리고 방문 날짜는 비어 있을 수 없습니다");
     }
 
     @DisplayName("여행기 장소 생성 시 장소 설명이 비어 있더라도 여행기를 생성할 수 있다")
@@ -79,25 +63,7 @@ class TraveloguePlaceTest {
     void createTraveloguePlaceWithBlankName(String blank) {
         assertThatThrownBy(() -> new TraveloguePlace(VALID_ORDER, VALID_DESC, blank, VALID_LAT, VALID_LNG, VALID_DAY))
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("장소 이름, 위도, 경도는 비어 있을 수 없습니다");
-    }
-
-    @DisplayName("여행 장소의 위도가 공백문자로만 이루어져 있는 경우 예외가 발생한다")
-    @ParameterizedTest
-    @ValueSource(strings = {"", "   ", "    "})
-    void createTraveloguePlaceWithBlankLatitude(String blank) {
-        assertThatThrownBy(() -> new TraveloguePlace(VALID_ORDER, VALID_DESC, VALID_NAME, blank, VALID_LNG, VALID_DAY))
-                .isInstanceOf(BadRequestException.class)
-                .hasMessage("장소 이름, 위도, 경도는 비어 있을 수 없습니다");
-    }
-
-    @DisplayName("여행 장소의 경도가 공백문자로만 이루어져 있는 경우 예외가 발생한다")
-    @ParameterizedTest
-    @ValueSource(strings = {"", "   ", "    "})
-    void createTraveloguePlaceWithBlankLongitude(String blank) {
-        assertThatThrownBy(() -> new TraveloguePlace(VALID_ORDER, VALID_DESC, VALID_NAME, VALID_NAME, blank, VALID_DAY))
-                .isInstanceOf(BadRequestException.class)
-                .hasMessage("장소 이름, 위도, 경도는 비어 있을 수 없습니다");
+                .hasMessage("장소 이름은 비어 있을 수 없습니다");
     }
 
     @DisplayName("여행기 장소의 순서는 음수 일 수 없다")
@@ -118,29 +84,6 @@ class TraveloguePlaceTest {
         assertThatThrownBy(() -> new TraveloguePlace(VALID_ORDER, invalid, VALID_NAME, VALID_LAT, VALID_LNG, VALID_DAY))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("여행 장소에 대한 설명은 300자를 넘길 수 없습니다");
-    }
-
-    @DisplayName("위도 형식에 맞지 않는 위도로 장소 생성 시 예외가 발생한다")
-    @ParameterizedTest
-    @ValueSource(strings = {"91.0000", "-91.0000", "100.0000", "-100.0000", "abc", "45.0000.0", "45,0000"})
-    void createTraveloguePlaceWithMalformedLatitude(String malformed) {
-        assertThatThrownBy(
-                () -> new TraveloguePlace(VALID_ORDER, VALID_DESC, VALID_NAME, malformed, VALID_LNG, VALID_DAY)
-        )
-                .isInstanceOf(BadRequestException.class)
-                .hasMessage("위,경도의 형식이 올바르지 않습니다");
-
-    }
-
-    @DisplayName("경도 형식에 맞지 않는 위도로 장소 생성 시 예외가 발생한다")
-    @ParameterizedTest
-    @ValueSource(strings = {"181.0000", "-181.0000", "200.0000", "-200.0000", "abc", "100.0000.0", "100,0000"})
-    void createTraveloguePlaceWithMalformedLongitude(String malformed) {
-        assertThatThrownBy(
-                () -> new TraveloguePlace(VALID_ORDER, VALID_DESC, VALID_NAME, VALID_LAT, malformed, VALID_DAY)
-        )
-                .isInstanceOf(BadRequestException.class)
-                .hasMessage("위,경도의 형식이 올바르지 않습니다");
     }
 
     @DisplayName("장소 이름의 길이가 60자를 초과하는 경우 장소 생성 시 예외가 발생한다")

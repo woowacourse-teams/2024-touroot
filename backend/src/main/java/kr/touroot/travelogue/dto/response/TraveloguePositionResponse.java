@@ -1,7 +1,7 @@
 package kr.touroot.travelogue.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import kr.touroot.travelogue.domain.TraveloguePlace;
+import kr.touroot.coordinate.domain.GeographicalCoordinate;
 import lombok.Builder;
 
 @Builder
@@ -12,10 +12,10 @@ public record TraveloguePositionResponse(
         String lng
 ) {
 
-    public static TraveloguePositionResponse from(TraveloguePlace place) {
+    public static TraveloguePositionResponse from(GeographicalCoordinate coordinate) {
         return TraveloguePositionResponse.builder()
-                .lat(place.getLatitude())
-                .lng(place.getLongitude())
+                .lat(coordinate.getLatitude())
+                .lng(coordinate.getLongitude())
                 .build();
     }
 }
