@@ -26,6 +26,7 @@ import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
+import kr.touroot.travelogue.repository.TravelogueRepository;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -50,6 +51,7 @@ class TravelogueControllerTest {
     private final JwtTokenProvider jwtTokenProvider;
     @MockBean
     private final AwsS3Provider s3Provider;
+    private final TravelogueRepository travelogueRepository;
 
     @LocalServerPort
     private int port;
@@ -62,13 +64,14 @@ class TravelogueControllerTest {
             TravelogueTestHelper testHelper,
             ObjectMapper objectMapper,
             JwtTokenProvider jwtTokenProvider,
-            AwsS3Provider s3Provider
+            AwsS3Provider s3Provider, TravelogueRepository travelogueRepository
     ) {
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
         this.objectMapper = objectMapper;
         this.jwtTokenProvider = jwtTokenProvider;
         this.s3Provider = s3Provider;
+        this.travelogueRepository = travelogueRepository;
     }
 
     @BeforeEach
@@ -323,13 +326,44 @@ class TravelogueControllerTest {
 
     @DisplayName("메인 페이지 조회 시 태그 기반으로 필터링을 진행한다.")
     @Test
-    void filterMainPageTravelogues() {
+    void filterMainPageTraveloguesWithTag() {
         testHelper.initAllTravelogueTestData();
         testHelper.initTravelogueTestDataWithTag(member, List.of(TagFixture.TAG_2.get(), TagFixture.TAG_3.get()));
 
         RestAssured.given().log().all()
                 .accept(ContentType.JSON)
                 .params("tag", "2,3")
+                .when().get("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body("content.size()", is(1));
+    }
+
+    @DisplayName("메인 페이지 조회 시 날짜 기반으로 필터링을 진행한다.")
+    @Test
+    void filterMainPageTraveloguesWithPeriod() {
+        testHelper.initAllTravelogueTestData();
+        testHelper.initTravelogueTestDataWithTag(member, List.of(TagFixture.TAG_2.get(), TagFixture.TAG_3.get()));
+
+        RestAssured.given().log().all()
+                .accept(ContentType.JSON)
+                .params("period", "1")
+                .when().get("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body("content.size()", is(2));
+    }
+
+    @DisplayName("메인 페이지 조회 시 날짜 및 태그 기반으로 필터링을 진행한다.")
+    @Test
+    void filterMainPageTraveloguesWithPeriodAndTag() {
+        testHelper.initAllTravelogueTestData();
+        testHelper.initTravelogueTestDataWithTag(member, List.of(TagFixture.TAG_2.get(), TagFixture.TAG_3.get()));
+
+        RestAssured.given().log().all()
+                .accept(ContentType.JSON)
+                .params("tag", "1")
+                .params("period", "1")
                 .when().get("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(200).assertThat()
@@ -517,7 +551,7 @@ class TravelogueControllerTest {
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .when().delete("/api/v1/travelogues/" + travelogue.getId() +"/like")
+                .when().delete("/api/v1/travelogues/" + travelogue.getId() + "/like")
                 .then().log().all()
                 .statusCode(200).assertThat()
                 .body(is(objectMapper.writeValueAsString(response)));

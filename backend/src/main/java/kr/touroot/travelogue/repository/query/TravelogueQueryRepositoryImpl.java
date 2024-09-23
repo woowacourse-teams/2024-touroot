@@ -6,6 +6,7 @@ import static kr.touroot.travelogue.domain.QTravelogueTag.travelogueTag;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import kr.touroot.travelogue.domain.Travelogue;
@@ -37,13 +38,14 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
     }
 
     @Override
-    public Page<Travelogue> findAllByTag(TravelogueFilterCondition filter, Pageable pageable) {
-        List<Travelogue> results = jpaQueryFactory.select(travelogue)
-                .from(travelogueTag)
-                .where(travelogueTag.tag.id.in(filter.tag()))
-                .groupBy(travelogueTag.travelogue)
-                .having(isSameCountWithFilter(filter.tag()))
-                .orderBy(findSortCondition(pageable.getSort()))
+    public Page<Travelogue> findAllByFilter(TravelogueFilterCondition filter, Pageable pageable) {
+        JPAQuery<Travelogue> query = jpaQueryFactory.select(travelogue)
+                .from(travelogueTag);
+
+        addTagFilter(query, filter);
+        addPeriodFilter(query, filter);
+
+        List<Travelogue> results = query.orderBy(findSortCondition(pageable.getSort()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -51,16 +53,39 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         return new PageImpl<>(results, pageable, results.size());
     }
 
+    public void addTagFilter(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
+        if (filter.tag() == null) {
+            return;
+        }
+
+        query.where(travelogueTag.tag.id.in(filter.tag()))
+                .groupBy(travelogueTag.travelogue)
+                .having(isSameCountWithFilter(filter.tag()));
+    }
+
+    public void addPeriodFilter(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
+        if (filter.period() == null) {
+            return;
+        }
+
+        if (filter.period() == 8) {
+            query.where(travelogueTag.travelogue.travelogueDays.size().goe(8));
+            return;
+        }
+
+        query.where(travelogueTag.travelogue.travelogueDays.size().eq(filter.period()));
+    }
+
     private OrderSpecifier<?> findSortCondition(Sort sort) {
         Sort.Order order = sort.iterator()
                 .next();
         String sortBy = order.getProperty();
 
-        if (sortBy.equals("likeCount")) {
-            return travelogueTag.travelogue.likeCount.desc();
+        if (sortBy.equals("createdAt")) {
+            return travelogueTag.travelogue.createdAt.desc();
         }
 
-        return travelogueTag.travelogue.createdAt.desc();
+        return travelogueTag.travelogue.likeCount.desc();
     }
 
     private BooleanExpression isSameCountWithFilter(List<Long> tagFilter) {

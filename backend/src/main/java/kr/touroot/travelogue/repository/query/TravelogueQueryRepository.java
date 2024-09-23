@@ -9,5 +9,5 @@ public interface TravelogueQueryRepository {
 
     Page<Travelogue> findByTitleContaining(String keyword, Pageable pageable);
 
-    Page<Travelogue> findAllByTag(TravelogueFilterCondition filter, Pageable pageable);
+    Page<Travelogue> findAllByFilter(TravelogueFilterCondition filter, Pageable pageable);
 }

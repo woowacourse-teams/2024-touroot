@@ -1,6 +1,5 @@
 package kr.touroot.travelogue.service;
 
-import java.util.List;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
@@ -54,7 +53,7 @@ public class TravelogueService {
 
     @Transactional(readOnly = true)
     public Page<Travelogue> findAllByFilter(TravelogueFilterCondition filter, Pageable pageable) {
-        return travelogueQueryRepository.findAllByTag(filter, pageable);
+        return travelogueQueryRepository.findAllByFilter(filter, pageable);
     }
 
     @Transactional
