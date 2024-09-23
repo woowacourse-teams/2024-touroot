@@ -114,11 +114,11 @@ class TravelogueServiceTest {
 
     @DisplayName("여행기를 검색할 수 있다.")
     @Test
-    void findByRequest() {
+    void findByKeyword() {
         testHelper.initTravelogueTestData();
         TravelogueSearchRequest request = new TravelogueSearchRequest("제주", "title");
 
-        assertThat(travelogueService.findByRequest(request, Pageable.ofSize(BASIC_PAGE_SIZE)))
+        assertThat(travelogueService.findByKeyword(request, Pageable.ofSize(BASIC_PAGE_SIZE)))
                 .hasSize(1);
     }
 
@@ -128,7 +128,7 @@ class TravelogueServiceTest {
         testHelper.initTravelogueTestData();
         TravelogueSearchRequest request = new TravelogueSearchRequest("서울", "title");
 
-        assertThat(travelogueService.findByRequest(request, Pageable.ofSize(BASIC_PAGE_SIZE)))
+        assertThat(travelogueService.findByKeyword(request, Pageable.ofSize(BASIC_PAGE_SIZE)))
                 .isEmpty();
     }
 
