@@ -19,10 +19,10 @@ public enum TraveloguePlaceFixture {
     private final TravelogueDay day;
 
     public TraveloguePlace get() {
-        return new TraveloguePlace(order, description, place, day);
+        return new TraveloguePlace(order, description, place.getName(), place.getLatitude(), place.getLongitude(), day);
     }
-
+    
     public TraveloguePlace create(Place place, TravelogueDay day) {
-        return new TraveloguePlace(order, description, place, day);
+        return new TraveloguePlace(order, description, place.getName(), place.getLatitude(), place.getLongitude(), day);
     }
 }

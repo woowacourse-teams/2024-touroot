@@ -165,7 +165,6 @@ public class TravelogueResponseFixture {
 
     public static TraveloguePositionResponse getTraveloguePositionResponse() {
         return TraveloguePositionResponse.builder()
-                .id(1L)
                 .lat("34.54343")
                 .lng("126.66977")
                 .build();

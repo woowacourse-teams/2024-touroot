@@ -12,9 +12,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
-import kr.touroot.place.domain.Place;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,7 +31,11 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 public class TraveloguePlace extends BaseEntity {
 
+    private static final int PLACE_NAME_MAX_LENGTH = 60;
     private static final int MAX_DESCRIPTION_LENGTH = 300;
+    private static final Pattern LATITUDE_PATTERN = Pattern.compile("^([-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?))$");
+    private static final Pattern LONGITUDE_PATTERN = Pattern.compile(
+            "^([-+]?((1[0-7]\\d(\\.\\d+)?|180(\\.0+)?)|([1-9]?\\d(\\.\\d+)?)))$");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,9 +47,14 @@ public class TraveloguePlace extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(300)")
     private String description;
 
-    @JoinColumn(nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Place place;
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String latitude;
+
+    @Column(nullable = false)
+    private String longitude;
 
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,28 +63,61 @@ public class TraveloguePlace extends BaseEntity {
     @OneToMany(mappedBy = "traveloguePlace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TraveloguePhoto> traveloguePhotos = new ArrayList<>();
 
-    public TraveloguePlace(Long id, Integer order, String description, Place place, TravelogueDay travelogueDay) {
-        validate(order, description, place, travelogueDay);
+    public TraveloguePlace(
+            Long id,
+            Integer order,
+            String description,
+            String name,
+            String latitude,
+            String longitude,
+            TravelogueDay travelogueDay
+    ) {
+        validate(order, description, name, latitude, longitude, travelogueDay);
         this.id = id;
         this.order = order;
         this.description = description;
-        this.place = place;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.travelogueDay = travelogueDay;
     }
 
-    public TraveloguePlace(Integer order, String description, Place place, TravelogueDay travelogueDay) {
-        this(null, order, description, place, travelogueDay);
+    public TraveloguePlace(
+            Integer order,
+            String description,
+            String name,
+            String latitude,
+            String longitude,
+            TravelogueDay travelogueDay
+    ) {
+        this(null, order, description, name, latitude, longitude, travelogueDay);
     }
 
-    private void validate(Integer order, String description, Place place, TravelogueDay travelogueDay) {
-        validateNotNull(order, place, travelogueDay);
+    private void validate(
+            Integer order,
+            String description,
+            String name,
+            String latitude,
+            String longitude,
+            TravelogueDay travelogueDay
+    ) {
+        validateNotNull(order, name, latitude, longitude, travelogueDay);
+        validateBlank(name, latitude, longitude);
         validateOrderRange(order);
         validateDescriptionLength(description);
+        validateLatitudeLongitudeFormat(latitude, longitude);
+        validatePlaceNameLength(name);
     }
 
-    private void validateNotNull(Integer order, Place place, TravelogueDay travelogueDay) {
-        if (order == null || place == null || travelogueDay == null) {
+    private void validateNotNull(Integer order, String name, String latitude, String longitude, TravelogueDay day) {
+        if (order == null || name == null || latitude == null || longitude == null || day == null) {
             throw new BadRequestException("여행기 장소에서 순서와 장소 상세 정보, 그리고 방문 날짜는 비어 있을 수 없습니다");
+        }
+    }
+
+    private void validateBlank(String name, String latitude, String longitude) {
+        if (name.isBlank() || latitude.isBlank() || longitude.isBlank()) {
+            throw new BadRequestException("장소 이름, 위도, 경도는 비어 있을 수 없습니다");
         }
     }
 
@@ -90,15 +133,17 @@ public class TraveloguePlace extends BaseEntity {
         }
     }
 
-    public String getName() {
-        return place.getName();
+    private void validateLatitudeLongitudeFormat(String latitude, String longitude) {
+        Matcher latitudeMatcher = LATITUDE_PATTERN.matcher(latitude);
+        Matcher longitudeMatcher = LONGITUDE_PATTERN.matcher(longitude);
+        if (!latitudeMatcher.find() || !longitudeMatcher.find()) {
+            throw new BadRequestException("위,경도의 형식이 올바르지 않습니다");
+        }
     }
 
-    public String getLatitude() {
-        return place.getLatitude();
-    }
-
-    public String getLongitude() {
-        return place.getLongitude();
+    private void validatePlaceNameLength(String placeName) {
+        if (placeName.length() > PLACE_NAME_MAX_LENGTH) {
+            throw new BadRequestException("장소 이름은 " + PLACE_NAME_MAX_LENGTH + "자 이하여야 합니다");
+        }
     }
 }

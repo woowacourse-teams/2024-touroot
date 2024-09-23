@@ -30,7 +30,7 @@ public record TraveloguePlaceRequest(
 ) {
 
     public TraveloguePlace toTraveloguePlace(int order, Place place, TravelogueDay travelogueDay) {
-        return new TraveloguePlace(order, description, place, travelogueDay);
+        return new TraveloguePlace(order, description, placeName, position().lat(), position().lng(), travelogueDay);
     }
 
     public Place toPlace() {
