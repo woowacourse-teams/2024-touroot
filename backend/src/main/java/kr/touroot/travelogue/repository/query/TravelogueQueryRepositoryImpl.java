@@ -5,9 +5,12 @@ import static kr.touroot.travelogue.domain.QTravelogueTag.travelogueTag;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.dto.request.SearchType;
+import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,9 +24,12 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Travelogue> findByTitleContaining(String keyword, Pageable pageable) {
+    public Page<Travelogue> findBySearchRequest(TravelogueSearchRequest request, Pageable pageable) {
+        final String keyword = request.keyword();
+        final StringPath targetField = getTargetField(request.getSearchType());
+
         List<Travelogue> results = jpaQueryFactory.selectFrom(travelogue)
-                .where(Expressions.stringTemplate("replace({0}, ' ', '')", travelogue.title)
+                .where(Expressions.stringTemplate("replace({0}, ' ', '')", targetField)
                         .containsIgnoreCase(keyword.replace(" ", "")))
                 .orderBy(travelogue.id.desc())
                 .offset(pageable.getOffset())
@@ -31,6 +37,13 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
                 .fetch();
 
         return new PageImpl<>(results, pageable, results.size());
+    }
+
+    private StringPath getTargetField(SearchType searchType) {
+        if (SearchType.AUTHOR.equals(searchType)) {
+            return travelogue.author.nickname;
+        }
+        return travelogue.title;
     }
 
     @Override

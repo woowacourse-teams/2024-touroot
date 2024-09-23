@@ -7,8 +7,9 @@ import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
-import kr.touroot.travelogue.repository.query.TravelogueQueryRepository;
+import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.repository.TravelogueRepository;
+import kr.touroot.travelogue.repository.query.TravelogueQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,8 +48,8 @@ public class TravelogueService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Travelogue> findByKeyword(String keyword, Pageable pageable) {
-        return travelogueQueryRepository.findByTitleContaining(keyword, pageable);
+    public Page<Travelogue> findByRequest(TravelogueSearchRequest request, Pageable pageable) {
+        return travelogueQueryRepository.findBySearchRequest(request, pageable);
     }
 
     @Transactional(readOnly = true)
