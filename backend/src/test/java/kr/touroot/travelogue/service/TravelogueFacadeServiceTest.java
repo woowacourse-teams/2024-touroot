@@ -175,11 +175,24 @@ class TravelogueFacadeServiceTest {
 
     @DisplayName("제목 키워드를 기반으로 여행기 목록을 조회한다.")
     @Test
-    void findTraveloguesByKeyword() {
+    void findTraveloguesByTitleKeyword() {
         testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
-        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("제주");
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("제주", "title");
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(pageRequest, searchRequest);
+
+        assertThat(searchResults).containsAll(responses);
+    }
+
+    @DisplayName("사용자 닉네임을 기반으로 여행기 목록을 조회한다.")
+    @Test
+    void findTraveloguesByAuthorNicknameKeyword() {
+        testHelper.initAllTravelogueTestData();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
+
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("리비", "author");
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
         Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(pageRequest, searchRequest);
 

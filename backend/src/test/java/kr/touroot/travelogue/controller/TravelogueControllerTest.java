@@ -338,7 +338,9 @@ class TravelogueControllerTest {
         testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
-        RestAssured.given().param("keyword", "제주")
+        RestAssured.given()
+                .param("keyword", "제주")
+                .param("searchType", "TITLE")
                 .log().all()
                 .accept(ContentType.JSON)
                 .when().get("/api/v1/travelogues/search")
@@ -370,13 +372,30 @@ class TravelogueControllerTest {
         testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
-        RestAssured.given().param("keyword", keyword)
+        RestAssured.given()
+                .param("keyword", keyword)
+                .param("searchType", "TITLE")
                 .log().all()
                 .accept(ContentType.JSON)
                 .when().get("/api/v1/travelogues/search")
                 .then().log().all()
                 .statusCode(200).assertThat()
                 .body(is(objectMapper.writeValueAsString(responses)));
+    }
+
+    @DisplayName("검색 키워드의 종류를 명시해야 한다.")
+    @Test
+    void findTraveloguesByKeywordWithoutSearchType() {
+        testHelper.initAllTravelogueTestData();
+
+        RestAssured.given()
+                .param("keyword", "제주")
+                .log().all()
+                .accept(ContentType.JSON)
+                .when().get("/api/v1/travelogues/search")
+                .then().log().all()
+                .statusCode(400).assertThat()
+                .body("message", is("검색 키워드 종류는 필수입니다."));
     }
 
     @DisplayName("여행기를 수정한다.")
