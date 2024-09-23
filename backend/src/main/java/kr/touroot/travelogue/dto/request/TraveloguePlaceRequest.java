@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.List;
-import kr.touroot.place.domain.Place;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 
@@ -29,11 +28,7 @@ public record TraveloguePlaceRequest(
         List<TraveloguePhotoRequest> photoUrls
 ) {
 
-    public TraveloguePlace toTraveloguePlace(int order, Place place, TravelogueDay travelogueDay) {
+    public TraveloguePlace toTraveloguePlace(int order, TravelogueDay travelogueDay) {
         return new TraveloguePlace(order, description, placeName, position().lat(), position().lng(), travelogueDay);
-    }
-
-    public Place toPlace() {
-        return new Place(placeName, position.lat(), position.lng());
     }
 }

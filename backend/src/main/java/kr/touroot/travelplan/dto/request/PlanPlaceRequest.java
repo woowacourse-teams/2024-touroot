@@ -5,7 +5,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
-import kr.touroot.place.domain.Place;
 import kr.touroot.travelplan.domain.TravelPlanDay;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
 import lombok.Builder;
@@ -22,11 +21,7 @@ public record PlanPlaceRequest(
         List<PlanPlaceTodoRequest> todos
 ) {
 
-    public TravelPlanPlace toPlanPlace(int order, TravelPlanDay day, Place place) {
+    public TravelPlanPlace toPlanPlace(int order, TravelPlanDay day) {
         return new TravelPlanPlace(order, day, placeName, position().lat(), position().lng());
-    }
-    
-    public Place toPlace() {
-        return new Place(placeName, position.lat(), position.lng());
     }
 }

@@ -1,6 +1,5 @@
 package kr.touroot.travelogue.helper;
 
-import static kr.touroot.place.fixture.PlaceFixture.PLACE;
 import static kr.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
 import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
 import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
@@ -11,8 +10,6 @@ import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.fixture.MemberFixture;
 import kr.touroot.member.repository.MemberRepository;
-import kr.touroot.place.domain.Place;
-import kr.touroot.place.repository.PlaceRepository;
 import kr.touroot.tag.domain.Tag;
 import kr.touroot.tag.fixture.TagFixture;
 import kr.touroot.tag.repository.TagRepository;
@@ -34,7 +31,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class TravelogueTestHelper {
 
-    private final PlaceRepository placeRepository;
     private final TravelogueRepository travelogueRepository;
     private final TravelogueDayRepository travelogueDayRepository;
     private final TraveloguePlaceRepository traveloguePlaceRepository;
@@ -46,7 +42,6 @@ public class TravelogueTestHelper {
 
     @Autowired
     public TravelogueTestHelper(
-            PlaceRepository placeRepository,
             TravelogueRepository travelogueRepository,
             TravelogueDayRepository travelogueDayRepository,
             TraveloguePlaceRepository traveloguePlaceRepository,
@@ -56,7 +51,6 @@ public class TravelogueTestHelper {
             TravelogueTagRepository travelogueTagRepository,
             TravelogueLikeRepository travelogueLikeRepository
     ) {
-        this.placeRepository = placeRepository;
         this.travelogueRepository = travelogueRepository;
         this.travelogueDayRepository = travelogueDayRepository;
         this.traveloguePlaceRepository = traveloguePlaceRepository;
@@ -87,8 +81,7 @@ public class TravelogueTestHelper {
     public Travelogue initTravelogueTestData(Member author) {
         Travelogue travelogue = persistTravelogue(author);
         TravelogueDay day = persistTravelogueDay(travelogue);
-        Place position = persistPlace();
-        TraveloguePlace place = persistTraveloguePlace(position, day);
+        TraveloguePlace place = persistTraveloguePlace(day);
         persistTraveloguePhoto(place);
 
         return travelogue;
@@ -97,10 +90,9 @@ public class TravelogueTestHelper {
     public Travelogue initTravelogueTestDataWithSeveralDays(Member author) {
         Travelogue travelogue = persistTravelogue(author);
         List<TravelogueDay> days = List.of(persistTravelogueDay(travelogue), persistTravelogueDay(travelogue));
-        Place position = persistPlace();
 
         days.stream()
-                .map(day -> persistTraveloguePlace(position, day))
+                .map(day -> persistTraveloguePlace(day))
                 .map(this::persistTraveloguePhoto)
                 .toList();
 
@@ -110,8 +102,7 @@ public class TravelogueTestHelper {
     public Travelogue initTravelogueTestDataWithTag(Member author) {
         Travelogue travelogue = persistTravelogue(author);
         TravelogueDay day = persistTravelogueDay(travelogue);
-        Place position = persistPlace();
-        TraveloguePlace place = persistTraveloguePlace(position, day);
+        TraveloguePlace place = persistTraveloguePlace(day);
         persistTraveloguePhoto(place);
         persisTravelogueTag(travelogue, TagFixture.TAG_1.get());
 
@@ -121,8 +112,7 @@ public class TravelogueTestHelper {
     public Travelogue initTravelogueTestDataWithTag(Member author, List<Tag> tags) {
         Travelogue travelogue = persistTravelogue(author);
         TravelogueDay day = persistTravelogueDay(travelogue);
-        Place position = persistPlace();
-        TraveloguePlace place = persistTraveloguePlace(position, day);
+        TraveloguePlace place = persistTraveloguePlace(day);
         persistTraveloguePhoto(place);
 
         tags.forEach(tag -> persisTravelogueTag(travelogue, tag));
@@ -160,14 +150,8 @@ public class TravelogueTestHelper {
         return travelogueDayRepository.save(day);
     }
 
-    public Place persistPlace() {
-        Place place = PLACE.get();
-
-        return placeRepository.save(place);
-    }
-
-    public TraveloguePlace persistTraveloguePlace(Place position, TravelogueDay day) {
-        TraveloguePlace place = TRAVELOGUE_PLACE.create(position, day);
+    public TraveloguePlace persistTraveloguePlace(TravelogueDay day) {
+        TraveloguePlace place = TRAVELOGUE_PLACE.create(day);
 
         return traveloguePlaceRepository.save(place);
     }

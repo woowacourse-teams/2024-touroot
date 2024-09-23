@@ -5,8 +5,6 @@ import java.util.UUID;
 import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
-import kr.touroot.place.domain.Place;
-import kr.touroot.place.repository.PlaceRepository;
 import kr.touroot.travelplan.domain.TravelPlaceTodo;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.domain.TravelPlanDay;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class TravelPlanTestHelper {
 
-    private final PlaceRepository placeRepository;
     private final TravelPlanRepository travelPlanRepository;
     private final TravelPlanDayRepository travelPlanDayRepository;
     private final TravelPlanPlaceRepository travelPlanPlaceRepository;
@@ -30,14 +27,12 @@ public class TravelPlanTestHelper {
 
     @Autowired
     public TravelPlanTestHelper(
-            PlaceRepository placeRepository,
             TravelPlanRepository travelPlanRepository,
             TravelPlanDayRepository travelPlanDayRepository,
             TravelPlanPlaceRepository travelPlanPlaceRepository,
             MemberRepository memberRepository,
             PlaceTodoRepository placeTodoRepository
     ) {
-        this.placeRepository = placeRepository;
         this.travelPlanRepository = travelPlanRepository;
         this.travelPlanDayRepository = travelPlanDayRepository;
         this.travelPlanPlaceRepository = travelPlanPlaceRepository;
@@ -49,10 +44,6 @@ public class TravelPlanTestHelper {
         return new Member(kakaoId, nickname, profileImageUri, LoginType.KAKAO);
     }
 
-    public static Place getPlace(String name, String latitude, String longitude, String googlePlaceId) {
-        return new Place(name, latitude, longitude, googlePlaceId);
-    }
-
     public static TravelPlan getTravelPlan(String title, LocalDate startDate, Member author) {
         return new TravelPlan(title, startDate, UUID.randomUUID(), author);
     }
@@ -61,10 +52,16 @@ public class TravelPlanTestHelper {
         return new TravelPlanDay(order, travelPlan);
     }
 
-    public static TravelPlanPlace getTravelPlanPlace(int order, Place place, TravelPlanDay day) {
-        return new TravelPlanPlace(order, day, place.getName(), place.getLatitude(), place.getLongitude());
+    public static TravelPlanPlace getTravelPlanPlace(
+            int order,
+            String name,
+            String latitude,
+            String longitude,
+            TravelPlanDay day
+    ) {
+        return new TravelPlanPlace(order, day, name, latitude, longitude);
     }
-    
+
     public static TravelPlaceTodo getTravelPlaceTodo(TravelPlanPlace travelPlanPlace, String content, Integer order,
                                                      Boolean isChecked) {
         return new TravelPlaceTodo(travelPlanPlace, content, order, isChecked);
@@ -75,13 +72,11 @@ public class TravelPlanTestHelper {
         Member author = initMemberTestData();
         TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
-        Place place = getPlace("장소", "37.5175896", "127.0867236", "");
-        TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, place, travelPlanDay);
+        TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, "장소", "37.5175896", "127.0867236", travelPlanDay);
         TravelPlaceTodo travelPlaceTodo = getTravelPlaceTodo(travelPlanPlace, "테스트짜기", 0, false);
 
         travelPlanRepository.save(travelPlan);
         travelPlanDayRepository.save(travelPlanDay);
-        placeRepository.save(place);
         travelPlanPlaceRepository.save(travelPlanPlace);
         placeTodoRepository.save(travelPlaceTodo);
 
@@ -91,13 +86,11 @@ public class TravelPlanTestHelper {
     public TravelPlan initTravelPlanTestData(Member author) {
         TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
-        Place place = getPlace("장소", "37.5175896", "127.0867236", "");
-        TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, place, travelPlanDay);
+        TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, "장소", "37.5175896", "127.0867236", travelPlanDay);
         TravelPlaceTodo travelPlaceTodo = getTravelPlaceTodo(travelPlanPlace, "테스트짜기", 0, false);
 
         travelPlanRepository.save(travelPlan);
         travelPlanDayRepository.save(travelPlanDay);
-        placeRepository.save(place);
         travelPlanPlaceRepository.save(travelPlanPlace);
         placeTodoRepository.save(travelPlaceTodo);
 

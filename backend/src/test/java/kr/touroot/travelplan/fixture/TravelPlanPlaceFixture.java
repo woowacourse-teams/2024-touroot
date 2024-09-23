@@ -1,27 +1,27 @@
 package kr.touroot.travelplan.fixture;
 
-import kr.touroot.place.domain.Place;
-import kr.touroot.place.fixture.PlaceFixture;
 import kr.touroot.travelplan.domain.TravelPlanDay;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
 
 public enum TravelPlanPlaceFixture {
 
-    TRAVEL_PLAN_PLACE("함덕 해수욕장 조아요!", 0, TravelPlanDayFixture.TRAVEL_PLAN_DAY.get(), PlaceFixture.PLACE.get());
+    TRAVEL_PLAN_PLACE(0, TravelPlanDayFixture.TRAVEL_PLAN_DAY.get(), "함덕 해수욕장", "34.54343", "126.66977");
 
-    private final String description;
     private final Integer order;
     private final TravelPlanDay travelPlanDay;
-    private final Place place;
+    private final String name;
+    private final String latitude;
+    private final String longitude;
 
-    TravelPlanPlaceFixture(String description, Integer order, TravelPlanDay travelPlanDay, Place place) {
-        this.description = description;
+    TravelPlanPlaceFixture(Integer order, TravelPlanDay day, String name, String latitude, String longitude) {
         this.order = order;
-        this.travelPlanDay = travelPlanDay;
-        this.place = place;
+        this.travelPlanDay = day;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public TravelPlanPlace get() {
-        return new TravelPlanPlace(order, travelPlanDay, place.getName(), place.getLatitude(), place.getLongitude());
+        return new TravelPlanPlace(order, travelPlanDay, name, latitude, longitude);
     }
 }
