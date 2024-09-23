@@ -1,7 +1,7 @@
 package kr.touroot.travelplan.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import kr.touroot.place.domain.Place;
+import kr.touroot.travelplan.domain.TravelPlanPlace;
 import lombok.Builder;
 
 @Builder
@@ -11,7 +11,7 @@ public record PlanPositionResponse(
         @Schema(description = "여행 계획 경도", example = "127.0867236") String lng
 ) {
 
-    public static PlanPositionResponse from(Place place) {
+    public static PlanPositionResponse from(TravelPlanPlace place) {
         return PlanPositionResponse.builder()
                 .id(place.getId())
                 .lat(place.getLatitude())

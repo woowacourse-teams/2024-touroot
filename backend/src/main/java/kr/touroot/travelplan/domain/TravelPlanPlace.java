@@ -12,9 +12,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
-import kr.touroot.place.domain.Place;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,12 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 public class TravelPlanPlace extends BaseEntity {
 
+    private static final int PLACE_NAME_MAX_LENGTH = 60;
+    private static final int MAX_DESCRIPTION_LENGTH = 300;
+    private static final Pattern LATITUDE_PATTERN = Pattern.compile("^([-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?))$");
+    private static final Pattern LONGITUDE_PATTERN = Pattern.compile(
+            "^([-+]?((1[0-7]\\d(\\.\\d+)?|180(\\.0+)?)|([1-9]?\\d(\\.\\d+)?)))$");
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,39 +46,70 @@ public class TravelPlanPlace extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelPlanDay day;
 
-    @JoinColumn(name = "PLACE_ID", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Place place;
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String latitude;
+
+    @Column(nullable = false)
+    private String longitude;
 
     @OneToMany(mappedBy = "travelPlanPlace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TravelPlaceTodo> travelPlaceTodos = new ArrayList<>();
 
-    private TravelPlanPlace(Long id, Integer order, TravelPlanDay day, Place place) {
-        validate(order, day, place);
+    public TravelPlanPlace(Long id, Integer order, TravelPlanDay day, String name, String latitude, String longitude) {
+        validate(order, day, name, latitude, longitude);
         this.id = id;
         this.order = order;
         this.day = day;
-        this.place = place;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public TravelPlanPlace(Integer order, TravelPlanDay day, Place place) {
-        this(null, order, day, place);
+    public TravelPlanPlace(Integer order, TravelPlanDay day, String name, String latitude, String longitude) {
+        this(null, order, day, name, latitude, longitude);
     }
 
-    private void validate(Integer order, TravelPlanDay day, Place place) {
-        validateNotNull(order, day, place);
+
+    private void validate(Integer order, TravelPlanDay day, String name, String latitude, String longitude) {
+        validateNotNull(order, day, name, latitude, longitude);
+        validateBlank(name, latitude, longitude);
         validateOrderRange(order);
+        validateLatitudeLongitudeFormat(latitude, longitude);
+        validatePlaceNameLength(name);
     }
 
-    private void validateNotNull(Integer order, TravelPlanDay day, Place place) {
-        if (order == null || day == null || place == null) {
+    private void validateNotNull(Integer order, TravelPlanDay day, String name, String latitude, String longitude) {
+        if (order == null || day == null || name == null || latitude == null || longitude == null) {
             throw new BadRequestException("여행 계획 장소에서 순서와 날짜, 그리고 장소 상세는 비어 있을 수 없습니다");
+        }
+    }
+
+    private void validateBlank(String name, String latitude, String longitude) {
+        if (name.isBlank() || latitude.isBlank() || longitude.isBlank()) {
+            throw new BadRequestException("장소 이름, 위도, 경도는 비어 있을 수 없습니다");
         }
     }
 
     private void validateOrderRange(Integer order) {
         if (order < 0) {
             throw new BadRequestException("장소의 방문 순서는 음수일 수 없습니다");
+        }
+    }
+
+    private void validateLatitudeLongitudeFormat(String latitude, String longitude) {
+        Matcher latitudeMatcher = LATITUDE_PATTERN.matcher(latitude);
+        Matcher longitudeMatcher = LONGITUDE_PATTERN.matcher(longitude);
+        if (!latitudeMatcher.find() || !longitudeMatcher.find()) {
+            throw new BadRequestException("위,경도의 형식이 올바르지 않습니다");
+        }
+    }
+
+    private void validatePlaceNameLength(String placeName) {
+        if (placeName.length() > PLACE_NAME_MAX_LENGTH) {
+            throw new BadRequestException("장소 이름은 " + PLACE_NAME_MAX_LENGTH + "자 이하여야 합니다");
         }
     }
 }

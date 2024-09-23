@@ -22,6 +22,6 @@ public enum TravelPlanPlaceFixture {
     }
 
     public TravelPlanPlace get() {
-        return new TravelPlanPlace(order, travelPlanDay, place);
+        return new TravelPlanPlace(order, travelPlanDay, place.getName(), place.getLatitude(), place.getLongitude());
     }
 }

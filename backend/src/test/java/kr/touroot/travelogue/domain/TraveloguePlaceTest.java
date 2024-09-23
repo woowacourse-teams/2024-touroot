@@ -42,7 +42,7 @@ class TraveloguePlaceTest {
                 .hasMessage("여행기 장소에서 순서와 장소 상세 정보, 그리고 방문 날짜는 비어 있을 수 없습니다");
     }
 
-    @DisplayName("여행기 장소 생성 시 이름 정보가 비어 있다면 예외가 발생한다")
+    @DisplayName("여행기 장소 생성 시 위도 정보가 비어 있다면 예외가 발생한다")
     @Test
     void createTraveloguePlaceWithNullLat() {
         assertThatThrownBy(() -> new TraveloguePlace(VALID_ORDER, VALID_DESC, VALID_NAME, null, VALID_LNG, VALID_DAY))
@@ -50,7 +50,7 @@ class TraveloguePlaceTest {
                 .hasMessage("여행기 장소에서 순서와 장소 상세 정보, 그리고 방문 날짜는 비어 있을 수 없습니다");
     }
 
-    @DisplayName("여행기 장소 생성 시 이름 정보가 비어 있다면 예외가 발생한다")
+    @DisplayName("여행기 장소 생성 시 경도 정보가 비어 있다면 예외가 발생한다")
     @Test
     void createTraveloguePlaceWithNullLng() {
         assertThatThrownBy(() -> new TraveloguePlace(VALID_ORDER, VALID_DESC, VALID_NAME, VALID_LAT, null, VALID_DAY))

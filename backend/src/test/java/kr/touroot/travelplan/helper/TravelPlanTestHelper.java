@@ -62,9 +62,9 @@ public class TravelPlanTestHelper {
     }
 
     public static TravelPlanPlace getTravelPlanPlace(int order, Place place, TravelPlanDay day) {
-        return new TravelPlanPlace(order, day, place);
+        return new TravelPlanPlace(order, day, place.getName(), place.getLatitude(), place.getLongitude());
     }
-
+    
     public static TravelPlaceTodo getTravelPlaceTodo(TravelPlanPlace travelPlanPlace, String content, Integer order,
                                                      Boolean isChecked) {
         return new TravelPlaceTodo(travelPlanPlace, content, order, isChecked);
