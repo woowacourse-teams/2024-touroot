@@ -356,7 +356,9 @@ class TravelogueControllerTest {
     void findTraveloguesKeywordNotBlank(String keyword) {
         testHelper.initTravelogueTestData();
 
-        RestAssured.given().param("keyword", keyword)
+        RestAssured.given()
+                .param("keyword", keyword)
+                .param("searchType", "TITLE")
                 .log().all()
                 .accept(ContentType.JSON)
                 .when().get("/api/v1/travelogues/search")
