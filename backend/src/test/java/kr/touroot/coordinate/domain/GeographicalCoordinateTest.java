@@ -1,5 +1,6 @@
 package kr.touroot.coordinate.domain;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import kr.touroot.global.exception.BadRequestException;
@@ -14,6 +15,13 @@ class GeographicalCoordinateTest {
     private static final String VALID_LAT = "33.5431";
     private static final String VALID_LNG = "126.6728";
 
+    @DisplayName("올바른 위경도 값타입 생성 시 예외가 발생하지 않는다")
+    @Test
+    void createCoordinateWithValidData() {
+        assertThatCode(() -> new GeographicalCoordinate(VALID_LAT, VALID_LNG))
+                .doesNotThrowAnyException();
+    }
+    
     @DisplayName("위도가 비어 있을 경우 여행 계획 장소 생성 시 예외가 발생한다")
     @Test
     void createCoordinateWithNullLatitude() {
