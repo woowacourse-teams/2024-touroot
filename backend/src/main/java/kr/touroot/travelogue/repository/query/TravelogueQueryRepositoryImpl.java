@@ -21,16 +21,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository {
 
+    public static final String BLANK = " ";
+    public static final String EMPTY = "";
+    public static final String TEMPLATE = "replace({0}, ' ', '')";
+
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
     public Page<Travelogue> findBySearchRequest(TravelogueSearchRequest request, Pageable pageable) {
-        final String keyword = request.keyword();
-        final StringPath targetField = getTargetField(request.getSearchType());
+        String keyword = request.keyword();
+        SearchType searchType = SearchType.from(request.searchType());
 
         List<Travelogue> results = jpaQueryFactory.selectFrom(travelogue)
-                .where(Expressions.stringTemplate("replace({0}, ' ', '')", targetField)
-                        .containsIgnoreCase(keyword.replace(" ", "")))
+                .where(Expressions.stringTemplate(TEMPLATE, getTargetField(searchType))
+                        .containsIgnoreCase(keyword.replace(BLANK, EMPTY)))
                 .orderBy(travelogue.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
