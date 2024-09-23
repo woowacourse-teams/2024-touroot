@@ -164,10 +164,12 @@ public class TravelPlanService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public Page<TravelPlan> getAllByAuthor(Member member, Pageable pageable) {
         return travelPlanRepository.findAllByAuthor(member, pageable);
     }
 
+    @Transactional(readOnly = true)
     public int calculateTravelPeriod(TravelPlan travelPlan) {
         return travelPlanDayRepository.findByPlan(travelPlan)
                 .size();
