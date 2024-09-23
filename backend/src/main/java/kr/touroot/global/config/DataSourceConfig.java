@@ -21,6 +21,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Profile("prod")
 public class DataSourceConfig {
 
+    public static final String WRITER = "writer";
+    public static final String READER = "reader";
+
     @ConfigurationProperties(prefix = "spring.datasource.writer")
     @Bean
     public DataSource writerDataSource() {
@@ -42,8 +45,8 @@ public class DataSourceConfig {
 
         Map<Object, Object> dataSourceMap = new HashMap<>();
 
-        dataSourceMap.put("writer", writer);
-        dataSourceMap.put("reader", reader);
+        dataSourceMap.put(WRITER, writer);
+        dataSourceMap.put(READER, reader);
 
         routingDataSource.setTargetDataSources(dataSourceMap);
         routingDataSource.setDefaultTargetDataSource(writer);
