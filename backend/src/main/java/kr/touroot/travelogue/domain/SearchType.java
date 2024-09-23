@@ -1,4 +1,4 @@
-package kr.touroot.travelogue.dto.request;
+package kr.touroot.travelogue.domain;
 
 import java.util.Arrays;
 
