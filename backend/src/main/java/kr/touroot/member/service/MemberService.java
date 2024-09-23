@@ -19,11 +19,13 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncryptor passwordEncryptor;
 
+    @Transactional(readOnly = true)
     public Member getById(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 사용자입니다."));
     }
 
+    @Transactional
     public Long createMember(MemberRequest request) {
         validateRequest(request);
         String encryptedPassword = passwordEncryptor.encrypt(request.password());
