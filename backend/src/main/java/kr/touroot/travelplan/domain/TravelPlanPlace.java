@@ -31,9 +31,10 @@ public class TravelPlanPlace extends BaseEntity {
 
     private static final int PLACE_NAME_MAX_LENGTH = 60;
     private static final int MAX_DESCRIPTION_LENGTH = 300;
-    private static final Pattern LATITUDE_PATTERN = Pattern.compile("^([-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?))$");
-    private static final Pattern LONGITUDE_PATTERN = Pattern.compile(
-            "^([-+]?((1[0-7]\\d(\\.\\d+)?|180(\\.0+)?)|([1-9]?\\d(\\.\\d+)?)))$");
+    private static final String LATITUDE_REGEX = "^([-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?))$";
+    private static final String LONGITUDE_REGEX = "^([-+]?((1[0-7]\\d(\\.\\d+)?|180(\\.0+)?)|([1-9]?\\d(\\.\\d+)?)))$";
+    private static final Pattern LATITUDE_PATTERN = Pattern.compile(LATITUDE_REGEX);
+    private static final Pattern LONGITUDE_PATTERN = Pattern.compile(LONGITUDE_REGEX);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
