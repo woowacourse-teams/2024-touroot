@@ -306,6 +306,21 @@ class TravelogueControllerTest {
                 .body(is(objectMapper.writeValueAsString(responses)));
     }
 
+    @DisplayName("메인 페이지 조회 시, 좋아요 순으로 여행기를 조회한다.")
+    @Test
+    void findMainPageTraveloguesOrderByLikeCount() throws JsonProcessingException {
+        testHelper.initAllTravelogueTestData();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponsesOrderByLikeCount();
+
+        RestAssured.given().log().all()
+                .accept(ContentType.JSON)
+                .params("sort", "likeCount,desc")
+                .when().get("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body(is(objectMapper.writeValueAsString(responses)));
+    }
+
     @DisplayName("메인 페이지 조회 시 태그 기반으로 필터링을 진행한다.")
     @Test
     void filterMainPageTravelogues() {

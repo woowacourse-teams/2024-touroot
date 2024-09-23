@@ -110,6 +110,31 @@ public class TravelogueResponseFixture {
         return new PageImpl<>(responses, PageRequest.of(0, 5, Sort.by(Direction.DESC, "id")), responses.size());
     }
 
+    public static Page<TravelogueSimpleResponse> getTravelogueSimpleResponsesOrderByLikeCount() {
+        List<TravelogueSimpleResponse> responses = List.of(
+                TravelogueSimpleResponse.builder()
+                        .id(1L)
+                        .title("제주에 하영 옵서")
+                        .authorNickname("리비")
+                        .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
+                        .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
+                        .tags(List.of())
+                        .likeCount(1L)
+                        .build(),
+                TravelogueSimpleResponse.builder()
+                        .id(2L)
+                        .title("제주에 하영 옵서")
+                        .authorNickname("리비")
+                        .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
+                        .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
+                        .tags(List.of(TagFixture.TAG_1.getResponse(1L)))
+                        .likeCount(0L)
+                        .build()
+        );
+
+        return new PageImpl<>(responses, PageRequest.of(0, 5, Sort.by(Direction.DESC, "id")), responses.size());
+    }
+
     public static List<TravelogueDayResponse> getTravelogueDayResponses() {
         return List.of(TravelogueDayResponse.builder()
                 .id(1L)
