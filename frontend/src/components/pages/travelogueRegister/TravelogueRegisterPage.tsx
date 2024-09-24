@@ -49,7 +49,7 @@ const TravelogueRegisterPage = () => {
     setTitle(title);
   };
 
-  const { selectedTagIDs, handleClickTag, sortedTags } = useMultiSelectionTag();
+  const { selectedTagIDs, handleClickTag, sortedTags, animationKey } = useMultiSelectionTag();
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
@@ -166,9 +166,10 @@ const TravelogueRegisterPage = () => {
             onMouseUp={onMouseUp}
             onMouseMove={onMouseMove}
           >
-            {sortedTags.map((tag) => (
+            {sortedTags.map((tag, index) => (
               <Chip
-                key={tag.id}
+                key={`${tag.id}-${animationKey}`}
+                index={index}
                 label={tag.tag}
                 isSelected={selectedTagIDs.includes(tag.id)}
                 onClick={() => handleClickTag(tag.id)}
