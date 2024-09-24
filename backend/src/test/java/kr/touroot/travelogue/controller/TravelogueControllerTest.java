@@ -26,7 +26,6 @@ import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
-import kr.touroot.travelogue.repository.TravelogueRepository;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -51,7 +50,6 @@ class TravelogueControllerTest {
     private final JwtTokenProvider jwtTokenProvider;
     @MockBean
     private final AwsS3Provider s3Provider;
-    private final TravelogueRepository travelogueRepository;
 
     @LocalServerPort
     private int port;
@@ -64,14 +62,13 @@ class TravelogueControllerTest {
             TravelogueTestHelper testHelper,
             ObjectMapper objectMapper,
             JwtTokenProvider jwtTokenProvider,
-            AwsS3Provider s3Provider, TravelogueRepository travelogueRepository
+            AwsS3Provider s3Provider
     ) {
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
         this.objectMapper = objectMapper;
         this.jwtTokenProvider = jwtTokenProvider;
         this.s3Provider = s3Provider;
-        this.travelogueRepository = travelogueRepository;
     }
 
     @BeforeEach

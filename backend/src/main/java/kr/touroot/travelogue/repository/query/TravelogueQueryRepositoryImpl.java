@@ -3,8 +3,8 @@ package kr.touroot.travelogue.repository.query;
 import static kr.touroot.travelogue.domain.QTravelogue.travelogue;
 import static kr.touroot.travelogue.domain.QTravelogueTag.travelogueTag;
 
+import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -42,8 +42,8 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         JPAQuery<Travelogue> query = jpaQueryFactory.select(travelogue)
                 .from(travelogueTag);
 
-        addTagFilter(query, filter);
-        addPeriodFilter(query, filter);
+        addTagFilter(query, filter.tag());
+        addPeriodFilter(query, filter.period());
 
         List<Travelogue> results = query.orderBy(findSortCondition(pageable.getSort()))
                 .offset(pageable.getOffset())
@@ -53,43 +53,49 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         return new PageImpl<>(results, pageable, results.size());
     }
 
-    public void addTagFilter(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
-        if (filter.tag() == null) {
+    public void addTagFilter(JPAQuery<Travelogue> query, List<Long> tags) {
+        if (tags == null) {
             return;
         }
 
-        query.where(travelogueTag.tag.id.in(filter.tag()))
+        query.where(travelogueTag.tag.id.in(tags))
                 .groupBy(travelogueTag.travelogue)
-                .having(isSameCountWithFilter(filter.tag()));
+                .having(travelogueTag.travelogue.count()
+                        .eq(Long.valueOf(tags.size()))
+                );
     }
 
-    public void addPeriodFilter(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
-        if (filter.period() == null) {
+    public void addPeriodFilter(JPAQuery<Travelogue> query, Integer period) {
+        if (period == null) {
             return;
         }
 
-        if (filter.period() == 8) {
+        if (period == 8) {
             query.where(travelogueTag.travelogue.travelogueDays.size().goe(8));
             return;
         }
 
-        query.where(travelogueTag.travelogue.travelogueDays.size().eq(filter.period()));
+        query.where(travelogueTag.travelogue.travelogueDays.size().eq(period));
     }
 
     private OrderSpecifier<?> findSortCondition(Sort sort) {
         Sort.Order order = sort.iterator()
                 .next();
         String sortBy = order.getProperty();
+        Order direction = getDirection(order);
 
         if (sortBy.equals("createdAt")) {
-            return travelogueTag.travelogue.createdAt.desc();
+            return new OrderSpecifier<>(direction, travelogueTag.travelogue.createdAt);
         }
 
-        return travelogueTag.travelogue.likeCount.desc();
+        return new OrderSpecifier<>(direction, travelogueTag.travelogue.likeCount);
     }
 
-    private BooleanExpression isSameCountWithFilter(List<Long> tagFilter) {
-        return travelogueTag.travelogue.count()
-                .eq(Long.valueOf(tagFilter.size()));
+    private Order getDirection(Sort.Order order) {
+        if (order.isAscending()) {
+            return Order.ASC;
+        }
+
+        return Order.DESC;
     }
 }
