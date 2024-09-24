@@ -12,7 +12,6 @@ module.exports = merge(common, {
   output: {
     publicPath: "/",
     filename: "[name].[contenthash:8].js",
-    chunkFilename: "[name].[contenthash:8].chuck.js",
     path: path.resolve(__dirname, "dist"),
   },
   devtool: "hidden-source-map",
