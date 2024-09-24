@@ -31,6 +31,8 @@ import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
+import resizeAndConvertImage from "@utils/resizeAndConvertImage";
+
 import * as S from "./TravelogueRegisterPage.styled";
 
 const TravelogueRegisterPage = () => {
@@ -76,7 +78,11 @@ const TravelogueRegisterPage = () => {
 
   const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const thumbnail = await mutateAddImage(Array.from(e.target.files as FileList));
+      const files = Array.from(e.target.files as FileList);
+
+      const processedFiles = await Promise.all(files.map((file) => resizeAndConvertImage(file)));
+
+      const thumbnail = await mutateAddImage(processedFiles);
       setThumbnail(thumbnail[0]);
     } catch (error) {
       if (error instanceof Error) {
