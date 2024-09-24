@@ -36,6 +36,8 @@ management:
 ---
 # local profile
 spring:
+  flyway:
+    enabled: false
   config:
     activate:
       on-profile: local
@@ -75,6 +77,8 @@ cloud:
 spring:
   flyway:
     enabled: true
+    baseline-version: 1
+    baseline-on-migrate: true
   config:
     activate:
       on-profile: dev
@@ -96,7 +100,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
 
 server:
   ssl:
@@ -125,6 +129,8 @@ cloud:
 spring:
   flyway:
     enabled: true
+    baseline-version: 1
+    baseline-on-migrate: true
   config:
     activate:
       on-profile: prod
@@ -152,7 +158,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
 
 server:
   ssl:
