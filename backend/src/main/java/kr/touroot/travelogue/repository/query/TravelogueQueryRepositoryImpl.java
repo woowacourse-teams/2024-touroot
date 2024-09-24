@@ -39,8 +39,7 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
 
     @Override
     public Page<Travelogue> findAllByFilter(TravelogueFilterCondition filter, Pageable pageable) {
-        JPAQuery<Travelogue> query = jpaQueryFactory.select(travelogue)
-                .from(travelogueTag);
+        JPAQuery<Travelogue> query = jpaQueryFactory.selectFrom(travelogue);
 
         addTagFilter(query, filter);
         addPeriodFilter(query, filter);
@@ -60,11 +59,10 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
 
         List<Long> tags = filter.getTag();
 
-        query.where(travelogueTag.tag.id.in(tags))
-                .groupBy(travelogueTag.travelogue)
-                .having(travelogueTag.travelogue.count()
-                        .eq(Long.valueOf(tags.size()))
-                );
+        query.join(travelogueTag).on(travelogueTag.travelogue.eq(travelogue))
+                .where(travelogueTag.tag.id.in(tags))
+                .groupBy(travelogue)
+                .having(travelogueTag.count().eq(Long.valueOf(tags.size())));
     }
 
     public void addPeriodFilter(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
@@ -73,11 +71,11 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         }
 
         if (filter.isMaxPeriod()) {
-            query.where(travelogueTag.travelogue.travelogueDays.size().goe(TravelogueFilterCondition.MAX_PERIOD_BOUNDARY));
+            query.where(travelogue.travelogueDays.size().goe(TravelogueFilterCondition.MAX_PERIOD_BOUNDARY));
             return;
         }
 
-        query.where(travelogueTag.travelogue.travelogueDays.size().eq(filter.getPeriod()));
+        query.where(travelogue.travelogueDays.size().eq(filter.getPeriod()));
     }
 
     private OrderSpecifier<?> findSortCondition(Sort sort) {
@@ -87,10 +85,10 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         Order direction = getDirection(order);
 
         if (sortBy.equals("createdAt")) {
-            return new OrderSpecifier<>(direction, travelogueTag.travelogue.createdAt);
+            return new OrderSpecifier<>(direction, travelogue.createdAt);
         }
 
-        return new OrderSpecifier<>(direction, travelogueTag.travelogue.likeCount);
+        return new OrderSpecifier<>(direction, travelogue.likeCount);
     }
 
     private Order getDirection(Sort.Order order) {

@@ -348,7 +348,7 @@ class TravelogueControllerTest {
                 .when().get("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(200).assertThat()
-                .body("content.size()", is(2));
+                .body("content.size()", is(3));
     }
 
     @DisplayName("메인 페이지 조회 시 날짜 및 태그 기반으로 필터링을 진행한다.")
