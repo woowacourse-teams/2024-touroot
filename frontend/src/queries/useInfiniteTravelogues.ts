@@ -11,17 +11,17 @@ export const getTravelogues = async ({
   page,
   size,
   // sort,
-  travelPeriod,
-  tagFilter,
+  period,
+  tag,
 }: {
   page: number;
   size: number;
-  // sort: SortingOption;
-  travelPeriod?: TravelPeriodOption;
-  tagFilter?: string;
+  // sort: string;
+  period?: TravelPeriodOption;
+  tag?: string;
 }) => {
   const response = await client.get(API_ENDPOINT_MAP.travelogues, {
-    params: { page, size, "travel-period": travelPeriod, "tag-filter": tagFilter },
+    params: { page, size, period, tag },
   });
 
   return response.data;
@@ -45,11 +45,11 @@ const useInfiniteTravelogues = (
       queryFn: ({ pageParam = INITIAL_PAGE }) => {
         const page = pageParam;
         const size = DATA_LOAD_COUNT;
-        // const sort = selectedSortingOption;
-        const travelPeriod = selectedTravelPeriodOption || undefined;
-        const tagFilter = selectedTagIDs.length > 0 ? [...selectedTagIDs].join(",") : undefined;
+        // const sort = `${selectedSortingOption},desc`;
+        const period = selectedTravelPeriodOption || undefined;
+        const tag = selectedTagIDs.length > 0 ? [...selectedTagIDs].join(",") : undefined;
 
-        return getTravelogues({ page, size, travelPeriod, tagFilter });
+        return getTravelogues({ page, size, period, tag });
       },
       initialPageParam: 0,
       getNextPageParam: (lastPage, allPages) => {
