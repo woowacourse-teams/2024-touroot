@@ -22,6 +22,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository {
 
+    private static final int MAX_PERIOD_BOUNDARY = 8;
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
@@ -70,8 +71,8 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
             return;
         }
 
-        if (period == 8) {
-            query.where(travelogueTag.travelogue.travelogueDays.size().goe(8));
+        if (period == MAX_PERIOD_BOUNDARY) {
+            query.where(travelogueTag.travelogue.travelogueDays.size().goe(MAX_PERIOD_BOUNDARY));
             return;
         }
 
