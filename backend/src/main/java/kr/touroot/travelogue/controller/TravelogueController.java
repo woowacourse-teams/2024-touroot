@@ -11,7 +11,7 @@ import jakarta.validation.Valid;
 import java.net.URI;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
-import kr.touroot.travelogue.dto.request.TravelogueFilterCondition;
+import kr.touroot.travelogue.dto.request.TravelogueFilterRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
@@ -141,11 +141,8 @@ public class TravelogueController {
             @Parameter(hidden = true)
             @PageableDefault(size = 5, sort = "id", direction = Direction.DESC)
             Pageable pageable,
-            TravelogueFilterCondition filter
+            TravelogueFilterRequest filter
     ) {
-        if (filter.isNoCondition()) {
-            return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(pageable));
-        }
         return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(filter, pageable));
     }
 

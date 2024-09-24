@@ -1,7 +1,7 @@
 package kr.touroot.travelogue.repository.query;
 
 import kr.touroot.travelogue.domain.Travelogue;
-import kr.touroot.travelogue.dto.request.TravelogueFilterCondition;
+import kr.touroot.travelogue.domain.TravelogueFilterCondition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

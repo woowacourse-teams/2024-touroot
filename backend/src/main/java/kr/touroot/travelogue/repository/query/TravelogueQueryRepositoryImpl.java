@@ -10,7 +10,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import kr.touroot.travelogue.domain.Travelogue;
-import kr.touroot.travelogue.dto.request.TravelogueFilterCondition;
+import kr.touroot.travelogue.domain.TravelogueFilterCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -43,8 +43,8 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         JPAQuery<Travelogue> query = jpaQueryFactory.select(travelogue)
                 .from(travelogueTag);
 
-        addTagFilter(query, filter.tag());
-        addPeriodFilter(query, filter.period());
+        addTagFilter(query, filter.getTag());
+        addPeriodFilter(query, filter.getPeriod());
 
         List<Travelogue> results = query.orderBy(findSortCondition(pageable.getSort()))
                 .offset(pageable.getOffset())

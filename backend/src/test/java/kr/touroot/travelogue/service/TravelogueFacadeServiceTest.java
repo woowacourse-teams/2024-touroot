@@ -16,7 +16,7 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
-import kr.touroot.travelogue.dto.request.TravelogueFilterCondition;
+import kr.touroot.travelogue.dto.request.TravelogueFilterRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
@@ -150,11 +150,12 @@ class TravelogueFacadeServiceTest {
     @DisplayName("메인 페이지에 표시할 여행기 목록을 조회한다.")
     @Test
     void findTravelogues() {
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
         testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> expect = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
-        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(pageRequest);
+        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(filterRequest, pageRequest);
 
         assertThat(result).containsAll(expect);
     }
@@ -165,7 +166,7 @@ class TravelogueFacadeServiceTest {
         // given
         testHelper.initAllTravelogueTestData();
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
-        TravelogueFilterCondition filter = new TravelogueFilterCondition(List.of(1L), null);
+        TravelogueFilterRequest filter = new TravelogueFilterRequest(List.of(1L), null);
 
         // when
         Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(filter, pageRequest);
