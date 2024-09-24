@@ -70,7 +70,7 @@ CREATE TABLE travel_plan_day
     modified_at    TIMESTAMP(6),
     plan_id        BIGINT       NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (plan_id) REFERENCES travel_plan (id);
+    FOREIGN KEY (plan_id) REFERENCES travel_plan (id)
 );
 
 CREATE TABLE travel_plan_place
