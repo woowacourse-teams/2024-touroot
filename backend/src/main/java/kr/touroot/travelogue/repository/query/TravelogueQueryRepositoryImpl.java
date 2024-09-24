@@ -22,7 +22,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository {
 
-    private static final int MAX_PERIOD_BOUNDARY = 8;
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
@@ -43,8 +42,8 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         JPAQuery<Travelogue> query = jpaQueryFactory.select(travelogue)
                 .from(travelogueTag);
 
-        addTagFilter(query, filter.getTag());
-        addPeriodFilter(query, filter.getPeriod());
+        addTagFilter(query, filter);
+        addPeriodFilter(query, filter);
 
         List<Travelogue> results = query.orderBy(findSortCondition(pageable.getSort()))
                 .offset(pageable.getOffset())
@@ -54,10 +53,12 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         return new PageImpl<>(results, pageable, results.size());
     }
 
-    public void addTagFilter(JPAQuery<Travelogue> query, List<Long> tags) {
-        if (tags == null) {
+    public void addTagFilter(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
+        if (filter.isEmptyTagCondition()) {
             return;
         }
+
+        List<Long> tags = filter.getTag();
 
         query.where(travelogueTag.tag.id.in(tags))
                 .groupBy(travelogueTag.travelogue)
@@ -66,17 +67,17 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
                 );
     }
 
-    public void addPeriodFilter(JPAQuery<Travelogue> query, Integer period) {
-        if (period == null) {
+    public void addPeriodFilter(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
+        if (filter.isEmptyPeriodCondition()) {
             return;
         }
 
-        if (period == MAX_PERIOD_BOUNDARY) {
-            query.where(travelogueTag.travelogue.travelogueDays.size().goe(MAX_PERIOD_BOUNDARY));
+        if (filter.isMaxPeriod()) {
+            query.where(travelogueTag.travelogue.travelogueDays.size().goe(TravelogueFilterCondition.MAX_PERIOD_BOUNDARY));
             return;
         }
 
-        query.where(travelogueTag.travelogue.travelogueDays.size().eq(period));
+        query.where(travelogueTag.travelogue.travelogueDays.size().eq(filter.getPeriod()));
     }
 
     private OrderSpecifier<?> findSortCondition(Sort sort) {
