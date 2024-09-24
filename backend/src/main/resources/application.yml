@@ -53,7 +53,6 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
-    defer-datasource-initialization: true
 
 security:
   jwt:
@@ -74,6 +73,8 @@ cloud:
 ---
 # dev profile
 spring:
+  flyway:
+    enabled: true
   config:
     activate:
       on-profile: dev
@@ -122,6 +123,8 @@ cloud:
 ---
 # prod profile
 spring:
+  flyway:
+    enabled: true
   config:
     activate:
       on-profile: prod
