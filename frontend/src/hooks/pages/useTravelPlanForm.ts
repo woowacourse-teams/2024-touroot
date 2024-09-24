@@ -3,7 +3,7 @@ import { useState } from "react";
 import { TravelTransformPlaces } from "@type/domain/travelTransform";
 
 import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
-import useInitialTripTitle from "@hooks/useInitialTripTitle";
+import useInitialTravelTitle from "@hooks/useInitialTravelTitle";
 
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
@@ -26,7 +26,7 @@ const useTravelPlanForm = (transformDays: TravelTransformPlaces[]) => {
     onChangeContent,
   } = useTravelPlanDays(transformDays);
 
-  const initialTitle = useInitialTripTitle({ days: travelPlanDays, type: "travelPlan" });
+  const initialTitle = useInitialTravelTitle({ days: travelPlanDays, type: "travelPlan" });
 
   const [title, setTitle] = useState(initialTitle);
 

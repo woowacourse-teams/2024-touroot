@@ -6,14 +6,14 @@ import { useUserProfile } from "@queries/useUserProfile";
 
 import getDaysAndNights from "@utils/getDaysAndNights";
 
-type TripRecordType = "travelogue" | "travelPlan";
+type TravelRecordType = "travelogue" | "travelPlan";
 
-type useInitialTripTitleProps = {
+type useInitialTravelTitleProps = {
   days: TravelTransformPlaces[] | undefined;
-  type: TripRecordType;
+  type: TravelRecordType;
 };
 
-const useInitialTripTitle = ({ days, type }: useInitialTripTitleProps) => {
+const useInitialTravelTitle = ({ days, type }: useInitialTravelTitleProps) => {
   const { data, status } = useUserProfile();
 
   return useMemo(() => {
@@ -26,4 +26,4 @@ const useInitialTripTitle = ({ days, type }: useInitialTripTitleProps) => {
   }, [days, data, status, type]);
 };
 
-export default useInitialTripTitle;
+export default useInitialTravelTitle;
