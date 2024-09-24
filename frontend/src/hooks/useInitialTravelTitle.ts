@@ -22,7 +22,8 @@ const useInitialTravelTitle = ({ days, type }: useInitialTravelTitleProps) => {
     const userPrefix = status === "success" ? `${data?.nickname}의 ` : "";
     const tripType = type === "travelogue" ? "여행기" : "여행 계획";
 
-    return `${userPrefix}${daysAndNights} ${tripType}`;
+    if (days && days?.length >= 1) return `${userPrefix}${daysAndNights} ${tripType}`;
+    return "";
   }, [days, data, status, type]);
 };
 
