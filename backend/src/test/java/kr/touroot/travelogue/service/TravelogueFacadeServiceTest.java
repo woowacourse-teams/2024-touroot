@@ -181,7 +181,7 @@ class TravelogueFacadeServiceTest {
 
         TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("제주", "title");
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
-        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(pageRequest, searchRequest);
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(searchRequest, pageRequest);
 
         assertThat(searchResults).containsAll(responses);
     }
@@ -194,7 +194,7 @@ class TravelogueFacadeServiceTest {
 
         TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("리비", "author");
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
-        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(pageRequest, searchRequest);
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(searchRequest, pageRequest);
 
         assertThat(searchResults).containsAll(responses);
     }

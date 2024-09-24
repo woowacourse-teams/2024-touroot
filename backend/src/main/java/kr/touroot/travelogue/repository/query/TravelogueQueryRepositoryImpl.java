@@ -8,6 +8,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import kr.touroot.travelogue.domain.SearchCondition;
 import kr.touroot.travelogue.domain.SearchType;
 import kr.touroot.travelogue.domain.Travelogue;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +28,10 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Travelogue> findByKeywordAndSearchType(String keyword, SearchType searchType, Pageable pageable) {
+    public Page<Travelogue> findByKeywordAndSearchType(SearchCondition condition, Pageable pageable) {
+        String keyword = condition.getKeyword();
         List<Travelogue> results = jpaQueryFactory.selectFrom(travelogue)
-                .where(Expressions.stringTemplate(TEMPLATE, getTargetField(searchType))
+                .where(Expressions.stringTemplate(TEMPLATE, getTargetField(condition.getSearchType()))
                         .containsIgnoreCase(keyword.replace(BLANK, EMPTY)))
                 .orderBy(travelogue.id.desc())
                 .offset(pageable.getOffset())
