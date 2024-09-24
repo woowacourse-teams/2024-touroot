@@ -1,4 +1,4 @@
-package kr.touroot.travelogue.domain;
+package kr.touroot.travelogue.domain.search;
 
 import java.util.Arrays;
 

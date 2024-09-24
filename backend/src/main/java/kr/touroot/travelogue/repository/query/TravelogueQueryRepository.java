@@ -1,8 +1,8 @@
 package kr.touroot.travelogue.repository.query;
 
 import java.util.List;
-import kr.touroot.travelogue.domain.SearchCondition;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.domain.search.SearchCondition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

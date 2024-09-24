@@ -5,9 +5,9 @@ import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
-import kr.touroot.travelogue.domain.SearchCondition;
-import kr.touroot.travelogue.domain.SearchType;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.domain.search.SearchCondition;
+import kr.touroot.travelogue.domain.search.SearchType;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.repository.TravelogueRepository;
@@ -52,7 +52,7 @@ public class TravelogueService {
     @Transactional(readOnly = true)
     public Page<Travelogue> findByKeyword(TravelogueSearchRequest request, Pageable pageable) {
         SearchType searchType = SearchType.from(request.searchType());
-        SearchCondition searchCondition = SearchCondition.of(request.keyword(), searchType);
+        SearchCondition searchCondition = new SearchCondition(request.keyword(), searchType);
 
         return travelogueQueryRepository.findByKeywordAndSearchType(searchCondition, pageable);
     }
