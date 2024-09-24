@@ -52,7 +52,6 @@ public class Travelogue extends BaseEntity {
     private String thumbnail;
 
     @Column(nullable = false)
-    @ColumnDefault("0")
     private Long likeCount;
 
     @OneToMany(mappedBy = "travelogue", cascade = CascadeType.ALL, orphanRemoval = true)
