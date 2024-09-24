@@ -63,7 +63,6 @@ dependencies {
 
     // flyway 추가
     implementation 'org.flywaydb:flyway-mysql'
-    implementation 'org.flywaydb:flyway-core'
 }
 
 tasks.named('test') {
