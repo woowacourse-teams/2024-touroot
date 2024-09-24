@@ -106,6 +106,12 @@ const TravelogueDetailPage = () => {
   const { mutate: handleActiveHeart, isPaused: isPostingHeartPaused } = usePostUpdateHeart();
   const { mutate: handleInactiveHeart, isPaused: isDeletingHeartPaused } = useDeleteUpdateHeart();
 
+  const handleHeartClick = () => {
+    if (data?.isLiked) return handleInactiveHeart(id);
+
+    return handleActiveHeart(id);
+  };
+
   if (
     isGettingTraveloguePaused ||
     isDeletingTraveloguePaused ||
@@ -133,62 +139,45 @@ const TravelogueDetailPage = () => {
             <Text textType="title" css={S.titleStyle}>
               {data?.title}
             </Text>
-            <S.AuthorInfoContainer>
-              <Text textType="detail" css={S.authorDateStyle}>
-                {data?.authorNickname}
-              </Text>
-              <Text textType="detail" css={S.authorDateStyle}>
-                {data?.createdAt}
-              </Text>
-            </S.AuthorInfoContainer>
-          </S.TitleContainer>
-          <S.IconButtonContainer>
-            <S.LikesContainer>
-              {data?.isLiked ? (
-                <IconButton
-                  onClick={() => handleInactiveHeart(id)}
-                  iconType="heart"
-                  color={SEMANTIC_COLORS.heart}
-                  size="24"
-                />
-              ) : (
-                <IconButton
-                  onClick={() => handleActiveHeart(id)}
-                  iconType="empty-heart"
-                  size="24"
-                />
+            <S.IconButtonContainer>
+              <S.AuthorInfoContainer>
+                <Text textType="detail" css={S.authorDateStyle}>
+                  {data?.authorNickname}
+                </Text>
+                <Text textType="detail" css={S.authorDateStyle}>
+                  {data?.createdAt}
+                </Text>
+              </S.AuthorInfoContainer>
+              {isAuthor && (
+                <div ref={moreContainerRef}>
+                  <IconButton
+                    iconType="more"
+                    size="16"
+                    color={theme.colors.text.secondary}
+                    onClick={handleToggleMoreDropdown}
+                  />
+                  {isDropdownOpen && (
+                    <Dropdown size="small" position="right">
+                      <Text
+                        textType="detail"
+                        onClick={handleClickEditButton}
+                        css={S.cursorPointerStyle}
+                      >
+                        수정
+                      </Text>
+                      <Text
+                        textType="detail"
+                        onClick={handleToggleDeleteModal}
+                        css={S.cursorPointerStyle}
+                      >
+                        삭제
+                      </Text>
+                    </Dropdown>
+                  )}
+                </div>
               )}
-              <Text textType="detail">{data?.likeCount}</Text>
-            </S.LikesContainer>
-            {isAuthor && (
-              <div ref={moreContainerRef}>
-                <IconButton
-                  iconType="more"
-                  size="16"
-                  color={theme.colors.text.secondary}
-                  onClick={handleToggleMoreDropdown}
-                />
-                {isDropdownOpen && (
-                  <Dropdown size="small" position="right">
-                    <Text
-                      textType="detail"
-                      onClick={handleClickEditButton}
-                      css={S.cursorPointerStyle}
-                    >
-                      수정
-                    </Text>
-                    <Text
-                      textType="detail"
-                      onClick={handleToggleDeleteModal}
-                      css={S.cursorPointerStyle}
-                    >
-                      삭제
-                    </Text>
-                  </Dropdown>
-                )}
-              </div>
-            )}
-          </S.IconButtonContainer>
+            </S.IconButtonContainer>
+          </S.TitleContainer>
         </S.TravelogueDetailHeader>
 
         <S.TravelogueOverview>
@@ -205,13 +194,22 @@ const TravelogueDetailPage = () => {
           )}
         />
       </S.TravelogueDetailLayout>
-      {!isAuthor && (
-        <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행 계획으로 전환">
-          <Text textType="detail" css={S.transformBottomSheetTextStyle}>
-            이 여행기를 따라가고 싶으신가요?
-          </Text>
-        </TransformBottomSheet>
-      )}
+
+      <TransformBottomSheet
+        travelPrompt="이 여행기를 따라가고 싶으신가요?"
+        buttonLabel="여행 계획으로 전환"
+        onTransform={handleTransform}
+      >
+        <S.LikesContainer>
+          <IconButton
+            onClick={handleHeartClick}
+            iconType={data?.isLiked ? "heart" : "empty-heart"}
+            color={data?.isLiked ? SEMANTIC_COLORS.heart : undefined}
+            size="24"
+          />
+          <Text textType="detail">{data?.likeCount}</Text>
+        </S.LikesContainer>
+      </TransformBottomSheet>
 
       <DeleteModal
         isOpen={isDeleteModalOpen}

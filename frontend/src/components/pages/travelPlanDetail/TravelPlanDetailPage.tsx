@@ -108,67 +108,70 @@ const TravelPlanDetailPage = () => {
 
   return (
     <>
+      <S.TravelPlanDetailLayout>
+        <S.TitleContainer>
+          <Text textType="title" css={S.titleStyle}>
+            {data?.title}
+          </Text>
+          {!isUUID(id) && (
+            <S.IconButtonContainer>
+              <IconButton size="16" iconType="share" onClick={handleToggleShareModal} />
+              <div ref={iconButtonContainerRef}>
+                <IconButton
+                  iconType="more"
+                  size="16"
+                  color={theme.colors.text.secondary}
+                  onClick={handleToggleMoreDropdown}
+                />
+                {isDropdownOpen && (
+                  <Dropdown size="small" position="right">
+                    <Text
+                      textType="detail"
+                      onClick={handleClickEditButton}
+                      css={S.cursorPointerStyle}
+                    >
+                      수정
+                    </Text>
+                    <Text
+                      textType="detail"
+                      onClick={handleToggleDeleteModal}
+                      css={S.cursorPointerStyle}
+                    >
+                      삭제
+                    </Text>
+                  </Dropdown>
+                )}
+              </div>
+            </S.IconButtonContainer>
+          )}
+        </S.TitleContainer>
+
+        <S.TextContainer>
+          <Text textType="subTitle">{daysAndNights} 여행 계획 한 눈에 보기</Text>
+          <Text textType="detail">
+            {getDateRange({ daysLength: data?.days.length, startDate: data?.startDate })}
+          </Text>
+        </S.TextContainer>
+
+        <Tab
+          labels={data?.days.map((_, index: number) => `Day ${index + 1}`) ?? []}
+          tabContent={(selectedIndex) => (
+            <TravelPlansTabContent places={data?.days[selectedIndex]?.places ?? []} />
+          )}
+        />
+      </S.TravelPlanDetailLayout>
+
+      <TransformBottomSheet
+        onTransform={handleTransform}
+        buttonLabel="여행기로 전환"
+        travelPrompt="여행은 즐겁게 다녀오셨나요?"
+      />
+
       <ShareModal
         isOpen={isShareModalOpen}
         onToggleModal={handleToggleShareModal}
         shareUrl={shareUrl}
       />
-
-      <S.TitleContainer>
-        <Text textType="title" css={S.titleStyle}>
-          {data?.title}
-        </Text>
-        {!isUUID(id) && (
-          <S.IconButtonContainer>
-            <IconButton size="16" iconType="share" onClick={handleToggleShareModal} />
-            <div ref={iconButtonContainerRef}>
-              <IconButton
-                iconType="more"
-                size="16"
-                color={theme.colors.text.secondary}
-                onClick={handleToggleMoreDropdown}
-              />
-              {isDropdownOpen && (
-                <Dropdown size="small" position="right">
-                  <Text
-                    textType="detail"
-                    onClick={handleClickEditButton}
-                    css={S.cursorPointerStyle}
-                  >
-                    수정
-                  </Text>
-                  <Text
-                    textType="detail"
-                    onClick={handleToggleDeleteModal}
-                    css={S.cursorPointerStyle}
-                  >
-                    삭제
-                  </Text>
-                </Dropdown>
-              )}
-            </div>
-          </S.IconButtonContainer>
-        )}
-      </S.TitleContainer>
-
-      <S.TextContainer>
-        <Text textType="subTitle">{daysAndNights} 여행 계획 한 눈에 보기</Text>
-        <Text textType="detail">
-          {getDateRange({ daysLength: data?.days.length, startDate: data?.startDate })}
-        </Text>
-      </S.TextContainer>
-
-      <Tab
-        labels={data?.days.map((_, index: number) => `Day ${index + 1}`) ?? []}
-        tabContent={(selectedIndex) => (
-          <TravelPlansTabContent places={data?.days[selectedIndex]?.places ?? []} />
-        )}
-      />
-      <TransformBottomSheet onTransform={handleTransform} buttonLabel="여행기로 전환">
-        <Text textType="detail" css={S.transformBottomSheetTextStyle}>
-          여행은 즐겁게 다녀오셨나요?
-        </Text>
-      </TransformBottomSheet>
 
       <DeleteModal
         isOpen={isDeleteModalOpen}

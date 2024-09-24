@@ -1,46 +1,30 @@
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
 
-import Button from "../Button/Button";
-import IconButton from "../IconButton/IconButton";
+import { Button, Text } from "@components/common";
+
 import * as S from "./TransformBottomSheet.styled";
 
 interface TransformBottomSheetProps {
   buttonLabel: string;
+  travelPrompt: string;
   onTransform?: () => void;
 }
 
 const TransformBottomSheet = ({
   children,
+  travelPrompt,
   buttonLabel,
   onTransform,
 }: PropsWithChildren<TransformBottomSheetProps>) => {
-  const [isOpen, setIsOpen] = useState(true);
-
-  const handleToggle = () => {
-    setIsOpen((prev) => !prev);
-  };
-
   return (
-    <S.BottomSheetLayout $isOpen={isOpen}>
-      {isOpen ? (
-        <>
-          <IconButton
-            iconType="down-arrow"
-            onClick={handleToggle}
-            size="12"
-            css={S.iconButtonStyle}
-          />
-
-          {children}
-          <S.BottomSheetButtonWrapper>
-            <Button variants="primary" onClick={onTransform}>
-              {buttonLabel}
-            </Button>
-          </S.BottomSheetButtonWrapper>
-        </>
-      ) : (
-        <IconButton iconType="up-arrow" onClick={handleToggle} size="12" css={S.iconButtonStyle} />
-      )}
+    <S.BottomSheetLayout>
+      <Text textType="detailBold">{travelPrompt}</Text>
+      <S.BottomSheetButtonContainer>
+        {children}
+        <Button variants="primary" onClick={onTransform}>
+          {buttonLabel}
+        </Button>
+      </S.BottomSheetButtonContainer>
     </S.BottomSheetLayout>
   );
 };
