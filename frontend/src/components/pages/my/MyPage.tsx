@@ -3,7 +3,7 @@ import { FormEvent, MouseEvent, useEffect, useState } from "react";
 import usePatchNickname from "@queries/usePatchNickname";
 import { useUserProfile } from "@queries/useUserProfile";
 
-import { AvatarCircle, Input, Tab, Text } from "@components/common";
+import { AvatarCircle, CharacterCount, Input, Tab, Text } from "@components/common";
 import MyPageSkeleton from "@components/pages/my/MyPageSkeleton/MyPageSkeleton";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
@@ -85,24 +85,28 @@ const MyPage = () => {
               {nickname}
             </Text>
           ) : (
-            <Input
-              placeholder={data?.nickname}
-              value={nickname}
-              autoFocus
-              maxCount={20}
-              maxLength={20}
-              count={nickname?.length}
-              spellCheck={false}
-              css={S.inputStyle}
-              onChange={(e) =>
-                setNickname(
-                  e.target.value.slice(
-                    FORM_VALIDATIONS_MAP.title.minLength,
-                    FORM_VALIDATIONS_MAP.title.maxLength,
-                  ),
-                )
-              }
-            />
+            <S.InputContainer>
+              <Input
+                placeholder={data?.nickname}
+                value={nickname}
+                autoFocus
+                maxLength={20}
+                spellCheck={false}
+                css={S.inputStyle}
+                onChange={(e) =>
+                  setNickname(
+                    e.target.value.slice(
+                      FORM_VALIDATIONS_MAP.title.minLength,
+                      FORM_VALIDATIONS_MAP.title.maxLength,
+                    ),
+                  )
+                }
+              />
+              <CharacterCount
+                count={nickname?.length}
+                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              />
+            </S.InputContainer>
           )}
         </S.NicknameWrapper>
       </S.FormWrapper>

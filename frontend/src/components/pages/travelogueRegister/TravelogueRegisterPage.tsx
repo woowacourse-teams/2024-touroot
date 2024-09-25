@@ -8,6 +8,7 @@ import { usePostTravelogue, usePostUploadImages } from "@queries/index";
 import {
   Accordion,
   Button,
+  CharacterCount,
   Chip,
   GoogleMapLoadScript,
   IconButton,
@@ -146,14 +147,18 @@ const TravelogueRegisterPage = () => {
 
         <TextField title="제목" isRequired>
           {(id) => (
-            <Input
-              id={id}
-              value={title}
-              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-              count={title.length}
-              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              onChange={handleChangeTitle}
-            />
+            <S.InputContainer>
+              <Input
+                id={id}
+                value={title}
+                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+                onChange={handleChangeTitle}
+              />
+              <CharacterCount
+                count={title.length}
+                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              />
+            </S.InputContainer>
           )}
         </TextField>
 

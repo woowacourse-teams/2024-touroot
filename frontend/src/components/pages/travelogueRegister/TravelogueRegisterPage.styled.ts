@@ -12,6 +12,14 @@ export const Layout = styled.div`
   padding: ${({ theme }) => theme.spacing.m};
 `;
 
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.s};
+
+  width: 100%;
+`;
+
 export const TagsContainer = styled.div`
   display: flex;
   flex-direction: column;

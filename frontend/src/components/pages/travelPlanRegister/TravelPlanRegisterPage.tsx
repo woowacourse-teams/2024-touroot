@@ -9,6 +9,7 @@ import {
   Accordion,
   Button,
   Calendar,
+  CharacterCount,
   GoogleMapLoadScript,
   IconButton,
   Input,
@@ -112,16 +113,20 @@ const TravelPlanRegisterPage = () => {
         />
         <TextField title="제목" isRequired>
           {(id) => (
-            <Input
-              id={id}
-              value={title}
-              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-              placeholder="여행 계획 제목을 입력해주세요"
-              count={title.length}
-              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              onChange={(event) => onChangeTitle(event.target.value)}
-              data-cy={CYPRESS_DATA_MAP.travelPlanRegister.titleInput}
-            />
+            <S.InputContainer>
+              <Input
+                id={id}
+                value={title}
+                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+                placeholder="여행 계획 제목을 입력해주세요"
+                onChange={(event) => onChangeTitle(event.target.value)}
+                data-cy={CYPRESS_DATA_MAP.travelPlanRegister.titleInput}
+              />
+              <CharacterCount
+                count={title.length}
+                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              />
+            </S.InputContainer>
           )}
         </TextField>
 

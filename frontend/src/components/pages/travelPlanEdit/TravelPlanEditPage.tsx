@@ -7,6 +7,7 @@ import { usePutTravelPlan } from "@queries/usePutTravelPlan";
 import {
   Accordion,
   Button,
+  CharacterCount,
   GoogleMapLoadScript,
   IconButton,
   Input,
@@ -140,15 +141,19 @@ const TravelPlanEditPage = () => {
         <PageInfo mainText="여행 계획 수정" />
         <TextField title="제목" isRequired>
           {(id) => (
-            <Input
-              id={id}
-              value={title}
-              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-              placeholder="여행 계획 제목을 입력해주세요"
-              count={title.length}
-              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              onChange={handleChangeTitle}
-            />
+            <S.InputContainer>
+              <Input
+                id={id}
+                value={title}
+                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+                placeholder="여행 계획 제목을 입력해주세요"
+                onChange={handleChangeTitle}
+              />
+              <CharacterCount
+                count={title.length}
+                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              />
+            </S.InputContainer>
           )}
         </TextField>
 

@@ -8,6 +8,7 @@ import { usePutTravelogue } from "@queries/usePutTravelogue";
 import {
   Accordion,
   Button,
+  CharacterCount,
   Chip,
   GoogleMapLoadScript,
   IconButton,
@@ -152,15 +153,19 @@ const TravelogueEditPage = () => {
 
         <TextField title="제목" isRequired>
           {(id) => (
-            <Input
-              id={id}
-              value={title}
-              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-              placeholder="여행기 제목을 입력해주세요"
-              count={title.length}
-              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              onChange={handleChangeTitle}
-            />
+            <S.InputContainer>
+              <Input
+                id={id}
+                value={title}
+                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+                placeholder="여행기 제목을 입력해주세요"
+                onChange={handleChangeTitle}
+              />
+              <CharacterCount
+                count={title.length}
+                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              />
+            </S.InputContainer>
           )}
         </TextField>
 
