@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-import kr.touroot.coordinate.domain.GeographicalCoordinate;
+import kr.touroot.coordinate.domain.Position;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
 import lombok.AccessLevel;
@@ -48,7 +48,7 @@ public class TraveloguePlace extends BaseEntity {
     private String name;
 
     @Embedded
-    private GeographicalCoordinate coordinate;
+    private Position position;
 
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -62,15 +62,15 @@ public class TraveloguePlace extends BaseEntity {
             Integer order,
             String description,
             String name,
-            GeographicalCoordinate coordinate,
+            Position position,
             TravelogueDay travelogueDay
     ) {
-        validate(order, description, name, coordinate, travelogueDay);
+        validate(order, description, name, position, travelogueDay);
         this.id = id;
         this.order = order;
         this.description = description;
         this.name = name;
-        this.coordinate = coordinate;
+        this.position = position;
         this.travelogueDay = travelogueDay;
     }
 
@@ -82,14 +82,14 @@ public class TraveloguePlace extends BaseEntity {
             String longitude,
             TravelogueDay travelogueDay
     ) {
-        this(null, order, description, name, new GeographicalCoordinate(latitude, longitude), travelogueDay);
+        this(null, order, description, name, new Position(latitude, longitude), travelogueDay);
     }
 
     private void validate(
             Integer order,
             String description,
             String name,
-            GeographicalCoordinate coordinate,
+            Position coordinate,
             TravelogueDay travelogueDay
     ) {
         validateNotNull(order, name, coordinate, travelogueDay);
@@ -99,7 +99,7 @@ public class TraveloguePlace extends BaseEntity {
         validatePlaceNameLength(name);
     }
 
-    private void validateNotNull(Integer order, String name, GeographicalCoordinate coordinate, TravelogueDay day) {
+    private void validateNotNull(Integer order, String name, Position coordinate, TravelogueDay day) {
         if (order == null || name == null || coordinate == null || day == null) {
             throw new BadRequestException("여행기 장소에서 순서와 장소 위치, 그리고 방문 날짜는 비어 있을 수 없습니다");
         }

@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-import kr.touroot.coordinate.domain.GeographicalCoordinate;
+import kr.touroot.coordinate.domain.Position;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
 import lombok.AccessLevel;
@@ -47,33 +47,33 @@ public class TravelPlanPlace extends BaseEntity {
     private String name;
 
     @Embedded
-    private GeographicalCoordinate coordinate;
+    private Position position;
 
     @OneToMany(mappedBy = "travelPlanPlace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TravelPlaceTodo> travelPlaceTodos = new ArrayList<>();
 
-    public TravelPlanPlace(Long id, Integer order, TravelPlanDay day, String name, GeographicalCoordinate coordinate) {
-        validate(order, day, name, coordinate);
+    public TravelPlanPlace(Long id, Integer order, TravelPlanDay day, String name, Position position) {
+        validate(order, day, name, position);
         this.id = id;
         this.order = order;
         this.day = day;
         this.name = name;
-        this.coordinate = coordinate;
+        this.position = position;
     }
 
     public TravelPlanPlace(Integer order, TravelPlanDay day, String name, String latitude, String longitude) {
-        this(null, order, day, name, new GeographicalCoordinate(latitude, longitude));
+        this(null, order, day, name, new Position(latitude, longitude));
     }
 
 
-    private void validate(Integer order, TravelPlanDay day, String name, GeographicalCoordinate coordinate) {
+    private void validate(Integer order, TravelPlanDay day, String name, Position coordinate) {
         validateNotNull(order, day, name, coordinate);
         validateNotBlank(name);
         validateOrderRange(order);
         validatePlaceNameLength(name);
     }
 
-    private void validateNotNull(Integer order, TravelPlanDay day, String name, GeographicalCoordinate coordinate) {
+    private void validateNotNull(Integer order, TravelPlanDay day, String name, Position coordinate) {
         if (order == null || day == null || name == null || coordinate == null) {
             throw new BadRequestException("여행 계획 장소에서 순서와 날짜, 그리고 장소 위치는 비어 있을 수 없습니다");
         }

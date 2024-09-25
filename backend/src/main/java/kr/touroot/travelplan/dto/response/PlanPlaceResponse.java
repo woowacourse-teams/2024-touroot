@@ -17,7 +17,7 @@ public record PlanPlaceResponse(
         return PlanPlaceResponse.builder()
                 .id(planPlace.getId())
                 .placeName(planPlace.getName())
-                .position(PlanPositionResponse.from(planPlace.getCoordinate()))
+                .position(PlanPositionResponse.from(planPlace.getPosition()))
                 .todos(todos)
                 .build();
     }

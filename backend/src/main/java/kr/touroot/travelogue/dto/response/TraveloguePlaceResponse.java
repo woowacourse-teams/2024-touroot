@@ -22,7 +22,7 @@ public record TraveloguePlaceResponse(
                 .id(place.getId())
                 .placeName(place.getName())
                 .description(place.getDescription())
-                .position(TraveloguePositionResponse.from(place.getCoordinate()))
+                .position(TraveloguePositionResponse.from(place.getPosition()))
                 .photoUrls(photoUrls)
                 .build();
     }

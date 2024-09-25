@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class GeographicalCoordinate {
+public class Position {
 
     private static final String LATITUDE_REGEX = "^([-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?))$";
     private static final String LONGITUDE_REGEX = "^([-+]?((1[0-7]\\d(\\.\\d+)?|180(\\.0+)?)|([1-9]?\\d(\\.\\d+)?)))$";
@@ -25,7 +25,7 @@ public class GeographicalCoordinate {
     @Column(nullable = false)
     private String longitude;
 
-    public GeographicalCoordinate(String latitude, String longitude) {
+    public Position(String latitude, String longitude) {
         validate(latitude, longitude);
         this.latitude = latitude;
         this.longitude = longitude;

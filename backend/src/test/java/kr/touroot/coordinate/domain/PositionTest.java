@@ -10,7 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayName("위도 경도 값타입 테스트")
-class GeographicalCoordinateTest {
+class PositionTest {
 
     private static final String VALID_LAT = "33.5431";
     private static final String VALID_LNG = "126.6728";
@@ -18,14 +18,14 @@ class GeographicalCoordinateTest {
     @DisplayName("올바른 위경도 값타입 생성 시 예외가 발생하지 않는다")
     @Test
     void createCoordinateWithValidData() {
-        assertThatCode(() -> new GeographicalCoordinate(VALID_LAT, VALID_LNG))
+        assertThatCode(() -> new Position(VALID_LAT, VALID_LNG))
                 .doesNotThrowAnyException();
     }
-    
+
     @DisplayName("위도가 비어 있을 경우 여행 계획 장소 생성 시 예외가 발생한다")
     @Test
     void createCoordinateWithNullLatitude() {
-        assertThatThrownBy(() -> new GeographicalCoordinate(null, VALID_LNG))
+        assertThatThrownBy(() -> new Position(null, VALID_LNG))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("위도와 경도는 비어있을 수 없습니다");
     }
@@ -33,7 +33,7 @@ class GeographicalCoordinateTest {
     @DisplayName("경도가 비어 있을 경우 여행 계획 장소 생성 시 예외가 발생한다")
     @Test
     void createCoordinateWithNullLongitude() {
-        assertThatThrownBy(() -> new GeographicalCoordinate(VALID_LAT, null))
+        assertThatThrownBy(() -> new Position(VALID_LAT, null))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("위도와 경도는 비어있을 수 없습니다");
     }
@@ -42,7 +42,7 @@ class GeographicalCoordinateTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "   ", "    "})
     void createCoordinateWithBlankLatitude(String blank) {
-        assertThatThrownBy(() -> new GeographicalCoordinate(blank, VALID_LNG))
+        assertThatThrownBy(() -> new Position(blank, VALID_LNG))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("위도와 경도는 공백 문자로만 이루어질 수 없습니다");
     }
@@ -51,7 +51,7 @@ class GeographicalCoordinateTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "   ", "    "})
     void createCoordinateWithBlankLongitude(String blank) {
-        assertThatThrownBy(() -> new GeographicalCoordinate(VALID_LAT, blank))
+        assertThatThrownBy(() -> new Position(VALID_LAT, blank))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("위도와 경도는 공백 문자로만 이루어질 수 없습니다");
     }
@@ -60,7 +60,7 @@ class GeographicalCoordinateTest {
     @ParameterizedTest
     @ValueSource(strings = {"91.0000", "-91.0000", "100.0000", "-100.0000", "abc", "45.0000.0", "45,0000"})
     void createCoordinateWithMalformedLatitude(String malformed) {
-        assertThatThrownBy(() -> new GeographicalCoordinate(malformed, VALID_LNG))
+        assertThatThrownBy(() -> new Position(malformed, VALID_LNG))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("위,경도의 형식이 올바르지 않습니다");
     }
@@ -69,7 +69,7 @@ class GeographicalCoordinateTest {
     @ParameterizedTest
     @ValueSource(strings = {"181.0000", "-181.0000", "200.0000", "-200.0000", "abc", "100.0000.0", "100,0000"})
     void createCoordinateWithMalformedLongitude(String malformed) {
-        assertThatThrownBy(() -> new GeographicalCoordinate(VALID_LAT, malformed))
+        assertThatThrownBy(() -> new Position(VALID_LAT, malformed))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("위,경도의 형식이 올바르지 않습니다");
     }
