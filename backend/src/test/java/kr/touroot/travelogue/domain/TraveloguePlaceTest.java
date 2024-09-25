@@ -86,7 +86,7 @@ class TraveloguePlaceTest {
                 .hasMessage("여행 장소에 대한 설명은 300자를 넘길 수 없습니다");
     }
 
-    @DisplayName("장소 이름의 길이가 60자를 초과하는 경우 장소 생성 시 예외가 발생한다")
+    @DisplayName("장소 이름의 길이가 85자를 초과하는 경우 장소 생성 시 예외가 발생한다")
     @Test
     void createPlaceWithInvalidLengthPlaceName() {
         String length86 = "Under the warm summer sun, feeling the cool breeze by the sea is absolute pure joy!!!!";
