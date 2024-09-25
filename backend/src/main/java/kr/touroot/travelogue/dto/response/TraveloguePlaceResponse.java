@@ -2,8 +2,8 @@ package kr.touroot.travelogue.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
-import lombok.Builder;
 import kr.touroot.travelogue.domain.TraveloguePlace;
+import lombok.Builder;
 
 @Builder
 public record TraveloguePlaceResponse(
@@ -22,7 +22,7 @@ public record TraveloguePlaceResponse(
                 .id(place.getId())
                 .placeName(place.getName())
                 .description(place.getDescription())
-                .position(TraveloguePositionResponse.from(place))
+                .position(TraveloguePositionResponse.from(place.getPosition()))
                 .photoUrls(photoUrls)
                 .build();
     }

@@ -11,7 +11,6 @@ import kr.touroot.global.ServiceTest;
 import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
-import kr.touroot.place.domain.Place;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TraveloguePlace;
@@ -79,8 +78,7 @@ class TraveloguePlaceServiceTest {
         Member author = testHelper.persistMember();
         Travelogue travelogue = testHelper.persistTravelogue(author);
         TravelogueDay day = testHelper.persistTravelogueDay(travelogue);
-        Place position = testHelper.persistPlace();
-        TraveloguePlace place = testHelper.persistTraveloguePlace(position, day);
+        TraveloguePlace place = testHelper.persistTraveloguePlace(day);
 
         List<TraveloguePlace> places = placeService.findTraveloguePlacesByDay(day);
 
