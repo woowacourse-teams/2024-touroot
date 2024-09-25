@@ -16,7 +16,7 @@ const SingleSelectionTagModalBottomSheet = ({
 }: EditRegisterModalBottomSheetProps) => {
   return (
     <Modal isOpen={isOpen} onCloseModal={onClose} position="bottom" boxLayoutGap="l">
-      <Modal.Header buttonPosition="center">
+      <Modal.Header headerPosition="center">
         <S.HandleBar />
       </Modal.Header>
       <Modal.Body direction="column" css={S.modalBodyStyle}>

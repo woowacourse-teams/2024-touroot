@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 
 import { ModalHeaderProps } from "./ModalHeader";
 
-const createPosition = ($position: Required<ModalHeaderProps>["buttonPosition"]) => {
+const createPosition = ($position: Required<ModalHeaderProps>["headerPosition"]) => {
   const position = {
     left: css`
       justify-content: flex-start;
@@ -21,7 +21,7 @@ const createPosition = ($position: Required<ModalHeaderProps>["buttonPosition"])
   return position[$position];
 };
 
-export const Layout = styled.header<{ $position: Required<ModalHeaderProps>["buttonPosition"] }>`
+export const Layout = styled.header<{ $position: Required<ModalHeaderProps>["headerPosition"] }>`
   display: flex;
   justify-content: space-between;
   align-items: center;

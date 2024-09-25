@@ -1,11 +1,11 @@
 import * as S from "./ModalHeader.styled";
 
 export interface ModalHeaderProps extends React.PropsWithChildren {
-  buttonPosition?: "left" | "right" | "center";
+  headerPosition?: "left" | "right" | "center";
 }
 
-const ModalHeader = ({ children, buttonPosition = "right" }: ModalHeaderProps) => {
-  return <S.Layout $position={buttonPosition}>{children}</S.Layout>;
+const ModalHeader = ({ children, headerPosition = "right" }: ModalHeaderProps) => {
+  return <S.Layout $position={headerPosition}>{children}</S.Layout>;
 };
 
 export default ModalHeader;

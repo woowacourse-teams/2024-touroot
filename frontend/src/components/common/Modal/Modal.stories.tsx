@@ -144,7 +144,7 @@ export const EditRegisterModalBottomSheet = {
         </Button>
         {isOpen && (
           <Modal isOpen={isOpen} onCloseModal={onToggleModal} position="bottom" boxLayoutGap="xxxl">
-            <Modal.Header buttonPosition="center">
+            <Modal.Header headerPosition="center">
               <div
                 style={{
                   width: "5.4rem",
@@ -203,7 +203,7 @@ export const SingleSelectionTagModalBottomSheet = {
         </Button>
         {isOpen && (
           <Modal isOpen={isOpen} onCloseModal={onToggleModal} position="bottom" boxLayoutGap="l">
-            <Modal.Header buttonPosition="center">
+            <Modal.Header headerPosition="center">
               <div
                 style={{
                   width: "5.4rem",

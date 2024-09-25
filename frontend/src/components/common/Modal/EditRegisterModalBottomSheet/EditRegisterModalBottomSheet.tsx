@@ -25,7 +25,7 @@ const EditRegisterModalBottomSheet = ({
 }: EditRegisterModalBottomSheetProps) => {
   return (
     <Modal isOpen={isOpen} onCloseModal={onClose} position="bottom" boxLayoutGap="xxxl">
-      <Modal.Header buttonPosition="center">
+      <Modal.Header headerPosition="center">
         <S.HandleBar />
       </Modal.Header>
       <Modal.Body direction="column" css={S.modalBodyStyle}>
