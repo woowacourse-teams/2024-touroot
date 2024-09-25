@@ -15,7 +15,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <S.InputContainer>
         <S.Input variant={variants} {...props} ref={ref} />
-        {count && maxCount ? <CharacterCount count={count} maxCount={maxCount} /> : null}
+        {maxCount ? <CharacterCount count={count} maxCount={maxCount} /> : null}
       </S.InputContainer>
     );
   },
