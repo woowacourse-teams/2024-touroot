@@ -10,19 +10,18 @@ const resizeAndConvertImage = (
     const img = new Image();
     img.onload = () => {
       const canvas = document.createElement("canvas");
+      const aspectRatio = img.width / img.height;
       let width = img.width;
       let height = img.height;
 
-      if (width > height) {
-        if (width > maxWidth) {
-          height *= maxWidth / width;
-          width = maxWidth;
-        }
-      } else {
-        if (height > maxHeight) {
-          width *= maxHeight / height;
-          height = maxHeight;
-        }
+      if (width > maxWidth) {
+        width = maxWidth;
+        height = width / aspectRatio;
+      }
+
+      if (height > maxHeight) {
+        height = maxHeight;
+        width = height * aspectRatio;
       }
 
       canvas.width = width;
