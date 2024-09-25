@@ -33,7 +33,6 @@ export const Layout = styled.section<{
 }>`
   display: flex;
   justify-content: center;
-  align-items: ${({ $position }) => ($position === "center" ? "center" : "flex-end")};
   position: fixed;
   z-index: ${({ theme }) => theme.zIndex.modal};
   inset: 0;
