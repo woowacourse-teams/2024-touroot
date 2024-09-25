@@ -40,6 +40,3 @@ DROP FOREIGN KEY fk_travel_plan_place_place_id;
 
 -- place 테이블 삭제
 DROP TABLE place;
-
--- member 테이블 닉네임 인덱스 작성
-CREATE INDEX member_nickname_idx ON member (nickname);
