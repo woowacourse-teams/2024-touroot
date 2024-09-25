@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
-export const BottomSheetLayout = styled.div`
+export const Layout = styled.footer`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,7 +22,7 @@ export const BottomSheetLayout = styled.div`
   box-shadow: 0 -2px 10px rgb(0 0 0 / 10%);
 `;
 
-export const BottomSheetButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing.m};
 

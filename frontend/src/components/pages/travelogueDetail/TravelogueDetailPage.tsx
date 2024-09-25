@@ -16,7 +16,7 @@ import {
   IconButton,
   Tab,
   Text,
-  TransformBottomSheet,
+  TransformFooter,
 } from "@components/common";
 import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
 import TravelogueDetailSkeleton from "@components/pages/travelogueDetail/TravelogueDetailSkeleton/TravelogueDetailSkeleton";
@@ -195,8 +195,8 @@ const TravelogueDetailPage = () => {
         />
       </S.TravelogueDetailLayout>
 
-      <TransformBottomSheet
-        travelPrompt="이 여행기를 따라가고 싶으신가요?"
+      <TransformFooter
+        guideMessage="이 여행기를 따라가고 싶으신가요?"
         buttonLabel="여행 계획으로 전환"
         onTransform={handleTransform}
       >
@@ -209,7 +209,7 @@ const TravelogueDetailPage = () => {
           />
           <Text textType="detail">{data?.likeCount}</Text>
         </S.LikesContainer>
-      </TransformBottomSheet>
+      </TransformFooter>
 
       <DeleteModal
         isOpen={isDeleteModalOpen}

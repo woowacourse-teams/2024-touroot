@@ -7,14 +7,7 @@ import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetail
 import useDeleteTravelPlan from "@queries/useDeleteTravelPlan";
 import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
-import {
-  DeleteModal,
-  Dropdown,
-  IconButton,
-  Tab,
-  Text,
-  TransformBottomSheet,
-} from "@components/common";
+import { DeleteModal, Dropdown, IconButton, Tab, Text, TransformFooter } from "@components/common";
 import ShareModal from "@components/pages/travelPlanDetail/ShareModal/ShareModal";
 import TravelPlanDetailSkeleton from "@components/pages/travelPlanDetail/TravelPlanDetailSkeleton/TravelPlanDetailSkeleton";
 import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlansTabContent/TravelPlansTabContent";
@@ -161,10 +154,10 @@ const TravelPlanDetailPage = () => {
         />
       </S.TravelPlanDetailLayout>
 
-      <TransformBottomSheet
+      <TransformFooter
         onTransform={handleTransform}
         buttonLabel="여행기로 전환"
-        travelPrompt="여행은 즐겁게 다녀오셨나요?"
+        guideMessage="여행은 즐겁게 다녀오셨나요?"
       />
 
       <ShareModal
