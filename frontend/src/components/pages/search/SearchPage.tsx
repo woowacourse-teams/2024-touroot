@@ -29,7 +29,16 @@ const SearchPage = () => {
   return (
     <S.Layout>
       <FloatingButton />
+      <Tab
+        labels={["제목", "작성자"]}
+        tabContent={(selectedIndex) => (
+          <TravelogueList
+            key={`${keyword}-${selectedIndex}`}
+            keyword={keyword}
+            searchType={selectedIndex === 0 ? "TITLE" : "AUTHOR"}
+          />
         )}
+        css={S.TabStyle}
       />
     </S.Layout>
   );
