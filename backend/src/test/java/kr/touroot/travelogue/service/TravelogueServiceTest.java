@@ -18,6 +18,7 @@ import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
+import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
@@ -111,21 +112,23 @@ class TravelogueServiceTest {
                 .hasSize(1);
     }
 
-    @DisplayName("여행기를 전체 조회할 수 있다.")
+    @DisplayName("여행기를 검색할 수 있다.")
     @Test
     void findByKeyword() {
         testHelper.initTravelogueTestData();
+        TravelogueSearchRequest request = new TravelogueSearchRequest("제주", "title");
 
-        assertThat(travelogueService.findByKeyword("제주", Pageable.ofSize(BASIC_PAGE_SIZE)))
+        assertThat(travelogueService.findByKeyword(request, Pageable.ofSize(BASIC_PAGE_SIZE)))
                 .hasSize(1);
     }
 
     @DisplayName("존재하지 않는 키워드로 여행기를 조회하면 빈 페이지가 반환된다.")
     @Test
-    void findByKeywordWithNotExistKeyword() {
+    void findByKeywordWithNotExistRequest() {
         testHelper.initTravelogueTestData();
+        TravelogueSearchRequest request = new TravelogueSearchRequest("서울", "title");
 
-        assertThat(travelogueService.findByKeyword("서울", Pageable.ofSize(BASIC_PAGE_SIZE)))
+        assertThat(travelogueService.findByKeyword(request, Pageable.ofSize(BASIC_PAGE_SIZE)))
                 .isEmpty();
     }
 

@@ -36,6 +36,8 @@ management:
 ---
 # local profile
 spring:
+  flyway:
+    enabled: false
   config:
     activate:
       on-profile: local
@@ -53,7 +55,6 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
-    defer-datasource-initialization: true
 
 security:
   jwt:
@@ -74,6 +75,10 @@ cloud:
 ---
 # dev profile
 spring:
+  flyway:
+    enabled: true
+    baseline-version: 1
+    baseline-on-migrate: true
   config:
     activate:
       on-profile: dev
@@ -95,7 +100,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
 
 server:
   ssl:
@@ -122,6 +127,10 @@ cloud:
 ---
 # prod profile
 spring:
+  flyway:
+    enabled: true
+    baseline-version: 1
+    baseline-on-migrate: true
   config:
     activate:
       on-profile: prod
@@ -149,7 +158,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
 
 server:
   ssl:
