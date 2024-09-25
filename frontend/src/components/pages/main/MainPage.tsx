@@ -34,11 +34,11 @@ const MainPage = () => {
   const { selectedTagIDs, handleClickTag, sortedTags, animationKey } = useMultiSelectionTag();
   const { sorting, travelPeriod } = useSingleSelectionTag();
 
-  const { travelogues, status, fetchNextPage, isPaused, error } = useInfiniteTravelogues(
+  const { travelogues, status, fetchNextPage, isPaused, error } = useInfiniteTravelogues({
     selectedTagIDs,
-    sorting.selectedOption,
-    travelPeriod.selectedOption,
-  );
+    selectedSortingOption: sorting.selectedOption,
+    selectedTravelPeriodOption: travelPeriod.selectedOption,
+  });
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 

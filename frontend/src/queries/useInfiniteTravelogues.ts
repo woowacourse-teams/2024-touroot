@@ -30,11 +30,15 @@ export const getTravelogues = async ({
 const INITIAL_PAGE = 0;
 const DATA_LOAD_COUNT = 5;
 
-const useInfiniteTravelogues = (
-  selectedTagIDs: number[],
-  selectedSortingOption: SortingOption,
-  selectedTravelPeriodOption: TravelPeriodOption,
-) => {
+const useInfiniteTravelogues = ({
+  selectedTagIDs,
+  selectedSortingOption,
+  selectedTravelPeriodOption,
+}: {
+  selectedTagIDs: number[];
+  selectedSortingOption: SortingOption;
+  selectedTravelPeriodOption: TravelPeriodOption;
+}) => {
   const { data, status, error, fetchNextPage, isFetchingNextPage, hasNextPage, isPaused } =
     useInfiniteQuery({
       queryKey: QUERY_KEYS_MAP.travelogue.tag(
