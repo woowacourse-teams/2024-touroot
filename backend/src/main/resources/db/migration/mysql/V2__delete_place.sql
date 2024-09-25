@@ -10,17 +10,6 @@ ALTER TABLE travel_plan_place
     ADD longitude VARCHAR(255),
     ADD name VARCHAR(255);
 
--- NOT NULL 제약 조건 추가
-ALTER TABLE travelogue_place
-    MODIFY latitude VARCHAR(255) NOT NULL,
-    MODIFY longitude VARCHAR(255) NOT NULL,
-    MODIFY name VARCHAR(255) NOT NULL;
-
-ALTER TABLE travel_plan_place
-    MODIFY latitude VARCHAR(255) NOT NULL,
-    MODIFY longitude VARCHAR(255) NOT NULL,
-    MODIFY name VARCHAR(255) NOT NULL;
-
 -- place 테이블의 데이터로 travelogue_place 업데이트
 UPDATE travelogue_place tp
     JOIN place p ON tp.place_id = p.id
@@ -40,3 +29,22 @@ DROP FOREIGN KEY fk_travel_plan_place_place_id;
 
 -- place 테이블 삭제
 DROP TABLE place;
+
+-- NOT NULL 제약 조건 추가
+ALTER TABLE travelogue_place
+    MODIFY latitude VARCHAR(255) NOT NULL,
+    MODIFY longitude VARCHAR(255) NOT NULL,
+    MODIFY name VARCHAR(255) NOT NULL;
+
+ALTER TABLE travel_plan_place
+    MODIFY latitude VARCHAR(255) NOT NULL,
+    MODIFY longitude VARCHAR(255) NOT NULL,
+    MODIFY name VARCHAR(255) NOT NULL;
+
+-- travelogue_place 테이블에서 place_id 컬럼 삭제
+ALTER TABLE travelogue_place
+DROP COLUMN place_id;
+
+-- travel_plan_place 테이블에서 place_id 컬럼 삭제
+ALTER TABLE travel_plan_place
+DROP COLUMN place_id;
