@@ -1,7 +1,7 @@
 package kr.touroot.travelogue.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import kr.touroot.coordinate.domain.Position;
+import kr.touroot.position.domain.Position;
 import lombok.Builder;
 
 @Builder

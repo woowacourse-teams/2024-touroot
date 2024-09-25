@@ -1,4 +1,4 @@
-package kr.touroot.coordinate.domain;
+package kr.touroot.position.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
