@@ -164,7 +164,7 @@ describe("여행 계획 등록 테스트", () => {
 
       // when
       cy.get(CYPRESS_SELECTOR_MAP.googleSearchPopup.searchInput).type(INPUT_VALUE);
-      cy.get(".pac-item").first().click();
+      cy.get(".pac-item").first().click({ force: true });
 
       // then
       cy.get(CYPRESS_SELECTOR_MAP.googleSearchPopup.container).should("not.exist");
