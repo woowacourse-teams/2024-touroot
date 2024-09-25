@@ -11,15 +11,9 @@ interface ChipProps extends ComponentPropsWithoutRef<"li"> {
   index?: number;
 }
 
-const Chip = ({
-  label,
-  isSelected = false,
-  index,
-  children,
-  ...props
-}: React.PropsWithChildren<ChipProps>) => {
+const Chip = ({ label, isSelected = false, index, children, ...props }: ChipProps) => {
   return (
-    <S.Chip
+    <S.Layout
       $isSelected={isSelected}
       $index={index}
       data-cy={isSelected ? `selected-${CYPRESS_DATA_MAP.chip}` : CYPRESS_DATA_MAP.chip}
@@ -27,7 +21,7 @@ const Chip = ({
     >
       <Text textType={isSelected ? "detailBold" : "detail"}>{label}</Text>
       {children}
-    </S.Chip>
+    </S.Layout>
   );
 };
 
