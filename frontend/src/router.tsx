@@ -3,26 +3,23 @@ import { createBrowserRouter } from "react-router-dom";
 
 import { css } from "@emotion/react";
 
-import { Text } from "@components/common";
-import Spinner from "@components/common/Spinner/Spinner";
+import { Spinner, Text } from "@components/common";
 import AppLayout from "@components/layout/AppLayout/AppLayout";
+import KakaoCallbackPage from "@components/pages/login/KakaoCallbackPage";
+import LoginPage from "@components/pages/login/LoginPage";
+import MainPage from "@components/pages/main/MainPage";
+import MyPage from "@components/pages/my/MyPage";
+import NotFoundPage from "@components/pages/notFound/NotFoundPage";
+import TravelPlanDetailPage from "@components/pages/travelPlanDetail/TravelPlanDetailPage";
+import TravelogueDetailPage from "@components/pages/travelogueDetail/TravelogueDetailPage";
 
 import { ROUTE_PATHS_MAP } from "./constants/route";
 
-const MainPage = lazy(() => import("@components/pages/main/MainPage"));
-const LoginPage = lazy(() => import("@components/pages/login/LoginPage"));
-const KakaoCallbackPage = lazy(() => import("@components/pages/login/KakaoCallbackPage"));
-const TravelogueDetailPage = lazy(
-  () => import("@components/pages/travelogueDetail/TravelogueDetailPage"),
-);
 const TravelogueRegisterPage = lazy(
   () => import("@components/pages/travelogueRegister/TravelogueRegisterPage"),
 );
 const TravelogueEditPage = lazy(
   () => import("@components/pages/travelogueEdit/TravelogueEditPage"),
-);
-const TravelPlanDetailPage = lazy(
-  () => import("@components/pages/travelPlanDetail/TravelPlanDetailPage"),
 );
 const TravelPlanRegisterPage = lazy(
   () => import("@components/pages/travelPlanRegister/TravelPlanRegisterPage"),
@@ -30,9 +27,7 @@ const TravelPlanRegisterPage = lazy(
 const TravelPlanEditPage = lazy(
   () => import("@components/pages/travelPlanEdit/TravelPlanEditPage"),
 );
-const MyPage = lazy(() => import("@components/pages/my/MyPage"));
 const SearchPage = lazy(() => import("@components/pages/search/SearchPage"));
-const NotFoundPage = lazy(() => import("@components/pages/notFound/NotFoundPage"));
 
 const lazyLoadingFallbackStyle = css`
   display: flex;
@@ -65,19 +60,19 @@ export const router = createBrowserRouter([
     children: [
       {
         path: ROUTE_PATHS_MAP.root,
-        element: withLazyLoading(MainPage),
+        element: <MainPage />,
       },
       {
         path: ROUTE_PATHS_MAP.login,
-        element: withLazyLoading(LoginPage),
+        element: <LoginPage />,
       },
       {
         path: ROUTE_PATHS_MAP.loginCallback,
-        element: withLazyLoading(KakaoCallbackPage),
+        element: <KakaoCallbackPage />,
       },
       {
         path: ROUTE_PATHS_MAP.travelogue(),
-        element: withLazyLoading(TravelogueDetailPage),
+        element: <TravelogueDetailPage />,
       },
       {
         path: ROUTE_PATHS_MAP.travelogueRegister,
@@ -89,7 +84,7 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTE_PATHS_MAP.travelPlan(),
-        element: withLazyLoading(TravelPlanDetailPage),
+        element: <TravelPlanDetailPage />,
       },
       {
         path: ROUTE_PATHS_MAP.travelPlanRegister,
@@ -101,11 +96,11 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTE_PATHS_MAP.my,
-        element: withLazyLoading(MyPage),
+        element: <MyPage />,
       },
       {
         path: ROUTE_PATHS_MAP.searchMain,
-        element: withLazyLoading(SearchPage),
+        element: <SearchPage />,
       },
       {
         path: ROUTE_PATHS_MAP.search(),
@@ -113,7 +108,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "*",
-        element: withLazyLoading(NotFoundPage),
+        element: <NotFoundPage />,
       },
     ],
   },

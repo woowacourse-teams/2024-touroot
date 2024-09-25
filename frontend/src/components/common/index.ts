@@ -29,3 +29,4 @@ export { default as TextField } from "./TextField/TextField";
 export { default as Calendar } from "./Calendar/Calendar";
 export { default as SearchFallback } from "./SearchFallback/SearchFallback";
 export { default as FloatingButton } from "./FloatingButton/FloatingButton";
+export { default as Spinner } from "./Spinner/Spinner";
