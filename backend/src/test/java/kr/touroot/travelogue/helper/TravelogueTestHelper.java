@@ -164,6 +164,8 @@ public class TravelogueTestHelper {
 
     public TravelogueLike persistTravelogueLike(Travelogue travelogue, Member liker) {
         TravelogueLike like = new TravelogueLike(travelogue, liker);
+        travelogue.increaseLikeCount();
+        travelogueRepository.save(travelogue);
 
         return travelogueLikeRepository.save(like);
     }

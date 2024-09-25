@@ -9,9 +9,11 @@ import kr.touroot.member.service.MemberService;
 import kr.touroot.tag.dto.TagResponse;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
+import kr.touroot.travelogue.domain.TravelogueFilterCondition;
 import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
+import kr.touroot.travelogue.dto.request.TravelogueFilterRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
@@ -131,15 +133,21 @@ public class TravelogueFacadeService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TravelogueSimpleResponse> findSimpleTravelogues(Pageable pageable) {
-        Page<Travelogue> travelogues = travelogueService.findAll(pageable);
+    public Page<TravelogueSimpleResponse> findSimpleTravelogues(
+            TravelogueFilterRequest filterRequest,
+            Pageable pageable
+    ) {
+        TravelogueFilterCondition filter = filterRequest.toFilterCondition();
+        Page<Travelogue> travelogues = findSimpleTraveloguesByFilter(filter, pageable);
         return travelogues.map(this::getTravelogueSimpleResponse);
     }
 
-    @Transactional(readOnly = true)
-    public Page<TravelogueSimpleResponse> findSimpleTravelogues(List<Long> tagFilter, Pageable pageable) {
-        Page<Travelogue> travelogues = travelogueService.findAllByFilter(tagFilter, pageable);
-        return travelogues.map(this::getTravelogueSimpleResponse);
+    private Page<Travelogue> findSimpleTraveloguesByFilter(TravelogueFilterCondition filter, Pageable pageable) {
+        if (filter.isEmptyCondition()) {
+            return travelogueService.findAll(pageable);
+        }
+
+        return travelogueService.findAllByFilter(filter, pageable);
     }
 
     @Transactional(readOnly = true)
