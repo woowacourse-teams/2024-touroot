@@ -155,7 +155,6 @@ const TravelPlanRegisterPage = () => {
           <GoogleMapLoadScript
             loadingElement={
               <S.LoadingWrapper>
-                {" "}
                 <IconButton
                   size="16"
                   iconType="plus"
@@ -169,7 +168,7 @@ const TravelPlanRegisterPage = () => {
                   >
                     일자 추가하기
                   </Text>
-                </IconButton>{" "}
+                </IconButton>
               </S.LoadingWrapper>
             }
           >
