@@ -4,11 +4,12 @@ import { Tturi } from "@assets/svg";
 
 import * as S from "./DeleteModal.styled";
 
+type TravelContent = "travelogue" | "travelPlan";
+
 interface DeleteModalProps {
   isOpen: boolean;
   isPending: boolean;
-  mainText: string;
-  subText: string;
+  travelContent: TravelContent;
   onCloseModal: () => void;
   onClickDeleteButton: () => void;
 }
@@ -16,11 +17,15 @@ interface DeleteModalProps {
 const DeleteModal = ({
   isOpen,
   isPending,
-  mainText,
-  subText,
+  travelContent,
   onCloseModal,
   onClickDeleteButton,
 }: DeleteModalProps) => {
+  const travelContentLabel = travelContent === "travelogue" ? "여행기를" : "여행 계획을";
+
+  const MAIN_TEXT = `${travelContentLabel} 삭제할까요?`;
+  const SUB_TEXT = `삭제한 후에는 ${travelContentLabel} 다시 복구할 수 없어요.`;
+
   return (
     <Modal isOpen={isOpen} onCloseModal={onCloseModal} boxLayoutGap="l">
       <Modal.Header>
@@ -29,9 +34,9 @@ const DeleteModal = ({
       <Modal.Body direction="column" css={S.modalBodyStyle}>
         <Tturi />
         <S.TextContainer>
-          <Text textType="bodyBold">{mainText}</Text>
+          <Text textType="bodyBold">{MAIN_TEXT}</Text>
           <Text textType="detail" css={S.subTextStyle}>
-            {subText}
+            {SUB_TEXT}
           </Text>
         </S.TextContainer>
       </Modal.Body>
