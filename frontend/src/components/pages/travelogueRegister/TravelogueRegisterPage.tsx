@@ -22,7 +22,6 @@ import TravelogueDayAccordion from "@components/pages/travelogueRegister/Travelo
 
 import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
 import { useDragScroll } from "@hooks/useDragScroll";
-import useInitialTravelTitle from "@hooks/useInitialTravelTitle";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useTagSelection from "@hooks/useTagSelection";
 import useUser from "@hooks/useUser";
@@ -31,6 +30,8 @@ import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
+
+import getInitialTravelTitle from "@utils/getInitialTravelTitle";
 
 import * as S from "./TravelogueRegisterPage.styled";
 
@@ -66,7 +67,7 @@ const TravelogueRegisterPage = () => {
     onDeleteImageUrls,
   } = useTravelogueDays(transformDetail?.days ?? []);
 
-  const initialTitle = useInitialTravelTitle({ days: transformDetail?.days, type: "travelogue" });
+  const initialTitle = getInitialTravelTitle({ days: transformDetail?.days, type: "travelogue" });
 
   const [title, setTitle] = useState(initialTitle);
 
