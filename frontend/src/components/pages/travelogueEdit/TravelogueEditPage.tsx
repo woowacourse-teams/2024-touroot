@@ -219,7 +219,6 @@ const TravelogueEditPage = () => {
                 </IconButton>
               </S.LoadingWrapper>
             }
-            libraries={["places", "maps"]}
           >
             <Accordion.Root css={S.accordionRootStyle}>
               {travelogueDays.map((travelogueDay, dayIndex) => (
