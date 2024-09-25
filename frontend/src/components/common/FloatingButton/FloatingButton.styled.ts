@@ -10,7 +10,7 @@ export const FloatingButtonContainer = styled.div`
   position: fixed;
   right: max(0vw + 2rem, calc(50vw - 22rem));
   bottom: 2rem;
-  z-index: ${({ theme }) => theme.zIndex.floatingButton};
+  z-index: ${({ theme }) => theme.zIndex.floating};
 `;
 
 export const BackdropLayout = styled.div`

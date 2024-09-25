@@ -4,34 +4,35 @@ import styled from "@emotion/styled";
 import theme from "@styles/theme";
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
-export const MainPageContentContainer = styled.div`
+export const MainPageLayout = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.m};
 
-  margin-top: ${({ theme }) => theme.spacing.m};
+  margin-top: 16rem;
   padding: ${({ theme }) => theme.spacing.m};
   min-height: calc(100vh - 7.6rem);
 `;
 
-export const MainPageHeaderContainer = styled.div`
+export const FixedLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 6rem;
+  z-index: ${({ theme }) => theme.zIndex.floating};
+  gap: ${({ theme }) => theme.spacing.m};
+
+  max-width: 48rem;
+  padding: ${({ theme }) => theme.spacing.m};
+
+  background-color: ${PRIMITIVE_COLORS.white};
+`;
+
+export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
 
   gap: ${({ theme }) => theme.spacing.s};
-`;
-
-export const SearchFallbackWrapper = styled.div`
-  flex: 1;
-  position: relative;
-`;
-
-export const MainPageTraveloguesList = styled.ul`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-
-  gap: ${({ theme }) => theme.spacing.m};
 `;
 
 export const TagsContainer = styled.div`
@@ -68,6 +69,19 @@ export const MultiSelectionTagsContainer = styled.ul`
   & > li {
     cursor: pointer;
   }
+`;
+
+export const SearchFallbackWrapper = styled.div`
+  flex: 1;
+  position: relative;
+`;
+
+export const MainPageTraveloguesList = styled.ul`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  gap: ${({ theme }) => theme.spacing.m};
 `;
 
 export const OptionContainer = styled.div`

@@ -1,5 +1,3 @@
-import { SortingOption, TravelPeriodOption } from "@type/domain/travelogue";
-
 import useInfiniteTravelogues from "@queries/useInfiniteTravelogues";
 
 import {
@@ -26,8 +24,8 @@ import * as S from "./MainPage.styled";
 import TravelogueCardSkeleton from "./TravelogueCard/skeleton/TravelogueCardSkeleton";
 
 const SKELETON_COUNT = 5;
-const SORTING_OPTIONS: SortingOption[] = ["likeCount", "createdAt"];
-const TRAVEL_PERIOD_OPTIONS: TravelPeriodOption[] = ["", "1", "2", "3", "4", "5", "6", "7", "8"];
+const SORTING_OPTIONS = ["likeCount", "createdAt"] as const;
+const TRAVEL_PERIOD_OPTIONS = ["", "1", "2", "3", "4", "5", "6", "7", "8"] as const;
 
 const SORTING_OPTIONS_MAP = {
   likeCount: "좋아요순",
@@ -70,143 +68,147 @@ const MainPage = () => {
   }
 
   return (
-    <S.MainPageContentContainer>
-      <S.MainPageHeaderContainer>
-        <Text textType="title">지금 뜨고 있는 여행기</Text>
-        <Text textType="detail" css={S.subTitleStyle}>
-          다른 이들의 여행을 구경해보세요.{" "}
-          <span>(태그는 최대 {FORM_VALIDATIONS_MAP.tags.maxCount}개까지 가능해요!)</span>
-        </Text>
-      </S.MainPageHeaderContainer>
+    <>
+      <S.FixedLayout>
+        <S.TitleContainer>
+          <Text textType="title">지금 뜨고 있는 여행기</Text>
+          <Text textType="detail" css={S.subTitleStyle}>
+            다른 이들의 여행을 구경해보세요.{" "}
+            <span>(태그는 최대 {FORM_VALIDATIONS_MAP.tags.maxCount}개까지 가능해요!)</span>
+          </Text>
+        </S.TitleContainer>
 
-      <S.TagsContainer>
-        <S.SingleSelectionTagsContainer>
-          <Chip
-            label={SORTING_OPTIONS_MAP[sorting.selectedOption]}
-            isSelected={true}
-            onClick={sorting.handleOpenModal}
-          >
-            <Icon iconType="down-arrow" size="8" color={theme.colors.primary} />
-          </Chip>
-          <Chip
-            label={
-              travelPeriod.selectedOption
-                ? TRAVEL_PERIOD_OPTIONS_MAP[travelPeriod.selectedOption]
-                : "여행 기간"
-            }
-            isSelected={!!travelPeriod.selectedOption}
-            onClick={travelPeriod.handleOpenModal}
-          >
-            <Icon
-              iconType="down-arrow"
-              size="8"
-              color={
-                travelPeriod.selectedOption ? theme.colors.primary : theme.colors.text.secondary
-              }
-            />
-          </Chip>
-        </S.SingleSelectionTagsContainer>
-
-        <S.MultiSelectionTagsContainer
-          ref={scrollRef}
-          onMouseDown={onMouseDown}
-          onMouseUp={onMouseUp}
-          onMouseMove={onMouseMove}
-        >
-          {sortedTags.map((tag, index) => (
+        <S.TagsContainer>
+          <S.SingleSelectionTagsContainer>
             <Chip
-              key={`${tag.id}-${animationKey}`}
-              index={index}
-              label={tag.tag}
-              isSelected={selectedTagIDs.includes(tag.id)}
-              onClick={() => handleClickTag(tag.id)}
-            />
-          ))}
-        </S.MultiSelectionTagsContainer>
-      </S.TagsContainer>
+              label={SORTING_OPTIONS_MAP[sorting.selectedOption]}
+              isSelected={true}
+              onClick={sorting.handleOpenModal}
+            >
+              <Icon iconType="down-arrow" size="8" color={theme.colors.primary} />
+            </Chip>
+            <Chip
+              label={
+                travelPeriod.selectedOption
+                  ? TRAVEL_PERIOD_OPTIONS_MAP[travelPeriod.selectedOption]
+                  : "여행 기간"
+              }
+              isSelected={!!travelPeriod.selectedOption}
+              onClick={travelPeriod.handleOpenModal}
+            >
+              <Icon
+                iconType="down-arrow"
+                size="8"
+                color={
+                  travelPeriod.selectedOption ? theme.colors.primary : theme.colors.text.secondary
+                }
+              />
+            </Chip>
+          </S.SingleSelectionTagsContainer>
 
-      {status === "pending" && (
-        <S.MainPageTraveloguesList>
-          {Array.from({ length: SKELETON_COUNT }, (_, index) => (
-            <TravelogueCardSkeleton key={index} />
-          ))}
-        </S.MainPageTraveloguesList>
-      )}
-      {status === "success" && (
-        <S.MainPageTraveloguesList>
-          {hasTravelogue ? (
-            travelogues.map(
-              ({ authorProfileUrl, authorNickname, id, title, thumbnail, likeCount, tags }) => (
-                <TravelogueCard
-                  key={id}
-                  travelogueOverview={{
-                    authorProfileUrl,
-                    id,
-                    title,
-                    thumbnail,
-                    likeCount,
-                    authorNickname,
-                    tags,
-                  }}
-                />
-              ),
-            )
-          ) : (
-            <S.SearchFallbackWrapper>
-              <SearchFallback title="휑" text="여행기가 존재하지 않아요!" />
-            </S.SearchFallbackWrapper>
-          )}
-        </S.MainPageTraveloguesList>
-      )}
-      <FloatingButton />
-      <S.LastElement ref={lastElementRef} />
+          <S.MultiSelectionTagsContainer
+            ref={scrollRef}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}
+            onMouseMove={onMouseMove}
+          >
+            {sortedTags.map((tag, index) => (
+              <Chip
+                key={`${tag.id}-${animationKey}`}
+                index={index}
+                label={tag.tag}
+                isSelected={selectedTagIDs.includes(tag.id)}
+                onClick={() => handleClickTag(tag.id)}
+              />
+            ))}
+          </S.MultiSelectionTagsContainer>
+        </S.TagsContainer>
+      </S.FixedLayout>
 
-      <SingleSelectionTagModalBottomSheet
-        isOpen={sorting.isModalOpen}
-        onClose={sorting.handleCloseModal}
-        mainText="여행기 정렬을 선택해 주세요!"
-      >
-        {SORTING_OPTIONS.map((option, index) => (
-          <S.OptionContainer key={index} onClick={() => sorting.handleClickOption(option)}>
-            {option === sorting.selectedOption ? (
-              <>
-                <Text textType="detailBold" css={S.selectedOptionStyle}>
+      <S.MainPageLayout>
+        {status === "pending" && (
+          <S.MainPageTraveloguesList>
+            {Array.from({ length: SKELETON_COUNT }, (_, index) => (
+              <TravelogueCardSkeleton key={index} />
+            ))}
+          </S.MainPageTraveloguesList>
+        )}
+        {status === "success" && (
+          <S.MainPageTraveloguesList>
+            {hasTravelogue ? (
+              travelogues.map(
+                ({ authorProfileUrl, authorNickname, id, title, thumbnail, likeCount, tags }) => (
+                  <TravelogueCard
+                    key={id}
+                    travelogueOverview={{
+                      authorProfileUrl,
+                      id,
+                      title,
+                      thumbnail,
+                      likeCount,
+                      authorNickname,
+                      tags,
+                    }}
+                  />
+                ),
+              )
+            ) : (
+              <S.SearchFallbackWrapper>
+                <SearchFallback title="휑" text="여행기가 존재하지 않아요!" />
+              </S.SearchFallbackWrapper>
+            )}
+          </S.MainPageTraveloguesList>
+        )}
+        <FloatingButton />
+        <S.LastElement ref={lastElementRef} />
+
+        <SingleSelectionTagModalBottomSheet
+          isOpen={sorting.isModalOpen}
+          onClose={sorting.handleCloseModal}
+          mainText="여행기 정렬을 선택해 주세요!"
+        >
+          {SORTING_OPTIONS.map((option, index) => (
+            <S.OptionContainer key={index} onClick={() => sorting.handleClickOption(option)}>
+              {option === sorting.selectedOption ? (
+                <>
+                  <Text textType="detailBold" css={S.selectedOptionStyle}>
+                    {SORTING_OPTIONS_MAP[option]}
+                  </Text>
+                  <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
+                </>
+              ) : (
+                <Text textType="detail" css={S.unselectedOptionStyle}>
                   {SORTING_OPTIONS_MAP[option]}
                 </Text>
-                <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
-              </>
-            ) : (
-              <Text textType="detail" css={S.unselectedOptionStyle}>
-                {SORTING_OPTIONS_MAP[option]}
-              </Text>
-            )}
-          </S.OptionContainer>
-        ))}
-      </SingleSelectionTagModalBottomSheet>
+              )}
+            </S.OptionContainer>
+          ))}
+        </SingleSelectionTagModalBottomSheet>
 
-      <SingleSelectionTagModalBottomSheet
-        isOpen={travelPeriod.isModalOpen}
-        onClose={travelPeriod.handleCloseModal}
-        mainText="여행 기간을 선택해 주세요!"
-      >
-        {TRAVEL_PERIOD_OPTIONS.map((option, index) => (
-          <S.OptionContainer key={index} onClick={() => travelPeriod.handleClickOption(option)}>
-            {option === travelPeriod.selectedOption ? (
-              <>
-                <Text textType="detailBold" css={S.selectedOptionStyle}>
+        <SingleSelectionTagModalBottomSheet
+          isOpen={travelPeriod.isModalOpen}
+          onClose={travelPeriod.handleCloseModal}
+          mainText="여행 기간을 선택해 주세요!"
+        >
+          {TRAVEL_PERIOD_OPTIONS.map((option, index) => (
+            <S.OptionContainer key={index} onClick={() => travelPeriod.handleClickOption(option)}>
+              {option === travelPeriod.selectedOption ? (
+                <>
+                  <Text textType="detailBold" css={S.selectedOptionStyle}>
+                    {TRAVEL_PERIOD_OPTIONS_MAP[option]}
+                  </Text>
+                  <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
+                </>
+              ) : (
+                <Text textType="detail" css={S.unselectedOptionStyle}>
                   {TRAVEL_PERIOD_OPTIONS_MAP[option]}
                 </Text>
-                <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
-              </>
-            ) : (
-              <Text textType="detail" css={S.unselectedOptionStyle}>
-                {TRAVEL_PERIOD_OPTIONS_MAP[option]}
-              </Text>
-            )}
-          </S.OptionContainer>
-        ))}
-      </SingleSelectionTagModalBottomSheet>
-    </S.MainPageContentContainer>
+              )}
+            </S.OptionContainer>
+          ))}
+        </SingleSelectionTagModalBottomSheet>
+      </S.MainPageLayout>
+    </>
   );
 };
 
