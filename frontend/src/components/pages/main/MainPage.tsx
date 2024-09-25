@@ -20,28 +20,15 @@ import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
 import theme from "@styles/theme";
 
+import {
+  SKELETON_COUNT,
+  SORTING_OPTIONS,
+  SORTING_OPTIONS_MAP,
+  TRAVEL_PERIOD_OPTIONS,
+  TRAVEL_PERIOD_OPTIONS_MAP,
+} from "./MainPage.constants";
 import * as S from "./MainPage.styled";
 import TravelogueCardSkeleton from "./TravelogueCard/skeleton/TravelogueCardSkeleton";
-
-const SKELETON_COUNT = 5;
-const SORTING_OPTIONS = ["likeCount", "createdAt"] as const;
-const TRAVEL_PERIOD_OPTIONS = ["", "1", "2", "3", "4", "5", "6", "7", "8"] as const;
-
-const SORTING_OPTIONS_MAP = {
-  likeCount: "좋아요순",
-  createdAt: "최신순",
-};
-const TRAVEL_PERIOD_OPTIONS_MAP = {
-  "": "전체",
-  1: "당일치기",
-  2: "1박 2일",
-  3: "2박 3일",
-  4: "3박 4일",
-  5: "4박 5일",
-  6: "5박 6일",
-  7: "6박 7일",
-  8: "7박 이상",
-};
 
 const MainPage = () => {
   const { selectedTagIDs, handleClickTag, sortedTags, animationKey } = useMultiSelectionTag();
@@ -93,7 +80,7 @@ const MainPage = () => {
                   ? TRAVEL_PERIOD_OPTIONS_MAP[travelPeriod.selectedOption]
                   : "여행 기간"
               }
-              isSelected={!!travelPeriod.selectedOption}
+              isSelected={travelPeriod.selectedOption !== ""}
               onClick={travelPeriod.handleOpenModal}
             >
               <Icon
