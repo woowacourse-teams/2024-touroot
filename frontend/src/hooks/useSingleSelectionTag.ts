@@ -2,13 +2,18 @@ import { useState } from "react";
 
 import { SortingOption, TravelPeriodOption } from "@type/domain/travelogue";
 
+import { STORAGE_KEYS_MAP } from "@constants/storage";
+
 const useSingleSelectionTag = () => {
   const [isSortingModalOpen, setIsSortingModalOpen] = useState(false);
-  const [selectedSortingOption, setSelectedSortingOption] = useState<SortingOption>("likeCount");
+  const [selectedSortingOption, setSelectedSortingOption] = useState<SortingOption>(
+    (localStorage.getItem(STORAGE_KEYS_MAP.sort) as SortingOption) ?? "likeCount",
+  );
 
   const [isTravelPeriodModalOpen, setIsTravelPeriodModalOpen] = useState(false);
-  const [selectedTravelPeriodOption, setSelectedTravelPeriodOption] =
-    useState<TravelPeriodOption>("");
+  const [selectedTravelPeriodOption, setSelectedTravelPeriodOption] = useState<TravelPeriodOption>(
+    (localStorage.getItem(STORAGE_KEYS_MAP.travelPeriod) as TravelPeriodOption) ?? "",
+  );
 
   const handleOpenSortingModal = () => {
     setIsSortingModalOpen(true);
@@ -20,6 +25,7 @@ const useSingleSelectionTag = () => {
 
   const handleClickSortingOption = (option: SortingOption) => {
     setSelectedSortingOption(option);
+    localStorage.setItem(STORAGE_KEYS_MAP.sort, option);
     handleCloseSortingModal();
   };
 
@@ -33,6 +39,7 @@ const useSingleSelectionTag = () => {
 
   const handleClickTravelPeriodOption = (option: TravelPeriodOption) => {
     setSelectedTravelPeriodOption(option);
+    localStorage.setItem(STORAGE_KEYS_MAP.travelPeriod, option);
     handleCloseTravelPeriodModal();
   };
 
