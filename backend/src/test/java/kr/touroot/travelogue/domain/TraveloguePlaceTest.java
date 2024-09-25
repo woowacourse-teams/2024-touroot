@@ -89,12 +89,12 @@ class TraveloguePlaceTest {
     @DisplayName("장소 이름의 길이가 60자를 초과하는 경우 장소 생성 시 예외가 발생한다")
     @Test
     void createPlaceWithInvalidLengthPlaceName() {
-        String length61 = "Under the summer sun, feeling the cool breeze by the sea is pure joy!!";
+        String length86 = "Under the warm summer sun, feeling the cool breeze by the sea is absolute pure joy!!!!";
+
         assertThatThrownBy(
-                () -> new TraveloguePlace(VALID_ORDER, VALID_DESC, length61, VALID_LAT, VALID_LNG, VALID_DAY)
+                () -> new TraveloguePlace(VALID_ORDER, VALID_DESC, length86, VALID_LAT, VALID_LNG, VALID_DAY)
         )
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("장소 이름은 60자 이하여야 합니다");
-
+                .hasMessage("장소 이름은 85자 이하여야 합니다");
     }
 }

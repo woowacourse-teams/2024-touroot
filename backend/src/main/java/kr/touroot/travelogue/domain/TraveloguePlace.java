@@ -31,7 +31,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 public class TraveloguePlace extends BaseEntity {
 
-    private static final int PLACE_NAME_MAX_LENGTH = 60;
+    private static final int PLACE_NAME_MAX_LENGTH = 85;
     private static final int MAX_DESCRIPTION_LENGTH = 300;
 
     @Id
