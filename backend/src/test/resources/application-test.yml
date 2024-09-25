@@ -23,6 +23,8 @@ cloud:
 server:
   port: 8081
 spring:
+  flyway:
+    enabled: false
   datasource:
     url: jdbc:h2:mem:test
   h2:

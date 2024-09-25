@@ -151,8 +151,8 @@ public class TravelogueFacadeService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TravelogueSimpleResponse> findSimpleTravelogues(Pageable pageable, TravelogueSearchRequest request) {
-        Page<Travelogue> travelogues = travelogueService.findByKeyword(request.keyword(), pageable);
+    public Page<TravelogueSimpleResponse> findSimpleTravelogues(TravelogueSearchRequest request, Pageable pageable) {
+        Page<Travelogue> travelogues = travelogueService.findByKeyword(request, pageable);
 
         return travelogues.map(this::getTravelogueSimpleResponse);
     }

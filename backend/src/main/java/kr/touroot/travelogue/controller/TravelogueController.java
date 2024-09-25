@@ -167,7 +167,7 @@ public class TravelogueController {
             @Valid
             TravelogueSearchRequest searchRequest
     ) {
-        return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(pageable, searchRequest));
+        return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(searchRequest, pageable));
     }
 
     @Operation(summary = "여행기 수정")

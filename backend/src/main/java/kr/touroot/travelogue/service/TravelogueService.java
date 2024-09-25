@@ -7,6 +7,9 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueFilterCondition;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
+import kr.touroot.travelogue.domain.search.SearchCondition;
+import kr.touroot.travelogue.domain.search.SearchType;
+import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.repository.TravelogueRepository;
 import kr.touroot.travelogue.repository.query.TravelogueQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +50,11 @@ public class TravelogueService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Travelogue> findByKeyword(String keyword, Pageable pageable) {
-        return travelogueQueryRepository.findByTitleContaining(keyword, pageable);
+    public Page<Travelogue> findByKeyword(TravelogueSearchRequest request, Pageable pageable) {
+        SearchType searchType = SearchType.from(request.searchType());
+        SearchCondition searchCondition = new SearchCondition(request.keyword(), searchType);
+
+        return travelogueQueryRepository.findByKeywordAndSearchType(searchCondition, pageable);
     }
 
     @Transactional(readOnly = true)
