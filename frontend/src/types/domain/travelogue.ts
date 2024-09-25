@@ -42,3 +42,5 @@ export interface MyTravelogue {
   title: string;
   createdAt: string;
 }
+
+export type SearchType = "TITLE" | "AUTHOR";
