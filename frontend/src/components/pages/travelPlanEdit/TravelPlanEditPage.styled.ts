@@ -7,34 +7,21 @@ import { SPACING } from "@styles/tokens";
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${SPACING.xl};
+  gap: ${({ theme }) => theme.spacing.xl};
 
-  padding: ${SPACING.m};
-
-  & > :last-child {
-    margin-top: -${SPACING.xl};
-  }
-`;
-
-export const AccordionRootContainer = styled.div`
-  margin-top: ${SPACING.m};
+  padding: ${({ theme }) => theme.spacing.m};
 `;
 
 export const PageInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${SPACING.s};
+  gap: ${({ theme }) => theme.spacing.s};
 `;
 
 export const StartDateContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${SPACING.s};
-`;
-
-export const LoadingWrapper = styled.div`
-  width: 100%;
-  height: 5.6rem;
+  gap: ${({ theme }) => theme.spacing.s};
 `;
 
 export const addDayButtonStyle = css`
@@ -47,26 +34,7 @@ export const addButtonStyle = css`
 
   width: 100%;
   height: 4rem;
-  margin-bottom: ${SPACING.xl};
   padding: 1.2rem 1.6rem;
-  border: 0.1rem solid ${theme.colors.border};
+  border: 1px solid ${theme.colors.border};
   border-radius: ${SPACING.s};
-`;
-
-export const loadingButtonStyle = css`
-  margin-top: ${SPACING.xl};
-`;
-
-export const startDateInputStyle = css`
-  margin: 0 0 ${SPACING.xl};
-`;
-
-export const calendarStyle = css`
-  margin-bottom: ${SPACING.xl};
-`;
-
-export const accordionRootStyle = css`
-  & > :last-child {
-    margin-bottom: ${SPACING.xl};
-  }
 `;
