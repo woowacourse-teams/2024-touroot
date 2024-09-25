@@ -3,9 +3,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
-type PreviousPages = {
+interface PreviousPages {
   [key: string]: string;
-};
+}
 
 const usePreviousPage = () => {
   const navigate = useNavigate();
