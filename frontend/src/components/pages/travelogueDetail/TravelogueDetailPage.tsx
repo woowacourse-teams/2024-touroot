@@ -31,6 +31,7 @@ import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractID } from "@utils/extractId";
+import getDaysAndNights from "@utils/getDaysAndNights";
 
 import theme from "@styles/theme";
 import { SEMANTIC_COLORS } from "@styles/tokens";
@@ -49,10 +50,7 @@ const TravelogueDetailPage = () => {
 
   const navigate = useNavigate();
 
-  const daysAndNights =
-    data?.days.length && data?.days.length > 1
-      ? `${data?.days.length - 1}박 ${data?.days.length}일`
-      : "당일치기";
+  const daysAndNights = getDaysAndNights(data?.days);
 
   const { onTransformTravelDetail } = useTravelTransformDetailContext();
   const {

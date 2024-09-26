@@ -6,18 +6,9 @@ import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
 
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
+import getInitialTravelTitle from "@utils/getInitialTravelTitle";
+
 const useTravelPlanForm = (transformDays: TravelTransformPlaces[]) => {
-  const [title, setTitle] = useState("");
-
-  const onChangeTitle = (inputValue: string) => {
-    const trimmedTitle = inputValue.slice(
-      FORM_VALIDATIONS_MAP.title.minLength,
-      FORM_VALIDATIONS_MAP.title.maxLength,
-    );
-
-    setTitle(trimmedTitle);
-  };
-
   const [startDate, setStartDate] = useState<Date | null>(null);
 
   const onSelectCalendar = (date: Date, handleCloseCalendar: () => void) => {
@@ -35,6 +26,19 @@ const useTravelPlanForm = (transformDays: TravelTransformPlaces[]) => {
     onDeletePlaceTodo,
     onChangeContent,
   } = useTravelPlanDays(transformDays);
+
+  const initialTitle = getInitialTravelTitle({ days: travelPlanDays, type: "travelPlan" });
+
+  const [title, setTitle] = useState(initialTitle);
+
+  const onChangeTitle = (inputValue: string) => {
+    const trimmedTitle = inputValue.slice(
+      FORM_VALIDATIONS_MAP.title.minLength,
+      FORM_VALIDATIONS_MAP.title.maxLength,
+    );
+
+    setTitle(trimmedTitle);
+  };
 
   return {
     state: {

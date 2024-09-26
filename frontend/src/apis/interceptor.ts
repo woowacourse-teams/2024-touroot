@@ -12,15 +12,17 @@ import { HTTP_STATUS_CODE_MAP } from "@constants/httpStatusCode";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 import { STORAGE_KEYS_MAP } from "@constants/storage";
 
+let isRedirecting = false;
+
 export const checkAccessToken = (
   config: InternalAxiosRequestConfig,
   accessToken: string | null,
 ) => {
-  if (!accessToken) {
+  if (!accessToken && !isRedirecting) {
+    isRedirecting = true;
     alert(ERROR_MESSAGE_MAP.api.login);
     window.location.href = ROUTE_PATHS_MAP.login;
   }
-
   return config;
 };
 

@@ -20,6 +20,7 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractLastPath } from "@utils/extractId";
 import getDateRange from "@utils/getDateRange";
+import getDaysAndNights from "@utils/getDaysAndNights";
 import { isUUID } from "@utils/uuid";
 
 import theme from "@styles/theme";
@@ -35,10 +36,7 @@ const TravelPlanDetailPage = () => {
 
   const navigate = useNavigate();
 
-  const daysAndNights =
-    data?.days.length && data?.days.length > 1
-      ? `${data?.days.length - 1}박 ${data?.days.length}일`
-      : "당일치기";
+  const daysAndNights = getDaysAndNights(data?.days);
 
   const { mutate: mutateDeleteTravelPlan, isPending: isDeletingPending } = useDeleteTravelPlan();
 

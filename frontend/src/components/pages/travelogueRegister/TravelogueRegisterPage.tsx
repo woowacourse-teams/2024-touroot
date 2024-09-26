@@ -32,7 +32,10 @@ import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
+
+import getInitialTravelTitle from "@utils/getInitialTravelTitle";
 import resizeAndConvertImage from "@utils/resizeAndConvertImage";
+
 
 import * as S from "./TravelogueRegisterPage.styled";
 
@@ -41,7 +44,6 @@ const TravelogueRegisterPage = () => {
 
   const { transformDetail } = useTravelTransformDetailContext();
 
-  const [title, setTitle] = useState("");
   const [thumbnail, setThumbnail] = useState("");
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,6 +68,10 @@ const TravelogueRegisterPage = () => {
     onChangeImageUrls,
     onDeleteImageUrls,
   } = useTravelogueDays(transformDetail?.days ?? []);
+
+  const initialTitle = getInitialTravelTitle({ days: transformDetail?.days, type: "travelogue" });
+
+  const [title, setTitle] = useState(initialTitle);
 
   const thumbnailFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -156,6 +162,7 @@ const TravelogueRegisterPage = () => {
                 id={id}
                 value={title}
                 maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+                placeholder="여행기 제목을 입력해주세요"
                 onChange={handleChangeTitle}
               />
               <CharacterCount
