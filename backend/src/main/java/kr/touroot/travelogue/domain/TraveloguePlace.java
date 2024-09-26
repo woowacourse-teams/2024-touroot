@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.place.domain.Place;
 import kr.touroot.position.domain.Position;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -49,6 +50,10 @@ public class TraveloguePlace extends BaseEntity {
 
     @Embedded
     private Position position;
+
+    @JoinColumn(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Place place;
 
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
