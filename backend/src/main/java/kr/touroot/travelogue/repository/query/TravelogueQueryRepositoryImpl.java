@@ -1,17 +1,18 @@
 package kr.touroot.travelogue.repository.query;
 
 import static kr.touroot.travelogue.domain.QTravelogue.travelogue;
+import static kr.touroot.travelogue.domain.QTravelogueDay.travelogueDay;
 import static kr.touroot.travelogue.domain.QTravelogueTag.travelogueTag;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueFilterCondition;
-import com.querydsl.core.types.dsl.StringPath;
 import kr.touroot.travelogue.domain.search.SearchCondition;
 import kr.touroot.travelogue.domain.search.SearchType;
 import lombok.RequiredArgsConstructor;
@@ -72,12 +73,15 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
             return;
         }
 
-        List<Long> tags = filter.getTag();
+        query.where(travelogue.id.in(getTagFilterSubQuery(filter.getTag())));
+    }
 
-        query.join(travelogueTag).on(travelogueTag.travelogue.eq(travelogue))
-                .where(travelogueTag.tag.id.in(tags))
-                .groupBy(travelogue)
-                .having(travelogueTag.count().eq(Long.valueOf(tags.size())));
+    private JPAQuery<Long> getTagFilterSubQuery(List<Long> tags) {
+        return jpaQueryFactory.select(travelogueTag.travelogue.id)
+                .from(travelogueTag)
+                .where(travelogueTag.id.in(tags))
+                .groupBy(travelogueTag.travelogue.id)
+                .having(travelogueTag.id.count().eq(Long.valueOf(tags.size())));
     }
 
     public void addPeriodFilter(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
@@ -86,11 +90,29 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         }
 
         if (filter.isMaxPeriod()) {
-            query.where(travelogue.travelogueDays.size().goe(TravelogueFilterCondition.MAX_PERIOD_BOUNDARY));
+            query.where(travelogue.id
+                    .in(getPeriodFilterOverMaxSubQuery(filter.getPeriod())));
             return;
         }
 
-        query.where(travelogue.travelogueDays.size().eq(filter.getPeriod()));
+        query.where(travelogue.id
+                .in(getPeriodFilterSubQuery(filter.getPeriod())));
+    }
+
+    private JPAQuery<Long> getPeriodFilterSubQuery(Integer period) {
+        return jpaQueryFactory.select(travelogueDay.travelogue.id)
+                .from(travelogueDay)
+                .where(travelogueDay.deletedAt.isNull())
+                .groupBy(travelogueDay.travelogue.id)
+                .having(travelogueDay.id.count().eq(Long.valueOf(period)));
+    }
+
+    private JPAQuery<Long> getPeriodFilterOverMaxSubQuery(Integer period) {
+        return jpaQueryFactory.select(travelogueDay.travelogue.id)
+                .from(travelogueDay)
+                .where(travelogueDay.deletedAt.isNull())
+                .groupBy(travelogueDay.travelogue.id)
+                .having(travelogueDay.id.count().goe(Long.valueOf(period)));
     }
 
     private OrderSpecifier<?> findSortCondition(Sort sort) {
