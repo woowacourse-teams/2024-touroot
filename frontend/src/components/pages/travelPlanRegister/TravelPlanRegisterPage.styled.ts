@@ -7,29 +7,29 @@ import { SPACING } from "@styles/tokens";
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${SPACING.xl};
+  gap: ${({ theme }) => theme.spacing.xl};
 
-  padding: ${SPACING.m};
-
-  & > :last-child {
-    margin-top: -${SPACING.xl};
-  }
+  padding: ${({ theme }) => theme.spacing.m};
 `;
 
-export const AccordionRootContainer = styled.div`
-  margin-top: ${SPACING.m};
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.s};
+
+  width: 100%;
 `;
 
 export const PageInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${SPACING.s};
+  gap: ${({ theme }) => theme.spacing.s};
 `;
 
 export const StartDateContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${SPACING.s};
+  gap: ${({ theme }) => theme.spacing.s};
 `;
 
 export const DayDetailText = styled.span`
@@ -41,15 +41,10 @@ export const DayDetailText = styled.span`
   color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
-export const LoadingWrapper = styled.div`
-  width: 100%;
-  height: 5.6rem;
-`;
-
 export const PlaceTodoListItemContainer = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: ${SPACING.s};
+  gap: ${({ theme }) => theme.spacing.s};
 `;
 
 export const addDayButtonStyle = css`
@@ -62,7 +57,6 @@ export const addButtonStyle = css`
 
   width: 100%;
   height: 4rem;
-  margin-bottom: 3.2rem;
   padding: 1.2rem 1.6rem;
   border: 1px solid ${theme.colors.border};
   border-radius: ${SPACING.s};
@@ -77,22 +71,4 @@ export const addTravelAddButtonStyle = css`
   padding: 1.2rem 1.6rem;
   border: 1px solid ${theme.colors.border};
   border-radius: ${SPACING.s};
-`;
-
-export const loadingButtonStyle = css`
-  margin-top: ${SPACING.xl};
-`;
-
-export const startDateInputStyle = css`
-  margin-bottom: 3.2rem;
-`;
-
-export const calendarStyle = css`
-  margin-bottom: ${SPACING.xl};
-`;
-
-export const accordionRootStyle = css`
-  & > :last-child {
-    margin-bottom: ${SPACING.xl};
-  }
 `;

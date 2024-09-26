@@ -7,6 +7,7 @@ import { usePutTravelPlan } from "@queries/usePutTravelPlan";
 import {
   Accordion,
   Button,
+  CharacterCount,
   GoogleMapLoadScript,
   IconButton,
   Input,
@@ -140,15 +141,19 @@ const TravelPlanEditPage = () => {
         <PageInfo mainText="여행 계획 수정" />
         <TextField title="제목" isRequired>
           {(id) => (
-            <Input
-              id={id}
-              value={title}
-              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-              placeholder="여행 계획 제목을 입력해주세요"
-              count={title.length}
-              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              onChange={handleChangeTitle}
-            />
+            <S.InputContainer>
+              <Input
+                id={id}
+                value={title}
+                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+                placeholder="여행 계획 제목을 입력해주세요"
+                onChange={handleChangeTitle}
+              />
+              <CharacterCount
+                count={title.length}
+                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              />
+            </S.InputContainer>
           )}
         </TextField>
 
@@ -165,35 +170,32 @@ const TravelPlanEditPage = () => {
                 onClick={handleInputClick}
                 readOnly
                 placeholder="시작일을 입력해주세요"
-                css={S.startDateInputStyle}
               />
               {isShowCalendar && (
                 <Calendar
                   onSelectDate={handleSelectDate}
                   onClose={() => setIsShowCalendar((prev) => !prev)}
-                  css={S.calendarStyle}
                 />
               )}
             </>
           )}
         </TextField>
-        <S.AccordionRootContainer>
+
+        <div>
           <GoogleMapLoadScript
             loadingElement={
-              <S.LoadingWrapper>
-                <IconButton
-                  size="16"
-                  iconType="plus"
-                  position="left"
-                  css={[S.addButtonStyle, S.loadingButtonStyle]}
-                  onClick={() => onAddDay()}
-                >
-                  <Text textType="bodyBold">일자 추가하기</Text>
-                </IconButton>
-              </S.LoadingWrapper>
+              <IconButton
+                size="16"
+                iconType="plus"
+                position="left"
+                css={S.addButtonStyle}
+                onClick={() => onAddDay()}
+              >
+                <Text textType="bodyBold">일자 추가하기</Text>
+              </IconButton>
             }
           >
-            <Accordion.Root css={S.accordionRootStyle}>
+            <Accordion.Root>
               {travelPlanDays.map((travelDay, dayIndex) => (
                 <TravelPlanDayAccordion
                   key={travelDay.id}
@@ -208,21 +210,21 @@ const TravelPlanEditPage = () => {
                   onAddPlaceTodo={onAddPlaceTodo}
                 />
               ))}
+              <IconButton
+                size="16"
+                iconType="plus"
+                position="left"
+                css={S.addButtonStyle}
+                onClick={onAddDay}
+              >
+                <Text textType="bodyBold">일자 추가하기</Text>
+              </IconButton>
             </Accordion.Root>
-            <IconButton
-              size="16"
-              iconType="plus"
-              position="left"
-              css={[S.addButtonStyle]}
-              onClick={() => onAddDay()}
-            >
-              <Text textType="bodyBold">일자 추가하기</Text>
-            </IconButton>
           </GoogleMapLoadScript>
-          <Button variants="primary" onClick={handleOpenBottomSheet}>
-            수정
-          </Button>
-        </S.AccordionRootContainer>
+        </div>
+        <Button variants="primary" onClick={handleOpenBottomSheet}>
+          수정
+        </Button>
       </S.Layout>
 
       <ModalBottomSheet
