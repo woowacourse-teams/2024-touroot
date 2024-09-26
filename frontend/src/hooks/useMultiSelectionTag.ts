@@ -31,11 +31,10 @@ const useMultiSelectionTag = (key?: string) => {
         ? prevSelectedTagIDs.filter((selectedTagID) => selectedTagID !== id)
         : [...prevSelectedTagIDs, id];
 
-      if (newSelectedTagIDs.length > FORM_VALIDATIONS_MAP.tags.maxCount) {
-        key && localStorage.setItem(key, JSON.stringify(prevSelectedTagIDs));
+      const isTagIDsSelectedMax = newSelectedTagIDs.length > FORM_VALIDATIONS_MAP.tags.maxCount;
 
-        return prevSelectedTagIDs;
-      }
+      if (isTagIDsSelectedMax && key) localStorage.setItem(key, JSON.stringify(prevSelectedTagIDs));
+      if (isTagIDsSelectedMax) return prevSelectedTagIDs;
 
       setAnimationKey((prev) => prev + 1);
 
