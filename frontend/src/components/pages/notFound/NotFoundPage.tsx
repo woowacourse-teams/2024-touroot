@@ -37,7 +37,7 @@ const NotFoundPage = () => {
 
       <S.ButtonContainer>
         <Button onClick={() => navigation(ROUTE_PATHS_MAP.root)}>홈으로 돌아가기</Button>
-        <Button onClick={() => navigation(ROUTE_PATHS_MAP.back)}>이전 페이지로로 돌아가기</Button>
+        <Button onClick={() => navigation(ROUTE_PATHS_MAP.back)}>이전 페이지로 돌아가기</Button>
       </S.ButtonContainer>
     </S.Layout>
   );
