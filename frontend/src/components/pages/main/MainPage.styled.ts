@@ -22,6 +22,7 @@ export const FixedLayout = styled.div`
   z-index: ${({ theme }) => theme.zIndex.floating};
   gap: ${({ theme }) => theme.spacing.m};
 
+  width: 100%;
   max-width: 48rem;
   padding: ${({ theme }) => theme.spacing.m};
 
