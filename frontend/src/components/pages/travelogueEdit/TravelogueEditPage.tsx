@@ -8,12 +8,14 @@ import { usePutTravelogue } from "@queries/usePutTravelogue";
 import {
   Accordion,
   Button,
+  CharacterCount,
   Chip,
   EditRegisterModalBottomSheet,
   GoogleMapLoadScript,
   IconButton,
   Input,
   PageInfo,
+  Text,
   TextField,
   ThumbnailUpload,
 } from "@components/common";
@@ -149,15 +151,19 @@ const TravelogueEditPage = () => {
 
         <TextField title="제목" isRequired>
           {(id) => (
-            <Input
-              id={id}
-              value={title}
-              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-              placeholder="여행기 제목을 입력해주세요"
-              count={title.length}
-              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              onChange={handleChangeTitle}
-            />
+            <S.InputContainer>
+              <Input
+                id={id}
+                value={title}
+                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+                placeholder="여행기 제목을 입력해주세요"
+                onChange={handleChangeTitle}
+              />
+              <CharacterCount
+                count={title.length}
+                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              />
+            </S.InputContainer>
           )}
         </TextField>
 
@@ -206,21 +212,18 @@ const TravelogueEditPage = () => {
         <div>
           <GoogleMapLoadScript
             loadingElement={
-              <S.LoadingWrapper>
-                <IconButton
-                  size="16"
-                  iconType="plus"
-                  position="left"
-                  css={[S.addButtonStyle, S.addDayButtonStyle, S.loadingButtonStyle]}
-                  onClick={() => onAddDay()}
-                >
-                  일자 추가하기
-                </IconButton>
-              </S.LoadingWrapper>
+              <IconButton
+                size="16"
+                iconType="plus"
+                position="left"
+                css={S.addButtonStyle}
+                onClick={() => onAddDay()}
+              >
+                <Text textType="bodyBold">일자 추가하기</Text>
+              </IconButton>
             }
-            libraries={["places", "maps"]}
           >
-            <Accordion.Root css={S.accordionRootStyle}>
+            <Accordion.Root>
               {travelogueDays.map((travelogueDay, dayIndex) => (
                 <TravelogueDayAccordion
                   isPaused={isPaused}
@@ -236,21 +239,22 @@ const TravelogueEditPage = () => {
                   onRequestAddImage={mutateAddImage}
                 />
               ))}
+              <IconButton
+                size="16"
+                iconType="plus"
+                position="left"
+                css={S.addButtonStyle}
+                onClick={() => onAddDay()}
+              >
+                <Text textType="bodyBold">일자 추가하기</Text>
+              </IconButton>
             </Accordion.Root>
-            <IconButton
-              size="16"
-              iconType="plus"
-              position="left"
-              css={[S.addButtonStyle]}
-              onClick={() => onAddDay()}
-            >
-              일자 추가하기
-            </IconButton>
           </GoogleMapLoadScript>
-          <Button variants="primary" onClick={handleOpenBottomSheet}>
-            수정
-          </Button>
         </div>
+
+        <Button variants="primary" onClick={handleOpenBottomSheet}>
+          수정
+        </Button>
       </S.Layout>
 
       <EditRegisterModalBottomSheet

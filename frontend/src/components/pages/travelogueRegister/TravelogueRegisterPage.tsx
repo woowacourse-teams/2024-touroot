@@ -8,6 +8,7 @@ import { usePostTravelogue, usePostUploadImages } from "@queries/index";
 import {
   Accordion,
   Button,
+  CharacterCount,
   Chip,
   EditRegisterModalBottomSheet,
   GoogleMapLoadScript,
@@ -30,6 +31,8 @@ import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
+
+import resizeAndConvertImage from "@utils/resizeAndConvertImage";
 
 import * as S from "./TravelogueRegisterPage.styled";
 
@@ -74,7 +77,11 @@ const TravelogueRegisterPage = () => {
 
   const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const thumbnail = await mutateAddImage(Array.from(e.target.files as FileList));
+      const files = Array.from(e.target.files as FileList);
+
+      const processedFiles = await Promise.all(files.map((file) => resizeAndConvertImage(file)));
+
+      const thumbnail = await mutateAddImage(processedFiles);
       setThumbnail(thumbnail[0]);
     } catch (error) {
       if (error instanceof Error) {
@@ -144,14 +151,18 @@ const TravelogueRegisterPage = () => {
 
         <TextField title="제목" isRequired>
           {(id) => (
-            <Input
-              id={id}
-              value={title}
-              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-              count={title.length}
-              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              onChange={handleChangeTitle}
-            />
+            <S.InputContainer>
+              <Input
+                id={id}
+                value={title}
+                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+                onChange={handleChangeTitle}
+              />
+              <CharacterCount
+                count={title.length}
+                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              />
+            </S.InputContainer>
           )}
         </TextField>
 
@@ -196,21 +207,18 @@ const TravelogueRegisterPage = () => {
         <div>
           <GoogleMapLoadScript
             loadingElement={
-              <S.LoadingWrapper>
-                <IconButton
-                  size="16"
-                  iconType="plus"
-                  position="left"
-                  css={[S.addButtonStyle, S.addDayButtonStyle, S.loadingButtonStyle]}
-                  onClick={() => onAddDay()}
-                >
-                  일자 추가하기
-                </IconButton>
-              </S.LoadingWrapper>
+              <IconButton
+                size="16"
+                iconType="plus"
+                position="left"
+                css={S.addButtonStyle}
+                onClick={() => onAddDay()}
+              >
+                <Text textType="bodyBold">일자 추가하기</Text>
+              </IconButton>
             }
-            libraries={["places", "maps"]}
           >
-            <Accordion.Root css={S.accordionRootStyle}>
+            <Accordion.Root>
               {travelogueDays.map((travelogueDay, dayIndex) => (
                 <TravelogueDayAccordion
                   key={travelogueDay.id}
@@ -226,21 +234,22 @@ const TravelogueRegisterPage = () => {
                   onRequestAddImage={mutateAddImage}
                 />
               ))}
+              <IconButton
+                size="16"
+                iconType="plus"
+                position="left"
+                css={S.addButtonStyle}
+                onClick={() => onAddDay()}
+              >
+                <Text textType="bodyBold">일자 추가하기</Text>
+              </IconButton>
             </Accordion.Root>
-            <IconButton
-              size="16"
-              iconType="plus"
-              position="left"
-              css={[S.addButtonStyle]}
-              onClick={() => onAddDay()}
-            >
-              일자 추가하기
-            </IconButton>
           </GoogleMapLoadScript>
-          <Button variants="primary" onClick={handleOpenBottomSheet}>
-            등록
-          </Button>
         </div>
+
+        <Button variants="primary" onClick={handleOpenBottomSheet}>
+          등록
+        </Button>
       </S.Layout>
 
       <EditRegisterModalBottomSheet

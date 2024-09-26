@@ -21,7 +21,6 @@ const PlaceTodoListItem = ({ todo, onChangeContent, onDeleteTodo }: PlaceTodoLis
           value={todo?.content}
           placeholder="할 일을 입력해주세요."
           onChange={onChangeContent}
-          maxCount={20}
           autoFocus
           variants="none"
           spellCheck="false"

@@ -9,6 +9,7 @@ import {
   Accordion,
   Button,
   Calendar,
+  CharacterCount,
   EditRegisterModalBottomSheet,
   GoogleMapLoadScript,
   IconButton,
@@ -112,16 +113,20 @@ const TravelPlanRegisterPage = () => {
         />
         <TextField title="제목" isRequired>
           {(id) => (
-            <Input
-              id={id}
-              value={title}
-              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-              placeholder="여행 계획 제목을 입력해주세요"
-              count={title.length}
-              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              onChange={(event) => onChangeTitle(event.target.value)}
-              data-cy={CYPRESS_DATA_MAP.travelPlanRegister.titleInput}
-            />
+            <S.InputContainer>
+              <Input
+                id={id}
+                value={title}
+                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+                placeholder="여행 계획 제목을 입력해주세요"
+                onChange={(event) => onChangeTitle(event.target.value)}
+                data-cy={CYPRESS_DATA_MAP.travelPlanRegister.titleInput}
+              />
+              <CharacterCount
+                count={title.length}
+                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              />
+            </S.InputContainer>
           )}
         </TextField>
 
@@ -138,42 +143,38 @@ const TravelPlanRegisterPage = () => {
                 onClick={handleOpenCalendar}
                 readOnly
                 placeholder="시작일을 입력해주세요"
-                css={S.startDateInputStyle}
                 data-cy={CYPRESS_DATA_MAP.travelPlanRegister.startDateInput}
               />
               {isShowCalendar && (
                 <Calendar
                   onSelectDate={(date) => onSelectCalendar(date, handleCloseCalendar)}
                   onClose={handleCloseCalendar}
-                  css={S.calendarStyle}
                 />
               )}
             </>
           )}
         </TextField>
-        <S.AccordionRootContainer>
+
+        <div>
           <GoogleMapLoadScript
             loadingElement={
-              <S.LoadingWrapper>
-                <IconButton
-                  size="16"
-                  iconType="plus"
-                  position="left"
-                  css={[S.addButtonStyle, S.loadingButtonStyle]}
-                  onClick={() => onAddDay()}
+              <IconButton
+                size="16"
+                iconType="plus"
+                position="left"
+                css={S.addButtonStyle}
+                onClick={() => onAddDay()}
+              >
+                <Text
+                  textType="bodyBold"
+                  data-cy={CYPRESS_DATA_MAP.travelPlanRegister.addDateButton}
                 >
-                  <Text
-                    textType="bodyBold"
-                    data-cy={CYPRESS_DATA_MAP.travelPlanRegister.addDateButton}
-                  >
-                    일자 추가하기
-                  </Text>
-                </IconButton>
-              </S.LoadingWrapper>
+                  일자 추가하기
+                </Text>
+              </IconButton>
             }
-            libraries={["places", "maps"]}
           >
-            <Accordion.Root css={S.accordionRootStyle}>
+            <Accordion.Root>
               {travelPlanDays.map((travelDay, dayIndex) => (
                 <TravelPlanDayAccordion
                   key={travelDay.id}
@@ -188,27 +189,31 @@ const TravelPlanRegisterPage = () => {
                   onAddPlaceTodo={onAddPlaceTodo}
                 />
               ))}
+              <IconButton
+                size="16"
+                iconType="plus"
+                position="left"
+                css={S.addButtonStyle}
+                onClick={onAddDay}
+              >
+                <Text
+                  textType="bodyBold"
+                  data-cy={CYPRESS_DATA_MAP.travelPlanRegister.addDateButton}
+                >
+                  일자 추가하기
+                </Text>
+              </IconButton>
             </Accordion.Root>
-            <IconButton
-              size="16"
-              iconType="plus"
-              position="left"
-              css={[S.addButtonStyle]}
-              onClick={onAddDay}
-            >
-              <Text textType="bodyBold" data-cy={CYPRESS_DATA_MAP.travelPlanRegister.addDateButton}>
-                일자 추가하기
-              </Text>
-            </IconButton>
           </GoogleMapLoadScript>
-          <Button
-            variants="primary"
-            onClick={handleOpenBottomSheet}
-            data-cy={CYPRESS_DATA_MAP.travelPlanRegister.registerButton}
-          >
-            등록
-          </Button>
-        </S.AccordionRootContainer>
+        </div>
+
+        <Button
+          variants="primary"
+          onClick={handleOpenBottomSheet}
+          data-cy={CYPRESS_DATA_MAP.travelPlanRegister.registerButton}
+        >
+          등록
+        </Button>
       </S.Layout>
 
       <EditRegisterModalBottomSheet
