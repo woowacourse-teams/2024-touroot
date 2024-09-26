@@ -1,15 +1,13 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-import { PRIMITIVE_COLORS, SPACING } from "@styles/tokens";
+import { PRIMITIVE_COLORS, SPACING, Z_INDEX } from "@styles/tokens";
 
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${SPACING.m};
   min-height: calc(100vh - 6rem);
-  padding: ${SPACING.m};
-  padding-top: 0;
 `;
 
 export const SearchFallbackWrapper = styled.div`
@@ -25,11 +23,10 @@ export const MainPageTraveloguesList = styled.ul`
 
 export const TabStyle = css`
   position: fixed;
-  z-index: 1000;
+  z-index: ${Z_INDEX.default};
   width: 100%;
   height: 5rem;
-  max-width: 45rem;
-  margin: auto;
+  max-width: 48rem;
 
   background-color: ${PRIMITIVE_COLORS.white};
 `;

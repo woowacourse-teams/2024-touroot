@@ -6,7 +6,8 @@ import { SPACING } from "@styles/tokens";
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: ${SPACING.xxxl};
+
+  margin-top: ${SPACING.xxl};
   min-height: calc(100vh - 16rem);
 `;
 
@@ -15,6 +16,7 @@ export const searchResultTextStyle = css`
   overflow: hidden;
   width: 100%;
   max-width: 100%;
+  margin: ${SPACING.m};
 
   line-height: 1.5;
   white-space: normal;
@@ -31,6 +33,6 @@ export const SearchFallbackWrapper = styled.div`
 export const MainPageTraveloguesList = styled.ul`
   display: flex;
   flex-direction: column;
-
+  padding: 0 ${SPACING.m};
   gap: ${SPACING.m};
 `;
