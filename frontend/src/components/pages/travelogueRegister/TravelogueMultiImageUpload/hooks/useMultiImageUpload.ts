@@ -5,6 +5,8 @@ import { MAX_IMAGE_UPLOAD_COUNT } from "@components/pages/travelogueRegister/Tra
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 
+import resizeAndConvertImage from "@utils/resizeAndConvertImage";
+
 interface ImageState {
   url: string;
   isLoading: boolean;
@@ -83,11 +85,13 @@ export const useTravelogueMultiImageUpload = ({
 
     try {
       addLoadingImageStates(files);
-      const newImageUrls = await onRequestAddImage(files);
+
+      const processedFiles = await Promise.all(files.map((file) => resizeAndConvertImage(file)));
+
+      const newImageUrls = await onRequestAddImage(processedFiles);
       handleUploadSuccess(newImageUrls);
     } catch (error) {
       if (error instanceof Error) alert(error.message);
-
       revertImageStates(files.length);
     } finally {
       resetFileInput();
