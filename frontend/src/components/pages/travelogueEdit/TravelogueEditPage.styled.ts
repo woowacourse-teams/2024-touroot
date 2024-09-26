@@ -7,24 +7,33 @@ import { PRIMITIVE_COLORS, SPACING } from "@styles/tokens";
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${SPACING.xl};
+  gap: ${({ theme }) => theme.spacing.xl};
 
-  padding: ${SPACING.m};
+  padding: ${({ theme }) => theme.spacing.m};
+`;
+
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.s};
+
+  width: 100%;
 `;
 
 export const TagsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${SPACING.s};
+  gap: ${({ theme }) => theme.spacing.s};
 `;
 
 export const ChipsContainer = styled.ul`
   display: flex;
   overflow: scroll hidden;
-  gap: ${SPACING.s};
+  gap: ${({ theme }) => theme.spacing.s};
 
-  margin: 0 -${SPACING.m};
-  padding: 0 ${SPACING.m};
+  height: 3rem;
+  margin: 0 -${({ theme }) => theme.spacing.m};
+  padding: 0 ${({ theme }) => theme.spacing.m};
 
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
@@ -43,12 +52,7 @@ export const ChipsContainer = styled.ul`
 export const ThumbnailContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${SPACING.s};
-`;
-
-export const LoadingWrapper = styled.div`
-  width: 100%;
-  height: 5.6rem;
+  gap: ${({ theme }) => theme.spacing.s};
 `;
 
 export const subTextColor = css`
@@ -61,14 +65,9 @@ export const addButtonStyle = css`
 
   width: 100%;
   height: 4rem;
-  margin-bottom: 3.2rem;
   padding: 1.2rem 1.6rem;
   border: 1px solid ${theme.colors.border};
   border-radius: ${SPACING.s};
-
-  color: ${PRIMITIVE_COLORS.black};
-  font-weight: 700;
-  font-size: 1.6rem;
 `;
 
 export const addTravelAddButtonStyle = css`
@@ -87,14 +86,4 @@ export const addTravelAddButtonStyle = css`
 
 export const addDayButtonStyle = css`
   margin-top: 1.6rem;
-`;
-
-export const loadingButtonStyle = css`
-  margin-top: 3.2rem;
-`;
-
-export const accordionRootStyle = css`
-  & > :last-child {
-    margin-bottom: 3.2rem;
-  }
 `;

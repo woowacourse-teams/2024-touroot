@@ -4,10 +4,12 @@ export const Layout = styled.div<{ $direction: React.CSSProperties["flexDirectio
   display: flex;
   flex: 1;
   flex-direction: ${({ $direction }) => $direction};
-  justify-content: center;
   align-items: center;
-  width: 100%;
   overflow-y: auto;
+
+  width: 100%;
+  padding: 0.1rem 0; /* 요소의 크기에 관계없이 스크롤이 생기는 문제 해결하기 위한 패딩 추가 */
+
   scrollbar-width: thin;
   -ms-overflow-style: none;
 

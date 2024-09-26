@@ -8,12 +8,14 @@ import { usePutTravelogue } from "@queries/usePutTravelogue";
 import {
   Accordion,
   Button,
+  CharacterCount,
   Chip,
+  EditRegisterModalBottomSheet,
   GoogleMapLoadScript,
   IconButton,
   Input,
-  ModalBottomSheet,
   PageInfo,
+  Text,
   TextField,
   ThumbnailUpload,
 } from "@components/common";
@@ -22,7 +24,7 @@ import TravelogueDayAccordion from "@components/pages/travelogueRegister/Travelo
 import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
 import { useDragScroll } from "@hooks/useDragScroll";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
-import useTagSelection from "@hooks/useTagSelection";
+import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
 import useUser from "@hooks/useUser";
 
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
@@ -53,10 +55,8 @@ const TravelogueEditPage = () => {
     setTitle(title);
   };
 
-  const { selectedTagIDs, onChangeSelectedTagIDs, handleClickTag, createSortedTags } =
-    useTagSelection();
-
-  const sortedTags = createSortedTags();
+  const { selectedTagIDs, onChangeSelectedTagIDs, handleClickTag, sortedTags, animationKey } =
+    useMultiSelectionTag();
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
@@ -151,15 +151,19 @@ const TravelogueEditPage = () => {
 
         <TextField title="제목" isRequired>
           {(id) => (
-            <Input
-              id={id}
-              value={title}
-              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-              placeholder="여행기 제목을 입력해주세요"
-              count={title.length}
-              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              onChange={handleChangeTitle}
-            />
+            <S.InputContainer>
+              <Input
+                id={id}
+                value={title}
+                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+                placeholder="여행기 제목을 입력해주세요"
+                onChange={handleChangeTitle}
+              />
+              <CharacterCount
+                count={title.length}
+                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              />
+            </S.InputContainer>
           )}
         </TextField>
 
@@ -176,9 +180,10 @@ const TravelogueEditPage = () => {
                 onMouseUp={onMouseUp}
                 onMouseMove={onMouseMove}
               >
-                {sortedTags.map((tag) => (
+                {sortedTags.map((tag, index) => (
                   <Chip
-                    key={tag.id}
+                    key={`${tag.id}-${animationKey}`}
+                    index={index}
                     label={tag.tag}
                     isSelected={selectedTagIDs.includes(tag.id)}
                     onClick={() => handleClickTag(tag.id)}
@@ -207,21 +212,18 @@ const TravelogueEditPage = () => {
         <div>
           <GoogleMapLoadScript
             loadingElement={
-              <S.LoadingWrapper>
-                <IconButton
-                  size="16"
-                  iconType="plus"
-                  position="left"
-                  css={[S.addButtonStyle, S.addDayButtonStyle, S.loadingButtonStyle]}
-                  onClick={() => onAddDay()}
-                >
-                  일자 추가하기
-                </IconButton>
-              </S.LoadingWrapper>
+              <IconButton
+                size="16"
+                iconType="plus"
+                position="left"
+                css={S.addButtonStyle}
+                onClick={() => onAddDay()}
+              >
+                <Text textType="bodyBold">일자 추가하기</Text>
+              </IconButton>
             }
-            libraries={["places", "maps"]}
           >
-            <Accordion.Root css={S.accordionRootStyle}>
+            <Accordion.Root>
               {travelogueDays.map((travelogueDay, dayIndex) => (
                 <TravelogueDayAccordion
                   isPaused={isPaused}
@@ -237,30 +239,29 @@ const TravelogueEditPage = () => {
                   onRequestAddImage={mutateAddImage}
                 />
               ))}
+              <IconButton
+                size="16"
+                iconType="plus"
+                position="left"
+                css={S.addButtonStyle}
+                onClick={() => onAddDay()}
+              >
+                <Text textType="bodyBold">일자 추가하기</Text>
+              </IconButton>
             </Accordion.Root>
-            <IconButton
-              size="16"
-              iconType="plus"
-              position="left"
-              css={[S.addButtonStyle]}
-              onClick={() => onAddDay()}
-            >
-              일자 추가하기
-            </IconButton>
           </GoogleMapLoadScript>
-          <Button variants="primary" onClick={handleOpenBottomSheet}>
-            수정
-          </Button>
         </div>
+
+        <Button variants="primary" onClick={handleOpenBottomSheet}>
+          수정
+        </Button>
       </S.Layout>
 
-      <ModalBottomSheet
+      <EditRegisterModalBottomSheet
         isOpen={isOpen}
         isPending={isPuttingTraveloguePending}
         mainText="여행기를 수정할까요?"
         subText="수정한 후에도 다시 여행기를 변경할 수 있어요!"
-        secondaryButtonLabel="취소"
-        primaryButtonLabel="확인"
         onClose={handleCloseBottomSheet}
         onConfirm={handleConfirmBottomSheet}
       />

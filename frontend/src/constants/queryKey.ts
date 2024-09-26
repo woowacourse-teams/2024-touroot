@@ -1,4 +1,5 @@
 import type { SearchType } from "@type/domain/travelogue";
+import { SortingOption, TravelPeriodOption } from "@type/domain/travelogue";
 
 export const QUERY_KEYS_MAP = {
   travelogue: {
@@ -15,7 +16,16 @@ export const QUERY_KEYS_MAP = {
       searchType,
       keyword,
     ],
-    tag: (selectedTagIDs: number[]) => [...QUERY_KEYS_MAP.travelogue.all, ...selectedTagIDs],
+    tag: (
+      selectedTagIDs: number[],
+      selectedSortingOption: SortingOption,
+      selectedTravelPeriodOption: TravelPeriodOption,
+    ) => [
+      ...QUERY_KEYS_MAP.travelogue.all,
+      ...selectedTagIDs,
+      selectedSortingOption,
+      selectedTravelPeriodOption,
+    ],
   },
   travelPlan: {
     all: ["travel-plans"],

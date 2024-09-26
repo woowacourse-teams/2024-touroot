@@ -21,8 +21,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     placeholder: "제목을 입력해 주세요.",
-    count: 0,
-    maxCount: 20,
   },
 };
 

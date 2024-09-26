@@ -15,10 +15,7 @@ const TravelogueTabContent = ({ places }: { places: TraveloguePlace[] }) => {
 
   return (
     <S.TravelogueTapContentLayout>
-      <GoogleMapLoadScript
-        loadingElement={<Skeleton width="100%" height="120px" />}
-        libraries={["maps"]}
-      >
+      <GoogleMapLoadScript loadingElement={<Skeleton width="100%" height="120px" />}>
         <GoogleMapView
           places={places.map((place) => ({
             lat: Number(place.position.lat),
@@ -53,12 +50,7 @@ const TravelogueTabContent = ({ places }: { places: TraveloguePlace[] }) => {
         >
           여행 장소 살펴보기
         </S.Title>
-        <div
-          style={{
-            paddingBottom: "40px",
-            marginTop: "3.2rem",
-          }}
-        >
+        <div>
           {places.map((place, index) => (
             <PlaceDetailCard
               key={`${place.id}-${index}`}

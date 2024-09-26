@@ -75,7 +75,7 @@ const Calendar = ({
               onClick={() => isSelectable && onSelectDate(date)}
               data-cy={CYPRESS_DATA_MAP.calendar.dayCell}
             >
-              <Text textType="detail">{date.getDate()}</Text>
+              <Text textType="detail">{isCurrentMonth ? date.getDate() : ""}</Text>
             </S.DayCell>
           );
         })}

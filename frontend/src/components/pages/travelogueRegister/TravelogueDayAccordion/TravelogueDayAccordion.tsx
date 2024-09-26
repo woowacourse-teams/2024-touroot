@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { MutateOptions } from "@tanstack/react-query";
 
 import type { TravelogueDay, TraveloguePlace } from "@type/domain/travelogue";
@@ -12,6 +10,8 @@ import {
   Textarea,
 } from "@components/common";
 import TravelogueMultiImageUpload from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/TravelogueMultiImageUpload";
+
+import useSearchPlaceHistory from "@hooks/useSearchPlaceHistory";
 
 import * as S from "../TravelogueRegisterPage.styled";
 
@@ -50,18 +50,14 @@ const TravelogueDayAccordion = ({
   onDeleteImageUrls,
   onRequestAddImage,
 }: TravelogueDayAccordionProps) => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const { isPopupOpen, handleOpenPopup, handleClosePopup } = useSearchPlaceHistory();
 
-  const onSelectSearchResult = (
+  const handleSelectSearchResult = (
     placeInfo: Pick<TraveloguePlace, "placeName" | "position">,
     dayIndex: number,
   ) => {
     onAddPlace(dayIndex, placeInfo);
-    setIsPopupOpen(false);
-  };
-
-  const onClickAddPlaceButton = () => {
-    setIsPopupOpen(true);
+    handleClosePopup();
   };
 
   return (
@@ -109,15 +105,15 @@ const TravelogueDayAccordion = ({
           iconType="plus"
           position="left"
           css={[S.addTravelAddButtonStyle, S.addDayButtonStyle]}
-          onClick={onClickAddPlaceButton}
+          onClick={handleOpenPopup}
         >
           장소 추가하기
         </IconButton>
       </Accordion.Content>
       {isPopupOpen && (
         <GoogleSearchPopup
-          onClosePopup={() => setIsPopupOpen(false)}
-          onSearchPlaceInfo={(placeInfo) => onSelectSearchResult(placeInfo, dayIndex)}
+          onClosePopup={handleClosePopup}
+          onSearchPlaceInfo={(placeInfo) => handleSelectSearchResult(placeInfo, dayIndex)}
         />
       )}
     </Accordion.Item>

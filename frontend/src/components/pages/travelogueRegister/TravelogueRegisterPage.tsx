@@ -8,11 +8,12 @@ import { usePostTravelogue, usePostUploadImages } from "@queries/index";
 import {
   Accordion,
   Button,
+  CharacterCount,
   Chip,
+  EditRegisterModalBottomSheet,
   GoogleMapLoadScript,
   IconButton,
   Input,
-  ModalBottomSheet,
   PageInfo,
   Text,
   TextField,
@@ -23,7 +24,7 @@ import TravelogueDayAccordion from "@components/pages/travelogueRegister/Travelo
 import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
 import { useDragScroll } from "@hooks/useDragScroll";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
-import useTagSelection from "@hooks/useTagSelection";
+import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
 import useUser from "@hooks/useUser";
 
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
@@ -31,7 +32,10 @@ import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
+
 import getInitialTravelTitle from "@utils/getInitialTravelTitle";
+import resizeAndConvertImage from "@utils/resizeAndConvertImage";
+
 
 import * as S from "./TravelogueRegisterPage.styled";
 
@@ -50,9 +54,7 @@ const TravelogueRegisterPage = () => {
     setTitle(title);
   };
 
-  const { selectedTagIDs, handleClickTag, createSortedTags } = useTagSelection();
-
-  const sortedTags = createSortedTags();
+  const { selectedTagIDs, handleClickTag, sortedTags, animationKey } = useMultiSelectionTag();
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
@@ -81,7 +83,11 @@ const TravelogueRegisterPage = () => {
 
   const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const thumbnail = await mutateAddImage(Array.from(e.target.files as FileList));
+      const files = Array.from(e.target.files as FileList);
+
+      const processedFiles = await Promise.all(files.map((file) => resizeAndConvertImage(file)));
+
+      const thumbnail = await mutateAddImage(processedFiles);
       setThumbnail(thumbnail[0]);
     } catch (error) {
       if (error instanceof Error) {
@@ -151,15 +157,19 @@ const TravelogueRegisterPage = () => {
 
         <TextField title="제목" isRequired>
           {(id) => (
-            <Input
-              id={id}
-              value={title}
-              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
-              placeholder="여행기 제목을 입력해주세요"
-              count={title.length}
-              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              onChange={handleChangeTitle}
-            />
+            <S.InputContainer>
+              <Input
+                id={id}
+                value={title}
+                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+                placeholder="여행기 제목을 입력해주세요"
+                onChange={handleChangeTitle}
+              />
+              <CharacterCount
+                count={title.length}
+                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+              />
+            </S.InputContainer>
           )}
         </TextField>
 
@@ -174,9 +184,10 @@ const TravelogueRegisterPage = () => {
             onMouseUp={onMouseUp}
             onMouseMove={onMouseMove}
           >
-            {sortedTags.map((tag) => (
+            {sortedTags.map((tag, index) => (
               <Chip
-                key={tag.id}
+                key={`${tag.id}-${animationKey}`}
+                index={index}
                 label={tag.tag}
                 isSelected={selectedTagIDs.includes(tag.id)}
                 onClick={() => handleClickTag(tag.id)}
@@ -203,21 +214,18 @@ const TravelogueRegisterPage = () => {
         <div>
           <GoogleMapLoadScript
             loadingElement={
-              <S.LoadingWrapper>
-                <IconButton
-                  size="16"
-                  iconType="plus"
-                  position="left"
-                  css={[S.addButtonStyle, S.addDayButtonStyle, S.loadingButtonStyle]}
-                  onClick={() => onAddDay()}
-                >
-                  일자 추가하기
-                </IconButton>
-              </S.LoadingWrapper>
+              <IconButton
+                size="16"
+                iconType="plus"
+                position="left"
+                css={S.addButtonStyle}
+                onClick={() => onAddDay()}
+              >
+                <Text textType="bodyBold">일자 추가하기</Text>
+              </IconButton>
             }
-            libraries={["places", "maps"]}
           >
-            <Accordion.Root css={S.accordionRootStyle}>
+            <Accordion.Root>
               {travelogueDays.map((travelogueDay, dayIndex) => (
                 <TravelogueDayAccordion
                   key={travelogueDay.id}
@@ -233,30 +241,29 @@ const TravelogueRegisterPage = () => {
                   onRequestAddImage={mutateAddImage}
                 />
               ))}
+              <IconButton
+                size="16"
+                iconType="plus"
+                position="left"
+                css={S.addButtonStyle}
+                onClick={() => onAddDay()}
+              >
+                <Text textType="bodyBold">일자 추가하기</Text>
+              </IconButton>
             </Accordion.Root>
-            <IconButton
-              size="16"
-              iconType="plus"
-              position="left"
-              css={[S.addButtonStyle]}
-              onClick={() => onAddDay()}
-            >
-              일자 추가하기
-            </IconButton>
           </GoogleMapLoadScript>
-          <Button variants="primary" onClick={handleOpenBottomSheet}>
-            등록
-          </Button>
         </div>
+
+        <Button variants="primary" onClick={handleOpenBottomSheet}>
+          등록
+        </Button>
       </S.Layout>
 
-      <ModalBottomSheet
+      <EditRegisterModalBottomSheet
         isOpen={isOpen}
         isPending={isPostingTraveloguePending}
         mainText="여행기를 등록할까요?"
         subText="등록한 후에도 다시 여행기를 수정할 수 있어요!"
-        secondaryButtonLabel="취소"
-        primaryButtonLabel="확인"
         onClose={handleCloseBottomSheet}
         onConfirm={handleConfirmBottomSheet}
       />

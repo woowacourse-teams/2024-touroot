@@ -68,8 +68,8 @@ export const DayCell = styled.td<{ $isCurrentMonth: boolean; $isSelectable: bool
       }
     `};
 
-  color: ${({ theme, $isCurrentMonth }) =>
-    $isCurrentMonth ? theme.colors.text.secondary : PRIMITIVE_COLORS.gray[300]};
+  color: ${({ theme, $isCurrentMonth, $isSelectable }) =>
+    $isCurrentMonth && $isSelectable ? theme.colors.text.secondary : PRIMITIVE_COLORS.gray[300]};
   text-align: center;
 `;
 

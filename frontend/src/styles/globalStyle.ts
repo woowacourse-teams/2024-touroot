@@ -1,13 +1,22 @@
 import { css } from "@emotion/react";
 
+import pretendard_black from "../assets/fonts/woff-subset/Pretendard-Black.subset.woff";
+import pretendard_bold from "../assets/fonts/woff-subset/Pretendard-Bold.subset.woff";
+import pretendard_extra_bold from "../assets/fonts/woff-subset/Pretendard-ExtraBold.subset.woff";
+import pretendard_extra_light from "../assets/fonts/woff-subset/Pretendard-ExtraLight.subset.woff";
+import pretendard_light from "../assets/fonts/woff-subset/Pretendard-Light.subset.woff";
+import pretendard_medium from "../assets/fonts/woff-subset/Pretendard-Medium.subset.woff";
+import pretendard_regular from "../assets/fonts/woff-subset/Pretendard-Regular.subset.woff";
+import pretendard_semi_bold from "../assets/fonts/woff-subset/Pretendard-SemiBold.subset.woff";
+import pretendard_thin from "../assets/fonts/woff-subset/Pretendard-Thin.subset.woff";
+
 export const globalStyle = css`
   @font-face {
     font-family: Pretendard;
 
     font-weight: 900;
     font-display: swap;
-    src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-Black.subset.woff")
-      format("woff");
+    src: local("Pretendard") url(${pretendard_black}) format("woff");
   }
 
   @font-face {
@@ -15,8 +24,7 @@ export const globalStyle = css`
 
     font-weight: 800;
     font-display: swap;
-    src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-ExtraBold.subset.woff")
-      format("woff");
+    src: local("Pretendard") url(${pretendard_extra_bold}) format("woff");
   }
 
   @font-face {
@@ -24,8 +32,7 @@ export const globalStyle = css`
 
     font-weight: 700;
     font-display: swap;
-    src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-Bold.subset.woff")
-      format("woff");
+    src: local("Pretendard") url(${pretendard_bold}) format("woff");
   }
 
   @font-face {
@@ -33,8 +40,7 @@ export const globalStyle = css`
 
     font-weight: 600;
     font-display: swap;
-    src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-SemiBold.subset.woff")
-      format("woff");
+    src: local("Pretendard") url(${pretendard_semi_bold}) format("woff");
   }
 
   @font-face {
@@ -42,8 +48,7 @@ export const globalStyle = css`
 
     font-weight: 500;
     font-display: swap;
-    src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-Medium.subset.woff")
-      format("woff");
+    src: local("Pretendard") url(${pretendard_medium}) format("woff");
   }
 
   @font-face {
@@ -51,8 +56,7 @@ export const globalStyle = css`
 
     font-weight: 400;
     font-display: swap;
-    src: local("Pretendard") url("/@assets/fonts/woff-subset/Pretendard-Regular.subset.woff")
-      format("woff");
+    src: local("Pretendard") url(${pretendard_regular}) format("woff");
   }
 
   @font-face {
@@ -60,8 +64,7 @@ export const globalStyle = css`
 
     font-weight: 300;
     font-display: swap;
-    src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-Light.subset.woff")
-      format("woff");
+    src: local("Pretendard") url(${pretendard_light}) format("woff");
   }
 
   @font-face {
@@ -69,8 +72,7 @@ export const globalStyle = css`
 
     font-weight: 200;
     font-display: swap;
-    src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-ExtraLight.subset.woff")
-      format("woff");
+    src: local("Pretendard") url(${pretendard_extra_light}) format("woff");
   }
 
   @font-face {
@@ -78,8 +80,7 @@ export const globalStyle = css`
 
     font-weight: 100;
     font-display: swap;
-    src: local("Pretendard") url("@assets/fonts/woff-subset/Pretendard-Thin.subset.woff")
-      format("woff");
+    src: local("Pretendard") url(${pretendard_thin}) format("woff");
   }
 
   html,

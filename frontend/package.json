@@ -1,6 +1,6 @@
 {
   "name": "2024-touroot",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "to your route, 투룻!",
   "repository": "https://github.com/woowacourse-teams/2024-touroot",
   "scripts": {
@@ -11,7 +11,7 @@
     "lint:styled": "stylelint './src/**/*.styled.ts' --fix",
     "test": "jest --passWithNoTests",
     "test-e2e": "cypress open",
-    "test-e2e:run": "cypress run",
+    "test-e2e:run": "cypress run --browser chrome",
     "storybook": "storybook dev -p 6006",
     "lint": "eslint src/",
     "build-storybook": "storybook build"
@@ -92,6 +92,7 @@
     "typescript": "^5.5.3",
     "undici": "^6.19.2",
     "webpack": "^5.92.1",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
     "webpack-merge": "^6.0.1"

@@ -6,14 +6,13 @@ import theme from "@styles/theme";
 export const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.s};
+  gap: ${({ theme }) => theme.spacing.m};
   justify-content: center;
   align-items: center;
 `;
 
 export const modalBodyStyle = css`
   gap: ${theme.spacing.m};
-  padding: 2.6rem 0;
 `;
 
 export const subTextStyle = css`

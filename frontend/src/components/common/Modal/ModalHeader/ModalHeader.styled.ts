@@ -1,14 +1,31 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-export const Layout = styled.header`
+import { ModalHeaderProps } from "./ModalHeader";
+
+const createPosition = ($position: Required<ModalHeaderProps>["headerPosition"]) => {
+  const position = {
+    left: css`
+      justify-content: flex-start;
+    `,
+
+    right: css`
+      justify-content: flex-end;
+    `,
+
+    center: css`
+      justify-content: center;
+    `,
+  };
+
+  return position[$position];
+};
+
+export const Layout = styled.header<{ $position: Required<ModalHeaderProps>["headerPosition"] }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.6rem;
-`;
+  ${({ $position }) => createPosition($position)};
 
-export const TitleWrapper = styled.div`
-  flex-grow: 1;
-
-  text-align: center;
+  width: 100%;
 `;
