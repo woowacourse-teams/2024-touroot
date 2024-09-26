@@ -14,7 +14,6 @@ cloud:
     s3:
       bucket: techcourse-project-2024
       image-base-uri: https://dev.touroot.kr/
-      base-storage-path: touroot/
       temporary-storage-path: temporary/
       image-storage-path: images/
 
@@ -72,6 +71,7 @@ cloud:
   aws:
     s3:
       image-base-uri: https://dev.touroot.kr/
+      origin-storage-path: touroot/
 ---
 # dev profile
 spring:
@@ -124,6 +124,7 @@ cloud:
   aws:
     s3:
       image-base-uri: https://dev.touroot.kr/
+      origin-storage-path: touroot-dev/
 ---
 # prod profile
 spring:
@@ -186,3 +187,4 @@ cloud:
   aws:
     s3:
       image-base-uri: https://touroot.kr/
+      origin-storage-path: touroot/
