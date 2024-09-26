@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-import useModalControl from "./useModalControl";
-
 const BOTTOM_SHEET = {
   openPosition: 0,
   closedPosition: 350,
@@ -10,13 +8,12 @@ const BOTTOM_SHEET = {
 
 const useBottomSheet = (isOpen: boolean, onClose: () => void) => {
   const [startY, setStartY] = useState<number | null>(null);
-  const [currentY, setCurrentY] = useState<number>(0);
+  const [currentY, setCurrentY] = useState<number>(BOTTOM_SHEET.closedPosition);
   const sheetRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (isOpen) {
-      setCurrentY(BOTTOM_SHEET.openPosition);
-    } else setCurrentY(BOTTOM_SHEET.closedPosition);
+    if (isOpen) setCurrentY(BOTTOM_SHEET.openPosition);
+    else setCurrentY(BOTTOM_SHEET.closedPosition);
   }, [isOpen]);
 
   useEffect(() => {
@@ -89,8 +86,6 @@ const useBottomSheet = (isOpen: boolean, onClose: () => void) => {
       document.removeEventListener("mouseup", handleMouseUp);
     };
   }, [startY, currentY, onClose]);
-
-  useModalControl(isOpen, onClose);
 
   return {
     sheetRef,

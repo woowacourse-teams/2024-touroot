@@ -10,10 +10,10 @@ import {
   Button,
   CharacterCount,
   Chip,
+  EditRegisterModalBottomSheet,
   GoogleMapLoadScript,
   IconButton,
   Input,
-  ModalBottomSheet,
   PageInfo,
   Text,
   TextField,
@@ -24,7 +24,7 @@ import TravelogueDayAccordion from "@components/pages/travelogueRegister/Travelo
 import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
 import { useDragScroll } from "@hooks/useDragScroll";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
-import useTagSelection from "@hooks/useTagSelection";
+import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
 import useUser from "@hooks/useUser";
 
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
@@ -52,9 +52,7 @@ const TravelogueRegisterPage = () => {
     setTitle(title);
   };
 
-  const { selectedTagIDs, handleClickTag, createSortedTags } = useTagSelection();
-
-  const sortedTags = createSortedTags();
+  const { selectedTagIDs, handleClickTag, sortedTags, animationKey } = useMultiSelectionTag();
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
@@ -179,9 +177,10 @@ const TravelogueRegisterPage = () => {
             onMouseUp={onMouseUp}
             onMouseMove={onMouseMove}
           >
-            {sortedTags.map((tag) => (
+            {sortedTags.map((tag, index) => (
               <Chip
-                key={tag.id}
+                key={`${tag.id}-${animationKey}`}
+                index={index}
                 label={tag.tag}
                 isSelected={selectedTagIDs.includes(tag.id)}
                 onClick={() => handleClickTag(tag.id)}
@@ -253,13 +252,11 @@ const TravelogueRegisterPage = () => {
         </Button>
       </S.Layout>
 
-      <ModalBottomSheet
+      <EditRegisterModalBottomSheet
         isOpen={isOpen}
         isPending={isPostingTraveloguePending}
         mainText="여행기를 등록할까요?"
         subText="등록한 후에도 다시 여행기를 수정할 수 있어요!"
-        secondaryButtonLabel="취소"
-        primaryButtonLabel="확인"
         onClose={handleCloseBottomSheet}
         onConfirm={handleConfirmBottomSheet}
       />

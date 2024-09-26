@@ -6,23 +6,22 @@ import Text from "../Text/Text";
 import * as S from "./Chip.styled";
 
 interface ChipProps extends ComponentPropsWithoutRef<"li"> {
-  isSelected?: boolean;
   label: string;
+  isSelected?: boolean;
+  index?: number;
 }
 
-const Chip = ({ isSelected = false, label, ...props }: ChipProps) => {
+const Chip = ({ label, isSelected = false, index, children, ...props }: ChipProps) => {
   return (
-    <S.Chip
+    <S.Layout
       $isSelected={isSelected}
+      $index={index}
       data-cy={isSelected ? `selected-${CYPRESS_DATA_MAP.chip}` : CYPRESS_DATA_MAP.chip}
       {...props}
     >
-      {isSelected ? (
-        <Text textType="detailBold">{label}</Text>
-      ) : (
-        <Text textType="detail">{label}</Text>
-      )}
-    </S.Chip>
+      <Text textType={isSelected ? "detailBold" : "detail"}>{label}</Text>
+      {children}
+    </S.Layout>
   );
 };
 

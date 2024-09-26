@@ -1,23 +1,74 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-import { PRIMITIVE_COLORS, SPACING } from "@styles/tokens";
+import theme from "@styles/theme";
+import { PRIMITIVE_COLORS } from "@styles/tokens";
 
-export const MainPageContentContainer = styled.div`
+export const MainPageLayout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${SPACING.m};
+  gap: ${({ theme }) => theme.spacing.m};
 
-  margin-top: ${SPACING.m};
-  padding: ${SPACING.m};
+  margin-top: 16rem;
+  padding: ${({ theme }) => theme.spacing.m};
   min-height: calc(100vh - 7.6rem);
 `;
 
-export const MainPageHeaderContainer = styled.div`
+export const FixedLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 6rem;
+  z-index: ${({ theme }) => theme.zIndex.floating};
+  gap: ${({ theme }) => theme.spacing.m};
+
+  max-width: 48rem;
+  padding: ${({ theme }) => theme.spacing.m};
+
+  background-color: ${PRIMITIVE_COLORS.white};
+`;
+
+export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  gap: ${SPACING.s};
+  gap: ${({ theme }) => theme.spacing.s};
+`;
+
+export const TagsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.s};
+`;
+
+export const SingleSelectionTagsContainer = styled.ul`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.s};
+
+  & > li {
+    cursor: pointer;
+  }
+`;
+
+export const MultiSelectionTagsContainer = styled.ul`
+  display: flex;
+  overflow: scroll hidden;
+  gap: ${({ theme }) => theme.spacing.s};
+
+  height: 3rem;
+  margin: 0 -${({ theme }) => theme.spacing.m};
+  padding: 0 ${({ theme }) => theme.spacing.m};
+
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  & > li {
+    cursor: pointer;
+  }
 `;
 
 export const SearchFallbackWrapper = styled.div`
@@ -30,29 +81,20 @@ export const MainPageTraveloguesList = styled.ul`
   flex: 1;
   flex-direction: column;
 
-  gap: ${SPACING.m};
+  gap: ${({ theme }) => theme.spacing.m};
 `;
 
-export const ChipsContainer = styled.ul`
+export const OptionContainer = styled.div`
   display: flex;
-  overflow: scroll hidden;
-  gap: ${SPACING.s};
+  justify-content: space-between;
 
-  margin: 0 -${SPACING.m};
-  padding: 0 ${SPACING.m};
+  width: 100%;
 
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
+  cursor: pointer;
+`;
 
-  ::-webkit-scrollbar {
-    display: none;
-  }
-
-  & > li {
-    flex: 0 0 auto;
-
-    cursor: pointer;
-  }
+export const LastElement = styled.div`
+  height: 0.1rem;
 `;
 
 export const subTitleStyle = css`
@@ -67,4 +109,12 @@ export const subTitleStyle = css`
       display: block;
     }
   }
+`;
+
+export const selectedOptionStyle = css`
+  color: ${theme.colors.primary};
+`;
+
+export const unselectedOptionStyle = css`
+  color: ${theme.colors.text.secondary};
 `;

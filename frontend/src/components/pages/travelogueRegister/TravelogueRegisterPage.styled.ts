@@ -31,6 +31,7 @@ export const ChipsContainer = styled.ul`
   overflow: scroll hidden;
   gap: ${({ theme }) => theme.spacing.s};
 
+  height: 3rem;
   margin: 0 -${({ theme }) => theme.spacing.m};
   padding: 0 ${({ theme }) => theme.spacing.m};
 

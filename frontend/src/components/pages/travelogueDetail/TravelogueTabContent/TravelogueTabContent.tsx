@@ -50,12 +50,7 @@ const TravelogueTabContent = ({ places }: { places: TraveloguePlace[] }) => {
         >
           여행 장소 살펴보기
         </S.Title>
-        <div
-          style={{
-            paddingBottom: "40px",
-            marginTop: "3.2rem",
-          }}
-        >
+        <div>
           {places.map((place, index) => (
             <PlaceDetailCard
               key={`${place.id}-${index}`}

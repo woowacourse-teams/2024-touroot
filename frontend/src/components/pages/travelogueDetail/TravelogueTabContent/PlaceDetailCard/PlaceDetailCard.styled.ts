@@ -4,7 +4,7 @@ export const PlaceDetailCardLayout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-  margin: 2rem 0;
+  margin: 1.6rem 0;
   padding-bottom: 1rem;
   border-bottom: 1px solid #d9d9d9;
 `;
