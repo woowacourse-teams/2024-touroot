@@ -15,7 +15,7 @@ const rightContentOptions = {
       <S.FormWrapper>
         <Input
           autoFocus
-          placeholder="검색해주세요"
+          placeholder="제목 또는 작성자명으로 검색해 주세요."
           style={{ height: "4rem", marginBottom: "-1rem" }}
         />
         <S.ButtonContainer>

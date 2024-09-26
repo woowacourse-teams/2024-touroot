@@ -40,7 +40,7 @@ const SearchHeader = () => {
   const handleClickSearchButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (keyword.trim().length < MIN_KEYWORD_LENGTH) {
-      alert(`${MIN_KEYWORD_LENGTH}글자 이상 검색해주세요.`);
+      alert(`${MIN_KEYWORD_LENGTH}글자 이상 검색해 주세요.`);
       setKeyword(keyword.trim());
     } else {
       navigate(ROUTE_PATHS_MAP.search(keyword));
@@ -72,7 +72,7 @@ const SearchHeader = () => {
               }
               autoFocus
               maxLength={20}
-              placeholder="검색해주세요"
+              placeholder="제목 또는 작성자명으로 검색해 주세요."
               css={css`
                 height: 4rem;
                 padding-right: 7.8rem;
