@@ -33,6 +33,7 @@ import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractID } from "@utils/extractId";
+import resizeAndConvertImage from "@utils/resizeAndConvertImage";
 
 import * as S from "./TravelogueEditPage.styled";
 
@@ -81,7 +82,11 @@ const TravelogueEditPage = () => {
   const { mutateAsync: mutateAddImage, isPaused } = usePostUploadImages();
 
   const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const thumbnail = await mutateAddImage(Array.from(e.target.files as FileList));
+    const files = Array.from(e.target.files as FileList);
+
+    const processedFiles = await Promise.all(files.map((file) => resizeAndConvertImage(file)));
+
+    const thumbnail = await mutateAddImage(processedFiles);
     setThumbnail(thumbnail[0]);
   };
 
