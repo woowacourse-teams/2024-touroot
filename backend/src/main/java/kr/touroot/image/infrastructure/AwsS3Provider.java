@@ -21,7 +21,7 @@ public class AwsS3Provider {
     private final S3Client s3Client;
     private final String bucket;
     private final String imageBaseUri;
-    private final String tourootStoragePath;
+    private final String originStoragePath;
     private final String temporaryStoragePath;
     private final String imageStoragePath;
 
@@ -29,14 +29,14 @@ public class AwsS3Provider {
             S3Client s3Client,
             @Value("${cloud.aws.s3.bucket}") String bucket,
             @Value("${cloud.aws.s3.image-base-uri}") String imageBaseUri,
-            @Value("${cloud.aws.s3.base-storage-path}") String tourootStoragePath,
+            @Value("${cloud.aws.s3.origin-storage-path}") String originStoragePath,
             @Value("${cloud.aws.s3.temporary-storage-path}") String temporaryStoragePath,
             @Value("${cloud.aws.s3.image-storage-path}") String imageStoragePath
     ) {
         this.s3Client = s3Client;
         this.bucket = bucket;
         this.imageBaseUri = imageBaseUri;
-        this.tourootStoragePath = tourootStoragePath;
+        this.originStoragePath = originStoragePath;
         this.temporaryStoragePath = temporaryStoragePath;
         this.imageStoragePath = imageStoragePath;
     }
@@ -48,7 +48,7 @@ public class AwsS3Provider {
                 .map(ImageFile::getFile)
                 .forEach(file -> {
                     String newFileName = createNewFileName(file.getOriginalFilename());
-                    String filePath = tourootStoragePath + temporaryStoragePath + newFileName;
+                    String filePath = originStoragePath + temporaryStoragePath + newFileName;
                     uploadFile(file, filePath, s3Client);
                     String s3Key = imageBaseUri + temporaryStoragePath + newFileName;
                     urls.add(s3Key);
@@ -83,7 +83,7 @@ public class AwsS3Provider {
 
         validateS3Path(imageUrl);
         String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-        String sourceKey = tourootStoragePath + temporaryStoragePath + fileName;
+        String sourceKey = originStoragePath + temporaryStoragePath + fileName;
         String destinationKey = sourceKey.replace(temporaryStoragePath, imageStoragePath);
         copyFile(sourceKey, destinationKey);
         return imageUrl.replace(temporaryStoragePath, imageStoragePath);

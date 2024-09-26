@@ -17,7 +17,7 @@ cloud:
     s3:
       bucket: techcourse-project-2024
       image-base-uri: https://dev.touroot.kr/
-      base-storage-path: touroot/
+      origin-storage-path: touroot/
       temporary-storage-path: temporary/
       image-storage-path: images/
 server:
