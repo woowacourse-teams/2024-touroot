@@ -50,7 +50,6 @@ public class TravelPlanPlace extends BaseEntity {
     @Embedded
     private Position position;
 
-    @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Place place;
 
