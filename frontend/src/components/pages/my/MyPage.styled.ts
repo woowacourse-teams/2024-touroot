@@ -69,6 +69,14 @@ export const NicknameWrapper = styled.div`
   height: 3rem;
 `;
 
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.s};
+
+  width: 100%;
+`;
+
 export const inputStyle = css`
   ${theme.typography.mobile.bodyBold};
   width: 12rem;

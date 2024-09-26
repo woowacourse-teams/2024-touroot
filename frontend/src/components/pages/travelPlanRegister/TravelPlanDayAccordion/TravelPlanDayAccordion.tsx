@@ -5,6 +5,8 @@ import { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
 import { Accordion, GoogleMapView, GoogleSearchPopup, IconButton, Text } from "@components/common";
 import PlaceTodoListItem from "@components/pages/travelPlanRegister/PlaceTodoListItem/PlaceTodoListItem";
 
+import { CYPRESS_DATA_MAP } from "@constants/cypress";
+
 import * as S from "../TravelPlanRegisterPage.styled";
 
 interface TravelPlanDayAccordionProps {
@@ -112,6 +114,7 @@ const TravelPlanDayAccordion = ({
                   position="left"
                   css={[S.addTravelAddButtonStyle, S.addDayButtonStyle]}
                   onClick={() => onAddPlaceTodo(dayIndex, placeIndex)}
+                  data-cy={CYPRESS_DATA_MAP.travelPlanRegister.addTodoButton}
                 >
                   <Text textType="bodyBold">할 일 추가하기</Text>
                 </IconButton>
@@ -125,6 +128,7 @@ const TravelPlanDayAccordion = ({
           position="left"
           css={[S.addTravelAddButtonStyle, S.addDayButtonStyle]}
           onClick={onClickAddPlaceButton}
+          data-cy={CYPRESS_DATA_MAP.travelPlanRegister.addPlaceButton}
         >
           <Text textType="bodyBold">장소 추가하기</Text>
         </IconButton>
