@@ -26,8 +26,10 @@ export const MainPageTraveloguesList = styled.ul`
 export const TabStyle = css`
   position: fixed;
   z-index: 1000;
-  width: 45rem;
+  width: 100%;
   height: 5rem;
+  max-width: 45rem;
+  margin: auto;
 
   background-color: ${PRIMITIVE_COLORS.white};
 `;
