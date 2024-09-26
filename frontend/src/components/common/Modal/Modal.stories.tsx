@@ -222,7 +222,7 @@ export const SingleSelectionTagModalBottomSheet = {
                   onClick={onToggleModal}
                   style={{ color: theme.colors.primary, cursor: "pointer" }}
                 >
-                  좋아요순
+                  좋아요 순
                 </Text>
                 <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
               </div>
