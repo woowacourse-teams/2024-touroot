@@ -17,6 +17,7 @@ import useSingleSelectionTag from "@hooks/useSingleSelectionTag";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
+import { STORAGE_KEYS_MAP } from "@constants/storage";
 
 import theme from "@styles/theme";
 
@@ -31,8 +32,13 @@ import * as S from "./MainPage.styled";
 import TravelogueCardSkeleton from "./TravelogueCard/skeleton/TravelogueCardSkeleton";
 
 const MainPage = () => {
-  const { selectedTagIDs, handleClickTag, sortedTags, animationKey } = useMultiSelectionTag();
-  const { sorting, travelPeriod } = useSingleSelectionTag();
+  const { selectedTagIDs, handleClickTag, sortedTags, animationKey } = useMultiSelectionTag(
+    STORAGE_KEYS_MAP.mainPageSelectedTagIDs,
+  );
+  const { sorting, travelPeriod } = useSingleSelectionTag(
+    STORAGE_KEYS_MAP.mainPageSort,
+    STORAGE_KEYS_MAP.mainPageTravelPeriod,
+  );
 
   const { travelogues, status, fetchNextPage, isPaused, error } = useInfiniteTravelogues({
     selectedTagIDs,

@@ -3,19 +3,17 @@ import { useCallback, useState } from "react";
 import useGetTags from "@queries/useGetTags";
 
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
-import { STORAGE_KEYS_MAP } from "@constants/storage";
 
-const useMultiSelectionTag = () => {
+const useMultiSelectionTag = (key?: string) => {
   const { data: tags } = useGetTags();
 
   const [selectedTagIDs, setSelectedTagIDs] = useState<number[]>(
-    JSON.parse(localStorage.getItem(STORAGE_KEYS_MAP.selectedTagIDs) ?? "[]"),
+    key ? JSON.parse(localStorage.getItem(key) ?? "[]") : [],
   );
   const [animationKey, setAnimationKey] = useState(0);
 
   const onChangeSelectedTagIDs = useCallback((newSelectedTagIDs: number[]) => {
     setSelectedTagIDs(newSelectedTagIDs);
-    localStorage.setItem(STORAGE_KEYS_MAP.selectedTagIDs, JSON.stringify(newSelectedTagIDs));
   }, []);
 
   const createSortedTags = () => {
@@ -33,13 +31,17 @@ const useMultiSelectionTag = () => {
         ? prevSelectedTagIDs.filter((selectedTagID) => selectedTagID !== id)
         : [...prevSelectedTagIDs, id];
 
-      if (newSelectedTagIDs.length > FORM_VALIDATIONS_MAP.tags.maxCount) {
-        localStorage.setItem(STORAGE_KEYS_MAP.selectedTagIDs, JSON.stringify(prevSelectedTagIDs));
-        return prevSelectedTagIDs;
-      }
+      const isTagIDsSelectedMax = newSelectedTagIDs.length > FORM_VALIDATIONS_MAP.tags.maxCount;
+
+      if (isTagIDsSelectedMax && key) localStorage.setItem(key, JSON.stringify(prevSelectedTagIDs));
+      if (isTagIDsSelectedMax) return prevSelectedTagIDs;
 
       setAnimationKey((prev) => prev + 1);
-      localStorage.setItem(STORAGE_KEYS_MAP.selectedTagIDs, JSON.stringify(newSelectedTagIDs));
+
+      if (key) {
+        localStorage.setItem(key, JSON.stringify(newSelectedTagIDs));
+        window.scrollTo({ top: 0 });
+      }
 
       return newSelectedTagIDs;
     });
