@@ -25,6 +25,7 @@ export const Input = styled.input<{ variant: InputVariants }>`
 
   ${({ theme }) => theme.typography.mobile.detail}
   color: ${({ theme }) => theme.colors.text.primary};
+  font-size: 1.6rem;
 
   &:disabled {
     background-color: ${({ theme }) => theme.colors.background.disabled};

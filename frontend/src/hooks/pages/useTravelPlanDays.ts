@@ -124,7 +124,7 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
         const travelPlanPlace = previousTravelPlanDays[dayIndex]?.places[placeIndex];
 
         if (travelPlanPlace?.todos) {
-          travelPlanPlace.todos.splice(Number(todoId), 1);
+          travelPlanPlace.todos = travelPlanPlace.todos.filter((todo) => todo.id !== todoId);
         }
       });
     },
