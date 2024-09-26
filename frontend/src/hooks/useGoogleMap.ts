@@ -33,6 +33,12 @@ const useGoogleMap = (places: MapPosition[]) => {
   useEffect(() => {
     if (!googleMap) return;
 
+    if (places.length === 1) {
+      const [place] = places;
+      googleMap.setCenter({ lat: place.lat, lng: place.lng });
+      googleMap.setZoom(9);
+    }
+
     if (places.length > 1) {
       fitMapToBounds(googleMap, places);
     }
