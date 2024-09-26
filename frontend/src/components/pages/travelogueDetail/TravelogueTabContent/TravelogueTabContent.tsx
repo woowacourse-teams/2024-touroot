@@ -15,10 +15,7 @@ const TravelogueTabContent = ({ places }: { places: TraveloguePlace[] }) => {
 
   return (
     <S.TravelogueTapContentLayout>
-      <GoogleMapLoadScript
-        loadingElement={<Skeleton width="100%" height="120px" />}
-        libraries={["maps"]}
-      >
+      <GoogleMapLoadScript loadingElement={<Skeleton width="100%" height="120px" />}>
         <GoogleMapView
           places={places.map((place) => ({
             lat: Number(place.position.lat),

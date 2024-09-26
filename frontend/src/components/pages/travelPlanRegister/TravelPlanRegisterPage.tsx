@@ -171,7 +171,6 @@ const TravelPlanRegisterPage = () => {
                 </IconButton>
               </S.LoadingWrapper>
             }
-            libraries={["places", "maps"]}
           >
             <Accordion.Root css={S.accordionRootStyle}>
               {travelPlanDays.map((travelDay, dayIndex) => (

@@ -1,24 +1,18 @@
-import { Libraries, LoadScript } from "@react-google-maps/api";
+import { useJsApiLoader } from "@react-google-maps/api";
 
-interface GoogleMapLoadScriptProps {
-  libraries: Libraries;
-  loadingElement?: React.ReactNode;
+import { LIBRARIES } from "@components/common/GoogleMapLoadScript/GoogleMapLoadScript.constants";
+
+interface GoogleMapLoadScriptProps extends React.PropsWithChildren {
+  loadingElement: React.ReactNode;
 }
 
-const GoogleMapLoadScript = ({
-  children,
-  libraries,
-  loadingElement,
-}: React.PropsWithChildren<GoogleMapLoadScriptProps>) => {
-  return (
-    <LoadScript
-      googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? ""}
-      libraries={libraries}
-      loadingElement={loadingElement}
-    >
-      {children}
-    </LoadScript>
-  );
+const GoogleMapLoadScript = ({ children, loadingElement }: GoogleMapLoadScriptProps) => {
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? "",
+    libraries: LIBRARIES,
+  });
+
+  return isLoaded ? <>{children}</> : loadingElement;
 };
 
 export default GoogleMapLoadScript;

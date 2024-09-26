@@ -17,10 +17,7 @@ const TravelPlansTabContent = ({ places }: { places: TravelPlanPlace[] }) => {
 
   return (
     <div>
-      <GoogleMapLoadScript
-        loadingElement={<Skeleton width="100%" height="23rem" />}
-        libraries={["places", "maps"]}
-      >
+      <GoogleMapLoadScript loadingElement={<Skeleton width="100%" height="23rem" />}>
         <GoogleMapView places={positions} />
       </GoogleMapLoadScript>
       <S.BoxContainer>
