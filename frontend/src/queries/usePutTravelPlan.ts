@@ -18,6 +18,7 @@ interface MutationFnVariables {
 
 export const usePutTravelPlan = () => {
   const queryClient = useQueryClient();
+
   return useMutation<
     AxiosResponse<TravelPlanResponse & { id: number }, unknown>,
     ApiError | AxiosError<ErrorResponse>,
@@ -46,7 +47,7 @@ export const usePutTravelPlan = () => {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS_MAP.travelPlan.all,
+        queryKey: QUERY_KEYS_MAP.travelPlan.me(),
         refetchType: "inactive",
       });
     },
