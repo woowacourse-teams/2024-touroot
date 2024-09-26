@@ -4,8 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import kr.touroot.global.exception.BadRequestException;
-import kr.touroot.place.domain.Place;
-import kr.touroot.place.repository.PlaceRepository;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TraveloguePlace;
@@ -20,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TraveloguePlaceService {
 
-    private final PlaceRepository placeRepository;
     private final TraveloguePlaceRepository traveloguePlaceRepository;
 
     @Transactional
@@ -32,22 +29,13 @@ public class TraveloguePlaceService {
 
         for (int i = 0; i < requests.size(); i++) {
             TraveloguePlaceRequest request = requests.get(i);
-            Place place = getPlace(request);
-
-            TraveloguePlace traveloguePlace = request.toTraveloguePlace(i, place, day);
+            TraveloguePlace traveloguePlace = request.toTraveloguePlace(i, day);
             places.put(traveloguePlaceRepository.save(traveloguePlace), request.photoUrls());
         }
 
         return places;
     }
 
-    private Place getPlace(TraveloguePlaceRequest request) {
-        return placeRepository.findByNameAndLatitudeAndLongitude(
-                request.placeName(),
-                request.position().lat(),
-                request.position().lng()
-        ).orElseGet(() -> placeRepository.save(request.toPlace()));
-    }
 
     @Transactional(readOnly = true)
     public List<TraveloguePlace> findTraveloguePlacesByDay(TravelogueDay travelogueDay) {

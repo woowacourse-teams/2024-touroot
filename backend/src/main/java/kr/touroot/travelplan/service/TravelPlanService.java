@@ -9,8 +9,6 @@ import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
-import kr.touroot.place.domain.Place;
-import kr.touroot.place.repository.PlaceRepository;
 import kr.touroot.travelplan.domain.TravelPlaceTodo;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.domain.TravelPlanDay;
@@ -42,7 +40,6 @@ public class TravelPlanService {
     private final TravelPlanRepository travelPlanRepository;
     private final TravelPlanDayRepository travelPlanDayRepository;
     private final TravelPlanPlaceRepository travelPlanPlaceRepository;
-    private final PlaceRepository placeRepository;
     private final PlaceTodoRepository placeTodoRepository;
 
     @Transactional
@@ -79,8 +76,7 @@ public class TravelPlanService {
     private void createPlanPlace(List<PlanPlaceRequest> request, TravelPlanDay travelPlanDay) {
         for (int order = 0; order < request.size(); order++) {
             PlanPlaceRequest planRequest = request.get(order);
-            Place place = getPlace(planRequest);
-            TravelPlanPlace planPlace = planRequest.toPlanPlace(order, travelPlanDay, place);
+            TravelPlanPlace planPlace = planRequest.toPlanPlace(order, travelPlanDay);
             TravelPlanPlace travelPlanPlace = travelPlanPlaceRepository.save(planPlace);
             createPlaceTodo(planRequest.todos(), travelPlanPlace);
         }
@@ -92,14 +88,6 @@ public class TravelPlanService {
             TravelPlaceTodo travelPlaceTodo = todoRequest.toPlaceTodo(travelPlanPlace, order);
             placeTodoRepository.save(travelPlaceTodo);
         }
-    }
-
-    private Place getPlace(PlanPlaceRequest planRequest) {
-        return placeRepository.findByNameAndLatitudeAndLongitude(
-                planRequest.placeName(),
-                planRequest.position().lat(),
-                planRequest.position().lng()
-        ).orElseGet(() -> placeRepository.save(planRequest.toPlace()));
     }
 
     @Transactional(readOnly = true)
@@ -164,10 +152,12 @@ public class TravelPlanService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public Page<TravelPlan> getAllByAuthor(Member member, Pageable pageable) {
         return travelPlanRepository.findAllByAuthor(member, pageable);
     }
 
+    @Transactional(readOnly = true)
     public int calculateTravelPeriod(TravelPlan travelPlan) {
         return travelPlanDayRepository.findByPlan(travelPlan)
                 .size();

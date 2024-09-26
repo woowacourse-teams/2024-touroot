@@ -8,7 +8,6 @@ import kr.touroot.global.ServiceTest;
 import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
-import kr.touroot.place.domain.Place;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TraveloguePhoto;
@@ -69,8 +68,7 @@ class TraveloguePhotoServiceTest {
         Member author = testHelper.persistMember();
         Travelogue travelogue = testHelper.persistTravelogue(author);
         TravelogueDay day = testHelper.persistTravelogueDay(travelogue);
-        Place position = testHelper.persistPlace();
-        TraveloguePlace place = testHelper.persistTraveloguePlace(position, day);
+        TraveloguePlace place = testHelper.persistTraveloguePlace(day);
 
         List<TraveloguePhoto> photos = photoService.createPhotos(requests, place);
 
@@ -83,8 +81,7 @@ class TraveloguePhotoServiceTest {
         Member author = testHelper.persistMember();
         Travelogue travelogue = testHelper.persistTravelogue(author);
         TravelogueDay day = testHelper.persistTravelogueDay(travelogue);
-        Place position = testHelper.persistPlace();
-        TraveloguePlace place = testHelper.persistTraveloguePlace(position, day);
+        TraveloguePlace place = testHelper.persistTraveloguePlace(day);
         TraveloguePhoto photo = testHelper.persistTraveloguePhoto(place);
 
         List<String> photoUrls = photoService.findPhotoUrlsByPlace(place);

@@ -17,13 +17,13 @@ public class TravelogueLikeService {
 
     @Transactional(readOnly = true)
     public TravelogueLikeResponse findLikeByTravelogue(Travelogue travelogue) {
-        return new TravelogueLikeResponse(false, travelogueLikeRepository.countByTravelogue(travelogue));
+        return new TravelogueLikeResponse(false, travelogue.getLikeCount());
     }
 
     @Transactional(readOnly = true)
     public TravelogueLikeResponse findLikeByTravelogueAndLiker(Travelogue travelogue, Member liker) {
         boolean exists = travelogueLikeRepository.existsByTravelogueAndLiker(travelogue, liker);
-        return new TravelogueLikeResponse(exists, travelogueLikeRepository.countByTravelogue(travelogue));
+        return new TravelogueLikeResponse(exists, travelogue.getLikeCount());
     }
 
     @Transactional
@@ -32,9 +32,10 @@ public class TravelogueLikeService {
         if (notExists) {
             TravelogueLike travelogueLike = new TravelogueLike(travelogue, liker);
             travelogueLikeRepository.save(travelogueLike);
+            travelogue.increaseLikeCount();
         }
 
-        return new TravelogueLikeResponse(true, travelogueLikeRepository.countByTravelogue(travelogue));
+        return new TravelogueLikeResponse(true, travelogue.getLikeCount());
     }
 
     @Transactional
@@ -42,9 +43,10 @@ public class TravelogueLikeService {
         boolean exists = travelogueLikeRepository.existsByTravelogueAndLiker(travelogue, liker);
         if (exists) {
             travelogueLikeRepository.deleteByTravelogueAndLiker(travelogue, liker);
+            travelogue.decreaseLikeCount();
         }
 
-        return new TravelogueLikeResponse(false, travelogueLikeRepository.countByTravelogue(travelogue));
+        return new TravelogueLikeResponse(false, travelogue.getLikeCount());
     }
 
     @Transactional

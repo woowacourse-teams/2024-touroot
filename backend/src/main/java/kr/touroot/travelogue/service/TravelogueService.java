@@ -1,14 +1,17 @@
 package kr.touroot.travelogue.service;
 
-import java.util.List;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.domain.TravelogueFilterCondition;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
-import kr.touroot.travelogue.repository.query.TravelogueQueryRepository;
+import kr.touroot.travelogue.domain.search.SearchCondition;
+import kr.touroot.travelogue.domain.search.SearchType;
+import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.repository.TravelogueRepository;
+import kr.touroot.travelogue.repository.query.TravelogueQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,13 +50,16 @@ public class TravelogueService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Travelogue> findByKeyword(String keyword, Pageable pageable) {
-        return travelogueQueryRepository.findByTitleContaining(keyword, pageable);
+    public Page<Travelogue> findByKeyword(TravelogueSearchRequest request, Pageable pageable) {
+        SearchType searchType = SearchType.from(request.searchType());
+        SearchCondition searchCondition = new SearchCondition(request.keyword(), searchType);
+
+        return travelogueQueryRepository.findByKeywordAndSearchType(searchCondition, pageable);
     }
 
     @Transactional(readOnly = true)
-    public Page<Travelogue> findAllByFilter(List<Long> filter, Pageable pageable) {
-        return travelogueQueryRepository.findAllByTag(filter, pageable);
+    public Page<Travelogue> findAllByFilter(TravelogueFilterCondition filter, Pageable pageable) {
+        return travelogueQueryRepository.findAllByFilter(filter, pageable);
     }
 
     @Transactional

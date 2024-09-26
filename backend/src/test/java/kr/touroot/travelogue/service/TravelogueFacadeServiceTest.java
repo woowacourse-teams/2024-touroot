@@ -16,6 +16,7 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
+import kr.touroot.travelogue.dto.request.TravelogueFilterRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
@@ -149,11 +150,12 @@ class TravelogueFacadeServiceTest {
     @DisplayName("메인 페이지에 표시할 여행기 목록을 조회한다.")
     @Test
     void findTravelogues() {
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
         testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> expect = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
-        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(pageRequest);
+        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(filterRequest, pageRequest);
 
         assertThat(result).containsAll(expect);
     }
@@ -164,10 +166,10 @@ class TravelogueFacadeServiceTest {
         // given
         testHelper.initAllTravelogueTestData();
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
-        List<Long> tagFilters = List.of(1L);
+        TravelogueFilterRequest filter = new TravelogueFilterRequest(List.of(1L), null);
 
         // when
-        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(tagFilters, pageRequest);
+        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(filter, pageRequest);
 
         // then
         assertThat(result.getContent()).hasSize(1);
@@ -175,13 +177,26 @@ class TravelogueFacadeServiceTest {
 
     @DisplayName("제목 키워드를 기반으로 여행기 목록을 조회한다.")
     @Test
-    void findTraveloguesByKeyword() {
+    void findTraveloguesByTitleKeyword() {
         testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
-        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("제주");
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("제주", "title");
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
-        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(pageRequest, searchRequest);
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(searchRequest, pageRequest);
+
+        assertThat(searchResults).containsAll(responses);
+    }
+
+    @DisplayName("사용자 닉네임을 기반으로 여행기 목록을 조회한다.")
+    @Test
+    void findTraveloguesByAuthorNicknameKeyword() {
+        testHelper.initAllTravelogueTestData();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
+
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("리비", "author");
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(searchRequest, pageRequest);
 
         assertThat(searchResults).containsAll(responses);
     }

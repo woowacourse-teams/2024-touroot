@@ -21,6 +21,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -34,6 +35,7 @@ public class Travelogue extends BaseEntity {
 
     private static final int MIN_TITLE_LENGTH = 1;
     private static final int MAX_TITLE_LENGTH = 20;
+    private static final int LIKE_COUNT_WEIGHT = 1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,19 +51,23 @@ public class Travelogue extends BaseEntity {
     @Column(nullable = false)
     private String thumbnail;
 
+    @Column(nullable = false)
+    private Long likeCount;
+
     @OneToMany(mappedBy = "travelogue", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TravelogueDay> travelogueDays = new ArrayList<>();
 
-    public Travelogue(Long id, Member author, String title, String thumbnail) {
+    private Travelogue(Long id, Member author, String title, String thumbnail, Long likeCount) {
         validate(author, title, thumbnail);
         this.id = id;
         this.author = author;
         this.title = title;
         this.thumbnail = thumbnail;
+        this.likeCount = likeCount;
     }
 
     public Travelogue(Member author, String title, String thumbnail) {
-        this(null, author, title, thumbnail);
+        this(null, author, title, thumbnail, 0L);
     }
 
     public void update(String title, String thumbnail) {
@@ -100,6 +106,14 @@ public class Travelogue extends BaseEntity {
         } catch (Exception e) {
             throw new BadRequestException("이미지 url 형식이 잘못되었습니다");
         }
+    }
+    
+    public void increaseLikeCount() {
+        likeCount += LIKE_COUNT_WEIGHT;
+    }
+    
+    public void decreaseLikeCount() {
+        likeCount -= LIKE_COUNT_WEIGHT;
     }
 
     public boolean isAuthor(Member author) {
