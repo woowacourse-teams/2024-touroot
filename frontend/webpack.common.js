@@ -45,8 +45,18 @@ module.exports = {
         use: ["@svgr/webpack"],
       },
       {
-        test: /\.(png|jpg|jpeg|gif|woff|webp)$/i,
+        test: /\.(png|jpg|jpeg|gif|webp|avif)$/i,
         type: "asset/resource",
+        generator: {
+          filename: "assets/images/[name].[contenthash:8][ext]",
+        },
+      },
+      {
+        test: /\.(woff)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "assets/fonts/[name].[contenthash:8][ext]",
+        },
       },
       {
         test: /\.(ts|tsx)$/i,

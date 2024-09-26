@@ -3,11 +3,17 @@ const { sentryWebpackPlugin } = require("@sentry/webpack-plugin");
 const common = require("./webpack.common");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const dotenv = require("dotenv");
+const path = require("path");
 
 const env = dotenv.config({ path: ".env.production" }).parsed;
 
 module.exports = merge(common, {
   mode: "production",
+  output: {
+    publicPath: "/",
+    filename: "[name].[contenthash:8].js",
+    path: path.resolve(__dirname, "dist"),
+  },
   devtool: "hidden-source-map",
   cache: {
     type: "filesystem",
@@ -26,4 +32,9 @@ module.exports = merge(common, {
       },
     }),
   ],
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+    },
+  },
 });
