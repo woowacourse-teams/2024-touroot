@@ -32,10 +32,8 @@ import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
-
 import getInitialTravelTitle from "@utils/getInitialTravelTitle";
 import resizeAndConvertImage from "@utils/resizeAndConvertImage";
-
 
 import * as S from "./TravelogueRegisterPage.styled";
 
