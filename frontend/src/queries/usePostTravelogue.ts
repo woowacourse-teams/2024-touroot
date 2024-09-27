@@ -14,6 +14,7 @@ import { QUERY_KEYS_MAP } from "@constants/queryKey";
 
 export const usePostTravelogue = () => {
   const queryClient = useQueryClient();
+
   const { isPaused, ...rest } = useMutation<
     AxiosResponse<TravelogueResponse, unknown>,
     ApiError | AxiosError<ErrorResponse>,
@@ -33,7 +34,7 @@ export const usePostTravelogue = () => {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS_MAP.travelogue.all,
+        queryKey: QUERY_KEYS_MAP.travelogue.me(),
         refetchType: "inactive",
       });
     },

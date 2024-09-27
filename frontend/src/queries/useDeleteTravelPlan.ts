@@ -18,7 +18,7 @@ const useDeleteTravelPlan = () => {
     onSuccess: () => {
       queryClient
         .invalidateQueries({
-          queryKey: QUERY_KEYS_MAP.travelPlan.all,
+          queryKey: QUERY_KEYS_MAP.travelPlan.me(),
           refetchType: "inactive",
         })
         .then(() => navigation(ROUTE_PATHS_MAP.my));
