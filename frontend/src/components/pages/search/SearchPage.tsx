@@ -27,8 +27,7 @@ const SearchPage = () => {
   }
 
   return (
-    <S.Layout>
-      <FloatingButton />
+    <>
       <Tab
         labels={["제목", "작성자"]}
         tabContent={(selectedIndex) => (
@@ -40,7 +39,8 @@ const SearchPage = () => {
         )}
         css={S.TabStyle}
       />
-    </S.Layout>
+      <FloatingButton />
+    </>
   );
 };
 

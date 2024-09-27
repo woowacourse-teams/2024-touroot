@@ -3,8 +3,8 @@ export const SORTING_OPTIONS = ["likeCount", "createdAt"] as const;
 export const TRAVEL_PERIOD_OPTIONS = ["", "1", "2", "3", "4", "5", "6", "7", "8"] as const;
 
 export const SORTING_OPTIONS_MAP = {
-  likeCount: "좋아요순",
-  createdAt: "최신순",
+  likeCount: "좋아요 순",
+  createdAt: "최신 순",
 };
 export const TRAVEL_PERIOD_OPTIONS_MAP = {
   "": "전체",

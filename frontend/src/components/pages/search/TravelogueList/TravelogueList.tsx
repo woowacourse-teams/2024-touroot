@@ -51,11 +51,10 @@ const TravelogueList = ({ keyword, searchType }: TravelogueListProps) => {
 
   return (
     <S.Layout>
+      {keyword && (
+        <Text css={S.searchResultTextStyle} textType="title">{`"${keyword}" 검색 결과`}</Text>
+      )}
       <S.MainPageTraveloguesList>
-        {keyword && (
-          <Text css={S.searchResultTextStyle} textType="title">{`"${keyword}" 검색 결과`}</Text>
-        )}
-
         {status === "pending" && (
           <S.MainPageTraveloguesList>
             {Array.from({ length: SKELETON_COUNT }, (_, index) => (
