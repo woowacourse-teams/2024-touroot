@@ -1,5 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
+import type { SearchType } from "@type/domain/travelogue";
+
 import { client } from "@apis/client";
 
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
@@ -9,29 +11,31 @@ export const getSearchTravelogues = async ({
   page,
   size,
   keyword,
+  searchType,
 }: {
   page: number;
   size: number;
   keyword: string;
+  searchType: SearchType;
 }) => {
   const response = await client.get(API_ENDPOINT_MAP.searchTravelogues, {
-    params: { page, size, keyword },
+    params: { page, size, keyword, searchType },
   });
 
   return response.data.content;
 };
 
-const useInfiniteSearchTravelogues = (keyword: string) => {
+const useInfiniteSearchTravelogues = (keyword: string, searchType: "TITLE" | "AUTHOR") => {
   const INITIAL_PAGE = 0;
   const DATA_LOAD_COUNT = 5;
 
   const { data, status, error, fetchNextPage, isFetchingNextPage, hasNextPage, isPaused } =
     useInfiniteQuery({
-      queryKey: QUERY_KEYS_MAP.travelogue.search(keyword),
+      queryKey: QUERY_KEYS_MAP.travelogue.search(keyword, searchType),
       queryFn: ({ pageParam = INITIAL_PAGE }) => {
         const page = pageParam;
         const size = DATA_LOAD_COUNT;
-        return getSearchTravelogues({ page, size, keyword });
+        return getSearchTravelogues({ page, size, keyword, searchType });
       },
       initialPageParam: 0,
       getNextPageParam: (lastPage, allPages) => {

@@ -10,10 +10,10 @@ import {
   Button,
   CharacterCount,
   Chip,
+  EditRegisterModalBottomSheet,
   GoogleMapLoadScript,
   IconButton,
   Input,
-  ModalBottomSheet,
   PageInfo,
   Text,
   TextField,
@@ -24,7 +24,7 @@ import TravelogueDayAccordion from "@components/pages/travelogueRegister/Travelo
 import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
 import { useDragScroll } from "@hooks/useDragScroll";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
-import useTagSelection from "@hooks/useTagSelection";
+import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
 import useUser from "@hooks/useUser";
 
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
@@ -33,6 +33,7 @@ import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractID } from "@utils/extractId";
+import resizeAndConvertImage from "@utils/resizeAndConvertImage";
 
 import * as S from "./TravelogueEditPage.styled";
 
@@ -55,10 +56,8 @@ const TravelogueEditPage = () => {
     setTitle(title);
   };
 
-  const { selectedTagIDs, onChangeSelectedTagIDs, handleClickTag, createSortedTags } =
-    useTagSelection();
-
-  const sortedTags = createSortedTags();
+  const { selectedTagIDs, onChangeSelectedTagIDs, handleClickTag, sortedTags, animationKey } =
+    useMultiSelectionTag();
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
@@ -83,7 +82,11 @@ const TravelogueEditPage = () => {
   const { mutateAsync: mutateAddImage, isPaused } = usePostUploadImages();
 
   const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const thumbnail = await mutateAddImage(Array.from(e.target.files as FileList));
+    const files = Array.from(e.target.files as FileList);
+
+    const processedFiles = await Promise.all(files.map((file) => resizeAndConvertImage(file)));
+
+    const thumbnail = await mutateAddImage(processedFiles);
     setThumbnail(thumbnail[0]);
   };
 
@@ -182,9 +185,10 @@ const TravelogueEditPage = () => {
                 onMouseUp={onMouseUp}
                 onMouseMove={onMouseMove}
               >
-                {sortedTags.map((tag) => (
+                {sortedTags.map((tag, index) => (
                   <Chip
-                    key={tag.id}
+                    key={`${tag.id}-${animationKey}`}
+                    index={index}
                     label={tag.tag}
                     isSelected={selectedTagIDs.includes(tag.id)}
                     onClick={() => handleClickTag(tag.id)}
@@ -258,13 +262,11 @@ const TravelogueEditPage = () => {
         </Button>
       </S.Layout>
 
-      <ModalBottomSheet
+      <EditRegisterModalBottomSheet
         isOpen={isOpen}
         isPending={isPuttingTraveloguePending}
         mainText="여행기를 수정할까요?"
         subText="수정한 후에도 다시 여행기를 변경할 수 있어요!"
-        secondaryButtonLabel="취소"
-        primaryButtonLabel="확인"
         onClose={handleCloseBottomSheet}
         onConfirm={handleConfirmBottomSheet}
       />

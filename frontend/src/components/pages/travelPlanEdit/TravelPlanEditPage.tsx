@@ -8,10 +8,10 @@ import {
   Accordion,
   Button,
   CharacterCount,
+  EditRegisterModalBottomSheet,
   GoogleMapLoadScript,
   IconButton,
   Input,
-  ModalBottomSheet,
   PageInfo,
   Text,
   TextField,
@@ -227,13 +227,11 @@ const TravelPlanEditPage = () => {
         </Button>
       </S.Layout>
 
-      <ModalBottomSheet
+      <EditRegisterModalBottomSheet
         isOpen={isOpen}
         isPending={isPuttingTravelPlanPending}
         mainText="여행 계획을 수정할까요?"
         subText="수정한 후에도 다시 여행 계획을 변경할 수 있어요."
-        secondaryButtonLabel="취소"
-        primaryButtonLabel="확인"
         onClose={handleCloseBottomSheet}
         onConfirm={handleConfirmBottomSheet}
       />

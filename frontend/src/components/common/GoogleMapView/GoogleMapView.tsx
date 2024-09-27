@@ -26,7 +26,7 @@ interface GoogleMapViewProps {
 const GoogleMapView = ({ places }: GoogleMapViewProps) => {
   const center = calculateCenter(places);
 
-  const { onLoad, onUnmount, onBoundsChanged } = useGoogleMap(places);
+  const { onLoad, onUnmount } = useGoogleMap(places);
 
   /**
    * 컴포넌트 내부에 위치시키지 않으면 "Uncaught TypeError: Cannot read properties of undefined (reading 'maps')"
@@ -46,7 +46,6 @@ const GoogleMapView = ({ places }: GoogleMapViewProps) => {
         center={center}
         onLoad={onLoad}
         onUnmount={onUnmount}
-        onBoundsChanged={onBoundsChanged}
       >
         {places.map((position, index) => (
           <MarkerF

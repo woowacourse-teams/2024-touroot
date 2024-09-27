@@ -11,6 +11,8 @@ import { copyLinkToClipboard } from "@utils/clipboard";
 
 import theme from "@styles/theme";
 
+import Icon from "../Icon/Icon";
+import IconButton from "../IconButton/IconButton";
 import Modal from "./Modal";
 
 const meta = {
@@ -40,16 +42,16 @@ export const ShareModal = {
         </Button>
         {isOpen && (
           <Modal isOpen={isOpen} onCloseModal={onToggleModal}>
-            <Modal.Header />
+            <Modal.Header>
+              <IconButton onClick={onToggleModal} size="12" iconType="x-icon" />
+            </Modal.Header>
             <Modal.Body direction="column" style={{ gap: "1.6rem" }}>
               <img
                 style={{ width: "11rem", height: "12.5rem" }}
                 src="https://github.com/user-attachments/assets/e37a2008-976f-4f08-9372-f9c144890529"
               />
 
-              <Text textType="body" style={{ fontWeight: 700 }}>
-                여행기를 공유할까요?
-              </Text>
+              <Text textType="bodyBold">여행기를 공유할까요?</Text>
               <div style={{ width: "29rem", position: "relative", marginBottom: "1.6rem" }}>
                 <Input
                   disabled
@@ -82,7 +84,7 @@ export const ShareModal = {
   },
 };
 
-export const TravelPlanDeleteModal = {
+export const DeleteModal = {
   render: () => {
     const [isOpen, setIsOpen] = useState(false);
     const onToggleModal = () => setIsOpen((prev) => !prev);
@@ -93,9 +95,11 @@ export const TravelPlanDeleteModal = {
           모달 열기
         </Button>
         {isOpen && (
-          <Modal isOpen={isOpen} onCloseModal={onToggleModal}>
-            <Modal.Header />
-            <Modal.Body direction="column" style={{ gap: "1.6rem", padding: "2.6rem 0" }}>
+          <Modal isOpen={isOpen} onCloseModal={onToggleModal} boxLayoutGap="l">
+            <Modal.Header>
+              <IconButton onClick={onToggleModal} size="12" iconType="x-icon" />
+            </Modal.Header>
+            <Modal.Body direction="column" style={{ gap: "1.6rem" }}>
               <img
                 style={{ width: "6rem", height: "7rem" }}
                 src="https://github.com/user-attachments/assets/e37a2008-976f-4f08-9372-f9c144890529"
@@ -110,16 +114,130 @@ export const TravelPlanDeleteModal = {
                   alignItems: "center",
                 }}
               >
-                <Text textType="body" style={{ fontWeight: 700 }}>
-                  여행 계획을 삭제할까요?
-                </Text>
+                <Text textType="bodyBold">여행 계획을 삭제할까요?</Text>
                 <Text textType="detail" style={{ color: theme.colors.text.secondary }}>
                   삭제한 후에는 여행 계획을 다시 복구할 수 없어요.
                 </Text>
               </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button variants="primary">삭제</Button>
+              <Button variants="primary" onClick={onToggleModal}>
+                삭제
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
+      </>
+    );
+  },
+};
+
+export const EditRegisterModalBottomSheet = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const onToggleModal = () => setIsOpen((prev) => !prev);
+
+    return (
+      <>
+        <Button onClick={onToggleModal} variants="primary">
+          모달 열기
+        </Button>
+        {isOpen && (
+          <Modal isOpen={isOpen} onCloseModal={onToggleModal} position="bottom" boxLayoutGap="xxxl">
+            <Modal.Header headerPosition="center">
+              <div
+                style={{
+                  width: "5.4rem",
+                  height: "0.3rem",
+                  borderRadius: "4px",
+                  backgroundColor: theme.colors.border,
+                  cursor: "pointer",
+                }}
+              />
+            </Modal.Header>
+            <Modal.Body direction="column" style={{ gap: "1.6rem" }}>
+              <img
+                style={{ width: "6rem", height: "7rem" }}
+                src="https://github.com/user-attachments/assets/e37a2008-976f-4f08-9372-f9c144890529"
+              />
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.8rem",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text textType="bodyBold">여행 계획을 등록할까요?</Text>
+                <Text textType="detail" style={{ color: theme.colors.text.secondary }}>
+                  등록한 후에도 다시 여행 계획을 수정할 수 있어요.
+                </Text>
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variants="secondary" onClick={onToggleModal}>
+                취소
+              </Button>
+              <Button variants="primary" onClick={onToggleModal}>
+                확인
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
+      </>
+    );
+  },
+};
+
+export const SingleSelectionTagModalBottomSheet = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const onToggleModal = () => setIsOpen((prev) => !prev);
+
+    return (
+      <>
+        <Button onClick={onToggleModal} variants="primary">
+          모달 열기
+        </Button>
+        {isOpen && (
+          <Modal isOpen={isOpen} onCloseModal={onToggleModal} position="bottom" boxLayoutGap="l">
+            <Modal.Header headerPosition="center">
+              <div
+                style={{
+                  width: "5.4rem",
+                  height: "0.3rem",
+                  borderRadius: "4px",
+                  backgroundColor: theme.colors.border,
+                  cursor: "pointer",
+                }}
+              />
+            </Modal.Header>
+            <Modal.Body direction="column" style={{ gap: "2.4rem", alignItems: "flex-start" }}>
+              <Text textType="bodyBold">여행기 정렬을 선택해 주세요!</Text>
+              <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                <Text
+                  textType="detailBold"
+                  onClick={onToggleModal}
+                  style={{ color: theme.colors.primary, cursor: "pointer" }}
+                >
+                  좋아요 순
+                </Text>
+                <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
+              </div>
+              <Text
+                textType="detail"
+                onClick={onToggleModal}
+                style={{ color: theme.colors.text.secondary, cursor: "pointer" }}
+              >
+                최신순
+              </Text>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variants="secondary" onClick={onToggleModal}>
+                취소
+              </Button>
             </Modal.Footer>
           </Modal>
         )}

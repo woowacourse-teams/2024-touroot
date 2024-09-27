@@ -3,6 +3,10 @@ import styled from "@emotion/styled";
 
 import theme from "@styles/theme";
 
+export const TravelPlanDetailLayout = styled.section`
+  padding-bottom: 10rem;
+`;
+
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;

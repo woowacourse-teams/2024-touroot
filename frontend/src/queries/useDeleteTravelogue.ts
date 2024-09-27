@@ -18,7 +18,7 @@ const useDeleteTravelogue = () => {
     onSuccess: () => {
       queryClient
         .invalidateQueries({
-          queryKey: QUERY_KEYS_MAP.travelogue.all,
+          queryKey: QUERY_KEYS_MAP.travelogue.me(),
           refetchType: "inactive",
         })
         .then(() => {

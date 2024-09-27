@@ -10,6 +10,7 @@ import LoginPage from "@components/pages/login/LoginPage";
 import MainPage from "@components/pages/main/MainPage";
 import MyPage from "@components/pages/my/MyPage";
 import NotFoundPage from "@components/pages/notFound/NotFoundPage";
+import SearchPage from "@components/pages/search/SearchPage";
 import TravelPlanDetailPage from "@components/pages/travelPlanDetail/TravelPlanDetailPage";
 import TravelogueDetailPage from "@components/pages/travelogueDetail/TravelogueDetailPage";
 
@@ -27,7 +28,6 @@ const TravelPlanRegisterPage = lazy(
 const TravelPlanEditPage = lazy(
   () => import("@components/pages/travelPlanEdit/TravelPlanEditPage"),
 );
-const SearchPage = lazy(() => import("@components/pages/search/SearchPage"));
 
 const lazyLoadingFallbackStyle = css`
   display: flex;
@@ -104,7 +104,7 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTE_PATHS_MAP.search(),
-        element: withLazyLoading(SearchPage),
+        element: <SearchPage />,
       },
       {
         path: "*",

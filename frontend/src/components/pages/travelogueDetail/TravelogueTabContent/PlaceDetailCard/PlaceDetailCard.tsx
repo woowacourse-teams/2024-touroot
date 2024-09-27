@@ -21,11 +21,7 @@ const PlaceDetailCard: React.FC<PlaceDetailCardProps> = ({
 
   const renderImage = () => {
     if (imageUrls.length === 0) {
-      return (
-        <S.ImageWrapper>
-          <FallbackImage />
-        </S.ImageWrapper>
-      );
+      return null;
     }
 
     if (imageUrls.length === 1) {

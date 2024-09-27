@@ -1,34 +1,44 @@
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import theme from "@styles/theme";
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 const getButtonColorStyling = (isSelected: boolean) => {
-  if (isSelected) {
-    return css`
-      border: 0.1rem solid ${PRIMITIVE_COLORS.blue[200]};
+  return css`
+    border: 0.1rem solid ${isSelected ? PRIMITIVE_COLORS.blue[200] : theme.colors.border};
 
-      background-color: ${PRIMITIVE_COLORS.blue[50]};
+    background-color: ${isSelected ? PRIMITIVE_COLORS.blue[50] : PRIMITIVE_COLORS.white};
 
-      color: ${theme.colors.primary};
-    `;
-  } else {
-    return css`
-      border: 0.1rem solid ${theme.colors.border};
-
-      background-color: ${PRIMITIVE_COLORS.white};
-
-      color: ${theme.colors.text.secondary};
-    `;
-  }
+    color: ${isSelected ? theme.colors.primary : theme.colors.text.secondary};
+  `;
 };
 
-export const Chip = styled.li<{ $isSelected: boolean }>`
-  padding: 0.8rem 1.6rem;
+const fadeInMove = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+export const Layout = styled.li<{ $isSelected: boolean; $index?: number }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
+
+  padding: ${({ theme }) => theme.spacing.s} ${({ theme }) => theme.spacing.m};
   border-radius: 1rem;
 
   line-height: 1;
 
-  ${({ $isSelected }) => getButtonColorStyling($isSelected)};
+  ${({ $isSelected }) => getButtonColorStyling($isSelected)}
+
+  animation: ${fadeInMove} 0.3s ease-out both;
+  animation-delay: ${({ $index }) => `${($index ?? 0) * 50}ms`};
 `;

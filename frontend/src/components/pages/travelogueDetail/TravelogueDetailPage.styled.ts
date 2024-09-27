@@ -7,6 +7,8 @@ export const TravelogueDetailLayout = styled.section`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xl};
+
+  padding-bottom: 10rem;
 `;
 
 export const TravelogueDetailHeader = styled.div`
@@ -35,12 +37,11 @@ export const IconButtonContainer = styled.div`
   position: relative;
 
   width: 100%;
-  padding: 0 1.6rem;
 `;
 
 export const LikesContainer = styled.div`
   display: flex;
-  gap: 0.8rem;
+  flex-direction: column;
   align-items: center;
 `;
 
@@ -68,8 +69,4 @@ export const authorDateStyle = css`
 
 export const cursorPointerStyle = css`
   cursor: pointer;
-`;
-
-export const transformBottomSheetTextStyle = css`
-  ${theme.typography.mobile.detailBold}
 `;
