@@ -66,8 +66,8 @@ const MainPage = () => {
         <S.TitleContainer>
           <Text textType="title">지금 뜨고 있는 여행기</Text>
           <Text textType="detail" css={S.subTitleStyle}>
-            다른 이들의 여행을 구경해보세요.{" "}
-            <span>(태그는 최대 {FORM_VALIDATIONS_MAP.tags.maxCount}개까지 가능해요!)</span>
+            다른 이들의 여행을 구경해보세요. ( 태그는 최대 {FORM_VALIDATIONS_MAP.tags.maxCount}
+            개까지 가능해요! )
           </Text>
         </S.TitleContainer>
 
