@@ -52,9 +52,9 @@ const Content = ({ children }: React.PropsWithChildren) => {
 const Trigger = ({ children }: React.PropsWithChildren) => {
   const { toggleDrawer } = useDrawerContext();
   return (
-    <S.TriggerButton onClick={toggleDrawer} aria-label="Toggle drawer">
+    <div css={S.triggerStyle} onClick={toggleDrawer}>
       {children}
-    </S.TriggerButton>
+    </div>
   );
 };
 
