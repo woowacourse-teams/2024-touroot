@@ -14,6 +14,7 @@ const SearchResultPageHeader = () => {
       rightContent={
         <IconButton
           iconType="search-icon"
+          aria-label="여행기 검색"
           size="18"
           onClick={() => navigation(ROUTE_PATHS_MAP.searchMain)}
         />

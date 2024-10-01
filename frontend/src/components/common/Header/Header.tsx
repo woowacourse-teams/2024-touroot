@@ -52,6 +52,7 @@ const Header = ({
       <S.HeaderLayout>
         <S.LeftWrapper>
           <IconButton
+            aria-label="홈 이동"
             color={isLogoUsed ? theme.colors.primary : PRIMITIVE_COLORS.black}
             iconType={isLogoUsed ? "korean-logo" : "back-icon"}
             onClick={isLogoUsed ? () => navigate(ROUTE_PATHS_MAP.root) : () => goBack()}
@@ -62,7 +63,7 @@ const Header = ({
           {rightContent}
           {isHamburgerUsed && (
             <Drawer.Trigger>
-              <IconButton iconType="hamburger" />
+              <IconButton iconType="hamburger" aria-label="사용자 메뉴" />
             </Drawer.Trigger>
           )}
         </S.RightContainer>
