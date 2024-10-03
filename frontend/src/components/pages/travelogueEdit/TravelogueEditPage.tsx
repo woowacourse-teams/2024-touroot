@@ -222,7 +222,7 @@ const TravelogueEditPage = () => {
                 iconType="plus"
                 position="left"
                 css={S.addButtonStyle}
-                onClick={() => onAddDay()}
+                onClick={onAddDay}
               >
                 <Text textType="bodyBold">일자 추가하기</Text>
               </IconButton>
