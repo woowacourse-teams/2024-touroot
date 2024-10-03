@@ -449,6 +449,9 @@ class TravelogueControllerTest {
     @DisplayName("여행기를 수정한다.")
     @Test
     void updateTravelogue() throws JsonProcessingException {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getUpdatedTravelogueResponse().thumbnail());
+
         Travelogue travelogue = testHelper.initTravelogueTestData(member);
 
         List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
