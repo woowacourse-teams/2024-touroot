@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { TravelTransformPlaces } from "@type/domain/travelTransform";
+import { TravelTransformDays } from "@type/domain/travelTransform";
 
 import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
 
@@ -8,7 +8,7 @@ import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
 import getInitialTravelTitle from "@utils/getInitialTravelTitle";
 
-const useTravelPlanForm = (transformDays: TravelTransformPlaces[]) => {
+const useTravelPlanForm = (transformDays: TravelTransformDays[]) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
 
   const onSelectCalendar = (date: Date, handleCloseCalendar: () => void) => {
