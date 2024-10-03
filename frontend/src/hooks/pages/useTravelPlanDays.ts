@@ -1,26 +1,22 @@
 import { useCallback } from "react";
 
+import { produce } from "immer";
 import { useImmer } from "use-immer";
 import { v4 as uuidv4 } from "uuid";
 
 import type { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
-import type { TravelTransformPlaces } from "@type/domain/travelTransform";
+import type { TravelTransformDays } from "@type/domain/travelTransform";
 
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
-const transformTravelPlanDays = (days: TravelTransformPlaces[]) => {
-  return [...days].map((day) => ({
-    ...day,
-    places: day.places.map((place) => {
-      return {
-        ...place,
-        todos: [],
-      };
-    }),
-  }));
-};
+const transformTravelPlanDays = (travelTransformDays: TravelTransformDays[]) =>
+  produce(travelTransformDays, (newTravelTransformDays) => {
+    newTravelTransformDays.forEach(
+      (day) => (day.places = day.places.map((place) => ({ ...place, todos: [] }))),
+    );
+  });
 
-export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
+export const useTravelPlanDays = (days: TravelTransformDays[]) => {
   const [travelPlanDays, setTravelPlanDays] = useImmer<TravelPlanDay[]>(() =>
     transformTravelPlanDays(days),
   );
