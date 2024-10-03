@@ -1,12 +1,12 @@
 import { MapPosition } from "@type/domain/common";
 
-export type TraveloguePlace = {
+export interface TraveloguePlace {
   id: string;
   placeName: string;
   photoUrls?: string[];
   description?: string;
   position: MapPosition;
-};
+}
 
 export interface TravelogueDay {
   id: string;
@@ -32,8 +32,11 @@ export interface TravelogueResponse {
   tags: Tag[];
 }
 
-export type TraveloguePayload = Pick<TravelogueResponse, "title" | "thumbnail" | "days"> & {
+export type TraveloguePayload = Pick<TravelogueResponse, "title" | "thumbnail"> & {
   tags: number[];
+  days: {
+    places: (Omit<TraveloguePlace, "photoUrls"> & { photoUrls?: ({ url: string } | string)[] })[];
+  }[];
 };
 
 export interface MyTravelogue {
