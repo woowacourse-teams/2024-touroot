@@ -65,6 +65,10 @@ public class TravelogueService {
 
     @Transactional(readOnly = true)
     public Page<Travelogue> findAllByFilter(TravelogueFilterCondition filter, Pageable pageable) {
+        if (filter.isEmptyCondition()) {
+            return travelogueRepository.findAll(pageable);
+        }
+
         return travelogueQueryRepository.findAllByFilter(filter, pageable);
     }
 

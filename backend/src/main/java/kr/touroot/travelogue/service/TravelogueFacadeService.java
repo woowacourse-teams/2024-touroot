@@ -69,10 +69,6 @@ public class TravelogueFacadeService {
     }
 
     private Page<Travelogue> findSimpleTraveloguesByFilter(TravelogueFilterCondition filter, Pageable pageable) {
-        if (filter.isEmptyCondition()) {
-            return travelogueService.findAll(pageable);
-        }
-
         return travelogueService.findAllByFilter(filter, pageable);
     }
 
