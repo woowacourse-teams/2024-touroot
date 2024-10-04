@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.touroot.global.auth.JwtAuthFilter;
 import kr.touroot.global.auth.dto.HttpRequestInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -20,15 +21,20 @@ import java.util.List;
 @Component
 public class LoggingFilter extends OncePerRequestFilter {
 
-    private static final List<HttpRequestInfo> WHITE_LIST = List.of(
-            new HttpRequestInfo(HttpMethod.GET, "/h2-console/**"),
-            new HttpRequestInfo(HttpMethod.POST, "/h2-console/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/favicon/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/swagger-ui/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/swagger-resources/**"),
-            new HttpRequestInfo(HttpMethod.GET, "/v3/api-docs/**"),
-            new HttpRequestInfo(HttpMethod.OPTIONS, "/**")
-    );
+    private final List<HttpRequestInfo> whiteList;
+
+    public LoggingFilter(@Value("${management.endpoints.web.base-path}") String actuatorBasePath) {
+        this.whiteList = List.of(
+                new HttpRequestInfo(HttpMethod.GET, actuatorBasePath + "/**"),
+                new HttpRequestInfo(HttpMethod.GET, "/h2-console/**"),
+                new HttpRequestInfo(HttpMethod.POST, "/h2-console/**"),
+                new HttpRequestInfo(HttpMethod.GET, "/favicon.ico"),
+                new HttpRequestInfo(HttpMethod.GET, "/swagger-ui/**"),
+                new HttpRequestInfo(HttpMethod.GET, "/swagger-resources/**"),
+                new HttpRequestInfo(HttpMethod.GET, "/v3/api-docs/**"),
+                new HttpRequestInfo(HttpMethod.OPTIONS, "/**")
+        );
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -49,13 +55,13 @@ public class LoggingFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         AntPathMatcher antPathMatcher = new AntPathMatcher();
 
         String url = request.getRequestURI();
         String method = request.getMethod();
 
-        return WHITE_LIST.stream()
+        return whiteList.stream()
                 .anyMatch(white -> white.method().matches(method) && antPathMatcher.match(white.urlPattern(), url));
     }
 }
