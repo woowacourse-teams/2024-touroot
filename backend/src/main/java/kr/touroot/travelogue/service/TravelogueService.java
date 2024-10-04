@@ -2,7 +2,6 @@ package kr.touroot.travelogue.service;
 
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
-import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueFilterCondition;
@@ -23,15 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelogueService {
 
     private final TravelogueRepository travelogueRepository;
-    private final AwsS3Provider s3Provider;
     private final TravelogueQueryRepository travelogueQueryRepository;
-
-    @Transactional
-    public Travelogue createTravelogue(Member author, TravelogueRequest request) {
-        String url = s3Provider.copyImageToPermanentStorage(request.thumbnail());
-        Travelogue travelogue = request.toTravelogueOf(author, url);
-        return travelogueRepository.save(travelogue);
-    }
 
     // TODO: 테스트
     @Transactional
@@ -79,8 +70,7 @@ public class TravelogueService {
         validateAuthor(travelogue, author);
 
         travelogue.updateDays(request.getTravelogueDays(travelogue));
-        String url = s3Provider.copyImageToPermanentStorage(request.thumbnail());
-        travelogue.update(request.title(), url);
+        travelogue.update(request.title(), request.thumbnail());
 
         return travelogueRepository.save(travelogue);
     }
