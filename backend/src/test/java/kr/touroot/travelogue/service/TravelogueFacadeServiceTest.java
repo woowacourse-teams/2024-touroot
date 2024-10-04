@@ -2,6 +2,7 @@ package kr.touroot.travelogue.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -30,6 +31,7 @@ import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -204,6 +206,9 @@ class TravelogueFacadeServiceTest {
     @DisplayName("여행기를 수정할 수 있다.")
     @Test
     void updateTravelogue() {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getUpdatedTravelogueResponse().thumbnail());
+
         List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
         saveImages(days);
 

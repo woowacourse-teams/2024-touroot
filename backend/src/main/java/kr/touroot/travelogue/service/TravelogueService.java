@@ -6,9 +6,9 @@ import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueFilterCondition;
-import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.domain.search.SearchCondition;
 import kr.touroot.travelogue.domain.search.SearchType;
+import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.repository.TravelogueRepository;
 import kr.touroot.travelogue.repository.query.TravelogueQueryRepository;
@@ -68,7 +68,8 @@ public class TravelogueService {
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기입니다."));
         validateAuthor(travelogue, author);
 
-        travelogue.update(request.title(), request.thumbnail());
+        String url = s3Provider.copyImageToPermanentStorage(request.thumbnail());
+        travelogue.update(request.title(), url);
 
         return travelogueRepository.save(travelogue);
     }
