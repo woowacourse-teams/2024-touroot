@@ -26,12 +26,14 @@ public class TravelogueFacadeService {
     private final TravelogueService travelogueService;
     private final TravelogueTagService travelogueTagService;
     private final TravelogueLikeService travelogueLikeService;
+    private final TravelogueImagePermanentSaver travelogueImagePermanentSaver;
     private final MemberService memberService;
 
     @Transactional
     public TravelogueResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = request.toTravelogue(author);
+        travelogueImagePermanentSaver.copyTravelogueImagesToPermanentStorage(travelogue);
         travelogueService.save(travelogue);
         List<TravelogueTag> travelogueTags = travelogueTagService.createTravelogueTags(travelogue, request.tags());
 

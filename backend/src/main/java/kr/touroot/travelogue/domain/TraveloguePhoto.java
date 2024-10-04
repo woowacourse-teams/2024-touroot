@@ -30,6 +30,7 @@ public class TraveloguePhoto extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @Column(name = "PHOTO_KEY", nullable = false)
     private String key;
 

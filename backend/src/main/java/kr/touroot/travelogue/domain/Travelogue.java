@@ -21,6 +21,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -47,6 +48,7 @@ public class Travelogue extends BaseEntity {
     @Column(nullable = false, length = 20)
     private String title;
 
+    @Setter
     @Column(nullable = false)
     private String thumbnail;
 
