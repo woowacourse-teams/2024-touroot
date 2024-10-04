@@ -16,7 +16,7 @@ const PlaceTodoListItem = ({ todo, onChangeContent, onDeleteTodo }: PlaceTodoLis
   return (
     <S.Layout>
       <S.ToDoListItemContainer>
-        <Checkbox readOnly isChecked={todo?.checked ?? false} />
+        <Checkbox readOnly isChecked={todo?.isChecked ?? false} />
         <Input
           value={todo?.content}
           placeholder="할 일을 입력해주세요."

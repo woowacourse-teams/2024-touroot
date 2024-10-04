@@ -4,7 +4,7 @@ export interface TravelPlanTodo {
   id: number | string;
   content: string;
   order?: number;
-  checked?: boolean;
+  isChecked?: boolean;
 }
 export interface TravelPlanPlace {
   id: string;

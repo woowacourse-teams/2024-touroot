@@ -21,13 +21,13 @@
                 "id": 0,
                 "content": "입장권 구매",
                 "order": 0,
-                "checked": false
+                "isChecked": false
               },
               {
                 "id": 1,
                 "content": "해설사 예약",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -43,13 +43,13 @@
                 "id": 0,
                 "content": "한복 대여",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "전통찻집 방문",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -71,13 +71,13 @@
                 "id": 0,
                 "content": "전망대 티켓 구매",
                 "order": 0,
-                "checked": false
+                "isChecked": false
               },
               {
                 "id": 1,
                 "content": "사랑의 자물쇠 걸기",
                 "order": 1,
-                "checked": true
+                "isChecked": true
               }
             ]
           },
@@ -93,13 +93,13 @@
                 "id": 0,
                 "content": "화장품 쇼핑",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "길거리 음식 맛보기",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -129,13 +129,13 @@
                 "id": 0,
                 "content": "비치타월 준비",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "서핑 보드 대여",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -151,13 +151,13 @@
                 "id": 0,
                 "content": "야경 촬영",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "바다 산책",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -179,13 +179,13 @@
                 "id": 0,
                 "content": "전망대 방문",
                 "order": 0,
-                "checked": false
+                "isChecked": false
               },
               {
                 "id": 1,
                 "content": "케이블카 타기",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -201,13 +201,13 @@
                 "id": 0,
                 "content": "회 구매",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "수산물 구경",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -237,13 +237,13 @@
                 "id": 0,
                 "content": "등산 준비물 체크",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "정상에서 사진 촬영",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -259,13 +259,13 @@
                 "id": 0,
                 "content": "일출 시간 확인",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "드론 촬영 준비",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -287,13 +287,13 @@
                 "id": 0,
                 "content": "폭포 근처에서 사진 촬영",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "산책로 걷기",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -309,13 +309,13 @@
                 "id": 0,
                 "content": "동굴 입구에서 기념사진 촬영",
                 "order": 0,
-                "checked": false
+                "isChecked": false
               },
               {
                 "id": 1,
                 "content": "동굴 내부 탐방",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -345,13 +345,13 @@
                 "id": 0,
                 "content": "사찰 입장권 구매",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "석탑 관람",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -367,13 +367,13 @@
                 "id": 0,
                 "content": "천문대 관람",
                 "order": 0,
-                "checked": false
+                "isChecked": false
               },
               {
                 "id": 1,
                 "content": "주변 공원 산책",
                 "order": 1,
-                "checked": true
+                "isChecked": true
               }
             ]
           }
@@ -395,13 +395,13 @@
                 "id": 0,
                 "content": "신라 유물 관람",
                 "order": 0,
-                "checked": false
+                "isChecked": false
               },
               {
                 "id": 1,
                 "content": "기념품 구매",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -417,13 +417,13 @@
                 "id": 0,
                 "content": "불상 참배",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "주변 경관 감상",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -453,13 +453,13 @@
                 "id": 0,
                 "content": "한옥 체험",
                 "order": 0,
-                "checked": false
+                "isChecked": false
               },
               {
                 "id": 1,
                 "content": "전통 음식 맛보기",
                 "order": 1,
-                "checked": true
+                "isChecked": true
               }
             ]
           },
@@ -475,13 +475,13 @@
                 "id": 0,
                 "content": "왕실 유물 관람",
                 "order": 0,
-                "checked": false
+                "isChecked": false
               },
               {
                 "id": 1,
                 "content": "기념 사진 촬영",
                 "order": 1,
-                "checked": true
+                "isChecked": true
               }
             ]
           }
@@ -503,13 +503,13 @@
                 "id": 0,
                 "content": "동물 구경",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "놀이 기구 타기",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -525,13 +525,13 @@
                 "id": 0,
                 "content": "비빔밥 맛보기",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "전통 음식 구매",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -561,13 +561,13 @@
                 "id": 0,
                 "content": "입장권 구매",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "해설사 예약",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -583,13 +583,13 @@
                 "id": 0,
                 "content": "한복 대여",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "전통찻집 방문",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -611,13 +611,13 @@
                 "id": 0,
                 "content": "전망대 티켓 구매",
                 "order": 0,
-                "checked": false
+                "isChecked": false
               },
               {
                 "id": 1,
                 "content": "사랑의 자물쇠 걸기",
                 "order": 1,
-                "checked": true
+                "isChecked": true
               }
             ]
           },
@@ -633,13 +633,13 @@
                 "id": 0,
                 "content": "화장품 쇼핑",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "길거리 음식 맛보기",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -661,13 +661,13 @@
                 "id": 0,
                 "content": "전통 공예품 구매",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "한식당 예약",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -683,13 +683,13 @@
                 "id": 0,
                 "content": "궁궐 투어",
                 "order": 0,
-                "checked": false
+                "isChecked": false
               },
               {
                 "id": 1,
                 "content": "후원 방문",
                 "order": 1,
-                "checked": true
+                "isChecked": true
               }
             ]
           }
@@ -711,13 +711,13 @@
                 "id": 0,
                 "content": "한옥 체험",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "전통 공연 관람",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -733,13 +733,13 @@
                 "id": 0,
                 "content": "글로벌 음식 맛보기",
                 "order": 0,
-                "checked": false
+                "isChecked": false
               },
               {
                 "id": 1,
                 "content": "쇼핑",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -769,13 +769,13 @@
                 "id": 0,
                 "content": "입장권 구매",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "해설사 예약",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -791,13 +791,13 @@
                 "id": 0,
                 "content": "한복 대여",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "전통찻집 방문",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -819,13 +819,13 @@
                 "id": 0,
                 "content": "전망대 티켓 구매",
                 "order": 0,
-                "checked": false
+                "isChecked": false
               },
               {
                 "id": 1,
                 "content": "사랑의 자물쇠 걸기",
                 "order": 1,
-                "checked": true
+                "isChecked": true
               }
             ]
           },
@@ -841,13 +841,13 @@
                 "id": 0,
                 "content": "화장품 쇼핑",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "길거리 음식 맛보기",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -869,13 +869,13 @@
                 "id": 0,
                 "content": "비치타월 준비",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "서핑 보드 대여",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -891,13 +891,13 @@
                 "id": 0,
                 "content": "야경 촬영",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "바다 산책",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }
@@ -919,13 +919,13 @@
                 "id": 0,
                 "content": "사찰 입장권 구매",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "석탑 관람",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -941,13 +941,13 @@
                 "id": 0,
                 "content": "천문대 관람",
                 "order": 0,
-                "checked": false
+                "isChecked": false
               },
               {
                 "id": 1,
                 "content": "주변 공원 산책",
                 "order": 1,
-                "checked": true
+                "isChecked": true
               }
             ]
           }
@@ -969,13 +969,13 @@
                 "id": 0,
                 "content": "일출 시간 확인",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "드론 촬영 준비",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           },
@@ -991,13 +991,13 @@
                 "id": 0,
                 "content": "폭포 근처에서 사진 촬영",
                 "order": 0,
-                "checked": true
+                "isChecked": true
               },
               {
                 "id": 1,
                 "content": "산책로 걷기",
                 "order": 1,
-                "checked": false
+                "isChecked": false
               }
             ]
           }

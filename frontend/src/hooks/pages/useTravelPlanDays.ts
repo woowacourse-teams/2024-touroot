@@ -111,7 +111,7 @@ export const useTravelPlanDays = (days: TravelTransformPlaces[]) => {
         const travelPlanPlace = previousTravelPlanDays[dayIndex]?.places[placeIndex];
 
         if (travelPlanPlace) {
-          travelPlanPlace.todos?.push({ id: uuidv4(), content: "", checked: false });
+          travelPlanPlace.todos?.push({ id: uuidv4(), content: "", isChecked: false });
         }
       });
     },
