@@ -36,7 +36,6 @@ class MyPageControllerTest {
     private int port;
     private String accessToken;
     private Member member;
-    //    @MockBean
     private final AwsS3Provider s3Provider;
 
     @Autowired
