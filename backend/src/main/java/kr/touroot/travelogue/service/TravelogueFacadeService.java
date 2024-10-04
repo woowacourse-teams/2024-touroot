@@ -62,13 +62,9 @@ public class TravelogueFacadeService {
             Pageable pageable
     ) {
         TravelogueFilterCondition filter = filterRequest.toFilterCondition();
-        Page<Travelogue> travelogues = findSimpleTraveloguesByFilter(filter, pageable);
+        Page<Travelogue> travelogues = travelogueService.findAllByFilter(filter, pageable);
 
         return travelogues.map(this::getTravelogueSimpleResponse);
-    }
-
-    private Page<Travelogue> findSimpleTraveloguesByFilter(TravelogueFilterCondition filter, Pageable pageable) {
-        return travelogueService.findAllByFilter(filter, pageable);
     }
 
     @Transactional(readOnly = true)
