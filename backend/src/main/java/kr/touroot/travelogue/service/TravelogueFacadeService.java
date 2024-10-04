@@ -120,15 +120,17 @@ public class TravelogueFacadeService {
     public TravelogueLikeResponse likeTravelogue(Long travelogueId, MemberAuth member) {
         Travelogue travelogue = travelogueService.getTravelogueById(travelogueId);
         Member liker = memberService.getById(member.memberId());
+        travelogueLikeService.likeTravelogue(travelogue, liker);
 
-        return travelogueLikeService.likeTravelogue(travelogue, liker);
+        return new TravelogueLikeResponse(true, travelogue.getLikeCount());
     }
 
     @Transactional
     public TravelogueLikeResponse unlikeTravelogue(Long travelogueId, MemberAuth member) {
         Travelogue travelogue = travelogueService.getTravelogueById(travelogueId);
         Member liker = memberService.getById(member.memberId());
+        travelogueLikeService.unlikeTravelogue(travelogue, liker);
 
-        return travelogueLikeService.unlikeTravelogue(travelogue, liker);
+        return new TravelogueLikeResponse(false, travelogue.getLikeCount());
     }
 }

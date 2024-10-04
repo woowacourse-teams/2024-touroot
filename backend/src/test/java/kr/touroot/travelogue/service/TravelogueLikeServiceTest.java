@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
-import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,10 +46,10 @@ class TravelogueLikeServiceTest {
         Member liker = testHelper.initKakaoMemberTestData();
 
         // when
-        TravelogueLikeResponse response = travelogueLikeService.likeTravelogue(travelogue, liker);
+        travelogueLikeService.likeTravelogue(travelogue, liker);
 
         // then
-        assertThat(response).isEqualTo(new TravelogueLikeResponse(true, 1L));
+        assertThat(travelogue.getLikeCount()).isEqualTo(1);
     }
 
     @DisplayName("여행기에 좋아요를 취소 할 수 있다.")
@@ -61,9 +60,9 @@ class TravelogueLikeServiceTest {
         Travelogue travelogue = testHelper.initTravelogueTestDataWithLike(liker);
 
         // when
-        TravelogueLikeResponse response = travelogueLikeService.unlikeTravelogue(travelogue, liker);
+        travelogueLikeService.unlikeTravelogue(travelogue, liker);
 
         // then
-        assertThat(response).isEqualTo(new TravelogueLikeResponse(false, 0L));
+        assertThat(travelogue.getLikeCount()).isEqualTo(0);
     }
 }
