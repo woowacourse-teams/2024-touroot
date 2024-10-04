@@ -89,9 +89,9 @@ const TravelPlanEditPage = () => {
         id: Number(id),
       },
       {
-        onSuccess: (data) => {
+        onSuccess: () => {
           handleCloseBottomSheet();
-          navigate(ROUTE_PATHS_MAP.travelPlan(data?.data?.id));
+          navigate(ROUTE_PATHS_MAP.travelPlan(id));
         },
       },
     );

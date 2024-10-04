@@ -115,9 +115,9 @@ const TravelogueEditPage = () => {
         id: Number(id),
       },
       {
-        onSuccess: (data) => {
+        onSuccess: () => {
           handleCloseBottomSheet();
-          navigate(ROUTE_PATHS_MAP.travelogue(data?.data?.id));
+          navigate(ROUTE_PATHS_MAP.travelogue(id));
         },
       },
     );
