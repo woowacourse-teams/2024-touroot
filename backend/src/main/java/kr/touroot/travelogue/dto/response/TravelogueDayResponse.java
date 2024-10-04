@@ -19,4 +19,17 @@ public record TravelogueDayResponse(
                 .places(places)
                 .build();
     }
+
+    public static TravelogueDayResponse from(TravelogueDay travelogueDay) {
+        return TravelogueDayResponse.builder()
+                .id(travelogueDay.getId())
+                .places(getTraveloguePlaceResponse(travelogueDay))
+                .build();
+    }
+
+    private static List<TraveloguePlaceResponse> getTraveloguePlaceResponse(TravelogueDay travelogueDay) {
+        return travelogueDay.getTraveloguePlaces().stream()
+                .map(TraveloguePlaceResponse::from)
+                .toList();
+    }
 }

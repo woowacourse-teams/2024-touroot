@@ -52,4 +52,30 @@ public record TravelogueResponse(
                 .isLiked(like.isLiked())
                 .build();
     }
+
+    public static TravelogueResponse of(
+            Travelogue travelogue,
+            List<TagResponse> tags,
+            TravelogueLikeResponse like
+    ) {
+        return TravelogueResponse.builder()
+                .id(travelogue.getId())
+                .createdAt(travelogue.getCreatedAt().toLocalDate())
+                .authorId(travelogue.getAuthorId())
+                .authorNickname(travelogue.getAuthorNickname())
+                .authorProfileImageUrl(travelogue.getAuthorProfileImageUrl())
+                .title(travelogue.getTitle())
+                .thumbnail(travelogue.getThumbnail())
+                .days(getTravelogueDayResponse(travelogue))
+                .tags(tags)
+                .likeCount(like.likeCount())
+                .isLiked(like.isLiked())
+                .build();
+    }
+
+    private static List<TravelogueDayResponse> getTravelogueDayResponse(Travelogue travelogue) {
+        return travelogue.getTravelogueDays().stream()
+                .map(TravelogueDayResponse::from)
+                .toList();
+    }
 }
