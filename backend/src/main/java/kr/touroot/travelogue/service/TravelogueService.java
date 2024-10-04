@@ -33,6 +33,12 @@ public class TravelogueService {
         return travelogueRepository.save(travelogue);
     }
 
+    // TODO: 테스트
+    @Transactional
+    public Travelogue save(Travelogue travelogue) {
+        return travelogueRepository.save(travelogue);
+    }
+
     @Transactional(readOnly = true)
     public Travelogue getTravelogueById(Long id) {
         return travelogueRepository.findById(id)

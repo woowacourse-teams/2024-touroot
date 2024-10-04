@@ -36,7 +36,7 @@ public record TravelogueResponse(
     public static TravelogueResponse of(
             Travelogue travelogue,
             List<TagResponse> tags,
-            TravelogueLikeResponse like
+            boolean isLikedFromAccessor
     ) {
         return TravelogueResponse.builder()
                 .id(travelogue.getId())
@@ -49,7 +49,7 @@ public record TravelogueResponse(
                 .days(getTravelogueDayResponse(travelogue))
                 .tags(tags)
                 .likeCount(travelogue.getLikeCount())
-                .isLiked(like.isLiked())
+                .isLiked(isLikedFromAccessor)
                 .build();
     }
 
