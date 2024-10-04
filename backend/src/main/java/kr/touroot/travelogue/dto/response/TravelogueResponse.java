@@ -48,7 +48,7 @@ public record TravelogueResponse(
                 .thumbnail(travelogue.getThumbnail())
                 .days(getTravelogueDayResponse(travelogue))
                 .tags(tags)
-                .likeCount(like.likeCount())
+                .likeCount(travelogue.getLikeCount())
                 .isLiked(like.isLiked())
                 .build();
     }
