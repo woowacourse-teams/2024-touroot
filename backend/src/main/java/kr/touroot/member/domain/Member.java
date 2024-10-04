@@ -128,13 +128,10 @@ public class Member extends BaseEntity {
         }
     }
 
-    public void changeNickname(String nickname) {
+    public void update(String nickname, String profileImageUrl) {
         validateNickname(nickname);
-        this.nickname = nickname;
-    }
-
-    public void changeProfileImageUrl(String profileImageUrl) {
         validateProfileImageUrl(profileImageUrl);
+        this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
     }
 }

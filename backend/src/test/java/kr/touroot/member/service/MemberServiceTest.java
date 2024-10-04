@@ -28,7 +28,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 @DisplayName("사용자 서비스")
-@Import(value = {MemberService.class, MemberTestHelper.class, PasswordEncryptor.class, AwsS3Provider.class, EmbeddedS3Config.class})
+@Import(value = {MemberService.class, MemberTestHelper.class, PasswordEncryptor.class, AwsS3Provider.class,
+        EmbeddedS3Config.class})
 @ServiceTest
 class MemberServiceTest {
 
@@ -110,7 +111,8 @@ class MemberServiceTest {
         Member member = testHelper.persistMember();
         MemberAuth memberAuth = new MemberAuth(member.getId());
         String newNickname = "newNickname";
-        MultipartFile multipartFile = new MockMultipartFile("file", "image.jpg", "image/jpeg", "image content".getBytes());
+        MultipartFile multipartFile = new MockMultipartFile("file", "image.jpg", "image/jpeg",
+                "image content".getBytes());
         String newProfileImageUrl = s3Provider.uploadImages(List.of(new ImageFile(multipartFile)))
                 .get(0)
                 .replace("temporary", "images");
@@ -124,36 +126,5 @@ class MemberServiceTest {
                 () -> assertThat(memberService.getById(member.getId()).getProfileImageUrl())
                         .isEqualTo(newProfileImageUrl)
         );
-    }
-
-    @DisplayName("멤버의 닉네임을 업데이트 한다.")
-    @Test
-    void updateNickname() {
-        Member member = testHelper.persistMember();
-        MemberAuth memberAuth = new MemberAuth(member.getId());
-        String newNickname = "newNickname";
-        ProfileUpdateRequest request = new ProfileUpdateRequest(newNickname, null);
-
-        memberService.updateProfile(request, memberAuth);
-
-        assertThat(memberService.getById(member.getId()).getNickname())
-                .isEqualTo(newNickname);
-    }
-
-    @DisplayName("멤버의 프로필 사진을 업데이트 한다.")
-    @Test
-    void updateProfileImageUrl() {
-        Member member = testHelper.persistMember();
-        MemberAuth memberAuth = new MemberAuth(member.getId());
-        MultipartFile multipartFile = new MockMultipartFile("file", "image.jpg", "image/jpeg", "image content".getBytes());
-        String newProfileImageUrl = s3Provider.uploadImages(List.of(new ImageFile(multipartFile)))
-                .get(0)
-                .replace("temporary", "images");
-        ProfileUpdateRequest request = new ProfileUpdateRequest(null, newProfileImageUrl);
-
-        memberService.updateProfile(request, memberAuth);
-
-        assertThat(memberService.getById(member.getId()).getProfileImageUrl())
-                .isEqualTo(newProfileImageUrl);
     }
 }

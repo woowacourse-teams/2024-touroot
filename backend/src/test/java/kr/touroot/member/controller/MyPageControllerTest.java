@@ -125,46 +125,4 @@ class MyPageControllerTest {
                 .body("nickname", is(newNickname))
                 .body("profileImageUrl", is(newProfileImageUrl));
     }
-
-    @DisplayName("마이 페이지 컨트롤러는 내 닉네임 수정 요청이 들어오면 로그인한 사용자의 닉네임을 수정한다.")
-    @Test
-    void updateNickname() {
-        // given
-        String newNickname = "newNickname";
-        ProfileUpdateRequest request = new ProfileUpdateRequest(newNickname, null);
-
-        // when & then
-        RestAssured.given().log().all()
-                .contentType(ContentType.JSON)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .body(request)
-                .when().log().all()
-                .patch("/api/v1/member/me/profile")
-                .then().log().all()
-                .statusCode(200)
-                .body("nickname", is(newNickname));
-    }
-
-    @DisplayName("마이 페이지 컨트롤러는 내 닉네임 수정 요청이 들어오면 로그인한 사용자의 닉네임을 수정한다.")
-    @Test
-    void updateProfileImageUrl() {
-        // given
-        MultipartFile multipartFile = new MockMultipartFile("file", "image.jpg", "image/jpeg",
-                "image content".getBytes());
-        String newProfileImageUrl = s3Provider.uploadImages(List.of(new ImageFile(multipartFile)))
-                .get(0)
-                .replace("temporary", "images");
-        ProfileUpdateRequest request = new ProfileUpdateRequest(null, newProfileImageUrl);
-
-        // when & then
-        RestAssured.given().log().all()
-                .contentType(ContentType.JSON)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .body(request)
-                .when().log().all()
-                .patch("/api/v1/member/me/profile")
-                .then().log().all()
-                .statusCode(200)
-                .body("profileImageUrl", is(newProfileImageUrl));
-    }
 }

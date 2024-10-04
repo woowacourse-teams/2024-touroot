@@ -94,7 +94,7 @@ class MemberTest {
     @Test
     void changeNicknameWithValidData() {
         Member member = new Member(VALID_SOCIAl_ID, VALID_NICKNAME, VALID_PROFILE_IMAGE_URL, KAKAO);
-        assertThatCode(() -> member.changeNickname(VALID_NICKNAME + "a"))
+        assertThatCode(() -> member.update(VALID_NICKNAME + "a", VALID_PROFILE_IMAGE_URL))
                 .doesNotThrowAnyException();
     }
 
@@ -103,7 +103,7 @@ class MemberTest {
     @NullAndEmptySource()
     void changeNicknameWithOrEmpty(String nullOrEmptyNickname) {
         Member member = new Member(VALID_SOCIAl_ID, VALID_NICKNAME, VALID_PROFILE_IMAGE_URL, KAKAO);
-        assertThatThrownBy(() -> member.changeNickname(nullOrEmptyNickname))
+        assertThatThrownBy(() -> member.update(nullOrEmptyNickname, VALID_PROFILE_IMAGE_URL))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("닉네임은 비어 있을 수 없습니다");
     }
@@ -113,7 +113,7 @@ class MemberTest {
     @ValueSource(strings = {"21-length-nicknameeee", "22-length-nicknameeeee"})
     void changeNicknameWithInvalidLength(String invalidLengthNickname) {
         Member member = new Member(VALID_SOCIAl_ID, VALID_NICKNAME, VALID_PROFILE_IMAGE_URL, KAKAO);
-        assertThatThrownBy(() -> member.changeNickname(invalidLengthNickname))
+        assertThatThrownBy(() -> member.update(invalidLengthNickname, VALID_PROFILE_IMAGE_URL))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("닉네임은 1자 이상, 20자 이하여야 합니다");
     }

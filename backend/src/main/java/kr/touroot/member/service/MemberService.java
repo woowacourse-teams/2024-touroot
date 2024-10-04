@@ -1,5 +1,6 @@
 package kr.touroot.member.service;
 
+import java.util.Objects;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
@@ -54,13 +55,11 @@ public class MemberService {
     @Transactional
     public ProfileResponse updateProfile(ProfileUpdateRequest request, MemberAuth memberAuth) {
         Member member = getById(memberAuth.memberId());
-        if (request.nickname() != null) {
-            member.changeNickname(request.nickname());
+        String requestProfileImageUrl = request.profileImageUrl();
+        if (!Objects.equals(request.profileImageUrl(), member.getProfileImageUrl())) {
+            requestProfileImageUrl = s3Provider.copyImageToPermanentStorage(request.profileImageUrl());
         }
-        if (request.profileImageUrl() != null) {
-            String newProfileImageUrl = s3Provider.copyImageToPermanentStorage(request.profileImageUrl());
-            member.changeProfileImageUrl(newProfileImageUrl);
-        }
+        member.update(request.nickname(), requestProfileImageUrl);
 
         return ProfileResponse.from(member);
     }
