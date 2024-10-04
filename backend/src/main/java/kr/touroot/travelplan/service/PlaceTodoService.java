@@ -39,7 +39,7 @@ public class PlaceTodoService {
             throw new ForbiddenException("TODO 체크는 작성자만 가능합니다");
         }
 
-        todo.updateCheckedStatus(updateRequest.checked());
+        todo.updateCheckedStatus(updateRequest.isChecked());
         return PlanPlaceTodoResponse.from(todo);
     }
 }

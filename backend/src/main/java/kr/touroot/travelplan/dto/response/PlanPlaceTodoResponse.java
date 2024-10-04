@@ -9,7 +9,7 @@ public record PlanPlaceTodoResponse(
         @Schema(description = "TODO 아이디") Long id,
         @Schema(description = "TODO 내용") String content,
         @Schema(description = "TODO 순서") Integer order,
-        @Schema(description = "TODO 체크 여부") Boolean checked
+        @Schema(description = "TODO 체크 여부") Boolean isChecked
 ) {
 
     public static PlanPlaceTodoResponse from(TravelPlaceTodo travelPlaceTodo) {
@@ -17,7 +17,7 @@ public record PlanPlaceTodoResponse(
                 id(travelPlaceTodo.getId())
                 .content(travelPlaceTodo.getContent())
                 .order(travelPlaceTodo.getOrder())
-                .checked(travelPlaceTodo.getIsChecked())
+                .isChecked(travelPlaceTodo.getIsChecked())
                 .build();
     }
 }

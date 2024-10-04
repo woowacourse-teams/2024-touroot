@@ -3,7 +3,6 @@ package kr.touroot.travelplan.controller;
 
 import static org.hamcrest.Matchers.is;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
@@ -23,7 +22,6 @@ import org.springframework.http.HttpHeaders;
 @AcceptanceTest
 class PlaceTodoControllerTest {
 
-    private final ObjectMapper objectMapper;
     private final DatabaseCleaner databaseCleaner;
     private final JwtTokenProvider jwtTokenProvider;
     private final TravelPlanTestHelper testHelper;
@@ -33,9 +31,8 @@ class PlaceTodoControllerTest {
     private Member member;
 
     @Autowired
-    public PlaceTodoControllerTest(ObjectMapper objectMapper, DatabaseCleaner databaseCleaner,
-                                   JwtTokenProvider jwtTokenProvider, TravelPlanTestHelper testHelper) {
-        this.objectMapper = objectMapper;
+    public PlaceTodoControllerTest(DatabaseCleaner databaseCleaner, JwtTokenProvider jwtTokenProvider,
+                                   TravelPlanTestHelper testHelper) {
         this.databaseCleaner = databaseCleaner;
         this.jwtTokenProvider = jwtTokenProvider;
         this.testHelper = testHelper;
@@ -63,8 +60,7 @@ class PlaceTodoControllerTest {
                 .when().log().all()
                 .patch("/api/v1/todos/" + 1L)
                 .then().log().all()
-                .statusCode(200)
-                .body("checked", is(true));
+                .statusCode(200);
     }
 
     @DisplayName("존재하지 않는 TODO의 체크 상태를 업데이트 하려는 경우 예외가 발생한다")

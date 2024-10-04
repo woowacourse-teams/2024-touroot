@@ -53,13 +53,12 @@ public class TravelPlanController {
             )
     })
     @PostMapping
-    public ResponseEntity<PlanCreateResponse> createTravelPlan(
+    public ResponseEntity<Void> createTravelPlan(
             @Valid @RequestBody PlanRequest request,
             MemberAuth memberAuth
     ) {
         PlanCreateResponse data = travelPlanService.createTravelPlan(request, memberAuth);
-        return ResponseEntity.created(URI.create("/api/v1/travel-plans/" + data.id()))
-                .body(data);
+        return ResponseEntity.created(URI.create("/api/v1/travel-plans/" + data.id())).build();
     }
 
     @Operation(summary = "여행 계획 상세 조회")
@@ -106,12 +105,13 @@ public class TravelPlanController {
             )
     })
     @PutMapping("/{id}")
-    public ResponseEntity<PlanCreateResponse> updateTravelPlan(
+    public ResponseEntity<Void> updateTravelPlan(
             @PathVariable Long id,
             @Valid MemberAuth memberAuth,
             @Valid @RequestBody PlanRequest request
     ) {
-        return ResponseEntity.ok(travelPlanService.updateTravelPlan(id, memberAuth, request));
+        travelPlanService.updateTravelPlan(id, memberAuth, request);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "여행 계획 삭제")

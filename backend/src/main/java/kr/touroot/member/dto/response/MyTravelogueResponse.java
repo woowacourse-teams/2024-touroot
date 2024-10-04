@@ -1,9 +1,8 @@
-package kr.touroot.member.dto;
-
-import kr.touroot.travelogue.domain.Travelogue;
-import lombok.Builder;
+package kr.touroot.member.dto.response;
 
 import java.time.format.DateTimeFormatter;
+import kr.touroot.travelogue.domain.Travelogue;
+import lombok.Builder;
 
 @Builder
 public record MyTravelogueResponse(long id, String title, String thumbnailUrl, String createdAt) {
