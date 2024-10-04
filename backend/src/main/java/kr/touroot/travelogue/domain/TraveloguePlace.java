@@ -134,4 +134,9 @@ public class TraveloguePlace extends BaseEntity {
             throw new BadRequestException("장소 이름은 " + PLACE_NAME_MAX_LENGTH + "자 이하여야 합니다");
         }
     }
+
+    public void addPhoto(TraveloguePhoto photo) {
+        traveloguePhotos.add(photo);
+        photo.setTraveloguePlace(this);
+    }
 }
