@@ -13,13 +13,6 @@ public record TravelogueDayResponse(
         List<TraveloguePlaceResponse> places
 ) {
 
-    public static TravelogueDayResponse of(TravelogueDay day, List<TraveloguePlaceResponse> places) {
-        return TravelogueDayResponse.builder()
-                .id(day.getId())
-                .places(places)
-                .build();
-    }
-
     public static TravelogueDayResponse from(TravelogueDay travelogueDay) {
         return TravelogueDayResponse.builder()
                 .id(travelogueDay.getId())

@@ -27,7 +27,8 @@ public record TravelogueSimpleResponse(
     public static TravelogueSimpleResponse of(
             Travelogue travelogue,
             List<TagResponse> tags,
-            TravelogueLikeResponse like) {
+            TravelogueLikeResponse like
+    ) {
         return TravelogueSimpleResponse.builder()
                 .id(travelogue.getId())
                 .title(travelogue.getTitle())

@@ -18,16 +18,6 @@ public record TraveloguePlaceResponse(
         List<String> photoUrls
 ) {
 
-    public static TraveloguePlaceResponse of(TraveloguePlace place, List<String> photoUrls) {
-        return TraveloguePlaceResponse.builder()
-                .id(place.getId())
-                .placeName(place.getName())
-                .description(place.getDescription())
-                .position(TraveloguePositionResponse.from(place.getPosition()))
-                .photoUrls(photoUrls)
-                .build();
-    }
-
     public static TraveloguePlaceResponse from(TraveloguePlace traveloguePlace) {
         return TraveloguePlaceResponse.builder()
                 .id(traveloguePlace.getId())

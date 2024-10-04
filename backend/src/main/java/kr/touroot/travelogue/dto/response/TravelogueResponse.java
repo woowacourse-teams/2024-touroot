@@ -35,26 +35,6 @@ public record TravelogueResponse(
 
     public static TravelogueResponse of(
             Travelogue travelogue,
-            List<TravelogueDayResponse> days,
-            List<TagResponse> tags,
-            TravelogueLikeResponse like) {
-        return TravelogueResponse.builder()
-                .id(travelogue.getId())
-                .createdAt(travelogue.getCreatedAt().toLocalDate())
-                .authorId(travelogue.getAuthorId())
-                .authorNickname(travelogue.getAuthorNickname())
-                .authorProfileImageUrl(travelogue.getAuthorProfileImageUrl())
-                .title(travelogue.getTitle())
-                .thumbnail(travelogue.getThumbnail())
-                .days(days)
-                .tags(tags)
-                .likeCount(like.likeCount())
-                .isLiked(like.isLiked())
-                .build();
-    }
-
-    public static TravelogueResponse of(
-            Travelogue travelogue,
             List<TagResponse> tags,
             TravelogueLikeResponse like
     ) {
