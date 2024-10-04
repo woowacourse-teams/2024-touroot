@@ -30,6 +30,7 @@ import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
+import { extractLastPath } from "@utils/extractId";
 import { extractUTCDate } from "@utils/extractUTCDate";
 
 import * as S from "./TravelPlanRegisterPage.styled";
@@ -77,11 +78,11 @@ const TravelPlanRegisterPage = () => {
     const travelPlanPayload = { title, startDate: extractUTCDate(startDate), days: travelPlanDays };
 
     mutateTravelPlanRegister(travelPlanPayload, {
-      onSuccess: (data) => {
-        const travelPlanId = data?.data?.id;
+      onSuccess: (response) => {
+        const id = extractLastPath(response.headers.location);
 
         handleCloseBottomSheet();
-        navigate(ROUTE_PATHS_MAP.travelPlan(travelPlanId));
+        navigate(ROUTE_PATHS_MAP.travelPlan(id));
       },
     });
   };
