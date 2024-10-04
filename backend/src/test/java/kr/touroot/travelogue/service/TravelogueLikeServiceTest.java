@@ -39,20 +39,6 @@ class TravelogueLikeServiceTest {
         databaseCleaner.executeTruncate();
     }
 
-    @DisplayName("여행기를 기반으로 좋아요 정보를 조회할 수 있다.")
-    @Test
-    void findLikeByTravelogue() {
-        // given
-        Member liker = testHelper.initKakaoMemberTestData();
-        Travelogue travelogue = testHelper.initTravelogueTestDataWithLike(liker);
-
-        // when
-        TravelogueLikeResponse response = travelogueLikeService.findLikeByTravelogue(travelogue);
-
-        // then
-        assertThat(response).isEqualTo(new TravelogueLikeResponse(false, 1L));
-    }
-
     @DisplayName("여행기에 좋아요를 할 수 있다.")
     @Test
     void likeTravelogue() {

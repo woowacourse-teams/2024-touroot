@@ -15,11 +15,6 @@ public class TravelogueLikeService {
 
     private final TravelogueLikeRepository travelogueLikeRepository;
 
-    @Transactional(readOnly = true)
-    public TravelogueLikeResponse findLikeByTravelogue(Travelogue travelogue) {
-        return new TravelogueLikeResponse(false, travelogue.getLikeCount());
-    }
-
     //TODO: test
     @Transactional(readOnly = true)
     public boolean existByTravelogueAndMember(Travelogue travelogue, Member liker) {
