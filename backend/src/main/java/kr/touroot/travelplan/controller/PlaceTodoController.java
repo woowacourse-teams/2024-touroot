@@ -10,7 +10,6 @@ import jakarta.validation.Valid;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelplan.dto.request.TodoStatusUpdateRequest;
-import kr.touroot.travelplan.dto.response.PlanPlaceTodoResponse;
 import kr.touroot.travelplan.service.PlaceTodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -46,12 +45,12 @@ public class PlaceTodoController {
             )
     })
     @PatchMapping("/{id}")
-    public ResponseEntity<PlanPlaceTodoResponse> updateTodo(
+    public ResponseEntity<Void> updateTodo(
             @PathVariable Long id,
             @Valid @RequestBody TodoStatusUpdateRequest updateRequest,
             MemberAuth memberAuth
     ) {
-        PlanPlaceTodoResponse updatedTodoResponse = placeTodoService.updateTodoStatus(id, memberAuth, updateRequest);
-        return ResponseEntity.ok(updatedTodoResponse);
+        placeTodoService.updateTodoStatus(id, memberAuth, updateRequest);
+        return ResponseEntity.ok().build();
     }
 }

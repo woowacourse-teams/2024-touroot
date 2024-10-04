@@ -18,6 +18,7 @@ import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
+import kr.touroot.travelogue.dto.response.TravelogueCreateResponse;
 import kr.touroot.travelogue.dto.response.TravelogueDayResponse;
 import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.dto.response.TraveloguePlaceResponse;
@@ -42,12 +43,12 @@ public class TravelogueFacadeService {
     private final MemberService memberService;
 
     @Transactional
-    public TravelogueResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
+    public TravelogueCreateResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.createTravelogue(author, request);
-        List<TagResponse> tags = travelogueTagService.createTravelogueTags(travelogue, request.tags());
-        TravelogueLikeResponse like = travelogueLikeService.findLikeByTravelogueAndLiker(travelogue, author);
-        return TravelogueResponse.of(travelogue, createDays(request.days(), travelogue), tags, like);
+        travelogueTagService.createTravelogueTags(travelogue, request.tags());
+        travelogueLikeService.findLikeByTravelogueAndLiker(travelogue, author);
+        return new TravelogueCreateResponse(travelogue.getId());
     }
 
     private List<TravelogueDayResponse> createDays(List<TravelogueDayRequest> requests, Travelogue travelogue) {
