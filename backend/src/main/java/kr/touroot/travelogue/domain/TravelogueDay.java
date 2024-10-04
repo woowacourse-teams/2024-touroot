@@ -18,6 +18,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -36,6 +37,7 @@ public class TravelogueDay extends BaseEntity {
     @Column(name = "DAY_ORDER", nullable = false)
     private Integer order;
 
+    @Setter
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Travelogue travelogue;
