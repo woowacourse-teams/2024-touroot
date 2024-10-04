@@ -24,9 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelogueFacadeService {
 
     private final TravelogueService travelogueService;
-    private final TravelogueDayService travelogueDayService;
-    private final TraveloguePlaceService traveloguePlaceService;
-    private final TraveloguePhotoService traveloguePhotoService;
     private final TravelogueTagService travelogueTagService;
     private final TravelogueLikeService travelogueLikeService;
     private final MemberService memberService;
@@ -36,8 +33,8 @@ public class TravelogueFacadeService {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = request.toTravelogue(author);
         travelogueService.save(travelogue);
-
         List<TravelogueTag> travelogueTags = travelogueTagService.createTravelogueTags(travelogue, request.tags());
+
         return TravelogueResponse.of(travelogue, travelogueTags, false);
     }
 
@@ -45,6 +42,7 @@ public class TravelogueFacadeService {
     public TravelogueResponse findTravelogueById(Long id) {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
         List<TravelogueTag> travelogueTags = travelogueTagService.readTagByTravelogue(travelogue);
+
         return TravelogueResponse.of(travelogue, travelogueTags, false);
     }
 
@@ -52,9 +50,9 @@ public class TravelogueFacadeService {
     public TravelogueResponse findTravelogueById(Long id, MemberAuth member) {
         Member accessor = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.getTravelogueById(id);
-
         List<TravelogueTag> travelogueTags = travelogueTagService.readTagByTravelogue(travelogue);
         boolean likeFromAccessor = travelogueLikeService.existByTravelogueAndMember(travelogue, accessor);
+
         return TravelogueResponse.of(travelogue, travelogueTags, likeFromAccessor);
     }
 
@@ -65,6 +63,7 @@ public class TravelogueFacadeService {
     ) {
         TravelogueFilterCondition filter = filterRequest.toFilterCondition();
         Page<Travelogue> travelogues = findSimpleTraveloguesByFilter(filter, pageable);
+
         return travelogues.map(this::getTravelogueSimpleResponse);
     }
 
@@ -81,6 +80,7 @@ public class TravelogueFacadeService {
 
     private TravelogueSimpleResponse getTravelogueSimpleResponse(Travelogue travelogue) {
         List<TravelogueTag> travelogueTags = travelogueTagService.readTagByTravelogue(travelogue);
+
         return TravelogueSimpleResponse.of(travelogue, travelogueTags);
     }
 
@@ -90,18 +90,10 @@ public class TravelogueFacadeService {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
 
         Travelogue updatedTravelogue = travelogueService.update(id, author, request);
-        clearTravelogueContents(travelogue);
-
         List<TravelogueTag> travelogueTags = travelogueTagService.createTravelogueTags(travelogue, request.tags());
         boolean likeFromAuthor = travelogueLikeService.existByTravelogueAndMember(travelogue, author);
-        return TravelogueResponse.of(updatedTravelogue, travelogueTags, likeFromAuthor);
-    }
 
-    private void clearTravelogueContents(Travelogue travelogue) {
-        traveloguePhotoService.deleteAllByTravelogue(travelogue);
-        traveloguePlaceService.deleteAllByTravelogue(travelogue);
-        travelogueDayService.deleteAllByTravelogue(travelogue);
-        travelogueTagService.deleteAllByTravelogue(travelogue);
+        return TravelogueResponse.of(updatedTravelogue, travelogueTags, likeFromAuthor);
     }
 
     @Transactional

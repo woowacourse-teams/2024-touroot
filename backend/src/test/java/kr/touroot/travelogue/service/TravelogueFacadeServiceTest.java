@@ -43,9 +43,6 @@ import org.springframework.data.domain.Sort;
 @Import(value = {
         TravelogueFacadeService.class,
         TravelogueService.class,
-        TraveloguePhotoService.class,
-        TravelogueDayService.class,
-        TraveloguePlaceService.class,
         TravelogueTagService.class,
         TravelogueLikeService.class,
         MemberService.class,
