@@ -26,12 +26,6 @@ public class TravelogueLikeService {
         return travelogueLikeRepository.existsByTravelogueAndLiker(travelogue, liker);
     }
 
-    @Transactional(readOnly = true)
-    public TravelogueLikeResponse findLikeByTravelogueAndLiker(Travelogue travelogue, Member liker) {
-        boolean exists = travelogueLikeRepository.existsByTravelogueAndLiker(travelogue, liker);
-        return new TravelogueLikeResponse(exists, travelogue.getLikeCount());
-    }
-
     @Transactional
     public TravelogueLikeResponse likeTravelogue(Travelogue travelogue, Member liker) {
         boolean notExists = !travelogueLikeRepository.existsByTravelogueAndLiker(travelogue, liker);
