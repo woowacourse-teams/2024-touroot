@@ -78,6 +78,7 @@ public class TravelogueService {
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기입니다."));
         validateAuthor(travelogue, author);
 
+        travelogue.updateDays(request.getTravelogueDays(travelogue));
         String url = s3Provider.copyImageToPermanentStorage(request.thumbnail());
         travelogue.update(request.title(), url);
 
@@ -90,7 +91,7 @@ public class TravelogueService {
         travelogueRepository.delete(travelogue);
     }
 
-    public void validateAuthor(Travelogue travelogue, Member author) {
+    private void validateAuthor(Travelogue travelogue, Member author) {
         if (!travelogue.isAuthor(author)) {
             throw new ForbiddenException("본인이 작성한 여행기만 수정하거나 삭제할 수 있습니다.");
         }

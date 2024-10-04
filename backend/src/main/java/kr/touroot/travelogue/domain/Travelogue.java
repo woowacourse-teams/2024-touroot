@@ -112,6 +112,11 @@ public class Travelogue extends BaseEntity {
         travelogueDays.add(day);
     }
 
+    public void updateDays(List<TravelogueDay> travelogueDays) {
+        this.travelogueDays.clear();
+        travelogueDays.forEach(this::addDay);
+    }
+
     public void increaseLikeCount() {
         likeCount += LIKE_COUNT_WEIGHT;
     }

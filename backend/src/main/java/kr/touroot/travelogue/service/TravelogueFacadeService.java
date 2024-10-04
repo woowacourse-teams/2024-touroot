@@ -6,6 +6,7 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.member.service.MemberService;
 import kr.touroot.tag.dto.TagResponse;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TravelogueFilterCondition;
 import kr.touroot.travelogue.dto.request.TravelogueFilterRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
@@ -89,8 +90,8 @@ public class TravelogueFacadeService {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.getTravelogueById(id);
 
+        List<TravelogueDay> travelogueDays = request.getTravelogueDays(travelogue);
         Travelogue updatedTravelogue = travelogueService.update(id, author, request);
-
         clearTravelogueContents(travelogue);
 
         List<TagResponse> tags = travelogueTagService.createTravelogueTags(travelogue, request.tags());
@@ -109,9 +110,8 @@ public class TravelogueFacadeService {
     public void deleteTravelogueById(Long id, MemberAuth member) {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.getTravelogueById(id);
-        travelogueService.validateAuthor(travelogue, author);
 
-        clearTravelogueContents(travelogue);
+        travelogueTagService.deleteAllByTravelogue(travelogue);
         travelogueLikeService.deleteAllByTravelogue(travelogue);
         travelogueService.delete(travelogue, author);
     }

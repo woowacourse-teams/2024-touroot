@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
@@ -37,6 +38,17 @@ public record TravelogueRequest(
         Travelogue travelogue = new Travelogue(author, title, thumbnail);
         addTravelogueDays(travelogue);
         return travelogue;
+    }
+
+    public List<TravelogueDay> getTravelogueDays(Travelogue travelogue) {
+        List<TravelogueDay> travelogueDays = new ArrayList<>();
+        for (int dayOrder = 0; dayOrder < days.size(); dayOrder++) {
+            TravelogueDayRequest dayRequest = days.get(dayOrder);
+            TravelogueDay travelogueDay = dayRequest.toTravelogueDay(dayOrder, travelogue);
+            travelogueDays.add(travelogueDay);
+        }
+
+        return travelogueDays;
     }
 
     private void addTravelogueDays(Travelogue travelogue) {
