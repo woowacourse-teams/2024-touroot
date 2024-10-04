@@ -72,4 +72,9 @@ public class TravelogueDay extends BaseEntity {
             throw new BadRequestException("여행 날짜의 순서는 음수 일 수 없습니다");
         }
     }
+
+    public void addPlace(TraveloguePlace place) {
+        traveloguePlaces.add(place);
+        place.setTravelogueDay(this);
+    }
 }

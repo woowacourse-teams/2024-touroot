@@ -21,6 +21,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -54,6 +55,7 @@ public class TraveloguePlace extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Place place;
 
+    @Setter
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelogueDay travelogueDay;
