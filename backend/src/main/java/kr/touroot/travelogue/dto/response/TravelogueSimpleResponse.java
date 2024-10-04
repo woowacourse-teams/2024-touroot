@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import kr.touroot.tag.dto.TagResponse;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.domain.TravelogueTag;
 import lombok.Builder;
 
 @Builder
@@ -26,7 +27,7 @@ public record TravelogueSimpleResponse(
 
     public static TravelogueSimpleResponse of(
             Travelogue travelogue,
-            List<TagResponse> tags
+            List<TravelogueTag> tags
     ) {
         return TravelogueSimpleResponse.builder()
                 .id(travelogue.getId())
@@ -34,8 +35,14 @@ public record TravelogueSimpleResponse(
                 .thumbnail(travelogue.getThumbnail())
                 .authorNickname(travelogue.getAuthorNickname())
                 .authorProfileUrl(travelogue.getAuthorProfileImageUrl())
-                .tags(tags)
+                .tags(getTagResponse(tags))
                 .likeCount(travelogue.getLikeCount())
                 .build();
+    }
+
+    private static List<TagResponse> getTagResponse(List<TravelogueTag> travelogueTags) {
+        return travelogueTags.stream()
+                .map(TagResponse::from)
+                .toList();
     }
 }

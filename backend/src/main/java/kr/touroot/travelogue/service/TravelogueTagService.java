@@ -3,7 +3,6 @@ package kr.touroot.travelogue.service;
 import java.util.List;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.tag.domain.Tag;
-import kr.touroot.tag.dto.TagResponse;
 import kr.touroot.tag.repository.TagRepository;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueTag;
@@ -22,12 +21,11 @@ public class TravelogueTagService {
     private final TravelogueTagQueryRepository travelogueTagQueryRepository;
 
     @Transactional
-    public List<TagResponse> createTravelogueTags(Travelogue travelogue, List<Long> tagIds) {
+    public List<TravelogueTag> createTravelogueTags(Travelogue travelogue, List<Long> tagIds) {
         return tagIds.stream()
                 .map(id -> {
                     Tag tag = getTagById(id);
-                    travelogueTagRepository.save(new TravelogueTag(travelogue, tag));
-                    return TagResponse.from(tag);
+                    return travelogueTagRepository.save(new TravelogueTag(travelogue, tag));
                 }).toList();
     }
 
@@ -37,10 +35,8 @@ public class TravelogueTagService {
     }
 
     @Transactional(readOnly = true)
-    public List<TagResponse> readTagByTravelogue(Travelogue travelogue) {
-        return travelogueTagRepository.findAllByTravelogue(travelogue).stream()
-                .map(travelogueTag -> TagResponse.from(travelogueTag.getTag()))
-                .toList();
+    public List<TravelogueTag> readTagByTravelogue(Travelogue travelogue) {
+        return travelogueTagRepository.findAllByTravelogue(travelogue);
     }
 
     @Transactional

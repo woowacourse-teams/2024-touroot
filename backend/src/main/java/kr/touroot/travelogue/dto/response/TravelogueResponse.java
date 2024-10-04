@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import kr.touroot.tag.dto.TagResponse;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.domain.TravelogueTag;
 import lombok.Builder;
 
 @Builder
@@ -35,7 +36,7 @@ public record TravelogueResponse(
 
     public static TravelogueResponse of(
             Travelogue travelogue,
-            List<TagResponse> tags,
+            List<TravelogueTag> tags,
             boolean isLikedFromAccessor
     ) {
         return TravelogueResponse.builder()
@@ -47,7 +48,7 @@ public record TravelogueResponse(
                 .title(travelogue.getTitle())
                 .thumbnail(travelogue.getThumbnail())
                 .days(getTravelogueDayResponse(travelogue))
-                .tags(tags)
+                .tags(getTagResponse(tags))
                 .likeCount(travelogue.getLikeCount())
                 .isLiked(isLikedFromAccessor)
                 .build();
@@ -56,6 +57,12 @@ public record TravelogueResponse(
     private static List<TravelogueDayResponse> getTravelogueDayResponse(Travelogue travelogue) {
         return travelogue.getTravelogueDays().stream()
                 .map(TravelogueDayResponse::from)
+                .toList();
+    }
+
+    private static List<TagResponse> getTagResponse(List<TravelogueTag> travelogueTags) {
+        return travelogueTags.stream()
+                .map(TagResponse::from)
                 .toList();
     }
 }
