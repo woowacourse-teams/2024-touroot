@@ -107,6 +107,11 @@ public class Travelogue extends BaseEntity {
         this.thumbnail = thumbnail;
     }
 
+    public void addDay(TravelogueDay day) {
+        day.setTravelogue(this);
+        travelogueDays.add(day);
+    }
+
     public void increaseLikeCount() {
         likeCount += LIKE_COUNT_WEIGHT;
     }
