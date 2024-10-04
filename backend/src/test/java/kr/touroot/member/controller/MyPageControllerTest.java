@@ -119,7 +119,7 @@ class MyPageControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .body(request)
                 .when().log().all()
-                .patch("/api/v1/member/me/profile")
+                .put("/api/v1/member/me/profile")
                 .then().log().all()
                 .statusCode(200)
                 .body("nickname", is(newNickname))
