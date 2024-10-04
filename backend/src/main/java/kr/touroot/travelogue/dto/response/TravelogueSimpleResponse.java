@@ -26,8 +26,7 @@ public record TravelogueSimpleResponse(
 
     public static TravelogueSimpleResponse of(
             Travelogue travelogue,
-            List<TagResponse> tags,
-            TravelogueLikeResponse like
+            List<TagResponse> tags
     ) {
         return TravelogueSimpleResponse.builder()
                 .id(travelogue.getId())
@@ -36,7 +35,7 @@ public record TravelogueSimpleResponse(
                 .authorNickname(travelogue.getAuthorNickname())
                 .authorProfileUrl(travelogue.getAuthorProfileImageUrl())
                 .tags(tags)
-                .likeCount(like.likeCount())
+                .likeCount(travelogue.getLikeCount())
                 .build();
     }
 }
