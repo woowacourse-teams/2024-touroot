@@ -21,7 +21,6 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -70,11 +69,6 @@ public class Travelogue extends BaseEntity {
         this(null, author, title, thumbnail, 0L);
     }
 
-    public void update(String title, String thumbnail) {
-        this.title = title;
-        this.thumbnail = thumbnail;
-    }
-
     private void validate(Member author, String title, String thumbnail) {
         validateNotNull(author, title, thumbnail);
         validateNotBlank(title, thumbnail);
@@ -107,11 +101,16 @@ public class Travelogue extends BaseEntity {
             throw new BadRequestException("이미지 url 형식이 잘못되었습니다");
         }
     }
-    
+
+    public void update(String title, String thumbnail) {
+        this.title = title;
+        this.thumbnail = thumbnail;
+    }
+
     public void increaseLikeCount() {
         likeCount += LIKE_COUNT_WEIGHT;
     }
-    
+
     public void decreaseLikeCount() {
         likeCount -= LIKE_COUNT_WEIGHT;
     }
