@@ -48,7 +48,7 @@ public class TravelogueFacadeService {
         Travelogue travelogue = travelogueService.createTravelogue(author, request);
         travelogueTagService.createTravelogueTags(travelogue, request.tags());
         travelogueLikeService.findLikeByTravelogueAndLiker(travelogue, author);
-        return new TravelogueCreateResponse(travelogue.getId());
+        return TravelogueCreateResponse.from(travelogue);
     }
 
     private List<TravelogueDayResponse> createDays(List<TravelogueDayRequest> requests, Travelogue travelogue) {
