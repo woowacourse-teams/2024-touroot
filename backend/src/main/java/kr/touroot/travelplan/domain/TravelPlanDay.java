@@ -18,6 +18,7 @@ import kr.touroot.global.exception.BadRequestException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -35,6 +36,7 @@ public class TravelPlanDay extends BaseEntity {
     @Column(name = "PLAN_DAY_ORDER", nullable = false)
     Integer order;
 
+    @Setter
     @JoinColumn(name = "PLAN_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelPlan plan;
