@@ -23,10 +23,12 @@ public class TravelogueService {
 
     private final TravelogueRepository travelogueRepository;
     private final TravelogueQueryRepository travelogueQueryRepository;
+    private final TravelogueImagePermanentSaver travelogueImagePermanentSaver;
 
     // TODO: 테스트
     @Transactional
     public Travelogue save(Travelogue travelogue) {
+        travelogueImagePermanentSaver.copyTravelogueImagesToPermanentStorage(travelogue);
         return travelogueRepository.save(travelogue);
     }
 
@@ -34,11 +36,6 @@ public class TravelogueService {
     public Travelogue getTravelogueById(Long id) {
         return travelogueRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기입니다."));
-    }
-
-    @Transactional(readOnly = true)
-    public Page<Travelogue> findAll(Pageable pageable) {
-        return travelogueRepository.findAll(pageable);
     }
 
     @Transactional(readOnly = true)
@@ -65,12 +62,12 @@ public class TravelogueService {
 
     @Transactional
     public Travelogue update(Long id, Member author, TravelogueRequest request) {
-        Travelogue travelogue = travelogueRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기입니다."));
+        Travelogue travelogue = getTravelogueById(id);
         validateAuthor(travelogue, author);
 
         travelogue.updateDays(request.getTravelogueDays(travelogue));
         travelogue.update(request.title(), request.thumbnail());
+        travelogueImagePermanentSaver.copyTravelogueImagesToPermanentStorage(travelogue);
 
         return travelogueRepository.save(travelogue);
     }

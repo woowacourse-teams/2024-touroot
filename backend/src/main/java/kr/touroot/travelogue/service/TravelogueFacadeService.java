@@ -26,15 +26,12 @@ public class TravelogueFacadeService {
     private final TravelogueService travelogueService;
     private final TravelogueTagService travelogueTagService;
     private final TravelogueLikeService travelogueLikeService;
-    private final TravelogueImagePermanentSaver travelogueImagePermanentSaver;
     private final MemberService memberService;
 
     @Transactional
     public TravelogueResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
         Member author = memberService.getById(member.memberId());
-        Travelogue travelogue = request.toTravelogue(author);
-        travelogueImagePermanentSaver.copyTravelogueImagesToPermanentStorage(travelogue);
-        travelogueService.save(travelogue);
+        Travelogue travelogue = travelogueService.save(request.toTravelogue(author));
         List<TravelogueTag> travelogueTags = travelogueTagService.createTravelogueTags(travelogue, request.tags());
 
         return TravelogueResponse.of(travelogue, travelogueTags, false);
@@ -86,12 +83,12 @@ public class TravelogueFacadeService {
     public TravelogueResponse updateTravelogue(Long id, MemberAuth member, TravelogueRequest request) {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.getTravelogueById(id);
+        travelogueService.update(id, author, request);
 
-        Travelogue updatedTravelogue = travelogueService.update(id, author, request);
         List<TravelogueTag> travelogueTags = travelogueTagService.createTravelogueTags(travelogue, request.tags());
         boolean likeFromAuthor = travelogueLikeService.existByTravelogueAndMember(travelogue, author);
 
-        return TravelogueResponse.of(updatedTravelogue, travelogueTags, likeFromAuthor);
+        return TravelogueResponse.of(travelogue, travelogueTags, likeFromAuthor);
     }
 
     @Transactional
