@@ -68,9 +68,9 @@ class TravelogueServiceTest {
         databaseCleaner.executeTruncate();
     }
 
-    private void saveImages() {
+    private void mockImageCopyProcess() {
         when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn("https://dev.touroot.kr/temporary/profile.png");
+                .thenReturn("https://dev.touroot.kr/image.png");
     }
 
     private static List<TravelogueDayRequest> getTravelogueDayRequests() {
@@ -120,7 +120,7 @@ class TravelogueServiceTest {
     void updateTravelogue() {
         Member author = testHelper.initKakaoMemberTestData();
         testHelper.initTravelogueTestData(author);
-        saveImages();
+        mockImageCopyProcess();
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
         TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
         Travelogue updatedTravelogue = travelogueService.update(1L, author, request);

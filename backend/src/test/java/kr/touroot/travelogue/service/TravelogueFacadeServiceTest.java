@@ -79,11 +79,16 @@ class TravelogueFacadeServiceTest {
         databaseCleaner.executeTruncate();
     }
 
+    private void mockImageCopyProcess() {
+        when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn("https://dev.touroot.kr/image.png");
+    }
+
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        saveImages(days);
+        mockImageCopyProcess();
 
         testHelper.initKakaoMemberTestData();
         MemberAuth memberAuth = new MemberAuth(1L);
@@ -91,15 +96,6 @@ class TravelogueFacadeServiceTest {
 
         assertThat(service.createTravelogue(memberAuth, request))
                 .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
-    }
-
-    private void saveImages(List<TravelogueDayRequest> days) {
-        when(s3Provider.copyImageToPermanentStorage(
-                TravelogueRequestFixture.getTravelogueRequest(days).thumbnail())
-        ).thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
-        when(s3Provider.copyImageToPermanentStorage(
-                TravelogueRequestFixture.getTraveloguePhotoRequests().get(0).url())
-        ).thenReturn(TravelogueResponseFixture.getTraveloguePhotoUrls().get(0));
     }
 
     private List<TravelogueDayRequest> getTravelogueDayRequests() {
@@ -208,7 +204,7 @@ class TravelogueFacadeServiceTest {
                 .thenReturn(TravelogueResponseFixture.getUpdatedTravelogueResponse().thumbnail());
 
         List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
-        saveImages(days);
+        mockImageCopyProcess();
 
         Member author = testHelper.initKakaoMemberTestData();
         testHelper.initTravelogueTestData(author);
@@ -230,7 +226,7 @@ class TravelogueFacadeServiceTest {
     @Test
     void updateTravelogueWithNotExist() {
         List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
-        saveImages(days);
+        mockImageCopyProcess();
 
         Member author = testHelper.initKakaoMemberTestData();
         testHelper.initTravelogueTestData(author);
@@ -250,7 +246,7 @@ class TravelogueFacadeServiceTest {
         MemberAuth notAuthorAuth = new MemberAuth(testHelper.initKakaoMemberTestData().getId());
 
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        saveImages(days);
+        mockImageCopyProcess();
 
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
