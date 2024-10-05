@@ -18,6 +18,7 @@ import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.dto.response.PlanCreateResponse;
 import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
+import kr.touroot.travelplan.repository.TravelPlanRepository;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +40,7 @@ class TravelPlanFacadeServiceTest {
     private final TravelPlanFacadeService travelPlanFacadeService;
     private final DatabaseCleaner databaseCleaner;
     private final TravelPlanTestHelper testHelper;
+    private final TravelPlanRepository travelPlanRepository;
 
     private MemberAuth memberAuth;
     private Member author;
@@ -47,11 +49,13 @@ class TravelPlanFacadeServiceTest {
     public TravelPlanFacadeServiceTest(
             TravelPlanFacadeService travelPlanFacadeService,
             DatabaseCleaner databaseCleaner,
-            TravelPlanTestHelper testHelper
+            TravelPlanTestHelper testHelper,
+            TravelPlanRepository travelPlanRepository
     ) {
         this.travelPlanFacadeService = travelPlanFacadeService;
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
+        this.travelPlanRepository = travelPlanRepository;
     }
 
     @BeforeEach
@@ -132,8 +136,22 @@ class TravelPlanFacadeServiceTest {
 
         // when
         travelPlanFacadeService.updateTravelPlanById(travelPlan.getId(), memberAuth, request);
-        PlanResponse updated = travelPlanFacadeService.findTravelPlanById(travelPlan.getId(), memberAuth);
-        // & then
-        assertThat(updated.title()).isEqualTo("수정된 한강 여행");
+        TravelPlan updated = travelPlanRepository.findById(travelPlan.getId()).get();
+        
+        // then
+        assertThat(updated.getTitle()).isEqualTo("수정된 한강 여행");
+    }
+
+    @DisplayName("여행계획을 ID 기준으로 삭제할 수 있다.")
+    @Test
+    void deleteTravelPlanById() {
+        // given
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
+
+        // when
+        travelPlanFacadeService.deleteTravelPlanById(travelPlan.getId(), memberAuth);
+
+        // then
+        assertThat(travelPlanRepository.findById(travelPlan.getId()).isEmpty());
     }
 }
