@@ -38,6 +38,15 @@ class TravelogueLikeServiceTest {
         databaseCleaner.executeTruncate();
     }
 
+    @DisplayName("특정 여행기에 특정 멤버가 좋아요 했는지 알 수 있다")
+    @Test
+    void existByTravelogueAndMember() {
+        Travelogue travelogue = testHelper.initTravelogueTestData();
+        Member liker = testHelper.initKakaoMemberTestData();
+
+        assertThat(travelogueLikeService.existByTravelogueAndMember(travelogue, liker)).isFalse();
+    }
+
     @DisplayName("여행기에 좋아요를 할 수 있다.")
     @Test
     void likeTravelogue() {

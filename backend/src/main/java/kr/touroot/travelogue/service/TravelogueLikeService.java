@@ -14,7 +14,6 @@ public class TravelogueLikeService {
 
     private final TravelogueLikeRepository travelogueLikeRepository;
 
-    //TODO: test
     @Transactional(readOnly = true)
     public boolean existByTravelogueAndMember(Travelogue travelogue, Member liker) {
         return travelogueLikeRepository.existsByTravelogueAndLiker(travelogue, liker);
