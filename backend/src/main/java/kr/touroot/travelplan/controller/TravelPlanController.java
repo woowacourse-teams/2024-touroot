@@ -112,7 +112,7 @@ public class TravelPlanController {
             @Valid MemberAuth memberAuth,
             @Valid @RequestBody PlanRequest request
     ) {
-        travelPlanFacadeService.updateTravelPlan(id, memberAuth, request);
+        travelPlanFacadeService.updateTravelPlanById(id, memberAuth, request);
         return ResponseEntity.ok().build();
     }
 
@@ -135,7 +135,7 @@ public class TravelPlanController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTravelPlan(@PathVariable Long id, MemberAuth memberAuth) {
-        travelPlanService.deleteByTravelPlanId(id, memberAuth);
+        travelPlanFacadeService.deleteTravelPlanById(id, memberAuth);
         return ResponseEntity.noContent()
                 .build();
     }

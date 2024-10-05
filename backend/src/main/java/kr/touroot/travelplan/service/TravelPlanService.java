@@ -159,9 +159,16 @@ public class TravelPlanService {
         travelPlanRepository.delete(travelPlan);
     }
 
+    @Transactional
+    public void deleteTravelPlan(TravelPlan travelPlan, Member author) {
+        validateDeleteByAuthor(travelPlan, author);
+        travelPlanRepository.delete(travelPlan);
+    }
+
     private void validateDeleteByAuthor(TravelPlan travelPlan, Member member) {
         if (!travelPlan.isAuthor(member)) {
             throw new ForbiddenException("여행 계획 삭제는 작성자만 가능합니다.");
         }
     }
+
 }

@@ -38,10 +38,18 @@ public class TravelPlanFacadeService {
     }
 
     @Transactional
-    public void updateTravelPlan(Long id, MemberAuth memberAuth, PlanRequest planUpdateRequest) {
+    public void updateTravelPlanById(Long id, MemberAuth memberAuth, PlanRequest planUpdateRequest) {
         TravelPlan travelPlan = travelPlanService.getTravelPlanById(id);
         Member accessor = memberService.getById(memberAuth.memberId());
 
         travelPlanService.updateTravelPlan(travelPlan, accessor, planUpdateRequest);
+    }
+
+    @Transactional
+    public void deleteTravelPlanById(Long id, MemberAuth memberAuth) {
+        TravelPlan travelPlan = travelPlanService.getTravelPlanById(id);
+        Member accessor = memberService.getById(memberAuth.memberId());
+
+        travelPlanService.deleteTravelPlan(travelPlan, accessor);
     }
 }
