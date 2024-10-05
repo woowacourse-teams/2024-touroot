@@ -13,9 +13,6 @@ import kr.touroot.travelplan.domain.TravelPlaceTodo;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.domain.TravelPlanDay;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
-import kr.touroot.travelplan.dto.request.PlanDayRequest;
-import kr.touroot.travelplan.dto.request.PlanPlaceRequest;
-import kr.touroot.travelplan.dto.request.PlanPlaceTodoRequest;
 import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.dto.response.PlanCreateResponse;
 import kr.touroot.travelplan.dto.response.PlanDayResponse;
@@ -62,31 +59,6 @@ public class TravelPlanService {
     private Member getMemberByMemberAuth(MemberAuth memberAuth) {
         return memberRepository.findById(memberAuth.memberId())
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 사용자입니다."));
-    }
-
-    private void createPlanDay(List<PlanDayRequest> request, TravelPlan savedTravelPlan) {
-        for (int order = 0; order < request.size(); order++) {
-            PlanDayRequest dayRequest = request.get(order);
-            TravelPlanDay travelPlanDay = travelPlanDayRepository.save(dayRequest.toPlanDay(order, savedTravelPlan));
-            createPlanPlace(dayRequest.places(), travelPlanDay);
-        }
-    }
-
-    private void createPlanPlace(List<PlanPlaceRequest> request, TravelPlanDay travelPlanDay) {
-        for (int order = 0; order < request.size(); order++) {
-            PlanPlaceRequest planRequest = request.get(order);
-            TravelPlanPlace planPlace = planRequest.toPlanPlace(order, travelPlanDay);
-            TravelPlanPlace travelPlanPlace = travelPlanPlaceRepository.save(planPlace);
-            createPlaceTodo(planRequest.todos(), travelPlanPlace);
-        }
-    }
-
-    private void createPlaceTodo(List<PlanPlaceTodoRequest> request, TravelPlanPlace travelPlanPlace) {
-        for (int order = 0; order < request.size(); order++) {
-            PlanPlaceTodoRequest todoRequest = request.get(order);
-            TravelPlaceTodo travelPlaceTodo = todoRequest.toPlaceTodo(travelPlanPlace, order);
-            placeTodoRepository.save(travelPlaceTodo);
-        }
     }
 
     @Transactional(readOnly = true)
