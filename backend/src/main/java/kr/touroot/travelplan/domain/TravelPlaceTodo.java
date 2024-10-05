@@ -13,6 +13,7 @@ import kr.touroot.global.exception.BadRequestException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -30,6 +31,7 @@ public class TravelPlaceTodo extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelPlanPlace travelPlanPlace;
