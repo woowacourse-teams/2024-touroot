@@ -16,13 +16,19 @@ public record PlanResponse(
         @Schema(description = "여행 계획 공유 share Key") UUID shareKey
 ) {
 
-    public static PlanResponse of(TravelPlan travelPlan, List<PlanDayResponse> days) {
+    public static PlanResponse from(TravelPlan travelPlan) {
         return PlanResponse.builder()
                 .id(travelPlan.getId())
                 .title(travelPlan.getTitle())
                 .startDate(travelPlan.getStartDate())
-                .days(days)
+                .days(getTravelPlanDaysResponse(travelPlan))
                 .shareKey(travelPlan.getShareKey())
                 .build();
+    }
+
+    private static List<PlanDayResponse> getTravelPlanDaysResponse(TravelPlan travelPlan) {
+        return travelPlan.getTravelPlanDays().stream()
+                .map(PlanDayResponse::from)
+                .toList();
     }
 }

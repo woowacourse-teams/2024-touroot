@@ -1,23 +1,15 @@
 package kr.touroot.travelplan.service;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
 import java.util.UUID;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
-import kr.touroot.travelplan.domain.TravelPlaceTodo;
 import kr.touroot.travelplan.domain.TravelPlan;
-import kr.touroot.travelplan.domain.TravelPlanDay;
-import kr.touroot.travelplan.domain.TravelPlanPlace;
 import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.dto.response.PlanCreateResponse;
-import kr.touroot.travelplan.dto.response.PlanDayResponse;
-import kr.touroot.travelplan.dto.response.PlanPlaceResponse;
-import kr.touroot.travelplan.dto.response.PlanPlaceTodoResponse;
 import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.repository.PlaceTodoRepository;
 import kr.touroot.travelplan.repository.TravelPlanDayRepository;
@@ -67,7 +59,7 @@ public class TravelPlanService {
         Member member = getMemberByMemberAuth(memberAuth);
         validateReadByAuthor(travelPlan, member);
 
-        return PlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
+        return PlanResponse.from(travelPlan);
     }
 
     private void validateReadByAuthor(TravelPlan travelPlan, Member member) {
@@ -80,7 +72,7 @@ public class TravelPlanService {
     public PlanResponse readTravelPlan(UUID shareKey) {
         TravelPlan travelPlan = getTravelPlanByShareKey(shareKey);
 
-        return PlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
+        return PlanResponse.from(travelPlan);
     }
 
     private TravelPlan getTravelPlanById(Long planId) {
@@ -94,33 +86,7 @@ public class TravelPlanService {
     }
 
     public PlanResponse getTravelPlanResponse(TravelPlan travelPlan) {
-        return PlanResponse.of(travelPlan, getTravelPlanDayResponses(travelPlan));
-    }
-
-    private List<PlanDayResponse> getTravelPlanDayResponses(TravelPlan travelPlan) {
-        List<TravelPlanDay> planDays = travelPlanDayRepository.findByPlan(travelPlan);
-
-        return planDays.stream()
-                .sorted(Comparator.comparing(TravelPlanDay::getOrder))
-                .map(day -> PlanDayResponse.of(day, getTravelPlanPlaceResponses(day)))
-                .toList();
-    }
-
-    private List<PlanPlaceResponse> getTravelPlanPlaceResponses(TravelPlanDay day) {
-        List<TravelPlanPlace> places = travelPlanPlaceRepository.findByDay(day);
-
-        return places.stream()
-                .sorted(Comparator.comparing(TravelPlanPlace::getOrder))
-                .map(place -> PlanPlaceResponse.of(place, getPlaceTodos(place)))
-                .toList();
-    }
-
-    private List<PlanPlaceTodoResponse> getPlaceTodos(TravelPlanPlace place) {
-        return placeTodoRepository.findByTravelPlanPlace(place)
-                .stream()
-                .sorted(Comparator.comparing(TravelPlaceTodo::getOrder))
-                .map(PlanPlaceTodoResponse::from)
-                .toList();
+        return PlanResponse.from(travelPlan);
     }
 
     @Transactional(readOnly = true)
