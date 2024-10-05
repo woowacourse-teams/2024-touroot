@@ -15,6 +15,7 @@ import kr.touroot.travelplan.dto.request.PlanPlaceRequest;
 import kr.touroot.travelplan.dto.request.PlanPositionRequest;
 import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.dto.response.PlanCreateResponse;
+import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
@@ -82,5 +83,18 @@ class TravelPlanFacadeServiceTest {
 
         // then
         assertThat(actual.id()).isEqualTo(1L);
+    }
+
+    @DisplayName("여행 계획 서비스는 여행 계획 조회 시 상세 정보를 반환한다.")
+    @Test
+    void readTravelPlan() {
+        // given
+        Long id = testHelper.initTravelPlanTestData(author).getId();
+
+        // when
+        PlanResponse actual = travelPlanFacadeService.findTravelPlanById(id, memberAuth);
+
+        // then
+        assertThat(actual.id()).isEqualTo(id);
     }
 }
