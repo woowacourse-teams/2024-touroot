@@ -16,7 +16,6 @@ import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.dto.response.PlanCreateResponse;
 import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.service.TravelPlanFacadeService;
-import kr.touroot.travelplan.service.TravelPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +34,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class TravelPlanController {
 
     private final TravelPlanFacadeService travelPlanFacadeService;
-    private final TravelPlanService travelPlanService;
 
     @Operation(summary = "여행 계획 생성")
     @ApiResponses(value = {
