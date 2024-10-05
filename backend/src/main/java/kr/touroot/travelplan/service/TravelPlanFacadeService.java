@@ -24,7 +24,7 @@ public class TravelPlanFacadeService {
     public PlanCreateResponse createTravelPlan(PlanRequest request, MemberAuth memberAuth) {
         Member author = memberService.getById(memberAuth.memberId());
         TravelPlan travelPlan = request.toTravelPlan(author, UUID.randomUUID());
-        TravelPlan savedTravelPlan = travelPlanService.save(travelPlan, author);
+        TravelPlan savedTravelPlan = travelPlanService.save(travelPlan);
 
         return PlanCreateResponse.from(savedTravelPlan);
     }

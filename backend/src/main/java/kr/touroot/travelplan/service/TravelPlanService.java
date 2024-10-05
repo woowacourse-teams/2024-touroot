@@ -43,7 +43,7 @@ public class TravelPlanService {
     }
 
     @Transactional
-    public TravelPlan save(TravelPlan travelPlan, Member author) {
+    public TravelPlan save(TravelPlan travelPlan) {
         validateTravelPlanStartDate(travelPlan);
         return travelPlanRepository.save(travelPlan);
     }
