@@ -42,6 +42,12 @@ public class TravelPlanService {
         return PlanCreateResponse.from(savedTravelPlan);
     }
 
+    @Transactional
+    public TravelPlan save(TravelPlan travelPlan, Member author) {
+        validateTravelPlanStartDate(travelPlan);
+        return travelPlanRepository.save(travelPlan);
+    }
+
     private void validateTravelPlanStartDate(TravelPlan travelPlan) {
         if (travelPlan.isStartDateBefore(LocalDate.now())) {
             throw new BadRequestException("지난 날짜에 대한 계획은 작성할 수 없습니다.");
@@ -75,9 +81,17 @@ public class TravelPlanService {
         return PlanResponse.from(travelPlan);
     }
 
-    private TravelPlan getTravelPlanById(Long planId) {
+    public TravelPlan getTravelPlanById(Long planId) {
         return travelPlanRepository.findById(planId)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행 계획입니다."));
+    }
+
+    public TravelPlan getTravelPlanById(Long planId, Member accessor) {
+        TravelPlan travelPlan = travelPlanRepository.findById(planId)
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 여행 계획입니다."));
+        validateReadByAuthor(travelPlan, accessor);
+
+        return travelPlan;
     }
 
     private TravelPlan getTravelPlanByShareKey(UUID shareKey) {

@@ -15,6 +15,7 @@ import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.dto.response.PlanCreateResponse;
 import kr.touroot.travelplan.dto.response.PlanResponse;
+import kr.touroot.travelplan.service.TravelPlanFacadeService;
 import kr.touroot.travelplan.service.TravelPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/travel-plans")
 public class TravelPlanController {
 
+    private final TravelPlanFacadeService travelPlanFacadeService;
     private final TravelPlanService travelPlanService;
 
     @Operation(summary = "여행 계획 생성")
@@ -57,7 +59,7 @@ public class TravelPlanController {
             @Valid @RequestBody PlanRequest request,
             MemberAuth memberAuth
     ) {
-        PlanCreateResponse data = travelPlanService.createTravelPlan(request, memberAuth);
+        PlanCreateResponse data = travelPlanFacadeService.createTravelPlan(request, memberAuth);
         return ResponseEntity.created(URI.create("/api/v1/travel-plans/" + data.id())).build();
     }
 
@@ -83,7 +85,7 @@ public class TravelPlanController {
             @Parameter(description = "여행 계획 id") @PathVariable Long id,
             MemberAuth memberAuth
     ) {
-        PlanResponse data = travelPlanService.readTravelPlan(id, memberAuth);
+        PlanResponse data = travelPlanFacadeService.findTravelPlanById(id, memberAuth);
         return ResponseEntity.ok(data);
     }
 
