@@ -50,7 +50,7 @@ public class TravelPlanService {
 
         TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);
 
-        return new PlanCreateResponse(savedTravelPlan.getId());
+        return PlanCreateResponse.from(savedTravelPlan);
     }
 
     private void validateTravelPlanStartDate(TravelPlan travelPlan) {
