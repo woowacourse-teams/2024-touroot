@@ -10,6 +10,7 @@ import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.service.MemberService;
+import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.dto.request.PlanDayRequest;
 import kr.touroot.travelplan.dto.request.PlanPlaceRequest;
 import kr.touroot.travelplan.dto.request.PlanPositionRequest;
@@ -96,5 +97,30 @@ class TravelPlanFacadeServiceTest {
 
         // then
         assertThat(actual.id()).isEqualTo(id);
+    }
+
+    @DisplayName("여행 계획 서비스는 새로운 정보로 여행 계획을 수정한다.")
+    @Test
+    void updateTravelPlan() {
+        // given
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
+        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
+        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
+                .placeName("잠실한강공원")
+                .todos(Collections.EMPTY_LIST)
+                .position(locationRequest)
+                .build();
+        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
+        PlanRequest request = PlanRequest.builder()
+                .title("수정된 한강 여행")
+                .startDate(LocalDate.MAX)
+                .days(List.of(planDayRequest))
+                .build();
+
+        // when
+        travelPlanFacadeService.updateTravelPlanById(travelPlan.getId(), memberAuth, request);
+        PlanResponse updated = travelPlanFacadeService.findTravelPlanById(travelPlan.getId(), memberAuth);
+        // & then
+        assertThat(updated.title()).isEqualTo("수정된 한강 여행");
     }
 }
