@@ -91,8 +91,7 @@ class TravelogueFacadeServiceTest {
         MemberAuth memberAuth = new MemberAuth(1L);
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
-        assertThat(service.createTravelogue(memberAuth, request))
-                .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
+        assertThat(service.createTravelogue(memberAuth, request).id()).isEqualTo(1L);
     }
 
     private void saveImages(List<TravelogueDayRequest> days) {

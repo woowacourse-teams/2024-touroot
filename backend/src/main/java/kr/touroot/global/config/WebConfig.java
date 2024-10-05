@@ -4,6 +4,7 @@ import java.util.List;
 import kr.touroot.global.auth.MemberAuthMethodArgumentResolver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -31,6 +32,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins(allowedOrigins)
-                .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS");
+                .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS")
+                .exposedHeaders(HttpHeaders.LOCATION);
     }
 }

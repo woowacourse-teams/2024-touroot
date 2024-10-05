@@ -6,6 +6,6 @@ import jakarta.validation.constraints.NotNull;
 public record TodoStatusUpdateRequest(
         @Schema(description = "업데이트 하고자 하는 체크 상태", example = "true")
         @NotNull
-        Boolean checked
+        Boolean isChecked
 ) {
 }

@@ -56,7 +56,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+            throws IOException {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (isTokenBlank(token)) {
             sendUnauthorizedResponse(response, "로그인을 해주세요.");
