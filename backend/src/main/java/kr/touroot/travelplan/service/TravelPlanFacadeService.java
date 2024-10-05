@@ -37,5 +37,11 @@ public class TravelPlanFacadeService {
         return PlanResponse.from(travelPlan);
     }
 
+    @Transactional
+    public void updateTravelPlan(Long id, MemberAuth memberAuth, PlanRequest planUpdateRequest) {
+        TravelPlan travelPlan = travelPlanService.getTravelPlanById(id);
+        Member accessor = memberService.getById(memberAuth.memberId());
 
+        travelPlanService.updateTravelPlan(travelPlan, accessor, planUpdateRequest);
+    }
 }

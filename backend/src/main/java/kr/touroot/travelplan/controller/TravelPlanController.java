@@ -112,7 +112,7 @@ public class TravelPlanController {
             @Valid MemberAuth memberAuth,
             @Valid @RequestBody PlanRequest request
     ) {
-        travelPlanService.updateTravelPlan(id, memberAuth, request);
+        travelPlanFacadeService.updateTravelPlan(id, memberAuth, request);
         return ResponseEntity.ok().build();
     }
 

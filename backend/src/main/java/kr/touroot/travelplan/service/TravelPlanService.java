@@ -116,6 +116,19 @@ public class TravelPlanService {
         return new PlanCreateResponse(travelPlan.getId());
     }
 
+    @Transactional
+    public void updateTravelPlan(TravelPlan travelPlan, Member member, PlanRequest updateRequest) {
+        validateUpdateByAuthor(travelPlan, member);
+        travelPlan.updateDays(updateRequest.getDays(travelPlan));
+        travelPlan.update(updateRequest.title(), updateRequest.startDate());
+        travelPlanRepository.save(travelPlan);
+    }
+
+    @Transactional
+    public void updateTravelPlanTitleAndStartDate(TravelPlan travelPlan, String title, LocalDate startDate) {
+        travelPlan.update(title, startDate);
+    }
+
     private void validateUpdateByAuthor(TravelPlan travelPlan, Member member) {
         if (!travelPlan.isAuthor(member)) {
             throw new ForbiddenException("여행 계획 수정은 작성자만 가능합니다.");
