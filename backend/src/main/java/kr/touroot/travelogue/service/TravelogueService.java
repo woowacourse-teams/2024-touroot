@@ -25,7 +25,6 @@ public class TravelogueService {
     private final TravelogueQueryRepository travelogueQueryRepository;
     private final TravelogueImagePermanentSaver travelogueImagePermanentSaver;
 
-    // TODO: 테스트
     @Transactional
     public Travelogue save(Travelogue travelogue) {
         travelogueImagePermanentSaver.copyTravelogueImagesToPermanentStorage(travelogue);

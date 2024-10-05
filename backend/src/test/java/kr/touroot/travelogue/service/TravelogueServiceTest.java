@@ -20,6 +20,7 @@ import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
+import kr.touroot.travelogue.fixture.TravelogueFixture;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
@@ -77,6 +78,17 @@ class TravelogueServiceTest {
         List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
         List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
         return TravelogueRequestFixture.getTravelogueDayRequests(places);
+    }
+
+    @DisplayName("여행기를 저장할 수 있다")
+    @Test
+    void saveTravelogue() {
+        mockImageCopyProcess();
+        Member member = testHelper.initKakaoMemberTestData();
+        Travelogue travelogue = TravelogueFixture.TRAVELOGUE.create(member);
+
+        Travelogue saved = travelogueService.save(travelogue);
+        assertThat(saved.isAuthor(member)).isTrue();
     }
 
     @DisplayName("여행기는 ID를 기준으로 조회할 수 있다.")
