@@ -171,19 +171,6 @@ class TravelPlanServiceTest {
                 .hasMessage("여행 계획 조회는 작성자만 가능합니다.");
     }
 
-    @DisplayName("여행 계획 서비스는 여행 계획 일자를 계산해 반환한다.")
-    @Test
-    void calculateTravelPeriod() {
-        // given
-        TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
-
-        // when
-        int actual = travelPlanService.calculateTravelPeriod(travelPlan);
-
-        // then
-        assertThat(actual).isEqualTo(1);
-    }
-
     @DisplayName("여행 계획 서비스는 새로운 정보로 여행 계획을 수정한다.")
     @Test
     void updateTravelPlan() {

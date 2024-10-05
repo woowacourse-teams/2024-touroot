@@ -85,19 +85,9 @@ public class TravelPlanService {
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행 계획입니다."));
     }
 
-    public PlanResponse getTravelPlanResponse(TravelPlan travelPlan) {
-        return PlanResponse.from(travelPlan);
-    }
-
     @Transactional(readOnly = true)
     public Page<TravelPlan> getAllByAuthor(Member member, Pageable pageable) {
         return travelPlanRepository.findAllByAuthor(member, pageable);
-    }
-
-    @Transactional(readOnly = true)
-    public int calculateTravelPeriod(TravelPlan travelPlan) {
-        return travelPlanDayRepository.findByPlan(travelPlan)
-                .size();
     }
 
     @Transactional
