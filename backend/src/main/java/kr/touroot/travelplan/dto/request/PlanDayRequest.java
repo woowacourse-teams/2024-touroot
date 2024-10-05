@@ -24,7 +24,7 @@ public record PlanDayRequest(
     }
 
     private void addPlaces(TravelPlanDay travelPlanDay) {
-        for (int order = 0; order < places().size(); order++) {
+        for (int order = 0; order < places.size(); order++) {
             PlanPlaceRequest planPlaceRequest = places.get(order);
             TravelPlanPlace planPlace = planPlaceRequest.toPlanPlace(order, travelPlanDay);
             travelPlanDay.addPlace(planPlace);
