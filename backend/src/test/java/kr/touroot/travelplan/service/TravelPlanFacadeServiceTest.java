@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
+// TODO: 존재하지 않는 여행계획 수정 삭제 테스트
 @DisplayName("여행 계획 파사드 서비스 테스트")
 @Import({
         TravelPlanFacadeService.class,
@@ -137,7 +138,7 @@ class TravelPlanFacadeServiceTest {
         // when
         travelPlanFacadeService.updateTravelPlanById(travelPlan.getId(), memberAuth, request);
         TravelPlan updated = travelPlanRepository.findById(travelPlan.getId()).get();
-        
+
         // then
         assertThat(updated.getTitle()).isEqualTo("수정된 한강 여행");
     }

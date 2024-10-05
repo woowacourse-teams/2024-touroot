@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-// TODO: 테스트 작성
 @RequiredArgsConstructor
 @Service
 public class TravelPlanFacadeService {
@@ -39,21 +38,21 @@ public class TravelPlanFacadeService {
 
     @Transactional(readOnly = true)
     public PlanResponse findTravelPlanByShareKey(UUID shareKey) {
-        return travelPlanService.readTravelPlan(shareKey);
+        return PlanResponse.from(travelPlanService.getTravelPlanByShareKey(shareKey));
     }
 
     @Transactional
     public void updateTravelPlanById(Long id, MemberAuth memberAuth, PlanRequest planUpdateRequest) {
-        TravelPlan travelPlan = travelPlanService.getTravelPlanById(id);
         Member accessor = memberService.getById(memberAuth.memberId());
+        TravelPlan travelPlan = travelPlanService.getTravelPlanById(id, accessor);
 
         travelPlanService.updateTravelPlan(travelPlan, accessor, planUpdateRequest);
     }
 
     @Transactional
     public void deleteTravelPlanById(Long id, MemberAuth memberAuth) {
-        TravelPlan travelPlan = travelPlanService.getTravelPlanById(id);
         Member accessor = memberService.getById(memberAuth.memberId());
+        TravelPlan travelPlan = travelPlanService.getTravelPlanById(id, accessor);
 
         travelPlanService.deleteTravelPlan(travelPlan, accessor);
     }
