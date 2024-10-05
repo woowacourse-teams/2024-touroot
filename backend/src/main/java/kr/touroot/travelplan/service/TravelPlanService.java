@@ -46,15 +46,14 @@ public class TravelPlanService {
     public PlanCreateResponse createTravelPlan(PlanRequest request, MemberAuth memberAuth) {
         Member author = getMemberByMemberAuth(memberAuth);
         TravelPlan travelPlan = request.toTravelPlan(author, UUID.randomUUID());
-        validateCreateTravelPlan(travelPlan);
+        validateTravelPlanStartDate(travelPlan);
 
         TravelPlan savedTravelPlan = travelPlanRepository.save(travelPlan);
-        createPlanDay(request.days(), savedTravelPlan);
 
         return new PlanCreateResponse(savedTravelPlan.getId());
     }
 
-    private void validateCreateTravelPlan(TravelPlan travelPlan) {
+    private void validateTravelPlanStartDate(TravelPlan travelPlan) {
         if (travelPlan.isStartDateBefore(LocalDate.now())) {
             throw new BadRequestException("지난 날짜에 대한 계획은 작성할 수 없습니다.");
         }
