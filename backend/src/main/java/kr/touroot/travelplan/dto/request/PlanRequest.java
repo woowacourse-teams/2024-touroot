@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
+import kr.touroot.travelplan.domain.TravelPlanDay;
 import lombok.Builder;
 
 @Builder
@@ -28,6 +29,16 @@ public record PlanRequest(
 ) {
 
     public TravelPlan toTravelPlan(Member author, UUID shareKey) {
-        return new TravelPlan(title, startDate, shareKey, author);
+        TravelPlan travelPlan = new TravelPlan(title, startDate, shareKey, author);
+        addDays(travelPlan);
+        return travelPlan;
+    }
+
+    private void addDays(TravelPlan travelPlan) {
+        for (int order = 0; order < days.size(); order++) {
+            PlanDayRequest planDayRequest = days.get(order);
+            TravelPlanDay planDay = planDayRequest.toPlanDay(order, travelPlan);
+            travelPlan.addDay(planDay);
+        }
     }
 }
