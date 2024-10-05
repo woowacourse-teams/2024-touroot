@@ -156,7 +156,7 @@ public class TravelPlanController {
     public ResponseEntity<PlanResponse> readSharedTravelPlan(
             @Parameter(description = "여행 계획 공유 키") @PathVariable UUID shareKey
     ) {
-        PlanResponse data = travelPlanService.readTravelPlan(shareKey);
+        PlanResponse data = travelPlanFacadeService.findTravelPlanByShareKey(shareKey);
         return ResponseEntity.ok(data);
     }
 }

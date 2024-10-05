@@ -37,6 +37,11 @@ public class TravelPlanFacadeService {
         return PlanResponse.from(travelPlan);
     }
 
+    @Transactional(readOnly = true)
+    public PlanResponse findTravelPlanByShareKey(UUID shareKey) {
+        return travelPlanService.readTravelPlan(shareKey);
+    }
+
     @Transactional
     public void updateTravelPlanById(Long id, MemberAuth memberAuth, PlanRequest planUpdateRequest) {
         TravelPlan travelPlan = travelPlanService.getTravelPlanById(id);
