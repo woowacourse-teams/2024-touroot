@@ -72,6 +72,11 @@ public class TravelPlanDay extends BaseEntity {
         }
     }
 
+    public void addPlace(TravelPlanPlace place) {
+        travelPlanPlaces.add(place);
+        place.setDay(this);
+    }
+
     public LocalDate getCurrentDate() {
         LocalDate startDate = plan.getStartDate();
         return startDate.plusDays(order);
