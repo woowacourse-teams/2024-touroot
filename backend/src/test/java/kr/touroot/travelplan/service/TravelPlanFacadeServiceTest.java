@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
-// TODO: 존재하지 않는 여행계획 수정 삭제 테스트
 @DisplayName("여행 계획 파사드 서비스 테스트")
 @Import({
         TravelPlanFacadeService.class,
@@ -67,7 +66,7 @@ class TravelPlanFacadeServiceTest {
         memberAuth = new MemberAuth(author.getId());
     }
 
-    @DisplayName("여행 계획 서비스는 여행 계획 생성 시 생성된 id를 응답한다.")
+    @DisplayName("여행 계획 생성 시 생성된 id를 응답한다.")
     @Test
     void createTravelPlan() {
         // given
@@ -91,7 +90,7 @@ class TravelPlanFacadeServiceTest {
         assertThat(actual.id()).isEqualTo(1L);
     }
 
-    @DisplayName("여행 계획 서비스는 여행 계획 조회 시 상세 정보를 반환한다.")
+    @DisplayName("여행 계획 상세 정보를 조회할 수 있다")
     @Test
     void readTravelPlan() {
         // given
@@ -104,7 +103,7 @@ class TravelPlanFacadeServiceTest {
         assertThat(actual.id()).isEqualTo(id);
     }
 
-    @DisplayName("여행 계획 서비스는 공유 키로 여행 계획을 조회할 수 있다")
+    @DisplayName("공유 키로 여행 계획을 조회할 수 있다")
     @Test
     void readTravelPlanByShareKey() {
         // given
@@ -117,7 +116,7 @@ class TravelPlanFacadeServiceTest {
         assertThat(actual.shareKey()).isEqualTo(travelPlan.getShareKey());
     }
 
-    @DisplayName("여행 계획 서비스는 새로운 정보로 여행 계획을 수정한다.")
+    @DisplayName("새로운 정보로 여행 계획을 수정할 수 있다")
     @Test
     void updateTravelPlan() {
         // given
@@ -143,7 +142,7 @@ class TravelPlanFacadeServiceTest {
         assertThat(updated.getTitle()).isEqualTo("수정된 한강 여행");
     }
 
-    @DisplayName("여행계획을 ID 기준으로 삭제할 수 있다.")
+    @DisplayName("여행 계획을 삭제할 수 있다")
     @Test
     void deleteTravelPlanById() {
         // given

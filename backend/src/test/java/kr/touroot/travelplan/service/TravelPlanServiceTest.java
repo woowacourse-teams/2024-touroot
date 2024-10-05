@@ -75,7 +75,7 @@ class TravelPlanServiceTest {
         assertThat(actual.getId()).isEqualTo(1L);
     }
 
-    @DisplayName("여행 계획 서비스는 지난 날짜로 여행 계획 생성 시 예외를 반환한다.")
+    @DisplayName("지난 날짜로 여행 계획 저장 시 예외를 반환한다.")
     @Test
     void createTravelPlanWithInvalidStartDate() {
         // given
@@ -99,7 +99,7 @@ class TravelPlanServiceTest {
                 .doesNotThrowAnyException();
     }
 
-    @DisplayName("여행 계획 상세 정보를 조회할 수 있다")
+    @DisplayName("여행 계획을 가져올 수 있다")
     @Test
     void readTravelPlan() {
         // given
@@ -112,7 +112,7 @@ class TravelPlanServiceTest {
         assertThat(actual.getId()).isEqualTo(id);
     }
 
-    @DisplayName("여행 계획 서비스는 존재하지 않는 여행 계획 조회 시 예외를 반환한다.")
+    @DisplayName("존재하지 않는 여행 계획을 가져오려고 할 경우 예외를 반환한다.")
     @Test
     void readTravelPlanWitNonExist() {
         // given
@@ -124,7 +124,7 @@ class TravelPlanServiceTest {
                 .hasMessage("존재하지 않는 여행 계획입니다.");
     }
 
-    @DisplayName("여행 계획 서비스는 작성자가 아닌 사용자가 조회 시 예외를 반환한다.")
+    @DisplayName("작성자가 아닌 사용자가 여행 계획을 가져오려고 하는 경우 예외를 반환한다.")
     @Test
     void readTravelPlanWithNotAuthor() {
         // given
@@ -137,7 +137,7 @@ class TravelPlanServiceTest {
                 .hasMessage("여행 계획은 작성자만 접근 가능합니다.");
     }
 
-    @DisplayName("여행 계획 서비스는 새로운 정보로 여행 계획을 수정한다.")
+    @DisplayName("새로운 정보로 여행 계획을 수정할 수 있다")
     @Test
     void updateTravelPlan() {
         // given
@@ -163,7 +163,7 @@ class TravelPlanServiceTest {
         assertThat(updated.getTitle()).isEqualTo("수정된 한강 여행");
     }
 
-    @DisplayName("여행 계획 서비스는 작성자가 아닌 사용자가 수정 시 예외를 반환한다.")
+    @DisplayName("작성자가 아닌 사용자가 여행 계획 수정 시도 시 예외를 반환한다.")
     @Test
     void updateTravelPlanWithNotAuthor() {
         // given
@@ -189,7 +189,7 @@ class TravelPlanServiceTest {
                 .hasMessage("여행 계획은 작성자만 접근 가능합니다.");
     }
 
-    @DisplayName("여행계획을 삭제할 수 있다.")
+    @DisplayName("여행 계획을 삭제할 수 있다.")
     @Test
     void deleteTravelPlanById() {
         // given
@@ -202,7 +202,7 @@ class TravelPlanServiceTest {
                 .isEmpty();
     }
 
-    @DisplayName("여행 계획 서비스는 작성자가 아닌 사용자가 삭제 시 예외를 반환한다.")
+    @DisplayName("작성자가 아닌 사용자가 여행 계획 삭제 시 예외를 반환한다.")
     @Test
     void deleteTravelPlanWithNotAuthor() {
         // given
@@ -215,7 +215,7 @@ class TravelPlanServiceTest {
                 .hasMessage("여행 계획은 작성자만 접근 가능합니다.");
     }
 
-    @DisplayName("여행 계획 서비스는 공유 키로 여행 계획을 조회할 수 있다")
+    @DisplayName("공유 키로 여행 계획을 가져올 수 있다")
     @Test
     void readTravelPlanByShareKey() {
         // given
