@@ -169,6 +169,7 @@ public class TravelPlanService {
         validateUpdateByAuthor(travelPlan, author);
 
         clearTravelPlanContents(travelPlan);
+
         updateTravelPlanContents(request, travelPlan);
         return new PlanCreateResponse(travelPlan.getId());
     }
@@ -187,8 +188,8 @@ public class TravelPlanService {
 
     private void updateTravelPlanContents(PlanRequest request, TravelPlan travelPlan) {
         travelPlan.update(request.title(), request.startDate());
+        travelPlan.updateDays(request.getDays(travelPlan));
         travelPlanRepository.save(travelPlan);
-        createPlanDay(request.days(), travelPlan);
     }
 
     @Transactional

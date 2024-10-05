@@ -98,6 +98,11 @@ public class TravelPlan extends BaseEntity {
         this.startDate = startDate;
     }
 
+    public void updateDays(List<TravelPlanDay> travelPlanDays) {
+        this.travelPlanDays.clear();
+        travelPlanDays.forEach(this::addDay);
+    }
+
     public void addDay(TravelPlanDay day) {
         travelPlanDays.add(day);
         day.setPlan(this);
