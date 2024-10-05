@@ -99,6 +99,19 @@ class TravelPlanFacadeServiceTest {
         assertThat(actual.id()).isEqualTo(id);
     }
 
+    @DisplayName("여행 계획 서비스는 공유 키로 여행 계획을 조회할 수 있다")
+    @Test
+    void readTravelPlanByShareKey() {
+        // given
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(author);
+
+        // when
+        PlanResponse actual = travelPlanFacadeService.findTravelPlanByShareKey(travelPlan.getShareKey());
+
+        // then
+        assertThat(actual.shareKey()).isEqualTo(travelPlan.getShareKey());
+    }
+
     @DisplayName("여행 계획 서비스는 새로운 정보로 여행 계획을 수정한다.")
     @Test
     void updateTravelPlan() {
