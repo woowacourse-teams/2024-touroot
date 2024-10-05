@@ -1,6 +1,7 @@
 package kr.touroot.travelogue.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -87,15 +88,14 @@ class TravelogueFacadeServiceTest {
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
-        List<TravelogueDayRequest> days = getTravelogueDayRequests();
         mockImageCopyProcess();
+        List<TravelogueDayRequest> days = getTravelogueDayRequests();
 
         testHelper.initKakaoMemberTestData();
         MemberAuth memberAuth = new MemberAuth(1L);
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
-        assertThat(service.createTravelogue(memberAuth, request))
-                .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
+        assertThat(service.createTravelogue(memberAuth, request).id()).isEqualTo(1L);
     }
 
     private List<TravelogueDayRequest> getTravelogueDayRequests() {
@@ -204,7 +204,6 @@ class TravelogueFacadeServiceTest {
                 .thenReturn(TravelogueResponseFixture.getUpdatedTravelogueResponse().thumbnail());
 
         List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
-        mockImageCopyProcess();
 
         Member author = testHelper.initKakaoMemberTestData();
         testHelper.initTravelogueTestData(author);
@@ -212,8 +211,7 @@ class TravelogueFacadeServiceTest {
         MemberAuth memberAuth = new MemberAuth(author.getId());
         TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
 
-        assertThat(service.updateTravelogue(1L, memberAuth, request))
-                .isEqualTo(TravelogueResponseFixture.getUpdatedTravelogueResponse());
+        assertThatCode(() -> service.updateTravelogue(1L, memberAuth, request)).doesNotThrowAnyException();
     }
 
     private List<TravelogueDayRequest> getUpdateTravelogueDayRequests() {

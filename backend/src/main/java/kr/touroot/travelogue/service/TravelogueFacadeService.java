@@ -10,6 +10,7 @@ import kr.touroot.travelogue.domain.TravelogueTag;
 import kr.touroot.travelogue.dto.request.TravelogueFilterRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
+import kr.touroot.travelogue.dto.response.TravelogueCreateResponse;
 import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
@@ -29,12 +30,12 @@ public class TravelogueFacadeService {
     private final MemberService memberService;
 
     @Transactional
-    public TravelogueResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
+    public TravelogueCreateResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
         Member author = memberService.getById(member.memberId());
         Travelogue travelogue = travelogueService.save(request.toTravelogue(author));
-        List<TravelogueTag> travelogueTags = travelogueTagService.createTravelogueTags(travelogue, request.tags());
+        travelogueTagService.createTravelogueTags(travelogue, request.tags());
 
-        return TravelogueResponse.of(travelogue, travelogueTags, false);
+        return TravelogueCreateResponse.from(travelogue);
     }
 
     @Transactional(readOnly = true)
@@ -80,15 +81,9 @@ public class TravelogueFacadeService {
     }
 
     @Transactional
-    public TravelogueResponse updateTravelogue(Long id, MemberAuth member, TravelogueRequest request) {
+    public void updateTravelogue(Long id, MemberAuth member, TravelogueRequest updateRequest) {
         Member author = memberService.getById(member.memberId());
-        Travelogue travelogue = travelogueService.getTravelogueById(id);
-        travelogueService.update(id, author, request);
-
-        List<TravelogueTag> travelogueTags = travelogueTagService.createTravelogueTags(travelogue, request.tags());
-        boolean likeFromAuthor = travelogueLikeService.existByTravelogueAndMember(travelogue, author);
-
-        return TravelogueResponse.of(travelogue, travelogueTags, likeFromAuthor);
+        travelogueService.update(id, author, updateRequest);
     }
 
     @Transactional

@@ -2,9 +2,9 @@ package kr.touroot.member.service;
 
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.member.domain.Member;
-import kr.touroot.member.dto.MyTravelogueResponse;
-import kr.touroot.member.dto.ProfileResponse;
 import kr.touroot.member.dto.request.ProfileUpdateRequest;
+import kr.touroot.member.dto.response.MyTravelogueResponse;
+import kr.touroot.member.dto.response.ProfileResponse;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.service.TravelogueService;
 import kr.touroot.travelplan.domain.TravelPlan;
