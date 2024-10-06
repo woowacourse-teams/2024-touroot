@@ -117,8 +117,8 @@ const TravelogueRegisterPage = () => {
         days: travelogueDays,
       },
       {
-        onSuccess: (response) => {
-          const id = extractLastPath(response.headers.location);
+        onSuccess: ({ headers: { location } }) => {
+          const id = extractLastPath(location);
 
           handleCloseBottomSheet();
           navigate(ROUTE_PATHS_MAP.travelogue(id));

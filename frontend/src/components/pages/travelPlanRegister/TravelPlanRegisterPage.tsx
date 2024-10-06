@@ -78,8 +78,8 @@ const TravelPlanRegisterPage = () => {
     const travelPlanPayload = { title, startDate: extractUTCDate(startDate), days: travelPlanDays };
 
     mutateTravelPlanRegister(travelPlanPayload, {
-      onSuccess: (response) => {
-        const id = extractLastPath(response.headers.location);
+      onSuccess: ({ headers: { location } }) => {
+        const id = extractLastPath(location);
 
         handleCloseBottomSheet();
         navigate(ROUTE_PATHS_MAP.travelPlan(id));
