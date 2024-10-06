@@ -23,7 +23,7 @@ const TravelPlanTodoItem = ({ todo }: { todo: TravelPlanTodo }) => {
         onChange={(e) => {
           if (!isUUID(id))
             mutateUpdateTodoStatus({
-              todoId: todo.id as string,
+              todoId: String(todo.id),
               isChecked: e.target.checked,
             });
         }}
