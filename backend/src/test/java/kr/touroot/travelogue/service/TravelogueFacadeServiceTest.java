@@ -1,7 +1,6 @@
 package kr.touroot.travelogue.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -24,6 +23,7 @@ import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
+import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
@@ -210,8 +210,10 @@ class TravelogueFacadeServiceTest {
 
         MemberAuth memberAuth = new MemberAuth(author.getId());
         TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
+        String updatedTitle = request.title();
+        TravelogueResponse updatedResponse = service.updateTravelogue(1L, memberAuth, request);
 
-        assertThatCode(() -> service.updateTravelogue(1L, memberAuth, request)).doesNotThrowAnyException();
+        assertThat(updatedResponse.title()).isEqualTo(updatedTitle);
     }
 
     private List<TravelogueDayRequest> getUpdateTravelogueDayRequests() {
