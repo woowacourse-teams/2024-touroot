@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 import { usePutTravelPlan } from "@queries/usePutTravelPlan";
@@ -27,7 +27,6 @@ import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
-import { extractID } from "@utils/extractId";
 import { extractUTCDate } from "@utils/extractUTCDate";
 
 import * as S from "./TravelPlanEditPage.styled";
@@ -35,8 +34,7 @@ import * as S from "./TravelPlanEditPage.styled";
 const TravelPlanEditPage = () => {
   const navigate = useNavigate();
 
-  const location = useLocation();
-  const id = extractID(location.pathname);
+  const { id = "" } = useParams();
 
   const { data, status, error, isLoading } = useGetTravelPlan(id);
 
@@ -89,9 +87,9 @@ const TravelPlanEditPage = () => {
         id: Number(id),
       },
       {
-        onSuccess: (data) => {
+        onSuccess: () => {
           handleCloseBottomSheet();
-          navigate(ROUTE_PATHS_MAP.travelPlan(data?.data?.id));
+          navigate(ROUTE_PATHS_MAP.travelPlan(id));
         },
       },
     );

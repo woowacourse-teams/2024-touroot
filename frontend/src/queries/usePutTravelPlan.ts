@@ -28,22 +28,6 @@ export const usePutTravelPlan = () => {
     mutationFn: ({ travelPlan, id }) =>
       authClient.put(API_ENDPOINT_MAP.travelPlanDetail(id), {
         ...travelPlan,
-        days: travelPlan.days.map((day) => {
-          return {
-            ...day,
-            places: day.places.map((place) => {
-              return {
-                ...place,
-                todos: place.todos?.map((todo) => {
-                  return {
-                    ...todo,
-                    isChecked: todo.checked,
-                  };
-                }),
-              };
-            }),
-          };
-        }),
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
