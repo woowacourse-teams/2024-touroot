@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.util.List;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.fixture.MemberFixture;
@@ -99,5 +100,40 @@ class TravelogueTest {
         assertThatThrownBy(() -> new Travelogue(VALID_AUTHOR, VALID_TITLE, invalidThumbnail))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("이미지 url 형식이 잘못되었습니다");
+    }
+
+    @DisplayName("여행 날짜를 추가할 수 있다")
+    @Test
+    void addDayInTravelogue() {
+        Travelogue travelogue = new Travelogue(VALID_AUTHOR, VALID_TITLE, VALID_THUMBNAIL);
+        TravelogueDay travelogueDay = new TravelogueDay(1, travelogue);
+
+        travelogue.addDay(travelogueDay);
+
+        assertThat(travelogue.getTravelogueDays()).containsExactly(travelogueDay);
+    }
+
+    @DisplayName("여행기에 여행 날짜를 추가하면 여행 날짜의 여행기 참조도 수정된다")
+    @Test
+    void addDayInTravelogueThenDayUpdated() {
+        Travelogue travelogue = new Travelogue(VALID_AUTHOR, VALID_TITLE, VALID_THUMBNAIL);
+        Travelogue otherTravelogue = new Travelogue(VALID_AUTHOR, "다른 여행기", VALID_THUMBNAIL);
+        TravelogueDay travelogueDay = new TravelogueDay(1, otherTravelogue);
+
+        travelogue.addDay(travelogueDay);
+
+        assertThat(travelogueDay.getTravelogue()).isEqualTo(travelogue);
+    }
+
+    @DisplayName("여행 날짜를 새로운 날짜들로 업데이트 할 수 있다")
+    @Test
+    void updateTravelogueDays() {
+        Travelogue travelogue = new Travelogue(VALID_AUTHOR, VALID_TITLE, VALID_THUMBNAIL);
+        TravelogueDay day1 = new TravelogueDay(1, travelogue);
+        TravelogueDay day2 = new TravelogueDay(2, travelogue);
+
+        travelogue.updateDays(List.of(day1, day2));
+
+        assertThat(travelogue.getTravelogueDays()).containsExactly(day1, day2);
     }
 }
