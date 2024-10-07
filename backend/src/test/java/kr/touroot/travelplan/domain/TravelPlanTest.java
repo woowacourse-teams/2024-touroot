@@ -6,11 +6,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.fixture.MemberFixture;
+import kr.touroot.travelplan.fixture.TravelPlanDayFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -106,5 +108,47 @@ class TravelPlanTest {
 
         // then
         assertThat(actual).isFalse();
+    }
+
+    @DisplayName("여행 계획 날짜를 추가할 수 있다")
+    @Test
+    void addDayInTravelPlan() {
+        // given
+        TravelPlan travelPlan = new TravelPlan(VALID_TITLE, VALID_START_DATE, VALID_UUID, VALID_AUTHOR);
+        TravelPlanDay travelPlanDay = TravelPlanDayFixture.TRAVEL_PLAN_DAY.get();
+
+        // when
+        travelPlan.addDay(travelPlanDay);
+
+        // then
+        assertThat(travelPlan.getTravelPlanDays()).containsExactly(travelPlanDay);
+    }
+
+    @DisplayName("여행 계획에 여행 계획 날짜를 추가하면 계획 날짜의 여행 계획 참조도 수정된다")
+    @Test
+    void addDayThenDaysPlanUpdated() {
+        // given
+        TravelPlan travelPlan = new TravelPlan(VALID_TITLE, VALID_START_DATE, VALID_UUID, VALID_AUTHOR);
+        TravelPlanDay travelPlanDay = TravelPlanDayFixture.TRAVEL_PLAN_DAY.get();
+
+        // when
+        travelPlan.addDay(travelPlanDay);
+
+        // then
+        assertThat(travelPlanDay.getPlan()).isEqualTo(travelPlan);
+    }
+
+    @DisplayName("여행 계획의 날짜들을 새로운 날짜들로 업데이트 할 수 있다")
+    @Test
+    void updateDaysInTravelPlan() {
+        // given
+        TravelPlan travelPlan = new TravelPlan(VALID_TITLE, VALID_START_DATE, VALID_UUID, VALID_AUTHOR);
+        TravelPlanDay travelPlanDay = TravelPlanDayFixture.TRAVEL_PLAN_DAY.get();
+
+        // when
+        travelPlan.updateDays(List.of(travelPlanDay));
+
+        // then
+        assertThat(travelPlan.getTravelPlanDays()).containsExactly(travelPlanDay);
     }
 }
