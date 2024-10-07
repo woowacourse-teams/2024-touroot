@@ -5,7 +5,6 @@ import java.util.UUID;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
-import kr.touroot.member.repository.MemberRepository;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.repository.TravelPlanRepository;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TravelPlanService {
 
-    private final MemberRepository memberRepository;
     private final TravelPlanRepository travelPlanRepository;
 
     @Transactional
