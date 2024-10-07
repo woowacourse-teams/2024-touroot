@@ -45,7 +45,7 @@ import org.springframework.data.domain.Sort;
         TravelogueFacadeService.class,
         TravelogueService.class,
         AwsS3Provider.class,
-        TravelogueImagePermanentSaver.class,
+        TravelogueImagePerpetuationService.class,
         TravelogueTagService.class,
         TravelogueLikeService.class,
         MemberService.class,

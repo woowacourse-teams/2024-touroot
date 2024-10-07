@@ -34,7 +34,7 @@ import org.springframework.data.domain.Pageable;
 
 @DisplayName("여행기 서비스")
 @Import(value = {
-        TravelogueImagePermanentSaver.class,
+        TravelogueImagePerpetuationService.class,
         AwsS3Provider.class,
         TravelogueService.class,
         TravelogueTestHelper.class,

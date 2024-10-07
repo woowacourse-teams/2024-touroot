@@ -23,11 +23,11 @@ public class TravelogueService {
 
     private final TravelogueRepository travelogueRepository;
     private final TravelogueQueryRepository travelogueQueryRepository;
-    private final TravelogueImagePermanentSaver travelogueImagePermanentSaver;
+    private final TravelogueImagePerpetuationService travelogueImagePerpetuationService;
 
     @Transactional
     public Travelogue save(Travelogue travelogue) {
-        travelogueImagePermanentSaver.copyTravelogueImagesToPermanentStorage(travelogue);
+        travelogueImagePerpetuationService.copyTravelogueImagesToPermanentStorage(travelogue);
         return travelogueRepository.save(travelogue);
     }
 
@@ -66,7 +66,7 @@ public class TravelogueService {
 
         travelogue.updateDays(request.getTravelogueDays(travelogue));
         travelogue.update(request.title(), request.thumbnail());
-        travelogueImagePermanentSaver.copyTravelogueImagesToPermanentStorage(travelogue);
+        travelogueImagePerpetuationService.copyTravelogueImagesToPermanentStorage(travelogue);
 
         return travelogueRepository.save(travelogue);
     }
