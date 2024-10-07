@@ -40,6 +40,14 @@ public record TravelogueRequest(
         return travelogue;
     }
 
+    private void addTravelogueDays(Travelogue travelogue) {
+        for (int dayOrder = 0; dayOrder < days.size(); dayOrder++) {
+            TravelogueDayRequest dayRequest = days.get(dayOrder);
+            TravelogueDay travelogueDay = dayRequest.toTravelogueDay(dayOrder, travelogue);
+            travelogue.addDay(travelogueDay);
+        }
+    }
+
     public List<TravelogueDay> getTravelogueDays(Travelogue travelogue) {
         List<TravelogueDay> travelogueDays = new ArrayList<>();
         for (int dayOrder = 0; dayOrder < days.size(); dayOrder++) {
@@ -49,13 +57,5 @@ public record TravelogueRequest(
         }
 
         return travelogueDays;
-    }
-
-    private void addTravelogueDays(Travelogue travelogue) {
-        for (int dayOrder = 0; dayOrder < days.size(); dayOrder++) {
-            TravelogueDayRequest dayRequest = days.get(dayOrder);
-            TravelogueDay travelogueDay = dayRequest.toTravelogueDay(dayOrder, travelogue);
-            travelogue.addDay(travelogueDay);
-        }
     }
 }
