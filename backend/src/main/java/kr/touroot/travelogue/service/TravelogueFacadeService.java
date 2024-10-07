@@ -31,7 +31,7 @@ public class TravelogueFacadeService {
 
     @Transactional
     public TravelogueCreateResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
-        Member author = memberService.getById(member.memberId());
+        Member author = memberService.getMemberById(member.memberId());
         Travelogue travelogue = travelogueService.save(request.toTravelogue(author));
         travelogueTagService.createTravelogueTags(travelogue, request.tags());
 
@@ -48,7 +48,7 @@ public class TravelogueFacadeService {
 
     @Transactional(readOnly = true)
     public TravelogueResponse findTravelogueById(Long id, MemberAuth member) {
-        Member accessor = memberService.getById(member.memberId());
+        Member accessor = memberService.getMemberById(member.memberId());
         Travelogue travelogue = travelogueService.getTravelogueById(id);
         List<TravelogueTag> travelogueTags = travelogueTagService.readTagByTravelogue(travelogue);
         boolean likeFromAccessor = travelogueLikeService.existByTravelogueAndMember(travelogue, accessor);
@@ -82,7 +82,7 @@ public class TravelogueFacadeService {
 
     @Transactional
     public TravelogueResponse updateTravelogue(Long id, MemberAuth member, TravelogueRequest updateRequest) {
-        Member author = memberService.getById(member.memberId());
+        Member author = memberService.getMemberById(member.memberId());
 
         Travelogue updated = travelogueService.update(id, author, updateRequest);
         List<TravelogueTag> travelogueTags = travelogueTagService.updateTravelogueTag(updated, updateRequest.tags());
@@ -93,7 +93,7 @@ public class TravelogueFacadeService {
 
     @Transactional
     public void deleteTravelogueById(Long id, MemberAuth member) {
-        Member author = memberService.getById(member.memberId());
+        Member author = memberService.getMemberById(member.memberId());
         Travelogue travelogue = travelogueService.getTravelogueById(id);
 
         travelogueTagService.deleteAllByTravelogue(travelogue);
@@ -104,7 +104,7 @@ public class TravelogueFacadeService {
     @Transactional
     public TravelogueLikeResponse likeTravelogue(Long travelogueId, MemberAuth member) {
         Travelogue travelogue = travelogueService.getTravelogueById(travelogueId);
-        Member liker = memberService.getById(member.memberId());
+        Member liker = memberService.getMemberById(member.memberId());
         travelogueLikeService.likeTravelogue(travelogue, liker);
 
         return new TravelogueLikeResponse(true, travelogue.getLikeCount());
@@ -113,7 +113,7 @@ public class TravelogueFacadeService {
     @Transactional
     public TravelogueLikeResponse unlikeTravelogue(Long travelogueId, MemberAuth member) {
         Travelogue travelogue = travelogueService.getTravelogueById(travelogueId);
-        Member liker = memberService.getById(member.memberId());
+        Member liker = memberService.getMemberById(member.memberId());
         travelogueLikeService.unlikeTravelogue(travelogue, liker);
 
         return new TravelogueLikeResponse(false, travelogue.getLikeCount());

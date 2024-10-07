@@ -20,7 +20,7 @@ public class MemberService {
     private final PasswordEncryptor passwordEncryptor;
 
     @Transactional(readOnly = true)
-    public Member getById(Long memberId) {
+    public Member getMemberById(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 사용자입니다."));
     }
@@ -53,7 +53,7 @@ public class MemberService {
 
     @Transactional
     public ProfileResponse updateProfile(ProfileUpdateRequest request, MemberAuth memberAuth) {
-        Member member = getById(memberAuth.memberId());
+        Member member = getMemberById(memberAuth.memberId());
         member.changeNickname(request.nickname());
 
         return ProfileResponse.from(member);

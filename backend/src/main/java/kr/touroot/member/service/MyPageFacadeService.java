@@ -26,13 +26,13 @@ public class MyPageFacadeService {
 
     @Transactional(readOnly = true)
     public ProfileResponse readProfile(MemberAuth memberAuth) {
-        Member member = memberService.getById(memberAuth.memberId());
+        Member member = memberService.getMemberById(memberAuth.memberId());
         return ProfileResponse.from(member);
     }
 
     @Transactional(readOnly = true)
     public Page<MyTravelogueResponse> readTravelogues(MemberAuth memberAuth, Pageable pageable) {
-        Member member = memberService.getById(memberAuth.memberId());
+        Member member = memberService.getMemberById(memberAuth.memberId());
         Page<Travelogue> travelogues = travelogueService.findAllByMember(member, pageable);
 
         return travelogues.map(MyTravelogueResponse::from);
@@ -40,7 +40,7 @@ public class MyPageFacadeService {
 
     @Transactional(readOnly = true)
     public Page<PlanResponse> readTravelPlans(MemberAuth memberAuth, Pageable pageable) {
-        Member member = memberService.getById(memberAuth.memberId());
+        Member member = memberService.getMemberById(memberAuth.memberId());
         Page<TravelPlan> travelPlans = travelPlanService.getAllByAuthor(member, pageable);
 
         return travelPlans.map((travelPlanService::getTravelPlanResponse));
