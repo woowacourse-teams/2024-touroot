@@ -1,11 +1,11 @@
-import type { TravelTransformPlaces } from "@type/domain/travelTransform";
+import type { TravelTransformDays } from "@type/domain/travelTransform";
 
 import getDaysAndNights from "@utils/getDaysAndNights";
 
 type TravelRecordType = "travelogue" | "travelPlan";
 
 interface getInitialTravelTitleProps {
-  days: TravelTransformPlaces[] | undefined;
+  days: TravelTransformDays[] | undefined;
   type: TravelRecordType;
 }
 

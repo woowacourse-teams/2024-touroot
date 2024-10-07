@@ -6,9 +6,9 @@ export type TravelTransformPlace = Pick<
   keyof TravelPlanPlace & keyof TraveloguePlace
 >;
 
-export interface TravelTransformPlaces {
+export interface TravelTransformDays {
   id: string;
   places: TravelTransformPlace[];
 }
 
-export type TravelTransformDetail = { days: TravelTransformPlaces[] };
+export type TravelTransformDetail = { days: TravelTransformDays[] };
