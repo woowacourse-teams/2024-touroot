@@ -117,8 +117,7 @@ class TravelogueTest {
     @Test
     void addDayInTravelogueThenDayUpdated() {
         Travelogue travelogue = new Travelogue(VALID_AUTHOR, VALID_TITLE, VALID_THUMBNAIL);
-        Travelogue otherTravelogue = new Travelogue(VALID_AUTHOR, "다른 여행기", VALID_THUMBNAIL);
-        TravelogueDay travelogueDay = new TravelogueDay(1, otherTravelogue);
+        TravelogueDay travelogueDay = new TravelogueDay(1, travelogue);
 
         travelogue.addDay(travelogueDay);
 
