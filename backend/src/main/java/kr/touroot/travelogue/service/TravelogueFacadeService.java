@@ -43,7 +43,7 @@ public class TravelogueFacadeService {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
         List<TravelogueTag> travelogueTags = travelogueTagService.readTagByTravelogue(travelogue);
 
-        return TravelogueResponse.of(travelogue, travelogueTags, false);
+        return TravelogueResponse.createResponseForGuest(travelogue, travelogueTags);
     }
 
     @Transactional(readOnly = true)

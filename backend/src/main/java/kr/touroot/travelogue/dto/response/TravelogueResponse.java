@@ -34,10 +34,21 @@ public record TravelogueResponse(
         Boolean isLiked
 ) {
 
-    public static TravelogueResponse of(
+    public static TravelogueResponse of(Travelogue travelogue, List<TravelogueTag> tags, boolean isLikedFromAccessor) {
+        return baseBuilder(travelogue, tags)
+                .isLiked(isLikedFromAccessor)
+                .build();
+    }
+
+    public static TravelogueResponse createResponseForGuest(Travelogue travelogue, List<TravelogueTag> tags) {
+        return baseBuilder(travelogue, tags)
+                .isLiked(false)
+                .build();
+    }
+
+    private static TravelogueResponseBuilder baseBuilder(
             Travelogue travelogue,
-            List<TravelogueTag> tags,
-            boolean isLikedFromAccessor
+            List<TravelogueTag> tags
     ) {
         return TravelogueResponse.builder()
                 .id(travelogue.getId())
@@ -49,9 +60,7 @@ public record TravelogueResponse(
                 .thumbnail(travelogue.getThumbnail())
                 .days(getTravelogueDayResponse(travelogue))
                 .tags(getTagResponse(tags))
-                .likeCount(travelogue.getLikeCount())
-                .isLiked(isLikedFromAccessor)
-                .build();
+                .likeCount(travelogue.getLikeCount());
     }
 
     private static List<TravelogueDayResponse> getTravelogueDayResponse(Travelogue travelogue) {
