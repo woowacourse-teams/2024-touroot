@@ -61,11 +61,11 @@ public class TravelPlanService {
 
 
     @Transactional
-    public void updateTravelPlan(TravelPlan travelPlan, Member member, PlanRequest updateRequest) {
+    public TravelPlan updateTravelPlan(TravelPlan travelPlan, Member member, PlanRequest updateRequest) {
         validateAccessFromAuthor(travelPlan, member);
         travelPlan.updateDays(updateRequest.getDays(travelPlan));
         travelPlan.update(updateRequest.title(), updateRequest.startDate());
-        travelPlanRepository.save(travelPlan);
+        return travelPlanRepository.save(travelPlan);
     }
 
     @Transactional

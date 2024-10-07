@@ -42,11 +42,12 @@ public class TravelPlanFacadeService {
     }
 
     @Transactional
-    public void updateTravelPlanById(Long id, MemberAuth memberAuth, PlanRequest planUpdateRequest) {
+    public PlanResponse updateTravelPlanById(Long id, MemberAuth memberAuth, PlanRequest planUpdateRequest) {
         Member accessor = memberService.getById(memberAuth.memberId());
         TravelPlan travelPlan = travelPlanService.getTravelPlanById(id, accessor);
-
-        travelPlanService.updateTravelPlan(travelPlan, accessor, planUpdateRequest);
+        TravelPlan updated = travelPlanService.updateTravelPlan(travelPlan, accessor, planUpdateRequest);
+        
+        return PlanResponse.from(updated);
     }
 
     @Transactional
