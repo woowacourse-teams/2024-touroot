@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { TravelogueResponse } from "@type/domain/travelogue";
 
-import { AvatarCircle, Chip, FallbackImage, IconButton, Text } from "@components/common";
+import { AvatarCircle, Chip, FallbackImage, Icon, Text } from "@components/common";
 
 import useImageError from "@hooks/useImageError";
 
@@ -17,6 +17,22 @@ interface TravelogueCardProps {
     "id" | "authorProfileUrl" | "title" | "thumbnail" | "authorNickname" | "likeCount" | "tags"
   >;
 }
+
+const removeEmoji = (str: string) =>
+  str.replace(/(\p{Emoji_Presentation}|\p{Emoji}\uFE0F)/gu, "").trim();
+
+const getCardAriaLabel = ({
+  title,
+  authorNickname,
+  likeCount,
+  tags,
+}: Pick<TravelogueResponse, "title" | "authorNickname" | "likeCount" | "tags">) => {
+  const tagNames = tags.map((tag) => removeEmoji(tag.tag)).join(", ");
+
+  const tagPart = tagNames ? `태그: ${tagNames}.` : "";
+
+  return `${title} 여행기. ${authorNickname} 작성. 좋아요 수: ${likeCount}개. ${tagPart}`;
+};
 
 const TravelogueCard = ({
   travelogueOverview: {
@@ -37,14 +53,12 @@ const TravelogueCard = ({
     navigate(ROUTE_PATHS_MAP.travelogue(id));
   };
 
-  const handleLikeClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
-
   return (
-    <S.TravelogueCardLayout
+    <S.TravelogueCardButton
       data-cy={CYPRESS_DATA_MAP.main.travelogueItem}
       onClick={handleCardClick}
+      aria-live="polite"
+      aria-label={getCardAriaLabel({ title, authorNickname, likeCount, tags })}
     >
       <S.TravelogueCardHeader>
         <Text textType="bodyBold">{title}</Text>
@@ -52,11 +66,7 @@ const TravelogueCard = ({
 
       <S.TravelogueCardThumbnailContainer>
         {!imageError ? (
-          <S.TravelogueCardThumbnail
-            src={thumbnail}
-            alt={`${title} 여행기 썸네일 이미지`}
-            onError={handleImageError}
-          />
+          <S.TravelogueCardThumbnail src={thumbnail} alt="" onError={handleImageError} />
         ) : (
           <FallbackImage />
         )}
@@ -64,12 +74,12 @@ const TravelogueCard = ({
 
       <S.TravelogueCardInfoContainer>
         <S.TravelogueCardAuthorContainer>
-          <AvatarCircle profileImageUrl={authorProfileUrl} />
+          <AvatarCircle profileImageUrl={authorProfileUrl} alt="" />
           <Text textType="detail">{authorNickname}</Text>
         </S.TravelogueCardAuthorContainer>
 
         <S.TravelogueCardLikesContainer>
-          <IconButton onClick={handleLikeClick} iconType="empty-heart" size="20" />
+          <Icon iconType="empty-heart" size="20" />
           <Text textType="detail">{likeCount}</Text>
         </S.TravelogueCardLikesContainer>
       </S.TravelogueCardInfoContainer>
@@ -79,7 +89,7 @@ const TravelogueCard = ({
           <Chip key={tag.id} label={tag.tag} />
         ))}
       </S.TravelogueCardChipsContainer>
-    </S.TravelogueCardLayout>
+    </S.TravelogueCardButton>
   );
 };
 
