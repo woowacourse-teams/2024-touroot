@@ -1,6 +1,7 @@
 package kr.touroot.travelplan.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -8,6 +9,7 @@ import java.util.List;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.service.MemberService;
 import kr.touroot.travelplan.domain.TravelPlan;
@@ -18,7 +20,6 @@ import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.dto.response.PlanCreateResponse;
 import kr.touroot.travelplan.dto.response.PlanResponse;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
-import kr.touroot.travelplan.repository.TravelPlanRepository;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +41,6 @@ class TravelPlanFacadeServiceTest {
     private final TravelPlanFacadeService travelPlanFacadeService;
     private final DatabaseCleaner databaseCleaner;
     private final TravelPlanTestHelper testHelper;
-    private final TravelPlanRepository travelPlanRepository;
 
     private MemberAuth memberAuth;
     private Member author;
@@ -49,13 +49,11 @@ class TravelPlanFacadeServiceTest {
     public TravelPlanFacadeServiceTest(
             TravelPlanFacadeService travelPlanFacadeService,
             DatabaseCleaner databaseCleaner,
-            TravelPlanTestHelper testHelper,
-            TravelPlanRepository travelPlanRepository
+            TravelPlanTestHelper testHelper
     ) {
         this.travelPlanFacadeService = travelPlanFacadeService;
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
-        this.travelPlanRepository = travelPlanRepository;
     }
 
     @BeforeEach
@@ -135,11 +133,14 @@ class TravelPlanFacadeServiceTest {
                 .build();
 
         // when
-        travelPlanFacadeService.updateTravelPlanById(travelPlan.getId(), memberAuth, request);
-        TravelPlan updated = travelPlanRepository.findById(travelPlan.getId()).get();
+        PlanResponse updateResponse = travelPlanFacadeService.updateTravelPlanById(
+                travelPlan.getId(),
+                memberAuth,
+                request
+        );
 
         // then
-        assertThat(updated.getTitle()).isEqualTo("수정된 한강 여행");
+        assertThat(updateResponse.title()).isEqualTo("수정된 한강 여행");
     }
 
     @DisplayName("여행 계획을 삭제할 수 있다")
@@ -152,6 +153,8 @@ class TravelPlanFacadeServiceTest {
         travelPlanFacadeService.deleteTravelPlanById(travelPlan.getId(), memberAuth);
 
         // then
-        assertThat(travelPlanRepository.findById(travelPlan.getId()).isEmpty());
+        assertThatThrownBy(() -> travelPlanFacadeService.findTravelPlanById(travelPlan.getId(), memberAuth))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 여행 계획입니다.");
     }
 }
