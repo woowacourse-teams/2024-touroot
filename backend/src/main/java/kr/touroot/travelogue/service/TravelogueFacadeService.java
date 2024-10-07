@@ -81,9 +81,14 @@ public class TravelogueFacadeService {
     }
 
     @Transactional
-    public void updateTravelogue(Long id, MemberAuth member, TravelogueRequest updateRequest) {
+    public TravelogueResponse updateTravelogue(Long id, MemberAuth member, TravelogueRequest updateRequest) {
         Member author = memberService.getById(member.memberId());
-        travelogueService.update(id, author, updateRequest);
+
+        Travelogue updated = travelogueService.update(id, author, updateRequest);
+        List<TravelogueTag> travelogueTags = travelogueTagService.updateTravelogueTag(updated, updateRequest.tags());
+
+        boolean isLikedFromAccessor = travelogueLikeService.existByTravelogueAndMember(updated, author);
+        return TravelogueResponse.of(updated, travelogueTags, isLikedFromAccessor);
     }
 
     @Transactional

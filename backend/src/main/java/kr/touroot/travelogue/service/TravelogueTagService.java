@@ -40,6 +40,12 @@ public class TravelogueTagService {
     }
 
     @Transactional
+    public List<TravelogueTag> updateTravelogueTag(Travelogue travelogue, List<Long> tagIds) {
+        deleteAllByTravelogue(travelogue);
+        return createTravelogueTags(travelogue, tagIds);
+    }
+
+    @Transactional
     public void deleteAllByTravelogue(Travelogue travelogue) {
         travelogueTagQueryRepository.deleteAllByTravelogue(travelogue);
     }
