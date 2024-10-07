@@ -30,10 +30,6 @@ public record TravelogueRequest(
         List<TravelogueDayRequest> days
 ) {
 
-    public Travelogue toTravelogueOf(Member author, String url) {
-        return new Travelogue(author, title, url);
-    }
-
     public Travelogue toTravelogue(Member author) {
         Travelogue travelogue = new Travelogue(author, title, thumbnail);
         addTravelogueDays(travelogue);
