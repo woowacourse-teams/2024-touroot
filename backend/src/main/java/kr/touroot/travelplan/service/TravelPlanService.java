@@ -49,6 +49,7 @@ public class TravelPlanService {
         }
     }
 
+    @Transactional(readOnly = true)
     public TravelPlan getTravelPlanByShareKey(UUID shareKey) {
         return travelPlanRepository.findByShareKey(shareKey)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행 계획입니다."));
