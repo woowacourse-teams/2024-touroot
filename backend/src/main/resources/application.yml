@@ -161,12 +161,6 @@ spring:
     hibernate:
       ddl-auto: validate
 
-server:
-  ssl:
-    key-store-type: PKCS12
-    key-store-password: ENC(WyJqMojCOPDe932QhOR52Ll0EhthbUe5ycHs0WWifQg=)
-    key-store: ENC(DtVtAx+kVnU581+bjT7A3vCLbJ8fe3JqUritO+0WJ/Q=)
-
 security:
   jwt:
     token:
