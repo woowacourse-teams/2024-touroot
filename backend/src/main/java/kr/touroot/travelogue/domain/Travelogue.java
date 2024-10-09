@@ -21,7 +21,6 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -48,7 +47,6 @@ public class Travelogue extends BaseEntity {
     @Column(nullable = false, length = 20)
     private String title;
 
-    @Setter
     @Column(nullable = false)
     private String thumbnail;
 
@@ -109,8 +107,12 @@ public class Travelogue extends BaseEntity {
         this.thumbnail = thumbnail;
     }
 
+    public void updateThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
     public void addDay(TravelogueDay day) {
-        day.setTravelogue(this);
+        day.updateTravelogue(this);
         travelogueDays.add(day);
     }
 

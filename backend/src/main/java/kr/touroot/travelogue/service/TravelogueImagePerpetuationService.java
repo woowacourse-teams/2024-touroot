@@ -18,13 +18,13 @@ public class TravelogueImagePerpetuationService {
 
     private void copyThumbnailToPermanentStorage(Travelogue travelogue) {
         String thumbnail = awsS3Provider.copyImageToPermanentStorage(travelogue.getThumbnail());
-        travelogue.setThumbnail(thumbnail);
+        travelogue.updateThumbnail(thumbnail);
     }
 
     private void copyPlacePhotosToPermanentStorage(Travelogue travelogue) {
         travelogue.getTravelogueDays().stream()
                 .flatMap(day -> day.getTraveloguePlaces().stream())
                 .flatMap(place -> place.getTraveloguePhotos().stream())
-                .forEach(photo -> photo.setKey(awsS3Provider.copyImageToPermanentStorage(photo.getKey())));
+                .forEach(photo -> photo.updateKey(awsS3Provider.copyImageToPermanentStorage(photo.getKey())));
     }
 }
