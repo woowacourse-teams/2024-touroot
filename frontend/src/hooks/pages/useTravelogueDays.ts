@@ -18,7 +18,7 @@ const transformTravelogueDays = (travelTransformDays: TravelTransformDays[]) =>
     );
   });
 
-export const useTravelogueDays = (days: TravelTransformDays[]) => {
+const useTravelogueDays = (days: TravelTransformDays[]) => {
   const [travelogueDays, setTravelogueDays] = useImmer<TravelogueDay[]>(() =>
     transformTravelogueDays(days),
   );
@@ -113,3 +113,5 @@ export const useTravelogueDays = (days: TravelTransformDays[]) => {
     onDeleteImageUrls,
   };
 };
+
+export default useTravelogueDays;
