@@ -39,7 +39,7 @@ public class TravelogueFacadeService {
     }
 
     @Transactional(readOnly = true)
-    public TravelogueResponse findTravelogueById(Long id) {
+    public TravelogueResponse findTravelogueByIdForGuest(Long id) {
         Travelogue travelogue = travelogueService.getTravelogueById(id);
         List<TravelogueTag> travelogueTags = travelogueTagService.readTagByTravelogue(travelogue);
 
@@ -47,7 +47,7 @@ public class TravelogueFacadeService {
     }
 
     @Transactional(readOnly = true)
-    public TravelogueResponse findTravelogueById(Long id, MemberAuth member) {
+    public TravelogueResponse findTravelogueByIdForAuthenticated(Long id, MemberAuth member) {
         Member accessor = memberService.getMemberById(member.memberId());
         Travelogue travelogue = travelogueService.getTravelogueById(id);
         List<TravelogueTag> travelogueTags = travelogueTagService.readTagByTravelogue(travelogue);

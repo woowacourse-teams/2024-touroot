@@ -129,7 +129,7 @@ class TravelogueFacadeServiceTest {
     void findTravelogueById() {
         testHelper.initTravelogueTestData();
 
-        assertThat(service.findTravelogueById(1L))
+        assertThat(service.findTravelogueByIdForGuest(1L))
                 .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
     }
 
@@ -139,7 +139,7 @@ class TravelogueFacadeServiceTest {
         Member liker = testHelper.initKakaoMemberTestData();
         Long travelogueId = testHelper.initTravelogueTestDataWithLike(liker).getId();
 
-        assertThat(service.findTravelogueById(travelogueId, new MemberAuth(liker.getId())))
+        assertThat(service.findTravelogueByIdForAuthenticated(travelogueId, new MemberAuth(liker.getId())))
                 .isEqualTo(TravelogueResponseFixture.getTravelogueResponseWithLike());
     }
 
@@ -262,7 +262,7 @@ class TravelogueFacadeServiceTest {
         MemberAuth memberAuth = new MemberAuth(1L);
         service.deleteTravelogueById(1L, memberAuth);
 
-        assertThatThrownBy(() -> service.findTravelogueById(1L))
+        assertThatThrownBy(() -> service.findTravelogueByIdForGuest(1L))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행기입니다.");
     }
