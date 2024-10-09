@@ -43,7 +43,7 @@ public class MyPageFacadeService {
         Member member = memberService.getMemberById(memberAuth.memberId());
         Page<TravelPlan> travelPlans = travelPlanService.getAllByAuthor(member, pageable);
 
-        return travelPlans.map((travelPlanService::getTravelPlanResponse));
+        return travelPlans.map(PlanResponse::from);
     }
 
     @Transactional

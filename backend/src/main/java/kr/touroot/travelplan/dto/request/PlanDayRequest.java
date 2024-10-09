@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.domain.TravelPlanDay;
+import kr.touroot.travelplan.domain.TravelPlanPlace;
 
 public record PlanDayRequest(
         @Schema(description = "여행 장소 정보")
@@ -17,6 +18,16 @@ public record PlanDayRequest(
 ) {
 
     public TravelPlanDay toPlanDay(int order, TravelPlan plan) {
-        return new TravelPlanDay(order, plan);
+        TravelPlanDay travelPlanDay = new TravelPlanDay(order, plan);
+        addPlaces(travelPlanDay);
+        return travelPlanDay;
+    }
+
+    private void addPlaces(TravelPlanDay travelPlanDay) {
+        for (int order = 0; order < places.size(); order++) {
+            PlanPlaceRequest planPlaceRequest = places.get(order);
+            TravelPlanPlace planPlace = planPlaceRequest.toPlanPlace(order, travelPlanDay);
+            travelPlanDay.addPlace(planPlace);
+        }
     }
 }
