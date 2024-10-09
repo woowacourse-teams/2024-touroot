@@ -18,7 +18,6 @@ import kr.touroot.global.exception.BadRequestException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -34,9 +33,8 @@ public class TravelPlanDay extends BaseEntity {
     private Long id;
 
     @Column(name = "PLAN_DAY_ORDER", nullable = false)
-    Integer order;
+    private Integer order;
 
-    @Setter
     @JoinColumn(name = "PLAN_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelPlan plan;
@@ -74,11 +72,15 @@ public class TravelPlanDay extends BaseEntity {
 
     public void addPlace(TravelPlanPlace place) {
         travelPlanPlaces.add(place);
-        place.setDay(this);
+        place.updateDay(this);
     }
 
     public LocalDate getCurrentDate() {
         LocalDate startDate = plan.getStartDate();
         return startDate.plusDays(order);
+    }
+
+    public void updatePlan(TravelPlan plan) {
+        this.plan = plan;
     }
 }

@@ -105,7 +105,7 @@ public class TravelPlan extends BaseEntity {
 
     public void addDay(TravelPlanDay day) {
         travelPlanDays.add(day);
-        day.setPlan(this);
+        day.updatePlan(this);
     }
 
     public boolean isStartDateBefore(LocalDate date) {

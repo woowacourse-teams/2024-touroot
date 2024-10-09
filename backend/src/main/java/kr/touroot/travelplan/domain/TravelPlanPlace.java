@@ -20,7 +20,6 @@ import kr.touroot.position.domain.Position;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -41,7 +40,6 @@ public class TravelPlanPlace extends BaseEntity {
     @Column(name = "PLAN_PLACE_ORDER", nullable = false)
     private Integer order;
 
-    @Setter
     @JoinColumn(name = "PLAN_DAY_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private TravelPlanDay day;
@@ -105,6 +103,10 @@ public class TravelPlanPlace extends BaseEntity {
 
     public void addTodo(TravelPlaceTodo todo) {
         travelPlaceTodos.add(todo);
-        todo.setTravelPlanPlace(this);
+        todo.updateTravelPlanPlace(this);
+    }
+
+    public void updateDay(TravelPlanDay day) {
+        this.day = day;
     }
 }
