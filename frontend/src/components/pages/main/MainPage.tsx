@@ -74,6 +74,8 @@ const MainPage = () => {
         <S.TagsContainer>
           <S.SingleSelectionTagsContainer>
             <Chip
+              as="button"
+              aria-label="여행기 정렬"
               label={SORTING_OPTIONS_MAP[sorting.selectedOption]}
               isSelected={true}
               onClick={sorting.handleOpenModal}
@@ -81,6 +83,8 @@ const MainPage = () => {
               <Icon iconType="down-arrow" size="8" color={theme.colors.primary} />
             </Chip>
             <Chip
+              as="button"
+              aria-label="여행기 필터"
               label={
                 travelPeriod.selectedOption
                   ? TRAVEL_PERIOD_OPTIONS_MAP[travelPeriod.selectedOption]
