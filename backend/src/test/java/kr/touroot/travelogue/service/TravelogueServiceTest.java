@@ -4,15 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 import java.util.List;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
-import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
@@ -28,18 +25,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Pageable;
 
 @DisplayName("여행기 서비스")
-@Import(value = {
-        TravelogueImagePerpetuationService.class,
-        AwsS3Provider.class,
-        TravelogueService.class,
-        TravelogueTestHelper.class,
-        TestQueryDslConfig.class
-})
+@Import(value = {TravelogueService.class, TravelogueTestHelper.class, TestQueryDslConfig.class})
 @ServiceTest
 class TravelogueServiceTest {
 
@@ -48,30 +38,21 @@ class TravelogueServiceTest {
     private final TravelogueService travelogueService;
     private final DatabaseCleaner databaseCleaner;
     private final TravelogueTestHelper testHelper;
-    @MockBean
-    private final AwsS3Provider s3Provider;
 
     @Autowired
     public TravelogueServiceTest(
             TravelogueService travelogueService,
             DatabaseCleaner databaseCleaner,
-            TravelogueTestHelper testHelper,
-            AwsS3Provider s3Provider
+            TravelogueTestHelper testHelper
     ) {
         this.travelogueService = travelogueService;
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
-        this.s3Provider = s3Provider;
     }
 
     @BeforeEach
     void setUp() {
         databaseCleaner.executeTruncate();
-    }
-
-    private void mockImageCopyProcess() {
-        when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn("https://dev.touroot.kr/image.png");
     }
 
     private static List<TravelogueDayRequest> getTravelogueDayRequests() {
@@ -83,7 +64,6 @@ class TravelogueServiceTest {
     @DisplayName("여행기를 저장할 수 있다")
     @Test
     void saveTravelogue() {
-        mockImageCopyProcess();
         Member member = testHelper.initKakaoMemberTestData();
         Travelogue travelogue = TravelogueFixture.TRAVELOGUE.create(member);
 
@@ -132,7 +112,6 @@ class TravelogueServiceTest {
     void updateTravelogue() {
         Member author = testHelper.initKakaoMemberTestData();
         testHelper.initTravelogueTestData(author);
-        mockImageCopyProcess();
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
         TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
         Travelogue updatedTravelogue = travelogueService.update(1L, author, request);

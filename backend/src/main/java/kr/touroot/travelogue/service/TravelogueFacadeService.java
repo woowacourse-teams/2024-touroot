@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelogueFacadeService {
 
     private final TravelogueService travelogueService;
+    private final TravelogueImagePerpetuationService travelogueImagePerpetuationService;
     private final TravelogueTagService travelogueTagService;
     private final TravelogueLikeService travelogueLikeService;
     private final MemberService memberService;
@@ -33,6 +34,7 @@ public class TravelogueFacadeService {
     public TravelogueCreateResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
         Member author = memberService.getMemberById(member.memberId());
         Travelogue travelogue = travelogueService.save(request.toTravelogue(author));
+        travelogueImagePerpetuationService.copyTravelogueImagesToPermanentStorage(travelogue);
         travelogueTagService.createTravelogueTags(travelogue, request.tags());
 
         return TravelogueCreateResponse.from(travelogue);
@@ -85,6 +87,7 @@ public class TravelogueFacadeService {
         Member author = memberService.getMemberById(member.memberId());
 
         Travelogue updated = travelogueService.update(id, author, updateRequest);
+        travelogueImagePerpetuationService.copyTravelogueImagesToPermanentStorage(updated);
         List<TravelogueTag> travelogueTags = travelogueTagService.updateTravelogueTag(updated, updateRequest.tags());
 
         boolean isLikedFromAccessor = travelogueLikeService.existByTravelogueAndMember(updated, author);
