@@ -1,10 +1,12 @@
 package kr.touroot.travelplan.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.travelplan.fixture.TravelPlanDayFixture;
+import kr.touroot.travelplan.fixture.TravelPlanPlaceFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -75,5 +77,27 @@ class TravelPlanPlaceTest {
         assertThatThrownBy(() -> new TravelPlanPlace(VALID_ORDER, VALID_DAY, length61, VALID_LAT, VALID_LNG))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("장소 이름은 60자 이하여야 합니다");
+    }
+
+    @DisplayName("Todo를 추가할 수 있다")
+    @Test
+    void addTodoInPlace() {
+        TravelPlanPlace travelPlanPlace = TravelPlanPlaceFixture.TRAVEL_PLAN_PLACE.get();
+        TravelPlaceTodo travelPlaceTodo = new TravelPlaceTodo(travelPlanPlace, "투룻 하기", 1, true);
+
+        travelPlanPlace.addTodo(travelPlaceTodo);
+
+        assertThat(travelPlanPlace.getTravelPlaceTodos()).containsExactly(travelPlaceTodo);
+    }
+
+    @DisplayName("장소에 Todo를 추가하면 Todo의 장소 참조도 수정된다")
+    @Test
+    void addTodoThenTodosPlaceUpdated() {
+        TravelPlanPlace travelPlanPlace = TravelPlanPlaceFixture.TRAVEL_PLAN_PLACE.get();
+        TravelPlaceTodo travelPlaceTodo = new TravelPlaceTodo(travelPlanPlace, "투룻 하기", 1, true);
+
+        travelPlanPlace.addTodo(travelPlaceTodo);
+
+        assertThat(travelPlaceTodo.getTravelPlanPlace()).isEqualTo(travelPlanPlace);
     }
 }

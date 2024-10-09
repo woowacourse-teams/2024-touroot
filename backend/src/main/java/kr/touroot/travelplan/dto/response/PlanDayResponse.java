@@ -13,14 +13,17 @@ public record PlanDayResponse(
         @Schema(description = "여행 장소별 정보") List<PlanPlaceResponse> places
 ) {
 
-    public static PlanDayResponse of(
-            TravelPlanDay planDay,
-            List<PlanPlaceResponse> places
-    ) {
+    public static PlanDayResponse from(TravelPlanDay planDay) {
         return PlanDayResponse.builder()
                 .id(planDay.getId())
                 .date(planDay.getCurrentDate())
-                .places(places)
+                .places(getTravelPlanPlaceResponse(planDay))
                 .build();
+    }
+
+    public static List<PlanPlaceResponse> getTravelPlanPlaceResponse(TravelPlanDay day) {
+        return day.getTravelPlanPlaces().stream()
+                .map(PlanPlaceResponse::from)
+                .toList();
     }
 }

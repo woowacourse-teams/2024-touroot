@@ -6,10 +6,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
+import kr.touroot.travelplan.domain.TravelPlanDay;
 import lombok.Builder;
 
 @Builder
@@ -28,6 +30,27 @@ public record PlanRequest(
 ) {
 
     public TravelPlan toTravelPlan(Member author, UUID shareKey) {
-        return new TravelPlan(title, startDate, shareKey, author);
+        TravelPlan travelPlan = new TravelPlan(title, startDate, shareKey, author);
+        addDays(travelPlan);
+        return travelPlan;
+    }
+
+    private void addDays(TravelPlan travelPlan) {
+        for (int order = 0; order < days.size(); order++) {
+            PlanDayRequest planDayRequest = days.get(order);
+            TravelPlanDay planDay = planDayRequest.toPlanDay(order, travelPlan);
+            travelPlan.addDay(planDay);
+        }
+    }
+
+    public List<TravelPlanDay> getDays(TravelPlan travelPlan) {
+        List<TravelPlanDay> travelPlanDays = new ArrayList<>();
+        for (int order = 0; order < days.size(); order++) {
+            PlanDayRequest planDayRequest = days.get(order);
+            TravelPlanDay planDay = planDayRequest.toPlanDay(order, travelPlan);
+            travelPlanDays.add(planDay);
+        }
+
+        return travelPlanDays;
     }
 }

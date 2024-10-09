@@ -172,7 +172,7 @@ class TravelPlanControllerTest {
                 .get("/api/v1/travel-plans/" + id)
                 .then().log().all()
                 .statusCode(403)
-                .body("message", is("여행 계획 조회는 작성자만 가능합니다."));
+                .body("message", is("여행 계획은 작성자만 접근 가능합니다."));
     }
 
     @DisplayName("여행 계획 공유 키를 통해 여행 계획을 조회할 수 있다")
@@ -333,7 +333,7 @@ class TravelPlanControllerTest {
                 .when().put("/api/v1/travel-plans/" + id)
                 .then().log().all()
                 .statusCode(403)
-                .body("message", is("여행 계획 수정은 작성자만 가능합니다."));
+                .body("message", is("여행 계획은 작성자만 접근 가능합니다."));
     }
 
     @DisplayName("여행계획을 삭제한다.")
@@ -373,6 +373,6 @@ class TravelPlanControllerTest {
                 .when().delete("/api/v1/travel-plans/" + id)
                 .then().log().all()
                 .statusCode(403)
-                .body("message", is("여행 계획 삭제는 작성자만 가능합니다."));
+                .body("message", is("여행 계획은 작성자만 접근 가능합니다."));
     }
 }

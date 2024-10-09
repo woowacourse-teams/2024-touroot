@@ -15,7 +15,7 @@ import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.dto.response.PlanCreateResponse;
 import kr.touroot.travelplan.dto.response.PlanResponse;
-import kr.touroot.travelplan.service.TravelPlanService;
+import kr.touroot.travelplan.service.TravelPlanFacadeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/travel-plans")
 public class TravelPlanController {
 
-    private final TravelPlanService travelPlanService;
+    private final TravelPlanFacadeService travelPlanFacadeService;
 
     @Operation(summary = "여행 계획 생성")
     @ApiResponses(value = {
@@ -57,7 +57,7 @@ public class TravelPlanController {
             @Valid @RequestBody PlanRequest request,
             MemberAuth memberAuth
     ) {
-        PlanCreateResponse data = travelPlanService.createTravelPlan(request, memberAuth);
+        PlanCreateResponse data = travelPlanFacadeService.createTravelPlan(request, memberAuth);
         return ResponseEntity.created(URI.create("/api/v1/travel-plans/" + data.id())).build();
     }
 
@@ -83,7 +83,7 @@ public class TravelPlanController {
             @Parameter(description = "여행 계획 id") @PathVariable Long id,
             MemberAuth memberAuth
     ) {
-        PlanResponse data = travelPlanService.readTravelPlan(id, memberAuth);
+        PlanResponse data = travelPlanFacadeService.findTravelPlanById(id, memberAuth);
         return ResponseEntity.ok(data);
     }
 
@@ -110,7 +110,7 @@ public class TravelPlanController {
             @Valid MemberAuth memberAuth,
             @Valid @RequestBody PlanRequest request
     ) {
-        travelPlanService.updateTravelPlan(id, memberAuth, request);
+        travelPlanFacadeService.updateTravelPlanById(id, memberAuth, request);
         return ResponseEntity.ok().build();
     }
 
@@ -133,7 +133,7 @@ public class TravelPlanController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTravelPlan(@PathVariable Long id, MemberAuth memberAuth) {
-        travelPlanService.deleteByTravelPlanId(id, memberAuth);
+        travelPlanFacadeService.deleteTravelPlanById(id, memberAuth);
         return ResponseEntity.noContent()
                 .build();
     }
@@ -154,7 +154,7 @@ public class TravelPlanController {
     public ResponseEntity<PlanResponse> readSharedTravelPlan(
             @Parameter(description = "여행 계획 공유 키") @PathVariable UUID shareKey
     ) {
-        PlanResponse data = travelPlanService.readTravelPlan(shareKey);
+        PlanResponse data = travelPlanFacadeService.findTravelPlanByShareKey(shareKey);
         return ResponseEntity.ok(data);
     }
 }
