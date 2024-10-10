@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
@@ -23,6 +22,7 @@ import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelP
 import useTravelPlanForm from "@hooks/pages/useTravelPlanForm";
 import useAuthRedirect from "@hooks/useAuthRedirect";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
+import useToggle from "@hooks/useToggle";
 
 import { CYPRESS_DATA_MAP } from "@constants/cypress";
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
@@ -54,17 +54,8 @@ const TravelPlanRegisterPage = () => {
   } = useTravelPlanForm(transformDetail?.days ?? []);
 
   /** ui */
-  const [isOpenBottomSheet, setIsOpenBottomSheet] = useState(false);
-
-  const handleOpenBottomSheet = () => setIsOpenBottomSheet(true);
-
-  const handleCloseBottomSheet = () => setIsOpenBottomSheet(false);
-
-  const [isShowCalendar, setIsShowCalendar] = useState(false);
-
-  const handleOpenCalendar = () => setIsShowCalendar(true);
-
-  const handleCloseCalendar = () => setIsShowCalendar(() => false);
+  const [isOpenBottomSheet, onBottomSheetOpen, onBottomSheetClose] = useToggle();
+  const [isShowCalendar, handleOpenCalendar, handleCloseCalendar] = useToggle();
 
   /** router */
   const navigate = useNavigate();
@@ -80,7 +71,7 @@ const TravelPlanRegisterPage = () => {
       onSuccess: ({ headers: { location } }) => {
         const id = extractLastPath(location);
 
-        handleCloseBottomSheet();
+        onBottomSheetClose();
         navigate(ROUTE_PATHS_MAP.travelPlan(id));
       },
     });
@@ -199,7 +190,7 @@ const TravelPlanRegisterPage = () => {
 
         <Button
           variants="primary"
-          onClick={handleOpenBottomSheet}
+          onClick={onBottomSheetOpen}
           data-cy={CYPRESS_DATA_MAP.travelPlanRegister.registerButton}
         >
           등록
@@ -211,7 +202,7 @@ const TravelPlanRegisterPage = () => {
         isPending={isPostingTravelPlanPending}
         mainText="여행 계획을 등록할까요?"
         subText="등록한 후에도 다시 여행 계획을 수정할 수 있어요."
-        onClose={handleCloseBottomSheet}
+        onClose={onBottomSheetClose}
         onConfirm={handleConfirmBottomSheet}
       />
     </>

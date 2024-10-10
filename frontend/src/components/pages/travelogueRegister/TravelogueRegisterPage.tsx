@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
 import {
@@ -21,21 +19,14 @@ import useTravelogueForm from "@components/pages/travelogueRegister/hooks/useTra
 
 import useAuthRedirect from "@hooks/useAuthRedirect";
 import { useDragScroll } from "@hooks/useDragScroll";
+import useToggle from "@hooks/useToggle";
 
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
 import * as S from "./TravelogueRegisterPage.styled";
 
 const TravelogueRegisterPage = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOpenBottomSheet = () => {
-    setIsOpen(true);
-  };
-
-  const handleCloseBottomSheet = () => {
-    setIsOpen(false);
-  };
+  const [isOpen, onBottomSheetOpen, onBottomSheetClose] = useToggle();
 
   const { transformDetail } = useTravelTransformDetailContext();
 
@@ -63,7 +54,7 @@ const TravelogueRegisterPage = () => {
       onChangePlaceDescription,
       onSubmitTravelogue,
     },
-  } = useTravelogueForm(transformDetail?.days ?? [], handleCloseBottomSheet);
+  } = useTravelogueForm(transformDetail?.days ?? [], onBottomSheetClose);
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
@@ -169,7 +160,7 @@ const TravelogueRegisterPage = () => {
           </GoogleMapLoadScript>
         </div>
 
-        <Button variants="primary" onClick={handleOpenBottomSheet}>
+        <Button variants="primary" onClick={onBottomSheetOpen}>
           등록
         </Button>
       </S.Layout>
@@ -179,7 +170,7 @@ const TravelogueRegisterPage = () => {
         isPending={isPostingTraveloguePending}
         mainText="여행기를 등록할까요?"
         subText="등록한 후에도 다시 여행기를 수정할 수 있어요!"
-        onClose={handleCloseBottomSheet}
+        onClose={onBottomSheetClose}
         onConfirm={onSubmitTravelogue}
       />
     </>
