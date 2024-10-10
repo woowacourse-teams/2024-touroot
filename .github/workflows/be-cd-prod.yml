@@ -64,5 +64,5 @@ jobs:
       - name: Docker Image pull
         run: sudo docker pull touroot/touroot-api:prod
 
-      - name: Docker Compose up
-        run: sudo docker compose -f ~/docker/api-docker.yml up -d
+      - name: execute deploy.sh 
+        run: sh /home/ubuntu/docker/deploy.sh
