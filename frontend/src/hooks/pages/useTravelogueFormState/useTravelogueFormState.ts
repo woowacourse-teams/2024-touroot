@@ -1,9 +1,8 @@
 import { TravelTransformDays } from "@type/domain/travelTransform";
 
-import useTravelogueThumbnail from "@components/pages/travelogueRegister/hooks/useTravelogueThumbnail";
-import useTravelogueTitle from "@components/pages/travelogueRegister/hooks/useTravelogueTitle";
-
-import useTravelogueDays from "@hooks/pages/useTravelogueDays";
+import useTravelogueDays from "@hooks/pages/useTravelogueFormState/useTravelogueDays";
+import useTravelogueThumbnail from "@hooks/pages/useTravelogueFormState/useTravelogueThumbnail";
+import useTravelogueTitle from "@hooks/pages/useTravelogueFormState/useTravelogueTitle";
 import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
 
 const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
