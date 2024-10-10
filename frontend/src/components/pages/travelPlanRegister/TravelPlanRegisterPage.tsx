@@ -1,8 +1,4 @@
-import { useNavigate } from "react-router-dom";
-
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
-
-import { usePostTravelPlan } from "@queries/usePostTravelPlan";
 
 import {
   Accordion,
@@ -18,24 +14,20 @@ import {
   TextField,
 } from "@components/common";
 import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
+import useTravelPlanRegister from "@components/pages/travelPlanRegister/hooks/useTravelPlanRegister";
 
 import useTravelPlanForm from "@hooks/pages/useTravelPlanForm";
 import useAuthRedirect from "@hooks/useAuthRedirect";
-import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import useToggle from "@hooks/useToggle";
 
 import { CYPRESS_DATA_MAP } from "@constants/cypress";
-import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
-import { ROUTE_PATHS_MAP } from "@constants/route";
 
-import { extractLastPath } from "@utils/extractId";
 import { extractUTCDate } from "@utils/extractUTCDate";
 
 import * as S from "./TravelPlanRegisterPage.styled";
 
 const TravelPlanRegisterPage = () => {
-  /** form */
   const { transformDetail } = useTravelTransformDetailContext();
 
   const {
@@ -53,36 +45,14 @@ const TravelPlanRegisterPage = () => {
     },
   } = useTravelPlanForm(transformDetail?.days ?? []);
 
-  /** ui */
-  const [isOpenBottomSheet, onBottomSheetOpen, onBottomSheetClose] = useToggle();
+  const [isOpenBottomSheet, handleBottomSheetOpen, handleBottomSheetClose] = useToggle();
   const [isShowCalendar, handleOpenCalendar, handleCloseCalendar] = useToggle();
 
-  /** router */
-  const navigate = useNavigate();
-
-  /** server */
-  const { mutate: mutateTravelPlanRegister, isPending: isPostingTravelPlanPending } =
-    usePostTravelPlan();
-
-  const handleRegisterTravelPlan = () => {
-    const travelPlanPayload = { title, startDate: extractUTCDate(startDate), days: travelPlanDays };
-
-    mutateTravelPlanRegister(travelPlanPayload, {
-      onSuccess: ({ headers: { location } }) => {
-        const id = extractLastPath(location);
-
-        onBottomSheetClose();
-        navigate(ROUTE_PATHS_MAP.travelPlan(id));
-      },
-    });
-  };
-
-  const handleConfirmBottomSheet = useLeadingDebounce(
-    () => handleRegisterTravelPlan(),
-    DEBOUNCED_TIME,
+  const { onConfirmBottomSheet, isPostingTravelPlanPending } = useTravelPlanRegister(
+    { title, startDate: extractUTCDate(startDate), days: travelPlanDays },
+    handleBottomSheetClose,
   );
 
-  /** authorization */
   useAuthRedirect();
 
   return (
@@ -190,7 +160,7 @@ const TravelPlanRegisterPage = () => {
 
         <Button
           variants="primary"
-          onClick={onBottomSheetOpen}
+          onClick={handleBottomSheetOpen}
           data-cy={CYPRESS_DATA_MAP.travelPlanRegister.registerButton}
         >
           등록
@@ -202,8 +172,8 @@ const TravelPlanRegisterPage = () => {
         isPending={isPostingTravelPlanPending}
         mainText="여행 계획을 등록할까요?"
         subText="등록한 후에도 다시 여행 계획을 수정할 수 있어요."
-        onClose={onBottomSheetClose}
-        onConfirm={handleConfirmBottomSheet}
+        onClose={handleBottomSheetClose}
+        onConfirm={onConfirmBottomSheet}
       />
     </>
   );
