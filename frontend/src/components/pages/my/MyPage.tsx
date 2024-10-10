@@ -113,7 +113,7 @@ const MyPage = () => {
 
       <Tab
         storageKey={STORAGE_KEYS_MAP.myPageSelectedTabIndex}
-        labels={["내 여행 계획", "내 여행기"]}
+        labels={["✈️ 내 여행 계획", "📝 내 여행기"]}
         tabContent={(selectedIndex) => (
           <>
             {selectedIndex === 0 ? (
