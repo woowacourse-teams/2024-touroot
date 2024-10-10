@@ -33,7 +33,7 @@ public class TravelPlanDay extends BaseEntity {
     private Long id;
 
     @Column(name = "PLAN_DAY_ORDER", nullable = false)
-    Integer order;
+    private Integer order;
 
     @JoinColumn(name = "PLAN_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -70,8 +70,17 @@ public class TravelPlanDay extends BaseEntity {
         }
     }
 
+    public void addPlace(TravelPlanPlace place) {
+        travelPlanPlaces.add(place);
+        place.updateDay(this);
+    }
+
     public LocalDate getCurrentDate() {
         LocalDate startDate = plan.getStartDate();
         return startDate.plusDays(order);
+    }
+
+    public void updatePlan(TravelPlan plan) {
+        this.plan = plan;
     }
 }

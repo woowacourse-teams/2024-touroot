@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
+import kr.touroot.travelogue.domain.TraveloguePlace;
 
 public record TravelogueDayRequest(
         @Schema(description = "여행기 장소 목록")
@@ -17,6 +18,16 @@ public record TravelogueDayRequest(
 ) {
 
     public TravelogueDay toTravelogueDay(int order, Travelogue travelogue) {
-        return new TravelogueDay(order, travelogue);
+        TravelogueDay travelogueDay = new TravelogueDay(order, travelogue);
+        addTraveloguePlaces(travelogueDay);
+        return travelogueDay;
+    }
+
+    private void addTraveloguePlaces(TravelogueDay travelogueDay) {
+        for (int placeOrder = 0; placeOrder < places.size(); placeOrder++) {
+            TraveloguePlaceRequest traveloguePlaceRequest = places.get(placeOrder);
+            TraveloguePlace traveloguePlace = traveloguePlaceRequest.toTraveloguePlace(placeOrder, travelogueDay);
+            travelogueDay.addPlace(traveloguePlace);
+        }
     }
 }

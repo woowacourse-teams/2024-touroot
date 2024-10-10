@@ -2,9 +2,9 @@ package kr.touroot.member.service;
 
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.member.domain.Member;
-import kr.touroot.member.dto.MyTravelogueResponse;
-import kr.touroot.member.dto.ProfileResponse;
 import kr.touroot.member.dto.request.ProfileUpdateRequest;
+import kr.touroot.member.dto.response.MyTravelogueResponse;
+import kr.touroot.member.dto.response.ProfileResponse;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.service.TravelogueService;
 import kr.touroot.travelplan.domain.TravelPlan;
@@ -26,13 +26,13 @@ public class MyPageFacadeService {
 
     @Transactional(readOnly = true)
     public ProfileResponse readProfile(MemberAuth memberAuth) {
-        Member member = memberService.getById(memberAuth.memberId());
+        Member member = memberService.getMemberById(memberAuth.memberId());
         return ProfileResponse.from(member);
     }
 
     @Transactional(readOnly = true)
     public Page<MyTravelogueResponse> readTravelogues(MemberAuth memberAuth, Pageable pageable) {
-        Member member = memberService.getById(memberAuth.memberId());
+        Member member = memberService.getMemberById(memberAuth.memberId());
         Page<Travelogue> travelogues = travelogueService.findAllByMember(member, pageable);
 
         return travelogues.map(MyTravelogueResponse::from);
@@ -40,10 +40,10 @@ public class MyPageFacadeService {
 
     @Transactional(readOnly = true)
     public Page<PlanResponse> readTravelPlans(MemberAuth memberAuth, Pageable pageable) {
-        Member member = memberService.getById(memberAuth.memberId());
+        Member member = memberService.getMemberById(memberAuth.memberId());
         Page<TravelPlan> travelPlans = travelPlanService.getAllByAuthor(member, pageable);
 
-        return travelPlans.map((travelPlanService::getTravelPlanResponse));
+        return travelPlans.map(PlanResponse::from);
     }
 
     @Transactional

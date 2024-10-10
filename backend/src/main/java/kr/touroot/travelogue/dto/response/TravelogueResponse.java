@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import kr.touroot.tag.dto.TagResponse;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.domain.TravelogueTag;
 import lombok.Builder;
 
 @Builder
@@ -33,11 +34,22 @@ public record TravelogueResponse(
         Boolean isLiked
 ) {
 
-    public static TravelogueResponse of(
+    public static TravelogueResponse of(Travelogue travelogue, List<TravelogueTag> tags, boolean isLikedFromAccessor) {
+        return baseBuilder(travelogue, tags)
+                .isLiked(isLikedFromAccessor)
+                .build();
+    }
+
+    public static TravelogueResponse createResponseForGuest(Travelogue travelogue, List<TravelogueTag> tags) {
+        return baseBuilder(travelogue, tags)
+                .isLiked(false)
+                .build();
+    }
+
+    private static TravelogueResponseBuilder baseBuilder(
             Travelogue travelogue,
-            List<TravelogueDayResponse> days,
-            List<TagResponse> tags,
-            TravelogueLikeResponse like) {
+            List<TravelogueTag> tags
+    ) {
         return TravelogueResponse.builder()
                 .id(travelogue.getId())
                 .createdAt(travelogue.getCreatedAt().toLocalDate())
@@ -46,10 +58,20 @@ public record TravelogueResponse(
                 .authorProfileImageUrl(travelogue.getAuthorProfileImageUrl())
                 .title(travelogue.getTitle())
                 .thumbnail(travelogue.getThumbnail())
-                .days(days)
-                .tags(tags)
-                .likeCount(like.likeCount())
-                .isLiked(like.isLiked())
-                .build();
+                .days(getTravelogueDayResponse(travelogue))
+                .tags(getTagResponse(tags))
+                .likeCount(travelogue.getLikeCount());
+    }
+
+    private static List<TravelogueDayResponse> getTravelogueDayResponse(Travelogue travelogue) {
+        return travelogue.getTravelogueDays().stream()
+                .map(TravelogueDayResponse::from)
+                .toList();
+    }
+
+    private static List<TagResponse> getTagResponse(List<TravelogueTag> travelogueTags) {
+        return travelogueTags.stream()
+                .map(TagResponse::from)
+                .toList();
     }
 }

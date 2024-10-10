@@ -2,6 +2,7 @@ package kr.touroot.tag.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import kr.touroot.tag.domain.Tag;
+import kr.touroot.travelogue.domain.TravelogueTag;
 import lombok.Builder;
 
 @Builder
@@ -15,5 +16,9 @@ public record TagResponse(
                 .id(tag.getId())
                 .tag(tag.getTag())
                 .build();
+    }
+
+    public static TagResponse from(TravelogueTag travelogueTag) {
+        return from(travelogueTag.getTag());
     }
 }

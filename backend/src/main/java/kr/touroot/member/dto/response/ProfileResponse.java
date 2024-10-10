@@ -1,4 +1,4 @@
-package kr.touroot.member.dto;
+package kr.touroot.member.dto.response;
 
 import kr.touroot.member.domain.Member;
 import lombok.Builder;

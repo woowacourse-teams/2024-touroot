@@ -21,9 +21,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Make keystore file
-        run: echo "${{secrets.PROD_SSL_KEYSTORE}}" | base64 --decode > ./src/main/resources/keystore.p12
-
       - name: Gradle Caching
         uses: actions/cache@v3
         with:

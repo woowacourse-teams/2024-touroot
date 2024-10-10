@@ -93,4 +93,8 @@ public class TravelPlaceTodo extends BaseEntity {
     public void updateCheckedStatus(boolean checkedStatus) {
         isChecked = checkedStatus;
     }
+
+    public void updateTravelPlanPlace(TravelPlanPlace travelPlanPlace) {
+        this.travelPlanPlace = travelPlanPlace;
+    }
 }

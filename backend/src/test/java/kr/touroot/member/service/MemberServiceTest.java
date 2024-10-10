@@ -50,14 +50,14 @@ class MemberServiceTest {
     void getById() {
         Member member = testHelper.persistMember();
 
-        assertThat(memberService.getById(member.getId()).getId())
+        assertThat(memberService.getMemberById(member.getId()).getId())
                 .isEqualTo(member.getId());
     }
 
     @DisplayName("ID를 기준으로 존재하지 않는 회원을 조회하면 예외가 발생한다.")
     @Test
     void getByIdNotExist() {
-        assertThatThrownBy(() -> memberService.getById(0L))
+        assertThatThrownBy(() -> memberService.getMemberById(0L))
                 .hasMessage("존재하지 않는 사용자입니다.");
     }
 
@@ -103,7 +103,7 @@ class MemberServiceTest {
 
         memberService.updateProfile(request, memberAuth);
 
-        assertThat(memberService.getById(member.getId()).getNickname())
+        assertThat(memberService.getMemberById(member.getId()).getNickname())
                 .isEqualTo("newNickname");
     }
 }

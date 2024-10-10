@@ -61,7 +61,7 @@ class TravelPlanControllerTest {
         accessToken = jwtTokenProvider.createToken(member.getId()).accessToken();
     }
 
-    @DisplayName("여행 계획 컨트롤러는 생성 요청이 들어올 때 200을 응답한다.")
+    @DisplayName("여행 계획 컨트롤러는 생성 요청이 들어올 때 201을 응답한다.")
     @Test
     void createTravelPlan() {
         // given
@@ -87,8 +87,8 @@ class TravelPlanControllerTest {
                 .when().log().all()
                 .post("/api/v1/travel-plans")
                 .then().log().all()
-                .statusCode(201)
-                .body("id", is(1));
+                .headers("Location", "/api/v1/travel-plans/1")
+                .statusCode(201);
     }
 
     @DisplayName("여행 계획 컨트롤러는 지난 날짜로 생성 요청이 들어올 때 400을 응답한다.")
@@ -172,7 +172,7 @@ class TravelPlanControllerTest {
                 .get("/api/v1/travel-plans/" + id)
                 .then().log().all()
                 .statusCode(403)
-                .body("message", is("여행 계획 조회는 작성자만 가능합니다."));
+                .body("message", is("여행 계획은 작성자만 접근 가능합니다."));
     }
 
     @DisplayName("여행 계획 공유 키를 통해 여행 계획을 조회할 수 있다")
@@ -272,8 +272,7 @@ class TravelPlanControllerTest {
                 .body(request)
                 .when().put("/api/v1/travel-plans/" + travelPlan.getId())
                 .then().log().all()
-                .statusCode(200)
-                .body("id", is(1));
+                .statusCode(200);
     }
 
     @DisplayName("존재하지 않는 여행 계획 수정시 400를 응답한다.")
@@ -334,7 +333,7 @@ class TravelPlanControllerTest {
                 .when().put("/api/v1/travel-plans/" + id)
                 .then().log().all()
                 .statusCode(403)
-                .body("message", is("여행 계획 수정은 작성자만 가능합니다."));
+                .body("message", is("여행 계획은 작성자만 접근 가능합니다."));
     }
 
     @DisplayName("여행계획을 삭제한다.")
@@ -374,6 +373,6 @@ class TravelPlanControllerTest {
                 .when().delete("/api/v1/travel-plans/" + id)
                 .then().log().all()
                 .statusCode(403)
-                .body("message", is("여행 계획 삭제는 작성자만 가능합니다."));
+                .body("message", is("여행 계획은 작성자만 접근 가능합니다."));
     }
 }

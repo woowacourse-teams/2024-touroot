@@ -13,12 +13,18 @@ public record PlanPlaceResponse(
         @Schema(description = "여행 장소 TODO") List<PlanPlaceTodoResponse> todos
 ) {
 
-    public static PlanPlaceResponse of(TravelPlanPlace planPlace, List<PlanPlaceTodoResponse> todos) {
+    public static PlanPlaceResponse from(TravelPlanPlace planPlace) {
         return PlanPlaceResponse.builder()
                 .id(planPlace.getId())
                 .placeName(planPlace.getName())
                 .position(PlanPositionResponse.from(planPlace.getPosition()))
-                .todos(todos)
+                .todos(getTodoResponse(planPlace))
                 .build();
+    }
+
+    private static List<PlanPlaceTodoResponse> getTodoResponse(TravelPlanPlace planPlace) {
+        return planPlace.getTravelPlaceTodos().stream()
+                .map(PlanPlaceTodoResponse::from)
+                .toList();
     }
 }

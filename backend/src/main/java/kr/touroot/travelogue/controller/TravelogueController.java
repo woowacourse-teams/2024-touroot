@@ -14,6 +14,7 @@ import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.travelogue.dto.request.TravelogueFilterRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
+import kr.touroot.travelogue.dto.response.TravelogueCreateResponse;
 import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
@@ -56,14 +57,13 @@ public class TravelogueController {
             ),
     })
     @PostMapping
-    public ResponseEntity<TravelogueResponse> createTravelogue(
+    public ResponseEntity<Void> createTravelogue(
             @Valid MemberAuth member,
             @Valid @RequestBody TravelogueRequest request
     ) {
-        TravelogueResponse response = travelogueFacadeService.createTravelogue(member, request);
+        TravelogueCreateResponse response = travelogueFacadeService.createTravelogue(member, request);
 
-        return ResponseEntity.created(URI.create("/api/v1/travelogues/" + response.id()))
-                .body(response);
+        return ResponseEntity.created(URI.create("/api/v1/travelogues/" + response.id())).build();
     }
 
     @Operation(summary = "여행기 좋아요")
@@ -103,7 +103,7 @@ public class TravelogueController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<TravelogueResponse> findTravelogue(@PathVariable Long id) {
-        return ResponseEntity.ok(travelogueFacadeService.findTravelogueById(id));
+        return ResponseEntity.ok(travelogueFacadeService.findTravelogueByIdForGuest(id));
     }
 
     @Operation(summary = "여행기 상세 조회")
@@ -120,7 +120,7 @@ public class TravelogueController {
     })
     @GetMapping(value = "/{id}", headers = {HttpHeaders.AUTHORIZATION})
     public ResponseEntity<TravelogueResponse> findTravelogue(@PathVariable Long id, MemberAuth member) {
-        return ResponseEntity.ok(travelogueFacadeService.findTravelogueById(id, member));
+        return ResponseEntity.ok(travelogueFacadeService.findTravelogueByIdForAuthenticated(id, member));
     }
 
     @Operation(summary = "여행기 메인 페이지 조회")
@@ -188,12 +188,13 @@ public class TravelogueController {
             )
     })
     @PutMapping("/{id}")
-    public ResponseEntity<TravelogueResponse> updateTravelogue(
+    public ResponseEntity<Void> updateTravelogue(
             @PathVariable Long id,
             @Valid MemberAuth member,
             @Valid @RequestBody TravelogueRequest request
     ) {
-        return ResponseEntity.ok(travelogueFacadeService.updateTravelogue(id, member, request));
+        travelogueFacadeService.updateTravelogue(id, member, request);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "여행기 삭제")
