@@ -8,6 +8,7 @@ import ModalHeader from "@components/common/Modal/ModalHeader/ModalHeader";
 import useBottomSheet from "@hooks/useBottomSheet";
 import useModalControl from "@hooks/useModalControl";
 
+import FocusTrap from "../FocusTrap";
 import * as S from "./Modal.style";
 import { GapSize } from "./Modal.type";
 
@@ -31,20 +32,22 @@ const Modal = ({
   return ReactDOM.createPortal(
     <S.Layout $position={position} $isOpen={isOpen}>
       <S.BackdropLayout onClick={onCloseModal} />
-      {position === "center" ? (
-        <S.ModalBoxLayout $position={position} $gap={boxLayoutGap}>
-          {children}
-        </S.ModalBoxLayout>
-      ) : (
-        <S.ModalBoxLayout
-          ref={sheetRef}
-          $position={position}
-          $currentY={currentY}
-          $gap={boxLayoutGap}
-        >
-          {children}
-        </S.ModalBoxLayout>
-      )}
+      <FocusTrap onEscapeFocusTrap={onCloseModal}>
+        {position === "center" ? (
+          <S.ModalBoxLayout $position={position} $gap={boxLayoutGap}>
+            {children}
+          </S.ModalBoxLayout>
+        ) : (
+          <S.ModalBoxLayout
+            ref={sheetRef}
+            $position={position}
+            $currentY={currentY}
+            $gap={boxLayoutGap}
+          >
+            {children}
+          </S.ModalBoxLayout>
+        )}
+      </FocusTrap>
     </S.Layout>,
     document.body,
   );
