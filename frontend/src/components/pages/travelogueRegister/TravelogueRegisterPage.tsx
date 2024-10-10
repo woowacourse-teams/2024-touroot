@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
@@ -20,12 +19,10 @@ import {
 import TravelogueDayAccordion from "@components/pages/travelogueRegister/TravelogueDayAccordion/TravelogueDayAccordion";
 import useTravelogueForm from "@components/pages/travelogueRegister/hooks/useTravelogueForm";
 
+import useAuthRedirect from "@hooks/useAuthRedirect";
 import { useDragScroll } from "@hooks/useDragScroll";
-import useUser from "@hooks/useUser";
 
-import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
-import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import * as S from "./TravelogueRegisterPage.styled";
 
@@ -39,8 +36,6 @@ const TravelogueRegisterPage = () => {
   const handleCloseBottomSheet = () => {
     setIsOpen(false);
   };
-
-  const navigate = useNavigate();
 
   const { transformDetail } = useTravelTransformDetailContext();
 
@@ -72,20 +67,7 @@ const TravelogueRegisterPage = () => {
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
-  const { user } = useUser();
-
-  const { saveTransformDetail } = useTravelTransformDetailContext();
-
-  useEffect(() => {
-    if (!user?.accessToken) {
-      alert(ERROR_MESSAGE_MAP.api.login);
-      navigate(ROUTE_PATHS_MAP.login);
-    }
-
-    return () => {
-      saveTransformDetail(null);
-    };
-  }, [user?.accessToken, navigate]);
+  useAuthRedirect();
 
   return (
     <>

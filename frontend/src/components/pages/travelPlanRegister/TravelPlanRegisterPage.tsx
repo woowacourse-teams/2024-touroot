@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
@@ -21,12 +21,11 @@ import {
 import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
 
 import useTravelPlanForm from "@hooks/pages/useTravelPlanForm";
+import useAuthRedirect from "@hooks/useAuthRedirect";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
-import useUser from "@hooks/useUser";
 
 import { CYPRESS_DATA_MAP } from "@constants/cypress";
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
-import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
@@ -37,7 +36,7 @@ import * as S from "./TravelPlanRegisterPage.styled";
 
 const TravelPlanRegisterPage = () => {
   /** form */
-  const { transformDetail, saveTransformDetail } = useTravelTransformDetailContext();
+  const { transformDetail } = useTravelTransformDetailContext();
 
   const {
     state: { title, startDate, travelPlanDays },
@@ -93,17 +92,7 @@ const TravelPlanRegisterPage = () => {
   );
 
   /** authorization */
-  const { user } = useUser();
-
-  useEffect(() => {
-    if (!user?.accessToken) {
-      alert(ERROR_MESSAGE_MAP.api.login);
-      navigate(ROUTE_PATHS_MAP.login);
-    }
-    return () => {
-      saveTransformDetail(null);
-    };
-  }, [user?.accessToken, navigate, saveTransformDetail]);
+  useAuthRedirect();
 
   return (
     <>
