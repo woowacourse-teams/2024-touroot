@@ -1,16 +1,12 @@
 import { TravelTransformDays } from "@type/domain/travelTransform";
 
-import useTravelogueDays from "@components/pages/travelogueRegister/hooks/useTravelogueDays";
-import useTravelogueRegister from "@components/pages/travelogueRegister/hooks/useTravelogueRegister";
 import useTravelogueThumbnail from "@components/pages/travelogueRegister/hooks/useTravelogueThumbnail";
 import useTravelogueTitle from "@components/pages/travelogueRegister/hooks/useTravelogueTitle";
 
+import useTravelogueDays from "@hooks/pages/useTravelogueDays";
 import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
 
-const useTravelogueForm = (
-  transformDays: TravelTransformDays[],
-  handleCloseBottomSheet: () => void,
-) => {
+const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
   const { title, onChangeTitle } = useTravelogueTitle(transformDays);
   const { thumbnail, onChangeThumbnail, onResetThumbnail } = useTravelogueThumbnail();
   const {
@@ -30,18 +26,6 @@ const useTravelogueForm = (
     onDeleteImageUrls,
   } = useTravelogueDays(transformDays);
 
-  const payload = {
-    title,
-    thumbnail: thumbnail || (process.env.DEFAULT_THUMBNAIL_IMAGE ?? ""),
-    tags: selectedTagIDs,
-    days: travelogueDays,
-  };
-
-  const { onSubmitTravelogue, isPostingTraveloguePending } = useTravelogueRegister(
-    payload,
-    handleCloseBottomSheet,
-  );
-
   return {
     state: {
       title,
@@ -50,7 +34,6 @@ const useTravelogueForm = (
       selectedTagIDs,
       sortedTags,
       animationKey,
-      isPostingTraveloguePending,
     },
     handler: {
       onChangeTitle,
@@ -64,9 +47,8 @@ const useTravelogueForm = (
       onChangeImageUrls,
       onDeleteImageUrls,
       onChangePlaceDescription,
-      onSubmitTravelogue,
     },
   };
 };
 
-export default useTravelogueForm;
+export default useTravelogueFormState;

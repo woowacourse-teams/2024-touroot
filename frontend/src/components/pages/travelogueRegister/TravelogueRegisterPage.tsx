@@ -15,8 +15,9 @@ import {
   ThumbnailUpload,
 } from "@components/common";
 import TravelogueDayAccordion from "@components/pages/travelogueRegister/TravelogueDayAccordion/TravelogueDayAccordion";
-import useTravelogueForm from "@components/pages/travelogueRegister/hooks/useTravelogueForm";
+import useTravelogueRegister from "@components/pages/travelogueRegister/hooks/useTravelogueRegister";
 
+import useTravelogueFormState from "@hooks/pages/useTravelogueFormState";
 import useAuthRedirect from "@hooks/useAuthRedirect";
 import { useDragScroll } from "@hooks/useDragScroll";
 import useToggle from "@hooks/useToggle";
@@ -26,20 +27,12 @@ import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import * as S from "./TravelogueRegisterPage.styled";
 
 const TravelogueRegisterPage = () => {
-  const [isOpen, onBottomSheetOpen, onBottomSheetClose] = useToggle();
+  const [isOpen, onOpenBottomSheet, onCloseBottomSheet] = useToggle();
 
   const { transformDetail } = useTravelTransformDetailContext();
 
   const {
-    state: {
-      title,
-      thumbnail,
-      travelogueDays,
-      selectedTagIDs,
-      sortedTags,
-      animationKey,
-      isPostingTraveloguePending,
-    },
+    state: { title, thumbnail, travelogueDays, selectedTagIDs, sortedTags, animationKey },
     handler: {
       onChangeTitle,
       onChangeThumbnail,
@@ -52,9 +45,20 @@ const TravelogueRegisterPage = () => {
       onChangeImageUrls,
       onDeleteImageUrls,
       onChangePlaceDescription,
-      onSubmitTravelogue,
     },
-  } = useTravelogueForm(transformDetail?.days ?? [], onBottomSheetClose);
+  } = useTravelogueFormState(transformDetail?.days ?? []);
+
+  const payload = {
+    title,
+    thumbnail: thumbnail || (process.env.DEFAULT_THUMBNAIL_IMAGE ?? ""),
+    tags: selectedTagIDs,
+    days: travelogueDays,
+  };
+
+  const { onSubmitTravelogue, isPostingTraveloguePending } = useTravelogueRegister(
+    payload,
+    onCloseBottomSheet,
+  );
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
@@ -160,7 +164,7 @@ const TravelogueRegisterPage = () => {
           </GoogleMapLoadScript>
         </div>
 
-        <Button variants="primary" onClick={onBottomSheetOpen}>
+        <Button variants="primary" onClick={onOpenBottomSheet}>
           등록
         </Button>
       </S.Layout>
@@ -170,7 +174,7 @@ const TravelogueRegisterPage = () => {
         isPending={isPostingTraveloguePending}
         mainText="여행기를 등록할까요?"
         subText="등록한 후에도 다시 여행기를 수정할 수 있어요!"
-        onClose={onBottomSheetClose}
+        onClose={onCloseBottomSheet}
         onConfirm={onSubmitTravelogue}
       />
     </>
