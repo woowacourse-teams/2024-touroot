@@ -23,10 +23,9 @@ export const DrawHeaderContainer = styled.div`
   display: flex;
 `;
 
-export const MenuItem = styled.li`
+export const MenuItem = styled.button`
   ${(props) => props.theme.typography.mobile.bodyBold};
   padding: ${({ theme }) => theme.spacing.s};
-  cursor: pointer;
 `;
 
 export const MenuList = styled.ul`
