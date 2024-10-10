@@ -1,10 +1,3 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
-import { usePostUploadImages } from "@queries/index";
-import { useGetTravelogue } from "@queries/useGetTravelogue";
-import { usePutTravelogue } from "@queries/usePutTravelogue";
-
 import {
   Accordion,
   Button,
@@ -19,133 +12,59 @@ import {
   TextField,
   ThumbnailUpload,
 } from "@components/common";
+import useTravelogueEdit from "@components/pages/travelogueEdit/hooks/useTravelogueEdit";
+import useTravelogueInitialization from "@components/pages/travelogueEdit/hooks/useTravelogueInitialization";
 import TravelogueDayAccordion from "@components/pages/travelogueRegister/TravelogueDayAccordion/TravelogueDayAccordion";
 
-import { useTravelogueDays } from "@hooks/pages/useTravelogueDays";
+import useTravelogueFormState from "@hooks/pages/useTravelogueFormState";
 import { useDragScroll } from "@hooks/useDragScroll";
-import useLeadingDebounce from "@hooks/useLeadingDebounce";
-import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
-import useUser from "@hooks/useUser";
+import useToggle from "@hooks/useToggle";
 
-import { DEBOUNCED_TIME } from "@constants/debouncedTime";
-import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
-import { ROUTE_PATHS_MAP } from "@constants/route";
-
-import resizeAndConvertImage from "@utils/resizeAndConvertImage";
 
 import * as S from "./TravelogueEditPage.styled";
 
 const TravelogueEditPage = () => {
-  const navigate = useNavigate();
+  const [isOpen, handleOpenBottomSheet, handleCloseBottomSheet] = useToggle();
 
-  const { id = "" } = useParams();
+  const {
+    state: { title, thumbnail, travelogueDays, selectedTagIDs, sortedTags, animationKey },
+    handler: {
+      onChangeTitle,
+      onInitializeThumbnail,
+      onChangeSelectedTagIDs,
+      onResetThumbnail,
+      onChangeThumbnail,
+      onClickTag,
+      onChangeTravelogueDays,
+      onAddDay,
+      onDeleteDay,
+      onAddPlace,
+      onDeletePlace,
+      onChangeImageUrls,
+      onDeleteImageUrls,
+      onChangePlaceDescription,
+    },
+  } = useTravelogueFormState([]);
 
-  const { data } = useGetTravelogue(id);
-
-  const [title, setTitle] = useState("");
-  const [thumbnail, setThumbnail] = useState("");
-
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value.slice(
-      FORM_VALIDATIONS_MAP.title.minLength,
-      FORM_VALIDATIONS_MAP.title.maxLength,
-    );
-    setTitle(title);
-  };
-
-  const { selectedTagIDs, onChangeSelectedTagIDs, handleClickTag, sortedTags, animationKey } =
-    useMultiSelectionTag();
+  const { isPuttingTraveloguePending, onEditTravelogue } = useTravelogueEdit(
+    {
+      title,
+      thumbnail: thumbnail || (process.env.DEFAULT_THUMBNAIL_IMAGE ?? ""),
+      tags: selectedTagIDs,
+      days: travelogueDays,
+    },
+    handleCloseBottomSheet,
+  );
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
-  const {
-    travelogueDays,
+  useTravelogueInitialization({
+    onChangeSelectedTagIDs,
+    onChangeTitle,
     onChangeTravelogueDays,
-    onAddDay,
-    onAddPlace,
-    onDeleteDay,
-    onChangePlaceDescription,
-    onDeletePlace,
-    onChangeImageUrls,
-    onDeleteImageUrls,
-  } = useTravelogueDays([]);
-
-  const thumbnailFileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleButtonClick = () => {
-    thumbnailFileInputRef.current?.click();
-  };
-
-  const { mutateAsync: mutateAddImage, isPaused } = usePostUploadImages();
-
-  const handleChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files as FileList);
-
-    const processedFiles = await Promise.all(files.map((file) => resizeAndConvertImage(file)));
-
-    const thumbnail = await mutateAddImage(processedFiles);
-    setThumbnail(thumbnail[0]);
-  };
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOpenBottomSheet = () => {
-    setIsOpen(true);
-  };
-
-  const handleCloseBottomSheet = () => {
-    setIsOpen(false);
-  };
-
-  const { mutate: mutateTravelogueEdit, isPending: isPuttingTraveloguePending } =
-    usePutTravelogue();
-
-  const handleEditTravelogue = () => {
-    mutateTravelogueEdit(
-      {
-        travelogue: {
-          title,
-          thumbnail: thumbnail || (process.env.DEFAULT_THUMBNAIL_IMAGE ?? ""),
-          tags: selectedTagIDs,
-          days: travelogueDays,
-        },
-        id: Number(id),
-      },
-      {
-        onSuccess: () => {
-          handleCloseBottomSheet();
-          navigate(ROUTE_PATHS_MAP.travelogue(id));
-        },
-      },
-    );
-  };
-
-  const debouncedEditTravelogue = useLeadingDebounce(() => handleEditTravelogue(), DEBOUNCED_TIME);
-
-  const handleConfirmBottomSheet = () => {
-    debouncedEditTravelogue();
-  };
-
-  useEffect(() => {
-    if (data) {
-      setTitle(data.title);
-      setThumbnail(data.thumbnail);
-      onChangeSelectedTagIDs(data.tags.map((tag) => tag.id));
-      onChangeTravelogueDays(data.days);
-    }
-  }, [data, onChangeSelectedTagIDs, onChangeTravelogueDays]);
-
-  const { user } = useUser();
-
-  useEffect(() => {
-    const isAuthor = data?.authorId === user?.memberId;
-
-    if (data && !isAuthor) {
-      alert(ERROR_MESSAGE_MAP.api.travelogueEditOnlyWriter);
-      navigate(ROUTE_PATHS_MAP.back);
-    }
-  }, [user, navigate, data]);
+    onInitializeThumbnail,
+  });
 
   return (
     <>
@@ -160,7 +79,7 @@ const TravelogueEditPage = () => {
                 value={title}
                 maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
                 placeholder="여행기 제목을 입력해주세요"
-                onChange={handleChangeTitle}
+                onChange={(event) => onChangeTitle(event.target.value)}
               />
               <CharacterCount
                 count={title.length}
@@ -189,7 +108,7 @@ const TravelogueEditPage = () => {
                     index={index}
                     label={tag.tag}
                     isSelected={selectedTagIDs.includes(tag.id)}
-                    onClick={() => handleClickTag(tag.id)}
+                    onClick={() => onClickTag(tag.id)}
                   />
                 ))}
               </S.ChipsContainer>
@@ -203,10 +122,8 @@ const TravelogueEditPage = () => {
               <ThumbnailUpload
                 id={id}
                 previewUrls={[thumbnail]}
-                onDeleteButton={() => setThumbnail("")}
-                fileInputRef={thumbnailFileInputRef}
-                onChangeImage={handleChangeThumbnail}
-                onClickButton={handleButtonClick}
+                onDeleteButton={onResetThumbnail}
+                onChangeImage={(event) => onChangeThumbnail(event.target.files as FileList)}
               />
             )}
           </TextField>
@@ -229,7 +146,6 @@ const TravelogueEditPage = () => {
             <Accordion.Root>
               {travelogueDays.map((travelogueDay, dayIndex) => (
                 <TravelogueDayAccordion
-                  isPaused={isPaused}
                   key={travelogueDay.id}
                   travelogueDay={travelogueDay}
                   dayIndex={dayIndex}
@@ -239,7 +155,6 @@ const TravelogueEditPage = () => {
                   onChangePlaceDescription={onChangePlaceDescription}
                   onChangeImageUrls={onChangeImageUrls}
                   onDeleteImageUrls={onDeleteImageUrls}
-                  onRequestAddImage={mutateAddImage}
                 />
               ))}
               <IconButton
@@ -266,7 +181,7 @@ const TravelogueEditPage = () => {
         mainText="여행기를 수정할까요?"
         subText="수정한 후에도 다시 여행기를 변경할 수 있어요!"
         onClose={handleCloseBottomSheet}
-        onConfirm={handleConfirmBottomSheet}
+        onConfirm={onEditTravelogue}
       />
     </>
   );

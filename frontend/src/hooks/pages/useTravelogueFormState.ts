@@ -8,12 +8,14 @@ import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
 
 const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
   const { title, onChangeTitle } = useTravelogueTitle(transformDays);
-  const { thumbnail, onChangeThumbnail, onResetThumbnail } = useTravelogueThumbnail();
+  const { thumbnail, onChangeThumbnail, onResetThumbnail, onInitializeThumbnail } =
+    useTravelogueThumbnail();
   const {
     selectedTagIDs,
-    handleClickTag: onClickTag,
     sortedTags,
     animationKey,
+    handleClickTag: onClickTag,
+    onChangeSelectedTagIDs,
   } = useMultiSelectionTag();
   const {
     travelogueDays,
@@ -24,6 +26,7 @@ const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
     onChangeImageUrls,
     onChangePlaceDescription,
     onDeleteImageUrls,
+    onChangeTravelogueDays,
   } = useTravelogueDays(transformDays);
 
   return {
@@ -39,7 +42,9 @@ const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
       onChangeTitle,
       onChangeThumbnail,
       onResetThumbnail,
+      onInitializeThumbnail,
       onClickTag,
+      onChangeTravelogueDays,
       onAddDay,
       onDeleteDay,
       onAddPlace,
@@ -47,6 +52,7 @@ const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
       onChangeImageUrls,
       onDeleteImageUrls,
       onChangePlaceDescription,
+      onChangeSelectedTagIDs,
     },
   };
 };

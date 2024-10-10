@@ -77,7 +77,7 @@ const TravelogueRegisterPage = () => {
                 value={title}
                 maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
                 placeholder="여행기 제목을 입력해주세요"
-                onChange={onChangeTitle}
+                onChange={(event) => onChangeTitle(event.target.value)}
               />
               <CharacterCount
                 count={title.length}

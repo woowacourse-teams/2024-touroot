@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { usePostUploadImages } from "@queries/usePostUploadImages";
 
@@ -23,9 +23,13 @@ const useTravelogueThumbnail = () => {
     }
   };
 
+  const onInitializeThumbnail = useCallback((thumbnailUrl: string) => {
+    setThumbnail(thumbnailUrl);
+  }, []);
+
   const onResetThumbnail = () => setThumbnail("");
 
-  return { thumbnail, onChangeThumbnail, onResetThumbnail };
+  return { thumbnail, onChangeThumbnail, onResetThumbnail, onInitializeThumbnail };
 };
 
 export default useTravelogueThumbnail;
