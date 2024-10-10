@@ -11,6 +11,7 @@ import { PRIMITIVE_COLORS } from "@styles/tokens";
 import { DoubleRightArrow } from "@assets/svg";
 
 import Drawer from "../Drawer/Drawer";
+import FocusTrap from "../FocusTrap";
 import IconButton from "../IconButton/IconButton";
 import * as S from "./Header.styled";
 
@@ -77,24 +78,26 @@ const Header = ({
         </S.DrawHeaderContainer>
       </Drawer.Header>
       <Drawer.Content>
-        <S.MenuList>
-          <Drawer.Trigger>
-            <S.MenuItem onClick={handleClickMyPage}>마이페이지</S.MenuItem>
-          </Drawer.Trigger>
-          <Drawer.Trigger>
-            {user?.accessToken ? (
-              <S.MenuItem onClick={handleClickLogout}>로그아웃</S.MenuItem>
-            ) : (
-              <S.MenuItem
-                onClick={() => {
-                  navigate(ROUTE_PATHS_MAP.login);
-                }}
-              >
-                로그인
-              </S.MenuItem>
-            )}
-          </Drawer.Trigger>
-        </S.MenuList>
+        <FocusTrap>
+          <S.MenuList>
+            <Drawer.Trigger>
+              <S.MenuItem onClick={handleClickMyPage}>마이페이지</S.MenuItem>
+            </Drawer.Trigger>
+            <Drawer.Trigger>
+              {user?.accessToken ? (
+                <S.MenuItem onClick={handleClickLogout}>로그아웃</S.MenuItem>
+              ) : (
+                <S.MenuItem
+                  onClick={() => {
+                    navigate(ROUTE_PATHS_MAP.login);
+                  }}
+                >
+                  로그인
+                </S.MenuItem>
+              )}
+            </Drawer.Trigger>
+          </S.MenuList>
+        </FocusTrap>
       </Drawer.Content>
     </Drawer>
   );
