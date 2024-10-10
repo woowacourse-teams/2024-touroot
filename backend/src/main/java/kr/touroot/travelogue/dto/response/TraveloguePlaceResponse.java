@@ -2,6 +2,7 @@ package kr.touroot.travelogue.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
+import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import lombok.Builder;
 
@@ -17,13 +18,19 @@ public record TraveloguePlaceResponse(
         List<String> photoUrls
 ) {
 
-    public static TraveloguePlaceResponse of(TraveloguePlace place, List<String> photoUrls) {
+    public static TraveloguePlaceResponse from(TraveloguePlace traveloguePlace) {
         return TraveloguePlaceResponse.builder()
-                .id(place.getId())
-                .placeName(place.getName())
-                .description(place.getDescription())
-                .position(TraveloguePositionResponse.from(place.getPosition()))
-                .photoUrls(photoUrls)
+                .id(traveloguePlace.getId())
+                .placeName(traveloguePlace.getName())
+                .description(traveloguePlace.getDescription())
+                .position(TraveloguePositionResponse.from(traveloguePlace.getPosition()))
+                .photoUrls(getTraveloguePhotosResponse(traveloguePlace))
                 .build();
+    }
+
+    private static List<String> getTraveloguePhotosResponse(TraveloguePlace traveloguePlace) {
+        return traveloguePlace.getTraveloguePhotos().stream()
+                .map(TraveloguePhoto::getKey)
+                .toList();
     }
 }

@@ -1,6 +1,8 @@
 package kr.touroot.travelogue.domain;
 
 import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
+import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -46,5 +48,27 @@ class TravelogueDayTest {
         assertThatThrownBy(() -> new TravelogueDay(negative, VALID_TRAVELOGUE))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("여행 날짜의 순서는 음수 일 수 없습니다");
+    }
+
+    @DisplayName("여행 장소를 추가할 수 있다")
+    @Test
+    void addDayInTravelogue() {
+        TravelogueDay travelogueDay = new TravelogueDay(1, TRAVELOGUE.get());
+        TraveloguePlace traveloguePlace = TRAVELOGUE_PLACE.get();
+
+        travelogueDay.addPlace(traveloguePlace);
+
+        assertThat(travelogueDay.getTraveloguePlaces()).containsExactly(traveloguePlace);
+    }
+
+    @DisplayName("여행 날짜에 여행 장소를 추가하면 여행 장소의 여행 날짜 참조도 수정된다")
+    @Test
+    void addDayInTravelogueThenDayUpdated() {
+        TravelogueDay travelogueDay = new TravelogueDay(1, TRAVELOGUE.get());
+        TraveloguePlace traveloguePlace = TRAVELOGUE_PLACE.get();
+
+        travelogueDay.addPlace(traveloguePlace);
+        
+        assertThat(traveloguePlace.getTravelogueDay()).isEqualTo(travelogueDay);
     }
 }

@@ -2,7 +2,6 @@ package kr.touroot.travelogue.service;
 
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
-import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueFilterCondition;
@@ -23,13 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelogueService {
 
     private final TravelogueRepository travelogueRepository;
-    private final AwsS3Provider s3Provider;
     private final TravelogueQueryRepository travelogueQueryRepository;
 
     @Transactional
-    public Travelogue createTravelogue(Member author, TravelogueRequest request) {
-        String url = s3Provider.copyImageToPermanentStorage(request.thumbnail());
-        Travelogue travelogue = request.toTravelogueOf(author, url);
+    public Travelogue save(Travelogue travelogue) {
         return travelogueRepository.save(travelogue);
     }
 
@@ -37,11 +33,6 @@ public class TravelogueService {
     public Travelogue getTravelogueById(Long id) {
         return travelogueRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기입니다."));
-    }
-
-    @Transactional(readOnly = true)
-    public Page<Travelogue> findAll(Pageable pageable) {
-        return travelogueRepository.findAll(pageable);
     }
 
     @Transactional(readOnly = true)
@@ -59,19 +50,22 @@ public class TravelogueService {
 
     @Transactional(readOnly = true)
     public Page<Travelogue> findAllByFilter(TravelogueFilterCondition filter, Pageable pageable) {
+        if (filter.isEmptyCondition()) {
+            return travelogueRepository.findAll(pageable);
+        }
+
         return travelogueQueryRepository.findAllByFilter(filter, pageable);
     }
 
     @Transactional
     public Travelogue update(Long id, Member author, TravelogueRequest request) {
-        Travelogue travelogue = travelogueRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("존재하지 않는 여행기입니다."));
+        Travelogue travelogue = getTravelogueById(id);
         validateAuthor(travelogue, author);
 
-        String url = s3Provider.copyImageToPermanentStorage(request.thumbnail());
-        travelogue.update(request.title(), url);
+        travelogue.updateDays(request.getTravelogueDays(travelogue));
+        travelogue.update(request.title(), request.thumbnail());
 
-        return travelogueRepository.save(travelogue);
+        return travelogue;
     }
 
     @Transactional
@@ -80,7 +74,7 @@ public class TravelogueService {
         travelogueRepository.delete(travelogue);
     }
 
-    public void validateAuthor(Travelogue travelogue, Member author) {
+    private void validateAuthor(Travelogue travelogue, Member author) {
         if (!travelogue.isAuthor(author)) {
             throw new ForbiddenException("본인이 작성한 여행기만 수정하거나 삭제할 수 있습니다.");
         }

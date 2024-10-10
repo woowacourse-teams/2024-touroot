@@ -13,10 +13,16 @@ public record TravelogueDayResponse(
         List<TraveloguePlaceResponse> places
 ) {
 
-    public static TravelogueDayResponse of(TravelogueDay day, List<TraveloguePlaceResponse> places) {
+    public static TravelogueDayResponse from(TravelogueDay travelogueDay) {
         return TravelogueDayResponse.builder()
-                .id(day.getId())
-                .places(places)
+                .id(travelogueDay.getId())
+                .places(getTraveloguePlaceResponse(travelogueDay))
                 .build();
+    }
+
+    private static List<TraveloguePlaceResponse> getTraveloguePlaceResponse(TravelogueDay travelogueDay) {
+        return travelogueDay.getTraveloguePlaces().stream()
+                .map(TraveloguePlaceResponse::from)
+                .toList();
     }
 }

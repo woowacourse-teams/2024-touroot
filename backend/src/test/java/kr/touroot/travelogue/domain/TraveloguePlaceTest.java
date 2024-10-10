@@ -1,10 +1,13 @@
 package kr.touroot.travelogue.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.travelogue.fixture.TravelogueDayFixture;
+import kr.touroot.travelogue.fixture.TraveloguePhotoFixture;
+import kr.touroot.travelogue.fixture.TraveloguePlaceFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -96,5 +99,27 @@ class TraveloguePlaceTest {
         )
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("장소 이름은 85자 이하여야 합니다");
+    }
+
+    @DisplayName("장소 사진을 추가할 수 있다")
+    @Test
+    void addPhotoInTraveloguePlace() {
+        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.TRAVELOGUE_PLACE.get();
+        TraveloguePhoto traveloguePhoto = TraveloguePhotoFixture.TRAVELOGUE_PHOTO.get();
+
+        traveloguePlace.addPhoto(traveloguePhoto);
+
+        assertThat(traveloguePlace.getTraveloguePhotos()).containsExactly(traveloguePhoto);
+    }
+
+    @DisplayName("여행 장소에 장소 사진을 추가하면 장소 사진의 여행 장소 참조도 수정된다")
+    @Test
+    void addDayInTravelogueThenDayUpdated() {
+        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.TRAVELOGUE_PLACE.get();
+        TraveloguePhoto traveloguePhoto = TraveloguePhotoFixture.TRAVELOGUE_PHOTO.get();
+
+        traveloguePlace.addPhoto(traveloguePhoto);
+
+        assertThat(traveloguePhoto.getTraveloguePlace()).isEqualTo(traveloguePlace);
     }
 }

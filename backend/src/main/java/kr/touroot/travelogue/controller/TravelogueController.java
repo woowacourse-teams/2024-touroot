@@ -103,7 +103,7 @@ public class TravelogueController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<TravelogueResponse> findTravelogue(@PathVariable Long id) {
-        return ResponseEntity.ok(travelogueFacadeService.findTravelogueById(id));
+        return ResponseEntity.ok(travelogueFacadeService.findTravelogueByIdForGuest(id));
     }
 
     @Operation(summary = "여행기 상세 조회")
@@ -120,7 +120,7 @@ public class TravelogueController {
     })
     @GetMapping(value = "/{id}", headers = {HttpHeaders.AUTHORIZATION})
     public ResponseEntity<TravelogueResponse> findTravelogue(@PathVariable Long id, MemberAuth member) {
-        return ResponseEntity.ok(travelogueFacadeService.findTravelogueById(id, member));
+        return ResponseEntity.ok(travelogueFacadeService.findTravelogueByIdForAuthenticated(id, member));
     }
 
     @Operation(summary = "여행기 메인 페이지 조회")
