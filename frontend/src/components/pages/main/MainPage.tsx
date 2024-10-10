@@ -169,41 +169,66 @@ const MainPage = () => {
               {option === sorting.selectedOption ? (
                 <>
                   <Text textType="detailBold" css={S.selectedOptionStyle}>
+        {!isFocused && <S.LastElement ref={lastElementRef} />}
+        <div aria-live="polite">
+          {sorting.isModalOpen
+            ? "여행기 정렬 모달이 열렸습니다."
+            : "여행기 정렬 모달이 닫혔습니다."}
+        </div>
+        {sorting.isModalOpen && (
+          <SingleSelectionTagModalBottomSheet
+            isOpen={sorting.isModalOpen}
+            onClose={sorting.handleCloseModal}
+            mainText="여행기 정렬을 선택해 주세요!"
+          >
+            {SORTING_OPTIONS.map((option, index) => (
+              <S.OptionContainer key={index} onClick={() => sorting.handleClickOption(option)}>
+                {option === sorting.selectedOption ? (
+                  <>
+                    <Text textType="detailBold" css={S.selectedOptionStyle}>
+                      {SORTING_OPTIONS_MAP[option]}
+                    </Text>
+                    <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
+                  </>
+                ) : (
+                  <Text textType="detail" css={S.unselectedOptionStyle}>
                     {SORTING_OPTIONS_MAP[option]}
                   </Text>
-                  <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
-                </>
-              ) : (
-                <Text textType="detail" css={S.unselectedOptionStyle}>
-                  {SORTING_OPTIONS_MAP[option]}
-                </Text>
-              )}
-            </S.OptionContainer>
-          ))}
-        </SingleSelectionTagModalBottomSheet>
+                )}
+              </S.OptionContainer>
+            ))}
+          </SingleSelectionTagModalBottomSheet>
+        )}
 
-        <SingleSelectionTagModalBottomSheet
-          isOpen={travelPeriod.isModalOpen}
-          onClose={travelPeriod.handleCloseModal}
-          mainText="여행 기간을 선택해 주세요!"
-        >
-          {TRAVEL_PERIOD_OPTIONS.map((option, index) => (
-            <S.OptionContainer key={index} onClick={() => travelPeriod.handleClickOption(option)}>
-              {option === travelPeriod.selectedOption ? (
-                <>
-                  <Text textType="detailBold" css={S.selectedOptionStyle}>
+        <div aria-live="polite">
+          {travelPeriod.isModalOpen
+            ? "여행기 필터 모달이 열렸습니다."
+            : "여행기 필터 모달이 닫혔습니다."}
+        </div>
+        {travelPeriod.isModalOpen && (
+          <SingleSelectionTagModalBottomSheet
+            isOpen={travelPeriod.isModalOpen}
+            onClose={travelPeriod.handleCloseModal}
+            mainText="여행 기간을 선택해 주세요!"
+          >
+            {TRAVEL_PERIOD_OPTIONS.map((option, index) => (
+              <S.OptionContainer key={index} onClick={() => travelPeriod.handleClickOption(option)}>
+                {option === travelPeriod.selectedOption ? (
+                  <>
+                    <Text textType="detailBold" css={S.selectedOptionStyle}>
+                      {TRAVEL_PERIOD_OPTIONS_MAP[option]}
+                    </Text>
+                    <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
+                  </>
+                ) : (
+                  <Text textType="detail" css={S.unselectedOptionStyle}>
                     {TRAVEL_PERIOD_OPTIONS_MAP[option]}
                   </Text>
-                  <Icon iconType="down-arrow" size="12" color={theme.colors.primary} />
-                </>
-              ) : (
-                <Text textType="detail" css={S.unselectedOptionStyle}>
-                  {TRAVEL_PERIOD_OPTIONS_MAP[option]}
-                </Text>
-              )}
-            </S.OptionContainer>
-          ))}
-        </SingleSelectionTagModalBottomSheet>
+                )}
+              </S.OptionContainer>
+            ))}
+          </SingleSelectionTagModalBottomSheet>
+        )}
       </S.MainPageLayout>
     </>
   );
