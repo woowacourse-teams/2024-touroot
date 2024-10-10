@@ -34,8 +34,6 @@ const FocusTrap = <T extends HTMLElement>({ children, onEscapeFocusTrap, ...prop
       focusableElements.current = getFocusableElements(focusTrapRef.current);
     }
 
-    focusableElements.current[0]?.focus();
-
     return () => {
       focusableElements.current = [];
     };
