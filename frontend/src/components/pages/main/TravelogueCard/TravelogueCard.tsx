@@ -9,6 +9,8 @@ import useImageError from "@hooks/useImageError";
 import { CYPRESS_DATA_MAP } from "@constants/cypress";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
+import removeEmojis from "@utils/removeEmojis";
+
 import * as S from "./TravelogueCard.styled";
 
 interface TravelogueCardProps {
@@ -18,18 +20,14 @@ interface TravelogueCardProps {
   >;
 }
 
-const removeEmoji = (str: string) =>
-  str.replace(/(\p{Emoji_Presentation}|\p{Emoji}\uFE0F)/gu, "").trim();
-
 const getCardAriaLabel = ({
   title,
   authorNickname,
   likeCount,
   tags,
 }: Pick<TravelogueResponse, "title" | "authorNickname" | "likeCount" | "tags">) => {
-  const tagNames = tags.map((tag) => removeEmoji(tag.tag)).join(", ");
-
-  const tagPart = tagNames ? `태그: ${tagNames}.` : "";
+  const tagText = removeEmojis(tags);
+  const tagPart = tagText ? `태그: ${tagText}` : "";
 
   return `${title} 여행기. ${authorNickname} 작성. 좋아요 수: ${likeCount}개. ${tagPart}`;
 };
