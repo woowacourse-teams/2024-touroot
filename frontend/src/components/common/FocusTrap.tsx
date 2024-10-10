@@ -20,7 +20,7 @@ const getFocusableElements = (element: HTMLElement | null): HTMLElement[] => {
 
 interface Props extends React.ComponentPropsWithoutRef<"div"> {
   children: React.ReactElement;
-  onEscapeFocusTrap: () => void;
+  onEscapeFocusTrap?: () => void;
 }
 
 const FocusTrap = <T extends HTMLElement>({ children, onEscapeFocusTrap, ...props }: Props) => {
@@ -28,8 +28,6 @@ const FocusTrap = <T extends HTMLElement>({ children, onEscapeFocusTrap, ...prop
   const child = React.Children.only(children);
   const focusableElements = useRef<(HTMLElement | null)[]>([]);
   const currentFocusIndex = useRef(-1);
-
-  console.log(focusTrapRef.current);
 
   useEffect(() => {
     if (focusTrapRef.current) {
@@ -77,7 +75,7 @@ const FocusTrap = <T extends HTMLElement>({ children, onEscapeFocusTrap, ...prop
     };
 
     const handleEscapeKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && onEscapeFocusTrap) {
         onEscapeFocusTrap();
       }
     };
@@ -85,7 +83,7 @@ const FocusTrap = <T extends HTMLElement>({ children, onEscapeFocusTrap, ...prop
     const handleKeyPress = (event: KeyboardEvent) => {
       handleTabKeyDown(event);
       handleShiftTabKeyDown(event);
-      handleEscapeKeyDown(event);
+      onEscapeFocusTrap && handleEscapeKeyDown(event);
     };
 
     document.addEventListener("keydown", handleKeyPress);
