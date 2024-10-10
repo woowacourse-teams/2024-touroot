@@ -41,7 +41,7 @@ const FloatingButton = () => {
 
   return (
     <S.FloatingButtonContainer>
-      <div aria-live="polite">
+      <div aria-live="polite" css={S.visualHiddenStyle}>
         {isOpen
           ? "여행기 및 여행 계획 작성 모달이 열렸습니다. 닫으려면 esc버튼을 눌러주세요."
           : "여행기 및 여행 계획 작성 모달이 닫혔습니다."}
