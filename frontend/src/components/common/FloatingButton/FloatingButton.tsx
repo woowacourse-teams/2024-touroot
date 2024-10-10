@@ -46,7 +46,12 @@ const FloatingButton = () => {
       </S.SubButtonContainer>
 
       <S.MainButtonWrapper onClick={handleToggleButton} $isOpen={isOpen}>
-        <IconButton iconType="plus" color={PRIMITIVE_COLORS.white} size="20" />
+        <IconButton
+          iconType="plus"
+          color={PRIMITIVE_COLORS.white}
+          size="20"
+          title="여행 계획 및 여행기 작성 플로팅"
+        />
       </S.MainButtonWrapper>
     </S.FloatingButtonContainer>
   );
