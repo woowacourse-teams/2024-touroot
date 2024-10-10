@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
@@ -72,12 +72,6 @@ const TravelogueRegisterPage = () => {
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
-  const thumbnailFileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleButtonClick = () => {
-    thumbnailFileInputRef.current?.click();
-  };
-
   const { user } = useUser();
 
   const { saveTransformDetail } = useTravelTransformDetailContext();
@@ -146,9 +140,7 @@ const TravelogueRegisterPage = () => {
                 id={id}
                 onDeleteButton={onResetThumbnail}
                 previewUrls={[thumbnail]}
-                fileInputRef={thumbnailFileInputRef}
                 onChangeImage={(event) => onChangeThumbnail(event.target.files as FileList)}
-                onClickButton={handleButtonClick}
               />
             )}
           </TextField>
