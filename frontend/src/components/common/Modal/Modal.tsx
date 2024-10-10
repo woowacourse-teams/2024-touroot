@@ -46,7 +46,7 @@ const Modal = ({
         </S.ModalBoxLayout>
       )}
     </S.Layout>,
-    document.querySelector("#root") as HTMLElement,
+    document.body,
   );
 };
 
