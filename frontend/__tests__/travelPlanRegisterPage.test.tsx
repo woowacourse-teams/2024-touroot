@@ -4,7 +4,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 
 import { TravelPlanPlace } from "@type/domain/travelPlan";
 
-import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
+import { useTravelPlanDays } from "@hooks/pages/useTravelPlanFormState/useTravelPlanDays";
 import useCalendar from "@hooks/useCalendar";
 
 import { createTravelPlanRegisterHook } from "./utils/createTravelPlanRegisterHook";

@@ -5,7 +5,7 @@ import { useGetTravelogue } from "@queries/useGetTravelogue";
 
 import useAuthorCheck from "@components/pages/travelogueEdit/hooks/useAuthorCheck";
 
-import useTravelogueFormState from "@hooks/pages/useTravelogueFormState";
+import useTravelogueFormState from "@hooks/pages/useTravelogueFormState/useTravelogueFormState";
 
 type UseTravelogueFormStateHandler = ReturnType<typeof useTravelogueFormState>["handler"];
 

@@ -17,7 +17,7 @@ import {
 import TravelogueDayAccordion from "@components/pages/travelogueRegister/TravelogueDayAccordion/TravelogueDayAccordion";
 import useTravelogueRegister from "@components/pages/travelogueRegister/hooks/useTravelogueRegister";
 
-import useTravelogueFormState from "@hooks/pages/useTravelogueFormState";
+import useTravelogueFormState from "@hooks/pages/useTravelogueFormState/useTravelogueFormState";
 import useAuthRedirect from "@hooks/useAuthRedirect";
 import { useDragScroll } from "@hooks/useDragScroll";
 import useToggle from "@hooks/useToggle";

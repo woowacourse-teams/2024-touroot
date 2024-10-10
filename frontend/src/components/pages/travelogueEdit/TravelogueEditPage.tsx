@@ -16,7 +16,7 @@ import useTravelogueEdit from "@components/pages/travelogueEdit/hooks/useTravelo
 import useTravelogueInitialization from "@components/pages/travelogueEdit/hooks/useTravelogueInitialization";
 import TravelogueDayAccordion from "@components/pages/travelogueRegister/TravelogueDayAccordion/TravelogueDayAccordion";
 
-import useTravelogueFormState from "@hooks/pages/useTravelogueFormState";
+import useTravelogueFormState from "@hooks/pages/useTravelogueFormState/useTravelogueFormState";
 import { useDragScroll } from "@hooks/useDragScroll";
 import useToggle from "@hooks/useToggle";
 
