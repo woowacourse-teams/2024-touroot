@@ -42,7 +42,7 @@ export const TagsContainer = styled.div`
   gap: ${({ theme }) => theme.spacing.s};
 `;
 
-export const SingleSelectionTagsContainer = styled.ul`
+export const SingleSelectionTagsContainer = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing.s};
 
@@ -85,7 +85,7 @@ export const MainPageTraveloguesList = styled.ul`
   gap: ${({ theme }) => theme.spacing.m};
 `;
 
-export const OptionContainer = styled.div`
+export const OptionContainer = styled.button`
   display: flex;
   justify-content: space-between;
 
