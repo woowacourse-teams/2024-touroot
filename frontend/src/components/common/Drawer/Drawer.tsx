@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 
 import DrawerProvider, { useDrawerContext } from "@contexts/DrawerProvider";
 
@@ -9,7 +10,7 @@ import * as S from "./Drawer.styled";
 const Drawer = ({ children }: React.PropsWithChildren) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleDrawer = () => setIsOpen((prev) => !prev);
+  const toggleDrawer = useCallback(() => setIsOpen((prev) => !prev), []);
 
   useModalControl(isOpen, toggleDrawer);
 
@@ -29,14 +30,32 @@ const Drawer = ({ children }: React.PropsWithChildren) => {
     }
   });
 
+  useEffect(() => {
+    const handleEscapeKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        toggleDrawer();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscapeKey);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [isOpen, toggleDrawer]);
+
   return (
     <DrawerProvider isOpen={isOpen} toggleDrawer={toggleDrawer}>
       {otherContent}
       <S.Overlay isOpen={isOpen} onClick={toggleDrawer} />
-      <S.DrawerContainer isOpen={isOpen}>
-        {headerContent}
-        {drawerContent}
-      </S.DrawerContainer>
+      {isOpen &&
+        ReactDOM.createPortal(
+          <S.DrawerContainer id="drawer-content" isOpen={isOpen} aria-modal="true" role="dialog">
+            {headerContent}
+            {drawerContent}
+          </S.DrawerContainer>,
+          document.body,
+        )}
     </DrawerProvider>
   );
 };
@@ -52,9 +71,9 @@ const Content = ({ children }: React.PropsWithChildren) => {
 const Trigger = ({ children }: React.PropsWithChildren) => {
   const { toggleDrawer } = useDrawerContext();
   return (
-    <div css={S.triggerStyle} onClick={toggleDrawer}>
+    <li css={S.triggerStyle} onClick={toggleDrawer}>
       {children}
-    </div>
+    </li>
   );
 };
 
