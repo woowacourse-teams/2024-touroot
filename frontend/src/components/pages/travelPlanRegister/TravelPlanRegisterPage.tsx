@@ -16,7 +16,7 @@ import {
 import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
 import useTravelPlanRegister from "@components/pages/travelPlanRegister/hooks/useTravelPlanRegister";
 
-import useTravelPlanForm from "@hooks/pages/useTravelPlanForm";
+import useTravelPlanFormState from "@hooks/pages/useTravelPlanFormState/useTravelPlanFormState";
 import useAuthRedirect from "@hooks/useAuthRedirect";
 import useToggle from "@hooks/useToggle";
 
@@ -34,7 +34,7 @@ const TravelPlanRegisterPage = () => {
     state: { title, startDate, travelPlanDays },
     handler: {
       onChangeTitle,
-      onSelectCalendar,
+      onSelectStartDate,
       onAddDay,
       onAddPlace,
       onDeleteDay,
@@ -43,7 +43,7 @@ const TravelPlanRegisterPage = () => {
       onDeletePlaceTodo,
       onChangeContent,
     },
-  } = useTravelPlanForm(transformDetail?.days ?? []);
+  } = useTravelPlanFormState(transformDetail?.days ?? []);
 
   const [isOpenBottomSheet, handleBottomSheetOpen, handleBottomSheetClose] = useToggle();
   const [isShowCalendar, handleOpenCalendar, handleCloseCalendar] = useToggle();
@@ -98,7 +98,7 @@ const TravelPlanRegisterPage = () => {
               />
               {isShowCalendar && (
                 <Calendar
-                  onSelectDate={(date) => onSelectCalendar(date, handleCloseCalendar)}
+                  onSelectDate={(date) => onSelectStartDate(date, handleCloseCalendar)}
                   onClose={handleCloseCalendar}
                 />
               )}

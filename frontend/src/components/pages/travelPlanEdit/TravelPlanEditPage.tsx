@@ -1,8 +1,4 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
-import { useGetTravelPlan } from "@queries/useGetTravelPlan";
-import { usePutTravelPlan } from "@queries/usePutTravelPlan";
+import { useNavigate } from "react-router-dom";
 
 import {
   Accordion,
@@ -17,12 +13,13 @@ import {
   TextField,
 } from "@components/common";
 import Calendar from "@components/common/Calendar/Calendar";
+import useTravelPlanEdit from "@components/pages/travelPlanEdit/hooks/useTravelPlanEdit";
+import { useTravelPlanInitialization } from "@components/pages/travelPlanEdit/hooks/useTravelPlanInitialization";
 import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
 
-import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
-import useLeadingDebounce from "@hooks/useLeadingDebounce";
+import useTravelPlanFormState from "@hooks/pages/useTravelPlanFormState/useTravelPlanFormState";
+import useToggle from "@hooks/useToggle";
 
-import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { ROUTE_PATHS_MAP } from "@constants/route";
@@ -32,106 +29,50 @@ import { extractUTCDate } from "@utils/extractUTCDate";
 import * as S from "./TravelPlanEditPage.styled";
 
 const TravelPlanEditPage = () => {
-  const navigate = useNavigate();
-
-  const { id = "" } = useParams();
-
-  const { data, status, error, isLoading } = useGetTravelPlan(id);
-
-  const [title, setTitle] = useState("");
-
-  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [isOpen, handleOpenBottomSheet, handleCloseBottomSheet] = useToggle();
+  const [isShowCalendar, handleOpenCalendar, handleCloseCalendar] = useToggle();
 
   const {
-    travelPlanDays,
+    state: { title, startDate, travelPlanDays },
+    handler: {
+      onChangeTravelPlanDays,
+      onChangeTitle,
+      onSelectStartDate,
+      onInitializeStartDate,
+      onAddDay,
+      onAddPlace,
+      onDeleteDay,
+      onDeletePlace,
+      onAddPlaceTodo,
+      onDeletePlaceTodo,
+      onChangeContent,
+    },
+  } = useTravelPlanFormState([]);
+
+  const { status, error, isLoading } = useTravelPlanInitialization({
+    onChangeTitle,
     onChangeTravelPlanDays,
-    onAddDay,
-    onAddPlace,
-    onDeleteDay,
-    onDeletePlace,
-    onAddPlaceTodo,
-    onDeletePlaceTodo,
-    onChangeContent,
-  } = useTravelPlanDays([]);
+    onInitializeStartDate,
+  });
 
-  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const title = e.target.value.slice(
-      FORM_VALIDATIONS_MAP.title.minLength,
-      FORM_VALIDATIONS_MAP.title.maxLength,
-    );
-    setTitle(title);
-  };
+  const { onEditTravelPlan, isPuttingTravelPlanPending } = useTravelPlanEdit(
+    { title, startDate: extractUTCDate(startDate), days: travelPlanDays },
+    handleCloseBottomSheet,
+  );
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOpenBottomSheet = () => {
-    setIsOpen(true);
-  };
-
-  const handleCloseBottomSheet = () => {
-    setIsOpen(false);
-  };
-
-  const {
-    mutate: mutateTravelPlanEdit,
-    isPaused,
-    isPending: isPuttingTravelPlanPending,
-  } = usePutTravelPlan();
-
-  const handleEditTravelPlan = () => {
-    const formattedStartDate = extractUTCDate(startDate);
-
-    mutateTravelPlanEdit(
-      {
-        travelPlan: { title, startDate: formattedStartDate, days: travelPlanDays },
-        id: Number(id),
-      },
-      {
-        onSuccess: () => {
-          handleCloseBottomSheet();
-          navigate(ROUTE_PATHS_MAP.travelPlan(id));
-        },
-      },
-    );
-  };
-
-  const debouncedEditTravelPlan = useLeadingDebounce(() => handleEditTravelPlan(), DEBOUNCED_TIME);
-
-  const handleConfirmBottomSheet = () => {
-    if (isPaused) alert(ERROR_MESSAGE_MAP.network);
-    debouncedEditTravelPlan();
-  };
-
-  const [isShowCalendar, setIsShowCalendar] = useState(false);
-
-  const handleInputClick = () => {
-    setIsShowCalendar(true);
-  };
-
-  const handleSelectDate = (date: Date) => {
-    setStartDate(date);
-    setIsShowCalendar(false);
-  };
-
-  useEffect(() => {
-    if (data) {
-      setTitle(data.title);
-      setStartDate(new Date(data.startDate));
-      onChangeTravelPlanDays(data.days);
-    }
-  }, [data, onChangeTravelPlanDays]);
+  const navigate = useNavigate();
 
   if (status === "error") {
     const errorMessage =
-      error.message === ERROR_MESSAGE_MAP.api.travelPlanOnlyWriter
+      error?.message === ERROR_MESSAGE_MAP.api.travelPlanOnlyWriter
         ? ERROR_MESSAGE_MAP.api.travelPlanEditOnlyWriter
-        : error.message;
+        : error?.message;
 
     alert(errorMessage);
     navigate(ROUTE_PATHS_MAP.back);
   }
 
-  if (isLoading) <>Loadinggㅋㅋㅋㅋ</>;
+  if (isLoading) <>Loading...</>;
 
   return (
     <>
@@ -145,7 +86,7 @@ const TravelPlanEditPage = () => {
                 value={title}
                 maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
                 placeholder="여행 계획 제목을 입력해주세요"
-                onChange={handleChangeTitle}
+                onChange={(event) => onChangeTitle(event.target.value)}
               />
               <CharacterCount
                 count={title.length}
@@ -165,14 +106,14 @@ const TravelPlanEditPage = () => {
               <Input
                 id={id}
                 value={startDate ? startDate.toLocaleDateString().slice(0, -1) : ""}
-                onClick={handleInputClick}
+                onClick={handleOpenCalendar}
                 readOnly
                 placeholder="시작일을 입력해주세요"
               />
               {isShowCalendar && (
                 <Calendar
-                  onSelectDate={handleSelectDate}
-                  onClose={() => setIsShowCalendar((prev) => !prev)}
+                  onSelectDate={(date) => onSelectStartDate(date, handleCloseCalendar)}
+                  onClose={handleCloseCalendar}
                 />
               )}
             </>
@@ -231,7 +172,7 @@ const TravelPlanEditPage = () => {
         mainText="여행 계획을 수정할까요?"
         subText="수정한 후에도 다시 여행 계획을 변경할 수 있어요."
         onClose={handleCloseBottomSheet}
-        onConfirm={handleConfirmBottomSheet}
+        onConfirm={onEditTravelPlan}
       />
     </>
   );
