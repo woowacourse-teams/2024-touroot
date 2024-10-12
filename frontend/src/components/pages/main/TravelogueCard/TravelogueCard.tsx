@@ -55,7 +55,6 @@ const TravelogueCard = ({
     <S.TravelogueCardButton
       data-cy={CYPRESS_DATA_MAP.main.travelogueItem}
       onClick={handleCardClick}
-      aria-live="polite"
       aria-label={getCardAriaLabel({ title, authorNickname, likeCount, tags })}
     >
       <S.TravelogueCardHeader>
