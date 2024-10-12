@@ -195,11 +195,11 @@ const MainPage = () => {
                 <>
                   <Text textType="detailBold" css={S.selectedOptionStyle}>
         {!isFocused && <S.LastElement ref={lastElementRef} />}
-        <div aria-live="polite">
+        <VisuallyHidden aria-live="assertive">
           {sorting.isModalOpen
             ? "여행기 정렬 모달이 열렸습니다."
             : "여행기 정렬 모달이 닫혔습니다."}
-        </div>
+        </VisuallyHidden>
         {sorting.isModalOpen && (
           <SingleSelectionTagModalBottomSheet
             isOpen={sorting.isModalOpen}
@@ -225,11 +225,11 @@ const MainPage = () => {
           </SingleSelectionTagModalBottomSheet>
         )}
 
-        <div aria-live="polite">
+        <VisuallyHidden aria-live="assertive">
           {travelPeriod.isModalOpen
             ? "여행기 필터 모달이 열렸습니다."
             : "여행기 필터 모달이 닫혔습니다."}
-        </div>
+        </VisuallyHidden>
         {travelPeriod.isModalOpen && (
           <SingleSelectionTagModalBottomSheet
             isOpen={travelPeriod.isModalOpen}
