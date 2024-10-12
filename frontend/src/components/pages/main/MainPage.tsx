@@ -159,18 +159,19 @@ const MainPage = () => {
             {hasTravelogue ? (
               travelogues.map(
                 ({ authorProfileUrl, authorNickname, id, title, thumbnail, likeCount, tags }) => (
-                  <TravelogueCard
-                    key={id}
-                    travelogueOverview={{
-                      authorProfileUrl,
-                      id,
-                      title,
-                      thumbnail,
-                      likeCount,
-                      authorNickname,
-                      tags,
-                    }}
-                  />
+                  <S.MainPageList key={id}>
+                    <TravelogueCard
+                      travelogueOverview={{
+                        authorProfileUrl,
+                        id,
+                        title,
+                        thumbnail,
+                        likeCount,
+                        authorNickname,
+                        tags,
+                      }}
+                    />
+                  </S.MainPageList>
                 ),
               )
             ) : (

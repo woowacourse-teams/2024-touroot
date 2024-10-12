@@ -119,3 +119,8 @@ export const selectedOptionStyle = css`
 export const unselectedOptionStyle = css`
   color: ${theme.colors.text.secondary};
 `;
+
+export const MainPageList = styled.li`
+  width: 100%;
+`;
+
