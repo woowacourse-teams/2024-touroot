@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import useInfiniteTravelogues from "@queries/useInfiniteTravelogues";
 
 import {
@@ -8,6 +10,7 @@ import {
   SingleSelectionTagModalBottomSheet,
   Text,
 } from "@components/common";
+import VisuallyHidden from "@components/common/VisuallyHidden/VisuallyHidden";
 import TravelogueCard from "@components/pages/main/TravelogueCard/TravelogueCard";
 
 import { useDragScroll } from "@hooks/useDragScroll";
@@ -18,6 +21,8 @@ import useSingleSelectionTag from "@hooks/useSingleSelectionTag";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { STORAGE_KEYS_MAP } from "@constants/storage";
+
+import removeEmojis from "@utils/removeEmojis";
 
 import theme from "@styles/theme";
 
@@ -59,6 +64,8 @@ const MainPage = () => {
   if (status === "error") {
     alert(error?.message);
   }
+
+  const [tagSelectionAnnouncement, setTagSelectionAnnouncement] = useState("");
 
   return (
     <>
@@ -109,15 +116,32 @@ const MainPage = () => {
             onMouseUp={onMouseUp}
             onMouseMove={onMouseMove}
           >
-            {sortedTags.map((tag, index) => (
-              <Chip
-                key={`${tag.id}-${animationKey}`}
-                index={index}
-                label={tag.tag}
-                isSelected={selectedTagIDs.includes(tag.id)}
-                onClick={() => handleClickTag(tag.id)}
-              />
-            ))}
+            {sortedTags.map((tag, index) => {
+              const isSelected = selectedTagIDs.includes(tag.id);
+              const tagName = removeEmojis(tag.tag);
+
+              return (
+                <li key={`${tag.id}-${animationKey}`}>
+                  <Chip
+                    as="button"
+                    key={`${tag.id}-${animationKey}`}
+                    index={index}
+                    label={tag.tag}
+                    isSelected={isSelected}
+                    onClick={() => {
+                      handleClickTag(tag.id);
+                      setTagSelectionAnnouncement(
+                        isSelected
+                          ? `${tagName} 태그가 선택 해제되었습니다.`
+                          : `${tagName} 태그가 선택되었습니다.`,
+                      );
+                    }}
+                    aria-label={`${tagName} 태그`}
+                  />
+                </li>
+              );
+            })}
+            <VisuallyHidden aria-live="assertive">{tagSelectionAnnouncement}</VisuallyHidden>
           </S.MultiSelectionTagsContainer>
         </S.TagsContainer>
       </S.FixedLayout>
