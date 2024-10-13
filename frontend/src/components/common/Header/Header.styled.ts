@@ -28,7 +28,7 @@ export const MenuItem = styled.button`
   padding: ${({ theme }) => theme.spacing.s};
 `;
 
-export const MenuList = styled.ul`
+export const MenuList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
