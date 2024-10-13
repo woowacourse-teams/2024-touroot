@@ -7,19 +7,19 @@ import useTravelPlanTitle from "@hooks/pages/useTravelPlanFormState/useTravelPla
 const useTravelPlanFormState = (transformDays: TravelTransformDays[]) => {
   const {
     travelPlanDays,
-    onChangeTravelPlanDays,
-    onAddDay,
-    onAddPlace,
-    onDeleteDay,
-    onDeletePlace,
-    onAddPlaceTodo,
-    onDeletePlaceTodo,
-    onChangeContent,
+    handleChangeTravelPlanDays,
+    handleAddDay,
+    handleAddPlace,
+    handleDeleteDay,
+    handleDeletePlace,
+    handleAddPlaceTodo,
+    handleDeletePlaceTodo,
+    handleChangeContent,
   } = useTravelPlanDays(transformDays);
 
-  const { startDate, onInitializeStartDate, onSelectStartDate } = useTravelPlanStartDate();
+  const { startDate, handleInitializeStartDate, handleSelectStartDate } = useTravelPlanStartDate();
 
-  const { title, onChangeTitle } = useTravelPlanTitle(travelPlanDays);
+  const { title, handleChangeTitle } = useTravelPlanTitle(travelPlanDays);
 
   return {
     state: {
@@ -28,17 +28,17 @@ const useTravelPlanFormState = (transformDays: TravelTransformDays[]) => {
       travelPlanDays,
     },
     handler: {
-      onChangeTravelPlanDays,
-      onChangeTitle,
-      onSelectStartDate,
-      onInitializeStartDate,
-      onAddDay,
-      onAddPlace,
-      onDeleteDay,
-      onDeletePlace,
-      onAddPlaceTodo,
-      onDeletePlaceTodo,
-      onChangeContent,
+      handleChangeTravelPlanDays,
+      handleChangeTitle,
+      handleSelectStartDate,
+      handleInitializeStartDate,
+      handleAddDay,
+      handleAddPlace,
+      handleDeleteDay,
+      handleDeletePlace,
+      handleAddPlaceTodo,
+      handleDeletePlaceTodo,
+      handleChangeContent,
     },
   };
 };

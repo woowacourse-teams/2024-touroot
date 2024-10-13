@@ -28,9 +28,12 @@ const useTravelPlanRegister = (payload: TravelPlanPayload, handleBottomSheetClos
     });
   };
 
-  const onConfirmBottomSheet = useLeadingDebounce(() => handleRegisterTravelPlan(), DEBOUNCED_TIME);
+  const handleDebouncedRegisterBottomSheet = useLeadingDebounce(
+    () => handleRegisterTravelPlan(),
+    DEBOUNCED_TIME,
+  );
 
-  return { onConfirmBottomSheet, isPostingTravelPlanPending };
+  return { handleDebouncedRegisterBottomSheet, isPostingTravelPlanPending };
 };
 
 export default useTravelPlanRegister;

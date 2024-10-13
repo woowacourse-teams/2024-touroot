@@ -11,31 +11,34 @@ type UseTravelogueFormStateHandler = ReturnType<typeof useTravelogueFormState>["
 
 type UseTravelogueInitializationReturn = Pick<
   UseTravelogueFormStateHandler,
-  "onChangeTitle" | "onInitializeThumbnail" | "onChangeSelectedTagIDs" | "onChangeTravelogueDays"
+  | "handleChangeTitle"
+  | "handleInitializeThumbnail"
+  | "handleChangeSelectedTagIDs"
+  | "handleChangeTravelogueDays"
 >;
 
 const useTravelogueInitialization = ({
-  onChangeTitle,
-  onInitializeThumbnail,
-  onChangeSelectedTagIDs,
-  onChangeTravelogueDays,
+  handleChangeTitle,
+  handleInitializeThumbnail,
+  handleChangeSelectedTagIDs,
+  handleChangeTravelogueDays,
 }: UseTravelogueInitializationReturn) => {
   const { id = "" } = useParams();
   const { data: travelogueResponse } = useGetTravelogue(id);
 
   useEffect(() => {
     if (travelogueResponse) {
-      onChangeTitle(travelogueResponse.title);
-      onInitializeThumbnail(travelogueResponse.thumbnail);
-      onChangeSelectedTagIDs(travelogueResponse.tags.map((tag) => tag.id));
-      onChangeTravelogueDays(travelogueResponse.days);
+      handleChangeTitle(travelogueResponse.title);
+      handleInitializeThumbnail(travelogueResponse.thumbnail);
+      handleChangeSelectedTagIDs(travelogueResponse.tags.map((tag) => tag.id));
+      handleChangeTravelogueDays(travelogueResponse.days);
     }
   }, [
     travelogueResponse,
-    onChangeTitle,
-    onInitializeThumbnail,
-    onChangeSelectedTagIDs,
-    onChangeTravelogueDays,
+    handleChangeTitle,
+    handleInitializeThumbnail,
+    handleChangeSelectedTagIDs,
+    handleChangeTravelogueDays,
   ]);
 
   useAuthorCheck(travelogueResponse);

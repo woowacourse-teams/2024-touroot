@@ -9,7 +9,7 @@ const useTravelogueThumbnail = () => {
 
   const [thumbnail, setThumbnail] = useState("");
 
-  const onChangeThumbnail = async (files: FileList | null) => {
+  const handleChangeThumbnail = async (files: FileList | null) => {
     try {
       const newFiles = Array.from(files as FileList);
       const processedFiles = await Promise.all(newFiles.map((file) => resizeAndConvertImage(file)));
@@ -23,13 +23,13 @@ const useTravelogueThumbnail = () => {
     }
   };
 
-  const onInitializeThumbnail = useCallback((thumbnailUrl: string) => {
+  const handleInitializeThumbnail = useCallback((thumbnailUrl: string) => {
     setThumbnail(thumbnailUrl);
   }, []);
 
-  const onResetThumbnail = () => setThumbnail("");
+  const handleResetThumbnail = () => setThumbnail("");
 
-  return { thumbnail, onChangeThumbnail, onResetThumbnail, onInitializeThumbnail };
+  return { thumbnail, handleChangeThumbnail, handleResetThumbnail, handleInitializeThumbnail };
 };
 
 export default useTravelogueThumbnail;

@@ -7,24 +7,24 @@ import useTravelPlanFormState from "@hooks/pages/useTravelPlanFormState/useTrave
 
 type UseTravelPlanInitialization = Pick<
   ReturnType<typeof useTravelPlanFormState>["handler"],
-  "onChangeTitle" | "onInitializeStartDate" | "onChangeTravelPlanDays"
+  "handleChangeTitle" | "handleInitializeStartDate" | "handleChangeTravelPlanDays"
 >;
 
 export const useTravelPlanInitialization = ({
-  onChangeTitle,
-  onInitializeStartDate,
-  onChangeTravelPlanDays,
+  handleChangeTitle,
+  handleInitializeStartDate,
+  handleChangeTravelPlanDays,
 }: UseTravelPlanInitialization) => {
   const { id = "" } = useParams();
 
   const { data, status, error, isLoading } = useGetTravelPlan(id);
   useEffect(() => {
     if (data) {
-      onChangeTitle(data.title);
-      onInitializeStartDate(data.startDate);
-      onChangeTravelPlanDays(data.days);
+      handleChangeTitle(data.title);
+      handleInitializeStartDate(data.startDate);
+      handleChangeTravelPlanDays(data.days);
     }
-  }, [data, onChangeTitle, onChangeTravelPlanDays, onInitializeStartDate]);
+  }, [data, handleChangeTitle, handleChangeTravelPlanDays, handleInitializeStartDate]);
 
   return { status, error, isLoading };
 };

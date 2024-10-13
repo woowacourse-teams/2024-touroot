@@ -46,7 +46,8 @@ const MainPage = () => {
     selectedTravelPeriodOption: travelPeriod.selectedOption,
   });
 
-  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
+  const { scrollRef, handleMouseDown, handleMouseMove, handleMouseUp } =
+    useDragScroll<HTMLUListElement>();
 
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
@@ -101,9 +102,9 @@ const MainPage = () => {
 
           <S.MultiSelectionTagsContainer
             ref={scrollRef}
-            onMouseDown={onMouseDown}
-            onMouseUp={onMouseUp}
-            onMouseMove={onMouseMove}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
           >
             {sortedTags.map((tag, index) => (
               <Chip

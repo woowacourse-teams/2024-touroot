@@ -36,12 +36,12 @@ const useTravelPlanEdit = (payload: TravelPlanPayload, handleCloseBottomSheet: (
     );
   };
 
-  const onEditTravelPlan = useLeadingDebounce(() => {
+  const handleDebouncedEditTravelPlan = useLeadingDebounce(() => {
     if (isPaused) alert(ERROR_MESSAGE_MAP.network);
     handleEditTravelPlan();
   }, DEBOUNCED_TIME);
 
-  return { onEditTravelPlan, isPuttingTravelPlanPending };
+  return { handleDebouncedEditTravelPlan, isPuttingTravelPlanPending };
 };
 
 export default useTravelPlanEdit;

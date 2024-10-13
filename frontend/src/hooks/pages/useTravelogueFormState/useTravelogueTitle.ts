@@ -11,7 +11,7 @@ const useTravelogueTitle = (initialDays: TravelTransformDays[]) => {
     getInitialTravelTitle({ days: initialDays, type: "travelogue" }),
   );
 
-  const onChangeTitle = useCallback((title: string) => {
+  const handleChangeTitle = useCallback((title: string) => {
     const newTitle = title.slice(
       FORM_VALIDATIONS_MAP.title.minLength,
       FORM_VALIDATIONS_MAP.title.maxLength,
@@ -19,7 +19,7 @@ const useTravelogueTitle = (initialDays: TravelTransformDays[]) => {
     setTitle(newTitle);
   }, []);
 
-  return { title, onChangeTitle };
+  return { title, handleChangeTitle };
 };
 
 export default useTravelogueTitle;

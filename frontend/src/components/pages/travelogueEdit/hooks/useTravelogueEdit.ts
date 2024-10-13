@@ -29,9 +29,9 @@ const useTravelogueEdit = (payload: TraveloguePayload, handleCloseBottomSheet: (
     );
   };
 
-  const onEditTravelogue = useLeadingDebounce(handleEditTravelogue, DEBOUNCED_TIME);
+  const handleDebouncedEditTravelogue = useLeadingDebounce(handleEditTravelogue, DEBOUNCED_TIME);
 
-  return { isPuttingTraveloguePending, onEditTravelogue };
+  return { isPuttingTraveloguePending, handleDebouncedEditTravelogue };
 };
 
 export default useTravelogueEdit;

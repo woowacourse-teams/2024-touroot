@@ -2,16 +2,16 @@ import { useState } from "react";
 
 const useTravelPlanStartDate = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
-  const onSelectStartDate = (date: Date, handleCloseCalendar: () => void) => {
+  const handleSelectStartDate = (date: Date, handleCloseCalendar: () => void) => {
     setStartDate(date);
     handleCloseCalendar();
   };
 
-  const onInitializeStartDate = (startDate: string) => {
+  const handleInitializeStartDate = (startDate: string) => {
     setStartDate(new Date(startDate));
   };
 
-  return { startDate, onSelectStartDate, onInitializeStartDate };
+  return { startDate, handleSelectStartDate, handleInitializeStartDate };
 };
 
 export default useTravelPlanStartDate;

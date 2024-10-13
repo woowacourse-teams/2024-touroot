@@ -31,9 +31,12 @@ const useTravelogueRegister = (
     });
   };
 
-  const onSubmitTravelogue = useLeadingDebounce(handleSubmitTravelogue, DEBOUNCED_TIME);
+  const handleDebouncedSubmitTravelogue = useLeadingDebounce(
+    handleSubmitTravelogue,
+    DEBOUNCED_TIME,
+  );
 
-  return { onSubmitTravelogue, isPostingTraveloguePending };
+  return { handleDebouncedSubmitTravelogue, isPostingTraveloguePending };
 };
 
 export default useTravelogueRegister;

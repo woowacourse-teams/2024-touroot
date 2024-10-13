@@ -6,26 +6,21 @@ import useTravelogueTitle from "@hooks/pages/useTravelogueFormState/useTravelogu
 import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
 
 const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
-  const { title, onChangeTitle } = useTravelogueTitle(transformDays);
-  const { thumbnail, onChangeThumbnail, onResetThumbnail, onInitializeThumbnail } =
+  const { title, handleChangeTitle } = useTravelogueTitle(transformDays);
+  const { thumbnail, handleChangeThumbnail, handleResetThumbnail, handleInitializeThumbnail } =
     useTravelogueThumbnail();
-  const {
-    selectedTagIDs,
-    sortedTags,
-    animationKey,
-    handleClickTag: onClickTag,
-    onChangeSelectedTagIDs,
-  } = useMultiSelectionTag();
+  const { selectedTagIDs, sortedTags, animationKey, handleClickTag, handleChangeSelectedTagIDs } =
+    useMultiSelectionTag();
   const {
     travelogueDays,
-    onAddDay,
-    onAddPlace,
-    onDeleteDay,
-    onDeletePlace,
-    onChangeImageUrls,
-    onChangePlaceDescription,
-    onDeleteImageUrls,
-    onChangeTravelogueDays,
+    handleAddDay,
+    handleAddPlace,
+    handleDeleteDay,
+    handleDeletePlace,
+    handleChangeImageUrls,
+    handleChangePlaceDescription,
+    handleDeleteImageUrls,
+    handleChangeTravelogueDays,
   } = useTravelogueDays(transformDays);
 
   return {
@@ -38,20 +33,20 @@ const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
       animationKey,
     },
     handler: {
-      onChangeTitle,
-      onChangeThumbnail,
-      onResetThumbnail,
-      onInitializeThumbnail,
-      onClickTag,
-      onChangeTravelogueDays,
-      onAddDay,
-      onDeleteDay,
-      onAddPlace,
-      onDeletePlace,
-      onChangeImageUrls,
-      onDeleteImageUrls,
-      onChangePlaceDescription,
-      onChangeSelectedTagIDs,
+      handleChangeTitle,
+      handleChangeThumbnail,
+      handleResetThumbnail,
+      handleInitializeThumbnail,
+      handleClickTag,
+      handleChangeTravelogueDays,
+      handleAddDay,
+      handleDeleteDay,
+      handleAddPlace,
+      handleDeletePlace,
+      handleChangeImageUrls,
+      handleDeleteImageUrls,
+      handleChangePlaceDescription,
+      handleChangeSelectedTagIDs,
     },
   };
 };

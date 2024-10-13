@@ -11,7 +11,7 @@ const useTravelPlanTitle = (travelPlanDays: TravelPlanDay[]) => {
     getInitialTravelTitle({ days: travelPlanDays, type: "travelPlan" }),
   );
 
-  const onChangeTitle = (inputValue: string) => {
+  const handleChangeTitle = (inputValue: string) => {
     const trimmedTitle = inputValue.slice(
       FORM_VALIDATIONS_MAP.title.minLength,
       FORM_VALIDATIONS_MAP.title.maxLength,
@@ -20,7 +20,7 @@ const useTravelPlanTitle = (travelPlanDays: TravelPlanDay[]) => {
     setTitle(trimmedTitle);
   };
 
-  return { title, onChangeTitle };
+  return { title, handleChangeTitle };
 };
 
 export default useTravelPlanTitle;

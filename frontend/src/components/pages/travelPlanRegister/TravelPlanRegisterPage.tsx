@@ -33,22 +33,22 @@ const TravelPlanRegisterPage = () => {
   const {
     state: { title, startDate, travelPlanDays },
     handler: {
-      onChangeTitle,
-      onSelectStartDate,
-      onAddDay,
-      onAddPlace,
-      onDeleteDay,
-      onDeletePlace,
-      onAddPlaceTodo,
-      onDeletePlaceTodo,
-      onChangeContent,
+      handleChangeTitle,
+      handleSelectStartDate,
+      handleAddDay,
+      handleAddPlace,
+      handleDeleteDay,
+      handleDeletePlace,
+      handleAddPlaceTodo,
+      handleDeletePlaceTodo,
+      handleChangeContent,
     },
   } = useTravelPlanFormState(transformDetail?.days ?? []);
 
   const [isOpenBottomSheet, handleBottomSheetOpen, handleBottomSheetClose] = useToggle();
   const [isShowCalendar, handleOpenCalendar, handleCloseCalendar] = useToggle();
 
-  const { onConfirmBottomSheet, isPostingTravelPlanPending } = useTravelPlanRegister(
+  const { handleDebouncedRegisterBottomSheet, isPostingTravelPlanPending } = useTravelPlanRegister(
     { title, startDate: extractUTCDate(startDate), days: travelPlanDays },
     handleBottomSheetClose,
   );
@@ -70,7 +70,7 @@ const TravelPlanRegisterPage = () => {
                 value={title}
                 maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
                 placeholder="여행 계획 제목을 입력해주세요"
-                onChange={(event) => onChangeTitle(event.target.value)}
+                onChange={(event) => handleChangeTitle(event.target.value)}
                 data-cy={CYPRESS_DATA_MAP.travelPlanRegister.titleInput}
               />
               <CharacterCount
@@ -98,7 +98,7 @@ const TravelPlanRegisterPage = () => {
               />
               {isShowCalendar && (
                 <Calendar
-                  onSelectDate={(date) => onSelectStartDate(date, handleCloseCalendar)}
+                  onSelectDate={(date) => handleSelectStartDate(date, handleCloseCalendar)}
                   onClose={handleCloseCalendar}
                 />
               )}
@@ -114,7 +114,7 @@ const TravelPlanRegisterPage = () => {
                 iconType="plus"
                 position="left"
                 css={S.addButtonStyle}
-                onClick={() => onAddDay()}
+                onClick={handleAddDay}
               >
                 <Text
                   textType="bodyBold"
@@ -130,14 +130,14 @@ const TravelPlanRegisterPage = () => {
                 <TravelPlanDayAccordion
                   key={travelDay.id}
                   startDate={startDate}
-                  onDeletePlaceTodo={onDeletePlaceTodo}
-                  onChangeContent={onChangeContent}
+                  onDeletePlaceTodo={handleDeletePlaceTodo}
+                  onChangeContent={handleChangeContent}
                   travelPlanDay={travelDay}
                   dayIndex={dayIndex}
-                  onAddPlace={onAddPlace}
-                  onDeletePlace={onDeletePlace}
-                  onDeleteDay={onDeleteDay}
-                  onAddPlaceTodo={onAddPlaceTodo}
+                  onAddPlace={handleAddPlace}
+                  onDeletePlace={handleDeletePlace}
+                  onDeleteDay={handleDeleteDay}
+                  onAddPlaceTodo={handleAddPlaceTodo}
                 />
               ))}
               <IconButton
@@ -145,7 +145,7 @@ const TravelPlanRegisterPage = () => {
                 iconType="plus"
                 position="left"
                 css={S.addButtonStyle}
-                onClick={onAddDay}
+                onClick={handleAddDay}
               >
                 <Text
                   textType="bodyBold"
@@ -173,7 +173,7 @@ const TravelPlanRegisterPage = () => {
         mainText="여행 계획을 등록할까요?"
         subText="등록한 후에도 다시 여행 계획을 수정할 수 있어요."
         onClose={handleBottomSheetClose}
-        onConfirm={onConfirmBottomSheet}
+        onConfirm={handleDebouncedRegisterBottomSheet}
       />
     </>
   );

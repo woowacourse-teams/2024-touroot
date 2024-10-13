@@ -89,7 +89,7 @@ describe("여행 계획 등록 페이지 테스트", () => {
 
       // when
       act(() => {
-        result.current.onAddDay();
+        result.current.handleAddDay();
       });
 
       // then
@@ -103,7 +103,7 @@ describe("여행 계획 등록 페이지 테스트", () => {
 
       // when
       act(() => {
-        result.current.onDeleteDay(0);
+        result.current.handleDeleteDay(0);
       });
 
       // then
@@ -124,11 +124,11 @@ describe("여행 계획 등록 페이지 테스트", () => {
 
       // when
       act(() => {
-        result.current.onAddDay();
+        result.current.handleAddDay();
       });
 
       act(() => {
-        result.current.onAddPlace(0, newPlace);
+        result.current.handleAddPlace(0, newPlace);
       });
 
       // then
@@ -150,15 +150,15 @@ describe("여행 계획 등록 페이지 테스트", () => {
 
       // when
       act(() => {
-        result.current.onAddDay();
+        result.current.handleAddDay();
       });
 
       act(() => {
-        result.current.onAddPlace(0, newPlace);
+        result.current.handleAddPlace(0, newPlace);
       });
 
       act(() => {
-        result.current.onDeletePlace(0, 0);
+        result.current.handleDeletePlace(0, 0);
       });
 
       // then
@@ -180,11 +180,11 @@ describe("여행 계획 등록 페이지 테스트", () => {
 
     //   // when
     //   act(() => {
-    //     result.current.onAddDay();
+    //     result.current.handleAddDay();
     //   });
 
     //   act(() => {
-    //     result.current.onAddPlace(0, newPlace);
+    //     result.current.handleAddPlace(0, newPlace);
     //   });
 
     //   act(() => {

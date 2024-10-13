@@ -35,27 +35,27 @@ const TravelPlanEditPage = () => {
   const {
     state: { title, startDate, travelPlanDays },
     handler: {
-      onChangeTravelPlanDays,
-      onChangeTitle,
-      onSelectStartDate,
-      onInitializeStartDate,
-      onAddDay,
-      onAddPlace,
-      onDeleteDay,
-      onDeletePlace,
-      onAddPlaceTodo,
-      onDeletePlaceTodo,
-      onChangeContent,
+      handleChangeTravelPlanDays,
+      handleChangeTitle,
+      handleSelectStartDate,
+      handleInitializeStartDate,
+      handleAddDay,
+      handleAddPlace,
+      handleDeleteDay,
+      handleDeletePlace,
+      handleAddPlaceTodo,
+      handleDeletePlaceTodo,
+      handleChangeContent,
     },
   } = useTravelPlanFormState([]);
 
   const { status, error, isLoading } = useTravelPlanInitialization({
-    onChangeTitle,
-    onChangeTravelPlanDays,
-    onInitializeStartDate,
+    handleChangeTitle,
+    handleChangeTravelPlanDays,
+    handleInitializeStartDate,
   });
 
-  const { onEditTravelPlan, isPuttingTravelPlanPending } = useTravelPlanEdit(
+  const { handleDebouncedEditTravelPlan, isPuttingTravelPlanPending } = useTravelPlanEdit(
     { title, startDate: extractUTCDate(startDate), days: travelPlanDays },
     handleCloseBottomSheet,
   );
@@ -86,7 +86,7 @@ const TravelPlanEditPage = () => {
                 value={title}
                 maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
                 placeholder="여행 계획 제목을 입력해주세요"
-                onChange={(event) => onChangeTitle(event.target.value)}
+                onChange={(event) => handleChangeTitle(event.target.value)}
               />
               <CharacterCount
                 count={title.length}
@@ -112,7 +112,7 @@ const TravelPlanEditPage = () => {
               />
               {isShowCalendar && (
                 <Calendar
-                  onSelectDate={(date) => onSelectStartDate(date, handleCloseCalendar)}
+                  onSelectDate={(date) => handleSelectStartDate(date, handleCloseCalendar)}
                   onClose={handleCloseCalendar}
                 />
               )}
@@ -128,7 +128,7 @@ const TravelPlanEditPage = () => {
                 iconType="plus"
                 position="left"
                 css={S.addButtonStyle}
-                onClick={() => onAddDay()}
+                onClick={handleAddDay}
               >
                 <Text textType="bodyBold">일자 추가하기</Text>
               </IconButton>
@@ -139,14 +139,14 @@ const TravelPlanEditPage = () => {
                 <TravelPlanDayAccordion
                   key={travelDay.id}
                   startDate={startDate}
-                  onDeletePlaceTodo={onDeletePlaceTodo}
-                  onChangeContent={onChangeContent}
+                  onDeletePlaceTodo={handleDeletePlaceTodo}
+                  onChangeContent={handleChangeContent}
                   travelPlanDay={travelDay}
                   dayIndex={dayIndex}
-                  onAddPlace={onAddPlace}
-                  onDeletePlace={onDeletePlace}
-                  onDeleteDay={onDeleteDay}
-                  onAddPlaceTodo={onAddPlaceTodo}
+                  onAddPlace={handleAddPlace}
+                  onDeletePlace={handleDeletePlace}
+                  onDeleteDay={handleDeleteDay}
+                  onAddPlaceTodo={handleAddPlaceTodo}
                 />
               ))}
               <IconButton
@@ -154,7 +154,7 @@ const TravelPlanEditPage = () => {
                 iconType="plus"
                 position="left"
                 css={S.addButtonStyle}
-                onClick={onAddDay}
+                onClick={handleAddDay}
               >
                 <Text textType="bodyBold">일자 추가하기</Text>
               </IconButton>
@@ -172,7 +172,7 @@ const TravelPlanEditPage = () => {
         mainText="여행 계획을 수정할까요?"
         subText="수정한 후에도 다시 여행 계획을 변경할 수 있어요."
         onClose={handleCloseBottomSheet}
-        onConfirm={onEditTravelPlan}
+        onConfirm={handleDebouncedEditTravelPlan}
       />
     </>
   );

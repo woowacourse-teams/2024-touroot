@@ -27,24 +27,24 @@ import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import * as S from "./TravelogueRegisterPage.styled";
 
 const TravelogueRegisterPage = () => {
-  const [isOpen, onOpenBottomSheet, onCloseBottomSheet] = useToggle();
+  const [isOpen, handleOpenBottomSheet, handleCloseBottomSheet] = useToggle();
 
   const { transformDetail } = useTravelTransformDetailContext();
 
   const {
     state: { title, thumbnail, travelogueDays, selectedTagIDs, sortedTags, animationKey },
     handler: {
-      onChangeTitle,
-      onChangeThumbnail,
-      onResetThumbnail,
-      onClickTag,
-      onAddDay,
-      onDeleteDay,
-      onAddPlace,
-      onDeletePlace,
-      onChangeImageUrls,
-      onDeleteImageUrls,
-      onChangePlaceDescription,
+      handleChangeTitle,
+      handleChangeThumbnail,
+      handleResetThumbnail,
+      handleClickTag,
+      handleAddDay,
+      handleDeleteDay,
+      handleAddPlace,
+      handleDeletePlace,
+      handleChangeImageUrls,
+      handleDeleteImageUrls,
+      handleChangePlaceDescription,
     },
   } = useTravelogueFormState(transformDetail?.days ?? []);
 
@@ -55,12 +55,13 @@ const TravelogueRegisterPage = () => {
     days: travelogueDays,
   };
 
-  const { onSubmitTravelogue, isPostingTraveloguePending } = useTravelogueRegister(
+  const { handleDebouncedSubmitTravelogue, isPostingTraveloguePending } = useTravelogueRegister(
     payload,
-    onCloseBottomSheet,
+    handleCloseBottomSheet,
   );
 
-  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
+  const { scrollRef, handleMouseDown, handleMouseMove, handleMouseUp } =
+    useDragScroll<HTMLUListElement>();
 
   useAuthRedirect();
 
@@ -77,7 +78,7 @@ const TravelogueRegisterPage = () => {
                 value={title}
                 maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
                 placeholder="여행기 제목을 입력해주세요"
-                onChange={(event) => onChangeTitle(event.target.value)}
+                onChange={(event) => handleChangeTitle(event.target.value)}
               />
               <CharacterCount
                 count={title.length}
@@ -94,9 +95,9 @@ const TravelogueRegisterPage = () => {
           </Text>
           <S.ChipsContainer
             ref={scrollRef}
-            onMouseDown={onMouseDown}
-            onMouseUp={onMouseUp}
-            onMouseMove={onMouseMove}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
           >
             {sortedTags.map((tag, index) => (
               <Chip
@@ -104,7 +105,7 @@ const TravelogueRegisterPage = () => {
                 index={index}
                 label={tag.tag}
                 isSelected={selectedTagIDs.includes(tag.id)}
-                onClick={() => onClickTag(tag.id)}
+                onClick={() => handleClickTag(tag.id)}
               />
             ))}
           </S.ChipsContainer>
@@ -115,9 +116,9 @@ const TravelogueRegisterPage = () => {
             {(id) => (
               <ThumbnailUpload
                 id={id}
-                onDeleteButton={onResetThumbnail}
+                onDeleteButton={handleResetThumbnail}
                 previewUrls={[thumbnail]}
-                onChangeImage={(event) => onChangeThumbnail(event.target.files as FileList)}
+                onChangeImage={(event) => handleChangeThumbnail(event.target.files as FileList)}
               />
             )}
           </TextField>
@@ -131,7 +132,7 @@ const TravelogueRegisterPage = () => {
                 iconType="plus"
                 position="left"
                 css={S.addButtonStyle}
-                onClick={onAddDay}
+                onClick={handleAddDay}
               >
                 <Text textType="bodyBold">일자 추가하기</Text>
               </IconButton>
@@ -143,12 +144,12 @@ const TravelogueRegisterPage = () => {
                   key={travelogueDay.id}
                   travelogueDay={travelogueDay}
                   dayIndex={dayIndex}
-                  onAddPlace={onAddPlace}
-                  onDeletePlace={onDeletePlace}
-                  onDeleteDay={onDeleteDay}
-                  onChangePlaceDescription={onChangePlaceDescription}
-                  onChangeImageUrls={onChangeImageUrls}
-                  onDeleteImageUrls={onDeleteImageUrls}
+                  onAddPlace={handleAddPlace}
+                  onDeletePlace={handleDeletePlace}
+                  onDeleteDay={handleDeleteDay}
+                  onChangePlaceDescription={handleChangePlaceDescription}
+                  onChangeImageUrls={handleChangeImageUrls}
+                  onDeleteImageUrls={handleDeleteImageUrls}
                 />
               ))}
               <IconButton
@@ -156,7 +157,7 @@ const TravelogueRegisterPage = () => {
                 iconType="plus"
                 position="left"
                 css={S.addButtonStyle}
-                onClick={onAddDay}
+                onClick={handleAddDay}
               >
                 <Text textType="bodyBold">일자 추가하기</Text>
               </IconButton>
@@ -164,7 +165,7 @@ const TravelogueRegisterPage = () => {
           </GoogleMapLoadScript>
         </div>
 
-        <Button variants="primary" onClick={onOpenBottomSheet}>
+        <Button variants="primary" onClick={handleOpenBottomSheet}>
           등록
         </Button>
       </S.Layout>
@@ -174,8 +175,8 @@ const TravelogueRegisterPage = () => {
         isPending={isPostingTraveloguePending}
         mainText="여행기를 등록할까요?"
         subText="등록한 후에도 다시 여행기를 수정할 수 있어요!"
-        onClose={onCloseBottomSheet}
-        onConfirm={onSubmitTravelogue}
+        onClose={handleCloseBottomSheet}
+        onConfirm={handleDebouncedSubmitTravelogue}
       />
     </>
   );
