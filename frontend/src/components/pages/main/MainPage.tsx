@@ -17,6 +17,7 @@ import { useDragScroll } from "@hooks/useDragScroll";
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
 import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
 import useSingleSelectionTag from "@hooks/useSingleSelectionTag";
+import useTravelogueCardFocus from "@hooks/useTravelogueCardFocus";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
@@ -45,11 +46,12 @@ const MainPage = () => {
     STORAGE_KEYS_MAP.mainPageTravelPeriod,
   );
 
-  const { travelogues, status, fetchNextPage, isPaused, error } = useInfiniteTravelogues({
-    selectedTagIDs,
-    selectedSortingOption: sorting.selectedOption,
-    selectedTravelPeriodOption: travelPeriod.selectedOption,
-  });
+  const { travelogues, status, fetchNextPage, isPaused, error, isFetchingNextPage } =
+    useInfiniteTravelogues({
+      selectedTagIDs,
+      selectedSortingOption: sorting.selectedOption,
+      selectedTravelPeriodOption: travelPeriod.selectedOption,
+    });
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
 
@@ -57,6 +59,7 @@ const MainPage = () => {
 
   const hasTravelogue = travelogues.length > 0;
 
+  const cardRefs = useTravelogueCardFocus(isFetchingNextPage);
   if (isPaused) {
     alert(ERROR_MESSAGE_MAP.network);
   }
@@ -155,31 +158,36 @@ const MainPage = () => {
           </S.MainPageTraveloguesList>
         )}
         {status === "success" && (
-          <S.MainPageTraveloguesList>
-            {hasTravelogue ? (
-              travelogues.map(
-                ({ authorProfileUrl, authorNickname, id, title, thumbnail, likeCount, tags }) => (
-                  <S.MainPageList key={id}>
-                    <TravelogueCard
-                      travelogueOverview={{
-                        authorProfileUrl,
-                        id,
-                        title,
-                        thumbnail,
-                        likeCount,
-                        authorNickname,
-                        tags,
-                      }}
-                    />
-                  </S.MainPageList>
-                ),
-              )
-            ) : (
-              <S.SearchFallbackWrapper>
-                <SearchFallback title="휑" text="여행기가 존재하지 않아요!" />
-              </S.SearchFallbackWrapper>
-            )}
-          </S.MainPageTraveloguesList>
+            <S.MainPageTraveloguesList>
+              {hasTravelogue ? (
+                travelogues.map(
+                  (
+                    { authorProfileUrl, authorNickname, id, title, thumbnail, likeCount, tags },
+                    index,
+                  ) => (
+                    <S.MainPageList key={id}>
+                      <TravelogueCard
+                        ref={(el) => (cardRefs.current[index] = el)}
+                        key={index}
+                        travelogueOverview={{
+                          authorProfileUrl,
+                          id,
+                          title,
+                          thumbnail,
+                          likeCount,
+                          authorNickname,
+                          tags,
+                        }}
+                      />
+                    </S.MainPageList>
+                  ),
+                )
+              ) : (
+                <S.SearchFallbackWrapper>
+                  <SearchFallback title="휑" text="여행기가 존재하지 않아요!" />
+                </S.SearchFallbackWrapper>
+              )}
+            </S.MainPageTraveloguesList>
         )}
         <FloatingButton />
         <S.LastElement ref={lastElementRef} />
