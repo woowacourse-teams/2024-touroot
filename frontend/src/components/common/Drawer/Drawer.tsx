@@ -5,6 +5,7 @@ import DrawerProvider, { useDrawerContext } from "@contexts/DrawerProvider";
 
 import useModalControl from "@hooks/useModalControl";
 
+import VisuallyHidden from "../VisuallyHidden/VisuallyHidden";
 import * as S from "./Drawer.styled";
 
 const Drawer = ({ children }: React.PropsWithChildren) => {
@@ -46,6 +47,9 @@ const Drawer = ({ children }: React.PropsWithChildren) => {
 
   return (
     <DrawerProvider isOpen={isOpen} toggleDrawer={toggleDrawer}>
+      <VisuallyHidden aria-live="assertive">
+        {isOpen ? "사용자 메뉴 모달이 열렸습니다." : "사용자 메뉴 모달이 닫혔습니다."}
+      </VisuallyHidden>
       {otherContent}
       <S.Overlay isOpen={isOpen} onClick={toggleDrawer} />
       {isOpen &&
