@@ -68,12 +68,23 @@ const Content = ({ children }: React.PropsWithChildren) => {
   return <S.DrawerContent>{children}</S.DrawerContent>;
 };
 
-const Trigger = ({ children }: React.PropsWithChildren) => {
+interface TriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+const Trigger = ({ children, onClick }: TriggerProps) => {
   const { toggleDrawer } = useDrawerContext();
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    toggleDrawer();
+    onClick?.(event);
+  };
+
   return (
-    <li css={S.triggerStyle} onClick={toggleDrawer}>
+    <button type="button" css={S.triggerStyle} onClick={handleClick}>
       {children}
-    </li>
+    </button>
   );
 };
 
