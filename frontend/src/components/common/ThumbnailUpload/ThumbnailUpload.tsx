@@ -23,8 +23,8 @@ const ThumbnailUpload = ({
   onChangeImage,
   onDeleteButton,
 }: ThumbnailUploadProps) => {
-  const [isShowEditButton, setIsShowEditButton] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isShowEditButton, setIsShowEditButton] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const thumbnailFileInputRef = useRef<HTMLInputElement>(null);
 
   const handleButtonClick = () => {
