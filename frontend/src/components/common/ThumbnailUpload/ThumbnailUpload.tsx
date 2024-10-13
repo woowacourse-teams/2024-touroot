@@ -11,9 +11,7 @@ import * as S from "./ThumbnailUpload.styled";
 interface ThumbnailUploadProps extends InputHTMLAttributes<HTMLInputElement> {
   id?: string;
   previewUrls: string[];
-
   onChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
-
   onDeleteButton?: () => void;
 }
 
