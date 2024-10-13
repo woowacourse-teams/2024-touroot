@@ -54,12 +54,17 @@ const MainPage = () => {
     });
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
-
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
+
+  const [isFocused, setIsFocused] = useState(false);
 
   const hasTravelogue = travelogues.length > 0;
 
+  const [tagSelectionAnnouncement, setTagSelectionAnnouncement] = useState("");
+  const [announcement, setAnnouncement] = useState("");
+
   const cardRefs = useTravelogueCardFocus(isFetchingNextPage);
+
   if (isPaused) {
     alert(ERROR_MESSAGE_MAP.network);
   }
@@ -67,8 +72,6 @@ const MainPage = () => {
   if (status === "error") {
     alert(error?.message);
   }
-
-  const [tagSelectionAnnouncement, setTagSelectionAnnouncement] = useState("");
 
   return (
     <>
@@ -144,8 +147,8 @@ const MainPage = () => {
                 </li>
               );
             })}
-            <VisuallyHidden aria-live="assertive">{tagSelectionAnnouncement}</VisuallyHidden>
           </S.MultiSelectionTagsContainer>
+          <VisuallyHidden aria-live="assertive">{tagSelectionAnnouncement}</VisuallyHidden>
         </S.TagsContainer>
       </S.FixedLayout>
 
@@ -158,6 +161,8 @@ const MainPage = () => {
           </S.MainPageTraveloguesList>
         )}
         {status === "success" && (
+          <>
+            <VisuallyHidden aria-live="assertive">{announcement}</VisuallyHidden>
             <S.MainPageTraveloguesList>
               {hasTravelogue ? (
                 travelogues.map(
@@ -188,21 +193,24 @@ const MainPage = () => {
                 </S.SearchFallbackWrapper>
               )}
             </S.MainPageTraveloguesList>
+          </>
         )}
-        <FloatingButton />
+
+        <S.FetchButton
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          onClick={async () => {
+            await fetchNextPage();
+            setAnnouncement("새로운 여행기가 로드되었습니다.");
+          }}
+          aria-label="더 많은 여행기 불러오기"
+        >
+          더 불러오기
+        </S.FetchButton>
+
+        {!isFocused && <S.LastElement ref={lastElementRef} />}
         <S.LastElement ref={lastElementRef} />
 
-        <SingleSelectionTagModalBottomSheet
-          isOpen={sorting.isModalOpen}
-          onClose={sorting.handleCloseModal}
-          mainText="여행기 정렬을 선택해 주세요!"
-        >
-          {SORTING_OPTIONS.map((option, index) => (
-            <S.OptionContainer key={index} onClick={() => sorting.handleClickOption(option)}>
-              {option === sorting.selectedOption ? (
-                <>
-                  <Text textType="detailBold" css={S.selectedOptionStyle}>
-        {!isFocused && <S.LastElement ref={lastElementRef} />}
         <VisuallyHidden aria-live="assertive">
           {sorting.isModalOpen
             ? "여행기 정렬 모달이 열렸습니다."
@@ -232,6 +240,7 @@ const MainPage = () => {
             ))}
           </SingleSelectionTagModalBottomSheet>
         )}
+        <FloatingButton />
 
         <VisuallyHidden aria-live="assertive">
           {travelPeriod.isModalOpen

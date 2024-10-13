@@ -124,3 +124,19 @@ export const MainPageList = styled.li`
   width: 100%;
 `;
 
+export const FetchButton = styled.button`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  padding: 8px;
+
+  color: white;
+  background: #000;
+  transform: translateY(100%);
+  transition: transform 0.3s;
+
+  &:focus {
+    transform: translateY(0);
+  }
+`;
