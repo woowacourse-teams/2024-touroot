@@ -11,6 +11,7 @@ export interface TravelPlanPlace {
   placeName: string;
   todos?: TravelPlanTodo[];
   position: MapPosition;
+  countryCode: string;
 }
 
 export interface TravelPlanDay {

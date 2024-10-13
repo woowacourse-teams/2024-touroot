@@ -71,8 +71,8 @@ const SearchHeader = () => {
                 )
               }
               autoFocus
-              maxLength={20}
-              placeholder="제목 또는 작성자명으로 검색해 주세요."
+              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+              placeholder="여행기 검색"
               css={css`
                 height: 4rem;
                 padding-right: 7.8rem;

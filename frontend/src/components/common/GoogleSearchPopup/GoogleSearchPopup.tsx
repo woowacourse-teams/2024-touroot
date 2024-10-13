@@ -14,7 +14,9 @@ import * as S from "./GoogleSearchPopup.styled";
 
 interface GoogleSearchPopupProps {
   onClosePopup: () => void;
-  onSearchPlaceInfo: (placeInfo: Pick<TravelTransformPlace, "placeName" | "position">) => void;
+  onSearchPlaceInfo: (
+    placeInfo: Pick<TravelTransformPlace, "placeName" | "position" | "countryCode">,
+  ) => void;
 }
 
 const GoogleSearchPopup = ({ onClosePopup, onSearchPlaceInfo }: GoogleSearchPopupProps) => {
@@ -31,15 +33,21 @@ const GoogleSearchPopup = ({ onClosePopup, onSearchPlaceInfo }: GoogleSearchPopu
   const onPlaceChanged = useCallback(() => {
     if (autocomplete !== null) {
       const place = autocomplete.getPlace();
-      if (place.geometry && place.geometry.location) {
+
+      if (place.geometry && place.geometry.location && place.address_components) {
         const newCenter = {
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng(),
         };
 
-        const placeInfo: Pick<TravelTransformPlace, "placeName" | "position"> = {
+        const countryCode = place.address_components.find((component) =>
+          component.types.includes("country"),
+        )?.short_name;
+
+        const placeInfo: Pick<TravelTransformPlace, "placeName" | "position" | "countryCode"> = {
           placeName: place.name || "",
           position: newCenter,
+          countryCode: countryCode || "",
         };
 
         onSearchPlaceInfo(placeInfo);

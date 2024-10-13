@@ -7,6 +7,12 @@ import { extractLastPath } from "@utils/extractId";
 import * as S from "./SearchPage.styled";
 import TravelogueList from "./TravelogueList/TravelogueList";
 
+const TAB_CONTENT = [
+  { label: "제목", searchType: "TITLE" },
+  { label: "작성자", searchType: "AUTHOR" },
+  { label: "국가", searchType: "TITLE" }, // 추후 COUNTRY로 바꿀 예정
+] as const;
+
 const SearchPage = () => {
   const location = useLocation();
   const encodedKeyword =
@@ -18,7 +24,7 @@ const SearchPage = () => {
       <S.Layout>
         <S.SearchFallbackWrapper>
           <SearchFallback
-            title="보고 싶은 여행기를 검색해주세요!"
+            title="보고 싶은 여행기를 검색해 주세요!"
             text="여행기 키워드를 입력해봐요!"
           />
         </S.SearchFallbackWrapper>
@@ -29,12 +35,12 @@ const SearchPage = () => {
   return (
     <>
       <Tab
-        labels={["제목", "작성자"]}
+        labels={TAB_CONTENT.map((tab) => tab.label)}
         tabContent={(selectedIndex) => (
           <TravelogueList
-            key={`${keyword}-${selectedIndex}`}
+            key={`${keyword}-${TAB_CONTENT[selectedIndex].searchType}`}
             keyword={keyword}
-            searchType={selectedIndex === 0 ? "TITLE" : "AUTHOR"}
+            searchType={TAB_CONTENT[selectedIndex].searchType}
           />
         )}
         css={S.TabStyle}

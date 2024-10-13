@@ -14,8 +14,15 @@ import * as S from "./MyPage.styled";
 import MyTravelPlans from "./MyTravelPlans/MyTravelPlans";
 import MyTravelogues from "./MyTravelogues/MyTravelogues";
 
+const TAB_CONTENT = [
+  { label: "✈️ 내 여행 계획", component: MyTravelPlans },
+  { label: "📝 내 여행기", component: MyTravelogues },
+  { label: "❤️ 좋아요", component: MyTravelogues }, // 추후 컴포넌트 바꿀 예정
+] as const;
+
 const MyPage = () => {
   const { data, status, error } = useUserProfile();
+
   const [isModifying, setIsModifying] = useState(false);
   const [nickname, setNickname] = useState(data?.nickname ?? "");
 
@@ -38,15 +45,12 @@ const MyPage = () => {
 
   const handleSubmitNicknameChange = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const trimmedNickname = nickname.trim();
 
-    if (data?.nickname && !trimmedNickname) {
-      setNickname(data?.nickname);
-      mutateModifyNickname(data?.nickname);
-    } else if (trimmedNickname) {
-      mutateModifyNickname(trimmedNickname);
-      setNickname(trimmedNickname);
-    }
+    const trimmedNickname = nickname.trim();
+    const newNickname = trimmedNickname || data?.nickname || "";
+
+    setNickname(newNickname);
+    mutateModifyNickname(newNickname);
 
     setIsModifying(false);
   };
@@ -66,6 +70,7 @@ const MyPage = () => {
     ) {
       alert(error.message);
     }
+
     return <MyPageSkeleton />;
   }
 
@@ -79,6 +84,7 @@ const MyPage = () => {
         </S.ButtonWrapper>
 
         <AvatarCircle $size="large" profileImageUrl={data?.profileImageUrl} />
+
         <S.NicknameWrapper>
           {!isModifying ? (
             <Text textType="body" css={S.NicknameStyle}>
@@ -90,7 +96,7 @@ const MyPage = () => {
                 placeholder={data?.nickname}
                 value={nickname}
                 autoFocus
-                maxLength={20}
+                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
                 spellCheck={false}
                 css={S.inputStyle}
                 onChange={(e) =>
@@ -113,18 +119,12 @@ const MyPage = () => {
 
       <Tab
         storageKey={STORAGE_KEYS_MAP.myPageSelectedTabIndex}
-        labels={["내 여행 계획", "내 여행기"]}
-        tabContent={(selectedIndex) => (
-          <>
-            {selectedIndex === 0 ? (
-              data ? (
-                <MyTravelPlans userData={data} />
-              ) : null
-            ) : data ? (
-              <MyTravelogues userData={data} />
-            ) : null}
-          </>
-        )}
+        labels={TAB_CONTENT.map((tab) => tab.label)}
+        tabContent={(selectedIndex) => {
+          const SelectedComponent = TAB_CONTENT[selectedIndex].component;
+
+          return data ? <SelectedComponent userData={data} /> : <></>;
+        }}
         css={S.ListStyle}
       />
     </S.Layout>

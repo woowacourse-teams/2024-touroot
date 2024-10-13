@@ -18,7 +18,7 @@ interface TravelPlanDayAccordionProps {
   onDeletePlaceTodo: (dayIndex: number, placeIndex: number, todoId: string) => void;
   onAddPlace: (
     dayIndex: number,
-    travelParams: Pick<TravelPlanPlace, "placeName" | "position">,
+    travelParams: Pick<TravelPlanPlace, "placeName" | "position" | "countryCode">,
   ) => void;
   onAddPlaceTodo: (dayIndex: number, placeIndex: number) => void;
   onChangeContent: ({
@@ -48,7 +48,7 @@ const TravelPlanDayAccordion = ({
   const { isPopupOpen, handleOpenPopup, handleClosePopup } = useSearchPlaceHistory();
 
   const handleSelectSearchResult = (
-    placeInfo: Pick<TravelPlanPlace, "placeName" | "position">,
+    placeInfo: Pick<TravelPlanPlace, "placeName" | "position" | "countryCode">,
     dayIndex: number,
   ) => {
     onAddPlace(dayIndex, placeInfo);

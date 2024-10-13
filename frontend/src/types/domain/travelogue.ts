@@ -6,6 +6,7 @@ export interface TraveloguePlace {
   photoUrls?: string[];
   description?: string;
   position: MapPosition;
+  countryCode: string;
 }
 
 export interface TravelogueDay {
@@ -46,7 +47,7 @@ export interface MyTravelogue {
   createdAt: string;
 }
 
-export type SearchType = "TITLE" | "AUTHOR";
+export type SearchType = "TITLE" | "AUTHOR" | "COUNTRY";
 
 export type SortingOption = "likeCount" | "createdAt";
 

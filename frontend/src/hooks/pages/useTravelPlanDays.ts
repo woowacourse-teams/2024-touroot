@@ -44,7 +44,10 @@ export const useTravelPlanDays = (days: TravelTransformDays[]) => {
   );
 
   const onAddPlace = useCallback(
-    (dayIndex: number, travelParams: Pick<TravelPlanPlace, "placeName" | "position">) => {
+    (
+      dayIndex: number,
+      travelParams: Pick<TravelPlanPlace, "placeName" | "position" | "countryCode">,
+    ) => {
       setTravelPlanDays((previousTravelPlanDays) => {
         const travelPlanDay = previousTravelPlanDays[dayIndex];
 

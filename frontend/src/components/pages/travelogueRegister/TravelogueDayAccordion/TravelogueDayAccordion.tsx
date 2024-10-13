@@ -28,7 +28,7 @@ interface TravelogueDayAccordionProps {
   ) => void;
   onAddPlace: (
     dayIndex: number,
-    traveloguePlace: Pick<TraveloguePlace, "placeName" | "position">,
+    traveloguePlace: Pick<TraveloguePlace, "placeName" | "position" | "countryCode">,
   ) => void;
   onChangeImageUrls: (dayIndex: number, placeIndex: number, imgUrls: string[]) => void;
   onDeleteImageUrls: (dayIndex: number, targetPlaceIndex: number, imageIndex: number) => void;
@@ -53,7 +53,7 @@ const TravelogueDayAccordion = ({
   const { isPopupOpen, handleOpenPopup, handleClosePopup } = useSearchPlaceHistory();
 
   const handleSelectSearchResult = (
-    placeInfo: Pick<TraveloguePlace, "placeName" | "position">,
+    placeInfo: Pick<TraveloguePlace, "placeName" | "position" | "countryCode">,
     dayIndex: number,
   ) => {
     onAddPlace(dayIndex, placeInfo);
