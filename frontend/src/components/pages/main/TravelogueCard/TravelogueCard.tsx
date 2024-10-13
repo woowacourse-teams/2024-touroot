@@ -30,7 +30,7 @@ const getCardAriaLabel = ({
   const tagText = removeEmojis(tags);
   const tagPart = tagText ? `태그: ${tagText}` : "";
 
-  return `${title} 여행기. ${authorNickname} 작성. 좋아요 수: ${likeCount}개. ${tagPart}`;
+  return `${removeEmojis(title)} 여행기. ${authorNickname} 작성. 좋아요 수: ${likeCount}개. ${tagPart}`;
 };
 
 const TravelogueCard = React.forwardRef<HTMLButtonElement, TravelogueCardProps>(
