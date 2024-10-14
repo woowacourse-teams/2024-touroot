@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 import useModalControl from "@hooks/useModalControl";
 
-import { ROUTE_PATHS_MAP } from "@constants/route";
-
 import removeEmojis from "@utils/removeEmojis";
 
 import { PRIMITIVE_COLORS } from "@styles/tokens";
@@ -14,17 +12,7 @@ import IconButton from "../IconButton/IconButton";
 import Text from "../Text/Text";
 import VisuallyHidden from "../VisuallyHidden/VisuallyHidden";
 import * as S from "./FloatingButton.styled";
-
-const SUB_BUTTONS = [
-  {
-    text: "✈️ 여행 계획 작성",
-    route: ROUTE_PATHS_MAP.travelPlanRegister,
-  },
-  {
-    text: "📝 여행기 작성",
-    route: ROUTE_PATHS_MAP.travelogueRegister,
-  },
-];
+import SUB_BUTTONS from "./constants";
 
 const FloatingButton = () => {
   const [isOpen, setIsOpen] = useState(false);
