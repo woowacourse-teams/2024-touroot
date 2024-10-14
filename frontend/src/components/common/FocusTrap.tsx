@@ -39,9 +39,6 @@ const FocusTrap = <T extends HTMLElement>({ children, onEscapeFocusTrap, ...prop
     };
   }, []);
 
-  const firstElement = focusableElements.current[0];
-  const lastElement = focusableElements.current[focusableElements.current.length - 1];
-
   useEffect(() => {
     const focusNextElement = () => {
       currentFocusIndex.current =
@@ -87,7 +84,7 @@ const FocusTrap = <T extends HTMLElement>({ children, onEscapeFocusTrap, ...prop
     document.addEventListener("keydown", handleKeyPress);
 
     return () => document.removeEventListener("keydown", handleKeyPress);
-  }, [firstElement, lastElement, onEscapeFocusTrap]);
+  }, [onEscapeFocusTrap]);
 
   const Component = React.cloneElement(child, {
     ...{ ...props, ...child?.props },
