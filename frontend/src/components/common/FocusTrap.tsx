@@ -94,8 +94,6 @@ const FocusTrap = <T extends HTMLElement>({ children, onEscapeFocusTrap, ...prop
     ref: focusTrapRef,
   });
 
-  console.log(Component);
-
   return <>{Component}</>;
 };
 
