@@ -22,7 +22,7 @@ const FloatingButton = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const handleClickSubButton = (route: string) => () => {
+  const handleClickSubButton = (route: string) => {
     navigate(route);
   };
 
@@ -43,7 +43,7 @@ const FloatingButton = () => {
               {SUB_BUTTONS.map(({ text, route }) => (
                 <S.SubButton
                   key={route}
-                  onClick={handleClickSubButton(route)}
+                  onClick={() => handleClickSubButton(route)}
                   aria-label={removeEmoji(text)}
                 >
                   <Text textType="body" css={S.subButtonTextStyle}>
