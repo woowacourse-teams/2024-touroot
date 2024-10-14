@@ -4,20 +4,20 @@ import * as S from "./AvatarCircle.styled";
 import type { AvatarCircleSize } from "./AvatarCircle.type";
 
 interface AvatarCircleProps {
-  $size?: AvatarCircleSize;
+  size?: AvatarCircleSize;
   profileImageUrl?: string;
   imageAlt?: string;
 }
 
-const AvatarCircle = ({ $size = "small", profileImageUrl, imageAlt }: AvatarCircleProps) => {
+const AvatarCircle = ({ size = "small", profileImageUrl, imageAlt }: AvatarCircleProps) => {
   const { imageError, handleImageError } = useImageError({ imageUrl: profileImageUrl });
 
   return (
-    <S.AvatarCircleContainer $size={$size}>
+    <S.AvatarCircleContainer $size={size}>
       {!imageError ? (
         <img src={profileImageUrl} alt={imageAlt} onError={handleImageError} />
       ) : (
-        <S.FallbackIcon $size={$size}>
+        <S.FallbackIcon $size={size}>
           <svg
             width="11"
             height="11"
