@@ -1,17 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import ReactDOM from "react-dom";
 
 import DrawerProvider, { useDrawerContext } from "@contexts/DrawerProvider";
 
 import useModalControl from "@hooks/useModalControl";
+import usePressESC from "@hooks/usePressESC";
 
 import VisuallyHidden from "../VisuallyHidden/VisuallyHidden";
 import * as S from "./Drawer.styled";
 
 const Drawer = ({ children }: React.PropsWithChildren) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleDrawer = useCallback(() => setIsOpen((prev) => !prev), []);
+  usePressESC(isOpen, toggleDrawer);
 
   useModalControl(isOpen, toggleDrawer);
 
@@ -30,20 +31,6 @@ const Drawer = ({ children }: React.PropsWithChildren) => {
       }
     }
   });
-
-  useEffect(() => {
-    const handleEscapeKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
-        toggleDrawer();
-      }
-    };
-
-    document.addEventListener("keydown", handleEscapeKey);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscapeKey);
-    };
-  }, [isOpen, toggleDrawer]);
 
   return (
     <DrawerProvider isOpen={isOpen} toggleDrawer={toggleDrawer}>
