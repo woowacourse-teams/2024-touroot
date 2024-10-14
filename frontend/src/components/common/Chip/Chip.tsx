@@ -4,8 +4,9 @@ import { CYPRESS_DATA_MAP } from "@constants/cypress";
 
 import Text from "../Text/Text";
 import * as S from "./Chip.styled";
+import { DEFAULT_ELEMENT } from "./constants";
 
-interface ChipOwnProps<Element extends React.ElementType = React.ElementType> {
+interface ChipOwnProps<Element extends React.ElementType = typeof DEFAULT_ELEMENT> {
   as?: Element;
   label: string;
   isSelected?: boolean;
@@ -15,15 +16,15 @@ interface ChipOwnProps<Element extends React.ElementType = React.ElementType> {
 type ChipProps<E extends React.ElementType> = ChipOwnProps<E> &
   Omit<React.ComponentPropsWithoutRef<E>, keyof ChipOwnProps>;
 
-function Chip<E extends React.ElementType>({
+const Chip = <E extends React.ElementType>({
   as,
   label,
   isSelected = false,
   index,
   children,
   ...props
-}: ChipProps<E>) {
-  const Component = as || "li";
+}: ChipProps<E>) => {
+  const Component = as ?? DEFAULT_ELEMENT;
 
   return (
     <S.Layout
@@ -37,6 +38,5 @@ function Chip<E extends React.ElementType>({
       {children}
     </S.Layout>
   );
-}
-
+};
 export default Chip;
