@@ -30,7 +30,8 @@ const Tab = ({
   }, []);
 
   const tabRefs = useRef<(HTMLLIElement | null)[]>([]);
-  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
+  const { scrollRef, handleMouseDown, handleMouseMove, handleMouseUp } =
+    useDragScroll<HTMLUListElement>();
 
   const handleClickTab = (index: number) => {
     setSelectedIndex(index);
@@ -41,10 +42,10 @@ const Tab = ({
     <>
       <S.TabList
         ref={scrollRef}
-        onMouseDown={onMouseDown}
-        onMouseLeave={onMouseUp}
-        onMouseUp={onMouseUp}
-        onMouseMove={onMouseMove}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseUp}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
         {...props}
       >
         {labels.map((label, index) => (

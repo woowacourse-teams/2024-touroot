@@ -1,5 +1,3 @@
-import { MutateOptions } from "@tanstack/react-query";
-
 import type { TravelogueDay, TraveloguePlace } from "@type/domain/travelogue";
 
 import {
@@ -18,7 +16,6 @@ import * as S from "../TravelogueRegisterPage.styled";
 interface TravelogueDayAccordionProps {
   travelogueDay: TravelogueDay;
   dayIndex: number;
-  isPaused: boolean;
   onDeleteDay: (dayIndex: number) => void;
   onDeletePlace: (dayIndex: number, placeIndex: number) => void;
   onChangePlaceDescription: (
@@ -32,15 +29,11 @@ interface TravelogueDayAccordionProps {
   ) => void;
   onChangeImageUrls: (dayIndex: number, placeIndex: number, imgUrls: string[]) => void;
   onDeleteImageUrls: (dayIndex: number, targetPlaceIndex: number, imageIndex: number) => void;
-  onRequestAddImage: (
-    variables: File[],
-    options?: MutateOptions<string[], Error, File[], unknown> | undefined,
-  ) => Promise<string[]>;
 }
 
 const TravelogueDayAccordion = ({
   travelogueDay,
-  isPaused,
+
   dayIndex,
   onAddPlace,
   onDeleteDay,
@@ -48,7 +41,6 @@ const TravelogueDayAccordion = ({
   onChangePlaceDescription,
   onChangeImageUrls,
   onDeleteImageUrls,
-  onRequestAddImage,
 }: TravelogueDayAccordionProps) => {
   const { isPopupOpen, handleOpenPopup, handleClosePopup } = useSearchPlaceHistory();
 
@@ -80,13 +72,11 @@ const TravelogueDayAccordion = ({
               </Accordion.Trigger>
               <Accordion.Content>
                 <TravelogueMultiImageUpload
-                  isPaused={isPaused}
                   imageUrls={place.photoUrls ?? []}
                   dayIndex={dayIndex}
                   placeIndex={placeIndex}
                   onChangeImageUrls={onChangeImageUrls}
                   onDeleteImageUrls={onDeleteImageUrls}
-                  onRequestAddImage={onRequestAddImage}
                 />
                 <Textarea
                   value={place.description}

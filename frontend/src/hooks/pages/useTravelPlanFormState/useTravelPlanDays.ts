@@ -21,20 +21,20 @@ export const useTravelPlanDays = (days: TravelTransformDays[]) => {
     transformTravelPlanDays(days),
   );
 
-  const onChangeTravelPlanDays = useCallback(
+  const handleChangeTravelPlanDays = useCallback(
     (newDays: TravelPlanDay[]) => {
       setTravelPlanDays(newDays);
     },
     [setTravelPlanDays],
   );
 
-  const onAddDay = useCallback(() => {
+  const handleAddDay = useCallback(() => {
     setTravelPlanDays((previousTravelPlanDays) => {
       previousTravelPlanDays.push({ id: uuidv4(), places: [] });
     });
   }, [setTravelPlanDays]);
 
-  const onDeleteDay = useCallback(
+  const handleDeleteDay = useCallback(
     (targetDayIndex: number) => {
       setTravelPlanDays((previousTravelPlanDays) => {
         previousTravelPlanDays.splice(targetDayIndex, 1);
@@ -43,7 +43,7 @@ export const useTravelPlanDays = (days: TravelTransformDays[]) => {
     [setTravelPlanDays],
   );
 
-  const onAddPlace = useCallback(
+  const handleAddPlace = useCallback(
     (
       dayIndex: number,
       travelParams: Pick<TravelPlanPlace, "placeName" | "position" | "countryCode">,
@@ -63,7 +63,7 @@ export const useTravelPlanDays = (days: TravelTransformDays[]) => {
     [setTravelPlanDays],
   );
 
-  const onDeletePlace = useCallback(
+  const handleDeletePlace = useCallback(
     (dayIndex: number, placeIndex: number) => {
       setTravelPlanDays((previousTravelPlanDays) => {
         const travelPlanPlaces = previousTravelPlanDays[dayIndex]?.places;
@@ -76,7 +76,7 @@ export const useTravelPlanDays = (days: TravelTransformDays[]) => {
     [setTravelPlanDays],
   );
 
-  const onChangeContent = useCallback(
+  const handleChangeContent = useCallback(
     ({
       content,
       dayIndex,
@@ -104,7 +104,7 @@ export const useTravelPlanDays = (days: TravelTransformDays[]) => {
     [setTravelPlanDays],
   );
 
-  const onAddPlaceTodo = useCallback(
+  const handleAddPlaceTodo = useCallback(
     (dayIndex: number, placeIndex: number) => {
       setTravelPlanDays((previousTravelPlanDays) => {
         const travelPlanPlace = previousTravelPlanDays[dayIndex]?.places[placeIndex];
@@ -117,7 +117,7 @@ export const useTravelPlanDays = (days: TravelTransformDays[]) => {
     [setTravelPlanDays],
   );
 
-  const onDeletePlaceTodo = useCallback(
+  const handleDeletePlaceTodo = useCallback(
     (dayIndex: number, placeIndex: number, todoId: string) => {
       setTravelPlanDays((previousTravelPlanDays) => {
         const travelPlanPlace = previousTravelPlanDays[dayIndex]?.places[placeIndex];
@@ -132,13 +132,13 @@ export const useTravelPlanDays = (days: TravelTransformDays[]) => {
 
   return {
     travelPlanDays,
-    onChangeTravelPlanDays,
-    onAddDay,
-    onDeleteDay,
-    onAddPlace,
-    onDeletePlace,
-    onChangeContent,
-    onAddPlaceTodo,
-    onDeletePlaceTodo,
+    handleChangeTravelPlanDays,
+    handleAddDay,
+    handleDeleteDay,
+    handleAddPlace,
+    handleDeletePlace,
+    handleChangeContent,
+    handleAddPlaceTodo,
+    handleDeletePlaceTodo,
   };
 };

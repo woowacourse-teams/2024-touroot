@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useState } from "react";
+import { InputHTMLAttributes, useRef, useState } from "react";
 
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
@@ -11,22 +11,23 @@ import * as S from "./ThumbnailUpload.styled";
 interface ThumbnailUploadProps extends InputHTMLAttributes<HTMLInputElement> {
   id?: string;
   previewUrls: string[];
-  fileInputRef: React.RefObject<HTMLInputElement>;
   onChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onClickButton: () => void;
   onDeleteButton?: () => void;
 }
 
 const ThumbnailUpload = ({
   id,
   previewUrls,
-  fileInputRef,
   onChangeImage,
-  onClickButton,
   onDeleteButton,
 }: ThumbnailUploadProps) => {
-  const [isShowEditButton, setIsShowEditButton] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isShowEditButton, setIsShowEditButton] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const thumbnailFileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleButtonClick = () => {
+    thumbnailFileInputRef.current?.click();
+  };
 
   const handleMouseOver = () => {
     if (!isLoading) setIsShowEditButton(true);
@@ -56,7 +57,7 @@ const ThumbnailUpload = ({
   const HiddenInput = (
     <S.ThumbnailUploadHiddenInput
       id={id}
-      ref={fileInputRef}
+      ref={thumbnailFileInputRef}
       type="file"
       accept="image/*"
       onChange={handleChangeImage}
@@ -79,7 +80,11 @@ const ThumbnailUpload = ({
 
       {!image ? (
         <>
-          <S.ThumbnailUploadButton type="button" onClick={onClickButton} aria-label="이미지 업로드">
+          <S.ThumbnailUploadButton
+            type="button"
+            onClick={handleButtonClick}
+            aria-label="이미지 업로드"
+          >
             <PictureIcon />
             <p>썸네일 업로드</p>
           </S.ThumbnailUploadButton>
@@ -91,7 +96,7 @@ const ThumbnailUpload = ({
           onMouseLeave={handleMouseLeave}
         >
           {isShowEditButton && (
-            <S.ThumbnailUploadEditButton onClick={onClickButton}>
+            <S.ThumbnailUploadEditButton onClick={handleButtonClick}>
               썸네일 수정하기
             </S.ThumbnailUploadEditButton>
           )}

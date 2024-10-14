@@ -18,25 +18,25 @@ const transformTravelogueDays = (travelTransformDays: TravelTransformDays[]) =>
     );
   });
 
-export const useTravelogueDays = (days: TravelTransformDays[]) => {
+const useTravelogueDays = (days: TravelTransformDays[]) => {
   const [travelogueDays, setTravelogueDays] = useImmer<TravelogueDay[]>(() =>
     transformTravelogueDays(days),
   );
 
-  const onChangeTravelogueDays = useCallback(
+  const handleChangeTravelogueDays = useCallback(
     (newTravelogueDays: TravelogueDay[]) => {
       setTravelogueDays(newTravelogueDays);
     },
     [setTravelogueDays],
   );
 
-  const onAddDay = useCallback(() => {
+  const handleAddDay = useCallback(() => {
     setTravelogueDays((newTravelogueDays) => {
       newTravelogueDays.push({ id: uuidv4(), places: [] });
     });
   }, [setTravelogueDays]);
 
-  const onDeleteDay = useCallback(
+  const handleDeleteDay = useCallback(
     (targetDayIndex: number) => {
       setTravelogueDays((newTravelogueDays) => {
         newTravelogueDays.splice(targetDayIndex, 1);
@@ -45,7 +45,7 @@ export const useTravelogueDays = (days: TravelTransformDays[]) => {
     [setTravelogueDays],
   );
 
-  const onAddPlace = useCallback(
+  const handleAddPlace = useCallback(
     (
       dayIndex: number,
       traveloguePlace: Pick<TraveloguePlace, "placeName" | "position" | "countryCode">,
@@ -62,7 +62,7 @@ export const useTravelogueDays = (days: TravelTransformDays[]) => {
     [setTravelogueDays],
   );
 
-  const onDeletePlace = useCallback(
+  const handleDeletePlace = useCallback(
     (dayIndex: number, placeIndex: number) => {
       setTravelogueDays((newTravelogueDays) => {
         newTravelogueDays[dayIndex].places.splice(placeIndex, 1);
@@ -71,7 +71,7 @@ export const useTravelogueDays = (days: TravelTransformDays[]) => {
     [setTravelogueDays],
   );
 
-  const onChangePlaceDescription = useCallback(
+  const handleChangePlaceDescription = useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>, dayIndex: number, placeIndex: number) => {
       setTravelogueDays((newTravelogueDays) => {
         newTravelogueDays[dayIndex].places[placeIndex].description = event.target.value.slice(
@@ -83,7 +83,7 @@ export const useTravelogueDays = (days: TravelTransformDays[]) => {
     [setTravelogueDays],
   );
 
-  const onChangeImageUrls = useCallback(
+  const handleChangeImageUrls = useCallback(
     (dayIndex: number, placeIndex: number, imgUrls: string[]) => {
       setTravelogueDays((newTravelogueDays) => {
         const place = newTravelogueDays[dayIndex].places[placeIndex];
@@ -93,7 +93,7 @@ export const useTravelogueDays = (days: TravelTransformDays[]) => {
     [setTravelogueDays],
   );
 
-  const onDeleteImageUrls = useCallback(
+  const handleDeleteImageUrls = useCallback(
     (dayIndex: number, targetPlaceIndex: number, imageIndex: number) => {
       setTravelogueDays((newTravelogueDays) => {
         const place = newTravelogueDays[dayIndex].places[targetPlaceIndex];
@@ -106,13 +106,15 @@ export const useTravelogueDays = (days: TravelTransformDays[]) => {
 
   return {
     travelogueDays,
-    onChangeTravelogueDays,
-    onAddDay,
-    onDeleteDay,
-    onAddPlace,
-    onDeletePlace,
-    onChangePlaceDescription,
-    onChangeImageUrls,
-    onDeleteImageUrls,
+    handleChangeTravelogueDays,
+    handleAddDay,
+    handleDeleteDay,
+    handleAddPlace,
+    handleDeletePlace,
+    handleChangePlaceDescription,
+    handleChangeImageUrls,
+    handleDeleteImageUrls,
   };
 };
+
+export default useTravelogueDays;
