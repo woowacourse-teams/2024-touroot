@@ -39,6 +39,7 @@ spring:
     hibernate:
       ddl-auto: create
     defer-datasource-initialization: true
+    open-in-view: false
   sql:
     init:
       mode: never
