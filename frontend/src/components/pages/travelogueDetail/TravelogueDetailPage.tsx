@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactGA from "react-ga4";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -107,6 +107,10 @@ const TravelogueDetailPage = () => {
 
     return handleActiveHeart(id);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (
     isGettingTraveloguePaused ||
