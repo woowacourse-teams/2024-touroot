@@ -32,8 +32,8 @@ const FloatingButton = () => {
     <S.FloatingButtonContainer>
       <VisuallyHidden aria-live="assertive">
         {isOpen
-          ? "여행기 및 여행 계획 작성 모달이 열렸습니다. 닫으려면 esc버튼을 눌러주세요."
-          : "여행기 및 여행 계획 작성 모달이 닫혔습니다."}
+          ? "여행기 및 여행 계획 작성 플로팅 버튼이 열렸습니다. 닫으려면 esc버튼을 눌러주세요."
+          : "여행기 및 여행 계획 작성 플로팅 버튼이 닫혔습니다."}
       </VisuallyHidden>
       {isOpen && (
         <>
