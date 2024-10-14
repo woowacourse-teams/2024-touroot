@@ -12,7 +12,7 @@ const useMultiSelectionTag = (key?: string) => {
   );
   const [animationKey, setAnimationKey] = useState(0);
 
-  const onChangeSelectedTagIDs = useCallback((newSelectedTagIDs: number[]) => {
+  const handleChangeSelectedTagIDs = useCallback((newSelectedTagIDs: number[]) => {
     setSelectedTagIDs(newSelectedTagIDs);
   }, []);
 
@@ -49,7 +49,7 @@ const useMultiSelectionTag = (key?: string) => {
 
   return {
     selectedTagIDs,
-    onChangeSelectedTagIDs,
+    handleChangeSelectedTagIDs,
     sortedTags: createSortedTags(),
     handleClickTag,
     animationKey,

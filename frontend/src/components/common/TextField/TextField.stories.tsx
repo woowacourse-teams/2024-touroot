@@ -18,13 +18,7 @@ const inputContents = {
     />
   ),
   thumbnailUploader: (
-    <ThumbnailUpload
-      id="thumbnail-upload-1"
-      previewUrls={[]}
-      fileInputRef={React.createRef()}
-      onChangeImage={() => {}}
-      onClickButton={() => {}}
-    />
+    <ThumbnailUpload id="thumbnail-upload-1" previewUrls={[]} onChangeImage={() => {}} />
   ),
   calendar: <Input placeholder="시작일을 입력해주세요" />,
 };
