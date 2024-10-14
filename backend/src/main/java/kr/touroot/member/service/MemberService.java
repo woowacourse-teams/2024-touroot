@@ -1,8 +1,10 @@
 package kr.touroot.member.service;
 
+import java.util.Objects;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.dto.request.MemberRequest;
 import kr.touroot.member.dto.request.ProfileUpdateRequest;
@@ -18,6 +20,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncryptor passwordEncryptor;
+    private final AwsS3Provider s3Provider;
 
     @Transactional(readOnly = true)
     public Member getMemberById(Long memberId) {
@@ -54,7 +57,14 @@ public class MemberService {
     @Transactional
     public ProfileResponse updateProfile(ProfileUpdateRequest request, MemberAuth memberAuth) {
         Member member = getMemberById(memberAuth.memberId());
-        member.changeNickname(request.nickname());
+        String requestProfileImageUrl = request.profileImageUrl();
+        if (!Objects.equals(request.profileImageUrl(), member.getProfileImageUrl())) {
+            requestProfileImageUrl = s3Provider.copyImageToPermanentStorage(request.profileImageUrl());
+        }
+        member.update(request.nickname(), requestProfileImageUrl);
+
+//        Member member = getMemberById(memberAuth.memberId());
+//        member.changeNickname(request.nickname());
 
         return ProfileResponse.from(member);
     }

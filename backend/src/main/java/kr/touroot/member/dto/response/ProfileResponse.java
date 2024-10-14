@@ -10,6 +10,7 @@ public record ProfileResponse(String profileImageUrl, String nickname) {
         return ProfileResponse.builder()
                 .profileImageUrl(member.getProfileImageUrl())
                 .nickname(member.getNickname())
+                .profileImageUrl(member.getProfileImageUrl())
                 .build();
     }
 }

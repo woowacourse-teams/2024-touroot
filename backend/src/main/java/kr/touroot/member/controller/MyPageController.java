@@ -24,7 +24,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -120,7 +120,7 @@ public class MyPageController {
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             )
     })
-    @PatchMapping("/profile")
+    @PutMapping("/profile")
     public ResponseEntity<ProfileResponse> updateProfile(
             @Valid @RequestBody ProfileUpdateRequest request,
             @NotNull MemberAuth memberAuth
