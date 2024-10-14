@@ -128,11 +128,13 @@ export const FetchButton = styled.button`
   position: fixed;
   bottom: 0;
   left: 0;
-  z-index: 100;
-  padding: 8px;
+  z-index: ${({ theme }) => theme.zIndex.floating};
+  padding: ${({ theme }) => theme.spacing.xs};
 
-  color: white;
-  background: #000;
+  background-color: ${PRIMITIVE_COLORS.black};
+
+  color: ${PRIMITIVE_COLORS.white};
+
   transform: translateY(100%);
   transition: transform 0.3s;
 
