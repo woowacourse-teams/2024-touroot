@@ -73,9 +73,9 @@ const Trigger = ({ children, onClick }: TriggerProps) => {
   };
 
   return (
-    <button type="button" css={S.triggerStyle} onClick={handleClick}>
+    <S.TriggerButton type="button" onClick={handleClick}>
       {children}
-    </button>
+    </S.TriggerButton>
   );
 };
 

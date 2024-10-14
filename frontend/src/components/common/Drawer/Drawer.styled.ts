@@ -1,4 +1,3 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 export const DrawerContainer = styled.div<{ isOpen: boolean }>`
@@ -46,7 +45,7 @@ export const DrawerContent = styled.div`
   padding: 1rem;
 `;
 
-export const triggerStyle = css`
+export const TriggerButton = styled.button`
   background: none;
   border: none;
 
