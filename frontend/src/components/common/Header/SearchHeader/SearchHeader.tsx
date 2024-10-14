@@ -87,13 +87,7 @@ const SearchHeader = () => {
               >
                 <Icon iconType="x-icon" size="8" />
               </S.DeleteButton>
-              <IconButton
-                iconType="search-icon"
-                size="18"
-                title="search button"
-                type="submit"
-                aria-label="여행기 검색"
-              />
+              <IconButton iconType="search-icon" size="18" type="submit" aria-label="여행기 검색" />
             </S.ButtonContainer>
           </S.FormWrapper>
           <IconButton
