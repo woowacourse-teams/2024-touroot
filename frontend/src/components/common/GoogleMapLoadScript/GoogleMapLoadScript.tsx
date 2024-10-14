@@ -9,6 +9,7 @@ interface GoogleMapLoadScriptProps extends React.PropsWithChildren {
 const GoogleMapLoadScript = ({ children, loadingElement }: GoogleMapLoadScriptProps) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY ?? "",
+    language: "ko",
     libraries: LIBRARIES,
   });
 
