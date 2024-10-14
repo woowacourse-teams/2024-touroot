@@ -46,6 +46,8 @@ const TravelogueRegisterPage = () => {
       handleDeleteImageUrls,
       handleChangePlaceDescription,
     },
+    errorMessages: { titleErrorMessage },
+    isEnabledForm,
   } = useTravelogueFormState(transformDetail?.days ?? []);
 
   const payload = {
@@ -76,14 +78,19 @@ const TravelogueRegisterPage = () => {
               <Input
                 id={id}
                 value={title}
-                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
                 placeholder="여행기 제목을 입력해주세요"
                 onChange={(event) => handleChangeTitle(event.target.value)}
               />
-              <CharacterCount
-                count={title.length}
-                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              />
+              <S.TitleMessageContainer>
+                <Text textType="detail" css={S.errorTextStyle}>
+                  {titleErrorMessage}
+                </Text>
+                <CharacterCount
+                  count={title.length}
+                  maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+                  css={S.characterCountStyle}
+                />
+              </S.TitleMessageContainer>
             </S.InputContainer>
           )}
         </TextField>
@@ -165,7 +172,7 @@ const TravelogueRegisterPage = () => {
           </GoogleMapLoadScript>
         </div>
 
-        <Button variants="primary" onClick={handleOpenBottomSheet}>
+        <Button disabled={!isEnabledForm} variants="primary" onClick={handleOpenBottomSheet}>
           등록
         </Button>
       </S.Layout>

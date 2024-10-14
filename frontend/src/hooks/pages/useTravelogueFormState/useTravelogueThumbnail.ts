@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { usePostUploadImages } from "@queries/usePostUploadImages";
 
 import resizeAndConvertImage from "@utils/resizeAndConvertImage";
-import { validateThumbnail } from "@utils/validate";
+import { validateThumbnail } from "@utils/validation/travelogue";
 
 const useTravelogueThumbnail = () => {
   const { mutateAsync: mutateAddImage } = usePostUploadImages();

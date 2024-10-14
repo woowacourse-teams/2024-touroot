@@ -6,7 +6,8 @@ import useTravelogueTitle from "@hooks/pages/useTravelogueFormState/useTravelogu
 import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
 
 const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
-  const { title, handleChangeTitle } = useTravelogueTitle(transformDays);
+  const { title, titleErrorMessage, isEnabledTravelogueTitle, handleChangeTitle } =
+    useTravelogueTitle(transformDays);
   const { thumbnail, handleChangeThumbnail, handleResetThumbnail, handleInitializeThumbnail } =
     useTravelogueThumbnail();
   const { selectedTagIDs, sortedTags, animationKey, handleClickTag, handleChangeSelectedTagIDs } =
@@ -22,6 +23,8 @@ const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
     handleDeleteImageUrls,
     handleChangeTravelogueDays,
   } = useTravelogueDays(transformDays);
+
+  const isEnabledForm = isEnabledTravelogueTitle;
 
   return {
     state: {
@@ -48,6 +51,10 @@ const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
       handleChangePlaceDescription,
       handleChangeSelectedTagIDs,
     },
+    errorMessages: {
+      titleErrorMessage,
+    },
+    isEnabledForm,
   };
 };
 
