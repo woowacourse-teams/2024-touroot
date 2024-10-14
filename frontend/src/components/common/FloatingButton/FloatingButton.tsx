@@ -12,6 +12,7 @@ import { PRIMITIVE_COLORS } from "@styles/tokens";
 import FocusTrap from "../FocusTrap";
 import IconButton from "../IconButton/IconButton";
 import Text from "../Text/Text";
+import VisuallyHidden from "../VisuallyHidden/VisuallyHidden";
 import * as S from "./FloatingButton.styled";
 
 const SUB_BUTTONS = [
@@ -41,11 +42,11 @@ const FloatingButton = () => {
 
   return (
     <S.FloatingButtonContainer>
-      <div aria-live="polite" css={S.visualHiddenStyle}>
+      <VisuallyHidden aria-live="assertive">
         {isOpen
           ? "여행기 및 여행 계획 작성 모달이 열렸습니다. 닫으려면 esc버튼을 눌러주세요."
           : "여행기 및 여행 계획 작성 모달이 닫혔습니다."}
-      </div>
+      </VisuallyHidden>
       {isOpen && (
         <>
           <S.BackdropLayout onClick={handleToggleButton} />
