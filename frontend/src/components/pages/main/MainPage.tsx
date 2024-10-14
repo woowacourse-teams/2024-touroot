@@ -23,7 +23,7 @@ import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { STORAGE_KEYS_MAP } from "@constants/storage";
 
-import removeEmojis from "@utils/removeEmojis";
+import { removeEmoji } from "@utils/removeEmojis";
 
 import theme from "@styles/theme";
 
@@ -124,7 +124,7 @@ const MainPage = () => {
           >
             {sortedTags.map((tag, index) => {
               const isSelected = selectedTagIDs.includes(tag.id);
-              const tagName = removeEmojis(tag.tag);
+              const tagName = removeEmoji(tag.tag);
 
               return (
                 <li key={`${tag.id}-${animationKey}`}>

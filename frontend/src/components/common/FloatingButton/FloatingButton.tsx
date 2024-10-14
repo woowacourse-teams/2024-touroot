@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import useModalControl from "@hooks/useModalControl";
 
-import removeEmojis from "@utils/removeEmojis";
+import { removeEmoji } from "@utils/removeEmojis";
 
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
@@ -44,7 +44,7 @@ const FloatingButton = () => {
                 <S.SubButton
                   key={route}
                   onClick={handleClickSubButton(route)}
-                  aria-label={removeEmojis(text)}
+                  aria-label={removeEmoji(text)}
                 >
                   <Text textType="body" css={S.subButtonTextStyle}>
                     {text}

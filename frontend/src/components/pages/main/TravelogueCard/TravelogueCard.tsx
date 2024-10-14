@@ -10,7 +10,7 @@ import useImageError from "@hooks/useImageError";
 import { CYPRESS_DATA_MAP } from "@constants/cypress";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
-import removeEmojis from "@utils/removeEmojis";
+import { removeEmoji } from "@utils/removeEmojis";
 
 import * as S from "./TravelogueCard.styled";
 
@@ -27,10 +27,10 @@ const getCardAriaLabel = ({
   likeCount,
   tags,
 }: Pick<TravelogueResponse, "title" | "authorNickname" | "likeCount" | "tags">) => {
-  const tagText = removeEmojis(tags);
+  const tagText = tags.map((tag) => removeEmoji(tag.tag));
   const tagPart = tagText ? `태그: ${tagText}` : "";
 
-  return `${removeEmojis(title)} 여행기. ${authorNickname} 작성. 좋아요 수: ${likeCount}개. ${tagPart}`;
+  return `${removeEmoji(title)} 여행기. ${authorNickname} 작성. 좋아요 수: ${likeCount}개. ${tagPart}`;
 };
 
 const TravelogueCard = React.forwardRef<HTMLButtonElement, TravelogueCardProps>(
