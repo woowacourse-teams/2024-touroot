@@ -23,11 +23,6 @@ export const DrawHeaderContainer = styled.div`
   display: flex;
 `;
 
-export const MenuItem = styled.button`
-  ${(props) => props.theme.typography.mobile.bodyBold};
-  padding: ${({ theme }) => theme.spacing.s};
-`;
-
 export const MenuList = styled.div`
   display: flex;
   flex-direction: column;
