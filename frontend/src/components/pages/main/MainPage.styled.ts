@@ -42,7 +42,7 @@ export const TagsContainer = styled.div`
   gap: ${({ theme }) => theme.spacing.s};
 `;
 
-export const SingleSelectionTagsContainer = styled.ul`
+export const SingleSelectionTagsContainer = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing.s};
 
@@ -85,7 +85,7 @@ export const MainPageTraveloguesList = styled.ul`
   gap: ${({ theme }) => theme.spacing.m};
 `;
 
-export const OptionContainer = styled.div`
+export const OptionContainer = styled.button`
   display: flex;
   justify-content: space-between;
 
@@ -118,4 +118,25 @@ export const selectedOptionStyle = css`
 
 export const unselectedOptionStyle = css`
   color: ${theme.colors.text.secondary};
+`;
+
+export const MainPageList = styled.li`
+  width: 100%;
+`;
+
+export const FetchButton = styled.button`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  padding: 8px;
+
+  color: white;
+  background: #000;
+  transform: translateY(100%);
+  transition: transform 0.3s;
+
+  &:focus {
+    transform: translateY(0);
+  }
 `;

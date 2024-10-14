@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 
-export const TravelogueCardLayout = styled.li`
+export const TravelogueCardButton = styled.button`
   display: flex;
   flex-direction: column;
+  width: 100%;
   max-width: calc(48rem - 3.2rem);
   padding: 1.6rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
@@ -16,8 +17,6 @@ export const TravelogueCardLayout = styled.li`
 
   &:hover {
     transform: translateY(-5px);
-
-    border-radius: 8px;
   }
 `;
 

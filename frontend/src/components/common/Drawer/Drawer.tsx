@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 
 import DrawerProvider, { useDrawerContext } from "@contexts/DrawerProvider";
 
 import useModalControl from "@hooks/useModalControl";
 
+import VisuallyHidden from "../VisuallyHidden/VisuallyHidden";
 import * as S from "./Drawer.styled";
 
 const Drawer = ({ children }: React.PropsWithChildren) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleDrawer = () => setIsOpen((prev) => !prev);
+  const toggleDrawer = useCallback(() => setIsOpen((prev) => !prev), []);
 
   useModalControl(isOpen, toggleDrawer);
 
@@ -29,14 +31,35 @@ const Drawer = ({ children }: React.PropsWithChildren) => {
     }
   });
 
+  useEffect(() => {
+    const handleEscapeKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        toggleDrawer();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscapeKey);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [isOpen, toggleDrawer]);
+
   return (
     <DrawerProvider isOpen={isOpen} toggleDrawer={toggleDrawer}>
+      <VisuallyHidden aria-live="assertive">
+        {isOpen ? "사용자 메뉴 모달이 열렸습니다." : "사용자 메뉴 모달이 닫혔습니다."}
+      </VisuallyHidden>
       {otherContent}
       <S.Overlay isOpen={isOpen} onClick={toggleDrawer} />
-      <S.DrawerContainer isOpen={isOpen}>
-        {headerContent}
-        {drawerContent}
-      </S.DrawerContainer>
+      {isOpen &&
+        ReactDOM.createPortal(
+          <S.DrawerContainer id="drawer-content" isOpen={isOpen} aria-modal="true" role="dialog">
+            {headerContent}
+            {drawerContent}
+          </S.DrawerContainer>,
+          document.body,
+        )}
     </DrawerProvider>
   );
 };
@@ -49,12 +72,23 @@ const Content = ({ children }: React.PropsWithChildren) => {
   return <S.DrawerContent>{children}</S.DrawerContent>;
 };
 
-const Trigger = ({ children }: React.PropsWithChildren) => {
+interface TriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+const Trigger = ({ children, onClick }: TriggerProps) => {
   const { toggleDrawer } = useDrawerContext();
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    toggleDrawer();
+    onClick?.(event);
+  };
+
   return (
-    <S.TriggerButton onClick={toggleDrawer} aria-label="Toggle drawer">
+    <button type="button" css={S.triggerStyle} onClick={handleClick}>
       {children}
-    </S.TriggerButton>
+    </button>
   );
 };
 

@@ -87,13 +87,20 @@ const SearchHeader = () => {
               >
                 <Icon iconType="x-icon" size="8" />
               </S.DeleteButton>
-              <IconButton iconType="search-icon" size="18" title="search button" type="submit" />
+              <IconButton
+                iconType="search-icon"
+                size="18"
+                title="search button"
+                type="submit"
+                aria-label="여행기 검색"
+              />
             </S.ButtonContainer>
           </S.FormWrapper>
           <IconButton
             iconType="home-icon"
             size="20"
             onClick={() => navigate(ROUTE_PATHS_MAP.root)}
+            aria-label="홈 이동"
           />
         </>
       }
