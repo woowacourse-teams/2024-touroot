@@ -2,7 +2,6 @@ package kr.touroot.travelplan.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
-import kr.touroot.place.domain.Place;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
 import lombok.Builder;
 
@@ -14,15 +13,18 @@ public record PlanPlaceResponse(
         @Schema(description = "여행 장소 TODO") List<PlanPlaceTodoResponse> todos
 ) {
 
-    public static PlanPlaceResponse of(TravelPlanPlace planPlace, List<PlanPlaceTodoResponse> todos) {
-        Place place = planPlace.getPlace();
-        PlanPositionResponse locationResponse = PlanPositionResponse.from(place);
-
+    public static PlanPlaceResponse from(TravelPlanPlace planPlace) {
         return PlanPlaceResponse.builder()
                 .id(planPlace.getId())
-                .placeName(place.getName())
-                .position(locationResponse)
-                .todos(todos)
+                .placeName(planPlace.getName())
+                .position(PlanPositionResponse.from(planPlace.getPosition()))
+                .todos(getTodoResponse(planPlace))
                 .build();
+    }
+
+    private static List<PlanPlaceTodoResponse> getTodoResponse(TravelPlanPlace planPlace) {
+        return planPlace.getTravelPlaceTodos().stream()
+                .map(PlanPlaceTodoResponse::from)
+                .toList();
     }
 }

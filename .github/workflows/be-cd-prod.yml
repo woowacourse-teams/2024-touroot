@@ -21,9 +21,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Make keystore file
-        run: echo "${{secrets.PROD_SSL_KEYSTORE}}" | base64 --decode > ./src/main/resources/keystore.p12
-
       - name: Gradle Caching
         uses: actions/cache@v3
         with:
@@ -59,9 +56,13 @@ jobs:
     needs: build
     runs-on: [self-hosted, prod]
 
+    strategy:
+      matrix:
+        runner: [runner-a, runner-b]
+
     steps:
       - name: Docker Image pull
         run: sudo docker pull touroot/touroot-api:prod
 
-      - name: Docker Compose up
-        run: sudo docker compose -f ~/docker/api-docker.yml up -d
+      - name: execute deploy.sh 
+        run: bash /home/ubuntu/docker/deploy.sh

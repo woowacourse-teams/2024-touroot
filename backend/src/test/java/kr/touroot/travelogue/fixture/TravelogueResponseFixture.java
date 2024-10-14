@@ -110,6 +110,31 @@ public class TravelogueResponseFixture {
         return new PageImpl<>(responses, PageRequest.of(0, 5, Sort.by(Direction.DESC, "id")), responses.size());
     }
 
+    public static Page<TravelogueSimpleResponse> getTravelogueSimpleResponsesOrderByLikeCount() {
+        List<TravelogueSimpleResponse> responses = List.of(
+                TravelogueSimpleResponse.builder()
+                        .id(1L)
+                        .title("제주에 하영 옵서")
+                        .authorNickname("리비")
+                        .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
+                        .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
+                        .tags(List.of())
+                        .likeCount(1L)
+                        .build(),
+                TravelogueSimpleResponse.builder()
+                        .id(2L)
+                        .title("제주에 하영 옵서")
+                        .authorNickname("리비")
+                        .authorProfileUrl("https://dev.touroot.kr/temporary/profile.png")
+                        .thumbnail("https://dev.touroot.kr/temporary/jeju_thumbnail.png")
+                        .tags(List.of(TagFixture.TAG_1.getResponse(1L)))
+                        .likeCount(0L)
+                        .build()
+        );
+
+        return new PageImpl<>(responses, PageRequest.of(0, 5, Sort.by(Direction.DESC, "id")), responses.size());
+    }
+
     public static List<TravelogueDayResponse> getTravelogueDayResponses() {
         return List.of(TravelogueDayResponse.builder()
                 .id(1L)
@@ -133,7 +158,7 @@ public class TravelogueResponseFixture {
     public static List<TraveloguePlaceResponse> getTraveloguePlaceResponses() {
         return List.of(TraveloguePlaceResponse.builder()
                 .id(1L)
-                .placeName("함덕해수욕장")
+                .placeName("함덕 해수욕장")
                 .description("에메랄드 빛 해변")
                 .position(getTraveloguePositionResponse())
                 .photoUrls(getTraveloguePhotoUrls())
@@ -144,7 +169,7 @@ public class TravelogueResponseFixture {
     public static List<TraveloguePlaceResponse> getUpdatedTraveloguePlaceResponses() {
         return List.of(TraveloguePlaceResponse.builder()
                 .id(2L)
-                .placeName("함덕해수욕장")
+                .placeName("함덕 해수욕장")
                 .description("에메랄드 빛 해변은 해외 휴양지와 견줘도 밀리지 않습니다.")
                 .position(getTraveloguePositionResponse())
                 .photoUrls(getTraveloguePhotoUrls())
@@ -155,7 +180,7 @@ public class TravelogueResponseFixture {
     public static List<TraveloguePlaceResponse> getAddedTraveloguePlaceResponsesWhenUpdate() {
         return List.of(TraveloguePlaceResponse.builder()
                 .id(3L)
-                .placeName("함덕해수욕장")
+                .placeName("함덕 해수욕장")
                 .description("에메랄드 빛 해변은 해외 휴양지와 견줘도 밀리지 않습니다.")
                 .position(getTraveloguePositionResponse())
                 .photoUrls(getTraveloguePhotoUrls())
@@ -165,7 +190,6 @@ public class TravelogueResponseFixture {
 
     public static TraveloguePositionResponse getTraveloguePositionResponse() {
         return TraveloguePositionResponse.builder()
-                .id(1L)
                 .lat("34.54343")
                 .lng("126.66977")
                 .build();

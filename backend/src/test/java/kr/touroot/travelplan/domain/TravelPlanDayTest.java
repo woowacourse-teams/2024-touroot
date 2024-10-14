@@ -1,10 +1,13 @@
 package kr.touroot.travelplan.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.travelplan.fixture.TravelPlanDayFixture;
 import kr.touroot.travelplan.fixture.TravelPlanFixture;
+import kr.touroot.travelplan.fixture.TravelPlanPlaceFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -46,5 +49,27 @@ class TravelPlanDayTest {
         assertThatThrownBy(() -> new TravelPlanDay(negative, VALID_PLAN))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("여행 계획 날짜 순서는 음수일 수 없습니다");
+    }
+
+    @DisplayName("여행 계획 장소를 추가할 수 있다")
+    @Test
+    void addTravelPlanPlaceInTravelPlanDay() {
+        TravelPlanDay travelPlanDay = TravelPlanDayFixture.TRAVEL_PLAN_DAY.get();
+        TravelPlanPlace travelPlanPlace = TravelPlanPlaceFixture.TRAVEL_PLAN_PLACE.get();
+
+        travelPlanDay.addPlace(travelPlanPlace);
+
+        assertThat(travelPlanDay.getTravelPlanPlaces()).containsExactly(travelPlanPlace);
+    }
+
+    @DisplayName("여행 계획 날짜에 장소를 추가하는 경우 장소의 날짜 참조도 수정된다")
+    @Test
+    void addTravelPlanPlaceThenTravelPlanDayUpdated() {
+        TravelPlanDay travelPlanDay = TravelPlanDayFixture.TRAVEL_PLAN_DAY.get();
+        TravelPlanPlace travelPlanPlace = TravelPlanPlaceFixture.TRAVEL_PLAN_PLACE.get();
+
+        travelPlanDay.addPlace(travelPlanPlace);
+
+        assertThat(travelPlanPlace.getDay()).isEqualTo(travelPlanDay);
     }
 }

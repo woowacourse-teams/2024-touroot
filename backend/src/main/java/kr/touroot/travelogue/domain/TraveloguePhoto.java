@@ -67,4 +67,12 @@ public class TraveloguePhoto extends BaseEntity {
             throw new BadRequestException("여행 장소에 속하는 사진의 순서는 음수가 될 수 없습니다");
         }
     }
+
+    public void updateKey(String key) {
+        this.key = key;
+    }
+
+    public void updateTraveloguePlace(TraveloguePlace traveloguePlace) {
+        this.traveloguePlace = traveloguePlace;
+    }
 }

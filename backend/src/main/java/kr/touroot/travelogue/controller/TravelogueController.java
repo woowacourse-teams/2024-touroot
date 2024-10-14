@@ -9,11 +9,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
+import kr.touroot.travelogue.dto.request.TravelogueFilterRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
+import kr.touroot.travelogue.dto.response.TravelogueCreateResponse;
 import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
@@ -33,7 +34,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "여행기")
@@ -57,14 +57,13 @@ public class TravelogueController {
             ),
     })
     @PostMapping
-    public ResponseEntity<TravelogueResponse> createTravelogue(
+    public ResponseEntity<Void> createTravelogue(
             @Valid MemberAuth member,
             @Valid @RequestBody TravelogueRequest request
     ) {
-        TravelogueResponse response = travelogueFacadeService.createTravelogue(member, request);
+        TravelogueCreateResponse response = travelogueFacadeService.createTravelogue(member, request);
 
-        return ResponseEntity.created(URI.create("/api/v1/travelogues/" + response.id()))
-                .body(response);
+        return ResponseEntity.created(URI.create("/api/v1/travelogues/" + response.id())).build();
     }
 
     @Operation(summary = "여행기 좋아요")
@@ -104,7 +103,7 @@ public class TravelogueController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<TravelogueResponse> findTravelogue(@PathVariable Long id) {
-        return ResponseEntity.ok(travelogueFacadeService.findTravelogueById(id));
+        return ResponseEntity.ok(travelogueFacadeService.findTravelogueByIdForGuest(id));
     }
 
     @Operation(summary = "여행기 상세 조회")
@@ -121,7 +120,7 @@ public class TravelogueController {
     })
     @GetMapping(value = "/{id}", headers = {HttpHeaders.AUTHORIZATION})
     public ResponseEntity<TravelogueResponse> findTravelogue(@PathVariable Long id, MemberAuth member) {
-        return ResponseEntity.ok(travelogueFacadeService.findTravelogueById(id, member));
+        return ResponseEntity.ok(travelogueFacadeService.findTravelogueByIdForAuthenticated(id, member));
     }
 
     @Operation(summary = "여행기 메인 페이지 조회")
@@ -141,32 +140,10 @@ public class TravelogueController {
     public ResponseEntity<Page<TravelogueSimpleResponse>> findMainPageTravelogues(
             @Parameter(hidden = true)
             @PageableDefault(size = 5, sort = "id", direction = Direction.DESC)
-            Pageable pageable
-    ) {
-        return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(pageable));
-    }
-
-    @Operation(summary = "여행기 메인 페이지 필터링")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "요청이 정상적으로 처리되었을 때"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "올바르지 않은 페이지네이션 옵션으로 요청했을 때",
-                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
-            ),
-    })
-    @PageableAsQueryParam
-    @GetMapping(params = {"tag-filter"})
-    public ResponseEntity<Page<TravelogueSimpleResponse>> findMainPageTravelogues(
-            @Parameter(hidden = true)
-            @PageableDefault(size = 5, sort = "id", direction = Direction.DESC)
             Pageable pageable,
-            @RequestParam(name = "tag-filter", required = false) List<Long> tagFilter
+            TravelogueFilterRequest filter
     ) {
-        return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(tagFilter, pageable));
+        return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(filter, pageable));
     }
 
     @Operation(summary = "여행기 검색")
@@ -190,7 +167,7 @@ public class TravelogueController {
             @Valid
             TravelogueSearchRequest searchRequest
     ) {
-        return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(pageable, searchRequest));
+        return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(searchRequest, pageable));
     }
 
     @Operation(summary = "여행기 수정")
@@ -211,12 +188,13 @@ public class TravelogueController {
             )
     })
     @PutMapping("/{id}")
-    public ResponseEntity<TravelogueResponse> updateTravelogue(
+    public ResponseEntity<Void> updateTravelogue(
             @PathVariable Long id,
             @Valid MemberAuth member,
             @Valid @RequestBody TravelogueRequest request
     ) {
-        return ResponseEntity.ok(travelogueFacadeService.updateTravelogue(id, member, request));
+        travelogueFacadeService.updateTravelogue(id, member, request);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "여행기 삭제")

@@ -1,5 +1,6 @@
 package kr.touroot.travelogue.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,6 +9,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
 import lombok.AccessLevel;
@@ -36,6 +40,9 @@ public class TravelogueDay extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Travelogue travelogue;
 
+    @OneToMany(mappedBy = "travelogueDay", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TraveloguePlace> traveloguePlaces = new ArrayList<>();
+
     private TravelogueDay(Long id, Integer order, Travelogue travelogue) {
         validate(order, travelogue);
         this.id = id;
@@ -62,5 +69,14 @@ public class TravelogueDay extends BaseEntity {
         if (order < 0) {
             throw new BadRequestException("여행 날짜의 순서는 음수 일 수 없습니다");
         }
+    }
+
+    public void addPlace(TraveloguePlace place) {
+        traveloguePlaces.add(place);
+        place.updateTravelogueDay(this);
+    }
+
+    public void updateTravelogue(Travelogue travelogue) {
+        this.travelogue = travelogue;
     }
 }

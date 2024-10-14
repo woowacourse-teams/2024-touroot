@@ -14,12 +14,29 @@ cloud:
     s3:
       bucket: techcourse-project-2024
       image-base-uri: https://dev.touroot.kr/
-      base-storage-path: touroot/
       temporary-storage-path: temporary/
       image-storage-path: images/
+
+management:
+  endpoint:
+    health:
+      show-components: always
+      enabled: true
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics
+      base-path: ENC(zc5tP1eNIEjv3uN5Kuih7wlo5zILgWxq)
+    enabled-by-default: false
 ---
 # local profile
 spring:
+  flyway:
+    enabled: false
   config:
     activate:
       on-profile: local
@@ -37,7 +54,6 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
-    defer-datasource-initialization: true
 
 security:
   jwt:
@@ -55,9 +71,14 @@ cloud:
   aws:
     s3:
       image-base-uri: https://dev.touroot.kr/
+      origin-storage-path: touroot/
 ---
 # dev profile
 spring:
+  flyway:
+    enabled: true
+    baseline-version: 1
+    baseline-on-migrate: true
   config:
     activate:
       on-profile: dev
@@ -79,7 +100,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
 
 server:
   ssl:
@@ -103,9 +124,14 @@ cloud:
   aws:
     s3:
       image-base-uri: https://dev.touroot.kr/
+      origin-storage-path: touroot-dev/
 ---
 # prod profile
 spring:
+  flyway:
+    enabled: true
+    baseline-version: 1
+    baseline-on-migrate: true
   config:
     activate:
       on-profile: prod
@@ -117,23 +143,23 @@ spring:
     console:
       enabled: false
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ENC(BLlw5HyZCuuLnw9MN5Ez395f+9INR7KoyWKUArAGc5QuMNJw07P06/1HLSZZ6y8M)
-    username: ENC(s5TCLskHnyopzJBsWU9Akg==)
-    password: ENC(MlRZxamsKXaRANlE3dX9T3vrdJhtsoE0r6LvSaKZoSU=)
+    writer:
+      jdbc-url: ENC(WmWa9T4FlLD0SWKenUhPZgRaUOEcYFt9tsw5MfpOmGfHF5lFMXiYCGElb3S4NBzWfpIxg3daIlhdEgUJaMv4CjmKPJzt2Mt3f/SPOI8rlMHwSA2IrjFw90mHPWJsGO2WPsAZEOX6TeNVpiIhE4nM2w==)
+      username: ENC(OD+ZUOLOgfa1s4CpW8wmCA==)
+      password: ENC(SvYVLaigwGxQjPS1yZKaqs4mDC4jUT2f)
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    reader:
+      jdbc-url: ENC(K1rG1kXZV6c/xdrCt4Q/ANwoRneNZjXTppm65H/cuOjDnGNF8X+80yh7FIAvIbrP74royecVW18xk1O3gJAohEudC486T59hYpNJv2HaTiOJBavO5c9sH6UNbFN0kFYyT1nz9Y2uOkUt71fkW2YQ4A==)
+      username: ENC(7ap5OS9J40A2EaOxU/Qxyg==)
+      password: ENC(a79pqVIy4+TknqeGj6qtLumkNltqjcx5)
+      driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: none
-
-server:
-  ssl:
-    key-store-type: PKCS12
-    key-store-password: ENC(WyJqMojCOPDe932QhOR52Ll0EhthbUe5ycHs0WWifQg=)
-    key-store: ENC(DtVtAx+kVnU581+bjT7A3vCLbJ8fe3JqUritO+0WJ/Q=)
+      ddl-auto: validate
 
 security:
   jwt:
@@ -155,3 +181,4 @@ cloud:
   aws:
     s3:
       image-base-uri: https://touroot.kr/
+      origin-storage-path: touroot/

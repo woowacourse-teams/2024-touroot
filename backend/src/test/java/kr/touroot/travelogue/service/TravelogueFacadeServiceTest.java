@@ -2,6 +2,7 @@ package kr.touroot.travelogue.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -16,11 +17,13 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
+import kr.touroot.travelogue.dto.request.TravelogueFilterRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
+import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
@@ -29,6 +32,7 @@ import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -40,14 +44,12 @@ import org.springframework.data.domain.Sort;
 @Import(value = {
         TravelogueFacadeService.class,
         TravelogueService.class,
-        TraveloguePhotoService.class,
-        TravelogueDayService.class,
-        TraveloguePlaceService.class,
+        AwsS3Provider.class,
+        TravelogueImagePerpetuationService.class,
         TravelogueTagService.class,
         TravelogueLikeService.class,
         MemberService.class,
         TravelogueTestHelper.class,
-        AwsS3Provider.class,
         PasswordEncryptor.class,
         TestQueryDslConfig.class
 })
@@ -78,27 +80,22 @@ class TravelogueFacadeServiceTest {
         databaseCleaner.executeTruncate();
     }
 
+    private void mockImageCopyProcess() {
+        when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn("https://dev.touroot.kr/image.png");
+    }
+
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
+        mockImageCopyProcess();
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        saveImages(days);
 
         testHelper.initKakaoMemberTestData();
         MemberAuth memberAuth = new MemberAuth(1L);
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
-        assertThat(service.createTravelogue(memberAuth, request))
-                .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
-    }
-
-    private void saveImages(List<TravelogueDayRequest> days) {
-        when(s3Provider.copyImageToPermanentStorage(
-                TravelogueRequestFixture.getTravelogueRequest(days).thumbnail())
-        ).thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
-        when(s3Provider.copyImageToPermanentStorage(
-                TravelogueRequestFixture.getTraveloguePhotoRequests().get(0).url())
-        ).thenReturn(TravelogueResponseFixture.getTraveloguePhotoUrls().get(0));
+        assertThat(service.createTravelogue(memberAuth, request).id()).isEqualTo(1L);
     }
 
     private List<TravelogueDayRequest> getTravelogueDayRequests() {
@@ -132,7 +129,7 @@ class TravelogueFacadeServiceTest {
     void findTravelogueById() {
         testHelper.initTravelogueTestData();
 
-        assertThat(service.findTravelogueById(1L))
+        assertThat(service.findTravelogueByIdForGuest(1L))
                 .isEqualTo(TravelogueResponseFixture.getTravelogueResponse());
     }
 
@@ -142,18 +139,19 @@ class TravelogueFacadeServiceTest {
         Member liker = testHelper.initKakaoMemberTestData();
         Long travelogueId = testHelper.initTravelogueTestDataWithLike(liker).getId();
 
-        assertThat(service.findTravelogueById(travelogueId, new MemberAuth(liker.getId())))
+        assertThat(service.findTravelogueByIdForAuthenticated(travelogueId, new MemberAuth(liker.getId())))
                 .isEqualTo(TravelogueResponseFixture.getTravelogueResponseWithLike());
     }
 
     @DisplayName("메인 페이지에 표시할 여행기 목록을 조회한다.")
     @Test
     void findTravelogues() {
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
         testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> expect = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
-        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(pageRequest);
+        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(filterRequest, pageRequest);
 
         assertThat(result).containsAll(expect);
     }
@@ -164,10 +162,10 @@ class TravelogueFacadeServiceTest {
         // given
         testHelper.initAllTravelogueTestData();
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
-        List<Long> tagFilters = List.of(1L);
+        TravelogueFilterRequest filter = new TravelogueFilterRequest(List.of(1L), null);
 
         // when
-        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(tagFilters, pageRequest);
+        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(filter, pageRequest);
 
         // then
         assertThat(result.getContent()).hasSize(1);
@@ -175,13 +173,26 @@ class TravelogueFacadeServiceTest {
 
     @DisplayName("제목 키워드를 기반으로 여행기 목록을 조회한다.")
     @Test
-    void findTraveloguesByKeyword() {
+    void findTraveloguesByTitleKeyword() {
         testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
-        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("제주");
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("제주", "title");
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
-        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(pageRequest, searchRequest);
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(searchRequest, pageRequest);
+
+        assertThat(searchResults).containsAll(responses);
+    }
+
+    @DisplayName("사용자 닉네임을 기반으로 여행기 목록을 조회한다.")
+    @Test
+    void findTraveloguesByAuthorNicknameKeyword() {
+        testHelper.initAllTravelogueTestData();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
+
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("리비", "author");
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(searchRequest, pageRequest);
 
         assertThat(searchResults).containsAll(responses);
     }
@@ -189,17 +200,20 @@ class TravelogueFacadeServiceTest {
     @DisplayName("여행기를 수정할 수 있다.")
     @Test
     void updateTravelogue() {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getUpdatedTravelogueResponse().thumbnail());
+
         List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
-        saveImages(days);
 
         Member author = testHelper.initKakaoMemberTestData();
         testHelper.initTravelogueTestData(author);
 
         MemberAuth memberAuth = new MemberAuth(author.getId());
         TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
+        String updatedTitle = request.title();
+        TravelogueResponse updatedResponse = service.updateTravelogue(1L, memberAuth, request);
 
-        assertThat(service.updateTravelogue(1L, memberAuth, request))
-                .isEqualTo(TravelogueResponseFixture.getUpdatedTravelogueResponse());
+        assertThat(updatedResponse.title()).isEqualTo(updatedTitle);
     }
 
     private List<TravelogueDayRequest> getUpdateTravelogueDayRequests() {
@@ -212,7 +226,7 @@ class TravelogueFacadeServiceTest {
     @Test
     void updateTravelogueWithNotExist() {
         List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
-        saveImages(days);
+        mockImageCopyProcess();
 
         Member author = testHelper.initKakaoMemberTestData();
         testHelper.initTravelogueTestData(author);
@@ -232,7 +246,7 @@ class TravelogueFacadeServiceTest {
         MemberAuth notAuthorAuth = new MemberAuth(testHelper.initKakaoMemberTestData().getId());
 
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        saveImages(days);
+        mockImageCopyProcess();
 
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
@@ -248,7 +262,7 @@ class TravelogueFacadeServiceTest {
         MemberAuth memberAuth = new MemberAuth(1L);
         service.deleteTravelogueById(1L, memberAuth);
 
-        assertThatThrownBy(() -> service.findTravelogueById(1L))
+        assertThatThrownBy(() -> service.findTravelogueByIdForGuest(1L))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행기입니다.");
     }

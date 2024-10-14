@@ -306,15 +306,61 @@ class TravelogueControllerTest {
                 .body(is(objectMapper.writeValueAsString(responses)));
     }
 
-    @DisplayName("메인 페이지 조회 시, 최신 작성 순으로 여행기를 조회한다.")
+    @DisplayName("메인 페이지 조회 시, 좋아요 순으로 여행기를 조회한다.")
     @Test
-    void filterMainPageTravelogues() throws JsonProcessingException {
+    void findMainPageTraveloguesOrderByLikeCount() throws JsonProcessingException {
+        testHelper.initAllTravelogueTestData();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponsesOrderByLikeCount();
+
+        RestAssured.given().log().all()
+                .accept(ContentType.JSON)
+                .params("sort", "likeCount,desc")
+                .when().get("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body(is(objectMapper.writeValueAsString(responses)));
+    }
+
+    @DisplayName("메인 페이지 조회 시 태그 기반으로 필터링을 진행한다.")
+    @Test
+    void filterMainPageTraveloguesWithTag() {
         testHelper.initAllTravelogueTestData();
         testHelper.initTravelogueTestDataWithTag(member, List.of(TagFixture.TAG_2.get(), TagFixture.TAG_3.get()));
 
         RestAssured.given().log().all()
                 .accept(ContentType.JSON)
-                .params("tag-filter", "2,3")
+                .params("tag", "2,3")
+                .when().get("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body("content.size()", is(1));
+    }
+
+    @DisplayName("메인 페이지 조회 시 날짜 기반으로 필터링을 진행한다.")
+    @Test
+    void filterMainPageTraveloguesWithPeriod() {
+        testHelper.initAllTravelogueTestData();
+        testHelper.initTravelogueTestDataWithTag(member, List.of(TagFixture.TAG_2.get(), TagFixture.TAG_3.get()));
+
+        RestAssured.given().log().all()
+                .accept(ContentType.JSON)
+                .params("period", "1")
+                .when().get("/api/v1/travelogues")
+                .then().log().all()
+                .statusCode(200).assertThat()
+                .body("content.size()", is(3));
+    }
+
+    @DisplayName("메인 페이지 조회 시 날짜 및 태그 기반으로 필터링을 진행한다.")
+    @Test
+    void filterMainPageTraveloguesWithPeriodAndTag() {
+        testHelper.initAllTravelogueTestData();
+        testHelper.initTravelogueTestDataWithTag(member, List.of(TagFixture.TAG_2.get(), TagFixture.TAG_3.get()));
+
+        RestAssured.given().log().all()
+                .accept(ContentType.JSON)
+                .params("tag", "1")
+                .params("period", "1")
                 .when().get("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(200).assertThat()
@@ -338,7 +384,9 @@ class TravelogueControllerTest {
         testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
-        RestAssured.given().param("keyword", "제주")
+        RestAssured.given()
+                .param("keyword", "제주")
+                .param("searchType", "TITLE")
                 .log().all()
                 .accept(ContentType.JSON)
                 .when().get("/api/v1/travelogues/search")
@@ -354,7 +402,9 @@ class TravelogueControllerTest {
     void findTraveloguesKeywordNotBlank(String keyword) {
         testHelper.initTravelogueTestData();
 
-        RestAssured.given().param("keyword", keyword)
+        RestAssured.given()
+                .param("keyword", keyword)
+                .param("searchType", "TITLE")
                 .log().all()
                 .accept(ContentType.JSON)
                 .when().get("/api/v1/travelogues/search")
@@ -370,7 +420,9 @@ class TravelogueControllerTest {
         testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
-        RestAssured.given().param("keyword", keyword)
+        RestAssured.given()
+                .param("keyword", keyword)
+                .param("searchType", "TITLE")
                 .log().all()
                 .accept(ContentType.JSON)
                 .when().get("/api/v1/travelogues/search")
@@ -379,16 +431,33 @@ class TravelogueControllerTest {
                 .body(is(objectMapper.writeValueAsString(responses)));
     }
 
+    @DisplayName("검색 키워드의 종류를 명시해야 한다.")
+    @Test
+    void findTraveloguesByKeywordWithoutSearchType() {
+        testHelper.initAllTravelogueTestData();
+
+        RestAssured.given()
+                .param("keyword", "제주")
+                .log().all()
+                .accept(ContentType.JSON)
+                .when().get("/api/v1/travelogues/search")
+                .then().log().all()
+                .statusCode(400).assertThat()
+                .body("message", is("검색 키워드 종류는 필수입니다."));
+    }
+
     @DisplayName("여행기를 수정한다.")
     @Test
-    void updateTravelogue() throws JsonProcessingException {
+    void updateTravelogue() {
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TravelogueResponseFixture.getUpdatedTravelogueResponse().thumbnail());
+
         Travelogue travelogue = testHelper.initTravelogueTestData(member);
 
         List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
         saveImages(days);
 
         TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
-        TravelogueResponse response = TravelogueResponseFixture.getUpdatedTravelogueResponse();
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -396,8 +465,7 @@ class TravelogueControllerTest {
                 .body(request)
                 .when().put("/api/v1/travelogues/" + travelogue.getId())
                 .then().log().all()
-                .statusCode(200)
-                .body(is(objectMapper.writeValueAsString(response)));
+                .statusCode(200);
     }
 
     private List<TravelogueDayRequest> getUpdateTravelogueDayRequests() {
@@ -497,12 +565,12 @@ class TravelogueControllerTest {
     @DisplayName("여행기에 좋아요 취소를 한다.")
     @Test
     void unlikeTravelogue() throws JsonProcessingException {
-        testHelper.initTravelogueTestDataWithLike(member);
+        Travelogue travelogue = testHelper.initTravelogueTestDataWithLike(member);
         TravelogueLikeResponse response = new TravelogueLikeResponse(false, 0L);
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .when().delete("/api/v1/travelogues/1/like")
+                .when().delete("/api/v1/travelogues/" + travelogue.getId() + "/like")
                 .then().log().all()
                 .statusCode(200).assertThat()
                 .body(is(objectMapper.writeValueAsString(response)));

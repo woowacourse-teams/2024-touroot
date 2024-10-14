@@ -14,6 +14,7 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +38,7 @@ public class LoginService {
         return memberRepository.save(userInformation.toMember());
     }
 
+    @Transactional(readOnly = true)
     public LoginResponse login(LoginRequest request) {
         String encryptPassword = passwordEncryptor.encrypt(request.password());
         Member member = memberRepository.findByEmailAndPassword(request.email(), encryptPassword)
@@ -45,6 +47,7 @@ public class LoginService {
         return LoginResponse.of(member, tokenProvider.createToken(member.getId()));
     }
 
+    @Transactional(readOnly = true)
     public LoginResponse reissueToken(TokenReissueRequest request) {
         String memberId = tokenProvider.decodeRefreshToken(request.refreshToken());
         Member member = memberRepository.findById(Long.valueOf(memberId))

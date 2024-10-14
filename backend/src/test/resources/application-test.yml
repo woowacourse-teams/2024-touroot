@@ -17,12 +17,14 @@ cloud:
     s3:
       bucket: techcourse-project-2024
       image-base-uri: https://dev.touroot.kr/
-      base-storage-path: touroot/
+      origin-storage-path: touroot/
       temporary-storage-path: temporary/
       image-storage-path: images/
 server:
   port: 8081
 spring:
+  flyway:
+    enabled: false
   datasource:
     url: jdbc:h2:mem:test
   h2:
@@ -43,3 +45,19 @@ spring:
 
 cors:
   allowed-origins: http://localhost:3000
+
+management:
+  endpoint:
+    health:
+      show-components: always
+      enabled: true
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics
+      base-path: /test
+    enabled-by-default: false

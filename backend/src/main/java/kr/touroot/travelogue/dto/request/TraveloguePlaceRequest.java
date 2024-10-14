@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.List;
-import kr.touroot.place.domain.Place;
 import kr.touroot.travelogue.domain.TravelogueDay;
+import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 
 public record TraveloguePlaceRequest(
@@ -29,11 +29,24 @@ public record TraveloguePlaceRequest(
         List<TraveloguePhotoRequest> photoUrls
 ) {
 
-    public TraveloguePlace toTraveloguePlace(int order, Place place, TravelogueDay travelogueDay) {
-        return new TraveloguePlace(order, description, place, travelogueDay);
+    public TraveloguePlace toTraveloguePlace(int order, TravelogueDay travelogueDay) {
+        TraveloguePlace traveloguePlace = new TraveloguePlace(
+                order,
+                description,
+                placeName,
+                position().lat(),
+                position().lng(),
+                travelogueDay
+        );
+        addTraveloguePhotos(traveloguePlace);
+        return traveloguePlace;
     }
 
-    public Place toPlace() {
-        return new Place(placeName, position.lat(), position.lng());
+    private void addTraveloguePhotos(TraveloguePlace traveloguePlace) {
+        for (int photoOrder = 0; photoOrder < photoUrls.size(); photoOrder++) {
+            TraveloguePhotoRequest traveloguePhotoRequest = photoUrls.get(photoOrder);
+            TraveloguePhoto traveloguePhoto = traveloguePhotoRequest.toTraveloguePhoto(photoOrder, traveloguePlace);
+            traveloguePlace.addPhoto(traveloguePhoto);
+        }
     }
 }
