@@ -14,6 +14,8 @@ const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
     useMultiSelectionTag();
   const {
     travelogueDays,
+    travelogueDaysErrorMessage,
+    isEnabledTravelogueDays,
     handleAddDay,
     handleAddPlace,
     handleDeleteDay,
@@ -24,7 +26,7 @@ const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
     handleChangeTravelogueDays,
   } = useTravelogueDays(transformDays);
 
-  const isEnabledForm = isEnabledTravelogueTitle;
+  const isEnabledForm = isEnabledTravelogueTitle && isEnabledTravelogueDays;
 
   return {
     state: {
@@ -53,6 +55,7 @@ const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
     },
     errorMessages: {
       titleErrorMessage,
+      travelogueDaysErrorMessage,
     },
     isEnabledForm,
   };

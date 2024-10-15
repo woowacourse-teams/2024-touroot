@@ -46,7 +46,7 @@ const TravelogueRegisterPage = () => {
       handleDeleteImageUrls,
       handleChangePlaceDescription,
     },
-    errorMessages: { titleErrorMessage },
+    errorMessages: { titleErrorMessage, travelogueDaysErrorMessage },
     isEnabledForm,
   } = useTravelogueFormState(transformDetail?.days ?? []);
 
@@ -82,9 +82,11 @@ const TravelogueRegisterPage = () => {
                 onChange={(event) => handleChangeTitle(event.target.value)}
               />
               <S.TitleMessageContainer>
-                <Text textType="detail" css={S.errorTextStyle}>
-                  {titleErrorMessage}
-                </Text>
+                {titleErrorMessage && (
+                  <Text textType="detail" css={S.errorTextStyle}>
+                    {titleErrorMessage}
+                  </Text>
+                )}
                 <CharacterCount
                   count={title.length}
                   maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
@@ -168,6 +170,11 @@ const TravelogueRegisterPage = () => {
               >
                 <Text textType="bodyBold">일자 추가하기</Text>
               </IconButton>
+              {travelogueDaysErrorMessage && (
+                <Text textType="detail" css={S.errorTextStyle}>
+                  {travelogueDaysErrorMessage}
+                </Text>
+              )}
             </Accordion.Root>
           </GoogleMapLoadScript>
         </div>
