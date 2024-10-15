@@ -43,6 +43,8 @@ const TravelPlanRegisterPage = () => {
       handleDeletePlaceTodo,
       handleChangeContent,
     },
+    errorMessages: { titleErrorMessage },
+    isEnabledForm,
   } = useTravelPlanFormState(transformDetail?.days ?? []);
 
   const [isOpenBottomSheet, handleBottomSheetOpen, handleBottomSheetClose] = useToggle();
@@ -62,21 +64,29 @@ const TravelPlanRegisterPage = () => {
           mainText="여행 계획 등록"
           subText="여행 계획은 비공개지만, 링크를 통해 원하는 사람과 공유 할 수 있어요."
         />
+
         <TextField title="제목" isRequired>
           {(id) => (
             <S.InputContainer>
               <Input
                 id={id}
                 value={title}
-                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
                 placeholder="여행 계획 제목을 입력해주세요"
                 onChange={(event) => handleChangeTitle(event.target.value)}
                 data-cy={CYPRESS_DATA_MAP.travelPlanRegister.titleInput}
               />
-              <CharacterCount
-                count={title.length}
-                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              />
+              <S.TitleMessageContainer>
+                {titleErrorMessage && (
+                  <Text textType="detail" css={S.errorTextStyle}>
+                    {titleErrorMessage}
+                  </Text>
+                )}
+                <CharacterCount
+                  count={title.length}
+                  maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+                  css={S.characterCountStyle}
+                />
+              </S.TitleMessageContainer>
             </S.InputContainer>
           )}
         </TextField>
@@ -161,6 +171,7 @@ const TravelPlanRegisterPage = () => {
         <Button
           variants="primary"
           onClick={handleBottomSheetOpen}
+          disabled={!isEnabledForm}
           data-cy={CYPRESS_DATA_MAP.travelPlanRegister.registerButton}
         >
           등록
