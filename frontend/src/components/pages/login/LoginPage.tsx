@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { Text } from "@components/common";
 
@@ -22,10 +22,14 @@ const LoginPage = () => {
   const GREETING_SUB_TEXT = "To your route, touroot!";
   const KAKAO_LABEL = "카카오 로그인";
 
+  const loginButtonRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     if (!kakao?.isInitialized()) {
       kakao?.init(process.env.JAVASCRIPT_KEY);
     }
+
+    loginButtonRef.current && loginButtonRef.current.focus();
   }, []);
 
   const handleKakaoLogin = () => {
@@ -46,7 +50,7 @@ const LoginPage = () => {
         </S.GreetingTextContainer>
       </S.GreetingContainer>
       <S.LoginButtonWrapper>
-        <S.LoginButton onClick={handleKakaoLogin}>
+        <S.LoginButton onClick={handleKakaoLogin} ref={loginButtonRef} aria-label="카카오 로그인">
           <KakaoSymbol />
           <S.LoginLabel>{KAKAO_LABEL}</S.LoginLabel>
         </S.LoginButton>
