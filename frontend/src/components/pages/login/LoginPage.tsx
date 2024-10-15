@@ -6,6 +6,7 @@ import { ExcitedTturi } from "@assets/gif";
 import { KakaoSymbol } from "@assets/svg";
 
 import * as S from "./LoginPage.styled";
+import { GREETING_MAIN_TEXT, GREETING_SUB_TEXT, KAKAO_LABEL, TTURI } from "./contants";
 
 declare global {
   interface Window {
@@ -17,10 +18,6 @@ declare global {
 const kakao = window.Kakao;
 
 const LoginPage = () => {
-  const TTURI = "뚜리";
-  const GREETING_MAIN_TEXT = "투룻에 온 걸 환영해요!";
-  const GREETING_SUB_TEXT = "To your route, touroot!";
-  const KAKAO_LABEL = "카카오 로그인";
 
   useEffect(() => {
     if (!kakao?.isInitialized()) {
