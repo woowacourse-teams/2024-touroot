@@ -31,12 +31,9 @@ const TravelogueEditPage = () => {
     state: { title, thumbnail, travelogueDays, selectedTagIDs, sortedTags, animationKey },
     handler: {
       handleChangeTitle,
-      handleInitializeThumbnail,
-      handleChangeSelectedTagIDs,
-      handleResetThumbnail,
       handleChangeThumbnail,
+      handleResetThumbnail,
       handleClickTag,
-      handleChangeTravelogueDays,
       handleAddDay,
       handleDeleteDay,
       handleAddPlace,
@@ -44,7 +41,12 @@ const TravelogueEditPage = () => {
       handleChangeImageUrls,
       handleDeleteImageUrls,
       handleChangePlaceDescription,
+      handleChangeSelectedTagIDs,
+      handleChangeTravelogueDays,
+      handleInitializeThumbnail,
     },
+    errorMessages: { titleErrorMessage, travelogueDaysErrorMessage },
+    isEnabledForm,
   } = useTravelogueFormState([]);
 
   const { isPuttingTraveloguePending, handleDebouncedEditTravelogue } = useTravelogueEdit(
@@ -78,14 +80,21 @@ const TravelogueEditPage = () => {
               <Input
                 id={id}
                 value={title}
-                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
                 placeholder="여행기 제목을 입력해주세요"
                 onChange={(event) => handleChangeTitle(event.target.value)}
               />
-              <CharacterCount
-                count={title.length}
-                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              />
+              <S.TitleMessageContainer>
+                {titleErrorMessage && (
+                  <Text textType="detail" css={S.errorTextStyle}>
+                    {titleErrorMessage}
+                  </Text>
+                )}
+                <CharacterCount
+                  count={title.length}
+                  maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+                  css={S.characterCountStyle}
+                />
+              </S.TitleMessageContainer>
             </S.InputContainer>
           )}
         </TextField>
@@ -167,11 +176,16 @@ const TravelogueEditPage = () => {
               >
                 <Text textType="bodyBold">일자 추가하기</Text>
               </IconButton>
+              {travelogueDaysErrorMessage && (
+                <Text textType="detail" css={S.errorTextStyle}>
+                  {travelogueDaysErrorMessage}
+                </Text>
+              )}
             </Accordion.Root>
           </GoogleMapLoadScript>
         </div>
 
-        <Button variants="primary" onClick={handleOpenBottomSheet}>
+        <Button variants="primary" disabled={!isEnabledForm} onClick={handleOpenBottomSheet}>
           수정
         </Button>
       </S.Layout>
