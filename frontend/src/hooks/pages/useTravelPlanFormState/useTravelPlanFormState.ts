@@ -17,12 +17,18 @@ const useTravelPlanFormState = (transformDays: TravelTransformDays[]) => {
     handleChangeContent,
   } = useTravelPlanDays(transformDays);
 
-  const { startDate, handleInitializeStartDate, handleSelectStartDate } = useTravelPlanStartDate();
+  const {
+    startDate,
+    startDateErrorMessage,
+    isEnabledStartDate,
+    handleInitializeStartDate,
+    handleSelectStartDate,
+  } = useTravelPlanStartDate();
 
   const { title, isEnabledTravelogueTitle, titleErrorMessage, handleChangeTitle } =
     useTravelPlanTitle(travelPlanDays);
 
-  const isEnabledForm = isEnabledTravelogueTitle;
+  const isEnabledForm = isEnabledTravelogueTitle && isEnabledStartDate;
 
   return {
     state: {
@@ -45,6 +51,7 @@ const useTravelPlanFormState = (transformDays: TravelTransformDays[]) => {
     },
     errorMessages: {
       titleErrorMessage,
+      startDateErrorMessage,
     },
     isEnabledForm,
   };

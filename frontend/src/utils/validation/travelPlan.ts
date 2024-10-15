@@ -8,3 +8,18 @@ export const validateTitle = (title: string) => {
 
   return null;
 };
+
+export const validateStartDate = (date: Date | null): string | null => {
+  if (!date) {
+    return FORM_ERROR_MESSAGE_MAP.travelPlan.invalidStartDateMissing;
+  }
+
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+
+  if (date < currentDate) {
+    return FORM_ERROR_MESSAGE_MAP.travelPlan.invalidStartDatePast;
+  }
+
+  return null;
+};

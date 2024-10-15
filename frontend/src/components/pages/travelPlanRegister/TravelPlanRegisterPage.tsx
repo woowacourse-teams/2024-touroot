@@ -43,7 +43,7 @@ const TravelPlanRegisterPage = () => {
       handleDeletePlaceTodo,
       handleChangeContent,
     },
-    errorMessages: { titleErrorMessage },
+    errorMessages: { titleErrorMessage, startDateErrorMessage },
     isEnabledForm,
   } = useTravelPlanFormState(transformDetail?.days ?? []);
 
@@ -111,6 +111,11 @@ const TravelPlanRegisterPage = () => {
                   onSelectDate={(date) => handleSelectStartDate(date, handleCloseCalendar)}
                   onClose={handleCloseCalendar}
                 />
+              )}
+              {startDateErrorMessage && (
+                <Text textType="detail" css={S.errorTextStyle}>
+                  {startDateErrorMessage}
+                </Text>
               )}
             </>
           )}
