@@ -10,7 +10,6 @@ import TravelogueList from "./TravelogueList/TravelogueList";
 const TAB_CONTENT = [
   { label: "제목", searchType: "TITLE" },
   { label: "작성자", searchType: "AUTHOR" },
-  { label: "국가", searchType: "TITLE" }, // 추후 COUNTRY로 바꿀 예정
 ] as const;
 
 const SearchPage = () => {
