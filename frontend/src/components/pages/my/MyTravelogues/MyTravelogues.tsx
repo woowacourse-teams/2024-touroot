@@ -55,7 +55,7 @@ const MyTravelogues = ({ userData }: MyTraveloguesProps) => {
         contentDetail={myTravelogues}
         renderItem={({ id, thumbnailUrl, title, createdAt }) => (
           <S.Layout onClick={() => handleClickTravelogue(id)}>
-            <AvatarCircle $size="medium" profileImageUrl={thumbnailUrl} />
+            <AvatarCircle size="medium" profileImageUrl={thumbnailUrl} />
             <S.Container>
               <Text
                 textType="body"

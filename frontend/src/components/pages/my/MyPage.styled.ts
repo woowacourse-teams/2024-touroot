@@ -2,79 +2,111 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import theme from "@styles/theme";
-import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
   gap: ${(props) => props.theme.spacing.xl};
+
+  width: 100%;
   padding: ${(props) => props.theme.spacing.l};
 `;
 
 export const TabContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
   gap: ${(props) => props.theme.spacing.m};
-`;
 
-export const ColorButtonStyle = css`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
   width: 100%;
-  height: 6.8rem;
-  padding: ${theme.spacing.m};
-  border-radius: 10px;
-
-  background-color: ${PRIMITIVE_COLORS.blue[50]};
-  gap: ${theme.spacing.m};
 `;
 
-export const ListStyle = css`
+export const listStyle = css`
   li {
-    ${theme.typography.mobile.body};
-    font-weight: 700;
+    ${theme.typography.mobile.bodyBold};
   }
 `;
 
-export const FormWrapper = styled.form`
+export const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
   gap: ${({ theme }) => theme.spacing.m};
+
+  width: 100%;
 `;
 
-export const ButtonWrapper = styled.div`
+export const ProfileEditButtonContainer = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.xs};
+`;
+
+export const EditButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
+
   width: 100%;
 `;
 
-export const Button = styled.button`
+export const EditButton = styled.button`
   padding: ${({ theme }) => theme.spacing.s} ${({ theme }) => theme.spacing.m};
   border: solid 1px ${({ theme }) => theme.colors.border};
   ${({ theme }) => theme.typography.mobile.detail};
   border-radius: 10px;
 `;
 
-export const NicknameWrapper = styled.div`
+export const ProfileImageContainer = styled.div`
+  display: flex;
+  position: relative;
+`;
+
+export const ProfileImageWrapper = styled.div<{ $isProfileImageLoading: boolean }>`
+  display: ${({ $isProfileImageLoading }) => ($isProfileImageLoading ? "none" : "block")};
+`;
+
+export const ProfileImageLoadingWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 3rem;
+
+  width: 12.9rem;
+  height: 12.9rem;
 `;
 
-export const InputContainer = styled.div`
+export const ProfileImageHiddenInput = styled.input`
+  display: none;
+`;
+
+export const NicknameWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  width: 100%;
+  height: 6.5rem;
+`;
+
+export const NickNameEditContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.s};
 
   width: 100%;
+  height: 6.5rem;
+`;
+
+export const Button = styled.button`
+  width: 100%;
+`;
+
+export const profileImageEditButtonStyle = css`
+  justify-content: flex-end;
+  align-items: flex-end;
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 `;
 
 export const inputStyle = css`
@@ -103,8 +135,10 @@ export const inputStyle = css`
   }
 `;
 
-export const NicknameStyle = css`
-  margin-bottom: calc(1.2rem + 2px);
+export const nicknameStyle = css`
+  padding: 1.2rem 1.6rem;
+`;
 
-  font-weight: 700;
+export const deleteTextColor = css`
+  color: ${theme.colors.text.required};
 `;

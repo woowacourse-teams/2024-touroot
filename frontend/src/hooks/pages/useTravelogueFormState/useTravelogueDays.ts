@@ -46,7 +46,10 @@ const useTravelogueDays = (days: TravelTransformDays[]) => {
   );
 
   const handleAddPlace = useCallback(
-    (dayIndex: number, traveloguePlace: Pick<TraveloguePlace, "placeName" | "position">) => {
+    (
+      dayIndex: number,
+      traveloguePlace: Pick<TraveloguePlace, "placeName" | "position" | "countryCode">,
+    ) => {
       setTravelogueDays((newTravelogueDays) => {
         newTravelogueDays[dayIndex].places.push({
           ...traveloguePlace,
