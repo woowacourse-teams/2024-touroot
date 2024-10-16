@@ -4,6 +4,8 @@ import { usePostUploadImages } from "@queries/usePostUploadImages";
 import usePutProfile from "@queries/usePutProfile";
 import { useUserProfile } from "@queries/useUserProfile";
 
+import useToggle from "@hooks/useToggle";
+
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
 const useMyPage = () => {
@@ -24,10 +26,10 @@ const useMyPage = () => {
   const [isModifying, setIsModifying] = useState(false);
   const [isProfileImageLoading, setIsProfileImageLoading] = useState(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, handleOpenModal, handleCloseModal] = useToggle();
 
-  const handleClickEditModalOpenButton = () => setIsModalOpen(true);
-  const handleClickEditModalCloseButton = () => setIsModalOpen(false);
+  const handleClickEditModalOpenButton = () => handleOpenModal();
+  const handleClickEditModalCloseButton = () => handleCloseModal();
 
   const handleClickProfileEditButton = () => setIsModifying(true);
   const handleClickProfileImageEditButton = () => profileImageFileInputRef.current?.click();
@@ -36,7 +38,7 @@ const useMyPage = () => {
 
   const handleChangeProfileImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsProfileImageLoading(true);
-    setIsModalOpen(false);
+    handleCloseModal();
 
     const files = Array.from(e.target.files as FileList);
     const profileImage = await mutateAddImage(files);
@@ -51,7 +53,7 @@ const useMyPage = () => {
   const handleClickProfileImageDeleteButton = () => {
     setProfileImageUrl("");
 
-    setIsModalOpen(false);
+    handleCloseModal();
   };
 
   const handleClickProfileEditConfirmButton = () => {
