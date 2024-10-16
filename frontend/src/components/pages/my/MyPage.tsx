@@ -22,7 +22,6 @@ import useMyPage from "./hooks/useMyPage";
 const TAB_CONTENT = [
   { label: "✈️ 내 여행 계획", component: MyTravelPlans },
   { label: "📝 내 여행기", component: MyTravelogues },
-  { label: "❤️ 좋아요", component: MyTravelogues }, // 추후 컴포넌트 바꿀 예정
 ] as const;
 
 const IGNORED_ERROR_MESSAGES = [ERROR_MESSAGE_MAP.api.login, "Network Error"];
