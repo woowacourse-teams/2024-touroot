@@ -47,6 +47,13 @@ const TravelPlanEditPage = () => {
       handleDeletePlaceTodo,
       handleChangeContent,
     },
+    errorMessages: {
+      titleErrorMessage,
+      startDateErrorMessage,
+      todoErrorMessages,
+      travelPlanDaysErrorMessage,
+    },
+    isEnabledForm,
   } = useTravelPlanFormState([]);
 
   const { status, error, isLoading } = useTravelPlanInitialization({
@@ -88,10 +95,18 @@ const TravelPlanEditPage = () => {
                 placeholder="여행 계획 제목을 입력해주세요"
                 onChange={(event) => handleChangeTitle(event.target.value)}
               />
-              <CharacterCount
-                count={title.length}
-                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              />
+              <S.TitleMessageContainer>
+                {titleErrorMessage && (
+                  <Text textType="detail" css={S.errorTextStyle}>
+                    {titleErrorMessage}
+                  </Text>
+                )}
+                <CharacterCount
+                  count={title.length}
+                  maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+                  css={S.characterCountStyle}
+                />
+              </S.TitleMessageContainer>
             </S.InputContainer>
           )}
         </TextField>
@@ -116,6 +131,11 @@ const TravelPlanEditPage = () => {
                   onClose={handleCloseCalendar}
                 />
               )}
+              {startDateErrorMessage && (
+                <Text textType="detail" css={S.errorTextStyle}>
+                  {startDateErrorMessage}
+                </Text>
+              )}
             </>
           )}
         </TextField>
@@ -139,6 +159,7 @@ const TravelPlanEditPage = () => {
                 <TravelPlanDayAccordion
                   key={travelDay.id}
                   startDate={startDate}
+                  todoErrorMessages={todoErrorMessages}
                   onDeletePlaceTodo={handleDeletePlaceTodo}
                   onChangeContent={handleChangeContent}
                   travelPlanDay={travelDay}
@@ -158,10 +179,15 @@ const TravelPlanEditPage = () => {
               >
                 <Text textType="bodyBold">일자 추가하기</Text>
               </IconButton>
+              {travelPlanDaysErrorMessage && (
+                <Text textType="detail" css={S.errorTextStyle}>
+                  {travelPlanDaysErrorMessage}
+                </Text>
+              )}
             </Accordion.Root>
           </GoogleMapLoadScript>
         </div>
-        <Button variants="primary" onClick={handleOpenBottomSheet}>
+        <Button variants="primary" disabled={!isEnabledForm} onClick={handleOpenBottomSheet}>
           수정
         </Button>
       </S.Layout>

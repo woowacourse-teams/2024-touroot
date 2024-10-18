@@ -1,4 +1,7 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+
+import theme from "@styles/theme";
 
 export const Layout = styled.li`
   display: flex;
@@ -12,4 +15,8 @@ export const ToDoListItemContainer = styled.div`
   align-items: center;
   width: 100%;
   gap: ${({ theme }) => theme.spacing.s};
+`;
+
+export const errorInputStyle = css`
+  border-bottom: 1px solid ${theme.colors.danger};
 `;

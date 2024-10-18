@@ -13,6 +13,7 @@ interface TravelPlanDayAccordionProps {
   travelPlanDay: TravelPlanDay;
   dayIndex: number;
   startDate: Date | null;
+  todoErrorMessages?: Record<string, Record<string, string>>;
   onDeleteDay: (dayIndex: number) => void;
   onDeletePlace: (dayIndex: number, placeIndex: number) => void;
   onDeletePlaceTodo: (dayIndex: number, placeIndex: number, todoId: string) => void;
@@ -38,6 +39,7 @@ const TravelPlanDayAccordion = ({
   travelPlanDay,
   dayIndex,
   startDate,
+  todoErrorMessages,
   onDeleteDay,
   onDeletePlace,
   onAddPlaceTodo,
@@ -104,6 +106,13 @@ const TravelPlanDayAccordion = ({
                     />
                   ))}
                 </S.PlaceTodoListItemContainer>
+                {todoErrorMessages?.[place.id] &&
+                  Object.values(todoErrorMessages).some((message) => message) &&
+                  place.todos && (
+                    <Text textType="detail" css={S.errorTextStyle}>
+                      {Object.values(todoErrorMessages?.[place.id]).find((message) => message)}
+                    </Text>
+                  )}
                 <IconButton
                   size="16"
                   iconType="plus"
