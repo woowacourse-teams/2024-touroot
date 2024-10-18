@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { TravelPlanDay } from "@type/domain/travelPlan";
 
@@ -13,22 +13,25 @@ const useTravelPlanTitle = (travelPlanDays: TravelPlanDay[]) => {
   );
   const [titleErrorMessage, setTitleErrorMessage] = useState("");
 
-  const handleChangeTitle = (inputValue: string) => {
-    const errorMessage = validateTitle(inputValue);
+  const handleChangeTitle = useCallback(
+    (inputValue: string) => {
+      const errorMessage = validateTitle(inputValue);
 
-    if (errorMessage) {
-      setTitleErrorMessage(errorMessage);
-      return;
-    }
+      if (errorMessage) {
+        setTitleErrorMessage(errorMessage);
+        return;
+      }
 
-    const trimmedTitle = inputValue.slice(
-      FORM_VALIDATIONS_MAP.title.minLength,
-      FORM_VALIDATIONS_MAP.title.maxLength,
-    );
+      const trimmedTitle = inputValue.slice(
+        FORM_VALIDATIONS_MAP.title.minLength,
+        FORM_VALIDATIONS_MAP.title.maxLength,
+      );
 
-    setTitle(trimmedTitle);
-    setTitleErrorMessage("");
-  };
+      setTitle(trimmedTitle);
+      setTitleErrorMessage("");
+    },
+    [setTitleErrorMessage, setTitle],
+  );
 
   const isEnabledTravelogueTitle = titleErrorMessage === "" && title !== "";
 

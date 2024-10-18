@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { validateStartDate } from "@utils/validation/travelPlan";
 
@@ -17,13 +17,14 @@ const useTravelPlanStartDate = () => {
     }
   };
 
-  const handleInitializeStartDate = (startDate: string) => {
-    setStartDate(new Date(startDate));
-  };
+  const handleInitializeStartDate = useCallback(
+    (startDate: string) => {
+      setStartDate(new Date(startDate));
+    },
+    [setStartDate],
+  );
 
   const isEnabledStartDate = startDateErrorMessage === "" && startDate !== null;
-
-  console.log(startDateErrorMessage, startDate);
 
   return {
     startDate,

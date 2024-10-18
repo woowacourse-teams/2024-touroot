@@ -68,8 +68,6 @@ const TravelPlanDayAccordion = ({
 
   const dateString = getDateString(startDate, dayIndex);
 
-  console.log(todoErrorMessages);
-
   return (
     <Accordion.Item value={travelPlanDay.id}>
       <Accordion.Trigger onDeleteItem={() => onDeleteDay(dayIndex)}>
