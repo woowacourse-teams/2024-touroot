@@ -43,7 +43,12 @@ const TravelPlanRegisterPage = () => {
       handleDeletePlaceTodo,
       handleChangeContent,
     },
-    errorMessages: { titleErrorMessage, startDateErrorMessage },
+    errorMessages: {
+      titleErrorMessage,
+      startDateErrorMessage,
+      todoErrorMessages,
+      travelPlanDaysErrorMessage,
+    },
     isEnabledForm,
   } = useTravelPlanFormState(transformDetail?.days ?? []);
 
@@ -145,6 +150,7 @@ const TravelPlanRegisterPage = () => {
                 <TravelPlanDayAccordion
                   key={travelDay.id}
                   startDate={startDate}
+                  todoErrorMessages={todoErrorMessages}
                   onDeletePlaceTodo={handleDeletePlaceTodo}
                   onChangeContent={handleChangeContent}
                   travelPlanDay={travelDay}
@@ -169,6 +175,11 @@ const TravelPlanRegisterPage = () => {
                   일자 추가하기
                 </Text>
               </IconButton>
+              {travelPlanDaysErrorMessage && (
+                <Text textType="detail" css={S.errorTextStyle}>
+                  {travelPlanDaysErrorMessage}
+                </Text>
+              )}
             </Accordion.Root>
           </GoogleMapLoadScript>
         </div>

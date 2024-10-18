@@ -1,5 +1,9 @@
+import { TravelPlanDay } from "@type/domain/travelPlan";
+
 import { FORM_ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
+
+const MIN_DAYS = 1;
 
 export const validateTitle = (title: string) => {
   if (title.length > FORM_VALIDATIONS_MAP.title.maxLength) {
@@ -20,6 +24,27 @@ export const validateStartDate = (date: Date | null): string | null => {
   if (date < currentDate) {
     return FORM_ERROR_MESSAGE_MAP.travelPlan.invalidStartDatePast;
   }
+
+  return null;
+};
+
+export const validateDays = (days: TravelPlanDay[]) => {
+  if (days.length < MIN_DAYS) {
+    return FORM_ERROR_MESSAGE_MAP.travelPlan.invalidDatesMissing;
+  }
+
+  if (days.some((day) => day.places.length === 0)) {
+    return FORM_ERROR_MESSAGE_MAP.travelPlan.invalidLocationMissing;
+  }
+
+  return null;
+};
+
+export const validateTodoContent = (content: string) => {
+  if (content.length > FORM_VALIDATIONS_MAP.title.maxLength)
+    return FORM_ERROR_MESSAGE_MAP.travelPlan.invalidPlanLength;
+
+  if (content.length === 0) return FORM_ERROR_MESSAGE_MAP.travelPlan.invalidPlanLength;
 
   return null;
 };
