@@ -92,7 +92,6 @@ const TravelPlanDayAccordion = ({
                     <PlaceTodoListItem
                       key={todo.id}
                       todo={todo}
-                      todoErrorMessage={todoErrorMessages?.[place.id]?.[todo.id] ?? ""}
                       onChangeContent={(e) =>
                         onChangeContent({
                           content: e.target.value,

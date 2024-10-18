@@ -8,20 +8,11 @@ import * as S from "./PlaceTodoListItem.styled";
 
 interface PlaceTodoListItemProps {
   todo?: TravelPlanTodo;
-  todoErrorMessage?: string;
   onChangeContent: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onDeleteTodo: () => void;
-  onBlurInput?: () => void;
-  onFocusInput?: () => void;
 }
 
-const PlaceTodoListItem = ({
-  todo,
-  todoErrorMessage,
-  onChangeContent,
-  onDeleteTodo,
-}: PlaceTodoListItemProps) => {
-  console.log(todoErrorMessage);
+const PlaceTodoListItem = ({ todo, onChangeContent, onDeleteTodo }: PlaceTodoListItemProps) => {
   return (
     <S.Layout>
       <S.ToDoListItemContainer>
