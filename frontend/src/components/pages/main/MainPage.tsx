@@ -74,29 +74,27 @@ const MainPage = () => {
         <S.TagsContainer>
           <S.SingleSelectionTagsContainer>
             <Chip
+              label={"초기화"}
+              isSelected={false}
+              onClick={sorting.handleOpenModal}
+              iconPosition="left"
+            />
+            <Chip
               label={SORTING_OPTIONS_MAP[sorting.selectedOption]}
               isSelected={true}
               onClick={sorting.handleOpenModal}
-            >
-              <Icon iconType="down-arrow" size="8" color={theme.colors.primary} />
-            </Chip>
+              iconPosition="right"
+            />
             <Chip
               label={
                 travelPeriod.selectedOption
                   ? TRAVEL_PERIOD_OPTIONS_MAP[travelPeriod.selectedOption]
                   : "여행 기간"
               }
+              iconPosition="right"
               isSelected={travelPeriod.selectedOption !== ""}
               onClick={travelPeriod.handleOpenModal}
-            >
-              <Icon
-                iconType="down-arrow"
-                size="8"
-                color={
-                  travelPeriod.selectedOption ? theme.colors.primary : theme.colors.text.secondary
-                }
-              />
-            </Chip>
+            />
           </S.SingleSelectionTagsContainer>
 
           <S.MultiSelectionTagsContainer
