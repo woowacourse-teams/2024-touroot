@@ -63,9 +63,6 @@ public class MemberService {
         }
         member.update(request.nickname(), requestProfileImageUrl);
 
-//        Member member = getMemberById(memberAuth.memberId());
-//        member.changeNickname(request.nickname());
-
         return ProfileResponse.from(member);
     }
 
