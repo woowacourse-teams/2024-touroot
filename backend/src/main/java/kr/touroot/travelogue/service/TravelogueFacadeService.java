@@ -28,6 +28,7 @@ public class TravelogueFacadeService {
     private final TravelogueImagePerpetuationService travelogueImagePerpetuationService;
     private final TravelogueTagService travelogueTagService;
     private final TravelogueLikeService travelogueLikeService;
+    private final TravelogueCountryService travelogueCountryService;
     private final MemberService memberService;
 
     @Transactional
@@ -36,6 +37,7 @@ public class TravelogueFacadeService {
         Travelogue travelogue = travelogueService.save(request.toTravelogue(author));
         travelogueImagePerpetuationService.copyTravelogueImagesToPermanentStorage(travelogue);
         travelogueTagService.createTravelogueTags(travelogue, request.tags());
+        travelogueCountryService.createTravelogueCountries(travelogue, request);
 
         return TravelogueCreateResponse.from(travelogue);
     }
