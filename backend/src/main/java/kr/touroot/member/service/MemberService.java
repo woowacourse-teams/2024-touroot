@@ -58,7 +58,7 @@ public class MemberService {
     public ProfileResponse updateProfile(ProfileUpdateRequest request, MemberAuth memberAuth) {
         Member member = getMemberById(memberAuth.memberId());
         String requestProfileImageUrl = request.profileImageUrl();
-        if (!Objects.equals(request.profileImageUrl(), member.getProfileImageUrl())) {
+        if (isUpdatable(requestProfileImageUrl, member)) {
             requestProfileImageUrl = s3Provider.copyImageToPermanentStorage(request.profileImageUrl());
         }
         member.update(request.nickname(), requestProfileImageUrl);
@@ -67,5 +67,10 @@ public class MemberService {
 //        member.changeNickname(request.nickname());
 
         return ProfileResponse.from(member);
+    }
+
+    private boolean isUpdatable(String requestProfileImageUrl, Member member) {
+        return !requestProfileImageUrl.isEmpty() && !Objects.equals(requestProfileImageUrl,
+                member.getProfileImageUrl());
     }
 }
