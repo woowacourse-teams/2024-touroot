@@ -5,6 +5,7 @@ import { css } from "@emotion/react";
 
 import { Spinner, Text } from "@components/common";
 import AppLayout from "@components/layout/AppLayout/AppLayout";
+import LandingPage from "@components/pages/landing/LandingPage";
 import KakaoCallbackPage from "@components/pages/login/KakaoCallbackPage";
 import LoginPage from "@components/pages/login/LoginPage";
 import MainPage from "@components/pages/main/MainPage";
@@ -56,10 +57,17 @@ const withLazyLoading = (Component: React.ComponentType) => (
 export const router = createBrowserRouter([
   {
     path: ROUTE_PATHS_MAP.root,
+    element: <LandingPage />,
+  },
+  {
     element: <AppLayout />,
     children: [
       {
         path: ROUTE_PATHS_MAP.root,
+        element: <LandingPage />,
+      },
+      {
+        path: ROUTE_PATHS_MAP.main,
         element: <MainPage />,
       },
       {
