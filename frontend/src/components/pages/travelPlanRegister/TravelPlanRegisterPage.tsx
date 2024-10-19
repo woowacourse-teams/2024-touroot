@@ -47,6 +47,12 @@ const TravelPlanRegisterPage = () => {
 
   const [isOpenBottomSheet, handleBottomSheetOpen, handleBottomSheetClose] = useToggle();
   const [isShowCalendar, handleOpenCalendar, handleCloseCalendar] = useToggle();
+  const handleEnterCalendarInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleOpenCalendar();
+    }
+  };
 
   const { handleDebouncedRegisterBottomSheet, isPostingTravelPlanPending } = useTravelPlanRegister(
     { title, startDate: extractUTCDate(startDate), days: travelPlanDays },
@@ -92,6 +98,7 @@ const TravelPlanRegisterPage = () => {
                 id={id}
                 value={startDate ? startDate.toLocaleDateString().slice(0, -1) : ""}
                 onClick={handleOpenCalendar}
+                onKeyDown={handleEnterCalendarInput}
                 readOnly
                 placeholder="시작일을 입력해주세요"
                 data-cy={CYPRESS_DATA_MAP.travelPlanRegister.startDateInput}
