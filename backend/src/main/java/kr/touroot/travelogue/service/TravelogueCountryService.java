@@ -30,4 +30,13 @@ public class TravelogueCountryService {
                 .map(place -> CountryCode.valueOf(place.countryCode()))
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
+
+    public void updateTravelogueCountries(Travelogue travelogue, TravelogueRequest request) {
+        deleteAllByTravelogue(travelogue);
+        createTravelogueCountries(travelogue, request);
+    }
+
+    public void deleteAllByTravelogue(Travelogue travelogue) {
+        travelogueCountryRepository.deleteAllByTravelogue(travelogue);
+    }
 }

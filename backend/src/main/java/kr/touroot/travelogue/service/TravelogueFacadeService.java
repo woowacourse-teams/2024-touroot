@@ -91,6 +91,7 @@ public class TravelogueFacadeService {
         Travelogue updated = travelogueService.update(id, author, updateRequest);
         travelogueImagePerpetuationService.copyTravelogueImagesToPermanentStorage(updated);
         List<TravelogueTag> travelogueTags = travelogueTagService.updateTravelogueTag(updated, updateRequest.tags());
+        travelogueCountryService.updateTravelogueCountries(updated, updateRequest);
 
         boolean isLikedFromAccessor = travelogueLikeService.existByTravelogueAndMember(updated, author);
         return TravelogueResponse.of(updated, travelogueTags, isLikedFromAccessor);
@@ -103,6 +104,7 @@ public class TravelogueFacadeService {
 
         travelogueTagService.deleteAllByTravelogue(travelogue);
         travelogueLikeService.deleteAllByTravelogue(travelogue);
+        travelogueCountryService.deleteAllByTravelogue(travelogue);
         travelogueService.delete(travelogue, author);
     }
 
