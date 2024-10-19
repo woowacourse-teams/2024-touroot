@@ -48,6 +48,7 @@ import org.springframework.data.domain.Sort;
         TravelogueImagePerpetuationService.class,
         TravelogueTagService.class,
         TravelogueLikeService.class,
+        TravelogueCountryService.class,
         MemberService.class,
         TravelogueTestHelper.class,
         PasswordEncryptor.class,
