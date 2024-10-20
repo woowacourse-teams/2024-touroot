@@ -49,8 +49,11 @@ const TravelPlanRegisterPage = () => {
   const [isShowCalendar, handleOpenCalendar, handleCloseCalendar] = useToggle();
   const handleEnterCalendarInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      event.preventDefault();
       handleOpenCalendar();
+    }
+
+    if (event.key === "Escape") {
+      handleCloseCalendar();
     }
   };
 
@@ -103,6 +106,11 @@ const TravelPlanRegisterPage = () => {
                 placeholder="시작일을 입력해주세요"
                 data-cy={CYPRESS_DATA_MAP.travelPlanRegister.startDateInput}
               />
+              <div aria-live="polite" css={S.visualHiddenStyle}>
+                {isShowCalendar
+                  ? "캘린더가 열렸습니다. esc 키를 누르면 캘린더를 닫을 수 있습니다."
+                  : "캘린더가 닫혔습니다. enter 키를 누르면 캘린더를 다시 열 수 있습니다."}
+              </div>
               {isShowCalendar && (
                 <Calendar
                   onSelectDate={(date) => handleSelectStartDate(date, handleCloseCalendar)}

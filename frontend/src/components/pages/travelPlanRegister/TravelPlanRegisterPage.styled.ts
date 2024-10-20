@@ -72,3 +72,16 @@ export const addTravelAddButtonStyle = css`
   border: 1px solid ${theme.colors.border};
   border-radius: ${SPACING.s};
 `;
+
+export const visualHiddenStyle = css`
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+
+  white-space: nowrap;
+  clip: rect(0, 0, 0, 0);
+`;
