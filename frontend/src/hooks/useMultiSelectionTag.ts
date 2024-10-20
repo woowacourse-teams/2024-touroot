@@ -53,6 +53,8 @@ const useMultiSelectionTag = (key?: string) => {
 
   const resetMultiSelectionTag = () => {
     setSelectedTagIDs([]);
+    if (key) localStorage.setItem(key, JSON.stringify([]));
+
     increaseMultiSelectionTagAnimationKey();
   };
 

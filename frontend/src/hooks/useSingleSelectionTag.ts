@@ -47,7 +47,9 @@ const useSingleSelectionTag = (sortKey: string, travelPeriodKey: string) => {
 
   const resetSingleSelectionTags = () => {
     setSelectedSortingOption("likeCount");
+    localStorage.setItem(sortKey, "likeCount");
     setSelectedTravelPeriodOption("");
+    localStorage.setItem(travelPeriodKey, "");
   };
 
   const increaseSingleSelectionAnimationKey = () => {
