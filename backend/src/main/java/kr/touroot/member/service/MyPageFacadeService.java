@@ -3,9 +3,12 @@ package kr.touroot.member.service;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.dto.request.ProfileUpdateRequest;
+import kr.touroot.member.dto.response.MyLikeTravelogueResponse;
 import kr.touroot.member.dto.response.MyTravelogueResponse;
 import kr.touroot.member.dto.response.ProfileResponse;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.domain.TravelogueLike;
+import kr.touroot.travelogue.service.TravelogueLikeService;
 import kr.touroot.travelogue.service.TravelogueService;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.dto.response.PlanResponse;
@@ -23,6 +26,7 @@ public class MyPageFacadeService {
     private final MemberService memberService;
     private final TravelogueService travelogueService;
     private final TravelPlanService travelPlanService;
+    private final TravelogueLikeService travelogueLikeService;
 
     @Transactional(readOnly = true)
     public ProfileResponse readProfile(MemberAuth memberAuth) {
@@ -44,6 +48,15 @@ public class MyPageFacadeService {
         Page<TravelPlan> travelPlans = travelPlanService.getAllByAuthor(member, pageable);
 
         return travelPlans.map(PlanResponse::from);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<MyLikeTravelogueResponse> readLikes(MemberAuth memberAuth, Pageable pageable) {
+        Member member = memberService.getMemberById(memberAuth.memberId());
+
+        return travelogueLikeService.findByLiker(member, pageable)
+                .map(TravelogueLike::getTravelogue)
+                .map(MyLikeTravelogueResponse::from);
     }
 
     @Transactional

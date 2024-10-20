@@ -12,11 +12,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Pageable;
 
 @DisplayName("여행기 좋아요 서비스")
 @Import(value = {TravelogueLikeService.class, TravelogueTestHelper.class})
 @ServiceTest
 class TravelogueLikeServiceTest {
+
+    public static final int BASIC_PAGE_SIZE = 5;
 
     private final TravelogueLikeService travelogueLikeService;
     private final DatabaseCleaner databaseCleaner;
@@ -36,6 +39,20 @@ class TravelogueLikeServiceTest {
     @BeforeEach
     void setUp() {
         databaseCleaner.executeTruncate();
+    }
+
+    @DisplayName("특정 멤버가 좋아요 한 여행기를 조회할 수 있다.")
+    @Test
+    void findByLiker() {
+        // given
+        Member liker = testHelper.initKakaoMemberTestData();
+        testHelper.initTravelogueTestDataWithLike(liker);
+        testHelper.initTravelogueTestDataWithLike(liker);
+        testHelper.initTravelogueTestData();
+
+        // when & then
+        assertThat(travelogueLikeService.findByLiker(liker, Pageable.ofSize(BASIC_PAGE_SIZE)))
+                .hasSize(2);
     }
 
     @DisplayName("특정 여행기에 특정 멤버가 좋아요 했는지 알 수 있다")
