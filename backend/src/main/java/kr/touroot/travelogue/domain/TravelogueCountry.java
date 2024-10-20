@@ -37,9 +37,9 @@ public class TravelogueCountry {
     private CountryCode countryCode;
 
     @Column(nullable = false)
-    private Long count;
+    private Integer count;
 
-    public TravelogueCountry(Travelogue travelogue, CountryCode countryCode, Long count) {
+    public TravelogueCountry(Travelogue travelogue, CountryCode countryCode, Integer count) {
         this.travelogue = travelogue;
         this.countryCode = countryCode;
         this.count = count;

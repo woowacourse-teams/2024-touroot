@@ -29,7 +29,7 @@ public class TravelogueCountryService {
         Map<CountryCode, Long> countryCounts = countCountries(request);
 
         countryCounts.forEach((countryCode, count) -> travelogueCountryRepository.save(
-                new TravelogueCountry(travelogue, countryCode, count)));
+                new TravelogueCountry(travelogue, countryCode, count.intValue())));
     }
 
     private Map<CountryCode, Long> countCountries(TravelogueRequest request) {

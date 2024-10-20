@@ -13,6 +13,6 @@ public enum TravelogueCountryFixture {
     private final Long count;
 
     public TravelogueCountry create(Travelogue travelogue) {
-        return new TravelogueCountry(travelogue, countryCode, count);
+        return new TravelogueCountry(travelogue, countryCode, count.intValue());
     }
 }
