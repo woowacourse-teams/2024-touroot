@@ -4,7 +4,8 @@ import { produce } from "immer";
 import { useImmer } from "use-immer";
 import { v4 as uuidv4 } from "uuid";
 
-import type { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
+import { PlaceInfo } from "@type/domain/common";
+import type { TravelPlanDay } from "@type/domain/travelPlan";
 import type { TravelTransformDays } from "@type/domain/travelTransform";
 
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
@@ -44,10 +45,7 @@ export const useTravelPlanDays = (days: TravelTransformDays[]) => {
   );
 
   const handleAddPlace = useCallback(
-    (
-      dayIndex: number,
-      travelParams: Pick<TravelPlanPlace, "placeName" | "position" | "countryCode">,
-    ) => {
+    (dayIndex: number, travelParams: PlaceInfo) => {
       setTravelPlanDays((previousTravelPlanDays) => {
         const travelPlanDay = previousTravelPlanDays[dayIndex];
 

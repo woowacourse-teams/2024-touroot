@@ -1,12 +1,9 @@
-import { MapPosition } from "@type/domain/common";
+import { PlaceInfo } from "@type/domain/common";
 
-export interface TraveloguePlace {
+export interface TraveloguePlace extends PlaceInfo {
   id: string;
-  placeName: string;
   photoUrls?: string[];
   description?: string;
-  position: MapPosition;
-  countryCode: string;
 }
 
 export interface TravelogueDay {
