@@ -21,6 +21,9 @@ const AccordionTrigger = ({ children, onDeleteItem }: AccordionTriggerProps) => 
 
   return (
     <S.Layout onClick={() => handleToggleAccordion(label)}>
+      <div aria-live="assertive" css={S.visualHiddenStyle}>
+        {isClosed ? "아코디언이 열렸습니다." : "아코디언이 닫혔습니다."}
+      </div>
       <S.TitleContainer>
         <button>{isClosed ? <UpArrow /> : <DownArrow />}</button>
         <S.Title>{children}</S.Title>
