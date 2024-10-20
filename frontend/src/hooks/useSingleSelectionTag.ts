@@ -13,6 +13,8 @@ const useSingleSelectionTag = (sortKey: string, travelPeriodKey: string) => {
     (localStorage.getItem(travelPeriodKey) as TravelPeriodOption) ?? "",
   );
 
+  const [singleSelectionAnimationKey, setSingleSelectionAnimationKey] = useState(0);
+
   const handleOpenSortingModal = () => {
     setIsSortingModalOpen(true);
   };
@@ -43,6 +45,15 @@ const useSingleSelectionTag = (sortKey: string, travelPeriodKey: string) => {
     handleCloseTravelPeriodModal();
   };
 
+  const resetSingleSelectionTags = () => {
+    setSelectedSortingOption("likeCount");
+    setSelectedTravelPeriodOption("");
+  };
+
+  const increaseSingleSelectionAnimationKey = () => {
+    setSingleSelectionAnimationKey((prev) => prev + 1);
+  };
+
   return {
     sorting: {
       isModalOpen: isSortingModalOpen,
@@ -58,6 +69,9 @@ const useSingleSelectionTag = (sortKey: string, travelPeriodKey: string) => {
       handleCloseModal: handleCloseTravelPeriodModal,
       handleClickOption: handleClickTravelPeriodOption,
     },
+    resetSingleSelectionTags,
+    singleSelectionAnimationKey,
+    increaseSingleSelectionAnimationKey,
   };
 };
 
