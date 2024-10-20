@@ -6,11 +6,7 @@ import { extractLastPath } from "@utils/extractId";
 
 import * as S from "./SearchPage.styled";
 import TravelogueList from "./TravelogueList/TravelogueList";
-
-const TAB_CONTENT = [
-  { label: "제목", searchType: "TITLE" },
-  { label: "작성자", searchType: "AUTHOR" },
-] as const;
+import { TAB_CONTENT } from "./constants";
 
 const SearchPage = () => {
   const location = useLocation();
