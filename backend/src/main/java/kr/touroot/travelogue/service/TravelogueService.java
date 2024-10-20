@@ -5,6 +5,7 @@ import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueFilterCondition;
+import kr.touroot.travelogue.domain.search.CountryCode;
 import kr.touroot.travelogue.domain.search.SearchCondition;
 import kr.touroot.travelogue.domain.search.SearchType;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
@@ -43,9 +44,17 @@ public class TravelogueService {
     @Transactional(readOnly = true)
     public Page<Travelogue> findByKeyword(TravelogueSearchRequest request, Pageable pageable) {
         SearchType searchType = SearchType.from(request.searchType());
+        if (searchType == SearchType.COUNTRY) {
+            return findByKeywordAndCountryCode(request.keyword(), pageable);
+        }
         SearchCondition searchCondition = new SearchCondition(request.keyword(), searchType);
 
         return travelogueQueryRepository.findByKeywordAndSearchType(searchCondition, pageable);
+    }
+
+    private Page<Travelogue> findByKeywordAndCountryCode(String keyword, Pageable pageable) {
+        CountryCode countryCode = CountryCode.findByName(keyword);
+        return travelogueQueryRepository.findByKeywordAndCountryCode(countryCode, pageable);
     }
 
     @Transactional(readOnly = true)
