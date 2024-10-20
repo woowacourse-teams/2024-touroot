@@ -103,10 +103,11 @@ const MainPage = () => {
             {isTagsSelected && (
               <Chip
                 key={`reset-${singleSelectionAnimationKey}`}
-                label={"초기화"}
+                label={`초기화`}
                 isSelected={false}
                 onClick={handleClickResetButton}
                 iconPosition="left"
+                iconType="reset-icon"
               />
             )}
             <Chip
@@ -114,7 +115,8 @@ const MainPage = () => {
               label={SORTING_OPTIONS_MAP[sorting.selectedOption]}
               isSelected={true}
               onClick={sorting.handleOpenModal}
-              iconPosition="right"
+              iconPosition="left"
+              iconType="sort-icon"
             />
             <Chip
               key={`travelPeriod-${singleSelectionAnimationKey}`}
