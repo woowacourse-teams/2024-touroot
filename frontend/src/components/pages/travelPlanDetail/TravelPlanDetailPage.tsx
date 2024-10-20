@@ -156,7 +156,7 @@ const TravelPlanDetailPage = () => {
 
       <TransformFooter
         onTransform={handleTransform}
-        buttonLabel="여행기 남기기"
+        buttonLabel="📝 여행기로 남기기"
         guideMessage="여행은 즐겁게 다녀오셨나요?"
       />
 
