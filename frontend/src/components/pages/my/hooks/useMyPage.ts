@@ -1,108 +1,78 @@
-import React, { useEffect, useRef, useState } from "react";
-
-import { usePostUploadImages } from "@queries/usePostUploadImages";
-import usePutProfile from "@queries/usePutProfile";
 import { useUserProfile } from "@queries/useUserProfile";
 
 import useToggle from "@hooks/useToggle";
 
-import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
+import useProfileEdit from "./useProfileEdit";
+import useProfileImage from "./useProfileImage";
+import useProfileInitialization from "./useProfileInitialization";
+import useProfileNickname from "./useProfileNickname";
 
 const useMyPage = () => {
+  const [isEditModalOpen, handleOpenEditModal, handleCloseEditModal] = useToggle();
+
   const { data, status, error } = useUserProfile();
+  const { nickname: userNickname, profileImageUrl: userProfileImageUrl } = data ?? {};
 
-  const onError = (error: Error) => {
-    alert(error.message);
-    setNickname(data?.nickname ?? "");
-  };
+  const {
+    profileImageFileInputRef,
+    profileImageUrl,
+    isProfileImageLoading,
+    handleClickProfileImageEditButton,
+    handleChangeProfileImage,
+    handleLoadProfileImage,
+    handleClickProfileImageDeleteButton,
+    updateProfileImageUrl,
+  } = useProfileImage({ userProfileImageUrl, handleCloseEditModal });
 
-  const { mutate: mutateModifyProfile } = usePutProfile(onError);
+  const { nickname, handleChangeNickname, updateNickname } = useProfileNickname(userNickname);
 
-  const profileImageFileInputRef = useRef<HTMLInputElement>(null);
+  const {
+    isModifying,
+    handleClickProfileEditButton,
+    handleClickProfileEditConfirmButton,
+    handleClickProfileEditCancelButton,
+  } = useProfileEdit({
+    userNickname,
+    nickname,
+    updateNickname,
+    userProfileImageUrl,
+    profileImageUrl,
+    updateProfileImageUrl,
+  });
 
-  const [profileImageUrl, setProfileImageUrl] = useState(data?.profileImageUrl ?? "");
-  const [nickname, setNickname] = useState(data?.nickname ?? "");
-
-  const [isModifying, setIsModifying] = useState(false);
-  const [isProfileImageLoading, setIsProfileImageLoading] = useState(false);
-
-  const [isModalOpen, handleOpenModal, handleCloseModal] = useToggle();
-
-  const handleClickEditModalOpenButton = () => handleOpenModal();
-  const handleClickEditModalCloseButton = () => handleCloseModal();
-
-  const handleClickProfileEditButton = () => setIsModifying(true);
-  const handleClickProfileImageEditButton = () => profileImageFileInputRef.current?.click();
-
-  const { mutateAsync: mutateAddImage } = usePostUploadImages();
-
-  const handleChangeProfileImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsProfileImageLoading(true);
-    handleCloseModal();
-
-    const files = Array.from(e.target.files as FileList);
-    const profileImage = await mutateAddImage(files);
-
-    setProfileImageUrl(profileImage[0]);
-  };
-
-  const handleLoadProfileImage = () => {
-    setIsProfileImageLoading(false);
-  };
-
-  const handleClickProfileImageDeleteButton = () => {
-    setProfileImageUrl("");
-
-    handleCloseModal();
-  };
-
-  const handleClickProfileEditConfirmButton = () => {
-    const trimmedNickname = nickname.trim();
-    const newNickname = trimmedNickname || data?.nickname || "";
-
-    setNickname(newNickname);
-    mutateModifyProfile({ nickname: newNickname, profileImageUrl: profileImageUrl });
-
-    setIsModifying(false);
-  };
-
-  const handleClickProfileEditCancelButton = () => {
-    setNickname(data?.nickname ?? "");
-    setProfileImageUrl(data?.profileImageUrl ?? "");
-
-    setIsModifying(false);
-  };
-
-  const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNickname(
-      e.target.value.slice(
-        FORM_VALIDATIONS_MAP.title.minLength,
-        FORM_VALIDATIONS_MAP.title.maxLength,
-      ),
-    );
-  };
-
-  useEffect(() => {
-    if (data?.nickname) setNickname(data.nickname);
-    if (data?.profileImageUrl) setProfileImageUrl(data.profileImageUrl);
-  }, [data?.nickname, data?.profileImageUrl]);
+  useProfileInitialization({
+    userNickname,
+    updateNickname,
+    userProfileImageUrl,
+    updateProfileImageUrl,
+  });
 
   return {
-    states: { profileImageUrl, nickname, isModifying, isProfileImageLoading, isModalOpen },
-    handlers: {
-      handleClickEditModalOpenButton,
-      handleClickEditModalCloseButton,
-      handleClickProfileEditButton,
+    editModal: {
+      isEditModalOpen,
+      handleOpenEditModal,
+      handleCloseEditModal,
+    },
+    profileImage: {
+      profileImageFileInputRef,
+      profileImageUrl,
+      isProfileImageLoading,
       handleClickProfileImageEditButton,
       handleChangeProfileImage,
       handleLoadProfileImage,
       handleClickProfileImageDeleteButton,
-      handleClickProfileEditConfirmButton,
-      handleClickProfileEditCancelButton,
+    },
+    profileNickname: {
+      nickname,
       handleChangeNickname,
     },
+    profileEdit: {
+      isModifying,
+      handleClickProfileEditButton,
+      handleClickProfileEditConfirmButton,
+      handleClickProfileEditCancelButton,
+    },
     userProfile: { data, status, error },
-    profileImageFileInputRef,
   };
 };
 

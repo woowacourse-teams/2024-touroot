@@ -9,25 +9,16 @@ import {
 } from "@components/common";
 import MyPageSkeleton from "@components/pages/my/MyPageSkeleton/MyPageSkeleton";
 
-import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { STORAGE_KEYS_MAP } from "@constants/storage";
 
 import * as S from "./MyPage.styled";
-import MyTravelPlans from "./MyTravelPlans/MyTravelPlans";
-import MyTravelogues from "./MyTravelogues/MyTravelogues";
 import ProfileImageEditModalBottomSheet from "./ProfileImageEditModalBottomSheet/ProfileImageEditModalBottomSheet";
+import { IGNORED_ERROR_MESSAGES, TAB_CONTENT } from "./constants";
 import useMyPage from "./hooks/useMyPage";
 
-const TAB_CONTENT = [
-  { label: "✈️ 내 여행 계획", component: MyTravelPlans },
-  { label: "📝 내 여행기", component: MyTravelogues },
-] as const;
-
-const IGNORED_ERROR_MESSAGES = [ERROR_MESSAGE_MAP.api.login, "Network Error"];
-
 const MyPage = () => {
-  const { states, handlers, userProfile, profileImageFileInputRef } = useMyPage();
+  const { editModal, profileImage, profileNickname, profileEdit, userProfile } = useMyPage();
 
   const showErrorAlert = (error: Error | null) => {
     if (error && !IGNORED_ERROR_MESSAGES.includes(error.message)) alert(error.message);
@@ -43,45 +34,45 @@ const MyPage = () => {
 
   return (
     <S.Layout>
-      {states.isModifying ? (
+      {profileEdit.isModifying ? (
         <S.ProfileContainer>
           <S.EditButtonContainer>
             <S.ProfileEditButtonContainer>
-              <S.EditButton type="button" onClick={handlers.handleClickProfileEditCancelButton}>
+              <S.EditButton type="button" onClick={profileEdit.handleClickProfileEditCancelButton}>
                 취소
               </S.EditButton>
-              <S.EditButton type="button" onClick={handlers.handleClickProfileEditConfirmButton}>
+              <S.EditButton type="button" onClick={profileEdit.handleClickProfileEditConfirmButton}>
                 확인
               </S.EditButton>
             </S.ProfileEditButtonContainer>
           </S.EditButtonContainer>
 
           <S.ProfileImageContainer>
-            <S.ProfileImageWrapper $isProfileImageLoading={states.isProfileImageLoading}>
+            <S.ProfileImageWrapper $isProfileImageLoading={profileImage.isProfileImageLoading}>
               <AvatarCircle
                 size="large"
-                profileImageUrl={states.profileImageUrl}
-                onLoad={handlers.handleLoadProfileImage}
+                profileImageUrl={profileImage.profileImageUrl}
+                onLoad={profileImage.handleLoadProfileImage}
               />
             </S.ProfileImageWrapper>
 
-            {states.isProfileImageLoading ? (
+            {profileImage.isProfileImageLoading ? (
               <S.ProfileImageLoadingWrapper>
                 <Spinner variants="circle" size={40} />
               </S.ProfileImageLoadingWrapper>
             ) : (
               <>
                 <S.ProfileImageHiddenInput
-                  ref={profileImageFileInputRef}
+                  ref={profileImage.profileImageFileInputRef}
                   type="file"
                   accept="image/*"
-                  onChange={handlers.handleChangeProfileImage}
+                  onChange={profileImage.handleChangeProfileImage}
                   aria-label="썸네일 이미지 선택"
                   title="이미지 파일을 선택하세요"
                 />
                 <IconButton
                   iconType="camera-icon"
-                  onClick={handlers.handleClickEditModalOpenButton}
+                  onClick={editModal.handleOpenEditModal}
                   css={S.profileImageEditButtonStyle}
                 />
               </>
@@ -91,15 +82,15 @@ const MyPage = () => {
           <S.NickNameEditContainer>
             <Input
               placeholder={userProfile.data?.nickname}
-              value={states.nickname}
+              value={profileNickname.nickname}
               autoFocus
               maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
               spellCheck={false}
               css={S.inputStyle}
-              onChange={handlers.handleChangeNickname}
+              onChange={profileNickname.handleChangeNickname}
             />
             <CharacterCount
-              count={states.nickname?.length}
+              count={profileNickname.nickname?.length}
               maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
             />
           </S.NickNameEditContainer>
@@ -107,18 +98,18 @@ const MyPage = () => {
       ) : (
         <S.ProfileContainer>
           <S.EditButtonContainer>
-            <S.EditButton type="button" onClick={handlers.handleClickProfileEditButton}>
+            <S.EditButton type="button" onClick={profileEdit.handleClickProfileEditButton}>
               프로필 수정
             </S.EditButton>
           </S.EditButtonContainer>
 
           <S.ProfileImageContainer>
-            <AvatarCircle size="large" profileImageUrl={states.profileImageUrl} />
+            <AvatarCircle size="large" profileImageUrl={profileImage.profileImageUrl} />
           </S.ProfileImageContainer>
 
           <S.NicknameWrapper>
             <Text textType="bodyBold" css={S.nicknameStyle}>
-              {states.nickname}
+              {profileNickname.nickname}
             </Text>
           </S.NicknameWrapper>
         </S.ProfileContainer>
@@ -136,14 +127,14 @@ const MyPage = () => {
       />
 
       <ProfileImageEditModalBottomSheet
-        isOpen={states.isModalOpen}
-        onClose={handlers.handleClickEditModalCloseButton}
+        isOpen={editModal.isEditModalOpen}
+        onClose={editModal.handleCloseEditModal}
       >
-        <S.Button onClick={handlers.handleClickProfileImageEditButton}>
+        <S.Button onClick={profileImage.handleClickProfileImageEditButton}>
           <Text textType="detail">앨범에서 선택</Text>
         </S.Button>
-        {states.profileImageUrl && (
-          <S.Button onClick={handlers.handleClickProfileImageDeleteButton}>
+        {profileImage.profileImageUrl && (
+          <S.Button onClick={profileImage.handleClickProfileImageDeleteButton}>
             <Text textType="detailBold" css={S.deleteTextColor}>
               프로필 사진 삭제
             </Text>
