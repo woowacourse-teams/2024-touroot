@@ -32,7 +32,14 @@ const TravelogueRegisterPage = () => {
   const { transformDetail } = useTravelTransformDetailContext();
 
   const {
-    state: { title, thumbnail, travelogueDays, selectedTagIDs, sortedTags, animationKey },
+    state: {
+      title,
+      thumbnail,
+      travelogueDays,
+      selectedTagIDs,
+      sortedTags,
+      multiSelectionTagAnimationKey,
+    },
     handler: {
       handleChangeTitle,
       handleChangeThumbnail,

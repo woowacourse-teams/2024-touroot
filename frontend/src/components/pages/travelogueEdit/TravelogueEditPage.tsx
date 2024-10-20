@@ -28,7 +28,14 @@ const TravelogueEditPage = () => {
   const [isOpen, handleOpenBottomSheet, handleCloseBottomSheet] = useToggle();
 
   const {
-    state: { title, thumbnail, travelogueDays, selectedTagIDs, sortedTags, animationKey },
+    state: {
+      title,
+      thumbnail,
+      travelogueDays,
+      selectedTagIDs,
+      sortedTags,
+      multiSelectionTagAnimationKey,
+    },
     handler: {
       handleChangeTitle,
       handleInitializeThumbnail,
