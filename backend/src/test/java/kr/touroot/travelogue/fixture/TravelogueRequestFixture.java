@@ -54,7 +54,8 @@ public class TravelogueRequestFixture {
                 "함덕 해수욕장",
                 getTraveloguePositionRequest(),
                 "에메랄드 빛 해변",
-                photos
+                photos,
+                "KR"
         ));
     }
 
@@ -63,7 +64,8 @@ public class TravelogueRequestFixture {
                 "함덕 해수욕장",
                 getTraveloguePositionRequest(),
                 "에메랄드 빛 해변은 해외 휴양지와 견줘도 밀리지 않습니다.",
-                photos
+                photos,
+                "KR"
         ));
     }
 
