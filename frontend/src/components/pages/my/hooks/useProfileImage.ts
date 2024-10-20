@@ -26,7 +26,7 @@ const useProfileImage = ({ userProfileImageUrl, handleCloseEditModal }: UseProfi
     handleCloseEditModal();
 
     const files = Array.from(e.target.files as FileList);
-    const profileImage = await mutateAddImage(files);
+    const profileImage = await mutateAddImage({ files });
 
     setProfileImageUrl(profileImage[0]);
   };

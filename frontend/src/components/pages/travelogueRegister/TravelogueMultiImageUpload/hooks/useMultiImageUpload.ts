@@ -86,7 +86,7 @@ export const useTravelogueMultiImageUpload = ({
     try {
       addLoadingImageStates(files);
 
-      const newImageUrls = await mutateAddImage(files);
+      const newImageUrls = await mutateAddImage({ files });
       handleUploadSuccess(newImageUrls);
     } catch {
       revertImageStates(files.length);
