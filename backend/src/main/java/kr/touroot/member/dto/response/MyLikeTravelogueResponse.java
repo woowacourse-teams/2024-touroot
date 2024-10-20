@@ -11,7 +11,8 @@ public record MyLikeTravelogueResponse(
         String thumbnailUrl,
         String createdAt,
         String authorName,
-        String authorProfileImageUrl) {
+        String authorProfileImageUrl
+) {
 
     public static MyLikeTravelogueResponse from(Travelogue travelogue) {
         String createdAt = travelogue.getCreatedAt()
