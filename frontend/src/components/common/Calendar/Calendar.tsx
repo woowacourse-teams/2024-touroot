@@ -37,6 +37,19 @@ const Calendar = ({
 
   const isPreventPreviousMonthMoveButton = today.getMonth() === calendarDetail.month;
 
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLElement>,
+    date: Date,
+    isSelectable: boolean,
+  ) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      if (isSelectable) {
+        onSelectDate(date);
+      }
+    }
+  };
+
   return (
     <S.Layout ref={calendarRef} {...props}>
       <S.HeaderContainer>
@@ -82,15 +95,28 @@ const Calendar = ({
       <S.DaysGridContainer>
         {calendarDetail.days.map(({ date, isCurrentMonth }) => {
           const isSelectable = isCurrentMonth && date >= today;
+          const formattedDate = date.toLocaleDateString("ko-KR", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+
           return (
             <S.DayCell
               key={date.toString()}
+              onClick={() => isSelectable && onSelectDate(date)}
+              onKeyDown={(event) => handleKeyDown(event, date, isSelectable)}
+              tabIndex={isSelectable ? 0 : -1}
+              role="gridcell"
+              aria-selected={isSelectable}
+              aria-label={formattedDate}
+              data-cy={CYPRESS_DATA_MAP.calendar.dayCell}
               $isCurrentMonth={isCurrentMonth}
               $isSelectable={isSelectable}
-              onClick={() => isSelectable && onSelectDate(date)}
-              data-cy={CYPRESS_DATA_MAP.calendar.dayCell}
             >
-              <Text textType="detail">{isCurrentMonth ? date.getDate() : ""}</Text>
+              <Text tabIndex={-1} aria-hidden="true" textType="detail">
+                {isCurrentMonth ? date.getDate() : ""}
+              </Text>
             </S.DayCell>
           );
         })}

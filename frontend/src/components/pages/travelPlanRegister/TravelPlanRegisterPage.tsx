@@ -109,7 +109,7 @@ const TravelPlanRegisterPage = () => {
               <div aria-live="polite" css={S.visualHiddenStyle}>
                 {isShowCalendar
                   ? "캘린더가 열렸습니다. esc 키를 누르면 캘린더를 닫을 수 있습니다."
-                  : "캘린더가 닫혔습니다. enter 키를 누르면 캘린더를 다시 열 수 있습니다."}
+                  : "캘린더가 닫혔습니다. shift tab 후 enter 키를 누르면 캘린더를 다시 열 수 있습니다."}
               </div>
               {isShowCalendar && (
                 <Calendar
