@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactGA from "react-ga4";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -85,6 +85,10 @@ const TravelPlanDetailPage = () => {
   const iconButtonContainerRef = useRef(null);
 
   useClickAway(iconButtonContainerRef, handleCloseMoreDropdown);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (status === "pending" || status === "error") {
     if (status === "error") {

@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
+import { usePostUploadImages } from "@queries/usePostUploadImages";
+
 import { TravelogueMultiImageUploadProps } from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/TravelogueMultiImageUpload";
 import { MAX_IMAGE_UPLOAD_COUNT } from "@components/pages/travelogueRegister/TravelogueMultiImageUpload/TravelogueMultiImageUpload.constants";
 
@@ -16,8 +18,6 @@ export const useTravelogueMultiImageUpload = ({
   dayIndex,
   placeIndex,
   imageUrls,
-  isPaused,
-  onRequestAddImage,
   onChangeImageUrls,
   onDeleteImageUrls,
 }: TravelogueMultiImageUploadProps) => {
@@ -25,6 +25,8 @@ export const useTravelogueMultiImageUpload = ({
   const [imageStates, setImageStates] = useState<ImageState[]>(() =>
     imageUrls.map((url) => ({ url, isLoading: false })),
   );
+
+  const { isPaused, mutateAsync: mutateAddImage } = usePostUploadImages();
 
   useEffect(() => {
     if (isPaused) {
@@ -88,7 +90,7 @@ export const useTravelogueMultiImageUpload = ({
 
       const processedFiles = await Promise.all(files.map((file) => resizeAndConvertImage(file)));
 
-      const newImageUrls = await onRequestAddImage(processedFiles);
+      const newImageUrls = await mutateAddImage(processedFiles);
       handleUploadSuccess(newImageUrls);
     } catch (error) {
       if (error instanceof Error) alert(error.message);

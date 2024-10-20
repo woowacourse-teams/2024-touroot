@@ -24,7 +24,7 @@ const MultiImageUpload = ({
   onButtonClick,
   ...props
 }: MultiImageUploadProps) => {
-  const { scrollRef, onMouseDown, onMouseUp, onMouseMove, isDragging } =
+  const { scrollRef, handleMouseDown, handleMouseUp, handleMouseMove, isDragging } =
     useDragScroll<HTMLDivElement>();
 
   const hasPictures = previewImageStates.length !== 0;
@@ -97,10 +97,10 @@ const MultiImageUpload = ({
 
           <S.ImageScrollContainer
             ref={scrollRef}
-            onMouseDown={onMouseDown}
-            onMouseUp={onMouseUp}
-            onMouseMove={onMouseMove}
-            onMouseLeave={onMouseUp}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseUp}
             $isDragging={isDragging}
           >
             {previewImageStates.map((imageState, index) => renderImageOrSpinner(imageState, index))}
