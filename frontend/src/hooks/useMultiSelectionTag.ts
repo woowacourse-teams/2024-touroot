@@ -10,7 +10,11 @@ const useMultiSelectionTag = (key?: string) => {
   const [selectedTagIDs, setSelectedTagIDs] = useState<number[]>(
     key ? JSON.parse(localStorage.getItem(key) ?? "[]") : [],
   );
-  const [animationKey, setAnimationKey] = useState(0);
+  const [multiSelectionTagAnimationKey, setMultiSelectionTagAnimationKey] = useState(0);
+
+  const increaseMultiSelectionTagAnimationKey = () => {
+    setMultiSelectionTagAnimationKey((prev) => prev + 1);
+  };
 
   const handleChangeSelectedTagIDs = useCallback((newSelectedTagIDs: number[]) => {
     setSelectedTagIDs(newSelectedTagIDs);
@@ -36,7 +40,7 @@ const useMultiSelectionTag = (key?: string) => {
       if (isTagIDsSelectedMax && key) localStorage.setItem(key, JSON.stringify(prevSelectedTagIDs));
       if (isTagIDsSelectedMax) return prevSelectedTagIDs;
 
-      setAnimationKey((prev) => prev + 1);
+      increaseMultiSelectionTagAnimationKey();
 
       if (key) {
         localStorage.setItem(key, JSON.stringify(newSelectedTagIDs));
@@ -47,12 +51,20 @@ const useMultiSelectionTag = (key?: string) => {
     });
   };
 
+  const resetMultiSelectionTag = () => {
+    setSelectedTagIDs([]);
+    if (key) localStorage.setItem(key, JSON.stringify([]));
+
+    increaseMultiSelectionTagAnimationKey();
+  };
+
   return {
     selectedTagIDs,
     handleChangeSelectedTagIDs,
     sortedTags: createSortedTags(),
     handleClickTag,
-    animationKey,
+    multiSelectionTagAnimationKey,
+    resetMultiSelectionTag,
   };
 };
 

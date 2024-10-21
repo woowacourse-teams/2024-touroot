@@ -22,4 +22,5 @@ export { default as Plus } from "./plus.svg";
 export { default as tturiUrl } from "./tturi.svg?url";
 export { default as MapIcon } from "./map-icon.svg";
 export { default as HomeIcon } from "./home-icon.svg";
-
+export { default as ResetIcon } from "./reset-icon.svg";
+export { default as SortIcon } from "./sort-icon.svg";

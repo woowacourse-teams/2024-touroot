@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { SortingOption, TravelPeriodOption } from "@type/domain/travelogue";
 
@@ -12,6 +12,8 @@ const useSingleSelectionTag = (sortKey: string, travelPeriodKey: string) => {
   const [selectedTravelPeriodOption, setSelectedTravelPeriodOption] = useState<TravelPeriodOption>(
     (localStorage.getItem(travelPeriodKey) as TravelPeriodOption) ?? "",
   );
+
+  const [singleSelectionAnimationKey, setSingleSelectionAnimationKey] = useState(0);
 
   const handleOpenSortingModal = () => {
     setIsSortingModalOpen(true);
@@ -43,6 +45,17 @@ const useSingleSelectionTag = (sortKey: string, travelPeriodKey: string) => {
     handleCloseTravelPeriodModal();
   };
 
+  const resetSingleSelectionTags = () => {
+    setSelectedSortingOption("likeCount");
+    localStorage.setItem(sortKey, "likeCount");
+    setSelectedTravelPeriodOption("");
+    localStorage.setItem(travelPeriodKey, "");
+  };
+
+  const increaseSingleSelectionAnimationKey = useCallback(() => {
+    setSingleSelectionAnimationKey((prev) => prev + 1);
+  }, [setSingleSelectionAnimationKey]);
+
   return {
     sorting: {
       isModalOpen: isSortingModalOpen,
@@ -58,6 +71,9 @@ const useSingleSelectionTag = (sortKey: string, travelPeriodKey: string) => {
       handleCloseModal: handleCloseTravelPeriodModal,
       handleClickOption: handleClickTravelPeriodOption,
     },
+    resetSingleSelectionTags,
+    singleSelectionAnimationKey,
+    increaseSingleSelectionAnimationKey,
   };
 };
 
