@@ -176,7 +176,7 @@ const SecondPage = () => {
         </div>
 
         <div css={S.centeredTextContainer}>
-          <Text textType="subTitle" isInline>
+          <Text textType="subTitle" isInline css={S.primaryText}>
             투룻
           </Text>
           <Text textType="subTitle" isInline>

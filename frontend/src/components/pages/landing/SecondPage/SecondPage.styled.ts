@@ -34,7 +34,7 @@ export const boxContainer = css`
 
 export const emojiText = css`
   position: absolute;
-  right: -3rem;
+  right: -4rem;
   bottom: -2rem;
 
   font-size: 4rem;
@@ -146,7 +146,7 @@ export const createAnimatedSectionStyle = ({
 `;
 
 export const widthEightyPercent = css`
-  width: 80%;
+  min-width: 80%;
 `;
 
 export const widthFull = css`
