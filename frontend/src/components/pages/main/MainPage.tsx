@@ -15,6 +15,7 @@ import TravelogueCard from "@components/pages/main/TravelogueCard/TravelogueCard
 
 import { useDragScroll } from "@hooks/useDragScroll";
 import useIntersectionObserver from "@hooks/useIntersectionObserver";
+import useKeyDown from "@hooks/useKeyDown/useKeyDown";
 import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
 import useSingleSelectionTag from "@hooks/useSingleSelectionTag";
 import useTravelogueCardFocus from "@hooks/useTravelogueCardFocus";
@@ -54,6 +55,28 @@ const MainPage = () => {
     });
 
   const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
+  const { modalRef, handleKeyDown } = useKeyDown<HTMLElement>({
+    isOpen: true,
+    direction: "horizontal",
+    useDynamicObserver: true,
+  });
+
+  type RefType<T> = React.RefObject<T> | React.MutableRefObject<T> | React.RefCallback<T>;
+
+  function combineRefs<T>(...refs: RefType<T>[]) {
+    return (element: T | null) => {
+      refs.forEach((ref) => {
+        if (typeof ref === "function") {
+          ref(element);
+        } else if (ref != null) {
+          (ref as React.MutableRefObject<T | null>).current = element;
+        }
+      });
+    };
+  }
+
+  const dd = combineRefs(scrollRef, modalRef);
+
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
   const [isFocused, setIsFocused] = useState(false);
@@ -116,11 +139,13 @@ const MainPage = () => {
             </Chip>
           </S.SingleSelectionTagsContainer>
 
+          <VisuallyHidden aria-live="assertive">{tagSelectionAnnouncement}</VisuallyHidden>
           <S.MultiSelectionTagsContainer
-            ref={scrollRef}
+            ref={dd}
             onMouseDown={onMouseDown}
             onMouseUp={onMouseUp}
             onMouseMove={onMouseMove}
+            onKeyDown={handleKeyDown}
           >
             {sortedTags.map((tag, index) => {
               const isSelected = selectedTagIDs.includes(tag.id);
@@ -148,7 +173,6 @@ const MainPage = () => {
               );
             })}
           </S.MultiSelectionTagsContainer>
-          <VisuallyHidden aria-live="assertive">{tagSelectionAnnouncement}</VisuallyHidden>
         </S.TagsContainer>
       </S.FixedLayout>
 
