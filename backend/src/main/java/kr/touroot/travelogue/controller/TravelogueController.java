@@ -141,11 +141,20 @@ public class TravelogueController {
             @Parameter(hidden = true)
             @PageableDefault(size = 5, sort = "id", direction = Direction.DESC)
             Pageable pageable,
-            TravelogueFilterRequest filter
+            TravelogueFilterRequest filterRequest,
+            @Valid
+            TravelogueSearchRequest searchRequest
+
     ) {
-        return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(filter, pageable));
+        Page<TravelogueSimpleResponse> data = travelogueFacadeService.findSimpleTravelogues(
+                filterRequest,
+                searchRequest,
+                pageable
+        );
+        return ResponseEntity.ok(data);
     }
 
+    // TODO: 프론트엔드 엔드포인트 이전 작업 완료 후 제거
     @Operation(summary = "여행기 검색")
     @ApiResponses(value = {
             @ApiResponse(

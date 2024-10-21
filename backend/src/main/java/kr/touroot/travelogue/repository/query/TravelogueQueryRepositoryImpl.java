@@ -34,21 +34,36 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Travelogue> findByKeywordAndSearchType(SearchCondition condition, Pageable pageable) {
-        String keyword = condition.getKeyword();
-        JPAQuery<Travelogue> query = jpaQueryFactory.selectFrom(travelogue);
-        if (condition.getSearchType() == SearchType.COUNTRY) {
-            CountryCode countryCode = CountryCode.findByName(keyword);
-            findByCountryCode(query, countryCode);
-        }
-        if (condition.getSearchType() == SearchType.AUTHOR || condition.getSearchType() == SearchType.TITLE) {
-            findByTitleOrAuthor(condition, query, keyword);
-        }
-        List<Travelogue> results = query.offset(pageable.getOffset())
+    public Page<Travelogue> findAllByCondition(
+            SearchCondition searchCondition,
+            TravelogueFilterCondition filterCondition,
+            Pageable pageable
+    ) {
+        JPAQuery<Travelogue> baseQuery = jpaQueryFactory.selectFrom(travelogue);
+
+        addSearchCondition(baseQuery, searchCondition);
+        addFilterCondition(baseQuery, filterCondition);
+
+        List<Travelogue> results = baseQuery.orderBy(findSortCondition(pageable.getSort()))
+                .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         return new PageImpl<>(results, pageable, results.size());
+    }
+
+    private void addSearchCondition(JPAQuery<Travelogue> query, SearchCondition condition) {
+        String keyword = condition.getKeyword();
+
+        if (condition.getSearchType() == SearchType.COUNTRY) {
+            CountryCode countryCode = CountryCode.findByName(keyword);
+            findByCountryCode(query, countryCode);
+            return;
+        }
+
+        if (condition.getSearchType() == SearchType.AUTHOR || condition.getSearchType() == SearchType.TITLE) {
+            findByTitleOrAuthor(condition, query, keyword);
+        }
     }
 
     private void findByCountryCode(JPAQuery<Travelogue> query, CountryCode countryCode) {
@@ -71,19 +86,9 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         return travelogue.title;
     }
 
-    @Override
-    public Page<Travelogue> findAllByFilter(TravelogueFilterCondition filter, Pageable pageable) {
-        JPAQuery<Travelogue> query = jpaQueryFactory.selectFrom(travelogue);
-
+    private void addFilterCondition(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
         addTagFilter(query, filter);
         addPeriodFilter(query, filter);
-
-        List<Travelogue> results = query.orderBy(findSortCondition(pageable.getSort()))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        return new PageImpl<>(results, pageable, results.size());
     }
 
     public void addTagFilter(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
@@ -131,5 +136,27 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         }
 
         return Order.DESC;
+    }
+
+    // TODO: 프론트엔드 엔드포인트 이전 작업 완료 후 제거
+    @Override
+    public Page<Travelogue> findAllBySearchCondition(SearchCondition condition, Pageable pageable) {
+        String keyword = condition.getKeyword();
+        JPAQuery<Travelogue> query = jpaQueryFactory.selectFrom(travelogue);
+
+        if (condition.getSearchType() == SearchType.COUNTRY) {
+            CountryCode countryCode = CountryCode.findByName(keyword);
+            findByCountryCode(query, countryCode);
+        }
+
+        if (condition.getSearchType() == SearchType.AUTHOR || condition.getSearchType() == SearchType.TITLE) {
+            findByTitleOrAuthor(condition, query, keyword);
+        }
+
+        List<Travelogue> results = query.offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return new PageImpl<>(results, pageable, results.size());
     }
 }

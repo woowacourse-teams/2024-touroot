@@ -28,6 +28,7 @@ import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -389,7 +390,7 @@ class TravelogueControllerTest {
                 .param("searchType", "TITLE")
                 .log().all()
                 .accept(ContentType.JSON)
-                .when().get("/api/v1/travelogues/search")
+                .when().get("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(200).assertThat()
                 .body(is(objectMapper.writeValueAsString(responses)));
@@ -407,7 +408,7 @@ class TravelogueControllerTest {
                 .param("searchType", "TITLE")
                 .log().all()
                 .accept(ContentType.JSON)
-                .when().get("/api/v1/travelogues/search")
+                .when().get("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(400).assertThat()
                 .body("message", is("검색어는 2글자 이상이어야 합니다."));
@@ -425,12 +426,13 @@ class TravelogueControllerTest {
                 .param("searchType", "TITLE")
                 .log().all()
                 .accept(ContentType.JSON)
-                .when().get("/api/v1/travelogues/search")
+                .when().get("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(200).assertThat()
                 .body(is(objectMapper.writeValueAsString(responses)));
     }
 
+    @Disabled // 검색과 필터링 API 통합으로 검색 키워드 빈 값 가능
     @DisplayName("검색 키워드의 종류를 명시해야 한다.")
     @Test
     void findTraveloguesByKeywordWithoutSearchType() {
