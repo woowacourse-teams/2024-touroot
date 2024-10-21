@@ -35,6 +35,21 @@ const Calendar = ({
     weekdays,
   } = useCalendar();
 
+  const isPreventPreviousMonthMoveButton = today.getMonth() === calendarDetail.month;
+
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLElement>,
+    date: Date,
+    isSelectable: boolean,
+  ) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      if (isSelectable) {
+        onSelectDate(date);
+      }
+    }
+  };
+
   return (
     <S.Layout ref={calendarRef} {...props}>
       <S.HeaderContainer>
@@ -43,17 +58,30 @@ const Calendar = ({
           color={PRIMITIVE_COLORS.white}
           iconType="prev-arrow"
           onClick={prevMonth}
-          disabled={today.getMonth() === calendarDetail.month}
+          disabled={isPreventPreviousMonthMoveButton}
+          aria-label={"이전 달 이동 버튼"}
           data-cy={CYPRESS_DATA_MAP.calendar.previousMonthMoveButton}
         />
-        <Text textType="detail" css={S.boldTextStyle} data-cy={CYPRESS_DATA_MAP.calendar.headTitle}>
-          {calendarDetail.year}년 {calendarDetail.month + 1}월
+
+        <Text
+          aria-live="polite"
+          textType="detail"
+          css={S.boldTextStyle}
+          data-cy={CYPRESS_DATA_MAP.calendar.headTitle}
+        >
+          {`${calendarDetail.year}년 ${calendarDetail.month + 1}월`}
+          {isPreventPreviousMonthMoveButton && (
+            <div aria-live="assertive" css={S.visualHiddenStyle}>
+              이전 달로 이동하는 버튼을 누를 수 없습니다.
+            </div>
+          )}
         </Text>
         <IconButton
           size="12"
           color={PRIMITIVE_COLORS.white}
           iconType="next-arrow"
           onClick={nextMonth}
+          aria-label="다음 달 이동 버튼"
           data-cy={CYPRESS_DATA_MAP.calendar.nextMonthMoveButton}
         />
       </S.HeaderContainer>
@@ -67,15 +95,28 @@ const Calendar = ({
       <S.DaysGridContainer>
         {calendarDetail.days.map(({ date, isCurrentMonth }) => {
           const isSelectable = isCurrentMonth && date >= today;
+          const formattedDate = date.toLocaleDateString("ko-KR", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+
           return (
             <S.DayCell
               key={date.toString()}
+              onClick={() => isSelectable && onSelectDate(date)}
+              onKeyDown={(event) => handleKeyDown(event, date, isSelectable)}
+              tabIndex={isSelectable ? 0 : -1}
+              role="gridcell"
+              aria-selected={isSelectable}
+              aria-label={formattedDate}
+              data-cy={CYPRESS_DATA_MAP.calendar.dayCell}
               $isCurrentMonth={isCurrentMonth}
               $isSelectable={isSelectable}
-              onClick={() => isSelectable && onSelectDate(date)}
-              data-cy={CYPRESS_DATA_MAP.calendar.dayCell}
             >
-              <Text textType="detail">{isCurrentMonth ? date.getDate() : ""}</Text>
+              <Text tabIndex={-1} aria-hidden="true" textType="detail">
+                {isCurrentMonth ? date.getDate() : ""}
+              </Text>
             </S.DayCell>
           );
         })}

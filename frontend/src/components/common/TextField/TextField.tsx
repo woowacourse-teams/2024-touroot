@@ -7,7 +7,6 @@ interface TextFieldProps {
   title: string;
   subTitle?: string;
   isRequired?: boolean;
-
   children: React.ReactNode | ((id: string) => React.ReactNode);
 }
 
@@ -29,9 +28,12 @@ const TextField = ({ title, subTitle, isRequired = false, children }: TextFieldP
         <S.TextContainer>
           <Text textType="bodyBold">{title}</Text>
           {isRequired && (
-            <Text textType="bodyBold" css={S.symbolStyle}>
-              {REQUIRED_SYMBOL}
-            </Text>
+            <>
+              <Text textType="bodyBold" css={S.symbolStyle} aria-hidden="true">
+                {REQUIRED_SYMBOL}
+              </Text>
+              <span css={S.visualHiddenStyle}>필수 항목입니다</span>
+            </>
           )}
         </S.TextContainer>
         {subTitle && (
@@ -40,7 +42,6 @@ const TextField = ({ title, subTitle, isRequired = false, children }: TextFieldP
           </Text>
         )}
       </S.LabelContainer>
-
       {renderChildren()}
     </S.Layout>
   );
