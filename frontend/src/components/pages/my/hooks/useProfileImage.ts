@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import { usePostUploadImages } from "@queries/usePostUploadImages";
 
@@ -13,9 +13,12 @@ const useProfileImage = ({ userProfileImageUrl, handleCloseEditModal }: UseProfi
   const [profileImageUrl, setProfileImageUrl] = useState(userProfileImageUrl ?? "");
   const [isProfileImageLoading, setIsProfileImageLoading] = useState(false);
 
-  const updateProfileImageUrl = (newProfileImageUrl: string) => {
-    setProfileImageUrl(newProfileImageUrl);
-  };
+  const updateProfileImageUrl = useCallback(
+    (newProfileImageUrl: string) => {
+      setProfileImageUrl(newProfileImageUrl);
+    },
+    [setProfileImageUrl],
+  );
 
   const handleClickProfileImageEditButton = () => profileImageFileInputRef.current?.click();
 

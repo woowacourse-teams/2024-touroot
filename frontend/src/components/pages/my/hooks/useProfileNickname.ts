@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
 const useProfileNickname = (userProfileNickname: string | undefined) => {
   const [nickname, setNickname] = useState(userProfileNickname ?? "");
 
-  const updateNickname = (newNickname: string) => {
-    setNickname(newNickname);
-  };
+  const updateNickname = useCallback(
+    (newNickname: string) => {
+      setNickname(newNickname);
+    },
+    [setNickname],
+  );
 
   const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateNickname(
