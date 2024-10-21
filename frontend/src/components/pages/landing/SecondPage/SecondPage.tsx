@@ -28,10 +28,12 @@ const SecondPage = () => {
         >
           <div css={S.boxContainer}>
             <Text css={S.emojiText}>🤔</Text>
-            <Text isInline>다른 사람의 여행을</Text>
-            <Text isInline textType="bodyBold">
-              따라가고 싶은데,
-            </Text>
+            <div>
+              <Text isInline>다른 사람의 여행을 </Text>
+              <Text isInline textType="bodyBold">
+                따라가고 싶은데,
+              </Text>
+            </div>
           </div>
           <div>
             <Text isInline>정리하기는 </Text>
@@ -54,13 +56,13 @@ const SecondPage = () => {
           ]}
         >
           <Text css={S.absoluteEmojiText}>🤯</Text>
-          <div css={S.alignEnd}>
-            <Text isInline>방대한 양의 여행을</Text>
+          <div css={S.textAlignRight}>
+            <Text isInline>방대한 양의 여행을 </Text>
             <Text textType="bodyBold" isInline>
               어떻게 기록할지
             </Text>
           </div>
-          <div css={S.alignEnd}>
+          <div css={S.textAlignRight}>
             <Text textType="bodyBold" isInline>
               막막한 적
             </Text>

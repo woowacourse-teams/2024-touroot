@@ -153,7 +153,6 @@ export const widthFull = css`
   width: 100%;
 `;
 
-export const alignEnd = css`
-  display: flex;
-  justify-content: flex-end;
+export const textAlignRight = css`
+  text-align: right;
 `;
