@@ -131,12 +131,12 @@ const MyPage = () => {
         onClose={editModal.handleCloseEditModal}
       >
         <S.Button onClick={profileImage.handleClickProfileImageEditButton}>
-          <Text textType="detail">앨범에서 선택</Text>
+          <Text textType="detail">프로필 사진 올리기</Text>
         </S.Button>
         {profileImage.profileImageUrl && (
           <S.Button onClick={profileImage.handleClickProfileImageDeleteButton}>
             <Text textType="detailBold" css={S.deleteTextColor}>
-              프로필 사진 삭제
+              프로필 사진 삭제하기
             </Text>
           </S.Button>
         )}
