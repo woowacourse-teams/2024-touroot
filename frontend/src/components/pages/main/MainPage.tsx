@@ -237,8 +237,8 @@ const MainPage = () => {
 
         <VisuallyHidden aria-live="assertive">
           {sorting.isModalOpen
-            ? "여행기 정렬 모달이 열렸습니다."
-            : "여행기 정렬 모달이 닫혔습니다."}
+            ? "여행기 정렬 메뉴가 열렸습니다."
+            : "여행기 정렬 메뉴가 닫혔습니다."}
         </VisuallyHidden>
         {sorting.isModalOpen && (
           <SingleSelectionTagModalBottomSheet
@@ -268,8 +268,8 @@ const MainPage = () => {
 
         <VisuallyHidden aria-live="assertive">
           {travelPeriod.isModalOpen
-            ? "여행기 필터 모달이 열렸습니다."
-            : "여행기 필터 모달이 닫혔습니다."}
+            ? "여행기 필터 메뉴가 열렸습니다."
+            : "여행기 필터 메뉴가 닫혔습니다."}
         </VisuallyHidden>
         {travelPeriod.isModalOpen && (
           <SingleSelectionTagModalBottomSheet

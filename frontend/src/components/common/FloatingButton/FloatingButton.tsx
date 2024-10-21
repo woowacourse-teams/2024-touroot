@@ -32,8 +32,8 @@ const FloatingButton = () => {
     <S.FloatingButtonContainer>
       <VisuallyHidden aria-live="assertive">
         {isOpen
-          ? "여행기 및 여행 계획 작성 플로팅 버튼이 열렸습니다. 닫으려면 esc버튼을 눌러주세요."
-          : "여행기 및 여행 계획 작성 플로팅 버튼이 닫혔습니다."}
+          ? "여행기 및 여행 계획 작성 메뉴가 열렸습니다. 닫으려면 esc버튼을 눌러주세요."
+          : "여행기 및 여행 계획 작성 메뉴가 닫혔습니다."}
       </VisuallyHidden>
       {isOpen && (
         <>
@@ -61,7 +61,7 @@ const FloatingButton = () => {
           iconType="plus"
           color={PRIMITIVE_COLORS.white}
           size="20"
-          title="여행 계획 및 여행기 작성 플로팅"
+          title="여행 계획 및 여행기 작성 메뉴"
         />
       </S.MainButtonWrapper>
     </S.FloatingButtonContainer>

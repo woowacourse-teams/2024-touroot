@@ -35,7 +35,7 @@ const Drawer = ({ children }: React.PropsWithChildren) => {
   return (
     <DrawerProvider isOpen={isOpen} toggleDrawer={toggleDrawer}>
       <VisuallyHidden aria-live="assertive">
-        {isOpen ? "사용자 메뉴 모달이 열렸습니다." : "사용자 메뉴 모달이 닫혔습니다."}
+        {isOpen ? "사용자 메뉴가 열렸습니다." : "사용자 메뉴가 닫혔습니다."}
       </VisuallyHidden>
       {otherContent}
       <S.Overlay isOpen={isOpen} onClick={toggleDrawer} />
