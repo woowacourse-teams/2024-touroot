@@ -37,7 +37,8 @@ const GoogleSearchPopup = ({ onClosePopup, onSearchPlaceInfo }: GoogleSearchPopu
   const onPlaceChanged = useCallback(() => {
     if (autocomplete !== null) {
       const place = autocomplete.getPlace();
-      if (place.geometry && place.geometry.location) {
+
+      if (place && place.geometry && place.geometry.location) {
         const newCenter = {
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng(),
