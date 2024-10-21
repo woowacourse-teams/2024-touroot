@@ -18,16 +18,16 @@ export const FORM_ERROR_MESSAGE_MAP = {
   travelogue: {
     invalidTitleLength: "여행기 제목은 1 ~ 20자 이내로 입력해주세요.",
     invalidImageFormat: "이미지 형식이 잘못되었습니다. 다시 업로드 해주세요.",
-    invalidDatesMissing: "여행기 날짜 정보를 추가해주세요.",
-    invalidLocationMissing: "여행기 날짜에 대한 장소 정보를 추가해주세요.",
+    invalidDatesInfo: "여행기 날짜 정보를 추가해주세요.",
+    invalidLocationInfo: "여행기 날짜에 대한 장소 정보를 추가해주세요.",
   },
 
   travelPlan: {
     invalidTitleLength: "여행 계획 제목은 1 ~ 20자 이내로 입력해주세요.",
-    invalidStartDatePast: "시작일은 현재를 기준으로 입력해주세요.",
+    invalidStartDate: "시작일은 현재를 기준으로 입력해주세요.",
     invalidStartDateMissing: "시작일을 추가해주세요.",
-    invalidDatesMissing: "여행 계획 날짜 정보를 추가해주세요.",
-    invalidLocationMissing: "여행 계획 날짜에 대한 장소 정보를 추가해주세요.",
+    invalidDatesInfo: "여행 계획 날짜 정보를 추가해주세요.",
+    invalidLocationInfo: "여행 계획 날짜에 대한 장소 정보를 추가해주세요.",
     invalidPlanLength: "여행 계획은 1 ~ 20자 이내로 입력해주세요.",
   },
 } as const;

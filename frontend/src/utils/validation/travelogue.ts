@@ -28,11 +28,11 @@ export const validateTitle = (title: string) => {
 
 export const validateDays = (days: TravelogueDay[]) => {
   if (days.length < MIN_DAYS) {
-    return FORM_ERROR_MESSAGE_MAP.travelogue.invalidDatesMissing;
+    return FORM_ERROR_MESSAGE_MAP.travelogue.invalidDatesInfo;
   }
 
   if (days.some((day) => day.places.length === 0)) {
-    return FORM_ERROR_MESSAGE_MAP.travelogue.invalidLocationMissing;
+    return FORM_ERROR_MESSAGE_MAP.travelogue.invalidLocationInfo;
   }
 
   return null;

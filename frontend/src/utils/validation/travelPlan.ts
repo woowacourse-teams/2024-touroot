@@ -22,7 +22,7 @@ export const validateStartDate = (date: Date | null): string | null => {
   currentDate.setHours(0, 0, 0, 0);
 
   if (date < currentDate) {
-    return FORM_ERROR_MESSAGE_MAP.travelPlan.invalidStartDatePast;
+    return FORM_ERROR_MESSAGE_MAP.travelPlan.invalidStartDate;
   }
 
   return null;
@@ -30,11 +30,11 @@ export const validateStartDate = (date: Date | null): string | null => {
 
 export const validateDays = (days: TravelPlanDay[]) => {
   if (days.length < MIN_DAYS) {
-    return FORM_ERROR_MESSAGE_MAP.travelPlan.invalidDatesMissing;
+    return FORM_ERROR_MESSAGE_MAP.travelPlan.invalidDatesInfo;
   }
 
   if (days.some((day) => day.places.length === 0)) {
-    return FORM_ERROR_MESSAGE_MAP.travelPlan.invalidLocationMissing;
+    return FORM_ERROR_MESSAGE_MAP.travelPlan.invalidLocationInfo;
   }
 
   return null;
