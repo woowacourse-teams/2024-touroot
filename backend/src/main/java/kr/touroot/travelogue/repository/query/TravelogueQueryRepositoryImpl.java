@@ -112,21 +112,6 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         return travelogue.title;
     }
 
-    @Override
-    public Page<Travelogue> findAllByFilter(TravelogueFilterCondition filter, Pageable pageable) {
-        JPAQuery<Travelogue> query = jpaQueryFactory.selectFrom(travelogue);
-
-        addTagFilter(query, filter);
-        addPeriodFilter(query, filter);
-
-        List<Travelogue> results = query.orderBy(findSortCondition(pageable.getSort()))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        return new PageImpl<>(results, pageable, results.size());
-    }
-
     public void addTagFilter(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
         if (filter.isEmptyTagCondition()) {
             return;
