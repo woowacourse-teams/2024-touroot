@@ -85,13 +85,11 @@ export const MainPageTraveloguesList = styled.ul`
   gap: ${({ theme }) => theme.spacing.m};
 `;
 
-export const OptionContainer = styled.div`
+export const OptionContainer = styled.button`
   display: flex;
   justify-content: space-between;
 
   width: 100%;
-
-  cursor: pointer;
 `;
 
 export const LastElement = styled.div`

@@ -25,7 +25,7 @@ export const getSearchTravelogues = async ({
   return response.data.content;
 };
 
-const useInfiniteSearchTravelogues = (keyword: string, searchType: "TITLE" | "AUTHOR") => {
+const useInfiniteSearchTravelogues = (keyword: string, searchType: SearchType) => {
   const INITIAL_PAGE = 0;
   const DATA_LOAD_COUNT = 5;
 
