@@ -40,7 +40,8 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         if (condition.getSearchType() == SearchType.COUNTRY) {
             CountryCode countryCode = CountryCode.findByName(keyword);
             findByCountryCode(query, countryCode);
-        } else {
+        }
+        if (condition.getSearchType() == SearchType.AUTHOR || condition.getSearchType() == SearchType.TITLE) {
             findByTitleOrAuthor(condition, query, keyword);
         }
         List<Travelogue> results = query.offset(pageable.getOffset())
