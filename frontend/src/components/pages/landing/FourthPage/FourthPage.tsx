@@ -23,8 +23,8 @@ const FourthPage = () => {
       >
         <SpeechBubble variants="left" name="🦹🏻‍️ 이OO">
           <Text textType="detailBold" css={S.largeText}>
-            여자 친구랑 가는 여행 계획 세우는 게 너무 힘들었는데~ <br />
-            다른 사람의 여행을 쉽게 여행 계획으로 가져올 수 있어서 좋아요!
+            여자 친구랑 가는 여행 계획 세우는 게 너무 힘들었는데~ 다른 사람의 여행을 쉽게 여행
+            계획으로 가져올 수 있어서 좋아요!
           </Text>
         </SpeechBubble>
       </div>
@@ -39,8 +39,8 @@ const FourthPage = () => {
       >
         <SpeechBubble variants="right" name="🙋🏻‍♀️ 최OO">
           <Text textType="detailBold" css={S.largeText}>
-            친구가 여행 정보 좀 알려달라고 할 때 일일이 알려주기 귀찮았는데 <br />
-            투룻을 사용하니 잘 정리된 정보로 전달할 수 있어서 좋았어요
+            친구가 여행 정보 좀 알려달라고 할 때 일일이 알려주기 귀찮았는데 투룻을 사용하니 잘
+            정리된 정보로 전달할 수 있어서 좋았어요
           </Text>
         </SpeechBubble>
       </div>
