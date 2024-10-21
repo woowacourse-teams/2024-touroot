@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { SortingOption, TravelPeriodOption } from "@type/domain/travelogue";
 
@@ -52,9 +52,9 @@ const useSingleSelectionTag = (sortKey: string, travelPeriodKey: string) => {
     localStorage.setItem(travelPeriodKey, "");
   };
 
-  const increaseSingleSelectionAnimationKey = () => {
+  const increaseSingleSelectionAnimationKey = useCallback(() => {
     setSingleSelectionAnimationKey((prev) => prev + 1);
-  };
+  }, [setSingleSelectionAnimationKey]);
 
   return {
     sorting: {

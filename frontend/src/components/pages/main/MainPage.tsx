@@ -60,7 +60,7 @@ const MainPage = () => {
 
   useEffect(() => {
     increaseSingleSelectionAnimationKey();
-  }, [isTagsSelected]);
+  }, [isTagsSelected, increaseSingleSelectionAnimationKey]);
 
   const handleClickResetButton = () => {
     resetMultiSelectionTag();
