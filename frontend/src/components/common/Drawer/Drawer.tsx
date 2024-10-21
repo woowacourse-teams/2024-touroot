@@ -59,9 +59,9 @@ const Content = ({ children }: React.PropsWithChildren) => {
   return <S.DrawerContent>{children}</S.DrawerContent>;
 };
 
-interface TriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+interface TriggerProps
+  extends React.PropsWithChildren<React.ButtonHTMLAttributes<HTMLButtonElement>> {
+  onClick?: (event: React.MouseEvent) => void;
 }
 
 const Trigger = ({ children, onClick }: TriggerProps) => {
