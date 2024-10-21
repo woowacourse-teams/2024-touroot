@@ -71,7 +71,7 @@ const MyTravelogues = ({ userData }: MyTraveloguesProps) => {
                   color: ${theme.colors.text.secondary};
                 `}
               >
-                게시일 {createdAt}
+                {createdAt}
               </Text>
             </S.Container>
           </S.Layout>
