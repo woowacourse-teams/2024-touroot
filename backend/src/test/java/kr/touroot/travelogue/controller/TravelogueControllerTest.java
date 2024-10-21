@@ -390,7 +390,7 @@ class TravelogueControllerTest {
                 .param("searchType", "TITLE")
                 .log().all()
                 .accept(ContentType.JSON)
-                .when().get("/api/v1/travelogues/search")
+                .when().get("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(200).assertThat()
                 .body(is(objectMapper.writeValueAsString(responses)));
@@ -408,7 +408,7 @@ class TravelogueControllerTest {
                 .param("searchType", "TITLE")
                 .log().all()
                 .accept(ContentType.JSON)
-                .when().get("/api/v1/travelogues/search")
+                .when().get("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(400).assertThat()
                 .body("message", is("검색어는 2글자 이상이어야 합니다."));
@@ -426,7 +426,7 @@ class TravelogueControllerTest {
                 .param("searchType", "TITLE")
                 .log().all()
                 .accept(ContentType.JSON)
-                .when().get("/api/v1/travelogues/search")
+                .when().get("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(200).assertThat()
                 .body(is(objectMapper.writeValueAsString(responses)));
