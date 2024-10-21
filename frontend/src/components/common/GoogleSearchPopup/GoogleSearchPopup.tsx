@@ -21,6 +21,12 @@ const GoogleSearchPopup = ({ onClosePopup, onSearchPlaceInfo }: GoogleSearchPopu
   const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
   const onLoadAutocomplete = (autocomplete: google.maps.places.Autocomplete) => {
     setAutocomplete(autocomplete);
 
@@ -72,6 +78,7 @@ const GoogleSearchPopup = ({ onClosePopup, onSearchPlaceInfo }: GoogleSearchPopu
             type="text"
             placeholder="예) 영동대로 517, 삼성동 159"
             data-cy={CYPRESS_DATA_MAP.googleSearchPopup.searchInput}
+            aria-label="장소 검색 입력창. 도로명, 지역명, 건물 번호 등을 입력하세요. 자동완성 결과가 나타나면 화살표 키로 원하는 장소를 선택할 수 있습니다."
           />
         </S.InputContainer>
       </Autocomplete>
