@@ -154,6 +154,7 @@ public class TravelogueController {
         return ResponseEntity.ok(data);
     }
 
+    // TODO: 프론트엔드 엔드포인트 이전 작업 완료 후 제거
     @Operation(summary = "여행기 검색")
     @ApiResponses(value = {
             @ApiResponse(

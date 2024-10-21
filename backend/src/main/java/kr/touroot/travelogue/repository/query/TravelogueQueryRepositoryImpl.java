@@ -66,6 +66,26 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         }
     }
 
+    private void findByCountryCode(JPAQuery<Travelogue> query, CountryCode countryCode) {
+        query.join(travelogueCountry)
+                .on(travelogue.id.eq(travelogueCountry.travelogue.id))
+                .where(travelogueCountry.countryCode.eq(countryCode))
+                .orderBy(travelogueCountry.count.desc());
+    }
+
+    private void findByTitleOrAuthor(SearchCondition condition, JPAQuery<Travelogue> query, String keyword) {
+        query.where(Expressions.stringTemplate(TEMPLATE, getTargetField(condition.getSearchType()))
+                        .containsIgnoreCase(keyword.replace(BLANK, EMPTY)))
+                .orderBy(travelogue.id.desc());
+    }
+
+    private StringPath getTargetField(SearchType searchType) {
+        if (SearchType.AUTHOR.equals(searchType)) {
+            return travelogue.author.nickname;
+        }
+        return travelogue.title;
+    }
+
     private void addFilterCondition(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
         addTagFilter(query, filter);
         addPeriodFilter(query, filter);
@@ -118,7 +138,7 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         return Order.DESC;
     }
 
-    // TODO: /travelogues/search 엔드포인트 제거 시 함께 제거
+    // TODO: 프론트엔드 엔드포인트 이전 작업 완료 후 제거
     @Override
     public Page<Travelogue> findAllBySearchCondition(SearchCondition condition, Pageable pageable) {
         String keyword = condition.getKeyword();
@@ -138,25 +158,5 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
                 .fetch();
 
         return new PageImpl<>(results, pageable, results.size());
-    }
-
-    private void findByCountryCode(JPAQuery<Travelogue> query, CountryCode countryCode) {
-        query.join(travelogueCountry)
-                .on(travelogue.id.eq(travelogueCountry.travelogue.id))
-                .where(travelogueCountry.countryCode.eq(countryCode))
-                .orderBy(travelogueCountry.count.desc());
-    }
-
-    private void findByTitleOrAuthor(SearchCondition condition, JPAQuery<Travelogue> query, String keyword) {
-        query.where(Expressions.stringTemplate(TEMPLATE, getTargetField(condition.getSearchType()))
-                        .containsIgnoreCase(keyword.replace(BLANK, EMPTY)))
-                .orderBy(travelogue.id.desc());
-    }
-
-    private StringPath getTargetField(SearchType searchType) {
-        if (SearchType.AUTHOR.equals(searchType)) {
-            return travelogue.author.nickname;
-        }
-        return travelogue.title;
     }
 }

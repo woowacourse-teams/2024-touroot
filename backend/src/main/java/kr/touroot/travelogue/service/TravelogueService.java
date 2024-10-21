@@ -40,6 +40,7 @@ public class TravelogueService {
         return travelogueRepository.findAllByAuthor(member, pageable);
     }
 
+    // TODO: 프론트엔드 엔드포인트 이전 작업 완료 후 제거
     @Transactional(readOnly = true)
     public Page<Travelogue> findByKeyword(TravelogueSearchRequest request, Pageable pageable) {
         SearchType searchType = SearchType.from(request.searchType());

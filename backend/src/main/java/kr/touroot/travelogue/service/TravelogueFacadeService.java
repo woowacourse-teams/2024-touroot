@@ -74,6 +74,7 @@ public class TravelogueFacadeService {
         return travelogues.map(this::getTravelogueSimpleResponse);
     }
 
+    // TODO: 프론트엔드 엔드포인트 이전 작업 완료 후 제거
     @Transactional(readOnly = true)
     public Page<TravelogueSimpleResponse> findSimpleTravelogues(TravelogueSearchRequest request, Pageable pageable) {
         Page<Travelogue> travelogues = travelogueService.findByKeyword(request, pageable);
