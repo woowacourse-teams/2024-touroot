@@ -1,17 +1,19 @@
 package kr.touroot.travelogue.repository.query;
 
 import static kr.touroot.travelogue.domain.QTravelogue.travelogue;
+import static kr.touroot.travelogue.domain.QTravelogueCountry.travelogueCountry;
 import static kr.touroot.travelogue.domain.QTravelogueTag.travelogueTag;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueFilterCondition;
-import com.querydsl.core.types.dsl.StringPath;
+import kr.touroot.travelogue.domain.search.CountryCode;
 import kr.touroot.travelogue.domain.search.SearchCondition;
 import kr.touroot.travelogue.domain.search.SearchType;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +40,21 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
                 .where(Expressions.stringTemplate(TEMPLATE, getTargetField(condition.getSearchType()))
                         .containsIgnoreCase(keyword.replace(BLANK, EMPTY)))
                 .orderBy(travelogue.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return new PageImpl<>(results, pageable, results.size());
+    }
+
+    @Override
+    public Page<Travelogue> findByKeywordAndCountryCode(CountryCode countryCode, Pageable pageable) {
+        List<Travelogue> results = jpaQueryFactory.select(travelogue)
+                .from(travelogue)
+                .join(travelogueCountry)
+                .on(travelogue.id.eq(travelogueCountry.travelogue.id))
+                .where(travelogueCountry.countryCode.eq(countryCode))
+                .orderBy(travelogueCountry.count.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

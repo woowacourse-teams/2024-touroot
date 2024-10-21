@@ -101,6 +101,25 @@ class MyPageControllerTest {
                 .body("content.size()", is(2));
     }
 
+    @DisplayName("마이 페이지 컨트롤러는 내가 좋아요 한 여행기 조회 시 요청이 들어오면 로그인한 사용자의 여행 계획을 조회한다.")
+    @Test
+    void readLikeTravelogues() {
+        // given
+        travelogueTestHelper.initTravelogueTestDataWithLike(member);
+        travelogueTestHelper.initTravelogueTestDataWithLike(member);
+        travelogueTestHelper.initTravelogueTestData();
+
+        // when & then
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .when().log().all()
+                .get("/api/v1/member/me/likes")
+                .then().log().all()
+                .statusCode(200)
+                .body("content.size()", is(2));
+    }
+
     @DisplayName("마이 페이지 컨트롤러는 내 프로필 수정 요청이 들어오면 로그인한 사용자의 프로필을 수정한다.")
     @Test
     void updateProfile() {
