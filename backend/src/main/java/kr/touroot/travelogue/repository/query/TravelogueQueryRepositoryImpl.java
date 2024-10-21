@@ -36,26 +36,19 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
     @Override
     public Page<Travelogue> findByKeywordAndSearchType(SearchCondition condition, Pageable pageable) {
         String keyword = condition.getKeyword();
-        List<Travelogue> results = jpaQueryFactory.selectFrom(travelogue)
-                .where(Expressions.stringTemplate(TEMPLATE, getTargetField(condition.getSearchType()))
-                        .containsIgnoreCase(keyword.replace(BLANK, EMPTY)))
-                .orderBy(travelogue.id.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        return new PageImpl<>(results, pageable, results.size());
-    }
-
-    @Override
-    public Page<Travelogue> findByKeywordAndCountryCode(CountryCode countryCode, Pageable pageable) {
-        List<Travelogue> results = jpaQueryFactory.select(travelogue)
-                .from(travelogue)
-                .join(travelogueCountry)
-                .on(travelogue.id.eq(travelogueCountry.travelogue.id))
-                .where(travelogueCountry.countryCode.eq(countryCode))
-                .orderBy(travelogueCountry.count.desc())
-                .offset(pageable.getOffset())
+        JPAQuery<Travelogue> travelogueJPAQuery = jpaQueryFactory.selectFrom(travelogue);
+        if (condition.getSearchType() == SearchType.COUNTRY) {
+            CountryCode countryCode = CountryCode.findByName(keyword);
+            travelogueJPAQuery.join(travelogueCountry)
+                    .on(travelogue.id.eq(travelogueCountry.travelogue.id))
+                    .where(travelogueCountry.countryCode.eq(countryCode))
+                    .orderBy(travelogueCountry.count.desc());
+        } else {
+            travelogueJPAQuery.where(Expressions.stringTemplate(TEMPLATE, getTargetField(condition.getSearchType()))
+                            .containsIgnoreCase(keyword.replace(BLANK, EMPTY)))
+                    .orderBy(travelogue.id.desc());
+        }
+        List<Travelogue> results = travelogueJPAQuery.offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
