@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 import { produce } from "immer";
 import { useImmer } from "use-immer";
@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import type { TravelTransformDays } from "@type/domain/travelTransform";
 import type { TravelogueDay, TraveloguePlace } from "@type/domain/travelogue";
+
+import { validateDays } from "@utils/validation/travelogue";
 
 const MIN_DESCRIPTION_LENGTH = 0;
 const MAX_DESCRIPTION_LENGTH = 300;
@@ -22,24 +24,38 @@ const useTravelogueDays = (days: TravelTransformDays[]) => {
   const [travelogueDays, setTravelogueDays] = useImmer<TravelogueDay[]>(() =>
     transformTravelogueDays(days),
   );
+  const [travelogueDaysErrorMessage, setTravelogueDaysErrorMessage] = useState("");
 
   const handleChangeTravelogueDays = useCallback(
     (newTravelogueDays: TravelogueDay[]) => {
       setTravelogueDays(newTravelogueDays);
+      setTravelogueDaysErrorMessage("");
     },
-    [setTravelogueDays],
+    [setTravelogueDays, setTravelogueDaysErrorMessage],
   );
 
   const handleAddDay = useCallback(() => {
     setTravelogueDays((newTravelogueDays) => {
       newTravelogueDays.push({ id: uuidv4(), places: [] });
+
+      const errorMessage = validateDays(newTravelogueDays);
+
+      if (errorMessage) {
+        setTravelogueDaysErrorMessage(errorMessage);
+      } else {
+        setTravelogueDaysErrorMessage("");
+      }
     });
-  }, [setTravelogueDays]);
+  }, [setTravelogueDays, setTravelogueDaysErrorMessage]);
 
   const handleDeleteDay = useCallback(
     (targetDayIndex: number) => {
       setTravelogueDays((newTravelogueDays) => {
         newTravelogueDays.splice(targetDayIndex, 1);
+        const errorMessage = validateDays(newTravelogueDays);
+
+        if (errorMessage) setTravelogueDaysErrorMessage(errorMessage);
+        else setTravelogueDaysErrorMessage("");
       });
     },
     [setTravelogueDays],
@@ -54,6 +70,11 @@ const useTravelogueDays = (days: TravelTransformDays[]) => {
           photoUrls: [],
           description: "",
         });
+
+        const errorMessage = validateDays(newTravelogueDays);
+
+        if (errorMessage) setTravelogueDaysErrorMessage(errorMessage);
+        else setTravelogueDaysErrorMessage("");
       });
     },
     [setTravelogueDays],
@@ -63,6 +84,11 @@ const useTravelogueDays = (days: TravelTransformDays[]) => {
     (dayIndex: number, placeIndex: number) => {
       setTravelogueDays((newTravelogueDays) => {
         newTravelogueDays[dayIndex].places.splice(placeIndex, 1);
+
+        const errorMessage = validateDays(newTravelogueDays);
+
+        if (errorMessage) setTravelogueDaysErrorMessage(errorMessage);
+        else setTravelogueDaysErrorMessage("");
       });
     },
     [setTravelogueDays],
@@ -101,8 +127,15 @@ const useTravelogueDays = (days: TravelTransformDays[]) => {
     [setTravelogueDays],
   );
 
+  const isEnabledTravelogueDays =
+    travelogueDaysErrorMessage === "" &&
+    travelogueDays.length >= 1 &&
+    travelogueDays.every((day) => day.places.length > 0);
+
   return {
     travelogueDays,
+    travelogueDaysErrorMessage,
+    isEnabledTravelogueDays,
     handleChangeTravelogueDays,
     handleAddDay,
     handleDeleteDay,

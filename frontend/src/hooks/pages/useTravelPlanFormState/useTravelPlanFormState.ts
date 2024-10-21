@@ -7,6 +7,9 @@ import useTravelPlanTitle from "@hooks/pages/useTravelPlanFormState/useTravelPla
 const useTravelPlanFormState = (transformDays: TravelTransformDays[]) => {
   const {
     travelPlanDays,
+    travelPlanDaysErrorMessage,
+    todoErrorMessages,
+    isEnabledTravelPlanDays,
     handleChangeTravelPlanDays,
     handleAddDay,
     handleAddPlace,
@@ -17,9 +20,18 @@ const useTravelPlanFormState = (transformDays: TravelTransformDays[]) => {
     handleChangeContent,
   } = useTravelPlanDays(transformDays);
 
-  const { startDate, handleInitializeStartDate, handleSelectStartDate } = useTravelPlanStartDate();
+  const {
+    startDate,
+    startDateErrorMessage,
+    isEnabledStartDate,
+    handleInitializeStartDate,
+    handleSelectStartDate,
+  } = useTravelPlanStartDate();
 
-  const { title, handleChangeTitle } = useTravelPlanTitle(travelPlanDays);
+  const { title, isEnabledTravelogueTitle, titleErrorMessage, handleChangeTitle } =
+    useTravelPlanTitle(travelPlanDays);
+
+  const isEnabledForm = isEnabledTravelogueTitle && isEnabledStartDate && isEnabledTravelPlanDays;
 
   return {
     state: {
@@ -40,6 +52,13 @@ const useTravelPlanFormState = (transformDays: TravelTransformDays[]) => {
       handleDeletePlaceTodo,
       handleChangeContent,
     },
+    errorMessages: {
+      titleErrorMessage,
+      startDateErrorMessage,
+      travelPlanDaysErrorMessage,
+      todoErrorMessages,
+    },
+    isEnabledForm,
   };
 };
 

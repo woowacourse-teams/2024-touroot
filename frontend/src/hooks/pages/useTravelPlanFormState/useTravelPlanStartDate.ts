@@ -1,17 +1,38 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+
+import { validateStartDate } from "@utils/validation/travelPlan";
 
 const useTravelPlanStartDate = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
+  const [startDateErrorMessage, setStartDateErrorMessage] = useState<string>("");
+
   const handleSelectStartDate = (date: Date, handleCloseCalendar: () => void) => {
-    setStartDate(date);
-    handleCloseCalendar();
+    const errorMessage = validateStartDate(date);
+    if (errorMessage) {
+      setStartDateErrorMessage(errorMessage);
+    } else {
+      setStartDate(date);
+      setStartDateErrorMessage("");
+      handleCloseCalendar();
+    }
   };
 
-  const handleInitializeStartDate = (startDate: string) => {
-    setStartDate(new Date(startDate));
-  };
+  const handleInitializeStartDate = useCallback(
+    (startDate: string) => {
+      setStartDate(new Date(startDate));
+    },
+    [setStartDate],
+  );
 
-  return { startDate, handleSelectStartDate, handleInitializeStartDate };
+  const isEnabledStartDate = startDateErrorMessage === "" && startDate !== null;
+
+  return {
+    startDate,
+    startDateErrorMessage,
+    isEnabledStartDate,
+    handleSelectStartDate,
+    handleInitializeStartDate,
+  };
 };
 
 export default useTravelPlanStartDate;
