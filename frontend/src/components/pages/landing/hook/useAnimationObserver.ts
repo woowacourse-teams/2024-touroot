@@ -25,9 +25,7 @@ function useAnimationObserver({
       (entries) => {
         const updates: { [key: string]: AnimationState } = {};
         entries.forEach((entry) => {
-          console.log("entry", entry);
           const key = entry.target.getAttribute("data-animation-key");
-          console.log("key", key);
           if (key) {
             const wasVisible = previousStates.current[key];
             const isNowVisible = entry.isIntersecting;
