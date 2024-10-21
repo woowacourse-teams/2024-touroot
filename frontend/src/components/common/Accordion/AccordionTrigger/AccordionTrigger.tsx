@@ -25,7 +25,9 @@ const AccordionTrigger = ({ children, onDeleteItem }: AccordionTriggerProps) => 
         {isClosed ? "아코디언이 열렸습니다." : "아코디언이 닫혔습니다."}
       </div>
       <S.TitleContainer>
-        <button>{isClosed ? <UpArrow /> : <DownArrow />}</button>
+        <button aria-label={isClosed ? `아코디언 열기` : `아코디언 닫기`}>
+          {isClosed ? <UpArrow /> : <DownArrow />}
+        </button>
         <S.Title>{children}</S.Title>
       </S.TitleContainer>
       <IconButton
