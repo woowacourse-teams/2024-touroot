@@ -16,7 +16,7 @@ const useProfileInitialization = ({
   useEffect(() => {
     if (userNickname) updateNickname(userNickname);
     if (userProfileImageUrl) updateProfileImageUrl(userProfileImageUrl);
-  }, [userNickname, userProfileImageUrl]);
+  }, [userNickname, userProfileImageUrl, updateNickname, updateProfileImageUrl]);
 };
 
 export default useProfileInitialization;
