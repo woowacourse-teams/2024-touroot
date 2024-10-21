@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { Global, css } from "@emotion/react";
 
@@ -69,40 +70,43 @@ const GoogleSearchPopup = ({ onClosePopup, onSearchPlaceInfo }: GoogleSearchPopu
     };
   }, [onPlaceChanged]);
 
-  return (
-    <S.Layout data-cy={CYPRESS_DATA_MAP.googleSearchPopup.container}>
-      <Global styles={S.autocompleteStyles} />
-      <Autocomplete onLoad={onLoadAutocomplete} onPlaceChanged={onPlaceChanged}>
-        <S.InputContainer>
-          <S.StyledInput
-            ref={inputRef}
-            type="text"
-            placeholder="예) 영동대로 517, 삼성동 159"
-            data-cy={CYPRESS_DATA_MAP.googleSearchPopup.searchInput}
-            aria-label="장소 검색 입력창. 도로명, 지역명, 건물 번호 등을 입력하세요. 자동완성 결과가 나타나면 화살표 키로 원하는 장소를 선택할 수 있습니다."
-          />
-        </S.InputContainer>
-      </Autocomplete>
-      <S.TipContainer>
-        <p>tip</p>
-        <p>
-          도로명이나 지역명을 이용해서 검색해 보세요. 건물 번호, 번지를 함께 입력하지면 더욱 정확한
-          결과가 검색됩니다.
-        </p>
-      </S.TipContainer>
+  return createPortal(
+    <div css={S.layoutStyle}>
+      <S.Layout data-cy={CYPRESS_DATA_MAP.googleSearchPopup.container}>
+        <Global styles={S.autocompleteStyles} />
+        <Autocomplete onLoad={onLoadAutocomplete} onPlaceChanged={onPlaceChanged}>
+          <S.InputContainer>
+            <S.StyledInput
+              ref={inputRef}
+              type="text"
+              placeholder="예) 영동대로 517, 삼성동 159"
+              data-cy={CYPRESS_DATA_MAP.googleSearchPopup.searchInput}
+              aria-label="장소 검색 입력창. 도로명, 지역명, 건물 번호 등을 입력하세요. 자동완성 결과가 나타나면 화살표 키로 원하는 장소를 선택할 수 있습니다."
+            />
+          </S.InputContainer>
+        </Autocomplete>
+        <S.TipContainer>
+          <p>tip</p>
+          <p>
+            도로명이나 지역명을 이용해서 검색해 보세요. 건물 번호, 번지를 함께 입력하지면 더욱
+            정확한 결과가 검색됩니다.
+          </p>
+        </S.TipContainer>
 
-      <S.ButtonContainer>
-        <Button
-          css={css`
-            width: 100%;
-          `}
-          onClick={onClosePopup}
-          variants="secondary"
-        >
-          취소
-        </Button>
-      </S.ButtonContainer>
-    </S.Layout>
+        <S.ButtonContainer>
+          <Button
+            css={css`
+              width: 100%;
+            `}
+            onClick={onClosePopup}
+            variants="secondary"
+          >
+            취소
+          </Button>
+        </S.ButtonContainer>
+      </S.Layout>
+    </div>,
+    document.body,
   );
 };
 
