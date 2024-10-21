@@ -8,7 +8,9 @@ import org.springframework.data.domain.Pageable;
 
 public interface TravelogueQueryRepository {
 
-    Page<Travelogue> findByKeywordAndSearchType(SearchCondition condition, Pageable pageable);
+    Page<Travelogue> findAllBySearchCondition(SearchCondition condition, Pageable pageable);
 
     Page<Travelogue> findAllByFilter(TravelogueFilterCondition filter, Pageable pageable);
+
+    Page<Travelogue> findAllByCondition(SearchCondition searchCondition, TravelogueFilterCondition filterCondition, Pageable pageable);
 }

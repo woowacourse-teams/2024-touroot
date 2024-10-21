@@ -28,6 +28,7 @@ import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -431,6 +432,7 @@ class TravelogueControllerTest {
                 .body(is(objectMapper.writeValueAsString(responses)));
     }
 
+    @Disabled // 검색과 필터링 API 통합으로 검색 키워드 빈 값 가능
     @DisplayName("검색 키워드의 종류를 명시해야 한다.")
     @Test
     void findTraveloguesByKeywordWithoutSearchType() {

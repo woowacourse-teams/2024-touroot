@@ -7,6 +7,7 @@ import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueFilterCondition;
 import kr.touroot.travelogue.domain.TravelogueTag;
+import kr.touroot.travelogue.domain.search.SearchCondition;
 import kr.touroot.travelogue.dto.request.TravelogueFilterRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
@@ -67,6 +68,19 @@ public class TravelogueFacadeService {
     ) {
         TravelogueFilterCondition filter = filterRequest.toFilterCondition();
         Page<Travelogue> travelogues = travelogueService.findAllByFilter(filter, pageable);
+
+        return travelogues.map(this::getTravelogueSimpleResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TravelogueSimpleResponse> findSimpleTravelogues(
+            TravelogueFilterRequest filterRequest,
+            TravelogueSearchRequest searchRequest,
+            Pageable pageable
+    ) {
+        TravelogueFilterCondition filter = filterRequest.toFilterCondition();
+        SearchCondition searchCondition = searchRequest.toSearchCondition();
+        Page<Travelogue> travelogues = travelogueService.findAll(searchCondition, filter, pageable);
 
         return travelogues.map(this::getTravelogueSimpleResponse);
     }

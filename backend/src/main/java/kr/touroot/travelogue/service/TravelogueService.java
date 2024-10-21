@@ -45,7 +45,7 @@ public class TravelogueService {
         SearchType searchType = SearchType.from(request.searchType());
         SearchCondition searchCondition = new SearchCondition(request.keyword(), searchType);
 
-        return travelogueQueryRepository.findByKeywordAndSearchType(searchCondition, pageable);
+        return travelogueQueryRepository.findAllBySearchCondition(searchCondition, pageable);
     }
 
     @Transactional(readOnly = true)
@@ -55,6 +55,19 @@ public class TravelogueService {
         }
 
         return travelogueQueryRepository.findAllByFilter(filter, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Travelogue> findAll(
+            SearchCondition searchCondition,
+            TravelogueFilterCondition filter,
+            Pageable pageable
+    ) {
+        if (filter.isEmptyCondition() && searchCondition.isEmptyCondition()) {
+            return travelogueRepository.findAll(pageable);
+        }
+
+        return travelogueQueryRepository.findAllByCondition(searchCondition, filter, pageable);
     }
 
     @Transactional

@@ -34,16 +34,57 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Travelogue> findByKeywordAndSearchType(SearchCondition condition, Pageable pageable) {
+    public Page<Travelogue> findAllByCondition(
+            SearchCondition searchCondition,
+            TravelogueFilterCondition filterCondition,
+            Pageable pageable
+    ) {
+        JPAQuery<Travelogue> baseQuery = jpaQueryFactory.selectFrom(travelogue);
+
+        addSearchCondition(baseQuery, searchCondition);
+        addFilterCondition(baseQuery, filterCondition);
+
+        List<Travelogue> results = baseQuery.orderBy(findSortCondition(pageable.getSort()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return new PageImpl<>(results, pageable, results.size());
+    }
+
+    private void addSearchCondition(JPAQuery<Travelogue> query, SearchCondition condition) {
+        String keyword = condition.getKeyword();
+
+        if (condition.getSearchType() == SearchType.COUNTRY) {
+            CountryCode countryCode = CountryCode.findByName(keyword);
+            findByCountryCode(query, countryCode);
+            return;
+        }
+
+        if (condition.getSearchType() == SearchType.AUTHOR || condition.getSearchType() == SearchType.TITLE) {
+            findByTitleOrAuthor(condition, query, keyword);
+        }
+    }
+
+    private void addFilterCondition(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
+        addTagFilter(query, filter);
+        addPeriodFilter(query, filter);
+    }
+
+    @Override
+    public Page<Travelogue> findAllBySearchCondition(SearchCondition condition, Pageable pageable) {
         String keyword = condition.getKeyword();
         JPAQuery<Travelogue> query = jpaQueryFactory.selectFrom(travelogue);
+
         if (condition.getSearchType() == SearchType.COUNTRY) {
             CountryCode countryCode = CountryCode.findByName(keyword);
             findByCountryCode(query, countryCode);
         }
+
         if (condition.getSearchType() == SearchType.AUTHOR || condition.getSearchType() == SearchType.TITLE) {
             findByTitleOrAuthor(condition, query, keyword);
         }
+
         List<Travelogue> results = query.offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

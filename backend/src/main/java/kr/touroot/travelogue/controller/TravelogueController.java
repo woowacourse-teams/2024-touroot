@@ -141,9 +141,17 @@ public class TravelogueController {
             @Parameter(hidden = true)
             @PageableDefault(size = 5, sort = "id", direction = Direction.DESC)
             Pageable pageable,
-            TravelogueFilterRequest filter
+            TravelogueFilterRequest filterRequest,
+            @Valid
+            TravelogueSearchRequest searchRequest
+
     ) {
-        return ResponseEntity.ok(travelogueFacadeService.findSimpleTravelogues(filter, pageable));
+        Page<TravelogueSimpleResponse> data = travelogueFacadeService.findSimpleTravelogues(
+                filterRequest,
+                searchRequest,
+                pageable
+        );
+        return ResponseEntity.ok(data);
     }
 
     @Operation(summary = "여행기 검색")
