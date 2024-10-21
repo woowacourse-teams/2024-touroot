@@ -36,23 +36,31 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
     @Override
     public Page<Travelogue> findByKeywordAndSearchType(SearchCondition condition, Pageable pageable) {
         String keyword = condition.getKeyword();
-        JPAQuery<Travelogue> travelogueJPAQuery = jpaQueryFactory.selectFrom(travelogue);
+        JPAQuery<Travelogue> query = jpaQueryFactory.selectFrom(travelogue);
         if (condition.getSearchType() == SearchType.COUNTRY) {
             CountryCode countryCode = CountryCode.findByName(keyword);
-            travelogueJPAQuery.join(travelogueCountry)
-                    .on(travelogue.id.eq(travelogueCountry.travelogue.id))
-                    .where(travelogueCountry.countryCode.eq(countryCode))
-                    .orderBy(travelogueCountry.count.desc());
+            findByCountryCode(query, countryCode);
         } else {
-            travelogueJPAQuery.where(Expressions.stringTemplate(TEMPLATE, getTargetField(condition.getSearchType()))
-                            .containsIgnoreCase(keyword.replace(BLANK, EMPTY)))
-                    .orderBy(travelogue.id.desc());
+            findByTitleOrAuthor(condition, query, keyword);
         }
-        List<Travelogue> results = travelogueJPAQuery.offset(pageable.getOffset())
+        List<Travelogue> results = query.offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         return new PageImpl<>(results, pageable, results.size());
+    }
+
+    private void findByCountryCode(JPAQuery<Travelogue> query, CountryCode countryCode) {
+        query.join(travelogueCountry)
+                .on(travelogue.id.eq(travelogueCountry.travelogue.id))
+                .where(travelogueCountry.countryCode.eq(countryCode))
+                .orderBy(travelogueCountry.count.desc());
+    }
+
+    private void findByTitleOrAuthor(SearchCondition condition, JPAQuery<Travelogue> query, String keyword) {
+        query.where(Expressions.stringTemplate(TEMPLATE, getTargetField(condition.getSearchType()))
+                        .containsIgnoreCase(keyword.replace(BLANK, EMPTY)))
+                .orderBy(travelogue.id.desc());
     }
 
     private StringPath getTargetField(SearchType searchType) {
