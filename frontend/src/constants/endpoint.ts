@@ -12,6 +12,7 @@ export const API_ENDPOINT_MAP = {
   profile: "/member/me/profile",
   myTravelogues: "/member/me/travelogues",
   myTravelPlans: "/member/me/travel-plans",
+  myLikes: "/member/me/likes",
   searchTravelogues: "/travelogues/search",
   reissueToken: "/login/reissue-token",
   tags: "/tags",

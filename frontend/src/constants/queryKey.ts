@@ -26,6 +26,7 @@ export const QUERY_KEYS_MAP = {
       selectedSortingOption,
       selectedTravelPeriodOption,
     ],
+    likes: () => [...QUERY_KEYS_MAP.travelogue.all, "likes"],
   },
   travelPlan: {
     all: ["travel-plans"],

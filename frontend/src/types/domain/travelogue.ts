@@ -44,6 +44,15 @@ export interface MyTravelogue {
   createdAt: string;
 }
 
+export interface MyLikes {
+  id: string;
+  title: string;
+  thumbnailUrl: string;
+  createdAt: string;
+  authorName: string;
+  authorProfileImageUrl: string;
+}
+
 export type SearchType = "TITLE" | "AUTHOR" | "COUNTRY";
 
 export type SortingOption = "likeCount" | "createdAt";

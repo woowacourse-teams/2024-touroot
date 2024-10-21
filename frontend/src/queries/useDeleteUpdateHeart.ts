@@ -25,6 +25,10 @@ export const useDeleteUpdateHeart = () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS_MAP.travelogue.all,
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS_MAP.travelogue.likes(),
+        refetchType: "inactive",
+      });
     },
     onError: (error) => {
       if (error instanceof ApiError && error.message === ERROR_MESSAGE_MAP.api.login) {
