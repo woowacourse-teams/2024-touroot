@@ -1,9 +1,7 @@
 package kr.touroot.travelogue.domain.search;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import kr.touroot.global.exception.BadRequestException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,11 +19,12 @@ class CountryCodeTest {
                 .isEqualTo(CountryCode.KR);
     }
 
-    @DisplayName("없는 나라 이름으로 찾으면 예외로 처리한다.")
+    @DisplayName("없는 나라 이름으로 찾으면 NONE을 반환한다.")
     @Test
     void findByNonCountryName() {
-        assertThatThrownBy(() -> CountryCode.findByName("미역국"))
-                .isInstanceOf(BadRequestException.class)
-                .hasMessage("국가 이름을 찾을 수 없습니다.");
+        CountryCode code = CountryCode.findByName("미역국");
+
+        assertThat(code)
+                .isEqualTo(CountryCode.NONE);
     }
 }

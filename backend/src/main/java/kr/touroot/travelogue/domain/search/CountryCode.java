@@ -2,10 +2,10 @@ package kr.touroot.travelogue.domain.search;
 
 import java.util.Arrays;
 import java.util.Set;
-import kr.touroot.global.exception.BadRequestException;
 
 public enum CountryCode {
 
+    NONE(Set.of()),
     AF(Set.of("아프가니스탄")),
     AL(Set.of("알바니아")),
     DZ(Set.of("알제리")),
@@ -256,6 +256,6 @@ public enum CountryCode {
         return Arrays.stream(values())
                 .filter(code -> code.names.contains(name))
                 .findFirst()
-                .orElseThrow(() -> new BadRequestException("국가 이름을 찾을 수 없습니다."));
+                .orElse(NONE);
     }
 }

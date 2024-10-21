@@ -36,30 +36,32 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
     @Override
     public Page<Travelogue> findByKeywordAndSearchType(SearchCondition condition, Pageable pageable) {
         String keyword = condition.getKeyword();
-        List<Travelogue> results = jpaQueryFactory.selectFrom(travelogue)
-                .where(Expressions.stringTemplate(TEMPLATE, getTargetField(condition.getSearchType()))
-                        .containsIgnoreCase(keyword.replace(BLANK, EMPTY)))
-                .orderBy(travelogue.id.desc())
-                .offset(pageable.getOffset())
+        JPAQuery<Travelogue> query = jpaQueryFactory.selectFrom(travelogue);
+        if (condition.getSearchType() == SearchType.COUNTRY) {
+            CountryCode countryCode = CountryCode.findByName(keyword);
+            findByCountryCode(query, countryCode);
+        }
+        if (condition.getSearchType() == SearchType.AUTHOR || condition.getSearchType() == SearchType.TITLE) {
+            findByTitleOrAuthor(condition, query, keyword);
+        }
+        List<Travelogue> results = query.offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         return new PageImpl<>(results, pageable, results.size());
     }
 
-    @Override
-    public Page<Travelogue> findByKeywordAndCountryCode(CountryCode countryCode, Pageable pageable) {
-        List<Travelogue> results = jpaQueryFactory.select(travelogue)
-                .from(travelogue)
-                .join(travelogueCountry)
+    private void findByCountryCode(JPAQuery<Travelogue> query, CountryCode countryCode) {
+        query.join(travelogueCountry)
                 .on(travelogue.id.eq(travelogueCountry.travelogue.id))
                 .where(travelogueCountry.countryCode.eq(countryCode))
-                .orderBy(travelogueCountry.count.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+                .orderBy(travelogueCountry.count.desc());
+    }
 
-        return new PageImpl<>(results, pageable, results.size());
+    private void findByTitleOrAuthor(SearchCondition condition, JPAQuery<Travelogue> query, String keyword) {
+        query.where(Expressions.stringTemplate(TEMPLATE, getTargetField(condition.getSearchType()))
+                        .containsIgnoreCase(keyword.replace(BLANK, EMPTY)))
+                .orderBy(travelogue.id.desc());
     }
 
     private StringPath getTargetField(SearchType searchType) {
