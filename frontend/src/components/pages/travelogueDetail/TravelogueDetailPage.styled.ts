@@ -39,6 +39,12 @@ export const IconButtonContainer = styled.div`
   width: 100%;
 `;
 
+export const DropdownButton = styled.button`
+  display: flex;
+
+  width: 100%;
+`;
+
 export const LikesContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -65,8 +71,4 @@ export const titleStyle = css`
 
 export const authorDateStyle = css`
   color: ${theme.colors.text.secondary};
-`;
-
-export const cursorPointerStyle = css`
-  cursor: pointer;
 `;

@@ -18,6 +18,7 @@ import {
   Text,
   TransformFooter,
 } from "@components/common";
+import VisuallyHidden from "@components/common/VisuallyHidden/VisuallyHidden";
 import Thumbnail from "@components/pages/travelogueDetail/Thumbnail/Thumbnail";
 import TravelogueDetailSkeleton from "@components/pages/travelogueDetail/TravelogueDetailSkeleton/TravelogueDetailSkeleton";
 import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueTabContent/TravelogueTabContent";
@@ -31,6 +32,7 @@ import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import getDaysAndNights from "@utils/getDaysAndNights";
+import { removeEmoji } from "@utils/removeEmojis";
 
 import theme from "@styles/theme";
 import { SEMANTIC_COLORS } from "@styles/tokens";
@@ -49,6 +51,7 @@ const TravelogueDetailPage = () => {
   const navigate = useNavigate();
 
   const daysAndNights = getDaysAndNights(data?.days);
+  const OVERVIEW_TEXT = `${daysAndNights} 여행 한눈에 보기`;
 
   const { onTransformTravelDetail } = useTravelTransformDetailContext();
   const {
@@ -99,13 +102,21 @@ const TravelogueDetailPage = () => {
     });
   };
 
+  const [heartButtonAnnouncement, setHeartButtonAnnouncement] = useState("");
+
   const { mutate: handleActiveHeart, isPaused: isPostingHeartPaused } = usePostUpdateHeart();
   const { mutate: handleInactiveHeart, isPaused: isDeletingHeartPaused } = useDeleteUpdateHeart();
 
   const handleHeartClick = () => {
-    if (data?.isLiked) return handleInactiveHeart(id);
+    if (data?.isLiked) {
+      handleInactiveHeart(id);
+      setHeartButtonAnnouncement("좋아요를 취소했습니다.");
 
-    return handleActiveHeart(id);
+      return;
+    }
+
+    handleActiveHeart(id);
+    setHeartButtonAnnouncement("좋아요를 눌렀습니다.");
   };
 
   useEffect(() => {
@@ -163,23 +174,16 @@ const TravelogueDetailPage = () => {
                     size="16"
                     color={theme.colors.text.secondary}
                     onClick={handleToggleMoreDropdown}
+                    aria-label="더보기 버튼, 해당 버튼을 클릭하면 수정 및 삭제를 할 수 있습니다."
                   />
                   {isDropdownOpen && (
                     <Dropdown size="small" position="right">
-                      <Text
-                        textType="detail"
-                        onClick={handleClickEditButton}
-                        css={S.cursorPointerStyle}
-                      >
-                        수정
-                      </Text>
-                      <Text
-                        textType="detail"
-                        onClick={handleToggleDeleteModal}
-                        css={S.cursorPointerStyle}
-                      >
-                        삭제
-                      </Text>
+                      <S.DropdownButton onClick={handleClickEditButton}>
+                        <Text textType="detail">수정</Text>
+                      </S.DropdownButton>
+                      <S.DropdownButton onClick={handleToggleDeleteModal}>
+                        <Text textType="detail">삭제</Text>
+                      </S.DropdownButton>
                     </Dropdown>
                   )}
                 </div>
@@ -189,9 +193,11 @@ const TravelogueDetailPage = () => {
         </S.TravelogueDetailHeader>
 
         <S.TravelogueOverview>
-          <Text textType="subTitle">{daysAndNights} 여행 한눈에 보기</Text>
+          <Text textType="subTitle">{OVERVIEW_TEXT}</Text>
           <S.TravelogueCardChipsContainer>
-            {data?.tags.map((tag) => <Chip key={tag.id} label={tag.tag} />)}
+            {data?.tags.map((tag) => (
+              <Chip key={tag.id} label={tag.tag} aria-label={`${removeEmoji(tag.tag)} 태그`} />
+            ))}
           </S.TravelogueCardChipsContainer>
         </S.TravelogueOverview>
 
@@ -208,13 +214,17 @@ const TravelogueDetailPage = () => {
         onTransform={handleTransform}
       >
         <S.LikesContainer>
+          <VisuallyHidden aria-live="assertive">{heartButtonAnnouncement}</VisuallyHidden>
           <IconButton
             onClick={handleHeartClick}
             iconType={data?.isLiked ? "heart" : "empty-heart"}
             color={data?.isLiked ? SEMANTIC_COLORS.heart : undefined}
             size="24"
+            aria-label="좋아요 버튼"
           />
-          <Text textType="detail">{data?.likeCount}</Text>
+          <Text textType="detail" aria-label={`좋아요 수 ${data.likeCount}`}>
+            {data?.likeCount}
+          </Text>
         </S.LikesContainer>
       </TransformFooter>
 
