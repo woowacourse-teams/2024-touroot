@@ -5,7 +5,6 @@ import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/gif"];
-const MIN_DAYS = 1;
 
 export const validateThumbnail = (file: File): string | null => {
   if (file.size > MAX_FILE_SIZE) {
@@ -27,7 +26,7 @@ export const validateTitle = (title: string) => {
 };
 
 export const validateDays = (days: TravelogueDay[]) => {
-  if (days.length < MIN_DAYS) {
+  if (days.length < FORM_VALIDATIONS_MAP.days.min) {
     return FORM_ERROR_MESSAGE_MAP.travelogue.invalidDatesInfo;
   }
 
