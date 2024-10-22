@@ -162,6 +162,7 @@ public class TravelogueResponseFixture {
                 .description("에메랄드 빛 해변")
                 .position(getTraveloguePositionResponse())
                 .photoUrls(getTraveloguePhotoUrls())
+                .countryCode("KR")
                 .build()
         );
     }

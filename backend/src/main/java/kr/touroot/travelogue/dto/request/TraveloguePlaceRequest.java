@@ -39,7 +39,8 @@ public record TraveloguePlaceRequest(
                 placeName,
                 position().lat(),
                 position().lng(),
-                travelogueDay
+                travelogueDay,
+                countryCode
         );
         addTraveloguePhotos(traveloguePlace);
         return traveloguePlace;
