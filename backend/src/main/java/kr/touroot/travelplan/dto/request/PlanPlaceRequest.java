@@ -19,7 +19,10 @@ public record PlanPlaceRequest(
         PlanPositionRequest position,
         @Valid
         @NotNull(message = "TODO 리스트는 필수 입니다.")
-        List<PlanPlaceTodoRequest> todos
+        List<PlanPlaceTodoRequest> todos,
+        @Schema(description = "여행기 장소 국가 코드")
+        @NotBlank(message = "여행기 장소 국가 코드는 비어있을 수 없습니다.")
+        String countryCode
 ) {
 
     public TravelPlanPlace toPlanPlace(int order, TravelPlanDay day) {
@@ -28,7 +31,8 @@ public record PlanPlaceRequest(
                 day,
                 placeName,
                 position().lat(),
-                position().lng()
+                position().lng(),
+                countryCode
         );
         addTodos(travelPlanPlace);
         return travelPlanPlace;

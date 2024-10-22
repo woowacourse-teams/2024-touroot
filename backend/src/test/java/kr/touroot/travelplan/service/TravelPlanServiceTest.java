@@ -147,6 +147,7 @@ class TravelPlanServiceTest {
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
+                .countryCode("KR")
                 .build();
         PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
         PlanRequest request = PlanRequest.builder()
