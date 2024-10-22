@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import useInfiniteTravelogues from "@queries/useInfiniteTravelogues";
 
@@ -72,11 +72,12 @@ const MainPage = () => {
     resetSingleSelectionTags();
   };
 
-  const { travelogues, status, fetchNextPage, isPaused, error } = useInfiniteTravelogues({
-    selectedTagIDs,
-    selectedSortingOption: sorting.selectedOption,
-    selectedTravelPeriodOption: travelPeriod.selectedOption,
-  });
+  const { travelogues, status, fetchNextPage, isPaused, error, isFetchingNextPage } =
+    useInfiniteTravelogues({
+      selectedTagIDs,
+      selectedSortingOption: sorting.selectedOption,
+      selectedTravelPeriodOption: travelPeriod.selectedOption,
+    });
 
   const { scrollRef, handleMouseDown, handleMouseMove, handleMouseUp } =
     useDragScroll<HTMLUListElement>();
@@ -182,7 +183,7 @@ const MainPage = () => {
               const tagName = removeEmoji(tag.tag);
 
               return (
-                <li key={`${tag.id}-${animationKey}`}>
+                <li key={`${tag.id}-${multiSelectionTagAnimationKey}`}>
                   <Chip
                     as="button"
                     key={`${tag.id}-${multiSelectionTagAnimationKey}`}
