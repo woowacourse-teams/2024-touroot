@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { TravelPlanDay } from "@type/domain/travelPlan";
 
@@ -11,14 +11,17 @@ const useTravelPlanTitle = (travelPlanDays: TravelPlanDay[]) => {
     getInitialTravelTitle({ days: travelPlanDays, type: "travelPlan" }),
   );
 
-  const handleChangeTitle = (inputValue: string) => {
-    const trimmedTitle = inputValue.slice(
-      FORM_VALIDATIONS_MAP.title.minLength,
-      FORM_VALIDATIONS_MAP.title.maxLength,
-    );
+  const handleChangeTitle = useCallback(
+    (inputValue: string) => {
+      const trimmedTitle = inputValue.slice(
+        FORM_VALIDATIONS_MAP.title.minLength,
+        FORM_VALIDATIONS_MAP.title.maxLength,
+      );
 
-    setTitle(trimmedTitle);
-  };
+      setTitle(trimmedTitle);
+    },
+    [setTitle],
+  );
 
   return { title, handleChangeTitle };
 };

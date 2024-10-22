@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const useTravelPlanStartDate = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
-  const handleSelectStartDate = (date: Date, handleCloseCalendar: () => void) => {
-    setStartDate(date);
-    handleCloseCalendar();
-  };
+  const handleSelectStartDate = useCallback(
+    (date: Date, handleCloseCalendar: () => void) => {
+      setStartDate(date);
+      handleCloseCalendar();
+    },
+    [setStartDate],
+  );
 
-  const handleInitializeStartDate = (startDate: string) => {
-    setStartDate(new Date(startDate));
-  };
+  const handleInitializeStartDate = useCallback(
+    (startDate: string) => {
+      setStartDate(new Date(startDate));
+    },
+    [setStartDate],
+  );
 
   return { startDate, handleSelectStartDate, handleInitializeStartDate };
 };
