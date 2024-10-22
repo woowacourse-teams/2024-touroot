@@ -17,6 +17,7 @@ const HomePageHeader = () => {
           iconType="search-icon"
           size="18"
           onClick={() => navigation(ROUTE_PATHS_MAP.searchMain)}
+          aria-label="여행기 검색"
         />
       }
       isHamburgerUsed

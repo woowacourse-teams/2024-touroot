@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef } from "react";
+import React from "react";
 
 import { CYPRESS_DATA_MAP } from "@constants/cypress";
 
@@ -7,9 +7,11 @@ import theme from "@styles/theme";
 import Icon from "../Icon/Icon";
 import SVG_ICONS_MAP from "../Icon/svg-icons.json";
 import Text from "../Text/Text";
+import { DEFAULT_ELEMENT } from "./Chip.constants";
 import * as S from "./Chip.styled";
 
-interface ChipProps extends ComponentPropsWithoutRef<"li"> {
+interface ChipOwnProps<Element extends React.ElementType = typeof DEFAULT_ELEMENT> {
+  as?: Element;
   label: string;
   isSelected?: boolean;
   index?: number;
@@ -17,16 +19,23 @@ interface ChipProps extends ComponentPropsWithoutRef<"li"> {
   iconType?: keyof typeof SVG_ICONS_MAP;
 }
 
-const Chip = ({
+type ChipProps<E extends React.ElementType> = ChipOwnProps<E> &
+  Omit<React.ComponentPropsWithoutRef<E>, keyof ChipOwnProps>;
+
+const Chip = <E extends React.ElementType>({
+  as,
   label,
   isSelected = false,
   index,
   iconPosition = "none",
   iconType = "down-arrow",
   ...props
-}: ChipProps) => {
+}: ChipProps<E>) => {
+  const Component = as ?? DEFAULT_ELEMENT;
+
   return (
     <S.Layout
+      as={Component}
       $isSelected={isSelected}
       $index={index}
       data-cy={isSelected ? `selected-${CYPRESS_DATA_MAP.chip}` : CYPRESS_DATA_MAP.chip}
@@ -50,5 +59,4 @@ const Chip = ({
     </S.Layout>
   );
 };
-
 export default Chip;

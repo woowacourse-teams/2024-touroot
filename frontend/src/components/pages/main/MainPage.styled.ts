@@ -42,7 +42,7 @@ export const TagsContainer = styled.div`
   gap: ${({ theme }) => theme.spacing.s};
 `;
 
-export const SingleSelectionTagsContainer = styled.ul`
+export const SingleSelectionTagsContainer = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing.s};
 
@@ -116,4 +116,27 @@ export const selectedOptionStyle = css`
 
 export const unselectedOptionStyle = css`
   color: ${theme.colors.text.secondary};
+`;
+
+export const MainPageList = styled.li`
+  width: 100%;
+`;
+
+export const FetchButton = styled.button`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: ${({ theme }) => theme.zIndex.floating};
+  padding: ${({ theme }) => theme.spacing.xs};
+
+  background-color: ${PRIMITIVE_COLORS.black};
+
+  color: ${PRIMITIVE_COLORS.white};
+
+  transform: translateY(100%);
+  transition: transform 0.3s;
+
+  &:focus {
+    transform: translateY(0);
+  }
 `;
