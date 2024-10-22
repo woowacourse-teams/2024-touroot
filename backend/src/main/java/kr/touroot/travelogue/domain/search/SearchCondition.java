@@ -12,4 +12,8 @@ public class SearchCondition {
         this.keyword = keyword;
         this.searchType = searchType;
     }
+
+    public boolean isEmptyCondition() {
+        return keyword == null && searchType == null;
+    }
 }
