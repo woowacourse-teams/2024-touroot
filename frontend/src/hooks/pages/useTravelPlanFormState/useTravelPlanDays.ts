@@ -4,7 +4,8 @@ import { produce } from "immer";
 import { useImmer } from "use-immer";
 import { v4 as uuidv4 } from "uuid";
 
-import type { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
+import { PlaceInfo } from "@type/domain/common";
+import type { TravelPlanDay } from "@type/domain/travelPlan";
 import type { TravelTransformDays } from "@type/domain/travelTransform";
 
 import { FORM_ERROR_MESSAGE_MAP } from "@constants/errorMessage";
@@ -120,9 +121,9 @@ export const useTravelPlanDays = (days: TravelTransformDays[]) => {
   );
 
   const handleAddPlace = useCallback(
-    (dayIndex: number, travelParams: Pick<TravelPlanPlace, "placeName" | "position">) => {
-      setTravelPlanDays((newTravelPlanDays) => {
-        const travelPlanDay = newTravelPlanDays[dayIndex];
+    (dayIndex: number, travelParams: PlaceInfo) => {
+      setTravelPlanDays((previousTravelPlanDays) => {
+        const travelPlanDay = previousTravelPlanDays[dayIndex];
 
         if (travelPlanDay) {
           travelPlanDay.places.push({
@@ -131,7 +132,7 @@ export const useTravelPlanDays = (days: TravelTransformDays[]) => {
             todos: [],
           });
 
-          const errorMessage = validateDays(newTravelPlanDays);
+          const errorMessage = validateDays(previousTravelPlanDays);
 
           if (errorMessage) setTravelPlanDaysErrorMessage(errorMessage);
           else setTravelPlanDaysErrorMessage("");

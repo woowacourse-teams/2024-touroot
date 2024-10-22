@@ -4,8 +4,9 @@ import { produce } from "immer";
 import { useImmer } from "use-immer";
 import { v4 as uuidv4 } from "uuid";
 
+import { PlaceInfo } from "@type/domain/common";
 import type { TravelTransformDays } from "@type/domain/travelTransform";
-import type { TravelogueDay, TraveloguePlace } from "@type/domain/travelogue";
+import type { TravelogueDay } from "@type/domain/travelogue";
 
 import { validateDays } from "@utils/validation/travelogue";
 
@@ -62,7 +63,7 @@ const useTravelogueDays = (days: TravelTransformDays[]) => {
   );
 
   const handleAddPlace = useCallback(
-    (dayIndex: number, traveloguePlace: Pick<TraveloguePlace, "placeName" | "position">) => {
+    (dayIndex: number, traveloguePlace: PlaceInfo) => {
       setTravelogueDays((newTravelogueDays) => {
         newTravelogueDays[dayIndex].places.push({
           ...traveloguePlace,

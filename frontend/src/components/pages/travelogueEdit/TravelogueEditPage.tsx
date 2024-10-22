@@ -28,7 +28,14 @@ const TravelogueEditPage = () => {
   const [isOpen, handleOpenBottomSheet, handleCloseBottomSheet] = useToggle();
 
   const {
-    state: { title, thumbnail, travelogueDays, selectedTagIDs, sortedTags, animationKey },
+    state: {
+      title,
+      thumbnail,
+      travelogueDays,
+      selectedTagIDs,
+      sortedTags,
+      multiSelectionTagAnimationKey,
+    },
     handler: {
       handleChangeTitle,
       handleChangeThumbnail,
@@ -114,7 +121,7 @@ const TravelogueEditPage = () => {
               >
                 {sortedTags.map((tag, index) => (
                   <Chip
-                    key={`${tag.id}-${animationKey}`}
+                    key={`${tag.id}-${multiSelectionTagAnimationKey}`}
                     index={index}
                     label={tag.tag}
                     isSelected={selectedTagIDs.includes(tag.id)}

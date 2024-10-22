@@ -32,7 +32,14 @@ const TravelogueRegisterPage = () => {
   const { transformDetail } = useTravelTransformDetailContext();
 
   const {
-    state: { title, thumbnail, travelogueDays, selectedTagIDs, sortedTags, animationKey },
+    state: {
+      title,
+      thumbnail,
+      travelogueDays,
+      selectedTagIDs,
+      sortedTags,
+      multiSelectionTagAnimationKey,
+    },
     handler: {
       handleChangeTitle,
       handleChangeThumbnail,
@@ -110,7 +117,7 @@ const TravelogueRegisterPage = () => {
           >
             {sortedTags.map((tag, index) => (
               <Chip
-                key={`${tag.id}-${animationKey}`}
+                key={`${tag.id}-${multiSelectionTagAnimationKey}`}
                 index={index}
                 label={tag.tag}
                 isSelected={selectedTagIDs.includes(tag.id)}

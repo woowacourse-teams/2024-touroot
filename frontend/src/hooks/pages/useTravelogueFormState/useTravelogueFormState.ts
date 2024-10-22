@@ -10,8 +10,13 @@ const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
     useTravelogueTitle(transformDays);
   const { thumbnail, handleChangeThumbnail, handleResetThumbnail, handleInitializeThumbnail } =
     useTravelogueThumbnail();
-  const { selectedTagIDs, sortedTags, animationKey, handleClickTag, handleChangeSelectedTagIDs } =
-    useMultiSelectionTag();
+  const {
+    selectedTagIDs,
+    sortedTags,
+    multiSelectionTagAnimationKey,
+    handleClickTag,
+    handleChangeSelectedTagIDs,
+  } = useMultiSelectionTag();
   const {
     travelogueDays,
     travelogueDaysErrorMessage,
@@ -35,7 +40,7 @@ const useTravelogueFormState = (transformDays: TravelTransformDays[]) => {
       travelogueDays,
       selectedTagIDs,
       sortedTags,
-      animationKey,
+      multiSelectionTagAnimationKey,
     },
     handler: {
       handleChangeTitle,
