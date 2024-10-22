@@ -1,19 +1,7 @@
+import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
-export const DrawerContainer = styled.div<{ isOpen: boolean }>`
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  right: ${({ isOpen }) => (isOpen ? "0" : "-210px")};
-  z-index: ${({ theme }) => theme.zIndex.drawer};
-  width: 210px;
-  height: 100%;
-
-  background-color: #fff;
-
-  transition: right 0.3s ease-in-out;
-`;
+import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 export const Overlay = styled.div<{ isOpen: boolean }>`
   visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
@@ -29,6 +17,21 @@ export const Overlay = styled.div<{ isOpen: boolean }>`
   transition:
     opacity 0.3s ease-in-out,
     visibility 0.3s ease-in-out;
+`;
+
+export const DrawerContainer = styled.div<{ isOpen: boolean }>`
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: ${({ theme }) => theme.zIndex.drawer};
+  width: 210px;
+  height: 100%;
+
+  background-color: ${PRIMITIVE_COLORS.white};
+
+  animation: ${({ isOpen }) => (isOpen ? slideIn : slideOut)} 0.3s ease-in-out;
 `;
 
 export const DrawerHeader = styled.div`
@@ -51,4 +54,22 @@ export const TriggerButton = styled.button`
 
   font-size: 1.5rem;
   cursor: pointer;
+`;
+
+const slideIn = keyframes`
+ from {
+   transform: translateX(100%);
+ }
+ to {
+   transform: translateX(0);
+ }
+`;
+
+const slideOut = keyframes`
+ from {
+   transform: translateX(0);
+ }
+ to {
+   transform: translateX(100%);
+ }
 `;
