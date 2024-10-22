@@ -20,7 +20,7 @@ public record PlanPlaceRequest(
         @Valid
         @NotNull(message = "TODO 리스트는 필수 입니다.")
         List<PlanPlaceTodoRequest> todos,
-        @Schema(description = "여행기 장소 국가 코드")
+        @Schema(description = "여행기 장소 국가 코드", example = "KR")
         @NotBlank(message = "여행기 장소 국가 코드는 비어있을 수 없습니다.")
         String countryCode
 ) {
