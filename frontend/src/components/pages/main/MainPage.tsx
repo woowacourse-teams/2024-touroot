@@ -101,7 +101,7 @@ const MainPage = () => {
     };
   }
 
-  const dd = combineRefs(scrollRef, modalRef);
+  const combinedTagsContainerRef = combineRefs(scrollRef, modalRef);
 
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
@@ -172,7 +172,7 @@ const MainPage = () => {
 
           <VisuallyHidden aria-live="assertive">{tagSelectionAnnouncement}</VisuallyHidden>
           <S.MultiSelectionTagsContainer
-            ref={dd}
+            ref={combinedTagsContainerRef}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
