@@ -1,4 +1,4 @@
-import { TravelPlanDay } from "@type/domain/travelPlan";
+import type { TravelPlanDay } from "@type/domain/travelPlan";
 
 import { FORM_ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
