@@ -46,6 +46,7 @@ const Tab = ({
         onMouseLeave={handleMouseUp}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
+        aria-label="탭을 누르면 관련된 컨텐츠를 볼 수 있습니다"
         {...props}
       >
         {labels.map((label, index) => (
