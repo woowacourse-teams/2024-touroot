@@ -62,6 +62,7 @@ const TravelogueDetailPage = () => {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteModalAnnouncement, setDeleteModalAnnouncement] = useState("");
 
   const handleToggleMoreDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -71,9 +72,16 @@ const TravelogueDetailPage = () => {
     setIsDropdownOpen(false);
   };
 
-  const handleToggleDeleteModal = () => {
+  const handleOpenDeleteModal = () => {
     handleCloseMoreDropdown();
-    setIsDeleteModalOpen((prev) => !prev);
+    setIsDeleteModalOpen(true);
+    setDeleteModalAnnouncement("삭제 창이 열렸습니다.");
+  };
+
+  const handleCloseDeleteModal = () => {
+    handleCloseMoreDropdown();
+    setIsDeleteModalOpen(false);
+    setDeleteModalAnnouncement("삭제 창이 닫쳤습니다.");
   };
 
   const debouncedClickDeleteButton = useLeadingDebounce(
@@ -145,7 +153,7 @@ const TravelogueDetailPage = () => {
     <>
       <S.TravelogueDetailLayout>
         <S.TravelogueDetailHeader>
-          <Thumbnail imageUrl={data?.thumbnail} aria-hidden={true} />
+          <Thumbnail imageUrl={data?.thumbnail} alt="썸네일 사진" aria-hidden={true} />
           <S.TitleContainer>
             <Text textType="title" css={S.titleStyle}>
               {data?.title}
@@ -178,10 +186,16 @@ const TravelogueDetailPage = () => {
                   />
                   {isDropdownOpen && (
                     <Dropdown size="small" position="right">
-                      <S.DropdownButton onClick={handleClickEditButton}>
+                      <S.DropdownButton
+                        onClick={handleClickEditButton}
+                        aria-label="클릭하면 수정 페이지로 이동합니다."
+                      >
                         <Text textType="detail">수정</Text>
                       </S.DropdownButton>
-                      <S.DropdownButton onClick={handleToggleDeleteModal}>
+                      <S.DropdownButton
+                        onClick={handleOpenDeleteModal}
+                        aria-label="클릭하면 삭제 창이 열립니다."
+                      >
                         <Text textType="detail">삭제</Text>
                       </S.DropdownButton>
                     </Dropdown>
@@ -228,12 +242,13 @@ const TravelogueDetailPage = () => {
         </S.LikesContainer>
       </TransformFooter>
 
+      <VisuallyHidden aria-live="assertive">{deleteModalAnnouncement}</VisuallyHidden>
       {isDeleteModalOpen && (
         <DeleteModal
           isOpen={isDeleteModalOpen}
           isPending={isDeletingPending}
           travelContent="travelogue"
-          onCloseModal={handleToggleDeleteModal}
+          onCloseModal={handleCloseDeleteModal}
           onClickDeleteButton={handleClickDeleteButton}
         />
       )}
