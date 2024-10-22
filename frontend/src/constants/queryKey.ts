@@ -36,6 +36,7 @@ export const QUERY_KEYS_MAP = {
       keyword,
       searchType,
     ],
+    likes: () => [...QUERY_KEYS_MAP.travelogue.all, "likes"],
   },
   travelPlan: {
     all: ["travel-plans"],

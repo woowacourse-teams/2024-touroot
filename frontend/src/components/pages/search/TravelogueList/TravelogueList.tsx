@@ -34,6 +34,7 @@ import { removeEmoji } from "@utils/removeEmojis";
 
 import theme from "@styles/theme";
 
+import EmptySearchResult from "./EmptySearchResult";
 import * as S from "./TravelogueList.styled";
 
 const SKELETON_COUNT = 5;
@@ -213,10 +214,9 @@ const TravelogueList = ({ keyword, searchType }: TravelogueListProps) => {
   if (travelogues.length === 0 && status === "success") {
     return (
       <S.Layout>
-        <S.FixedLayout>
-          {keyword && <Text textType="title">{`"${keyword}" 검색 결과`}</Text>}
-          {renderTags()}
-        </S.FixedLayout>
+        {keyword && (
+          <Text css={S.searchResultTextStyle} textType="title">{`"${keyword}" 검색 결과`}</Text>
+        )}
         <S.SearchFallbackWrapper>
           <SearchFallback title="휑" text="검색 결과가 없어요." />
         </S.SearchFallbackWrapper>
@@ -227,7 +227,7 @@ const TravelogueList = ({ keyword, searchType }: TravelogueListProps) => {
   if (status === "error") {
     error && alert(error.message);
 
-    return <SearchFallback title="휑" text="검색 결과가 없어요." />;
+    return <EmptySearchResult keyword={keyword} />;
   }
 
   if (isPaused) alert(ERROR_MESSAGE_MAP.network);
