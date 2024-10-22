@@ -126,21 +126,23 @@ const MyPage = () => {
         css={S.listStyle}
       />
 
-      <ProfileImageEditModalBottomSheet
-        isOpen={editModal.isEditModalOpen}
-        onClose={editModal.handleCloseEditModal}
-      >
-        <S.Button onClick={profileImage.handleClickProfileImageEditButton}>
-          <Text textType="detail">프로필 사진 올리기</Text>
-        </S.Button>
-        {profileImage.profileImageUrl && (
-          <S.Button onClick={profileImage.handleClickProfileImageDeleteButton}>
-            <Text textType="detailBold" css={S.deleteTextColor}>
-              프로필 사진 삭제하기
-            </Text>
+      {editModal.isEditModalOpen && (
+        <ProfileImageEditModalBottomSheet
+          isOpen={editModal.isEditModalOpen}
+          onClose={editModal.handleCloseEditModal}
+        >
+          <S.Button onClick={profileImage.handleClickProfileImageEditButton}>
+            <Text textType="detail">프로필 사진 올리기</Text>
           </S.Button>
-        )}
-      </ProfileImageEditModalBottomSheet>
+          {profileImage.profileImageUrl && (
+            <S.Button onClick={profileImage.handleClickProfileImageDeleteButton}>
+              <Text textType="detailBold" css={S.deleteTextColor}>
+                프로필 사진 삭제하기
+              </Text>
+            </S.Button>
+          )}
+        </ProfileImageEditModalBottomSheet>
+      )}
     </S.Layout>
   );
 };

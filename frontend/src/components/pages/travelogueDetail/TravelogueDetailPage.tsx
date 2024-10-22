@@ -134,17 +134,25 @@ const TravelogueDetailPage = () => {
     <>
       <S.TravelogueDetailLayout>
         <S.TravelogueDetailHeader>
-          <Thumbnail imageUrl={data?.thumbnail} />
+          <Thumbnail imageUrl={data?.thumbnail} aria-hidden={true} />
           <S.TitleContainer>
             <Text textType="title" css={S.titleStyle}>
               {data?.title}
             </Text>
             <S.IconButtonContainer>
               <S.AuthorInfoContainer>
-                <Text textType="detail" css={S.authorDateStyle}>
+                <Text
+                  textType="detail"
+                  css={S.authorDateStyle}
+                  aria-label={`작성자 ${data?.authorNickname}`}
+                >
                   {data?.authorNickname}
                 </Text>
-                <Text textType="detail" css={S.authorDateStyle}>
+                <Text
+                  textType="detail"
+                  css={S.authorDateStyle}
+                  aria-label={`작성일 ${data?.createdAt}`}
+                >
                   {data?.createdAt}
                 </Text>
               </S.AuthorInfoContainer>
@@ -194,7 +202,6 @@ const TravelogueDetailPage = () => {
           )}
         />
       </S.TravelogueDetailLayout>
-
       <TransformFooter
         guideMessage="이 여행기를 따라가고 싶으신가요?"
         buttonLabel="여행 계획으로 가져오기"
@@ -211,13 +218,15 @@ const TravelogueDetailPage = () => {
         </S.LikesContainer>
       </TransformFooter>
 
-      <DeleteModal
-        isOpen={isDeleteModalOpen}
-        isPending={isDeletingPending}
-        travelContent="travelogue"
-        onCloseModal={handleToggleDeleteModal}
-        onClickDeleteButton={handleClickDeleteButton}
-      />
+      {isDeleteModalOpen && (
+        <DeleteModal
+          isOpen={isDeleteModalOpen}
+          isPending={isDeletingPending}
+          travelContent="travelogue"
+          onCloseModal={handleToggleDeleteModal}
+          onClickDeleteButton={handleClickDeleteButton}
+        />
+      )}
     </>
   );
 };
