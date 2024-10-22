@@ -5,8 +5,8 @@ import { Text } from "@components/common";
 import { ExcitedTturi } from "@assets/gif";
 import { KakaoSymbol } from "@assets/svg";
 
+import { GREETING_MAIN_TEXT, GREETING_SUB_TEXT, KAKAO_LABEL, TTURI } from "./LoginPage.contants";
 import * as S from "./LoginPage.styled";
-import { GREETING_MAIN_TEXT, GREETING_SUB_TEXT, KAKAO_LABEL, TTURI } from "./contants";
 
 declare global {
   interface Window {

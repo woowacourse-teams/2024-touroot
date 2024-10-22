@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-import KEY_ACTIONS from "./constants";
-import { isArrowKey, isHorizontalKey, isVerticalKey } from "./utils";
+import KEY_ACTIONS from "./useKeyDown.constants";
+import { isArrowKey, isHorizontalKey, isVerticalKey } from "./useKeyDown.utils";
 
 interface UseKeyDownProps {
   isOpen: boolean;

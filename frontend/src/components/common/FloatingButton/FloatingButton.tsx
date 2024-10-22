@@ -11,8 +11,8 @@ import FocusTrap from "../FocusTrap";
 import IconButton from "../IconButton/IconButton";
 import Text from "../Text/Text";
 import VisuallyHidden from "../VisuallyHidden/VisuallyHidden";
+import SUB_BUTTONS from "./FloatingButton.constants";
 import * as S from "./FloatingButton.styled";
-import SUB_BUTTONS from "./constants";
 
 const FloatingButton = () => {
   const [isOpen, setIsOpen] = useState(false);

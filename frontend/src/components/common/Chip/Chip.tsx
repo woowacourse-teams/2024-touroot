@@ -7,8 +7,8 @@ import theme from "@styles/theme";
 import Icon from "../Icon/Icon";
 import SVG_ICONS_MAP from "../Icon/svg-icons.json";
 import Text from "../Text/Text";
+import { DEFAULT_ELEMENT } from "./Chip.constants";
 import * as S from "./Chip.styled";
-import { DEFAULT_ELEMENT } from "./constants";
 
 interface ChipOwnProps<Element extends React.ElementType = typeof DEFAULT_ELEMENT> {
   as?: Element;
