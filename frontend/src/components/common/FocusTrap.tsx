@@ -27,7 +27,6 @@ const FocusTrap = <T extends HTMLElement>({ children, onEscapeFocusTrap, ...prop
   const focusTrapRef = useRef<T>(null);
   const child = React.Children.only(children);
   const focusableElements = useRef<(HTMLElement | null)[]>([]);
-
   const currentFocusIndex = useRef(-1);
 
   useEffect(() => {

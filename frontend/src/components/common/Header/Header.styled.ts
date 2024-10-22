@@ -23,13 +23,7 @@ export const DrawHeaderContainer = styled.div`
   display: flex;
 `;
 
-export const MenuItem = styled.li`
-  ${(props) => props.theme.typography.mobile.bodyBold};
-  padding: ${({ theme }) => theme.spacing.s};
-  cursor: pointer;
-`;
-
-export const MenuList = styled.ul`
+export const MenuList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

@@ -197,7 +197,7 @@ const TravelogueDetailPage = () => {
 
       <TransformFooter
         guideMessage="이 여행기를 따라가고 싶으신가요?"
-        buttonLabel="여행 계획으로 전환"
+        buttonLabel="여행 계획으로 가져오기"
         onTransform={handleTransform}
       >
         <S.LikesContainer>
