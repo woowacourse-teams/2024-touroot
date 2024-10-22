@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import useModalControl from "@hooks/useModalControl";
+import useToggle from "@hooks/useToggle";
 
 import { removeEmoji } from "@utils/removeEmojis";
 
@@ -15,12 +15,8 @@ import SUB_BUTTONS from "./FloatingButton.constants";
 import * as S from "./FloatingButton.styled";
 
 const FloatingButton = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, , , handleToggleButton] = useToggle();
   const navigate = useNavigate();
-
-  const handleToggleButton = () => {
-    setIsOpen((prev) => !prev);
-  };
 
   const handleClickSubButton = (route: string) => {
     navigate(route);
