@@ -16,4 +16,5 @@ export const HandleBar = styled.div`
 export const modalBodyStyle = css`
   align-items: flex-start;
   gap: ${theme.spacing.l};
+  padding-bottom: ${theme.spacing.l};
 `;
