@@ -32,8 +32,8 @@ const Carousel = ({ imageUrls }: CarouselProps) => {
 
   return (
     <S.CarouselContainer>
-      <S.CarouselImageList css={carouselImageListStyling(currentIndex)} role="status">
-        <VisuallyHidden>{`총 ${imageUrls.length}개 중 ${currentIndex + 1}번째 여행 사진`}</VisuallyHidden>
+      <VisuallyHidden aria-live="assertive">{`총 ${imageUrls.length}개 중 ${currentIndex + 1}번째 여행 사진`}</VisuallyHidden>
+      <S.CarouselImageList css={carouselImageListStyling(currentIndex)}>
         {imageUrls.map((imageUrl, index) => (
           <S.CarouselImageItem key={imageUrl}>
             <img src={imageUrl} alt={`${index + 1}번째 여행 사진`} aria-hidden={true} />
