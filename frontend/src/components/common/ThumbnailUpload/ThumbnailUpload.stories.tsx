@@ -21,14 +21,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 const mockOnChangeImage = () => {};
-const mockOnClickButton = () => {};
+
 export const Default: Story = {
   args: {
     id: "1",
     previewUrls: [],
-    fileInputRef: React.createRef<HTMLInputElement>(),
+
     onChangeImage: mockOnChangeImage,
-    onClickButton: mockOnClickButton,
   },
 };
 export const WithImage: Story = {

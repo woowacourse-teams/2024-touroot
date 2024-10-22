@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo } from "react";
 
 import useInfiniteTravelogues from "@queries/useInfiniteTravelogues";
 
@@ -39,22 +39,47 @@ import * as S from "./MainPage.styled";
 import TravelogueCardSkeleton from "./TravelogueCard/skeleton/TravelogueCardSkeleton";
 
 const MainPage = () => {
-  const { selectedTagIDs, handleClickTag, sortedTags, animationKey } = useMultiSelectionTag(
-    STORAGE_KEYS_MAP.mainPageSelectedTagIDs,
-  );
-  const { sorting, travelPeriod } = useSingleSelectionTag(
-    STORAGE_KEYS_MAP.mainPageSort,
-    STORAGE_KEYS_MAP.mainPageTravelPeriod,
-  );
+  const {
+    selectedTagIDs,
+    handleClickTag,
+    sortedTags,
+    multiSelectionTagAnimationKey,
+    resetMultiSelectionTag,
+  } = useMultiSelectionTag(STORAGE_KEYS_MAP.mainPageSelectedTagIDs);
 
-  const { travelogues, status, fetchNextPage, isPaused, error, isFetchingNextPage } =
-    useInfiniteTravelogues({
-      selectedTagIDs,
-      selectedSortingOption: sorting.selectedOption,
-      selectedTravelPeriodOption: travelPeriod.selectedOption,
-    });
+  const {
+    sorting,
+    travelPeriod,
+    resetSingleSelectionTags,
+    singleSelectionAnimationKey,
+    increaseSingleSelectionAnimationKey,
+  } = useSingleSelectionTag(STORAGE_KEYS_MAP.mainPageSort, STORAGE_KEYS_MAP.mainPageTravelPeriod);
 
-  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
+  const isTagsSelected = useMemo(() => {
+    return (
+      selectedTagIDs.length !== 0 ||
+      sorting.selectedOption !== "likeCount" ||
+      travelPeriod.selectedOption !== ""
+    );
+  }, [selectedTagIDs, sorting.selectedOption, travelPeriod.selectedOption]);
+
+  useEffect(() => {
+    increaseSingleSelectionAnimationKey();
+  }, [isTagsSelected, increaseSingleSelectionAnimationKey]);
+
+  const handleClickResetButton = () => {
+    resetMultiSelectionTag();
+    resetSingleSelectionTags();
+  };
+
+  const { travelogues, status, fetchNextPage, isPaused, error } = useInfiniteTravelogues({
+    selectedTagIDs,
+    selectedSortingOption: sorting.selectedOption,
+    selectedTravelPeriodOption: travelPeriod.selectedOption,
+  });
+
+  const { scrollRef, handleMouseDown, handleMouseMove, handleMouseUp } =
+    useDragScroll<HTMLUListElement>();
   const { modalRef, handleKeyDown } = useKeyDown<HTMLElement>({
     isOpen: true,
     direction: "horizontal",
@@ -109,42 +134,47 @@ const MainPage = () => {
 
         <S.TagsContainer>
           <S.SingleSelectionTagsContainer>
+            {isTagsSelected && (
+              <Chip
+                key={`reset-${singleSelectionAnimationKey}`}
+                label={`초기화`}
+                isSelected={false}
+                onClick={handleClickResetButton}
+                iconPosition="left"
+                iconType="reset-icon"
+              />
+            )}
             <Chip
               as="button"
               aria-label="여행기 정렬"
+              key={`sorting-${singleSelectionAnimationKey}`}
               label={SORTING_OPTIONS_MAP[sorting.selectedOption]}
               isSelected={true}
               onClick={sorting.handleOpenModal}
-            >
-              <Icon iconType="down-arrow" size="8" color={theme.colors.primary} />
-            </Chip>
+              iconPosition="left"
+              iconType="sort-icon"
+            />
             <Chip
               as="button"
               aria-label="여행기 필터"
+              key={`travelPeriod-${singleSelectionAnimationKey}`}
               label={
                 travelPeriod.selectedOption
                   ? TRAVEL_PERIOD_OPTIONS_MAP[travelPeriod.selectedOption]
                   : "여행 기간"
               }
+              iconPosition="right"
               isSelected={travelPeriod.selectedOption !== ""}
               onClick={travelPeriod.handleOpenModal}
-            >
-              <Icon
-                iconType="down-arrow"
-                size="8"
-                color={
-                  travelPeriod.selectedOption ? theme.colors.primary : theme.colors.text.secondary
-                }
-              />
-            </Chip>
+            />
           </S.SingleSelectionTagsContainer>
 
           <VisuallyHidden aria-live="assertive">{tagSelectionAnnouncement}</VisuallyHidden>
           <S.MultiSelectionTagsContainer
             ref={dd}
-            onMouseDown={onMouseDown}
-            onMouseUp={onMouseUp}
-            onMouseMove={onMouseMove}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
             onKeyDown={handleKeyDown}
           >
             {sortedTags.map((tag, index) => {
@@ -155,7 +185,7 @@ const MainPage = () => {
                 <li key={`${tag.id}-${animationKey}`}>
                   <Chip
                     as="button"
-                    key={`${tag.id}-${animationKey}`}
+                    key={`${tag.id}-${multiSelectionTagAnimationKey}`}
                     index={index}
                     label={tag.tag}
                     isSelected={isSelected}

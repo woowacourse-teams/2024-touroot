@@ -1,12 +1,10 @@
-import { MapPosition } from "@type/domain/common";
+import { PlaceInfo } from "@type/domain/common";
 
-export type TraveloguePlace = {
+export interface TraveloguePlace extends PlaceInfo {
   id: string;
-  placeName: string;
   photoUrls?: string[];
   description?: string;
-  position: MapPosition;
-};
+}
 
 export interface TravelogueDay {
   id: string;
@@ -32,8 +30,11 @@ export interface TravelogueResponse {
   tags: Tag[];
 }
 
-export type TraveloguePayload = Pick<TravelogueResponse, "title" | "thumbnail" | "days"> & {
+export type TraveloguePayload = Pick<TravelogueResponse, "title" | "thumbnail"> & {
   tags: number[];
+  days: {
+    places: (Omit<TraveloguePlace, "photoUrls"> & { photoUrls?: ({ url: string } | string)[] })[];
+  }[];
 };
 
 export interface MyTravelogue {
@@ -43,7 +44,7 @@ export interface MyTravelogue {
   createdAt: string;
 }
 
-export type SearchType = "TITLE" | "AUTHOR";
+export type SearchType = "TITLE" | "AUTHOR" | "COUNTRY";
 
 export type SortingOption = "likeCount" | "createdAt";
 

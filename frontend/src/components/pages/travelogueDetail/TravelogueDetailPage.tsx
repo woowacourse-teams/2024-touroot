@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactGA from "react-ga4";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
@@ -30,7 +30,6 @@ import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
-import { extractID } from "@utils/extractId";
 import getDaysAndNights from "@utils/getDaysAndNights";
 
 import theme from "@styles/theme";
@@ -39,8 +38,7 @@ import { SEMANTIC_COLORS } from "@styles/tokens";
 import * as S from "./TravelogueDetailPage.styled";
 
 const TravelogueDetailPage = () => {
-  const location = useLocation();
-  const id = extractID(location.pathname);
+  const { id = "" } = useParams();
 
   const { user } = useUser();
 
@@ -109,6 +107,10 @@ const TravelogueDetailPage = () => {
 
     return handleActiveHeart(id);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (
     isGettingTraveloguePaused ||
@@ -195,7 +197,7 @@ const TravelogueDetailPage = () => {
 
       <TransformFooter
         guideMessage="이 여행기를 따라가고 싶으신가요?"
-        buttonLabel="여행 계획으로 전환"
+        buttonLabel="여행 계획으로 가져오기"
         onTransform={handleTransform}
       >
         <S.LikesContainer>

@@ -90,8 +90,6 @@ export const OptionContainer = styled.button`
   justify-content: space-between;
 
   width: 100%;
-
-  cursor: pointer;
 `;
 
 export const LastElement = styled.div`

@@ -4,7 +4,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 
 import { TravelPlanPlace } from "@type/domain/travelPlan";
 
-import { useTravelPlanDays } from "@hooks/pages/useTravelPlanDays";
+import { useTravelPlanDays } from "@hooks/pages/useTravelPlanFormState/useTravelPlanDays";
 import useCalendar from "@hooks/useCalendar";
 
 import { createTravelPlanRegisterHook } from "./utils/createTravelPlanRegisterHook";
@@ -26,6 +26,7 @@ const REGISTER_TRAVEL_PLAN = {
             lng: 126.977,
           },
           description: "조선 시대에 지어진 다섯 개의 궁궐 중 가장 큰 궁궐입니다.",
+          countryCode: "kr",
         },
       ],
     },
@@ -89,7 +90,7 @@ describe("여행 계획 등록 페이지 테스트", () => {
 
       // when
       act(() => {
-        result.current.onAddDay();
+        result.current.handleAddDay();
       });
 
       // then
@@ -103,7 +104,7 @@ describe("여행 계획 등록 페이지 테스트", () => {
 
       // when
       act(() => {
-        result.current.onDeleteDay(0);
+        result.current.handleDeleteDay(0);
       });
 
       // then
@@ -113,22 +114,23 @@ describe("여행 계획 등록 페이지 테스트", () => {
     test("사용자는 1일차에 '경복궁'이라는 장소를 추가할 수 있다.", () => {
       // given
       const { result } = renderHook(() => useTravelPlanDays([]));
-      const newPlace: Pick<TravelPlanPlace, "placeName" | "position" | "todos"> = {
+      const newPlace: Pick<TravelPlanPlace, "placeName" | "position" | "todos" | "countryCode"> = {
         placeName: "경복궁",
         position: {
           lat: 37.5796,
           lng: 126.977,
         },
         todos: [],
+        countryCode: "kr",
       };
 
       // when
       act(() => {
-        result.current.onAddDay();
+        result.current.handleAddDay();
       });
 
       act(() => {
-        result.current.onAddPlace(0, newPlace);
+        result.current.handleAddPlace(0, newPlace);
       });
 
       // then
@@ -139,26 +141,27 @@ describe("여행 계획 등록 페이지 테스트", () => {
     test("사용자는 추가한 경복궁을 삭제할 수 있다.", () => {
       // given
       const { result } = renderHook(() => useTravelPlanDays([]));
-      const newPlace: Pick<TravelPlanPlace, "placeName" | "position" | "todos"> = {
+      const newPlace: Pick<TravelPlanPlace, "placeName" | "position" | "todos" | "countryCode"> = {
         placeName: "경복궁",
         position: {
           lat: 37.5796,
           lng: 126.977,
         },
         todos: [],
+        countryCode: "kr",
       };
 
       // when
       act(() => {
-        result.current.onAddDay();
+        result.current.handleAddDay();
       });
 
       act(() => {
-        result.current.onAddPlace(0, newPlace);
+        result.current.handleAddPlace(0, newPlace);
       });
 
       act(() => {
-        result.current.onDeletePlace(0, 0);
+        result.current.handleDeletePlace(0, 0);
       });
 
       // then
@@ -180,11 +183,11 @@ describe("여행 계획 등록 페이지 테스트", () => {
 
     //   // when
     //   act(() => {
-    //     result.current.onAddDay();
+    //     result.current.handleAddDay();
     //   });
 
     //   act(() => {
-    //     result.current.onAddPlace(0, newPlace);
+    //     result.current.handleAddPlace(0, newPlace);
     //   });
 
     //   act(() => {

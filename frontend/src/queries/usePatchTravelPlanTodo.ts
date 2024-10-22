@@ -13,7 +13,7 @@ import { QUERY_KEYS_MAP } from "@constants/queryKey";
 
 interface PatchTodoParams {
   todoId: string;
-  checked: boolean;
+  isChecked: boolean;
 }
 
 export const usePatchTravelPlanTodo = (travelPlanId: string) => {
@@ -24,8 +24,8 @@ export const usePatchTravelPlanTodo = (travelPlanId: string) => {
     PatchTodoParams,
     unknown
   >({
-    mutationFn: ({ todoId, checked }) =>
-      authClient.patch(API_ENDPOINT_MAP.todos(todoId), { checked }),
+    mutationFn: ({ todoId, isChecked }) =>
+      authClient.patch(API_ENDPOINT_MAP.todos(todoId), { isChecked }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS_MAP.travelPlan.detail(travelPlanId),

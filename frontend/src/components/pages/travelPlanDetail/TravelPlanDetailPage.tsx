@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactGA from "react-ga4";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
@@ -18,7 +18,6 @@ import useLeadingDebounce from "@hooks/useLeadingDebounce";
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ROUTE_PATHS_MAP } from "@constants/route";
 
-import { extractLastPath } from "@utils/extractId";
 import getDateRange from "@utils/getDateRange";
 import getDaysAndNights from "@utils/getDaysAndNights";
 import { isUUID } from "@utils/uuid";
@@ -28,8 +27,7 @@ import theme from "@styles/theme";
 import * as S from "./TravelPlanDetailPage.styled";
 
 const TravelPlanDetailPage = () => {
-  const location = useLocation();
-  const id = extractLastPath(location.pathname);
+  const { id = "" } = useParams();
 
   const { onTransformTravelDetail } = useTravelTransformDetailContext();
   const { data, status, error } = useGetTravelPlan(id);
@@ -87,6 +85,10 @@ const TravelPlanDetailPage = () => {
   const iconButtonContainerRef = useRef(null);
 
   useClickAway(iconButtonContainerRef, handleCloseMoreDropdown);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (status === "pending" || status === "error") {
     if (status === "error") {
@@ -154,7 +156,7 @@ const TravelPlanDetailPage = () => {
 
       <TransformFooter
         onTransform={handleTransform}
-        buttonLabel="여행기로 전환"
+        buttonLabel="여행기로 남기기"
         guideMessage="여행은 즐겁게 다녀오셨나요?"
       />
 

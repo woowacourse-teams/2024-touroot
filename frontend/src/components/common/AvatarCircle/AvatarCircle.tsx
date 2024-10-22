@@ -4,19 +4,19 @@ import * as S from "./AvatarCircle.styled";
 import type { AvatarCircleSize } from "./AvatarCircle.type";
 
 interface AvatarCircleProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-  $size?: AvatarCircleSize;
+  size?: AvatarCircleSize;
   profileImageUrl?: string;
 }
 
-const AvatarCircle = ({ $size = "small", profileImageUrl, ...props }: AvatarCircleProps) => {
+const AvatarCircle = ({ size = "small", profileImageUrl, ...props }: AvatarCircleProps) => {
   const { imageError, handleImageError } = useImageError({ imageUrl: profileImageUrl });
 
   return (
-    <S.AvatarCircleContainer $size={$size}>
+    <S.AvatarCircleContainer $size={size}>
       {!imageError ? (
         <img src={profileImageUrl} onError={handleImageError} {...props} />
       ) : (
-        <S.FallbackIcon $size={$size}>
+        <S.FallbackIcon $size={size}>
           <svg
             width="11"
             height="11"

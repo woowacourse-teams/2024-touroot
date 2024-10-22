@@ -1,16 +1,14 @@
-import type { MapPosition } from "./common";
+import type { PlaceInfo } from "./common";
 
 export interface TravelPlanTodo {
   id: number | string;
   content: string;
   order?: number;
-  checked?: boolean;
+  isChecked?: boolean;
 }
-export interface TravelPlanPlace {
+export interface TravelPlanPlace extends PlaceInfo {
   id: string;
-  placeName: string;
   todos?: TravelPlanTodo[];
-  position: MapPosition;
 }
 
 export interface TravelPlanDay {

@@ -1,14 +1,11 @@
-import { TravelPlanPlace } from "@type/domain/travelPlan";
-import { TraveloguePlace } from "@type/domain/travelogue";
+import type { TravelPlanPlace } from "@type/domain/travelPlan";
+import type { TraveloguePlace } from "@type/domain/travelogue";
 
-export type TravelTransformPlace = Pick<
-  TravelPlanPlace | TraveloguePlace,
-  keyof TravelPlanPlace & keyof TraveloguePlace
->;
+export type TravelTransformPlace = Extract<TraveloguePlace, TravelPlanPlace>;
 
-export interface TravelTransformPlaces {
+export interface TravelTransformDays {
   id: string;
   places: TravelTransformPlace[];
 }
 
-export type TravelTransformDetail = { days: TravelTransformPlaces[] };
+export type TravelTransformDetail = { days: TravelTransformDays[] };
