@@ -1,6 +1,6 @@
 import type { TravelPlanPlace } from "@type/domain/travelPlan";
 
-import { Box, GoogleMapLoadScript, GoogleMapView, IconButton } from "@components/common";
+import { Box, GoogleMapLoadScript, GoogleMapView, Icon } from "@components/common";
 import Skeleton from "@components/common/Skeleton/Skeleton";
 import TravelPlanTodoItem from "@components/pages/travelPlanDetail/TravelPlanTodoItem/TravelPlanTodoItem";
 
@@ -27,21 +27,16 @@ const TravelPlansTabContent = ({ places }: { places: TravelPlanPlace[] }) => {
             css={S.boxStyle}
             placeName={`${index + 1}. ${place.placeName}`}
             icon={
-              <S.IconButtonWrapper>
-                <a
+              <S.IconLinkWrapper>
+                <S.IconLink
                   href={`https://www.google.com/maps/search/${place.placeName}/@${place.position.lat},${place.position.lng}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  title={`${place.placeName} 지도 상세보기 링크 버튼`}
+                  title={`${place.placeName} 지도 상세보기 링크`}
                 >
-                  <IconButton
-                    iconType="map-icon"
-                    color={theme.colors.primary}
-                    size="16"
-                    css={S.IconButtonStyle}
-                  />
-                </a>
-              </S.IconButtonWrapper>
+                  <Icon iconType="map-icon" color={theme.colors.primary} size="16" />
+                </S.IconLink>
+              </S.IconLinkWrapper>
             }
           >
             <S.TodoListContainer>
