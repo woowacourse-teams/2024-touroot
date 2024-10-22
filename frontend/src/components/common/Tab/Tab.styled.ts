@@ -22,7 +22,7 @@ export const TabItem = styled.li<{ $tabCount: number }>`
 
 export const TabItemContent = styled.button<{ isSelected: boolean }>`
   width: 100%;
-  padding: ${({ theme }) => theme.spacing.s} ${({ theme }) => theme.spacing.l};
+  padding: ${({ theme }) => theme.spacing.s};
   border-bottom: 2px solid
     ${({ isSelected, theme }) => (isSelected ? `${theme.colors.primary}` : "transparent")};
 

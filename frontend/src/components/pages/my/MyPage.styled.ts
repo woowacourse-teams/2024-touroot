@@ -10,7 +10,7 @@ export const Layout = styled.div`
   gap: ${(props) => props.theme.spacing.xl};
 
   width: 100%;
-  padding: ${(props) => props.theme.spacing.l};
+  padding: ${(props) => props.theme.spacing.l} 0;
 `;
 
 export const TabContentContainer = styled.div`
@@ -34,6 +34,7 @@ export const ProfileContainer = styled.div`
   gap: ${({ theme }) => theme.spacing.m};
 
   width: 100%;
+  padding: 0 ${(props) => props.theme.spacing.l};
 `;
 
 export const ProfileEditButtonContainer = styled.div`
