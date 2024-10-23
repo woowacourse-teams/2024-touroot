@@ -7,5 +7,5 @@ export const Text = styled.p<{
   $isInline: TextProps["isInline"];
 }>`
   ${({ theme, $textType = "body" }) => theme.typography.mobile[$textType]}
-  ${({ $isInline }) => ($isInline === true ? "display: inline" : "")}
+  ${({ $isInline }) => ($isInline === true ? "display: inline" : "block")}
 `;
