@@ -17,7 +17,7 @@ const getButtonColorStyling = (isSelected: boolean) => {
 const fadeInMove = keyframes`
   from {
     opacity: 0;
-    transform: translateY(1rem);
+    transform: translateY(-1rem);
   }
 
   to {
