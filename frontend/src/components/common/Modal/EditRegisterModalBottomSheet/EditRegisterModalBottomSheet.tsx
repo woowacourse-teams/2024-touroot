@@ -1,5 +1,7 @@
 import { Button, Modal, Spinner, Text } from "@components/common";
 
+import useUnmountAnimation from "@hooks/useUnmountAnimation";
+
 import { CYPRESS_DATA_MAP } from "@constants/cypress";
 
 import { Tturi } from "@assets/svg";
@@ -23,8 +25,10 @@ const EditRegisterModalBottomSheet = ({
   onClose,
   onConfirm,
 }: EditRegisterModalBottomSheetProps) => {
+  const { isRendered } = useUnmountAnimation({ isOpen });
+
   return (
-    isOpen && (
+    isRendered && (
       <Modal isOpen={isOpen} onCloseModal={onClose} position="bottom" boxLayoutGap="xxxl">
         <Modal.Header headerPosition="center">
           <S.HandleBar />

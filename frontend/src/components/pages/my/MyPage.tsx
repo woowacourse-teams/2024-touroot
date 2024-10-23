@@ -9,6 +9,8 @@ import {
 } from "@components/common";
 import MyPageSkeleton from "@components/pages/my/MyPageSkeleton/MyPageSkeleton";
 
+import useUnmountAnimation from "@hooks/useUnmountAnimation";
+
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { STORAGE_KEYS_MAP } from "@constants/storage";
 
@@ -19,6 +21,7 @@ import useMyPage from "./hooks/useMyPage";
 
 const MyPage = () => {
   const { editModal, profileImage, profileNickname, profileEdit, userProfile } = useMyPage();
+  const { isRendered } = useUnmountAnimation({ isOpen: editModal.isEditModalOpen });
 
   const showErrorAlert = (error: Error | null) => {
     if (error && !IGNORED_ERROR_MESSAGES.includes(error.message)) alert(error.message);
@@ -126,7 +129,7 @@ const MyPage = () => {
         css={S.listStyle}
       />
 
-      {editModal.isEditModalOpen && (
+      {isRendered && (
         <ProfileImageEditModalBottomSheet
           isOpen={editModal.isEditModalOpen}
           onClose={editModal.handleCloseEditModal}
