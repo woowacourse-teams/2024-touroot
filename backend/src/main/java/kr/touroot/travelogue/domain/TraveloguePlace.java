@@ -84,7 +84,7 @@ public class TraveloguePlace extends BaseEntity {
         this.name = name;
         this.position = position;
         this.travelogueDay = travelogueDay;
-        this.countryCode = CountryCode.valueOf(countryCode);
+        this.countryCode = CountryCode.valueOfIgnoreCase(countryCode);
     }
 
     public TraveloguePlace(
@@ -148,7 +148,7 @@ public class TraveloguePlace extends BaseEntity {
 
     private void validateCountryCode(String countryCode) {
         try {
-            CountryCode.valueOf(countryCode);
+            CountryCode.valueOfIgnoreCase(countryCode);
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("존재하지 않는 국가 코드입니다");
         }
