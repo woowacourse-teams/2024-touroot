@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { PRIMITIVE_COLORS } from "@styles/tokens";
@@ -13,22 +13,73 @@ export const FloatingButtonContainer = styled.div`
   z-index: ${({ theme }) => theme.zIndex.floating};
 `;
 
-export const BackdropLayout = styled.div`
+const fadeIn = keyframes`
+from {
+  opacity:0;
+  visibility: hidden;
+}
+to {
+  opacity:1;
+  visibility: visible;
+}
+`;
+
+const fadeOut = keyframes`
+from {
+  opacity:1;
+  visibility: visible;
+}
+to {
+  opacity:0;
+  visibility: hidden;
+}
+`;
+
+export const BackdropLayout = styled.div<{ $isOpen: boolean }>`
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   position: fixed;
   width: 100%;
   height: 100%;
-  inset: 0;
 
   background-color: ${({ theme }) => theme.colors.dimmed};
+
+  animation: ${({ $isOpen }) => ($isOpen ? fadeIn : fadeOut)} 0.3s ease-in-out;
+  inset: 0;
   cursor: pointer;
+`;
+
+const slideUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+    visibility: hidden;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-0.8rem);
+    visibility: visible;
+  }
+`;
+
+const slideDown = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(-0.8rem);
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(2rem);
+    visibility: hidden;
+  }
 `;
 
 export const SubButtonContainer = styled.div<{ $isOpen: boolean }>`
   display: flex;
   flex-direction: column;
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   position: absolute;
   bottom: 100%;
-  gap: ${({ theme }) => theme.spacing.l};
 
   width: 16rem;
   padding: ${({ theme }) => theme.spacing.l} ${({ theme }) => theme.spacing.m};
@@ -36,13 +87,9 @@ export const SubButtonContainer = styled.div<{ $isOpen: boolean }>`
 
   background-color: ${PRIMITIVE_COLORS.gray[700]};
 
-  transition: all 0.3s ease-out;
-
-  ${({ $isOpen }) => css`
-    opacity: ${$isOpen ? 1 : 0};
-    visibility: ${$isOpen ? "visible" : "hidden"};
-    transform: translateY(${$isOpen ? -0.8 : 2}rem);
-  `}
+  animation: ${({ $isOpen }) => ($isOpen ? slideUp : slideDown)} 0.3s ease-in-out;
+  gap: ${({ theme }) => theme.spacing.l};
+  animation-fill-mode: forwards;
 `;
 
 export const SubButton = styled.button`
