@@ -54,13 +54,13 @@ const TravelPlanDetailPage = () => {
   const handleOpenDeleteModal = () => {
     handleCloseMoreDropdown();
     setIsDeleteModalOpen(true);
-    setDeleteModalAnnouncement("삭제 창이 열렸습니다.");
+    setDeleteModalAnnouncement("삭제 메뉴가 열렸습니다.");
   };
 
   const handleCloseDeleteModal = () => {
     handleCloseMoreDropdown();
     setIsDeleteModalOpen(false);
-    setDeleteModalAnnouncement("삭제 창이 닫쳤습니다.");
+    setDeleteModalAnnouncement("삭제 메뉴가 닫혔습니다.");
   };
 
   const debouncedClickDeleteButton = useLeadingDebounce(
@@ -81,12 +81,12 @@ const TravelPlanDetailPage = () => {
 
   const handleOpenShareModal = () => {
     setIsShareModalOpen(true);
-    setShareModalAnnouncement("공유하기 창이 열렸습니다.");
+    setShareModalAnnouncement("공유하기 메뉴가 열렸습니다.");
   };
 
   const handleCloseShareModal = () => {
     setIsShareModalOpen(false);
-    setShareModalAnnouncement("공유하기 창이 닫쳤습니다.");
+    setShareModalAnnouncement("공유하기 메뉴가 닫혔습니다.");
   };
 
   const shareUrl = `${window.location.origin}${ROUTE_PATHS_MAP.travelPlan(data?.shareKey ?? "")}`;
@@ -130,7 +130,7 @@ const TravelPlanDetailPage = () => {
                 size="16"
                 iconType="share"
                 onClick={handleOpenShareModal}
-                aria-label="공유하기 버튼, 해당 버튼을 클릭하면 공유하기 창이 열립니다."
+                aria-label="공유하기 버튼, 해당 버튼을 클릭하면 공유하기 메뉴가 열립니다."
               />
               <div ref={iconButtonContainerRef}>
                 <IconButton
@@ -138,7 +138,7 @@ const TravelPlanDetailPage = () => {
                   size="16"
                   color={theme.colors.text.secondary}
                   onClick={handleToggleMoreDropdown}
-                  aria-label="더보기 버튼, 해당 버튼을 클릭하면 수정 및 삭제 창이 열립니다."
+                  aria-label="더보기 버튼, 해당 버튼을 클릭하면 수정 및 삭제 메뉴가 열립니다."
                 />
                 {isDropdownOpen && (
                   <Dropdown size="small" position="right">
@@ -150,7 +150,7 @@ const TravelPlanDetailPage = () => {
                     </S.DropdownButton>
                     <S.DropdownButton
                       onClick={handleOpenDeleteModal}
-                      aria-label="클릭하면 삭제 창이 열립니다."
+                      aria-label="클릭하면 삭제 메뉴가 열립니다."
                     >
                       <Text textType="detail">삭제</Text>
                     </S.DropdownButton>

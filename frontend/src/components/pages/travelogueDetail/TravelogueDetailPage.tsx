@@ -75,13 +75,13 @@ const TravelogueDetailPage = () => {
   const handleOpenDeleteModal = () => {
     handleCloseMoreDropdown();
     setIsDeleteModalOpen(true);
-    setDeleteModalAnnouncement("삭제 창이 열렸습니다.");
+    setDeleteModalAnnouncement("삭제 메뉴가 열렸습니다.");
   };
 
   const handleCloseDeleteModal = () => {
     handleCloseMoreDropdown();
     setIsDeleteModalOpen(false);
-    setDeleteModalAnnouncement("삭제 창이 닫쳤습니다.");
+    setDeleteModalAnnouncement("삭제 메뉴가 닫혔습니다.");
   };
 
   const debouncedClickDeleteButton = useLeadingDebounce(
@@ -194,7 +194,7 @@ const TravelogueDetailPage = () => {
                       </S.DropdownButton>
                       <S.DropdownButton
                         onClick={handleOpenDeleteModal}
-                        aria-label="클릭하면 삭제 창이 열립니다."
+                        aria-label="클릭하면 삭제 메뉴가 열립니다."
                       >
                         <Text textType="detail">삭제</Text>
                       </S.DropdownButton>
