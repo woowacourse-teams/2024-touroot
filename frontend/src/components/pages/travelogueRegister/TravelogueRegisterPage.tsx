@@ -53,6 +53,8 @@ const TravelogueRegisterPage = () => {
       handleDeleteImageUrls,
       handleChangePlaceDescription,
     },
+    errorMessages: { titleErrorMessage, travelogueDaysErrorMessage },
+    isEnabledForm,
   } = useTravelogueFormState(transformDetail?.days ?? []);
 
   const payload = {
@@ -83,14 +85,21 @@ const TravelogueRegisterPage = () => {
               <Input
                 id={id}
                 value={title}
-                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
                 placeholder="여행기 제목을 입력해주세요"
                 onChange={(event) => handleChangeTitle(event.target.value)}
               />
-              <CharacterCount
-                count={title.length}
-                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              />
+              <S.TitleMessageContainer>
+                {titleErrorMessage && (
+                  <Text textType="detail" css={S.errorTextStyle}>
+                    {titleErrorMessage}
+                  </Text>
+                )}
+                <CharacterCount
+                  count={title.length}
+                  maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+                  css={S.characterCountStyle}
+                />
+              </S.TitleMessageContainer>
             </S.InputContainer>
           )}
         </TextField>
@@ -168,11 +177,16 @@ const TravelogueRegisterPage = () => {
               >
                 <Text textType="bodyBold">일자 추가하기</Text>
               </IconButton>
+              {travelogueDaysErrorMessage && (
+                <Text textType="detail" css={S.errorTextStyle}>
+                  {travelogueDaysErrorMessage}
+                </Text>
+              )}
             </Accordion.Root>
           </GoogleMapLoadScript>
         </div>
 
-        <Button variants="primary" onClick={handleOpenBottomSheet}>
+        <Button disabled={!isEnabledForm} variants="primary" onClick={handleOpenBottomSheet}>
           등록
         </Button>
       </S.Layout>
