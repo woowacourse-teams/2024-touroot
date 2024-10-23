@@ -13,13 +13,16 @@ export const TabList = styled.ul`
   }
 `;
 
-export const TabItem = styled.li<{ isSelected: boolean; $tabCount: number }>`
+export const TabItem = styled.li<{ $tabCount: number }>`
   display: flex;
   flex: 0 0 calc(100% / ${({ $tabCount }) => ($tabCount <= 3 ? $tabCount : 3.5)});
   justify-content: center;
   align-items: center;
+`;
 
-  padding: ${({ theme }) => theme.spacing.s} ${({ theme }) => theme.spacing.l};
+export const TabItemContent = styled.button<{ isSelected: boolean }>`
+  width: 100%;
+  padding: ${({ theme }) => theme.spacing.s};
   border-bottom: 2px solid
     ${({ isSelected, theme }) => (isSelected ? `${theme.colors.primary}` : "transparent")};
 

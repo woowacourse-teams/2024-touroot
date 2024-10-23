@@ -71,8 +71,8 @@ const SearchHeader = () => {
                 )
               }
               autoFocus
-              maxLength={20}
-              placeholder="제목 또는 작성자명으로 검색해 주세요."
+              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+              placeholder="여행기 검색"
               css={css`
                 height: 4rem;
                 padding-right: 7.8rem;
@@ -87,13 +87,14 @@ const SearchHeader = () => {
               >
                 <Icon iconType="x-icon" size="8" />
               </S.DeleteButton>
-              <IconButton iconType="search-icon" size="18" title="search button" type="submit" />
+              <IconButton iconType="search-icon" size="18" type="submit" aria-label="여행기 검색" />
             </S.ButtonContainer>
           </S.FormWrapper>
           <IconButton
             iconType="home-icon"
             size="20"
             onClick={() => navigate(ROUTE_PATHS_MAP.main)}
+            aria-label="홈 이동"
           />
         </>
       }

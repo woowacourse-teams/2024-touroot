@@ -30,3 +30,16 @@ export const TextContainer = styled.div`
 export const symbolStyle = css`
   color: ${theme.colors.text.required};
 `;
+
+export const visualHiddenStyle = css`
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+
+  white-space: nowrap;
+  clip: rect(0, 0, 0, 0);
+`;

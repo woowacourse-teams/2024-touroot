@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { SortingOption, TravelPeriodOption } from "@type/domain/travelogue";
+import { SearchType, SortingOption, TravelPeriodOption } from "@type/domain/travelogue";
 
 import { client } from "@apis/client";
 
@@ -13,15 +13,19 @@ export const getTravelogues = async ({
   sort,
   period,
   tag,
+  keyword,
+  searchType,
 }: {
   page: number;
   size: number;
   sort: string;
   period?: TravelPeriodOption;
   tag?: string;
+  keyword?: string;
+  searchType?: SearchType;
 }) => {
   const response = await client.get(API_ENDPOINT_MAP.travelogues, {
-    params: { page, size, sort, period, tag },
+    params: { page, size, sort, period, tag, keyword, searchType },
   });
 
   return response.data;
@@ -34,18 +38,24 @@ const useInfiniteTravelogues = ({
   selectedTagIDs,
   selectedSortingOption,
   selectedTravelPeriodOption,
+  keyword,
+  searchType,
 }: {
   selectedTagIDs: number[];
   selectedSortingOption: SortingOption;
   selectedTravelPeriodOption: TravelPeriodOption;
+  keyword?: string;
+  searchType?: SearchType;
 }) => {
   const { data, status, error, fetchNextPage, isFetchingNextPage, hasNextPage, isPaused } =
     useInfiniteQuery({
-      queryKey: QUERY_KEYS_MAP.travelogue.tag(
+      queryKey: QUERY_KEYS_MAP.travelogue.tag({
         selectedTagIDs,
         selectedSortingOption,
         selectedTravelPeriodOption,
-      ),
+        keyword,
+        searchType,
+      }),
       queryFn: ({ pageParam = INITIAL_PAGE }) => {
         const page = pageParam;
         const size = DATA_LOAD_COUNT;
@@ -53,7 +63,7 @@ const useInfiniteTravelogues = ({
         const period = selectedTravelPeriodOption || undefined;
         const tag = selectedTagIDs.length > 0 ? [...selectedTagIDs].join(",") : undefined;
 
-        return getTravelogues({ page, size, sort, period, tag });
+        return getTravelogues({ page, size, sort, period, tag, keyword, searchType });
       },
       initialPageParam: 0,
       getNextPageParam: (lastPage, allPages) => {

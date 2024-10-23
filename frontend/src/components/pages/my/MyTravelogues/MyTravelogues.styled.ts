@@ -14,10 +14,3 @@ export const Container = styled.div`
   align-items: flex-start;
   gap: ${(props) => props.theme.spacing.s};
 `;
-
-export const TraveloguesList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: ${(props) => props.theme.spacing.m};
-`;

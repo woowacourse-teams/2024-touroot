@@ -31,6 +31,7 @@ const PlaceTodoListItem = ({ todo, onChangeContent, onDeleteTodo }: PlaceTodoLis
         size="16"
         iconType="recycle-bin"
         onClick={onDeleteTodo}
+        aria-label="todo 삭제 버튼"
         data-cy={CYPRESS_DATA_MAP.travelPlanRegister.deleteTodoButton}
       />
     </S.Layout>

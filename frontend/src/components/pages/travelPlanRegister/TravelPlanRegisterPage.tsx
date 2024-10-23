@@ -43,10 +43,26 @@ const TravelPlanRegisterPage = () => {
       handleDeletePlaceTodo,
       handleChangeContent,
     },
+    errorMessages: {
+      titleErrorMessage,
+      startDateErrorMessage,
+      todoErrorMessages,
+      travelPlanDaysErrorMessage,
+    },
+    isEnabledForm,
   } = useTravelPlanFormState(transformDetail?.days ?? []);
 
   const [isOpenBottomSheet, handleBottomSheetOpen, handleBottomSheetClose] = useToggle();
   const [isShowCalendar, handleOpenCalendar, handleCloseCalendar] = useToggle();
+  const handleEnterCalendarInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleOpenCalendar();
+    }
+
+    if (event.key === "Escape") {
+      handleCloseCalendar();
+    }
+  };
 
   const { handleDebouncedRegisterBottomSheet, isPostingTravelPlanPending } = useTravelPlanRegister(
     { title, startDate: extractUTCDate(startDate), days: travelPlanDays },
@@ -62,21 +78,29 @@ const TravelPlanRegisterPage = () => {
           mainText="여행 계획 등록"
           subText="여행 계획은 비공개지만, 링크를 통해 원하는 사람과 공유 할 수 있어요."
         />
+
         <TextField title="제목" isRequired>
           {(id) => (
             <S.InputContainer>
               <Input
                 id={id}
                 value={title}
-                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
                 placeholder="여행 계획 제목을 입력해주세요"
                 onChange={(event) => handleChangeTitle(event.target.value)}
                 data-cy={CYPRESS_DATA_MAP.travelPlanRegister.titleInput}
               />
-              <CharacterCount
-                count={title.length}
-                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              />
+              <S.TitleMessageContainer>
+                {titleErrorMessage && (
+                  <Text textType="detail" css={S.errorTextStyle}>
+                    {titleErrorMessage}
+                  </Text>
+                )}
+                <CharacterCount
+                  count={title.length}
+                  maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+                  css={S.characterCountStyle}
+                />
+              </S.TitleMessageContainer>
             </S.InputContainer>
           )}
         </TextField>
@@ -92,15 +116,26 @@ const TravelPlanRegisterPage = () => {
                 id={id}
                 value={startDate ? startDate.toLocaleDateString().slice(0, -1) : ""}
                 onClick={handleOpenCalendar}
+                onKeyDown={handleEnterCalendarInput}
                 readOnly
                 placeholder="시작일을 입력해주세요"
                 data-cy={CYPRESS_DATA_MAP.travelPlanRegister.startDateInput}
               />
+              <div aria-live="polite" css={S.visualHiddenStyle}>
+                {isShowCalendar
+                  ? "캘린더가 열렸습니다. esc 키를 누르면 캘린더를 닫을 수 있습니다."
+                  : "캘린더가 닫혔습니다. shift tab 후 enter 키를 누르면 캘린더를 다시 열 수 있습니다."}
+              </div>
               {isShowCalendar && (
                 <Calendar
                   onSelectDate={(date) => handleSelectStartDate(date, handleCloseCalendar)}
                   onClose={handleCloseCalendar}
                 />
+              )}
+              {startDateErrorMessage && (
+                <Text textType="detail" css={S.errorTextStyle}>
+                  {startDateErrorMessage}
+                </Text>
               )}
             </>
           )}
@@ -130,6 +165,7 @@ const TravelPlanRegisterPage = () => {
                 <TravelPlanDayAccordion
                   key={travelDay.id}
                   startDate={startDate}
+                  todoErrorMessages={todoErrorMessages}
                   onDeletePlaceTodo={handleDeletePlaceTodo}
                   onChangeContent={handleChangeContent}
                   travelPlanDay={travelDay}
@@ -154,6 +190,11 @@ const TravelPlanRegisterPage = () => {
                   일자 추가하기
                 </Text>
               </IconButton>
+              {travelPlanDaysErrorMessage && (
+                <Text textType="detail" css={S.errorTextStyle}>
+                  {travelPlanDaysErrorMessage}
+                </Text>
+              )}
             </Accordion.Root>
           </GoogleMapLoadScript>
         </div>
@@ -161,6 +202,7 @@ const TravelPlanRegisterPage = () => {
         <Button
           variants="primary"
           onClick={handleBottomSheetOpen}
+          disabled={!isEnabledForm}
           data-cy={CYPRESS_DATA_MAP.travelPlanRegister.registerButton}
         >
           등록

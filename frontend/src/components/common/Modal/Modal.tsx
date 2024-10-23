@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+import FocusTrap from "@components/common/FocusTrap";
 import ModalBody from "@components/common/Modal/ModalBody/ModalBody";
 import ModalFooter from "@components/common/Modal/ModalFooter/ModalFooter";
 import ModalHeader from "@components/common/Modal/ModalHeader/ModalHeader";
@@ -31,22 +32,24 @@ const Modal = ({
   return ReactDOM.createPortal(
     <S.Layout $position={position} $isOpen={isOpen}>
       <S.BackdropLayout onClick={onCloseModal} />
-      {position === "center" ? (
-        <S.ModalBoxLayout $position={position} $gap={boxLayoutGap}>
-          {children}
-        </S.ModalBoxLayout>
-      ) : (
-        <S.ModalBoxLayout
-          ref={sheetRef}
-          $position={position}
-          $currentY={currentY}
-          $gap={boxLayoutGap}
-        >
-          {children}
-        </S.ModalBoxLayout>
-      )}
+      <FocusTrap onEscapeFocusTrap={onCloseModal}>
+        {position === "center" ? (
+          <S.ModalBoxLayout $position={position} $gap={boxLayoutGap}>
+            {children}
+          </S.ModalBoxLayout>
+        ) : (
+          <S.ModalBoxLayout
+            ref={sheetRef}
+            $position={position}
+            $currentY={currentY}
+            $gap={boxLayoutGap}
+          >
+            {children}
+          </S.ModalBoxLayout>
+        )}
+      </FocusTrap>
     </S.Layout>,
-    document.querySelector("#root") as HTMLElement,
+    document.body,
   );
 };
 

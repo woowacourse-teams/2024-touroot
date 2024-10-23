@@ -25,12 +25,14 @@ export const IconButtonContainer = styled.div`
   gap: ${({ theme }) => theme.spacing.s};
 `;
 
-export const titleStyle = css`
-  line-height: 2.4rem;
+export const DropdownButton = styled.button`
+  display: flex;
+
+  width: 100%;
 `;
 
-export const cursorPointerStyle = css`
-  cursor: pointer;
+export const titleStyle = css`
+  line-height: 2.4rem;
 `;
 
 export const summaryTitleStyle = css`
