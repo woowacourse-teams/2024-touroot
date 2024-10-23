@@ -120,6 +120,7 @@ const TravelogueEditPage = () => {
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
                 onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseUp}
               >
                 {sortedTags.map((tag, index) => (
                   <Chip
