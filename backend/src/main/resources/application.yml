@@ -36,6 +36,13 @@ management:
 spring:
   jpa:
     open-in-view: false
+
+server:
+  tomcat:
+    threads:
+      max: 20
+    max-connections: 100
+    accept-count: 50
 ---
 # local profile
 spring:
