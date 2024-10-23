@@ -1,6 +1,7 @@
-import { css, keyframes } from "@emotion/react";
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import theme from "@styles/theme";
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 export const FloatingButtonContainer = styled.div`
@@ -13,28 +14,6 @@ export const FloatingButtonContainer = styled.div`
   z-index: ${({ theme }) => theme.zIndex.floating};
 `;
 
-const fadeIn = keyframes`
-from {
-  opacity:0;
-  visibility: hidden;
-}
-to {
-  opacity:1;
-  visibility: visible;
-}
-`;
-
-const fadeOut = keyframes`
-from {
-  opacity:1;
-  visibility: visible;
-}
-to {
-  opacity:0;
-  visibility: hidden;
-}
-`;
-
 export const BackdropLayout = styled.div<{ $isOpen: boolean }>`
   visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   position: fixed;
@@ -43,35 +22,11 @@ export const BackdropLayout = styled.div<{ $isOpen: boolean }>`
 
   background-color: ${({ theme }) => theme.colors.dimmed};
 
-  animation: ${({ $isOpen }) => ($isOpen ? fadeIn : fadeOut)} 0.3s ease-in-out;
+  animation: ${({ $isOpen, theme }) =>
+      $isOpen ? theme.animation.fade.in : theme.animation.fade.out}
+    ${theme.animation.duration.default} ease-in-out;
   inset: 0;
   cursor: pointer;
-`;
-
-const slideUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(2rem);
-    visibility: hidden;
-  }
-  to {
-    opacity: 1;
-    transform: translateY(-0.8rem);
-    visibility: visible;
-  }
-`;
-
-const slideDown = keyframes`
-  from {
-    opacity: 1;
-    transform: translateY(-0.8rem);
-    visibility: visible;
-  }
-  to {
-    opacity: 0;
-    transform: translateY(2rem);
-    visibility: hidden;
-  }
 `;
 
 export const SubButtonContainer = styled.div<{ $isOpen: boolean }>`
@@ -87,7 +42,11 @@ export const SubButtonContainer = styled.div<{ $isOpen: boolean }>`
 
   background-color: ${PRIMITIVE_COLORS.gray[700]};
 
-  animation: ${({ $isOpen }) => ($isOpen ? slideUp : slideDown)} 0.3s ease-in-out;
+  animation: ${({ $isOpen, theme }) =>
+      $isOpen
+        ? theme.animation.slide.up({ from: 2, to: -0.8 })
+        : theme.animation.slide.down({ from: -0.8, to: 2 })}
+    ${theme.animation.duration.default} ease-in-out;
   gap: ${({ theme }) => theme.spacing.l};
   animation-fill-mode: forwards;
 `;
