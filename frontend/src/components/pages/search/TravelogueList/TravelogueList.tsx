@@ -51,7 +51,7 @@ const TravelogueList = ({ keyword, searchType }: TravelogueListProps) => {
     multiSelectionTagAnimationKey,
     handleClickTag,
     resetMultiSelectionTag,
-  } = useMultiSelectionTag(STORAGE_KEYS_MAP.mainPageSelectedTagIDs);
+  } = useMultiSelectionTag(STORAGE_KEYS_MAP.searchPageSelectedTagIDs);
 
   const {
     sorting,
@@ -59,7 +59,10 @@ const TravelogueList = ({ keyword, searchType }: TravelogueListProps) => {
     singleSelectionAnimationKey,
     resetSingleSelectionTags,
     increaseSingleSelectionAnimationKey,
-  } = useSingleSelectionTag(STORAGE_KEYS_MAP.mainPageSort, STORAGE_KEYS_MAP.mainPageTravelPeriod);
+  } = useSingleSelectionTag(
+    STORAGE_KEYS_MAP.searchPageSort,
+    STORAGE_KEYS_MAP.searchPageTravelPeriod,
+  );
 
   const { scrollRef, handleMouseDown, handleMouseMove, handleMouseUp } =
     useDragScroll<HTMLUListElement>();
