@@ -214,9 +214,10 @@ const TravelogueList = ({ keyword, searchType }: TravelogueListProps) => {
   if (travelogues.length === 0 && status === "success") {
     return (
       <S.Layout>
-        {keyword && (
-          <Text css={S.searchResultTextStyle} textType="title">{`"${keyword}" 검색 결과`}</Text>
-        )}
+        <S.FixedLayout>
+          {keyword && <Text textType="title">{`"${keyword}" 검색 결과`}</Text>}
+          {renderTags()}
+        </S.FixedLayout>
         <S.SearchFallbackWrapper>
           <SearchFallback title="휑" text="검색 결과가 없어요." />
         </S.SearchFallbackWrapper>
