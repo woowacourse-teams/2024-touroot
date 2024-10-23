@@ -20,6 +20,12 @@ export const InputContainer = styled.div`
   width: 100%;
 `;
 
+export const TitleMessageContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const PageInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -84,4 +90,15 @@ export const visualHiddenStyle = css`
 
   white-space: nowrap;
   clip: rect(0, 0, 0, 0);
+`;
+
+export const errorTextStyle = css`
+  flex: 2;
+  width: 100%;
+
+  color: ${theme.colors.danger};
+`;
+
+export const characterCountStyle = css`
+  flex: 1;
 `;

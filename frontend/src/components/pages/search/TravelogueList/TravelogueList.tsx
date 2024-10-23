@@ -4,7 +4,7 @@ import type { SearchType } from "@type/domain/travelogue";
 
 import useInfiniteSearchTravelogues from "@queries/useInfiniteSearchTravelogues";
 
-import { SearchFallback, Text } from "@components/common";
+import { Text } from "@components/common";
 import TravelogueCard from "@components/pages/main/TravelogueCard/TravelogueCard";
 import TravelogueCardSkeleton from "@components/pages/main/TravelogueCard/skeleton/TravelogueCardSkeleton";
 
@@ -12,6 +12,7 @@ import useIntersectionObserver from "@hooks/useIntersectionObserver";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 
+import EmptySearchResult from "./EmptySearchResult";
 import * as S from "./TravelogueList.styled";
 
 const SKELETON_COUNT = 5;
@@ -29,22 +30,13 @@ const TravelogueList = ({ keyword, searchType }: TravelogueListProps) => {
   const { lastElementRef } = useIntersectionObserver(fetchNextPage);
 
   if (travelogues.length === 0 && status === "success") {
-    return (
-      <S.Layout>
-        {keyword && (
-          <Text css={S.searchResultTextStyle} textType="title">{`"${keyword}" 검색 결과`}</Text>
-        )}
-        <S.SearchFallbackWrapper>
-          <SearchFallback title="휑" text="검색 결과가 없어요." />
-        </S.SearchFallbackWrapper>
-      </S.Layout>
-    );
+    return <EmptySearchResult keyword={keyword} />;
   }
 
   if (status === "error") {
     error && alert(error.message);
 
-    return <SearchFallback title="휑" text="검색 결과가 없어요." />;
+    return <EmptySearchResult keyword={keyword} />;
   }
 
   if (isPaused) alert(ERROR_MESSAGE_MAP.network);
