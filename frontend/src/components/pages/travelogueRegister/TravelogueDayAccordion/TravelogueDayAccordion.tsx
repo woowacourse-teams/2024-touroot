@@ -1,4 +1,5 @@
-import type { TravelogueDay, TraveloguePlace } from "@type/domain/travelogue";
+import { PlaceInfo } from "@type/domain/common";
+import type { TravelogueDay } from "@type/domain/travelogue";
 
 import {
   Accordion,
@@ -23,10 +24,7 @@ interface TravelogueDayAccordionProps {
     dayIndex: number,
     placeIndex: number,
   ) => void;
-  onAddPlace: (
-    dayIndex: number,
-    traveloguePlace: Pick<TraveloguePlace, "placeName" | "position">,
-  ) => void;
+  onAddPlace: (dayIndex: number, traveloguePlace: PlaceInfo) => void;
   onChangeImageUrls: (dayIndex: number, placeIndex: number, imgUrls: string[]) => void;
   onDeleteImageUrls: (dayIndex: number, targetPlaceIndex: number, imageIndex: number) => void;
 }
@@ -44,10 +42,7 @@ const TravelogueDayAccordion = ({
 }: TravelogueDayAccordionProps) => {
   const { isPopupOpen, handleOpenPopup, handleClosePopup } = useSearchPlaceHistory();
 
-  const handleSelectSearchResult = (
-    placeInfo: Pick<TraveloguePlace, "placeName" | "position">,
-    dayIndex: number,
-  ) => {
+  const handleSelectSearchResult = (placeInfo: PlaceInfo, dayIndex: number) => {
     onAddPlace(dayIndex, placeInfo);
     handleClosePopup();
   };

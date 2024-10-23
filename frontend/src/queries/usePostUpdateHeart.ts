@@ -25,6 +25,10 @@ export const usePostUpdateHeart = () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS_MAP.travelogue.all,
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS_MAP.travelogue.likes(),
+        refetchType: "inactive",
+      });
     },
     onError: (error) => {
       if (

@@ -286,5 +286,23 @@
     "strokeWidth": "2",
     "strokeLinecap": "round",
     "strokeLinejoin": "round"
+  },
+  "reset-icon": {
+    "width": 1920,
+    "height": 1920,
+    "path": "M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0",
+    "stroke": "currentColor",
+    "strokeWidth": "1",
+    "strokeLinecap": "butt",
+    "strokeLinejoin": "miter"
+  },
+  "sort-icon": {
+    "width": 24,
+    "height": 24,
+    "path": "M6.293 4.293a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1-1.414 1.414L8 7.414V19a1 1 0 1 1-2 0V7.414L3.707 9.707a1 1 0 0 1-1.414-1.414l4-4zM16 16.586V5a1 1 0 1 1 2 0v11.586l2.293-2.293a1 1 0 0 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L16 16.586z",
+    "stroke": "currentColor",
+    "strokeWidth": "1",
+    "strokeLinecap": "butt",
+    "strokeLinejoin": "miter"
   }
 }

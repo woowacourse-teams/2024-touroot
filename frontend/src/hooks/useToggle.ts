@@ -11,7 +11,11 @@ const useToggle = () => {
     setIsOpen(true);
   };
 
-  return [isOpen, handleOpen, handleClose] as const;
+  const toggle = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  return [isOpen, handleOpen, handleClose, toggle] as const;
 };
 
 export default useToggle;

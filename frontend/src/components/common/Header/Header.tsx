@@ -8,10 +8,11 @@ import { ROUTE_PATHS_MAP } from "@constants/route";
 import theme from "@styles/theme";
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
-import { DoubleRightArrow } from "@assets/svg";
-
 import Drawer from "../Drawer/Drawer";
+import FocusTrap from "../FocusTrap";
+import Icon from "../Icon/Icon";
 import IconButton from "../IconButton/IconButton";
+import Text from "../Text/Text";
 import * as S from "./Header.styled";
 
 interface HeaderProps {
@@ -52,6 +53,7 @@ const Header = ({
       <S.HeaderLayout>
         <S.LeftWrapper>
           <IconButton
+            aria-label="홈 이동"
             color={isLogoUsed ? theme.colors.primary : PRIMITIVE_COLORS.black}
             iconType={isLogoUsed ? "korean-logo" : "back-icon"}
             onClick={isLogoUsed ? () => navigate(ROUTE_PATHS_MAP.main) : () => goBack()}
@@ -62,38 +64,38 @@ const Header = ({
           {rightContent}
           {isHamburgerUsed && (
             <Drawer.Trigger>
-              <IconButton iconType="hamburger" />
+              <Icon iconType="hamburger" aria-label="사용자 메뉴" size="24" />
             </Drawer.Trigger>
           )}
         </S.RightContainer>
       </S.HeaderLayout>
 
       <Drawer.Header>
-        <S.DrawHeaderContainer>
-          <Drawer.Trigger>
-            <DoubleRightArrow />
-          </Drawer.Trigger>
-        </S.DrawHeaderContainer>
+        <Drawer.Trigger>
+          <Icon iconType="double-right-arrow" aria-label="사용제 메뉴 닫기" size="24" />
+        </Drawer.Trigger>
       </Drawer.Header>
       <Drawer.Content>
-        <S.MenuList>
-          <Drawer.Trigger>
-            <S.MenuItem onClick={handleClickMyPage}>마이페이지</S.MenuItem>
-          </Drawer.Trigger>
-          <Drawer.Trigger>
+        <FocusTrap>
+          <S.MenuList>
+            <Drawer.Trigger onClick={handleClickMyPage}>
+              <Text textType="bodyBold">마이페이지</Text>
+            </Drawer.Trigger>
             {user?.accessToken ? (
-              <S.MenuItem onClick={handleClickLogout}>로그아웃</S.MenuItem>
+              <Drawer.Trigger onClick={handleClickLogout}>
+                <Text textType="bodyBold">로그아웃</Text>
+              </Drawer.Trigger>
             ) : (
-              <S.MenuItem
+              <Drawer.Trigger
                 onClick={() => {
                   navigate(ROUTE_PATHS_MAP.login);
                 }}
               >
-                로그인
-              </S.MenuItem>
+                <Text textType="bodyBold">로그인</Text>
+              </Drawer.Trigger>
             )}
-          </Drawer.Trigger>
-        </S.MenuList>
+          </S.MenuList>
+        </FocusTrap>
       </Drawer.Content>
     </Drawer>
   );

@@ -5,11 +5,17 @@ import { authClient } from "@apis/client";
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { QUERY_KEYS_MAP } from "@constants/queryKey";
 
-const usePatchNickname = (onError: (error: Error) => void) => {
+interface MutationFnVariables {
+  nickname: string;
+  profileImageUrl: string;
+}
+
+const usePutProfile = (onError: (error: Error) => void) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (nickname: string) => authClient.patch(API_ENDPOINT_MAP.profile, { nickname }),
+    mutationFn: ({ nickname, profileImageUrl }: MutationFnVariables) =>
+      authClient.put(API_ENDPOINT_MAP.profile, { nickname, profileImageUrl }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS_MAP.member.me(),
@@ -19,4 +25,4 @@ const usePatchNickname = (onError: (error: Error) => void) => {
   });
 };
 
-export default usePatchNickname;
+export default usePutProfile;

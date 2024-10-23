@@ -19,7 +19,7 @@ export const TabItem = styled.li<{ isSelected: boolean; $tabCount: number }>`
   justify-content: center;
   align-items: center;
 
-  padding: ${({ theme }) => theme.spacing.s} ${({ theme }) => theme.spacing.l};
+  padding: ${({ theme }) => theme.spacing.s};
   border-bottom: 2px solid
     ${({ isSelected, theme }) => (isSelected ? `${theme.colors.primary}` : "transparent")};
 

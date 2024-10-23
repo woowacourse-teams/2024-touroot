@@ -34,15 +34,15 @@ export const Overlay = styled.div<{ isOpen: boolean }>`
 export const DrawerHeader = styled.div`
   display: flex;
   align-items: center;
-  height: calc(5.6rem + 1px);
-  padding: 1rem;
+  height: 6rem;
+  padding: ${({ theme }) => theme.spacing.m};
   border-bottom: 1px solid #e0e0e0;
 `;
 
 export const DrawerContent = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding: 1rem;
+  padding: ${({ theme }) => theme.spacing.m};
 `;
 
 export const TriggerButton = styled.button`
