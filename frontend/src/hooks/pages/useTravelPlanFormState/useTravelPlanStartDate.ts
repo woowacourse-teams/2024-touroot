@@ -9,6 +9,7 @@ const useTravelPlanStartDate = () => {
   const handleSelectStartDate = useCallback(
     (date: Date, handleCloseCalendar: () => void) => {
       const errorMessage = validateStartDate(date);
+
       if (errorMessage) {
         setStartDateErrorMessage(errorMessage);
       } else {
