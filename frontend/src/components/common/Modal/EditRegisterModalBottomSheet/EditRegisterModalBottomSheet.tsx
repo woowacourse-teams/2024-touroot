@@ -37,7 +37,6 @@ const EditRegisterModalBottomSheet = ({
           </Text>
         </S.TextContainer>
       </Modal.Body>
-
       <Modal.Footer>
         <Button
           variants="secondary"

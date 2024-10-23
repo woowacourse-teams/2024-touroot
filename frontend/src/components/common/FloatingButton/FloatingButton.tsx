@@ -26,6 +26,8 @@ const FloatingButton = () => {
   useModalControl(isOpen, handleToggleButton);
   const { isRendered } = useUnmountAnimation({ isOpen });
 
+  useModalControl(isOpen, handleToggleButton);
+
   return (
     <S.FloatingButtonContainer>
       <VisuallyHidden aria-live="assertive">
