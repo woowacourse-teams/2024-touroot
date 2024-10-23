@@ -24,40 +24,38 @@ const EditRegisterModalBottomSheet = ({
   onConfirm,
 }: EditRegisterModalBottomSheetProps) => {
   return (
-    isOpen && (
-      <Modal isOpen={isOpen} onCloseModal={onClose} position="bottom" boxLayoutGap="xxxl">
-        <Modal.Header headerPosition="center">
-          <S.HandleBar />
-        </Modal.Header>
-        <Modal.Body direction="column" css={S.modalBodyStyle}>
-          <Tturi />
-          <S.TextContainer>
-            <Text textType="bodyBold">{mainText}</Text>
-            <Text textType="detail" css={S.subTextStyle}>
-              {subText}
-            </Text>
-          </S.TextContainer>
-        </Modal.Body>
+    <Modal isOpen={isOpen} onCloseModal={onClose} position="bottom" boxLayoutGap="xxxl">
+      <Modal.Header headerPosition="center">
+        <S.HandleBar />
+      </Modal.Header>
+      <Modal.Body direction="column" css={S.modalBodyStyle}>
+        <Tturi />
+        <S.TextContainer>
+          <Text textType="bodyBold">{mainText}</Text>
+          <Text textType="detail" css={S.subTextStyle}>
+            {subText}
+          </Text>
+        </S.TextContainer>
+      </Modal.Body>
 
-        <Modal.Footer>
-          <Button
-            variants="secondary"
-            onClick={onClose}
-            data-cy={CYPRESS_DATA_MAP.modalBottomSheet.closeButton}
-          >
-            취소
-          </Button>
-          <Button
-            variants="primary"
-            onClick={onConfirm}
-            disabled={isPending}
-            data-cy={CYPRESS_DATA_MAP.modalBottomSheet.confirmButton}
-          >
-            {isPending ? <Spinner variants="circle" size={20} /> : "확인"}
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    )
+      <Modal.Footer>
+        <Button
+          variants="secondary"
+          onClick={onClose}
+          data-cy={CYPRESS_DATA_MAP.modalBottomSheet.closeButton}
+        >
+          취소
+        </Button>
+        <Button
+          variants="primary"
+          onClick={onConfirm}
+          disabled={isPending}
+          data-cy={CYPRESS_DATA_MAP.modalBottomSheet.confirmButton}
+        >
+          {isPending ? <Spinner variants="circle" size={20} /> : "확인"}
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

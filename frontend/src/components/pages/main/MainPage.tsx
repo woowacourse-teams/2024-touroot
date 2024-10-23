@@ -19,6 +19,7 @@ import useKeyDown from "@hooks/useKeyDown/useKeyDown";
 import useMultiSelectionTag from "@hooks/useMultiSelectionTag";
 import useSingleSelectionTag from "@hooks/useSingleSelectionTag";
 import useTravelogueCardFocus from "@hooks/useTravelogueCardFocus";
+import useUnmountAnimation from "@hooks/useUnmountAnimation";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
@@ -113,6 +114,14 @@ const MainPage = () => {
   const [announcement, setAnnouncement] = useState("");
 
   const cardRefs = useTravelogueCardFocus(isFetchingNextPage);
+
+  const { isRendered: shouldSortingRender } = useUnmountAnimation({
+    isOpen: sorting.isModalOpen,
+  });
+
+  const { isRendered: shouldFilterRender } = useUnmountAnimation({
+    isOpen: travelPeriod.isModalOpen,
+  });
 
   if (isPaused) {
     alert(ERROR_MESSAGE_MAP.network);
@@ -271,7 +280,7 @@ const MainPage = () => {
             ? "여행기 정렬 메뉴가 열렸습니다."
             : "여행기 정렬 메뉴가 닫혔습니다."}
         </VisuallyHidden>
-        {sorting.isModalOpen && (
+        {shouldSortingRender && (
           <SingleSelectionTagModalBottomSheet
             isOpen={sorting.isModalOpen}
             onClose={sorting.handleCloseModal}
@@ -302,7 +311,7 @@ const MainPage = () => {
             ? "여행기 필터 메뉴가 열렸습니다."
             : "여행기 필터 메뉴가 닫혔습니다."}
         </VisuallyHidden>
-        {travelPeriod.isModalOpen && (
+        {shouldFilterRender && (
           <SingleSelectionTagModalBottomSheet
             isOpen={travelPeriod.isModalOpen}
             onClose={travelPeriod.handleCloseModal}

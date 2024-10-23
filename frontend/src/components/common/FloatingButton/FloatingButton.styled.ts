@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import theme from "@styles/theme";
 import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 export const FloatingButtonContainer = styled.div`
@@ -13,22 +14,27 @@ export const FloatingButtonContainer = styled.div`
   z-index: ${({ theme }) => theme.zIndex.floating};
 `;
 
-export const BackdropLayout = styled.div`
+export const BackdropLayout = styled.div<{ $isOpen: boolean }>`
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   position: fixed;
   width: 100%;
   height: 100%;
-  inset: 0;
 
   background-color: ${({ theme }) => theme.colors.dimmed};
+
+  animation: ${({ $isOpen, theme }) =>
+      $isOpen ? theme.animation.fade.in : theme.animation.fade.out}
+    ${theme.animation.duration.default} ease-in-out;
+  inset: 0;
   cursor: pointer;
 `;
 
 export const SubButtonContainer = styled.div<{ $isOpen: boolean }>`
   display: flex;
   flex-direction: column;
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   position: absolute;
   bottom: 100%;
-  gap: ${({ theme }) => theme.spacing.l};
 
   width: 16rem;
   padding: ${({ theme }) => theme.spacing.l} ${({ theme }) => theme.spacing.m};
@@ -36,13 +42,13 @@ export const SubButtonContainer = styled.div<{ $isOpen: boolean }>`
 
   background-color: ${PRIMITIVE_COLORS.gray[700]};
 
-  transition: all 0.3s ease-out;
-
-  ${({ $isOpen }) => css`
-    opacity: ${$isOpen ? 1 : 0};
-    visibility: ${$isOpen ? "visible" : "hidden"};
-    transform: translateY(${$isOpen ? -0.8 : 2}rem);
-  `}
+  animation: ${({ $isOpen, theme }) =>
+      $isOpen
+        ? theme.animation.slide.up({ from: 2, to: -0.8 })
+        : theme.animation.slide.down({ from: -0.8, to: 2 })}
+    ${theme.animation.duration.default} ease-in-out;
+  gap: ${({ theme }) => theme.spacing.l};
+  animation-fill-mode: forwards;
 `;
 
 export const SubButton = styled.button`

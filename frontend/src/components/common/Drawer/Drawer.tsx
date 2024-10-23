@@ -6,15 +6,18 @@ import DrawerProvider, { useDrawerContext } from "@contexts/DrawerProvider";
 import useModalControl from "@hooks/useModalControl";
 import usePressESC from "@hooks/usePressESC";
 import useToggle from "@hooks/useToggle";
+import useUnmountAnimation from "@hooks/useUnmountAnimation";
 
 import VisuallyHidden from "../VisuallyHidden/VisuallyHidden";
 import * as S from "./Drawer.styled";
 
 const Drawer = ({ children }: React.PropsWithChildren) => {
   const [isOpen, , , toggle] = useToggle();
-  usePressESC(isOpen, toggle);
 
+  usePressESC(isOpen, toggle);
   useModalControl(isOpen, toggle);
+
+  const { isRendered } = useUnmountAnimation({ isOpen });
 
   let headerContent: React.ReactNode | null = null;
   let drawerContent: React.ReactNode | null = null;
@@ -38,13 +41,16 @@ const Drawer = ({ children }: React.PropsWithChildren) => {
         {isOpen ? "사용자 메뉴가 열렸습니다." : "사용자 메뉴가 닫혔습니다."}
       </VisuallyHidden>
       {otherContent}
-      <S.Overlay isOpen={isOpen} onClick={toggle} />
-      {isOpen &&
+
+      {isRendered &&
         ReactDOM.createPortal(
-          <S.DrawerContainer id="drawer-content" isOpen={isOpen} aria-modal="true" role="dialog">
-            {headerContent}
-            {drawerContent}
-          </S.DrawerContainer>,
+          <>
+            <S.Overlay isOpen={isOpen} onClick={toggle} />
+            <S.DrawerContainer id="drawer-content" isOpen={isOpen} aria-modal="true" role="dialog">
+              {headerContent}
+              {drawerContent}
+            </S.DrawerContainer>
+          </>,
           document.body,
         )}
     </DrawerProvider>

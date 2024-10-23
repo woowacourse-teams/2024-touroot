@@ -19,6 +19,7 @@ import TravelogueDayAccordion from "@components/pages/travelogueRegister/Travelo
 import useTravelogueFormState from "@hooks/pages/useTravelogueFormState/useTravelogueFormState";
 import { useDragScroll } from "@hooks/useDragScroll";
 import useToggle from "@hooks/useToggle";
+import useUnmountAnimation from "@hooks/useUnmountAnimation";
 
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 
@@ -26,6 +27,7 @@ import * as S from "./TravelogueEditPage.styled";
 
 const TravelogueEditPage = () => {
   const [isOpen, handleOpenBottomSheet, handleCloseBottomSheet] = useToggle();
+  const { isRendered } = useUnmountAnimation({ isOpen });
 
   const {
     state: {
@@ -197,14 +199,16 @@ const TravelogueEditPage = () => {
         </Button>
       </S.Layout>
 
-      <EditRegisterModalBottomSheet
-        isOpen={isOpen}
-        isPending={isPuttingTraveloguePending}
-        mainText="여행기를 수정할까요?"
-        subText="수정한 후에도 다시 여행기를 변경할 수 있어요!"
-        onClose={handleCloseBottomSheet}
-        onConfirm={handleDebouncedEditTravelogue}
-      />
+      {isRendered && (
+        <EditRegisterModalBottomSheet
+          isOpen={isOpen}
+          isPending={isPuttingTraveloguePending}
+          mainText="여행기를 수정할까요?"
+          subText="수정한 후에도 다시 여행기를 변경할 수 있어요!"
+          onClose={handleCloseBottomSheet}
+          onConfirm={handleDebouncedEditTravelogue}
+        />
+      )}
     </>
   );
 };
