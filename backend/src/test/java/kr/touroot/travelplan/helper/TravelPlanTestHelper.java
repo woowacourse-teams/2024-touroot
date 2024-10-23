@@ -57,9 +57,10 @@ public class TravelPlanTestHelper {
             String name,
             String latitude,
             String longitude,
-            TravelPlanDay day
+            TravelPlanDay day,
+            String countryCode
     ) {
-        return new TravelPlanPlace(order, day, name, latitude, longitude);
+        return new TravelPlanPlace(order, day, name, latitude, longitude, countryCode);
     }
 
     public static TravelPlaceTodo getTravelPlaceTodo(TravelPlanPlace travelPlanPlace, String content, Integer order,
@@ -72,7 +73,7 @@ public class TravelPlanTestHelper {
         Member author = initMemberTestData();
         TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
-        TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, "장소", "37.5175896", "127.0867236", travelPlanDay);
+        TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, "장소", "37.5175896", "127.0867236", travelPlanDay, "KR");
         TravelPlaceTodo travelPlaceTodo = getTravelPlaceTodo(travelPlanPlace, "테스트짜기", 0, false);
 
         travelPlanRepository.save(travelPlan);
@@ -86,7 +87,7 @@ public class TravelPlanTestHelper {
     public TravelPlan initTravelPlanTestData(Member author) {
         TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
-        TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, "장소", "37.5175896", "127.0867236", travelPlanDay);
+        TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, "장소", "37.5175896", "127.0867236", travelPlanDay, "KR");
         TravelPlaceTodo travelPlaceTodo = getTravelPlaceTodo(travelPlanPlace, "테스트짜기", 0, false);
 
         travelPlanRepository.save(travelPlan);

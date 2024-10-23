@@ -20,43 +20,58 @@ class TravelPlanPlaceTest {
     private static final String VALID_NAME = "함덕 해수욕장";
     private static final String VALID_LAT = "33.5431";
     private static final String VALID_LNG = "126.6728";
+    private static final String VALID_COUNTRY_CODE = "KR";
 
     @DisplayName("올바른 여행 계획 장소 생성 시 예외가 발생하지 않는다")
     @Test
     void createTravelPlanPlaceWithValidData() {
-        assertThatCode(() -> new TravelPlanPlace(VALID_ORDER, VALID_DAY, VALID_NAME, VALID_LAT, VALID_LNG))
+        assertThatCode(
+                () -> new TravelPlanPlace(VALID_ORDER, VALID_DAY, VALID_NAME, VALID_LAT, VALID_LNG, VALID_COUNTRY_CODE))
                 .doesNotThrowAnyException();
     }
 
     @DisplayName("방문 순서가 비어 있을 경우 여행 계획 장소 생성 시 예외가 발생한다")
     @Test
     void createTravelPlanPlaceWithNullOrder() {
-        assertThatThrownBy(() -> new TravelPlanPlace(null, VALID_DAY, VALID_NAME, VALID_LAT, VALID_LNG))
+        assertThatThrownBy(
+                () -> new TravelPlanPlace(null, VALID_DAY, VALID_NAME, VALID_LAT, VALID_LNG, VALID_COUNTRY_CODE))
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("여행 계획 장소에서 순서와 날짜, 그리고 장소 위치는 비어 있을 수 없습니다");
+                .hasMessage("여행 계획 장소에서 순서와 날짜, 장소 위치, 그리고 국가 코드는 비어 있을 수 없습니다");
     }
 
     @DisplayName("장소의 방문 날짜가 비어 있을 경우 여행 계획 장소 생성 시 예외가 발생한다")
     @Test
     void createTravelPlanPlaceWithNullDay() {
-        assertThatThrownBy(() -> new TravelPlanPlace(VALID_ORDER, null, VALID_NAME, VALID_LAT, VALID_LNG))
+        assertThatThrownBy(
+                () -> new TravelPlanPlace(VALID_ORDER, null, VALID_NAME, VALID_LAT, VALID_LNG, VALID_COUNTRY_CODE))
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("여행 계획 장소에서 순서와 날짜, 그리고 장소 위치는 비어 있을 수 없습니다");
+                .hasMessage("여행 계획 장소에서 순서와 날짜, 장소 위치, 그리고 국가 코드는 비어 있을 수 없습니다");
     }
 
     @DisplayName("장소 이름이 비어 있을 경우 여행 계획 장소 생성 시 예외가 발생한다")
     @Test
     void createTravelPlanPlaceWithPlaceNullName() {
-        assertThatThrownBy(() -> new TravelPlanPlace(VALID_ORDER, VALID_DAY, null, VALID_LAT, VALID_LNG))
+        assertThatThrownBy(
+                () -> new TravelPlanPlace(VALID_ORDER, VALID_DAY, null, VALID_LAT, VALID_LNG, VALID_COUNTRY_CODE))
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("여행 계획 장소에서 순서와 날짜, 그리고 장소 위치는 비어 있을 수 없습니다");
+                .hasMessage("여행 계획 장소에서 순서와 날짜, 장소 위치, 그리고 국가 코드는 비어 있을 수 없습니다");
+    }
+
+    @DisplayName("국가 코드가 비어 있을 경우 여행 계획 장소 생성 시 예외가 발생한다")
+    @Test
+    void createTravelPlanPlaceWithPlaceNullCountryCode() {
+        assertThatThrownBy(
+                () -> new TravelPlanPlace(VALID_ORDER, VALID_DAY, VALID_NAME, VALID_LAT, VALID_LNG, null))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("여행 계획 장소에서 순서와 날짜, 장소 위치, 그리고 국가 코드는 비어 있을 수 없습니다");
     }
 
     @DisplayName("여행 장소 이름이 공백문자로만 이루어져 있는 경우 예외가 발생한다")
     @ParameterizedTest
     @ValueSource(strings = {"", "   ", "    "})
     void createTravelPlanPlaceWithBlankName(String blank) {
-        assertThatThrownBy(() -> new TravelPlanPlace(VALID_ORDER, VALID_DAY, blank, VALID_LAT, VALID_LNG))
+        assertThatThrownBy(
+                () -> new TravelPlanPlace(VALID_ORDER, VALID_DAY, blank, VALID_LAT, VALID_LNG, VALID_COUNTRY_CODE))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("장소 이름은 공백문자로만 이루어질 수 없습니다");
     }
@@ -65,7 +80,8 @@ class TravelPlanPlaceTest {
     @ParameterizedTest
     @ValueSource(ints = {-1, -2, -3, -4, -5})
     void createTravelPlanPlaceWithNegativeOrder(int negative) {
-        assertThatThrownBy(() -> new TravelPlanPlace(negative, VALID_DAY, VALID_NAME, VALID_LAT, VALID_LNG))
+        assertThatThrownBy(
+                () -> new TravelPlanPlace(negative, VALID_DAY, VALID_NAME, VALID_LAT, VALID_LNG, VALID_COUNTRY_CODE))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("장소의 방문 순서는 음수일 수 없습니다");
     }
@@ -74,9 +90,19 @@ class TravelPlanPlaceTest {
     @Test
     void createPlaceWithInvalidLengthPlaceName() {
         String length61 = "Under the summer sun, feeling the cool breeze by the sea is pure joy!!";
-        assertThatThrownBy(() -> new TravelPlanPlace(VALID_ORDER, VALID_DAY, length61, VALID_LAT, VALID_LNG))
+        assertThatThrownBy(
+                () -> new TravelPlanPlace(VALID_ORDER, VALID_DAY, length61, VALID_LAT, VALID_LNG, VALID_COUNTRY_CODE))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("장소 이름은 60자 이하여야 합니다");
+    }
+
+    @DisplayName("존재하지 않는 국가 코드인 경우 장소 생성 시 예외가 발생한다")
+    @Test
+    void createPlaceWithInvalidCountryCode() {
+        assertThatThrownBy(
+                () -> new TravelPlanPlace(VALID_ORDER, VALID_DAY, VALID_NAME, VALID_LAT, VALID_LNG, "CONCODE"))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("존재하지 않는 국가 코드입니다");
     }
 
     @DisplayName("Todo를 추가할 수 있다")
