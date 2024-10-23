@@ -39,7 +39,7 @@ const usePostKakaoLogin = () => {
         memberId: res.data.memberId,
         refreshToken: res.data.refreshToken,
       });
-      navigate(ROUTE_PATHS_MAP.root);
+      navigate(ROUTE_PATHS_MAP.main);
     },
     onError: () => {
       alert(ERROR_MESSAGE_MAP.loginFailed);

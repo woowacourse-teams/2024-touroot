@@ -93,7 +93,7 @@ const SearchHeader = () => {
           <IconButton
             iconType="home-icon"
             size="20"
-            onClick={() => navigate(ROUTE_PATHS_MAP.root)}
+            onClick={() => navigate(ROUTE_PATHS_MAP.main)}
             aria-label="홈 이동"
           />
         </>
