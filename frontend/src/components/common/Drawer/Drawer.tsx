@@ -41,14 +41,16 @@ const Drawer = ({ children }: React.PropsWithChildren) => {
         {isOpen ? "사용자 메뉴가 열렸습니다." : "사용자 메뉴가 닫혔습니다."}
       </VisuallyHidden>
       {otherContent}
-      <S.Overlay isOpen={isOpen} onClick={toggle} />
+
       {isRendered &&
         ReactDOM.createPortal(
-          <S.DrawerContainer id="drawer-content" isOpen={isOpen} aria-modal="true" role="dialog">
-            {headerContent}
-            {drawerContent}
-          </S.DrawerContainer>,
-
+          <>
+            <S.Overlay isOpen={isOpen} onClick={toggle} />
+            <S.DrawerContainer id="drawer-content" isOpen={isOpen} aria-modal="true" role="dialog">
+              {headerContent}
+              {drawerContent}
+            </S.DrawerContainer>
+          </>,
           document.body,
         )}
     </DrawerProvider>
