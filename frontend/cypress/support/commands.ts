@@ -22,7 +22,7 @@ Cypress.Commands.add("simulateKakaoLogin", () => {
 
   cy.wait("@loginOauthRequest");
 
-  cy.url().should("eq", `${Cypress.config().baseUrl}${ROUTE_PATHS_MAP.root}`);
+  cy.url().should("eq", `${Cypress.config().baseUrl}${ROUTE_PATHS_MAP.main}`);
 });
 
 Cypress.Commands.add("fillTravelPlanBasicInfo", (title, date) => {

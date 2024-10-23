@@ -93,7 +93,7 @@ const TravelPlanDetailPage = () => {
   if (status === "pending" || status === "error") {
     if (status === "error") {
       alert(error.message);
-      navigate(ROUTE_PATHS_MAP.root);
+      navigate(ROUTE_PATHS_MAP.main);
     }
 
     return <TravelPlanDetailSkeleton />;

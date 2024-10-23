@@ -54,7 +54,7 @@ const Header = ({
           <IconButton
             color={isLogoUsed ? theme.colors.primary : PRIMITIVE_COLORS.black}
             iconType={isLogoUsed ? "korean-logo" : "back-icon"}
-            onClick={isLogoUsed ? () => navigate(ROUTE_PATHS_MAP.root) : () => goBack()}
+            onClick={isLogoUsed ? () => navigate(ROUTE_PATHS_MAP.main) : () => goBack()}
           />
         </S.LeftWrapper>
 
