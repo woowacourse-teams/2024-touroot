@@ -2,6 +2,7 @@ export const ERROR_MESSAGE_MAP = {
   api: {
     login: "로그인을 해주세요.",
     expiredToken: "이미 만료된 토큰입니다.",
+    invalidToken: "유효하지 않은 토큰입니다.",
     travelPlanOnlyWriter: "여행 계획 조회는 작성자만 가능합니다.",
     travelogueEditOnlyWriter: "여행기 수정은 작성자만 가능합니다.",
     travelPlanEditOnlyWriter: "여행 계획 수정은 작성자만 가능합니다.",

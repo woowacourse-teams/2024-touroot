@@ -56,7 +56,8 @@ const handleUserLogout = () => {
 export const handleAPIError = async (error: AxiosError<ErrorResponse>) => {
   if (
     error.response?.status === HTTP_STATUS_CODE_MAP.UNAUTHORIZED &&
-    error.response.data.message === ERROR_MESSAGE_MAP.api.expiredToken
+    (error.response.data.message === ERROR_MESSAGE_MAP.api.expiredToken ||
+      error.response.data.message === ERROR_MESSAGE_MAP.api.invalidToken)
   ) {
     try {
       const user: UserResponse | null = JSON.parse(
