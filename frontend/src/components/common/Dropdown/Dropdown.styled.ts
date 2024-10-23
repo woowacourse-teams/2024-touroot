@@ -36,6 +36,7 @@ export const Dropdown = styled.div<{ $size: DropdownSize; $position: DropdownPos
   ${({ $position }) => dropdownPosition[$position]}
   ${({ $size }) => dropdownSize[$size]}
   gap: ${({ theme }) => theme.spacing.m};
+  z-index: ${({ theme }) => theme.zIndex.dropdown};
 
   padding: 1.6rem;
   border: 0.1rem solid ${({ theme }) => theme.colors.border};

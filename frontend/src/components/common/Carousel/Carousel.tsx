@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import { css } from "@emotion/react";
 
+import VisuallyHidden from "@components/common/VisuallyHidden/VisuallyHidden";
+
 import { NextArrow, PrevArrow } from "@assets/svg";
 
 import * as S from "./Carousel.styled";
@@ -30,25 +32,28 @@ const Carousel = ({ imageUrls }: CarouselProps) => {
 
   return (
     <S.CarouselContainer>
+      <VisuallyHidden aria-live="assertive">{`총 ${imageUrls.length}개 중 ${currentIndex + 1}번째 여행 사진`}</VisuallyHidden>
       <S.CarouselImageList css={carouselImageListStyling(currentIndex)}>
         {imageUrls.map((imageUrl, index) => (
           <S.CarouselImageItem key={imageUrl}>
-            <img src={imageUrl} alt={`travels place img ${index + 1}`} />
+            <img src={imageUrl} alt={`${index + 1}번째 여행 사진`} aria-hidden={true} />
           </S.CarouselImageItem>
         ))}
       </S.CarouselImageList>
-      <S.CarouselImageBadge>{`${currentIndex + 1} / ${imageUrls.length}`}</S.CarouselImageBadge>
+      <S.CarouselImageBadge
+        aria-hidden={true}
+      >{`${currentIndex + 1} / ${imageUrls.length}`}</S.CarouselImageBadge>
       <S.CarouselButton
         onClick={handleClickPrevButton}
-        aria-label="Previous image"
         disabled={isFirstImage}
+        aria-label="이전 여행 사진"
       >
         <PrevArrow />
       </S.CarouselButton>
       <S.CarouselButton
         onClick={handleClickNextButton}
-        aria-label="Next image"
         disabled={isLastImage}
+        aria-label="다음 여행 사진"
       >
         <NextArrow />
       </S.CarouselButton>

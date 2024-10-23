@@ -6,16 +6,20 @@ const useTravelPlanStartDate = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [startDateErrorMessage, setStartDateErrorMessage] = useState<string>("");
 
-  const handleSelectStartDate = (date: Date, handleCloseCalendar: () => void) => {
-    const errorMessage = validateStartDate(date);
-    if (errorMessage) {
-      setStartDateErrorMessage(errorMessage);
-    } else {
-      setStartDate(date);
-      setStartDateErrorMessage("");
-      handleCloseCalendar();
-    }
-  };
+  const handleSelectStartDate = useCallback(
+    (date: Date, handleCloseCalendar: () => void) => {
+      const errorMessage = validateStartDate(date);
+
+      if (errorMessage) {
+        setStartDateErrorMessage(errorMessage);
+      } else {
+        setStartDate(date);
+        setStartDateErrorMessage("");
+        handleCloseCalendar();
+      }
+    },
+    [setStartDate],
+  );
 
   const handleInitializeStartDate = useCallback(
     (startDate: string) => {
