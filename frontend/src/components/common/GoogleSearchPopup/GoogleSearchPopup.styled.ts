@@ -14,7 +14,6 @@ export const Layout = styled.div`
   max-width: 48rem;
 
   background-color: ${PRIMITIVE_COLORS.white};
-  transform: translateX(-3.2rem);
 `;
 
 export const StyledInput = styled.input`
@@ -105,4 +104,13 @@ export const InputIcon = styled.svg`
 export const ButtonContainer = styled.div`
   margin-top: auto;
   padding: 1.6rem;
+`;
+
+export const layoutStyle = css`
+  position: relative;
+
+  max-width: 48rem;
+  min-width: 28rem;
+  min-height: 100svh;
+  margin: 0 auto;
 `;
