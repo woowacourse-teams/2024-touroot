@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 
+import { PRIMITIVE_COLORS } from "@styles/tokens";
+
 export const DrawerContainer = styled.div<{ isOpen: boolean }>`
   display: flex;
   flex-direction: column;
@@ -10,7 +12,7 @@ export const DrawerContainer = styled.div<{ isOpen: boolean }>`
   width: 210px;
   height: 100%;
 
-  background-color: #fff;
+  background-color: ${PRIMITIVE_COLORS.white};
 
   transition: right 0.3s ease-in-out;
 `;
