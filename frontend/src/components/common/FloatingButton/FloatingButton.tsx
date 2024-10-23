@@ -31,35 +31,55 @@ const FloatingButton = () => {
           ? "여행기 및 여행 계획 작성 메뉴가 열렸습니다. 닫으려면 esc버튼을 눌러주세요."
           : "여행기 및 여행 계획 작성 메뉴가 닫혔습니다."}
       </VisuallyHidden>
-      {isOpen && (
+      {isOpen ? (
         <>
           <S.BackdropLayout onClick={handleToggleButton} />
           <FocusTrap>
-            <S.SubButtonContainer $isOpen={isOpen}>
-              {SUB_BUTTONS.map(({ text, route }) => (
-                <S.SubButton
-                  key={route}
-                  onClick={() => handleClickSubButton(route)}
-                  aria-label={removeEmoji(text)}
-                >
-                  <Text textType="body" css={S.subButtonTextStyle}>
-                    {text}
-                  </Text>
-                </S.SubButton>
-              ))}
-            </S.SubButtonContainer>
+            <>
+              <S.SubButtonContainer $isOpen={isOpen}>
+                {SUB_BUTTONS.map(({ text, route }) => (
+                  <S.SubButton
+                    key={route}
+                    onClick={() => handleClickSubButton(route)}
+                    aria-label={removeEmoji(text)}
+                  >
+                    <Text textType="body" css={S.subButtonTextStyle}>
+                      {text}
+                    </Text>
+                  </S.SubButton>
+                ))}
+              </S.SubButtonContainer>
+
+              <S.MainButtonWrapper onClick={handleToggleButton} $isOpen={isOpen}>
+                <IconButton
+                  iconType="plus"
+                  color={PRIMITIVE_COLORS.white}
+                  size="20"
+                  title="여행 계획 및 여행기 작성 메뉴"
+                />
+              </S.MainButtonWrapper>
+            </>
           </FocusTrap>
         </>
+      ) : (
+        <S.MainButtonWrapper onClick={handleToggleButton} $isOpen={isOpen}>
+          <IconButton
+            iconType="plus"
+            color={PRIMITIVE_COLORS.white}
+            size="20"
+            title="여행 계획 및 여행기 작성 메뉴"
+          />
+        </S.MainButtonWrapper>
       )}
 
-      <S.MainButtonWrapper onClick={handleToggleButton} $isOpen={isOpen}>
+      {/* <S.MainButtonWrapper onClick={handleToggleButton} $isOpen={isOpen}>
         <IconButton
           iconType="plus"
           color={PRIMITIVE_COLORS.white}
           size="20"
           title="여행 계획 및 여행기 작성 메뉴"
         />
-      </S.MainButtonWrapper>
+      </S.MainButtonWrapper> */}
     </S.FloatingButtonContainer>
   );
 };

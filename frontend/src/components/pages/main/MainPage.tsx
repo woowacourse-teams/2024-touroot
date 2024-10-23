@@ -115,11 +115,11 @@ const MainPage = () => {
 
   const cardRefs = useTravelogueCardFocus(isFetchingNextPage);
 
-  const { shouldRender: shouldSortingRender } = useUnmountAnimation({
+  const { isRendered: shouldSortingRender } = useUnmountAnimation({
     isOpen: sorting.isModalOpen,
   });
 
-  const { shouldRender: shouldFilterRender } = useUnmountAnimation({
+  const { isRendered: shouldFilterRender } = useUnmountAnimation({
     isOpen: travelPeriod.isModalOpen,
   });
 

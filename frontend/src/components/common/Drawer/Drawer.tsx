@@ -17,7 +17,7 @@ const Drawer = ({ children }: React.PropsWithChildren) => {
   usePressESC(isOpen, toggle);
   useModalControl(isOpen, toggle);
 
-  const { shouldRender } = useUnmountAnimation({ isOpen });
+  const { isRendered } = useUnmountAnimation({ isOpen });
 
   let headerContent: React.ReactNode | null = null;
   let drawerContent: React.ReactNode | null = null;
@@ -42,7 +42,7 @@ const Drawer = ({ children }: React.PropsWithChildren) => {
       </VisuallyHidden>
       {otherContent}
       <S.Overlay isOpen={isOpen} onClick={toggle} />
-      {shouldRender &&
+      {isRendered &&
         ReactDOM.createPortal(
           <S.DrawerContainer id="drawer-content" isOpen={isOpen} aria-modal="true" role="dialog">
             {headerContent}
