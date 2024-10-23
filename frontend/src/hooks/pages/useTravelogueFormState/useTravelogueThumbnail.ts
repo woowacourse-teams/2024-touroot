@@ -18,9 +18,16 @@ const useTravelogueThumbnail = () => {
     setThumbnail(thumbnailUrl);
   }, []);
 
-  const handleResetThumbnail = () => setThumbnail("");
+  const handleResetThumbnail = () => {
+    setThumbnail("");
+  };
 
-  return { thumbnail, handleChangeThumbnail, handleResetThumbnail, handleInitializeThumbnail };
+  return {
+    thumbnail,
+    handleChangeThumbnail,
+    handleResetThumbnail,
+    handleInitializeThumbnail,
+  };
 };
 
 export default useTravelogueThumbnail;
