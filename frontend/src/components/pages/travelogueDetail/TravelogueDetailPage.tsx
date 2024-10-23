@@ -25,6 +25,7 @@ import TravelogueTabContent from "@components/pages/travelogueDetail/TravelogueT
 
 import useClickAway from "@hooks/useClickAway";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
+import usePressESC from "@hooks/usePressESC";
 import useUser from "@hooks/useUser";
 
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
@@ -100,6 +101,7 @@ const TravelogueDetailPage = () => {
   const moreContainerRef = useRef(null);
 
   useClickAway(moreContainerRef, handleCloseMoreDropdown);
+  usePressESC(isDropdownOpen, handleCloseMoreDropdown);
 
   const handleTransform = () => {
     onTransformTravelDetail(ROUTE_PATHS_MAP.travelPlanRegister, data);

@@ -15,6 +15,7 @@ import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlan
 
 import useClickAway from "@hooks/useClickAway";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
+import usePressESC from "@hooks/usePressESC";
 
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ROUTE_PATHS_MAP } from "@constants/route";
@@ -103,6 +104,7 @@ const TravelPlanDetailPage = () => {
   const iconButtonContainerRef = useRef(null);
 
   useClickAway(iconButtonContainerRef, handleCloseMoreDropdown);
+  usePressESC(isDropdownOpen, handleCloseMoreDropdown);
 
   useEffect(() => {
     window.scrollTo(0, 0);
