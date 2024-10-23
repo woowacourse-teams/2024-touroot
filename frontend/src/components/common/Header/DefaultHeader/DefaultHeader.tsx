@@ -14,7 +14,7 @@ const DefaultHeader = () => {
         <IconButton
           iconType="home-icon"
           size="20"
-          onClick={() => navigation(ROUTE_PATHS_MAP.root)}
+          onClick={() => navigation(ROUTE_PATHS_MAP.main)}
           aria-label="홈 이동"
         />
       }

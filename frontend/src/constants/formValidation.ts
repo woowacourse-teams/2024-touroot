@@ -6,4 +6,7 @@ export const FORM_VALIDATIONS_MAP = {
   tags: {
     maxCount: 3,
   },
+  days: {
+    min: 1,
+  },
 };

@@ -19,7 +19,7 @@ const AppLayout = () => {
   const receivedKeyword = encodedKeyword ? decodeURIComponent(encodedKeyword) : "";
 
   const getHeader = (pathName: string) => {
-    if (pathName === ROUTE_PATHS_MAP.root) return <HomePageHeader />;
+    if (pathName === ROUTE_PATHS_MAP.main) return <HomePageHeader />;
     if (pathName === ROUTE_PATHS_MAP.searchMain) return <SearchHeader />;
     if (receivedKeyword && pathName.includes(ROUTE_PATHS_MAP.searchMain)) return <SearchHeader />;
     return <DefaultHeader />;

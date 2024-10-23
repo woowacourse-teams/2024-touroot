@@ -29,7 +29,7 @@ const Tab = ({
     };
   }, []);
 
-  const tabRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const { scrollRef, handleMouseDown, handleMouseMove, handleMouseUp } =
     useDragScroll<HTMLUListElement>();
 
@@ -46,17 +46,19 @@ const Tab = ({
         onMouseLeave={handleMouseUp}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
+        aria-label="탭을 누르면 관련된 컨텐츠를 볼 수 있습니다"
         {...props}
       >
         {labels.map((label, index) => (
-          <S.TabItem
-            key={label}
-            ref={(el) => (tabRefs.current[index] = el)}
-            onClick={() => handleClickTab(index)}
-            isSelected={selectedIndex === index}
-            $tabCount={labels.length}
-          >
-            {label}
+          <S.TabItem $tabCount={labels.length}>
+            <S.TabItemContent
+              key={label}
+              ref={(el) => (tabRefs.current[index] = el)}
+              onClick={() => handleClickTab(index)}
+              isSelected={selectedIndex === index}
+            >
+              {label}
+            </S.TabItemContent>
           </S.TabItem>
         ))}
       </S.TabList>

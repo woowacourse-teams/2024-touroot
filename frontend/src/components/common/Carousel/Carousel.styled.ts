@@ -48,8 +48,6 @@ export const CarouselButton = styled.button`
   background-color: rgb(0 0 0 / 50%);
   transform: translateY(-50%);
 
-  cursor: pointer;
-
   &:first-of-type {
     left: 10px;
   }

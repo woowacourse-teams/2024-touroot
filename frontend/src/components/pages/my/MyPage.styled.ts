@@ -22,7 +22,7 @@ export const TabContentContainer = styled.div`
 `;
 
 export const listStyle = css`
-  li {
+  button {
     ${theme.typography.mobile.bodyBold};
   }
 `;

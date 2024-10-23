@@ -8,12 +8,14 @@ import useDeleteTravelPlan from "@queries/useDeleteTravelPlan";
 import { useGetTravelPlan } from "@queries/useGetTravelPlan";
 
 import { DeleteModal, Dropdown, IconButton, Tab, Text, TransformFooter } from "@components/common";
+import VisuallyHidden from "@components/common/VisuallyHidden/VisuallyHidden";
 import ShareModal from "@components/pages/travelPlanDetail/ShareModal/ShareModal";
 import TravelPlanDetailSkeleton from "@components/pages/travelPlanDetail/TravelPlanDetailSkeleton/TravelPlanDetailSkeleton";
 import TravelPlansTabContent from "@components/pages/travelPlanDetail/TravelPlansTabContent/TravelPlansTabContent";
 
 import useClickAway from "@hooks/useClickAway";
 import useLeadingDebounce from "@hooks/useLeadingDebounce";
+import usePressESC from "@hooks/usePressESC";
 
 import { DEBOUNCED_TIME } from "@constants/debouncedTime";
 import { ROUTE_PATHS_MAP } from "@constants/route";
@@ -40,6 +42,7 @@ const TravelPlanDetailPage = () => {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteModalAnnouncement, setDeleteModalAnnouncement] = useState("");
 
   const handleToggleMoreDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -49,9 +52,16 @@ const TravelPlanDetailPage = () => {
     setIsDropdownOpen(false);
   };
 
-  const handleToggleDeleteModal = () => {
+  const handleOpenDeleteModal = () => {
     handleCloseMoreDropdown();
-    setIsDeleteModalOpen((prev) => !prev);
+    setIsDeleteModalOpen(true);
+    setDeleteModalAnnouncement("삭제 메뉴가 열렸습니다.");
+  };
+
+  const handleCloseDeleteModal = () => {
+    handleCloseMoreDropdown();
+    setIsDeleteModalOpen(false);
+    setDeleteModalAnnouncement("삭제 메뉴가 닫혔습니다.");
   };
 
   const debouncedClickDeleteButton = useLeadingDebounce(
@@ -68,8 +78,17 @@ const TravelPlanDetailPage = () => {
   };
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [shareModalAnnouncement, setShareModalAnnouncement] = useState("");
 
-  const handleToggleShareModal = () => setIsShareModalOpen((prev) => !prev);
+  const handleOpenShareModal = () => {
+    setIsShareModalOpen(true);
+    setShareModalAnnouncement("공유하기 메뉴가 열렸습니다.");
+  };
+
+  const handleCloseShareModal = () => {
+    setIsShareModalOpen(false);
+    setShareModalAnnouncement("공유하기 메뉴가 닫혔습니다.");
+  };
 
   const shareUrl = `${window.location.origin}${ROUTE_PATHS_MAP.travelPlan(data?.shareKey ?? "")}`;
 
@@ -85,6 +104,7 @@ const TravelPlanDetailPage = () => {
   const iconButtonContainerRef = useRef(null);
 
   useClickAway(iconButtonContainerRef, handleCloseMoreDropdown);
+  usePressESC(isDropdownOpen, handleCloseMoreDropdown);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -93,7 +113,7 @@ const TravelPlanDetailPage = () => {
   if (status === "pending" || status === "error") {
     if (status === "error") {
       alert(error.message);
-      navigate(ROUTE_PATHS_MAP.root);
+      navigate(ROUTE_PATHS_MAP.main);
     }
 
     return <TravelPlanDetailSkeleton />;
@@ -108,30 +128,34 @@ const TravelPlanDetailPage = () => {
           </Text>
           {!isUUID(id) && (
             <S.IconButtonContainer>
-              <IconButton size="16" iconType="share" onClick={handleToggleShareModal} />
+              <IconButton
+                size="16"
+                iconType="share"
+                onClick={handleOpenShareModal}
+                aria-label="공유하기 버튼, 해당 버튼을 클릭하면 공유하기 메뉴가 열립니다."
+              />
               <div ref={iconButtonContainerRef}>
                 <IconButton
                   iconType="more"
                   size="16"
                   color={theme.colors.text.secondary}
                   onClick={handleToggleMoreDropdown}
+                  aria-label="더보기 버튼, 해당 버튼을 클릭하면 수정 및 삭제 메뉴가 열립니다."
                 />
                 {isDropdownOpen && (
                   <Dropdown size="small" position="right">
-                    <Text
-                      textType="detail"
+                    <S.DropdownButton
                       onClick={handleClickEditButton}
-                      css={S.cursorPointerStyle}
+                      aria-label="클릭하면 수정 페이지로 이동합니다."
                     >
-                      수정
-                    </Text>
-                    <Text
-                      textType="detail"
-                      onClick={handleToggleDeleteModal}
-                      css={S.cursorPointerStyle}
+                      <Text textType="detail">수정</Text>
+                    </S.DropdownButton>
+                    <S.DropdownButton
+                      onClick={handleOpenDeleteModal}
+                      aria-label="클릭하면 삭제 메뉴가 열립니다."
                     >
-                      삭제
-                    </Text>
+                      <Text textType="detail">삭제</Text>
+                    </S.DropdownButton>
                   </Dropdown>
                 )}
               </div>
@@ -160,19 +184,25 @@ const TravelPlanDetailPage = () => {
         guideMessage="여행은 즐겁게 다녀오셨나요?"
       />
 
-      <ShareModal
-        isOpen={isShareModalOpen}
-        onToggleModal={handleToggleShareModal}
-        shareUrl={shareUrl}
-      />
+      <VisuallyHidden aria-live="assertive">{shareModalAnnouncement}</VisuallyHidden>
+      {isShareModalOpen && (
+        <ShareModal
+          isOpen={isShareModalOpen}
+          onToggleModal={handleCloseShareModal}
+          shareUrl={shareUrl}
+        />
+      )}
 
-      <DeleteModal
-        isOpen={isDeleteModalOpen}
-        isPending={isDeletingPending}
-        travelContent="travelPlan"
-        onCloseModal={handleToggleDeleteModal}
-        onClickDeleteButton={handleClickDeleteButton}
-      />
+      <VisuallyHidden aria-live="assertive">{deleteModalAnnouncement}</VisuallyHidden>
+      {isDeleteModalOpen && (
+        <DeleteModal
+          isOpen={isDeleteModalOpen}
+          isPending={isDeletingPending}
+          travelContent="travelPlan"
+          onCloseModal={handleCloseDeleteModal}
+          onClickDeleteButton={handleClickDeleteButton}
+        />
+      )}
     </>
   );
 };

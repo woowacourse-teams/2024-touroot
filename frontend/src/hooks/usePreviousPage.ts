@@ -13,7 +13,7 @@ const usePreviousPage = () => {
     const isCurrentPageLogin = currentPage.includes(ROUTE_PATHS_MAP.login);
 
     if (isPreviousPageMy && isCurrentPageLogin) {
-      navigate(ROUTE_PATHS_MAP.root);
+      navigate(ROUTE_PATHS_MAP.main);
     } else {
       navigate(ROUTE_PATHS_MAP.back);
     }
