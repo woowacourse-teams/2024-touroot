@@ -70,6 +70,7 @@ class TravelPlanControllerTest {
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
+                .countryCode("KR")
                 .build();
 
         PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
@@ -100,6 +101,7 @@ class TravelPlanControllerTest {
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
+                .countryCode("KR")
                 .build();
         PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
         PlanRequest request = PlanRequest.builder()
@@ -255,6 +257,7 @@ class TravelPlanControllerTest {
         PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
+                .countryCode("KR")
                 .position(locationRequest)
                 .build();
 
@@ -284,6 +287,7 @@ class TravelPlanControllerTest {
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
+                .countryCode("KR")
                 .build();
 
         PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
@@ -316,6 +320,7 @@ class TravelPlanControllerTest {
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
+                .countryCode("KR")
                 .build();
 
         PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));

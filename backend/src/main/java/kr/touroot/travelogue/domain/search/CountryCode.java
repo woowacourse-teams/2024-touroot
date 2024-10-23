@@ -258,4 +258,8 @@ public enum CountryCode {
                 .findFirst()
                 .orElse(NONE);
     }
+
+    public static CountryCode valueOfIgnoreCase(String name) {
+        return CountryCode.valueOf(name.toUpperCase());
+    }
 }

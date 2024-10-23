@@ -10,7 +10,8 @@ public record PlanPlaceResponse(
         @Schema(description = "여행 장소 Id", example = "1") Long id,
         @Schema(description = "여행 장소 이름", example = "잠실한강공원") String placeName,
         @Schema(description = "여행 장소 위치") PlanPositionResponse position,
-        @Schema(description = "여행 장소 TODO") List<PlanPlaceTodoResponse> todos
+        @Schema(description = "여행 장소 TODO") List<PlanPlaceTodoResponse> todos,
+        @Schema(description = "국가 코드") String countryCode
 ) {
 
     public static PlanPlaceResponse from(TravelPlanPlace planPlace) {
@@ -19,6 +20,7 @@ public record PlanPlaceResponse(
                 .placeName(planPlace.getName())
                 .position(PlanPositionResponse.from(planPlace.getPosition()))
                 .todos(getTodoResponse(planPlace))
+                .countryCode(planPlace.getCountryCode().name())
                 .build();
     }
 
