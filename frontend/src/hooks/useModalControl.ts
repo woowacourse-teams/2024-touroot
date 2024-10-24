@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
-import usePressESC from '@hooks/usePressESC';
+import { useEffect } from "react";
+
+import usePressESC from "@hooks/usePressESC";
 
 /**
  * modal control에 관한 훅입니다.
@@ -10,11 +11,26 @@ const useModalControl = <T extends (...args: unknown[]) => void>(isOpen: boolean
   usePressESC(isOpen, onToggle);
 
   useEffect(() => {
-    if (isOpen) document.body.style.overflow = 'hidden';
+    if (isOpen) {
+      const scrollY = window.scrollY;
 
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.overflow = "hidden";
+
+      document.body.style.touchAction = "none";
+
+      return () => {
+        document.body.style.position = "";
+        document.body.style.width = "";
+        document.body.style.top = "";
+        document.body.style.overflow = "auto";
+        document.body.style.touchAction = "";
+
+        window.scrollTo(0, scrollY);
+      };
+    }
   }, [isOpen]);
 };
 

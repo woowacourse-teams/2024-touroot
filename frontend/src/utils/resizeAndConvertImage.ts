@@ -66,20 +66,15 @@ const resizeImage = (
 const convertCanvasToBlob = (
   canvas: HTMLCanvasElement,
   format: string = "image/webp",
-  quality: number = 0.8,
 ): Promise<Blob> => {
   return new Promise((resolve, reject) => {
-    canvas.toBlob(
-      (blob) => {
-        if (blob) {
-          resolve(blob);
-        } else {
-          reject(new Error(ERROR_MESSAGE_MAP.imageConvert));
-        }
-      },
-      format,
-      quality,
-    );
+    canvas.toBlob((blob) => {
+      if (blob) {
+        resolve(blob);
+      } else {
+        reject(new Error(ERROR_MESSAGE_MAP.imageConvert));
+      }
+    }, format);
   });
 };
 
