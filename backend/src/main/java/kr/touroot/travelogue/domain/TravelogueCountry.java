@@ -52,19 +52,12 @@ public class TravelogueCountry {
 
     private void validate(Travelogue travelogue, CountryCode countryCode, Integer count) {
         validateNotNull(travelogue, countryCode, count);
-        validateCountryCode(countryCode);
         validateCount(count);
     }
 
     private void validateNotNull(Travelogue travelogue, CountryCode countryCode, Integer count) {
         if (travelogue == null || countryCode == null || count == null) {
             throw new BadRequestException("여행기와 국가 코드, 국가 코드의 count 는 null 일 수 없습니다.");
-        }
-    }
-
-    private void validateCountryCode(CountryCode countryCode) {
-        if (countryCode == CountryCode.NONE) {
-            throw new BadRequestException("여행기의 국가 코드는 NONE 일 수 없습니다.");
         }
     }
 

@@ -44,14 +44,6 @@ class TravelogueCountryTest {
                 .hasMessage("여행기와 국가 코드, 국가 코드의 count 는 null 일 수 없습니다.");
     }
 
-    @DisplayName("국가 코드가 NONE 인 경우 여행기 국가 생성 시 예외가 발생한다")
-    @Test
-    void createTravelogueCountryWithCountryCodeNone() {
-        assertThatThrownBy(() -> new TravelogueCountry(TravelogueFixture.TRAVELOGUE.get(), CountryCode.NONE, 1))
-                .isInstanceOf(BadRequestException.class)
-                .hasMessage("여행기의 국가 코드는 NONE 일 수 없습니다.");
-    }
-
     @DisplayName("count가 1보다 작은 경우 여행기 국가 생성 시 예외가 발생한다")
     @ValueSource(ints = {0, -1})
     @ParameterizedTest
