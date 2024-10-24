@@ -2,6 +2,8 @@ import { useLocation } from "react-router-dom";
 
 import { FloatingButton, SearchFallback, Tab } from "@components/common";
 
+import { STORAGE_KEYS_MAP } from "@constants/storage";
+
 import { extractLastPath } from "@utils/extractId";
 
 import * as S from "./SearchPage.styled";
@@ -30,6 +32,7 @@ const SearchPage = () => {
   return (
     <>
       <Tab
+        storageKey={STORAGE_KEYS_MAP.searchPageTabIndex}
         labels={TAB_CONTENT.map((tab) => tab.label)}
         tabContent={(selectedIndex) => (
           <TravelogueList

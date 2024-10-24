@@ -5,6 +5,7 @@ export const STORAGE_KEYS_MAP = {
   mainPageSort: "mainPageSort",
   mainPageTravelPeriod: "mainPageTravelPeriod",
   mainPageSelectedTagIDs: "mainPageSelectedTagIDs",
+  searchPageTabIndex: "searchPageTabIndex",
   searchPageSort: "searchPageSort",
   searchPageTravelPeriod: "searchPageTravelPeriod",
   searchPageSelectedTagIDs: "searchPageSelectedTagIDs",
