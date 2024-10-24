@@ -69,6 +69,7 @@ public class TravelogueFacadeService {
     ) {
         TravelogueFilterCondition filter = filterRequest.toFilterCondition();
         SearchCondition searchCondition = searchRequest.toSearchCondition();
+
         Page<Travelogue> travelogues = travelogueService.findAll(searchCondition, filter, pageable);
 
         return travelogues.map(this::getTravelogueSimpleResponse);

@@ -19,30 +19,34 @@ public class TravelogueCountryService {
 
     private final TravelogueCountryRepository travelogueCountryRepository;
 
-    @Transactional(readOnly = true)
-    public List<TravelogueCountry> readCountryByTravelogue(Travelogue travelogue) {
-        return travelogueCountryRepository.findAllByTravelogue(travelogue);
-    }
-
     @Transactional
-    public void createTravelogueCountries(Travelogue travelogue, TravelogueRequest request) {
+    public List<TravelogueCountry> createTravelogueCountries(Travelogue travelogue, TravelogueRequest request) {
         Map<CountryCode, Long> countryCounts = countCountries(request);
 
-        countryCounts.forEach((countryCode, count) -> travelogueCountryRepository.save(
-                new TravelogueCountry(travelogue, countryCode, count.intValue())));
+        return countryCounts.entrySet().stream()
+                .map(entry -> travelogueCountryRepository.save(
+                        new TravelogueCountry(travelogue, entry.getKey(), entry.getValue().intValue()))
+                 )
+                .toList();
     }
 
     private Map<CountryCode, Long> countCountries(TravelogueRequest request) {
         return request.days().stream()
                 .flatMap(day -> day.places().stream())
                 .map(place -> CountryCode.valueOf(place.countryCode()))
+                .filter(countryCode -> countryCode != CountryCode.NONE)
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
 
+    @Transactional(readOnly = true)
+    public List<TravelogueCountry> getTravelogueCountryByTravelogue(Travelogue travelogue) {
+        return travelogueCountryRepository.findAllByTravelogue(travelogue);
+    }
+
     @Transactional
-    public void updateTravelogueCountries(Travelogue travelogue, TravelogueRequest request) {
+    public List<TravelogueCountry> updateTravelogueCountries(Travelogue travelogue, TravelogueRequest request) {
         deleteAllByTravelogue(travelogue);
-        createTravelogueCountries(travelogue, request);
+        return createTravelogueCountries(travelogue, request);
     }
 
     @Transactional

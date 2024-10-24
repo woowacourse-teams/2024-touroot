@@ -130,7 +130,7 @@ class TraveloguePlaceTest {
                         "SAM-572")
         )
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("존재하지 않는 국가 코드입니다");
+                .hasMessage("존재하지 않는 국가 코드입니다.");
     }
 
     @DisplayName("장소 사진을 추가할 수 있다")

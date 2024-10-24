@@ -125,6 +125,23 @@ class TravelogueServiceTest {
         assertThat(actual).isEmpty();
     }
 
+    @DisplayName("존재하지 않는 국가로 여행기를 조회하면 빈 페이지가 반환된다.")
+    @Test
+    void findByKeywordWithNotExistCountryRequest() {
+        // given
+        testHelper.initTravelogueTestData();
+
+        SearchCondition searchCondition = new SearchCondition("미역국", SearchType.TITLE);
+        TravelogueFilterCondition filter = new TravelogueFilterCondition(null, null);
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("createdAt"));
+
+        // when
+        Page<Travelogue> actual = travelogueService.findAll(searchCondition, filter, pageRequest);
+
+        // then
+        assertThat(actual).isEmpty();
+    }
+
     @DisplayName("여행기를 수정할 수 있다.")
     @Test
     void updateTravelogue() {

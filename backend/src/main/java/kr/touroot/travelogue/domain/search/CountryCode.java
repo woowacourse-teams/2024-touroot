@@ -2,6 +2,7 @@ package kr.touroot.travelogue.domain.search;
 
 import java.util.Arrays;
 import java.util.Set;
+import kr.touroot.global.exception.BadRequestException;
 
 public enum CountryCode {
 
@@ -259,7 +260,11 @@ public enum CountryCode {
                 .orElse(NONE);
     }
 
-    public static CountryCode valueOfIgnoreCase(String name) {
-        return CountryCode.valueOf(name.toUpperCase());
+    public static CountryCode from(String code) {
+        try {
+            return CountryCode.valueOf(code.toUpperCase());
+        } catch (IllegalArgumentException exception) {
+            throw new BadRequestException("존재하지 않는 국가 코드입니다.");
+        }
     }
 }

@@ -16,4 +16,8 @@ public class SearchCondition {
     public boolean isEmptyCondition() {
         return keyword == null && searchType == null;
     }
+
+    public boolean isNoneCountry() {
+        return searchType == SearchType.COUNTRY && CountryCode.findByName(keyword) == CountryCode.NONE;
+    }
 }

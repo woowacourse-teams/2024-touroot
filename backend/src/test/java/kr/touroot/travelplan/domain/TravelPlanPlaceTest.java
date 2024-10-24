@@ -102,7 +102,7 @@ class TravelPlanPlaceTest {
         assertThatThrownBy(
                 () -> new TravelPlanPlace(VALID_ORDER, VALID_DAY, VALID_NAME, VALID_LAT, VALID_LNG, "CONCODE"))
                 .isInstanceOf(BadRequestException.class)
-                .hasMessage("존재하지 않는 국가 코드입니다");
+                .hasMessage("존재하지 않는 국가 코드입니다.");
     }
 
     @DisplayName("Todo를 추가할 수 있다")

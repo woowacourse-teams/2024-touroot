@@ -5,6 +5,7 @@ import static kr.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
 import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
 import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
 import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
+import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE_WITH_NONE_COUNTRY_CODE;
 
 import java.util.List;
 import kr.touroot.member.domain.LoginType;
@@ -79,6 +80,15 @@ public class TravelogueTestHelper {
         return initTravelogueTestData(author);
     }
 
+    public Travelogue initTravelogueTestDataWithoutCountryCode() {
+        Member author = persistMember();
+        Travelogue travelogue = persistTravelogue(author);
+        TravelogueDay day = persistTravelogueDay(travelogue);
+        TraveloguePlace place = persistTraveloguePlace(day);
+        persistTraveloguePhoto(place);
+        return travelogue;
+    }
+
     public Travelogue initTravelogueTestDataWithSeveralDays() {
         Member author = persistMember();
         return initTravelogueTestDataWithSeveralDays(author);
@@ -135,6 +145,16 @@ public class TravelogueTestHelper {
         return travelogue;
     }
 
+    public Travelogue initTravelogueTestDataWithNoneCountryCode() {
+        Member author = persistMember();
+        Travelogue travelogue = persistTravelogue(author);
+        TravelogueDay day = persistTravelogueDay(travelogue);
+        TraveloguePlace place = persistTraveloguePlaceWithNoneCountryCode(day);
+        persistTraveloguePhoto(place);
+
+        return travelogue;
+    }
+
     private void persisTravelogueTag(Travelogue travelogue, Tag tag) {
         Tag savedTag = initTagTestData(tag);
         travelogueTagRepository.save(new TravelogueTag(travelogue, savedTag));
@@ -160,6 +180,12 @@ public class TravelogueTestHelper {
 
     public TraveloguePlace persistTraveloguePlace(TravelogueDay day) {
         TraveloguePlace place = TRAVELOGUE_PLACE.create(day);
+
+        return traveloguePlaceRepository.save(place);
+    }
+
+    public TraveloguePlace persistTraveloguePlaceWithNoneCountryCode(TravelogueDay day) {
+        TraveloguePlace place = TRAVELOGUE_PLACE_WITH_NONE_COUNTRY_CODE.create(day);
 
         return traveloguePlaceRepository.save(place);
     }
