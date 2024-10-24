@@ -1,3 +1,5 @@
+import { useBeforeUnload } from "react-router-dom";
+
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
 import {
@@ -20,6 +22,7 @@ import useTravelogueRegister from "@components/pages/travelogueRegister/hooks/us
 import useTravelogueFormState from "@hooks/pages/useTravelogueFormState/useTravelogueFormState";
 import useAuthRedirect from "@hooks/useAuthRedirect";
 import { useDragScroll } from "@hooks/useDragScroll";
+import usePrompt from "@hooks/usePrompt";
 import useToggle from "@hooks/useToggle";
 
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
@@ -56,6 +59,15 @@ const TravelogueRegisterPage = () => {
     errorMessages: { titleErrorMessage, travelogueDaysErrorMessage },
     isEnabledForm,
   } = useTravelogueFormState(transformDetail?.days ?? []);
+
+  usePrompt({
+    message: "사이트에서 나가시겠습니까?",
+    when: ({ currentLocation, nextLocation }) => currentLocation.pathname !== nextLocation.pathname,
+  });
+
+  useBeforeUnload((event) => {
+    event.preventDefault();
+  });
 
   const payload = {
     title,
