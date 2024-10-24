@@ -69,8 +69,7 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
     private void findByCountryCode(JPAQuery<Travelogue> query, CountryCode countryCode) {
         query.join(travelogueCountry)
                 .on(travelogue.id.eq(travelogueCountry.travelogue.id))
-                .where(travelogueCountry.countryCode.eq(countryCode))
-                .orderBy(travelogueCountry.count.desc());
+                .where(travelogueCountry.countryCode.eq(countryCode));
     }
 
     private void findByTitleOrAuthor(SearchCondition condition, JPAQuery<Travelogue> query, String keyword) {
