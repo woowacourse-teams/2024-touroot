@@ -12,6 +12,8 @@ interface ImageState {
   isLoading: boolean;
 }
 
+const MAX_FILE_SIZE = 25 * 1024 * 1024; // 25MB in bytes
+
 export const useTravelogueMultiImageUpload = ({
   dayIndex,
   placeIndex,
@@ -71,15 +73,17 @@ export const useTravelogueMultiImageUpload = ({
   };
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (isPaused) {
-      alert(ERROR_MESSAGE_MAP.network);
-      return;
-    }
-
     const files = Array.from(e.target.files as FileList);
 
     if (imageStates.length + files.length > MAX_IMAGE_UPLOAD_COUNT) {
       alert(ERROR_MESSAGE_MAP.imageUpload);
+      return;
+    }
+
+    const oversizedFile = files.find((file) => file.size > MAX_FILE_SIZE);
+
+    if (oversizedFile) {
+      alert(`파일 '${oversizedFile.name}'이 25MB 제한을 초과했습니다.`);
       return;
     }
 
