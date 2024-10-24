@@ -19,11 +19,3 @@ export const firstPageStyle = css`
   top: 0;
   z-index: 1;
 `;
-
-export const secondPageStyle = css`
-  position: absolute;
-  top: 100vh;
-  z-index: 2;
-  width: 100%;
-  transition: transform 0.1s ease-out;
-`;
