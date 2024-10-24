@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import theme from "@styles/theme";
@@ -60,4 +60,22 @@ export const Gradient = styled.div`
   width: 100%;
   height: 20rem;
   background: linear-gradient(to bottom, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 50%) 100%);
+`;
+
+const float = keyframes`
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-1rem); }
+  100% { transform: translateY(0px); }
+`;
+
+export const iconStyle = css`
+  position: absolute;
+  bottom: 0;
+  z-index: ${theme.zIndex.toast};
+  padding: ${theme.spacing.m};
+  opacity: 0.5;
+
+  background-color: transparent;
+
+  animation: ${float} 1s ease-in-out infinite;
 `;

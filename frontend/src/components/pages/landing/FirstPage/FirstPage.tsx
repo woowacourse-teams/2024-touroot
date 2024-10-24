@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 
-import { Button, Text } from "@components/common";
+import { Button, Icon, Text } from "@components/common";
 
 import { ROUTE_PATHS_MAP } from "@constants/route";
+
+import { PRIMITIVE_COLORS } from "@styles/tokens";
 
 import { BigTturi } from "@assets/webp";
 
@@ -47,6 +49,7 @@ const FirstPage = () => {
       </S.Container>
       <S.Gradient />
       <S.Image src={BigTturi} alt="" />
+      <Icon iconType="down-arrow" size="60" color={PRIMITIVE_COLORS.white} css={S.iconStyle} />
     </S.Layout>
   );
 };

@@ -1,6 +1,4 @@
-import { Icon, Text } from "@components/common";
-
-import { PRIMITIVE_COLORS } from "@styles/tokens";
+import { Text } from "@components/common";
 
 import { MainPageImage } from "@assets/webp";
 
@@ -14,7 +12,6 @@ const SecondPage = () => {
 
   return (
     <div css={S.layout}>
-      <Icon iconType="down-arrow" size="60" color={PRIMITIVE_COLORS.white} css={S.buttonStyle} />
       <div css={S.contentContainer}>
         <Box
           ref={registerElement("Box1")}

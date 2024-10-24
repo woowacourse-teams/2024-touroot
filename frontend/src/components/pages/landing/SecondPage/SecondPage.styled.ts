@@ -1,4 +1,4 @@
-import { css, keyframes } from "@emotion/react";
+import { css } from "@emotion/react";
 
 import theme from "@styles/theme";
 import { PRIMITIVE_COLORS } from "@styles/tokens";
@@ -97,24 +97,6 @@ export const emojiStyle = css`
   transform: translateY(50%);
   transform: translateX(-50%);
   z-index: 10;
-`;
-
-const float = keyframes`
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-1rem); }
-  100% { transform: translateY(0px); }
-`;
-
-export const buttonStyle = css`
-  position: absolute;
-  top: -5.8rem;
-  z-index: ${theme.zIndex.toast};
-  padding: ${theme.spacing.m};
-  opacity: 0.5;
-
-  background-color: transparent;
-
-  animation: ${float} 1s ease-in-out infinite;
 `;
 
 export const primaryText = css`
