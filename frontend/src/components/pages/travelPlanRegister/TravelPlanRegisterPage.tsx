@@ -1,3 +1,5 @@
+import { useBeforeUnload } from "react-router-dom";
+
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
 
 import {
@@ -18,6 +20,7 @@ import useTravelPlanRegister from "@components/pages/travelPlanRegister/hooks/us
 
 import useTravelPlanFormState from "@hooks/pages/useTravelPlanFormState/useTravelPlanFormState";
 import useAuthRedirect from "@hooks/useAuthRedirect";
+import usePrompt from "@hooks/usePrompt";
 import useToggle from "@hooks/useToggle";
 
 import { CYPRESS_DATA_MAP } from "@constants/cypress";
@@ -69,7 +72,21 @@ const TravelPlanRegisterPage = () => {
     handleBottomSheetClose,
   );
 
+  usePrompt({
+    message: "사이트에서 나가시겠습니까?",
+    when: ({ currentLocation, nextLocation }) => currentLocation.pathname !== nextLocation.pathname,
+  });
+
   useAuthRedirect();
+
+  usePrompt({
+    message: "사이트에서 나가시겠습니까?",
+    when: ({ currentLocation, nextLocation }) => currentLocation.pathname !== nextLocation.pathname,
+  });
+
+  useBeforeUnload((event) => {
+    event.preventDefault();
+  });
 
   return (
     <>
