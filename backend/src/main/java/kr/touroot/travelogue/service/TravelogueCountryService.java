@@ -25,7 +25,8 @@ public class TravelogueCountryService {
 
         return countryCounts.entrySet().stream()
                 .map(entry -> travelogueCountryRepository.save(
-                        new TravelogueCountry(travelogue, entry.getKey(), entry.getValue().intValue())))
+                        new TravelogueCountry(travelogue, entry.getKey(), entry.getValue().intValue()))
+                 )
                 .toList();
     }
 
