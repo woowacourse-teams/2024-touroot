@@ -11,28 +11,32 @@ export const Layout = styled.div`
   align-items: center;
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100svh;
   max-width: 48rem;
   padding: ${theme.spacing.l} ${theme.spacing.l} 0 ${theme.spacing.l};
 
   background-color: ${PRIMITIVE_COLORS.blue[50]};
 `;
+
 export const Image = styled.img`
   position: absolute;
   bottom: 0;
   z-index: 0;
   width: 100%;
 `;
+
 export const titleStyle = css`
   margin-top: ${theme.spacing.xxl};
 
   color: ${theme.colors.primary};
 `;
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.l};
 `;
+
 export const buttonStyle = css`
   background-color: ${PRIMITIVE_COLORS.white};
 
@@ -47,6 +51,7 @@ export const buttonStyle = css`
     color: ${PRIMITIVE_COLORS.white};
   }
 `;
+
 export const Gradient = styled.div`
   position: absolute;
   bottom: 0;
