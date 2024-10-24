@@ -19,6 +19,7 @@ export const largeText = css`
 
 export const titleStyle = css`
   text-align: center;
+  word-break: keep-all;
 `;
 
 export const subtitleStyle = css`

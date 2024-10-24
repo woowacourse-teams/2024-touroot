@@ -1,3 +1,5 @@
+import TopButton from "@components/common/TopButton/TopButton";
+
 import FirstPage from "./FirstPage/FirstPage";
 import FourthPage from "./FourthPage/FourthPage";
 import * as S from "./LandingPage.styled";
@@ -20,6 +22,7 @@ const LandingPage = () => {
       </S.PageWrapper>
       <ThirdPage />
       <FourthPage />
+      <TopButton />
     </S.Layout>
   );
 };
