@@ -69,6 +69,10 @@ public class TravelogueFacadeService {
     ) {
         TravelogueFilterCondition filter = filterRequest.toFilterCondition();
         SearchCondition searchCondition = searchRequest.toSearchCondition();
+
+        if (searchCondition.isNoneCountry()) {
+            return Page.empty();
+        }
         Page<Travelogue> travelogues = travelogueService.findAll(searchCondition, filter, pageable);
 
         return travelogues.map(this::getTravelogueSimpleResponse);
@@ -77,6 +81,11 @@ public class TravelogueFacadeService {
     // TODO: 프론트엔드 엔드포인트 이전 작업 완료 후 제거
     @Transactional(readOnly = true)
     public Page<TravelogueSimpleResponse> findSimpleTravelogues(TravelogueSearchRequest request, Pageable pageable) {
+        SearchCondition searchCondition = request.toSearchCondition();
+
+        if (searchCondition.isNoneCountry()) {
+            return Page.empty();
+        }
         Page<Travelogue> travelogues = travelogueService.findByKeyword(request, pageable);
 
         return travelogues.map(this::getTravelogueSimpleResponse);

@@ -234,10 +234,30 @@ class TravelogueFacadeServiceTest {
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
 
         // when
-        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(filterRequest, searchRequest, pageRequest);
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(filterRequest, searchRequest,
+                pageRequest);
 
         // then
         assertThat(searchResults).containsAll(responses);
+    }
+
+    @DisplayName("존재하지 않는 국가를 기반으로 여행기 목록을 조회하면 빈 결과를 반환한다.")
+    @Test
+    void findTraveloguesByNoneCountryCodeKeyword() {
+        // given
+        testHelper.initAllTravelogueTestData();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
+
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("미역국", "country");
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
+
+        // when
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(filterRequest, searchRequest,
+                pageRequest);
+
+        // then
+        assertThat(searchResults).isEmpty();
     }
 
     @DisplayName("여행기를 수정할 수 있다.")
