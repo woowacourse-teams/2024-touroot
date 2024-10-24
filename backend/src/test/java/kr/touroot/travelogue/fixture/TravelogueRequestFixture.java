@@ -59,6 +59,18 @@ public class TravelogueRequestFixture {
         ));
     }
 
+    public static List<TraveloguePlaceRequest> getTraveloguePlaceRequestsWithNoneCountryCode(
+            List<TraveloguePhotoRequest> photos) {
+        return List.of(new TraveloguePlaceRequest(
+                "함덕 해수욕장",
+                getTraveloguePositionRequest(),
+                "에메랄드 빛 해변",
+                photos,
+                "NONE"
+        ));
+    }
+
+
     public static List<TraveloguePlaceRequest> getUpdateTraveloguePlaceRequests(List<TraveloguePhotoRequest> photos) {
         return List.of(new TraveloguePlaceRequest(
                 "함덕 해수욕장",
