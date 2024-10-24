@@ -1,132 +1,151 @@
-import { FormEvent, MouseEvent, useEffect, useState } from "react";
-
-import usePatchNickname from "@queries/usePatchNickname";
-import { useUserProfile } from "@queries/useUserProfile";
-
-import { AvatarCircle, CharacterCount, Input, Tab, Text } from "@components/common";
+import {
+  AvatarCircle,
+  CharacterCount,
+  IconButton,
+  Input,
+  Spinner,
+  Tab,
+  Text,
+} from "@components/common";
 import MyPageSkeleton from "@components/pages/my/MyPageSkeleton/MyPageSkeleton";
 
-import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
+import useUnmountAnimation from "@hooks/useUnmountAnimation";
+
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
 import { STORAGE_KEYS_MAP } from "@constants/storage";
 
 import * as S from "./MyPage.styled";
-import MyTravelPlans from "./MyTravelPlans/MyTravelPlans";
-import MyTravelogues from "./MyTravelogues/MyTravelogues";
+import ProfileImageEditModalBottomSheet from "./ProfileImageEditModalBottomSheet/ProfileImageEditModalBottomSheet";
+import { IGNORED_ERROR_MESSAGES, TAB_CONTENT } from "./constants";
+import useMyPage from "./hooks/useMyPage";
 
 const MyPage = () => {
-  const { data, status, error } = useUserProfile();
-  const [isModifying, setIsModifying] = useState(false);
-  const [nickname, setNickname] = useState(data?.nickname ?? "");
+  const { editModal, profileImage, profileNickname, profileEdit, userProfile } = useMyPage();
+  const { isRendered } = useUnmountAnimation({ isOpen: editModal.isEditModalOpen });
 
-  const onError = (error: Error) => {
-    alert(error.message);
-    setNickname(data?.nickname ?? "");
+  const showErrorAlert = (error: Error | null) => {
+    if (error && !IGNORED_ERROR_MESSAGES.includes(error.message)) alert(error.message);
   };
 
-  const { mutate: mutateModifyNickname } = usePatchNickname(onError);
+  if (userProfile.status === "pending") return <MyPageSkeleton />;
 
-  useEffect(() => {
-    if (data?.nickname) {
-      setNickname(data.nickname);
-    }
-  }, [data?.nickname]);
+  if (userProfile.status === "error") {
+    showErrorAlert(userProfile.error);
 
-  const handleStartNicknameEdit = () => {
-    setIsModifying(true);
-  };
-
-  const handleSubmitNicknameChange = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const trimmedNickname = nickname.trim();
-
-    if (data?.nickname && !trimmedNickname) {
-      setNickname(data?.nickname);
-      mutateModifyNickname(data?.nickname);
-    } else if (trimmedNickname) {
-      mutateModifyNickname(trimmedNickname);
-      setNickname(trimmedNickname);
-    }
-
-    setIsModifying(false);
-  };
-
-  const handleButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
-    if (!isModifying) {
-      e.preventDefault();
-      handleStartNicknameEdit();
-    }
-  };
-
-  if (status === "pending" || status === "error") {
-    if (
-      status === "error" &&
-      error.message !== ERROR_MESSAGE_MAP.api.login &&
-      error.message !== "Network Error"
-    ) {
-      alert(error.message);
-    }
     return <MyPageSkeleton />;
   }
 
   return (
     <S.Layout>
-      <S.FormWrapper onSubmit={handleSubmitNicknameChange}>
-        <S.ButtonWrapper>
-          <S.Button type={isModifying ? "submit" : "button"} onClick={handleButtonClick}>
-            {isModifying ? "확인" : "프로필 수정"}
-          </S.Button>
-        </S.ButtonWrapper>
+      {profileEdit.isModifying ? (
+        <S.ProfileContainer>
+          <S.EditButtonContainer>
+            <S.ProfileEditButtonContainer>
+              <S.EditButton type="button" onClick={profileEdit.handleClickProfileEditCancelButton}>
+                취소
+              </S.EditButton>
+              <S.EditButton type="button" onClick={profileEdit.handleClickProfileEditConfirmButton}>
+                확인
+              </S.EditButton>
+            </S.ProfileEditButtonContainer>
+          </S.EditButtonContainer>
 
-        <AvatarCircle $size="large" profileImageUrl={data?.profileImageUrl} />
-        <S.NicknameWrapper>
-          {!isModifying ? (
-            <Text textType="body" css={S.NicknameStyle}>
-              {nickname}
+          <S.ProfileImageContainer>
+            <S.ProfileImageWrapper $isProfileImageLoading={profileImage.isProfileImageLoading}>
+              <AvatarCircle
+                size="large"
+                profileImageUrl={profileImage.profileImageUrl}
+                onLoad={profileImage.handleLoadProfileImage}
+              />
+            </S.ProfileImageWrapper>
+
+            {profileImage.isProfileImageLoading ? (
+              <S.ProfileImageLoadingWrapper>
+                <Spinner variants="circle" size={40} />
+              </S.ProfileImageLoadingWrapper>
+            ) : (
+              <>
+                <S.ProfileImageHiddenInput
+                  ref={profileImage.profileImageFileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={profileImage.handleChangeProfileImage}
+                  aria-label="썸네일 이미지 선택"
+                  title="이미지 파일을 선택하세요"
+                />
+                <IconButton
+                  iconType="camera-icon"
+                  onClick={editModal.handleOpenEditModal}
+                  css={S.profileImageEditButtonStyle}
+                />
+              </>
+            )}
+          </S.ProfileImageContainer>
+
+          <S.NickNameEditContainer>
+            <Input
+              placeholder={userProfile.data?.nickname}
+              value={profileNickname.nickname}
+              autoFocus
+              maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
+              spellCheck={false}
+              css={S.inputStyle}
+              onChange={profileNickname.handleChangeNickname}
+            />
+            <CharacterCount
+              count={profileNickname.nickname?.length}
+              maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+            />
+          </S.NickNameEditContainer>
+        </S.ProfileContainer>
+      ) : (
+        <S.ProfileContainer>
+          <S.EditButtonContainer>
+            <S.EditButton type="button" onClick={profileEdit.handleClickProfileEditButton}>
+              프로필 수정
+            </S.EditButton>
+          </S.EditButtonContainer>
+
+          <S.ProfileImageContainer>
+            <AvatarCircle size="large" profileImageUrl={profileImage.profileImageUrl} />
+          </S.ProfileImageContainer>
+
+          <S.NicknameWrapper>
+            <Text textType="bodyBold" css={S.nicknameStyle}>
+              {profileNickname.nickname}
             </Text>
-          ) : (
-            <S.InputContainer>
-              <Input
-                placeholder={data?.nickname}
-                value={nickname}
-                autoFocus
-                maxLength={20}
-                spellCheck={false}
-                css={S.inputStyle}
-                onChange={(e) =>
-                  setNickname(
-                    e.target.value.slice(
-                      FORM_VALIDATIONS_MAP.title.minLength,
-                      FORM_VALIDATIONS_MAP.title.maxLength,
-                    ),
-                  )
-                }
-              />
-              <CharacterCount
-                count={nickname?.length}
-                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              />
-            </S.InputContainer>
-          )}
-        </S.NicknameWrapper>
-      </S.FormWrapper>
+          </S.NicknameWrapper>
+        </S.ProfileContainer>
+      )}
 
       <Tab
         storageKey={STORAGE_KEYS_MAP.myPageSelectedTabIndex}
-        labels={["내 여행 계획", "내 여행기"]}
-        tabContent={(selectedIndex) => (
-          <>
-            {selectedIndex === 0 ? (
-              data ? (
-                <MyTravelPlans userData={data} />
-              ) : null
-            ) : data ? (
-              <MyTravelogues userData={data} />
-            ) : null}
-          </>
-        )}
-        css={S.ListStyle}
+        labels={TAB_CONTENT.map((tab) => tab.label)}
+        tabContent={(selectedIndex) => {
+          const SelectedComponent = TAB_CONTENT[selectedIndex].component;
+
+          return userProfile.data ? <SelectedComponent userData={userProfile.data} /> : <></>;
+        }}
+        css={S.listStyle}
       />
+
+      {isRendered && (
+        <ProfileImageEditModalBottomSheet
+          isOpen={editModal.isEditModalOpen}
+          onClose={editModal.handleCloseEditModal}
+        >
+          <S.Button onClick={profileImage.handleClickProfileImageEditButton}>
+            <Text textType="detail">프로필 사진 올리기</Text>
+          </S.Button>
+          {profileImage.profileImageUrl && (
+            <S.Button onClick={profileImage.handleClickProfileImageDeleteButton}>
+              <Text textType="detailBold" css={S.deleteTextColor}>
+                프로필 사진 삭제하기
+              </Text>
+            </S.Button>
+          )}
+        </ProfileImageEditModalBottomSheet>
+      )}
     </S.Layout>
   );
 };

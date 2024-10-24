@@ -1,4 +1,5 @@
 import { AxiosError, AxiosResponse } from "axios";
+import { produce } from "immer";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -12,6 +13,8 @@ import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { QUERY_KEYS_MAP } from "@constants/queryKey";
 
+import { convertImageUrlConfig } from "@utils/queryFunction";
+
 export const usePostTravelogue = () => {
   const queryClient = useQueryClient();
 
@@ -21,17 +24,17 @@ export const usePostTravelogue = () => {
     TraveloguePayload,
     unknown
   >({
-    mutationFn: (travelogue: TraveloguePayload) =>
-      authClient.post(API_ENDPOINT_MAP.travelogues, {
-        ...travelogue,
-        days: travelogue.days.map((day) => ({
-          ...day,
-          places: day.places.map((place) => ({
-            ...place,
-            photoUrls: place.photoUrls?.map((url) => ({ url })),
-          })),
-        })),
-      }),
+    mutationFn: (traveloguePayload) =>
+      authClient.post(
+        API_ENDPOINT_MAP.travelogues,
+        produce(traveloguePayload, (newTraveloguePayload) => {
+          newTraveloguePayload.days.forEach((day) => {
+            day.places.forEach((place) => {
+              place.photoUrls = place.photoUrls?.map(convertImageUrlConfig);
+            });
+          });
+        }),
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS_MAP.travelogue.me(),

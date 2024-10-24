@@ -19,15 +19,15 @@ const TravelPlanTodoItem = ({ todo }: { todo: TravelPlanTodo }) => {
   return (
     <S.TodoListItemContainer key={todo.id}>
       <Checkbox
-        checked={todo.checked}
+        checked={todo.isChecked}
         onChange={(e) => {
           if (!isUUID(id))
             mutateUpdateTodoStatus({
-              todoId: todo.id as string,
-              checked: e.target.checked,
+              todoId: String(todo.id),
+              isChecked: e.target.checked,
             });
         }}
-        isChecked={todo.checked ?? false}
+        isChecked={todo.isChecked ?? false}
       />
       <Text textType="detail">{todo.content}</Text>
     </S.TodoListItemContainer>

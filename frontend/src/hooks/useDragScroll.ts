@@ -6,18 +6,18 @@ export const useDragScroll = <T extends HTMLElement>() => {
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
-  const onMouseDown = useCallback((e: React.MouseEvent<T>) => {
+  const handleMouseDown = useCallback((e: React.MouseEvent<T>) => {
     if (!scrollRef.current) return;
     setIsDragging(true);
     setStartX(e.pageX - scrollRef.current.offsetLeft);
     setScrollLeft(scrollRef.current.scrollLeft);
   }, []);
 
-  const onMouseUp = useCallback(() => {
+  const handleMouseUp = useCallback(() => {
     setIsDragging(false);
   }, []);
 
-  const onMouseMove = useCallback(
+  const handleMouseMove = useCallback(
     (e: React.MouseEvent<T>) => {
       if (!isDragging || !scrollRef.current) return;
       e.preventDefault();
@@ -28,5 +28,5 @@ export const useDragScroll = <T extends HTMLElement>() => {
     [isDragging, startX, scrollLeft],
   );
 
-  return { scrollRef, onMouseDown, onMouseUp, onMouseMove, isDragging };
+  return { scrollRef, handleMouseDown, handleMouseUp, handleMouseMove, isDragging };
 };

@@ -15,8 +15,10 @@ export const Container = styled.div`
 export const List = styled.ul`
   display: flex;
   flex-direction: column;
-  width: 100%;
   gap: ${(props) => props.theme.spacing.m};
+
+  width: 100%;
+  padding: 0 ${(props) => props.theme.spacing.l};
 `;
 
 export const ColorButtonStyle = css`
@@ -37,6 +39,7 @@ export const BoxButton = styled.button`
   gap: ${(props) => props.theme.spacing.m};
   justify-content: flex-start;
   align-items: center;
+
   width: 100%;
   padding: ${(props) => props.theme.spacing.m};
   border: 1px solid ${(props) => props.theme.colors.border};

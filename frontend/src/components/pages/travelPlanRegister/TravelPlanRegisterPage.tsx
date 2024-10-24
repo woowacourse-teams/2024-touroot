@@ -1,9 +1,4 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
 import { useTravelTransformDetailContext } from "@contexts/TravelTransformDetailProvider";
-
-import { usePostTravelPlan } from "@queries/usePostTravelPlan";
 
 import {
   Accordion,
@@ -19,90 +14,62 @@ import {
   TextField,
 } from "@components/common";
 import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
+import useTravelPlanRegister from "@components/pages/travelPlanRegister/hooks/useTravelPlanRegister";
 
-import useTravelPlanForm from "@hooks/pages/useTravelPlanForm";
-import useLeadingDebounce from "@hooks/useLeadingDebounce";
-import useUser from "@hooks/useUser";
+import useTravelPlanFormState from "@hooks/pages/useTravelPlanFormState/useTravelPlanFormState";
+import useAuthRedirect from "@hooks/useAuthRedirect";
+import useToggle from "@hooks/useToggle";
 
 import { CYPRESS_DATA_MAP } from "@constants/cypress";
-import { DEBOUNCED_TIME } from "@constants/debouncedTime";
-import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { FORM_VALIDATIONS_MAP } from "@constants/formValidation";
-import { ROUTE_PATHS_MAP } from "@constants/route";
 
 import { extractUTCDate } from "@utils/extractUTCDate";
 
 import * as S from "./TravelPlanRegisterPage.styled";
 
 const TravelPlanRegisterPage = () => {
-  /** form */
-  const { transformDetail, saveTransformDetail } = useTravelTransformDetailContext();
+  const { transformDetail } = useTravelTransformDetailContext();
 
   const {
     state: { title, startDate, travelPlanDays },
     handler: {
-      onChangeTitle,
-      onSelectCalendar,
-      onAddDay,
-      onAddPlace,
-      onDeleteDay,
-      onDeletePlace,
-      onAddPlaceTodo,
-      onDeletePlaceTodo,
-      onChangeContent,
+      handleChangeTitle,
+      handleSelectStartDate,
+      handleAddDay,
+      handleAddPlace,
+      handleDeleteDay,
+      handleDeletePlace,
+      handleAddPlaceTodo,
+      handleDeletePlaceTodo,
+      handleChangeContent,
     },
-  } = useTravelPlanForm(transformDetail?.days ?? []);
+    errorMessages: {
+      titleErrorMessage,
+      startDateErrorMessage,
+      todoErrorMessages,
+      travelPlanDaysErrorMessage,
+    },
+    isEnabledForm,
+  } = useTravelPlanFormState(transformDetail?.days ?? []);
 
-  /** ui */
-  const [isOpenBottomSheet, setIsOpenBottomSheet] = useState(false);
+  const [isOpenBottomSheet, handleBottomSheetOpen, handleBottomSheetClose] = useToggle();
+  const [isShowCalendar, handleOpenCalendar, handleCloseCalendar] = useToggle();
+  const handleEnterCalendarInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleOpenCalendar();
+    }
 
-  const handleOpenBottomSheet = () => setIsOpenBottomSheet(true);
-
-  const handleCloseBottomSheet = () => setIsOpenBottomSheet(false);
-
-  const [isShowCalendar, setIsShowCalendar] = useState(false);
-
-  const handleOpenCalendar = () => setIsShowCalendar(true);
-
-  const handleCloseCalendar = () => setIsShowCalendar(() => false);
-
-  /** router */
-  const navigate = useNavigate();
-
-  /** server */
-  const { mutate: mutateTravelPlanRegister, isPending: isPostingTravelPlanPending } =
-    usePostTravelPlan();
-
-  const handleRegisterTravelPlan = () => {
-    const travelPlanPayload = { title, startDate: extractUTCDate(startDate), days: travelPlanDays };
-
-    mutateTravelPlanRegister(travelPlanPayload, {
-      onSuccess: (data) => {
-        const travelPlanId = data?.data?.id;
-
-        handleCloseBottomSheet();
-        navigate(ROUTE_PATHS_MAP.travelPlan(travelPlanId));
-      },
-    });
+    if (event.key === "Escape") {
+      handleCloseCalendar();
+    }
   };
 
-  const handleConfirmBottomSheet = useLeadingDebounce(
-    () => handleRegisterTravelPlan(),
-    DEBOUNCED_TIME,
+  const { handleDebouncedRegisterBottomSheet, isPostingTravelPlanPending } = useTravelPlanRegister(
+    { title, startDate: extractUTCDate(startDate), days: travelPlanDays },
+    handleBottomSheetClose,
   );
 
-  /** authorization */
-  const { user } = useUser();
-
-  useEffect(() => {
-    if (!user?.accessToken) {
-      alert(ERROR_MESSAGE_MAP.api.login);
-      navigate(ROUTE_PATHS_MAP.login);
-    }
-    return () => {
-      saveTransformDetail(null);
-    };
-  }, [user?.accessToken, navigate, saveTransformDetail]);
+  useAuthRedirect();
 
   return (
     <>
@@ -111,21 +78,29 @@ const TravelPlanRegisterPage = () => {
           mainText="여행 계획 등록"
           subText="여행 계획은 비공개지만, 링크를 통해 원하는 사람과 공유 할 수 있어요."
         />
+
         <TextField title="제목" isRequired>
           {(id) => (
             <S.InputContainer>
               <Input
                 id={id}
                 value={title}
-                maxLength={FORM_VALIDATIONS_MAP.title.maxLength}
                 placeholder="여행 계획 제목을 입력해주세요"
-                onChange={(event) => onChangeTitle(event.target.value)}
+                onChange={(event) => handleChangeTitle(event.target.value)}
                 data-cy={CYPRESS_DATA_MAP.travelPlanRegister.titleInput}
               />
-              <CharacterCount
-                count={title.length}
-                maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
-              />
+              <S.TitleMessageContainer>
+                {titleErrorMessage && (
+                  <Text textType="detail" css={S.errorTextStyle}>
+                    {titleErrorMessage}
+                  </Text>
+                )}
+                <CharacterCount
+                  count={title.length}
+                  maxCount={FORM_VALIDATIONS_MAP.title.maxLength}
+                  css={S.characterCountStyle}
+                />
+              </S.TitleMessageContainer>
             </S.InputContainer>
           )}
         </TextField>
@@ -141,15 +116,26 @@ const TravelPlanRegisterPage = () => {
                 id={id}
                 value={startDate ? startDate.toLocaleDateString().slice(0, -1) : ""}
                 onClick={handleOpenCalendar}
+                onKeyDown={handleEnterCalendarInput}
                 readOnly
                 placeholder="시작일을 입력해주세요"
                 data-cy={CYPRESS_DATA_MAP.travelPlanRegister.startDateInput}
               />
+              <div aria-live="polite" css={S.visualHiddenStyle}>
+                {isShowCalendar
+                  ? "캘린더가 열렸습니다. esc 키를 누르면 캘린더를 닫을 수 있습니다."
+                  : "캘린더가 닫혔습니다. shift tab 후 enter 키를 누르면 캘린더를 다시 열 수 있습니다."}
+              </div>
               {isShowCalendar && (
                 <Calendar
-                  onSelectDate={(date) => onSelectCalendar(date, handleCloseCalendar)}
+                  onSelectDate={(date) => handleSelectStartDate(date, handleCloseCalendar)}
                   onClose={handleCloseCalendar}
                 />
+              )}
+              {startDateErrorMessage && (
+                <Text textType="detail" css={S.errorTextStyle}>
+                  {startDateErrorMessage}
+                </Text>
               )}
             </>
           )}
@@ -163,7 +149,7 @@ const TravelPlanRegisterPage = () => {
                 iconType="plus"
                 position="left"
                 css={S.addButtonStyle}
-                onClick={() => onAddDay()}
+                onClick={handleAddDay}
               >
                 <Text
                   textType="bodyBold"
@@ -179,14 +165,15 @@ const TravelPlanRegisterPage = () => {
                 <TravelPlanDayAccordion
                   key={travelDay.id}
                   startDate={startDate}
-                  onDeletePlaceTodo={onDeletePlaceTodo}
-                  onChangeContent={onChangeContent}
+                  todoErrorMessages={todoErrorMessages}
+                  onDeletePlaceTodo={handleDeletePlaceTodo}
+                  onChangeContent={handleChangeContent}
                   travelPlanDay={travelDay}
                   dayIndex={dayIndex}
-                  onAddPlace={onAddPlace}
-                  onDeletePlace={onDeletePlace}
-                  onDeleteDay={onDeleteDay}
-                  onAddPlaceTodo={onAddPlaceTodo}
+                  onAddPlace={handleAddPlace}
+                  onDeletePlace={handleDeletePlace}
+                  onDeleteDay={handleDeleteDay}
+                  onAddPlaceTodo={handleAddPlaceTodo}
                 />
               ))}
               <IconButton
@@ -194,7 +181,7 @@ const TravelPlanRegisterPage = () => {
                 iconType="plus"
                 position="left"
                 css={S.addButtonStyle}
-                onClick={onAddDay}
+                onClick={handleAddDay}
               >
                 <Text
                   textType="bodyBold"
@@ -203,13 +190,19 @@ const TravelPlanRegisterPage = () => {
                   일자 추가하기
                 </Text>
               </IconButton>
+              {travelPlanDaysErrorMessage && (
+                <Text textType="detail" css={S.errorTextStyle}>
+                  {travelPlanDaysErrorMessage}
+                </Text>
+              )}
             </Accordion.Root>
           </GoogleMapLoadScript>
         </div>
 
         <Button
           variants="primary"
-          onClick={handleOpenBottomSheet}
+          onClick={handleBottomSheetOpen}
+          disabled={!isEnabledForm}
           data-cy={CYPRESS_DATA_MAP.travelPlanRegister.registerButton}
         >
           등록
@@ -221,8 +214,8 @@ const TravelPlanRegisterPage = () => {
         isPending={isPostingTravelPlanPending}
         mainText="여행 계획을 등록할까요?"
         subText="등록한 후에도 다시 여행 계획을 수정할 수 있어요."
-        onClose={handleCloseBottomSheet}
-        onConfirm={handleConfirmBottomSheet}
+        onClose={handleBottomSheetClose}
+        onConfirm={handleDebouncedRegisterBottomSheet}
       />
     </>
   );

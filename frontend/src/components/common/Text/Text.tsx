@@ -4,6 +4,7 @@ import * as S from "./Text.styled";
 
 export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   textType?: TextVariants;
+  isInline?: boolean;
 }
 
 const TAG_MAP = {
@@ -16,9 +17,9 @@ const TAG_MAP = {
   detailBold: "span",
 } as const;
 
-const Text = ({ children, textType = "body", ...attributes }: TextProps) => {
+const Text = ({ children, textType = "body", isInline, ...attributes }: TextProps) => {
   return (
-    <S.Text as={TAG_MAP[textType]} $textType={textType} {...attributes}>
+    <S.Text as={TAG_MAP[textType]} $textType={textType} $isInline={isInline} {...attributes}>
       {children}
     </S.Text>
   );

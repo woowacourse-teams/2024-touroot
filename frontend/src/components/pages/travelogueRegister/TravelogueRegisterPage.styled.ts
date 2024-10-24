@@ -20,6 +20,12 @@ export const InputContainer = styled.div`
   width: 100%;
 `;
 
+export const TitleMessageContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const TagsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -86,4 +92,15 @@ export const addTravelAddButtonStyle = css`
 
 export const addDayButtonStyle = css`
   margin-top: 1.6rem;
+`;
+
+export const errorTextStyle = css`
+  flex: 2;
+  width: 100%;
+
+  color: ${theme.colors.danger};
+`;
+
+export const characterCountStyle = css`
+  flex: 1;
 `;

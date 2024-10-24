@@ -1,41 +1,38 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import type { SearchType } from "@type/domain/travelogue";
+import type { MyLikes } from "@type/domain/travelogue";
+import type { UserResponse } from "@type/domain/user";
 
-import { client } from "@apis/client";
+import { authClient } from "@apis/client";
 
 import { API_ENDPOINT_MAP } from "@constants/endpoint";
 import { QUERY_KEYS_MAP } from "@constants/queryKey";
 
-export const getSearchTravelogues = async ({
+export const getMyLikes = async ({
   page,
   size,
-  keyword,
-  searchType,
 }: {
   page: number;
   size: number;
-  keyword: string;
-  searchType: SearchType;
-}) => {
-  const response = await client.get(API_ENDPOINT_MAP.searchTravelogues, {
-    params: { page, size, keyword, searchType },
+}): Promise<MyLikes[]> => {
+  const response = await authClient.get(API_ENDPOINT_MAP.myLikes, {
+    params: { page, size },
   });
 
   return response.data.content;
 };
 
-const useInfiniteSearchTravelogues = (keyword: string, searchType: "TITLE" | "AUTHOR") => {
+const useInfiniteMyLikes = (userData: UserResponse) => {
   const INITIAL_PAGE = 0;
   const DATA_LOAD_COUNT = 5;
 
   const { data, status, error, fetchNextPage, isFetchingNextPage, hasNextPage, isPaused } =
     useInfiniteQuery({
-      queryKey: QUERY_KEYS_MAP.travelogue.search(keyword, searchType),
+      queryKey: QUERY_KEYS_MAP.travelogue.likes(),
       queryFn: ({ pageParam = INITIAL_PAGE }) => {
         const page = pageParam;
         const size = DATA_LOAD_COUNT;
-        return getSearchTravelogues({ page, size, keyword, searchType });
+        return getMyLikes({ page, size });
       },
       initialPageParam: 0,
       getNextPageParam: (lastPage, allPages) => {
@@ -46,11 +43,11 @@ const useInfiniteSearchTravelogues = (keyword: string, searchType: "TITLE" | "AU
         pages: data.pages.flatMap((page) => page),
         pageParams: data.pageParams,
       }),
-      enabled: keyword.trim() !== "",
+      enabled: !!userData,
     });
 
   return {
-    travelogues: data?.pages || [],
+    myLikes: data?.pages || [],
     status,
     error,
     fetchNextPage,
@@ -60,4 +57,4 @@ const useInfiniteSearchTravelogues = (keyword: string, searchType: "TITLE" | "AU
   };
 };
 
-export default useInfiniteSearchTravelogues;
+export default useInfiniteMyLikes;

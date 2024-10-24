@@ -16,16 +16,27 @@ export const QUERY_KEYS_MAP = {
       searchType,
       keyword,
     ],
-    tag: (
-      selectedTagIDs: number[],
-      selectedSortingOption: SortingOption,
-      selectedTravelPeriodOption: TravelPeriodOption,
-    ) => [
+    tag: ({
+      selectedTagIDs,
+      selectedSortingOption,
+      selectedTravelPeriodOption,
+      keyword,
+      searchType,
+    }: {
+      selectedTagIDs: number[];
+      selectedSortingOption: SortingOption;
+      selectedTravelPeriodOption: TravelPeriodOption;
+      keyword?: string;
+      searchType?: SearchType;
+    }) => [
       ...QUERY_KEYS_MAP.travelogue.all,
       ...selectedTagIDs,
       selectedSortingOption,
       selectedTravelPeriodOption,
+      keyword,
+      searchType,
     ],
+    likes: () => [...QUERY_KEYS_MAP.travelogue.all, "likes"],
   },
   travelPlan: {
     all: ["travel-plans"],

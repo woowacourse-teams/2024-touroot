@@ -21,7 +21,7 @@ describe("메인 페이지 테스트", () => {
       });
     }).as("getTravelogues");
 
-    cy.visit(ROUTE_PATHS_MAP.root);
+    cy.visit(ROUTE_PATHS_MAP.main);
   });
 
   describe("여행기 무한 스크롤 테스트", () => {

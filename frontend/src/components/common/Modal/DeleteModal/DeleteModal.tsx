@@ -29,7 +29,7 @@ const DeleteModal = ({
   return (
     <Modal isOpen={isOpen} onCloseModal={onCloseModal} boxLayoutGap="l">
       <Modal.Header>
-        <IconButton onClick={onCloseModal} size="12" iconType="x-icon" />
+        <IconButton onClick={onCloseModal} size="12" iconType="x-icon" aria-label="닫기" />
       </Modal.Header>
       <Modal.Body direction="column" css={S.modalBodyStyle}>
         <Tturi />

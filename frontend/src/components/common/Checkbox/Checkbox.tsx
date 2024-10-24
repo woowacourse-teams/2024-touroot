@@ -15,7 +15,9 @@ const Checkbox = ({
   return (
     <S.Layout $isChecked={isChecked ?? false}>
       <S.Checkbox type="checkbox" {...props} />
-      {isChecked && <Icon size="15" color={PRIMITIVE_COLORS.white} iconType="check" />}
+      {isChecked && (
+        <Icon size="15" color={PRIMITIVE_COLORS.white} iconType="check" css={S.iconStyle} />
+      )}
     </S.Layout>
   );
 };

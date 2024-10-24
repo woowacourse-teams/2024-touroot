@@ -89,7 +89,7 @@ const MyTravelPlans = ({ userData }: MyTravelPlansProps) => {
               iconType="plus"
               css={S.iconButtonStyle}
             >
-              여행기로 전환
+              여행기로 남기기
             </IconButton>
           </S.Layout>
         )}

@@ -12,5 +12,5 @@ export const Fallback = styled.div`
   background-color: #eee;
 
   ${(props) => props.theme.typography.mobile.detailBold};
-  color: #9e9e9e;
+  color: ${({ theme }) => theme.colors.text.secondary};
 `;

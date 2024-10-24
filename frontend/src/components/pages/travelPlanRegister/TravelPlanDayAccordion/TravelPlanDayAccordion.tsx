@@ -1,4 +1,5 @@
-import { TravelPlanDay, TravelPlanPlace } from "@type/domain/travelPlan";
+import { PlaceInfo } from "@type/domain/common";
+import { TravelPlanDay } from "@type/domain/travelPlan";
 
 import { Accordion, GoogleMapView, GoogleSearchPopup, IconButton, Text } from "@components/common";
 import PlaceTodoListItem from "@components/pages/travelPlanRegister/PlaceTodoListItem/PlaceTodoListItem";
@@ -13,13 +14,11 @@ interface TravelPlanDayAccordionProps {
   travelPlanDay: TravelPlanDay;
   dayIndex: number;
   startDate: Date | null;
+  todoErrorMessages?: Record<string, Record<string, string>>;
   onDeleteDay: (dayIndex: number) => void;
   onDeletePlace: (dayIndex: number, placeIndex: number) => void;
   onDeletePlaceTodo: (dayIndex: number, placeIndex: number, todoId: string) => void;
-  onAddPlace: (
-    dayIndex: number,
-    travelParams: Pick<TravelPlanPlace, "placeName" | "position">,
-  ) => void;
+  onAddPlace: (dayIndex: number, travelParams: PlaceInfo) => void;
   onAddPlaceTodo: (dayIndex: number, placeIndex: number) => void;
   onChangeContent: ({
     content,
@@ -38,6 +37,7 @@ const TravelPlanDayAccordion = ({
   travelPlanDay,
   dayIndex,
   startDate,
+  todoErrorMessages,
   onDeleteDay,
   onDeletePlace,
   onAddPlaceTodo,
@@ -47,10 +47,7 @@ const TravelPlanDayAccordion = ({
 }: TravelPlanDayAccordionProps) => {
   const { isPopupOpen, handleOpenPopup, handleClosePopup } = useSearchPlaceHistory();
 
-  const handleSelectSearchResult = (
-    placeInfo: Pick<TravelPlanPlace, "placeName" | "position">,
-    dayIndex: number,
-  ) => {
+  const handleSelectSearchResult = (placeInfo: PlaceInfo, dayIndex: number) => {
     onAddPlace(dayIndex, placeInfo);
     handleClosePopup();
   };
@@ -104,6 +101,13 @@ const TravelPlanDayAccordion = ({
                     />
                   ))}
                 </S.PlaceTodoListItemContainer>
+                {todoErrorMessages?.[place.id] &&
+                  Object.values(todoErrorMessages).some((message) => message) &&
+                  place.todos && (
+                    <Text textType="detail" css={S.errorTextStyle}>
+                      {Object.values(todoErrorMessages?.[place.id]).find((message) => message)}
+                    </Text>
+                  )}
                 <IconButton
                   size="16"
                   iconType="plus"

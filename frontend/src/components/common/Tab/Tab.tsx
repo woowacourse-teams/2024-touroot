@@ -29,8 +29,9 @@ const Tab = ({
     };
   }, []);
 
-  const tabRefs = useRef<(HTMLLIElement | null)[]>([]);
-  const { scrollRef, onMouseDown, onMouseMove, onMouseUp } = useDragScroll<HTMLUListElement>();
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const { scrollRef, handleMouseDown, handleMouseMove, handleMouseUp } =
+    useDragScroll<HTMLUListElement>();
 
   const handleClickTab = (index: number) => {
     setSelectedIndex(index);
@@ -41,21 +42,23 @@ const Tab = ({
     <>
       <S.TabList
         ref={scrollRef}
-        onMouseDown={onMouseDown}
-        onMouseLeave={onMouseUp}
-        onMouseUp={onMouseUp}
-        onMouseMove={onMouseMove}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseUp}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        aria-label="탭을 누르면 관련된 컨텐츠를 볼 수 있습니다"
         {...props}
       >
         {labels.map((label, index) => (
-          <S.TabItem
-            key={label}
-            ref={(el) => (tabRefs.current[index] = el)}
-            onClick={() => handleClickTab(index)}
-            isSelected={selectedIndex === index}
-            $tabCount={labels.length}
-          >
-            {label}
+          <S.TabItem $tabCount={labels.length}>
+            <S.TabItemContent
+              key={label}
+              ref={(el) => (tabRefs.current[index] = el)}
+              onClick={() => handleClickTab(index)}
+              isSelected={selectedIndex === index}
+            >
+              {label}
+            </S.TabItemContent>
           </S.TabItem>
         ))}
       </S.TabList>
