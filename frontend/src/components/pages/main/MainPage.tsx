@@ -80,7 +80,7 @@ const MainPage = () => {
       selectedTravelPeriodOption: travelPeriod.selectedOption,
     });
 
-  const { scrollRef, handleMouseDown, handleMouseMove, handleMouseUp } =
+  const { scrollRef, handleMouseUp, handleMouseDown, handleMouseMove } =
     useDragScroll<HTMLUListElement>();
   const { modalRef, handleKeyDown } = useKeyDown<HTMLElement>({
     isOpen: true,
@@ -185,6 +185,7 @@ const MainPage = () => {
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseUp}
             onKeyDown={handleKeyDown}
           >
             {sortedTags.map((tag, index) => {

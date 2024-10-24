@@ -189,6 +189,7 @@ const TravelogueList = ({ keyword, searchType }: TravelogueListProps) => {
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseUp}
           >
             {sortedTags.map((tag, index) => {
               const isSelected = selectedTagIDs.includes(tag.id);

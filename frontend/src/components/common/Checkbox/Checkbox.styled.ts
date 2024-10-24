@@ -23,4 +23,5 @@ export const Checkbox = styled.input`
 
 export const iconStyle = css`
   position: absolute;
+  left: 0;
 `;

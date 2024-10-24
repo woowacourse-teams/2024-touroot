@@ -35,7 +35,7 @@ const MyLikes = ({ userData }: MyLikesProps) => {
   };
 
   const handleClickIconButton = () => {
-    navigate(ROUTE_PATHS_MAP.root);
+    navigate(ROUTE_PATHS_MAP.main);
   };
 
   useEffect(() => {
