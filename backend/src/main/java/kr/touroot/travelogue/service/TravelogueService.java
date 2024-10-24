@@ -45,6 +45,9 @@ public class TravelogueService {
     public Page<Travelogue> findByKeyword(TravelogueSearchRequest request, Pageable pageable) {
         SearchType searchType = SearchType.from(request.searchType());
         SearchCondition searchCondition = new SearchCondition(request.keyword(), searchType);
+        if (searchCondition.isNoneCountry()) {
+            return Page.empty();
+        }
 
         return travelogueQueryRepository.findAllBySearchCondition(searchCondition, pageable);
     }
@@ -55,6 +58,10 @@ public class TravelogueService {
             TravelogueFilterCondition filter,
             Pageable pageable
     ) {
+        if (searchCondition.isNoneCountry()) {
+            return Page.empty();
+        }
+
         if (filter.isEmptyCondition() && searchCondition.isEmptyCondition()) {
             return travelogueRepository.findAll(pageable);
         }
