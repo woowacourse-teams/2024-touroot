@@ -12,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.member.dto.request.ProfileUpdateRequest;
+import kr.touroot.member.dto.response.MyLikeTravelogueResponse;
 import kr.touroot.member.dto.response.MyTravelogueResponse;
 import kr.touroot.member.dto.response.ProfileResponse;
 import kr.touroot.member.service.MyPageFacadeService;
@@ -24,7 +25,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -103,6 +104,30 @@ public class MyPageController {
         return ResponseEntity.ok(data);
     }
 
+    @Operation(summary = "내가 좋아요 한 여행기 조회")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "내가 좋아요 한 여행기 조회에 성공했을 때"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "로그인하지 않은 사용자가 조회를 시도할 때",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
+    })
+    @PageableAsQueryParam
+    @GetMapping("/likes")
+    public ResponseEntity<Page<MyLikeTravelogueResponse>> readLikes(
+            @NotNull MemberAuth memberAuth,
+            @Parameter(hidden = true)
+            @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)
+            Pageable pageable
+    ) {
+        Page<MyLikeTravelogueResponse> data = myPageFacadeService.readLikes(memberAuth, pageable);
+        return ResponseEntity.ok(data);
+    }
+
     @Operation(summary = "나의 프로필 정보 수정")
     @ApiResponses(value = {
             @ApiResponse(
@@ -120,7 +145,7 @@ public class MyPageController {
                     content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
             )
     })
-    @PatchMapping("/profile")
+    @PutMapping("/profile")
     public ResponseEntity<ProfileResponse> updateProfile(
             @Valid @RequestBody ProfileUpdateRequest request,
             @NotNull MemberAuth memberAuth

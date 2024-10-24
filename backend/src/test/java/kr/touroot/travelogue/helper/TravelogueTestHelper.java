@@ -1,9 +1,11 @@
 package kr.touroot.travelogue.helper;
 
+import static kr.touroot.travelogue.fixture.TravelogueCountryFixture.TRAVELOGUE_COUNTRY;
 import static kr.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
 import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
 import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
 import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
+import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE_WITH_NONE_COUNTRY_CODE;
 
 import java.util.List;
 import kr.touroot.member.domain.LoginType;
@@ -14,11 +16,13 @@ import kr.touroot.tag.domain.Tag;
 import kr.touroot.tag.fixture.TagFixture;
 import kr.touroot.tag.repository.TagRepository;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.domain.TravelogueCountry;
 import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TravelogueLike;
 import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.domain.TravelogueTag;
+import kr.touroot.travelogue.repository.TravelogueCountryRepository;
 import kr.touroot.travelogue.repository.TravelogueDayRepository;
 import kr.touroot.travelogue.repository.TravelogueLikeRepository;
 import kr.touroot.travelogue.repository.TraveloguePhotoRepository;
@@ -39,6 +43,7 @@ public class TravelogueTestHelper {
     private final TagRepository tagRepository;
     private final TravelogueTagRepository travelogueTagRepository;
     private final TravelogueLikeRepository travelogueLikeRepository;
+    private final TravelogueCountryRepository travelogueCountryRepository;
 
     @Autowired
     public TravelogueTestHelper(
@@ -49,7 +54,8 @@ public class TravelogueTestHelper {
             MemberRepository memberRepository,
             TagRepository tagRepository,
             TravelogueTagRepository travelogueTagRepository,
-            TravelogueLikeRepository travelogueLikeRepository
+            TravelogueLikeRepository travelogueLikeRepository,
+            TravelogueCountryRepository travelogueCountryRepository
     ) {
         this.travelogueRepository = travelogueRepository;
         this.travelogueDayRepository = travelogueDayRepository;
@@ -59,6 +65,7 @@ public class TravelogueTestHelper {
         this.tagRepository = tagRepository;
         this.travelogueTagRepository = travelogueTagRepository;
         this.travelogueLikeRepository = travelogueLikeRepository;
+        this.travelogueCountryRepository = travelogueCountryRepository;
     }
 
     public void initAllTravelogueTestData() {
@@ -73,6 +80,15 @@ public class TravelogueTestHelper {
         return initTravelogueTestData(author);
     }
 
+    public Travelogue initTravelogueTestDataWithoutCountryCode() {
+        Member author = persistMember();
+        Travelogue travelogue = persistTravelogue(author);
+        TravelogueDay day = persistTravelogueDay(travelogue);
+        TraveloguePlace place = persistTraveloguePlace(day);
+        persistTraveloguePhoto(place);
+        return travelogue;
+    }
+
     public Travelogue initTravelogueTestDataWithSeveralDays() {
         Member author = persistMember();
         return initTravelogueTestDataWithSeveralDays(author);
@@ -82,6 +98,7 @@ public class TravelogueTestHelper {
         Travelogue travelogue = persistTravelogue(author);
         TravelogueDay day = persistTravelogueDay(travelogue);
         TraveloguePlace place = persistTraveloguePlace(day);
+        persistTravelogueCountry(travelogue);
         persistTraveloguePhoto(place);
 
         return travelogue;
@@ -103,6 +120,7 @@ public class TravelogueTestHelper {
         Travelogue travelogue = persistTravelogue(author);
         TravelogueDay day = persistTravelogueDay(travelogue);
         TraveloguePlace place = persistTraveloguePlace(day);
+        persistTravelogueCountry(travelogue);
         persistTraveloguePhoto(place);
         persisTravelogueTag(travelogue, TagFixture.TAG_1.get());
 
@@ -123,6 +141,16 @@ public class TravelogueTestHelper {
     public Travelogue initTravelogueTestDataWithLike(Member liker) {
         Travelogue travelogue = initTravelogueTestData();
         persistTravelogueLike(travelogue, liker);
+
+        return travelogue;
+    }
+
+    public Travelogue initTravelogueTestDataWithNoneCountryCode() {
+        Member author = persistMember();
+        Travelogue travelogue = persistTravelogue(author);
+        TravelogueDay day = persistTravelogueDay(travelogue);
+        TraveloguePlace place = persistTraveloguePlaceWithNoneCountryCode(day);
+        persistTraveloguePhoto(place);
 
         return travelogue;
     }
@@ -154,6 +182,18 @@ public class TravelogueTestHelper {
         TraveloguePlace place = TRAVELOGUE_PLACE.create(day);
 
         return traveloguePlaceRepository.save(place);
+    }
+
+    public TraveloguePlace persistTraveloguePlaceWithNoneCountryCode(TravelogueDay day) {
+        TraveloguePlace place = TRAVELOGUE_PLACE_WITH_NONE_COUNTRY_CODE.create(day);
+
+        return traveloguePlaceRepository.save(place);
+    }
+
+    public TravelogueCountry persistTravelogueCountry(Travelogue travelogue) {
+        TravelogueCountry travelogueCountry = TRAVELOGUE_COUNTRY.create(travelogue);
+
+        return travelogueCountryRepository.save(travelogueCountry);
     }
 
     public TraveloguePhoto persistTraveloguePhoto(TraveloguePlace place) {

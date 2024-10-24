@@ -4,6 +4,8 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +19,7 @@ import kr.touroot.global.entity.BaseEntity;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.place.domain.Place;
 import kr.touroot.position.domain.Position;
+import kr.touroot.travelogue.domain.search.CountryCode;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -61,21 +64,27 @@ public class TraveloguePlace extends BaseEntity {
     @OneToMany(mappedBy = "traveloguePlace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TraveloguePhoto> traveloguePhotos = new ArrayList<>();
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private CountryCode countryCode;
+
     public TraveloguePlace(
             Long id,
             Integer order,
             String description,
             String name,
             Position position,
-            TravelogueDay travelogueDay
+            TravelogueDay travelogueDay,
+            String countryCode
     ) {
-        validate(order, description, name, position, travelogueDay);
+        validate(order, description, name, position, travelogueDay, countryCode);
         this.id = id;
         this.order = order;
         this.description = description;
         this.name = name;
         this.position = position;
         this.travelogueDay = travelogueDay;
+        this.countryCode = CountryCode.from(countryCode);
     }
 
     public TraveloguePlace(
@@ -84,9 +93,10 @@ public class TraveloguePlace extends BaseEntity {
             String name,
             String latitude,
             String longitude,
-            TravelogueDay travelogueDay
+            TravelogueDay travelogueDay,
+            String countryCode
     ) {
-        this(null, order, description, name, new Position(latitude, longitude), travelogueDay);
+        this(null, order, description, name, new Position(latitude, longitude), travelogueDay, countryCode);
     }
 
     private void validate(
@@ -94,18 +104,21 @@ public class TraveloguePlace extends BaseEntity {
             String description,
             String name,
             Position coordinate,
-            TravelogueDay travelogueDay
+            TravelogueDay travelogueDay,
+            String countryCode
     ) {
-        validateNotNull(order, name, coordinate, travelogueDay);
+        validateNotNull(order, name, coordinate, travelogueDay, countryCode);
         validateNotBlank(name);
         validateOrderRange(order);
         validateDescriptionLength(description);
         validatePlaceNameLength(name);
+        validateCountryCode(countryCode);
     }
 
-    private void validateNotNull(Integer order, String name, Position coordinate, TravelogueDay day) {
-        if (order == null || name == null || coordinate == null || day == null) {
-            throw new BadRequestException("여행기 장소에서 순서와 장소 위치, 그리고 방문 날짜는 비어 있을 수 없습니다");
+    private void validateNotNull(Integer order, String name, Position coordinate, TravelogueDay day,
+                                 String countryCode) {
+        if (order == null || name == null || coordinate == null || day == null || countryCode == null) {
+            throw new BadRequestException("여행기 장소에서 순서와 장소 위치, 방문 날짜, 그리고 국가 코드는 비어 있을 수 없습니다");
         }
     }
 
@@ -131,6 +144,10 @@ public class TraveloguePlace extends BaseEntity {
         if (placeName.length() > PLACE_NAME_MAX_LENGTH) {
             throw new BadRequestException("장소 이름은 " + PLACE_NAME_MAX_LENGTH + "자 이하여야 합니다");
         }
+    }
+
+    private void validateCountryCode(String countryCode) {
+        CountryCode.from(countryCode);
     }
 
     public void addPhoto(TraveloguePhoto photo) {

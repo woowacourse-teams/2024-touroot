@@ -5,6 +5,8 @@ import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueLike;
 import kr.touroot.travelogue.repository.TravelogueLikeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelogueLikeService {
 
     private final TravelogueLikeRepository travelogueLikeRepository;
+
+    @Transactional(readOnly = true)
+    public Page<TravelogueLike> findByLiker(Member liker, Pageable pageable) {
+        return travelogueLikeRepository.findAllByLiker(liker, pageable);
+    }
 
     @Transactional(readOnly = true)
     public boolean existByTravelogueAndMember(Travelogue travelogue, Member liker) {

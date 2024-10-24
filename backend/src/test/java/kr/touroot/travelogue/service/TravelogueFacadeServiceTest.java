@@ -48,6 +48,7 @@ import org.springframework.data.domain.Sort;
         TravelogueImagePerpetuationService.class,
         TravelogueTagService.class,
         TravelogueLikeService.class,
+        TravelogueCountryService.class,
         MemberService.class,
         TravelogueTestHelper.class,
         PasswordEncryptor.class,
@@ -146,12 +147,17 @@ class TravelogueFacadeServiceTest {
     @DisplayName("메인 페이지에 표시할 여행기 목록을 조회한다.")
     @Test
     void findTravelogues() {
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest(null, null);
         TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
         testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> expect = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
-        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(filterRequest, pageRequest);
+        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(
+                filterRequest,
+                searchRequest,
+                pageRequest
+        );
 
         assertThat(result).containsAll(expect);
     }
@@ -163,9 +169,10 @@ class TravelogueFacadeServiceTest {
         testHelper.initAllTravelogueTestData();
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
         TravelogueFilterRequest filter = new TravelogueFilterRequest(List.of(1L), null);
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest(null, null);
 
         // when
-        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(filter, pageRequest);
+        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(filter, searchRequest, pageRequest);
 
         // then
         assertThat(result.getContent()).hasSize(1);
@@ -174,27 +181,83 @@ class TravelogueFacadeServiceTest {
     @DisplayName("제목 키워드를 기반으로 여행기 목록을 조회한다.")
     @Test
     void findTraveloguesByTitleKeyword() {
+        // given
         testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("제주", "title");
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
-        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(searchRequest, pageRequest);
 
+        // when
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(
+                filterRequest,
+                searchRequest,
+                pageRequest
+        );
+
+        // then
         assertThat(searchResults).containsAll(responses);
     }
 
     @DisplayName("사용자 닉네임을 기반으로 여행기 목록을 조회한다.")
     @Test
     void findTraveloguesByAuthorNicknameKeyword() {
+        // given
         testHelper.initAllTravelogueTestData();
         Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
 
         TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("리비", "author");
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
-        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(searchRequest, pageRequest);
 
+        // when
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(
+                filterRequest,
+                searchRequest,
+                pageRequest
+        );
+
+        // then
         assertThat(searchResults).containsAll(responses);
+    }
+
+    @DisplayName("국가 코드를 기반으로 여행기 목록을 조회한다.")
+    @Test
+    void findTraveloguesByCountryCodeKeyword() {
+        // given
+        testHelper.initAllTravelogueTestData();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
+
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("한국", "country");
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
+
+        // when
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(filterRequest, searchRequest,
+                pageRequest);
+
+        // then
+        assertThat(searchResults).containsAll(responses);
+    }
+
+    @DisplayName("존재하지 않는 국가를 기반으로 여행기 목록을 조회하면 빈 결과를 반환한다.")
+    @Test
+    void findTraveloguesByNoneCountryCodeKeyword() {
+        // given
+        testHelper.initAllTravelogueTestData();
+        Page<TravelogueSimpleResponse> responses = TravelogueResponseFixture.getTravelogueSimpleResponses();
+
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("미역국", "country");
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("id"));
+
+        // when
+        Page<TravelogueSimpleResponse> searchResults = service.findSimpleTravelogues(filterRequest, searchRequest,
+                pageRequest);
+
+        // then
+        assertThat(searchResults).isEmpty();
     }
 
     @DisplayName("여행기를 수정할 수 있다.")

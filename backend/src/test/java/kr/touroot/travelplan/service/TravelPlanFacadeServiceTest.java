@@ -9,7 +9,9 @@ import java.util.List;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.global.config.EmbeddedS3Config;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.service.MemberService;
 import kr.touroot.travelplan.domain.TravelPlan;
@@ -33,7 +35,9 @@ import org.springframework.context.annotation.Import;
         TravelPlanService.class,
         MemberService.class,
         PasswordEncryptor.class,
-        TravelPlanTestHelper.class
+        TravelPlanTestHelper.class,
+        AwsS3Provider.class,
+        EmbeddedS3Config.class
 })
 @ServiceTest
 class TravelPlanFacadeServiceTest {
@@ -73,6 +77,7 @@ class TravelPlanFacadeServiceTest {
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
+                .countryCode("KR")
                 .build();
         PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
         PlanRequest request = PlanRequest.builder()
@@ -124,6 +129,7 @@ class TravelPlanFacadeServiceTest {
                 .placeName("잠실한강공원")
                 .todos(Collections.EMPTY_LIST)
                 .position(locationRequest)
+                .countryCode("KR")
                 .build();
         PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
         PlanRequest request = PlanRequest.builder()

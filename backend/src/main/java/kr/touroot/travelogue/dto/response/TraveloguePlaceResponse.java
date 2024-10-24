@@ -15,7 +15,9 @@ public record TraveloguePlaceResponse(
         @Schema(description = "여행기 장소 설명", example = "성담 빌딩에 위치한 선릉 캠퍼스입니다.")
         String description,
         TraveloguePositionResponse position,
-        List<String> photoUrls
+        List<String> photoUrls,
+        @Schema(description = "여행기 장소 국가 코드", example = "KR")
+        String countryCode
 ) {
 
     public static TraveloguePlaceResponse from(TraveloguePlace traveloguePlace) {
@@ -25,6 +27,7 @@ public record TraveloguePlaceResponse(
                 .description(traveloguePlace.getDescription())
                 .position(TraveloguePositionResponse.from(traveloguePlace.getPosition()))
                 .photoUrls(getTraveloguePhotosResponse(traveloguePlace))
+                .countryCode(traveloguePlace.getCountryCode().name())
                 .build();
     }
 

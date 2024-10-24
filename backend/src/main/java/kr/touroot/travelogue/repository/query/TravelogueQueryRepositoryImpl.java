@@ -1,17 +1,19 @@
 package kr.touroot.travelogue.repository.query;
 
 import static kr.touroot.travelogue.domain.QTravelogue.travelogue;
+import static kr.touroot.travelogue.domain.QTravelogueCountry.travelogueCountry;
 import static kr.touroot.travelogue.domain.QTravelogueTag.travelogueTag;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueFilterCondition;
-import com.querydsl.core.types.dsl.StringPath;
+import kr.touroot.travelogue.domain.search.CountryCode;
 import kr.touroot.travelogue.domain.search.SearchCondition;
 import kr.touroot.travelogue.domain.search.SearchType;
 import lombok.RequiredArgsConstructor;
@@ -32,17 +34,48 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Travelogue> findByKeywordAndSearchType(SearchCondition condition, Pageable pageable) {
-        String keyword = condition.getKeyword();
-        List<Travelogue> results = jpaQueryFactory.selectFrom(travelogue)
-                .where(Expressions.stringTemplate(TEMPLATE, getTargetField(condition.getSearchType()))
-                        .containsIgnoreCase(keyword.replace(BLANK, EMPTY)))
-                .orderBy(travelogue.id.desc())
+    public Page<Travelogue> findAllByCondition(
+            SearchCondition searchCondition,
+            TravelogueFilterCondition filterCondition,
+            Pageable pageable
+    ) {
+        JPAQuery<Travelogue> baseQuery = jpaQueryFactory.selectFrom(travelogue);
+
+        addSearchCondition(baseQuery, searchCondition);
+        addFilterCondition(baseQuery, filterCondition);
+
+        List<Travelogue> results = baseQuery.orderBy(findSortCondition(pageable.getSort()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         return new PageImpl<>(results, pageable, results.size());
+    }
+
+    private void addSearchCondition(JPAQuery<Travelogue> query, SearchCondition condition) {
+        String keyword = condition.getKeyword();
+
+        if (condition.getSearchType() == SearchType.COUNTRY) {
+            CountryCode countryCode = CountryCode.findByName(keyword);
+            findByCountryCode(query, countryCode);
+            return;
+        }
+
+        if (condition.getSearchType() == SearchType.AUTHOR || condition.getSearchType() == SearchType.TITLE) {
+            findByTitleOrAuthor(condition, query, keyword);
+        }
+    }
+
+    private void findByCountryCode(JPAQuery<Travelogue> query, CountryCode countryCode) {
+        query.join(travelogueCountry)
+                .on(travelogue.id.eq(travelogueCountry.travelogue.id))
+                .where(travelogueCountry.countryCode.eq(countryCode));
+    }
+
+    private void findByTitleOrAuthor(SearchCondition condition, JPAQuery<Travelogue> query, String keyword) {
+        query.where(Expressions.stringTemplate(TEMPLATE, getTargetField(condition.getSearchType()))
+                        .containsIgnoreCase(keyword.replace(BLANK, EMPTY)))
+                .orderBy(travelogue.id.desc());
     }
 
     private StringPath getTargetField(SearchType searchType) {
@@ -52,19 +85,9 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         return travelogue.title;
     }
 
-    @Override
-    public Page<Travelogue> findAllByFilter(TravelogueFilterCondition filter, Pageable pageable) {
-        JPAQuery<Travelogue> query = jpaQueryFactory.selectFrom(travelogue);
-
+    private void addFilterCondition(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
         addTagFilter(query, filter);
         addPeriodFilter(query, filter);
-
-        List<Travelogue> results = query.orderBy(findSortCondition(pageable.getSort()))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        return new PageImpl<>(results, pageable, results.size());
     }
 
     public void addTagFilter(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
@@ -112,5 +135,27 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
         }
 
         return Order.DESC;
+    }
+
+    // TODO: 프론트엔드 엔드포인트 이전 작업 완료 후 제거
+    @Override
+    public Page<Travelogue> findAllBySearchCondition(SearchCondition condition, Pageable pageable) {
+        String keyword = condition.getKeyword();
+        JPAQuery<Travelogue> query = jpaQueryFactory.selectFrom(travelogue);
+
+        if (condition.getSearchType() == SearchType.COUNTRY) {
+            CountryCode countryCode = CountryCode.findByName(keyword);
+            findByCountryCode(query, countryCode);
+        }
+
+        if (condition.getSearchType() == SearchType.AUTHOR || condition.getSearchType() == SearchType.TITLE) {
+            findByTitleOrAuthor(condition, query, keyword);
+        }
+
+        List<Travelogue> results = query.offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return new PageImpl<>(results, pageable, results.size());
     }
 }

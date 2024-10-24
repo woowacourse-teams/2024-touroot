@@ -12,11 +12,13 @@ import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.domain.TravelogueFilterCondition;
+import kr.touroot.travelogue.domain.search.SearchCondition;
+import kr.touroot.travelogue.domain.search.SearchType;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
-import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.fixture.TravelogueFixture;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
@@ -26,7 +28,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @DisplayName("여행기 서비스")
 @Import(value = {TravelogueService.class, TravelogueTestHelper.class, TestQueryDslConfig.class})
@@ -90,21 +94,52 @@ class TravelogueServiceTest {
     @DisplayName("여행기를 검색할 수 있다.")
     @Test
     void findByKeyword() {
+        // given
         testHelper.initTravelogueTestData();
-        TravelogueSearchRequest request = new TravelogueSearchRequest("제주", "title");
 
-        assertThat(travelogueService.findByKeyword(request, Pageable.ofSize(BASIC_PAGE_SIZE)))
-                .hasSize(1);
+        SearchCondition searchCondition = new SearchCondition("제주", SearchType.TITLE);
+        TravelogueFilterCondition filter = new TravelogueFilterCondition(null, null);
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("createdAt"));
+
+        // when
+        Page<Travelogue> actual = travelogueService.findAll(searchCondition, filter, pageRequest);
+
+        // then
+        assertThat(actual).hasSize(1);
     }
 
     @DisplayName("존재하지 않는 키워드로 여행기를 조회하면 빈 페이지가 반환된다.")
     @Test
     void findByKeywordWithNotExistRequest() {
+        // given
         testHelper.initTravelogueTestData();
-        TravelogueSearchRequest request = new TravelogueSearchRequest("서울", "title");
 
-        assertThat(travelogueService.findByKeyword(request, Pageable.ofSize(BASIC_PAGE_SIZE)))
-                .isEmpty();
+        SearchCondition searchCondition = new SearchCondition("서울", SearchType.TITLE);
+        TravelogueFilterCondition filter = new TravelogueFilterCondition(null, null);
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("createdAt"));
+
+        // when
+        Page<Travelogue> actual = travelogueService.findAll(searchCondition, filter, pageRequest);
+
+        // then
+        assertThat(actual).isEmpty();
+    }
+
+    @DisplayName("존재하지 않는 국가로 여행기를 조회하면 빈 페이지가 반환된다.")
+    @Test
+    void findByKeywordWithNotExistCountryRequest() {
+        // given
+        testHelper.initTravelogueTestData();
+
+        SearchCondition searchCondition = new SearchCondition("미역국", SearchType.TITLE);
+        TravelogueFilterCondition filter = new TravelogueFilterCondition(null, null);
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("createdAt"));
+
+        // when
+        Page<Travelogue> actual = travelogueService.findAll(searchCondition, filter, pageRequest);
+
+        // then
+        assertThat(actual).isEmpty();
     }
 
     @DisplayName("여행기를 수정할 수 있다.")

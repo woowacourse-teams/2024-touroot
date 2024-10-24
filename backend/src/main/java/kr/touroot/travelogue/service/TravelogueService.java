@@ -40,21 +40,33 @@ public class TravelogueService {
         return travelogueRepository.findAllByAuthor(member, pageable);
     }
 
+    // TODO: 프론트엔드 엔드포인트 이전 작업 완료 후 제거
     @Transactional(readOnly = true)
     public Page<Travelogue> findByKeyword(TravelogueSearchRequest request, Pageable pageable) {
         SearchType searchType = SearchType.from(request.searchType());
         SearchCondition searchCondition = new SearchCondition(request.keyword(), searchType);
+        if (searchCondition.isNoneCountry()) {
+            return Page.empty();
+        }
 
-        return travelogueQueryRepository.findByKeywordAndSearchType(searchCondition, pageable);
+        return travelogueQueryRepository.findAllBySearchCondition(searchCondition, pageable);
     }
 
     @Transactional(readOnly = true)
-    public Page<Travelogue> findAllByFilter(TravelogueFilterCondition filter, Pageable pageable) {
-        if (filter.isEmptyCondition()) {
+    public Page<Travelogue> findAll(
+            SearchCondition searchCondition,
+            TravelogueFilterCondition filter,
+            Pageable pageable
+    ) {
+        if (searchCondition.isNoneCountry()) {
+            return Page.empty();
+        }
+
+        if (filter.isEmptyCondition() && searchCondition.isEmptyCondition()) {
             return travelogueRepository.findAll(pageable);
         }
 
-        return travelogueQueryRepository.findAllByFilter(filter, pageable);
+        return travelogueQueryRepository.findAllByCondition(searchCondition, filter, pageable);
     }
 
     @Transactional

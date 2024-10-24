@@ -131,8 +131,16 @@ public class Member extends BaseEntity {
         }
     }
 
-    public void changeNickname(String nickname) {
+    private void validateProfileImageUrlNotNull(String profileImageUrl) {
+        if (profileImageUrl == null) {
+            throw new BadRequestException("프로필 이미지는 비어 있을 수 없습니다");
+        }
+    }
+
+    public void update(String nickname, String profileImageUrl) {
         validateNickname(nickname);
+        validateProfileImageUrlNotNull(profileImageUrl);
         this.nickname = nickname;
+        this.profileImageUrl = profileImageUrl;
     }
 }

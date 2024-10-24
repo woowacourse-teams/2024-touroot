@@ -4,11 +4,16 @@ import static kr.touroot.member.fixture.MemberRequestFixture.DUPLICATE_NICKNAME_
 import static kr.touroot.member.fixture.MemberRequestFixture.VALID_MEMBER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.util.List;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.global.config.EmbeddedS3Config;
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.image.domain.ImageFile;
+import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.dto.request.MemberRequest;
 import kr.touroot.member.dto.request.ProfileUpdateRequest;
@@ -19,25 +24,31 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 @DisplayName("사용자 서비스")
-@Import(value = {MemberService.class, MemberTestHelper.class, PasswordEncryptor.class})
+@Import(value = {MemberService.class, MemberTestHelper.class, PasswordEncryptor.class, AwsS3Provider.class,
+        EmbeddedS3Config.class})
 @ServiceTest
 class MemberServiceTest {
 
     private final MemberService memberService;
     private final MemberTestHelper testHelper;
     private final DatabaseCleaner databaseCleaner;
+    private final AwsS3Provider s3Provider;
 
     @Autowired
     public MemberServiceTest(
             MemberService memberService,
             MemberTestHelper testHelper,
-            DatabaseCleaner databaseCleaner
+            DatabaseCleaner databaseCleaner,
+            AwsS3Provider s3Provider
     ) {
         this.memberService = memberService;
         this.testHelper = testHelper;
         this.databaseCleaner = databaseCleaner;
+        this.s3Provider = s3Provider;
     }
 
     @BeforeEach
@@ -99,11 +110,21 @@ class MemberServiceTest {
     void updateProfile() {
         Member member = testHelper.persistMember();
         MemberAuth memberAuth = new MemberAuth(member.getId());
-        ProfileUpdateRequest request = new ProfileUpdateRequest("newNickname");
+        String newNickname = "newNickname";
+        MultipartFile multipartFile = new MockMultipartFile("file", "image.jpg", "image/jpeg",
+                "image content".getBytes());
+        String newProfileImageUrl = s3Provider.uploadImages(List.of(new ImageFile(multipartFile)))
+                .get(0)
+                .replace("temporary", "images");
+        ProfileUpdateRequest request = new ProfileUpdateRequest(newNickname, newProfileImageUrl);
 
         memberService.updateProfile(request, memberAuth);
 
-        assertThat(memberService.getMemberById(member.getId()).getNickname())
-                .isEqualTo("newNickname");
+        assertAll(
+                () -> assertThat(memberService.getMemberById(member.getId()).getNickname())
+                        .isEqualTo(newNickname),
+                () -> assertThat(memberService.getMemberById(member.getId()).getProfileImageUrl())
+                        .isEqualTo(newProfileImageUrl)
+        );
     }
 }

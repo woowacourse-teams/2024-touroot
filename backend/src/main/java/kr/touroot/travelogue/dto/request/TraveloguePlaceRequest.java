@@ -26,7 +26,10 @@ public record TraveloguePlaceRequest(
         @NotNull(message = "여행기 장소 사진은 null일 수 없습니다.")
         @Size(message = "여행기 장소 사진은 최대 10개입니다.", max = 10)
         @Valid
-        List<TraveloguePhotoRequest> photoUrls
+        List<TraveloguePhotoRequest> photoUrls,
+        @Schema(description = "여행기 장소 국가 코드", example = "KR")
+        @NotBlank(message = "여행기 장소 국가 코드는 비어있을 수 없습니다.")
+        String countryCode
 ) {
 
     public TraveloguePlace toTraveloguePlace(int order, TravelogueDay travelogueDay) {
@@ -36,7 +39,8 @@ public record TraveloguePlaceRequest(
                 placeName,
                 position().lat(),
                 position().lng(),
-                travelogueDay
+                travelogueDay,
+                countryCode
         );
         addTraveloguePhotos(traveloguePlace);
         return traveloguePlace;
