@@ -21,7 +21,7 @@ class CountryCodeTest {
                 .isEqualTo(CountryCode.KR);
     }
 
-    @DisplayName("없는 나라 이름으로 찾으면 NONE을 반환한다.")
+    @DisplayName("없는 국가 이름으로 찾으면 NONE을 반환한다.")
     @Test
     void findByNonCountryName() {
         CountryCode code = CountryCode.findByName("미역국");
