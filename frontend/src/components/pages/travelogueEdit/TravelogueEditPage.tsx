@@ -20,7 +20,6 @@ import TravelogueDayAccordion from "@components/pages/travelogueRegister/Travelo
 
 import useTravelogueFormState from "@hooks/pages/useTravelogueFormState/useTravelogueFormState";
 import { useDragScroll } from "@hooks/useDragScroll";
-import usePrompt from "@hooks/usePrompt";
 import useToggle from "@hooks/useToggle";
 import useUnmountAnimation from "@hooks/useUnmountAnimation";
 
@@ -79,11 +78,6 @@ const TravelogueEditPage = () => {
     handleChangeTitle,
     handleChangeTravelogueDays,
     handleInitializeThumbnail,
-  });
-
-  usePrompt({
-    message: "사이트에서 나가시겠습니까?",
-    when: ({ currentLocation, nextLocation }) => currentLocation.pathname !== nextLocation.pathname,
   });
 
   useBeforeUnload((event) => {
