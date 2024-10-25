@@ -125,7 +125,7 @@ export const MainPageList = styled.li`
 export const FetchButton = styled.button`
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: -10rem;
   z-index: ${({ theme }) => theme.zIndex.floating};
   padding: ${({ theme }) => theme.spacing.xs};
 
@@ -133,10 +133,10 @@ export const FetchButton = styled.button`
 
   color: ${PRIMITIVE_COLORS.white};
 
-  transform: translateY(100%);
-  transition: transform 0.3s;
+  transform: translateX(0);
 
   &:focus {
-    transform: translateY(0);
+    transform: translateX(10rem);
+    transition: transform 0.3s;
   }
 `;

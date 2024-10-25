@@ -1,12 +1,37 @@
+import heic2any from "heic2any";
+
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
 import { MAX_HEIGHT, MAX_WIDTH } from "@constants/resize";
 
-const loadImageFromFile = (file: File): Promise<HTMLImageElement> => {
+const loadImageFromFile = async (file: File): Promise<HTMLImageElement> => {
+  let processedFile = file;
+  if (file.type === "image/heic" || file.type === "image/heif") {
+    try {
+      const blob = await heic2any({
+        blob: file,
+        toType: "image/jpeg",
+        quality: 0.8,
+      });
+
+      processedFile = new File(
+        [Array.isArray(blob) ? blob[0] : blob],
+        file.name.replace(/\.heic$/i, ".jpg"),
+        { type: "image/jpeg" },
+      );
+    } catch (error) {
+      throw new Error(`HEIC 이미지를 변환하는데 실패 했습니다. 다시 시도해주세요.`);
+    }
+  }
+
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => resolve(img);
-    img.onerror = (error) => reject(error);
-    img.src = URL.createObjectURL(file);
+    img.onerror = () => {
+      reject(
+        new Error(`이름 - ${file.name}, 타입 - ${file.type}인 이미지를 업로드하는데 실패했습니다.`),
+      );
+    };
+    img.src = URL.createObjectURL(processedFile);
   });
 };
 
@@ -41,20 +66,15 @@ const resizeImage = (
 const convertCanvasToBlob = (
   canvas: HTMLCanvasElement,
   format: string = "image/webp",
-  quality: number = 0.8,
 ): Promise<Blob> => {
   return new Promise((resolve, reject) => {
-    canvas.toBlob(
-      (blob) => {
-        if (blob) {
-          resolve(blob);
-        } else {
-          reject(new Error(ERROR_MESSAGE_MAP.imageConvert));
-        }
-      },
-      format,
-      quality,
-    );
+    canvas.toBlob((blob) => {
+      if (blob) {
+        resolve(blob);
+      } else {
+        reject(new Error(ERROR_MESSAGE_MAP.imageConvert));
+      }
+    }, format);
   });
 };
 
@@ -82,6 +102,7 @@ const resizeAndConvertImage = async (
     const newFile = createFileFromBlob(blob, file.name); // 4. Blob을 파일로 변환
     return newFile;
   } catch (error) {
+    console.error(error);
     throw new Error(ERROR_MESSAGE_MAP.imageConvert);
   }
 };
