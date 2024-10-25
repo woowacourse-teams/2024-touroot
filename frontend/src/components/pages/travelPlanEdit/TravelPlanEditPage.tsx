@@ -18,7 +18,6 @@ import { useTravelPlanInitialization } from "@components/pages/travelPlanEdit/ho
 import TravelPlanDayAccordion from "@components/pages/travelPlanRegister/TravelPlanDayAccordion/TravelPlanDayAccordion";
 
 import useTravelPlanFormState from "@hooks/pages/useTravelPlanFormState/useTravelPlanFormState";
-import usePrompt from "@hooks/usePrompt";
 import useToggle from "@hooks/useToggle";
 
 import { ERROR_MESSAGE_MAP } from "@constants/errorMessage";
@@ -69,11 +68,6 @@ const TravelPlanEditPage = () => {
   );
 
   const navigate = useNavigate();
-
-  usePrompt({
-    message: "사이트에서 나가시겠습니까?",
-    when: ({ currentLocation, nextLocation }) => currentLocation.pathname !== nextLocation.pathname,
-  });
 
   useBeforeUnload((event) => {
     event.preventDefault();
