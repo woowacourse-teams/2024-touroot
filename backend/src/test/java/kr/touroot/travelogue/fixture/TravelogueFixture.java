@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum TravelogueFixture {
 
-    TRAVELOGUE(MemberFixture.KAKAO_MEMBER.build(), "제주에 하영 옵서", "https://dev.touroot.kr/temporary/jeju_thumbnail.png");
+    TRAVELOGUE(MemberFixture.KAKAO_MEMBER.create(), "제주에 하영 옵서", "https://dev.touroot.kr/temporary/jeju_thumbnail.png");
 
     private final Member author;
     private final String title;

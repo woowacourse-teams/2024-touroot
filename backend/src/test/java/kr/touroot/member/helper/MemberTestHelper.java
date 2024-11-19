@@ -18,7 +18,7 @@ public class MemberTestHelper {
     }
 
     public Member persistMember() {
-        Member member = DEFAULT_MEMBER.build();
+        Member member = DEFAULT_MEMBER.create();
         return memberRepository.save(member);
     }
 
