@@ -1,7 +1,5 @@
 package kr.touroot.member.service;
 
-import static kr.touroot.member.fixture.MemberRequestFixture.DUPLICATE_NICKNAME_MEMBER;
-import static kr.touroot.member.fixture.MemberRequestFixture.VALID_MEMBER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -17,6 +15,7 @@ import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.dto.request.MemberRequest;
 import kr.touroot.member.dto.request.ProfileUpdateRequest;
+import kr.touroot.member.fixture.MemberFixture;
 import kr.touroot.member.helper.MemberTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
@@ -75,7 +74,7 @@ class MemberServiceTest {
     @DisplayName("정상적인 값을 가진 요청이 주어지면 회원을 생성한다.")
     @Test
     void createMember() {
-        MemberRequest request = VALID_MEMBER.getRequest();
+        MemberRequest request = MemberFixture.DEFAULT_MEMBER.createRequest();
 
         Long id = memberService.createMember(request);
 
@@ -94,11 +93,16 @@ class MemberServiceTest {
                 .hasMessage("이미 회원 가입되어 있는 이메일입니다.");
     }
 
-    @DisplayName("중복된 이메일을 가진 회원을 생성하려하면 예외가 발생한다.")
+    @DisplayName("중복된 닉네임을 가진 회원을 생성하려하면 예외가 발생한다.")
     @Test
     void createMemberWithDuplicatedNickname() {
-        testHelper.persistMember();
-        MemberRequest request = DUPLICATE_NICKNAME_MEMBER.getRequest();
+        Member persistedMember = testHelper.persistMember();
+        String nonDuplicatedEmail = "noDuplicate" + persistedMember.getEmail();
+        String duplicatedNickname = persistedMember.getNickname();
+        MemberRequest request = MemberFixture.DEFAULT_MEMBER.getMemberRequestWithEmailAndNickname(
+                nonDuplicatedEmail,
+                duplicatedNickname
+        );
 
         assertThatThrownBy(() -> memberService.createMember(request))
                 .isInstanceOf(BadRequestException.class)

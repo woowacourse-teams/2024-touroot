@@ -61,4 +61,8 @@ public enum MemberFixture {
     public MemberRequest createRequestWithProfileImageUrl(String profileImageUrl) {
         return new MemberRequest(email, password, nickname, profileImageUrl);
     }
+
+    public MemberRequest getMemberRequestWithEmailAndNickname(String email, String nickname) {
+        return new MemberRequest(email, password, nickname, profileImageUrl);
+    }
 }
