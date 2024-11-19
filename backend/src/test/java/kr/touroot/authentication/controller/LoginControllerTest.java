@@ -48,7 +48,7 @@ class LoginControllerTest {
     @DisplayName("카카오 로그인 요청을 처리할 수 있다")
     @Test
     void loginTest() throws Exception {
-        OauthUserInformationResponse kakaoUserInformation = OauthUserFixture.KAKAO_USER.createOauthInformationResponse();
+        OauthUserInformationResponse kakaoUserInformation = OauthUserFixture.KAKAO_USER.getOauthInformationResponse();
         when(oauthProvider.getUserInformation(any(String.class), any(String.class)))
                 .thenReturn(kakaoUserInformation);
 

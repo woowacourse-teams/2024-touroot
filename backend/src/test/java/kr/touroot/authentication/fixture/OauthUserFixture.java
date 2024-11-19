@@ -14,7 +14,7 @@ public enum OauthUserFixture {
     private final String nickname;
     private final String profileImagePath;
 
-    public OauthUserInformationResponse createOauthInformationResponse() {
+    public OauthUserInformationResponse getOauthInformationResponse() {
         KakaoProfile kakaoProfile = new KakaoProfile(nickname, profileImagePath);
         KakaoAccount kakaoAccount = new KakaoAccount(kakaoProfile);
         return new OauthUserInformationResponse(socialLoginId, kakaoAccount);

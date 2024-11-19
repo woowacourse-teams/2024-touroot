@@ -47,7 +47,7 @@ class LoginServiceTest {
         String refreshToken = "bbb";
 
         when(kakaoOauthProvider.getUserInformation(any(String.class), any(String.class)))
-                .thenReturn(OauthUserFixture.KAKAO_USER.createOauthInformationResponse());
+                .thenReturn(OauthUserFixture.KAKAO_USER.getOauthInformationResponse());
         when(memberRepository.findByKakaoId(any(Long.class)))
                 .thenReturn(Optional.of(MEMBER));
         when(jwtTokenProvider.createToken(MEMBER.getId()))
@@ -69,7 +69,7 @@ class LoginServiceTest {
         String refreshToken = "bbb";
 
         when(kakaoOauthProvider.getUserInformation(any(String.class), any(String.class)))
-                .thenReturn(OauthUserFixture.KAKAO_USER.createOauthInformationResponse());
+                .thenReturn(OauthUserFixture.KAKAO_USER.getOauthInformationResponse());
         when(memberRepository.findByKakaoId(any(Long.class)))
                 .thenReturn(Optional.empty());
         when(memberRepository.save(any(Member.class)))
