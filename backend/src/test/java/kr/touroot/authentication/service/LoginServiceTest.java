@@ -28,7 +28,7 @@ class LoginServiceTest {
 
     private static final String AUTHENTICATION_CODE = "test-authentication-code";
     private static final String REDIRECT_URI = "http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fv1%2Flogin%2Foauth%2Fkakao";
-    private static final Member MEMBER = MemberFixture.KAKAO_MEMBER.create();
+    private static final Member MEMBER = MemberFixture.KAKAO_MEMBER.getMember();
 
     @InjectMocks
     private LoginService loginService;

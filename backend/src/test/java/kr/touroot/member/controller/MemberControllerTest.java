@@ -40,7 +40,7 @@ class MemberControllerTest {
     @DisplayName("회원 가입을 한다.")
     @Test
     void createTravelogue() {
-        MemberRequest request = MemberFixture.DEFAULT_MEMBER.createRequest();
+        MemberRequest request = MemberFixture.DEFAULT_MEMBER.getMemberRequest();
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -54,7 +54,7 @@ class MemberControllerTest {
     @DisplayName("비어있는 이메일로 회원 가입하면 예외가 발생한다.")
     @Test
     void createTravelogueWithEmptyEmail() {
-        MemberRequest request = MemberFixture.DEFAULT_MEMBER.createRequestWithEmail("");
+        MemberRequest request = MemberFixture.DEFAULT_MEMBER.getMemberRequestWithEmail("");
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -69,7 +69,7 @@ class MemberControllerTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "\t", "\n"})
     void createTravelogueWithEmptyPassword(String emptyPassword) {
-        MemberRequest request = MemberFixture.DEFAULT_MEMBER.createRequestWithPassword(emptyPassword);
+        MemberRequest request = MemberFixture.DEFAULT_MEMBER.getMemberRequestWithPassword(emptyPassword);
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -84,7 +84,7 @@ class MemberControllerTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "\t", "\n"})
     void createTravelogueWithEmptyNickname(String emptyNickname) {
-        MemberRequest request = MemberFixture.DEFAULT_MEMBER.createRequestWithNickname(emptyNickname);
+        MemberRequest request = MemberFixture.DEFAULT_MEMBER.getMemberRequestWithNickname(emptyNickname);
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -99,7 +99,7 @@ class MemberControllerTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "\t", "\n"})
     void createTravelogueWithEmptyProfileImageUrl(String emptyProfileImageUrl) {
-        MemberRequest request = MemberFixture.DEFAULT_MEMBER.createRequestWithProfileImageUrl(emptyProfileImageUrl);
+        MemberRequest request = MemberFixture.DEFAULT_MEMBER.getMemberRequestWithProfileImageUrl(emptyProfileImageUrl);
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)

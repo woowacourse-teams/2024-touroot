@@ -74,7 +74,7 @@ class MemberServiceTest {
     @DisplayName("정상적인 값을 가진 요청이 주어지면 회원을 생성한다.")
     @Test
     void createMember() {
-        MemberRequest request = MemberFixture.DEFAULT_MEMBER.createRequest();
+        MemberRequest request = MemberFixture.DEFAULT_MEMBER.getMemberRequest();
 
         Long id = memberService.createMember(request);
 

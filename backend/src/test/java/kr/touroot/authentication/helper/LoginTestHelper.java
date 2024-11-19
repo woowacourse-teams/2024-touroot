@@ -13,7 +13,7 @@ public class LoginTestHelper {
     private final MemberRepository memberRepository;
 
     public Member initMemberTestData() {
-        Member member = MemberFixture.DEFAULT_MEMBER.create();
+        Member member = MemberFixture.DEFAULT_MEMBER.getMember();
         return memberRepository.save(member);
     }
 }

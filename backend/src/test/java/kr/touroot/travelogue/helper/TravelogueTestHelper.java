@@ -161,7 +161,7 @@ public class TravelogueTestHelper {
     }
 
     public Member persistMember() {
-        Member author = MemberFixture.KAKAO_MEMBER.create();
+        Member author = MemberFixture.KAKAO_MEMBER.getMember();
 
         return memberRepository.save(author);
     }

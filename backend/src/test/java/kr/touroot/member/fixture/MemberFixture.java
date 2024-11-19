@@ -35,30 +35,30 @@ public enum MemberFixture {
     private final String nickname;
     private final LoginType loginType;
 
-    public Member create() {
+    public Member getMember() {
         if (loginType == LoginType.KAKAO) {
             return new Member(socialId, nickname, profileImageUrl, loginType);
         }
         return new Member(email, password, nickname, profileImageUrl, loginType);
     }
 
-    public MemberRequest createRequest() {
+    public MemberRequest getMemberRequest() {
         return new MemberRequest(email, password, nickname, profileImageUrl);
     }
 
-    public MemberRequest createRequestWithEmail(String email) {
+    public MemberRequest getMemberRequestWithEmail(String email) {
         return new MemberRequest(email, password, nickname, profileImageUrl);
     }
 
-    public MemberRequest createRequestWithPassword(String password) {
+    public MemberRequest getMemberRequestWithPassword(String password) {
         return new MemberRequest(email, password, nickname, profileImageUrl);
     }
 
-    public MemberRequest createRequestWithNickname(String nickname) {
+    public MemberRequest getMemberRequestWithNickname(String nickname) {
         return new MemberRequest(email, password, nickname, profileImageUrl);
     }
 
-    public MemberRequest createRequestWithProfileImageUrl(String profileImageUrl) {
+    public MemberRequest getMemberRequestWithProfileImageUrl(String profileImageUrl) {
         return new MemberRequest(email, password, nickname, profileImageUrl);
     }
 

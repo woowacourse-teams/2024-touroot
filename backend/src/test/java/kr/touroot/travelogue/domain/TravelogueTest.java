@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @DisplayName("여행기 도메인")
 class TravelogueTest {
 
-    private static final Member VALID_AUTHOR = MemberFixture.KAKAO_MEMBER.create();
+    private static final Member VALID_AUTHOR = MemberFixture.KAKAO_MEMBER.getMember();
     private static final String VALID_TITLE = "올바른 여행기 제목";
     private static final String VALID_THUMBNAIL = "http://valid-thumbnail.com";
     private static final String UPDATED_TITLE = "수정된 여행기 제목";

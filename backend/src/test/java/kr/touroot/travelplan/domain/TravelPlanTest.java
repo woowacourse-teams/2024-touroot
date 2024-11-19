@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @DisplayName("여행 계획")
 class TravelPlanTest {
 
-    private static final Member VALID_AUTHOR = MemberFixture.KAKAO_MEMBER.create();
+    private static final Member VALID_AUTHOR = MemberFixture.KAKAO_MEMBER.getMember();
     private static final String VALID_TITLE = "제주도 여행 계획";
     private static final UUID VALID_UUID = UUID.randomUUID();
     private static final LocalDate VALID_START_DATE = LocalDate.now().plusDays(2);
