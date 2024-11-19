@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 import kr.touroot.authentication.dto.response.LoginResponse;
 import kr.touroot.authentication.dto.response.TokenResponse;
-import kr.touroot.authentication.fixture.OauthUserInformationFixture;
+import kr.touroot.authentication.fixture.OauthUserFixture;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.authentication.infrastructure.KakaoOauthProvider;
 import kr.touroot.member.domain.Member;
@@ -47,7 +47,7 @@ class LoginServiceTest {
         String refreshToken = "bbb";
 
         when(kakaoOauthProvider.getUserInformation(any(String.class), any(String.class)))
-                .thenReturn(OauthUserInformationFixture.USER_1_OAUTH_INFORMATION);
+                .thenReturn(OauthUserFixture.KAKAO_USER.createOauthInformationResponse());
         when(memberRepository.findByKakaoId(any(Long.class)))
                 .thenReturn(Optional.of(MEMBER));
         when(jwtTokenProvider.createToken(MEMBER.getId()))
@@ -69,7 +69,7 @@ class LoginServiceTest {
         String refreshToken = "bbb";
 
         when(kakaoOauthProvider.getUserInformation(any(String.class), any(String.class)))
-                .thenReturn(OauthUserInformationFixture.USER_1_OAUTH_INFORMATION);
+                .thenReturn(OauthUserFixture.KAKAO_USER.createOauthInformationResponse());
         when(memberRepository.findByKakaoId(any(Long.class)))
                 .thenReturn(Optional.empty());
         when(memberRepository.save(any(Member.class)))
