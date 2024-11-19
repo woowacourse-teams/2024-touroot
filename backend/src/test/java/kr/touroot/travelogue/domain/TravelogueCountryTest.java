@@ -16,7 +16,8 @@ class TravelogueCountryTest {
     @DisplayName("검증 규칙에 어긋나지 않는 여행기 생성 시 예외가 발생하지 않는다")
     @Test
     void createTravelogueCountryWithValidData() {
-        assertThatCode(() -> new TravelogueCountry(TravelogueFixture.TRAVELOGUE.get(), CountryCode.KR, 1))
+        assertThatCode(
+                () -> new TravelogueCountry(TravelogueFixture.JEJU_TRAVELOGUE.getTravelogue(), CountryCode.KR, 1))
                 .doesNotThrowAnyException();
     }
 
@@ -31,7 +32,7 @@ class TravelogueCountryTest {
     @DisplayName("국가 코드가 null인 경우 여행기 국가 생성 시 예외가 발생한다")
     @Test
     void createTravelogueCountryWithNullCountryCode() {
-        assertThatThrownBy(() -> new TravelogueCountry(TravelogueFixture.TRAVELOGUE.get(), null, 1))
+        assertThatThrownBy(() -> new TravelogueCountry(TravelogueFixture.JEJU_TRAVELOGUE.getTravelogue(), null, 1))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("여행기와 국가 코드, 국가 코드의 count 는 null 일 수 없습니다.");
     }
@@ -39,7 +40,8 @@ class TravelogueCountryTest {
     @DisplayName("count가 null인 경우 여행기 국가 생성 시 예외가 발생한다")
     @Test
     void createTravelogueCountryWithNullCount() {
-        assertThatThrownBy(() -> new TravelogueCountry(TravelogueFixture.TRAVELOGUE.get(), CountryCode.KR, null))
+        assertThatThrownBy(
+                () -> new TravelogueCountry(TravelogueFixture.JEJU_TRAVELOGUE.getTravelogue(), CountryCode.KR, null))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("여행기와 국가 코드, 국가 코드의 count 는 null 일 수 없습니다.");
     }
@@ -48,7 +50,8 @@ class TravelogueCountryTest {
     @ValueSource(ints = {0, -1})
     @ParameterizedTest
     void createTravelogueCountryWithLessThanMinCount(int count) {
-        assertThatThrownBy(() -> new TravelogueCountry(TravelogueFixture.TRAVELOGUE.get(), CountryCode.KR, count))
+        assertThatThrownBy(
+                () -> new TravelogueCountry(TravelogueFixture.JEJU_TRAVELOGUE.getTravelogue(), CountryCode.KR, count))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("국가 코드의 개수는 1 보다 커야합니다.");
     }

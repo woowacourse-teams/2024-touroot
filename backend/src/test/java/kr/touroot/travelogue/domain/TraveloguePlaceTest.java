@@ -20,7 +20,7 @@ class TraveloguePlaceTest {
     private static final String VALID_NAME = "함덕 해수욕장";
     private static final String VALID_LAT = "33.5431";
     private static final String VALID_LNG = "126.6728";
-    private static final TravelogueDay VALID_DAY = TravelogueDayFixture.TRAVELOGUE_DAY.get();
+    private static final TravelogueDay VALID_DAY = TravelogueDayFixture.FIRST_DAY.getTravelogueDay();
     private static final String VALID_DESC = "장소에 대한 설명";
     private static final String VALID_COUNTRY_CODE = "KR";
 
@@ -136,7 +136,7 @@ class TraveloguePlaceTest {
     @DisplayName("장소 사진을 추가할 수 있다")
     @Test
     void addPhotoInTraveloguePlace() {
-        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.TRAVELOGUE_PLACE.get();
+        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.HAMDEOK_BEACH.get();
         TraveloguePhoto traveloguePhoto = TraveloguePhotoFixture.TRAVELOGUE_PHOTO.get();
 
         traveloguePlace.addPhoto(traveloguePhoto);
@@ -147,7 +147,7 @@ class TraveloguePlaceTest {
     @DisplayName("여행 장소에 장소 사진을 추가하면 장소 사진의 여행 장소 참조도 수정된다")
     @Test
     void addDayInTravelogueThenDayUpdated() {
-        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.TRAVELOGUE_PLACE.get();
+        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.HAMDEOK_BEACH.get();
         TraveloguePhoto traveloguePhoto = TraveloguePhotoFixture.TRAVELOGUE_PHOTO.get();
 
         traveloguePlace.addPhoto(traveloguePhoto);

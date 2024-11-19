@@ -1,10 +1,10 @@
 package kr.touroot.travelogue.helper;
 
-import static kr.touroot.travelogue.fixture.TravelogueCountryFixture.TRAVELOGUE_COUNTRY;
-import static kr.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
-import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
+import static kr.touroot.travelogue.fixture.TravelogueCountryFixture.KOREA;
+import static kr.touroot.travelogue.fixture.TravelogueDayFixture.FIRST_DAY;
+import static kr.touroot.travelogue.fixture.TravelogueFixture.JEJU_TRAVELOGUE;
 import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
-import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
+import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.HAMDEOK_BEACH;
 import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE_WITH_NONE_COUNTRY_CODE;
 
 import java.util.List;
@@ -167,37 +167,37 @@ public class TravelogueTestHelper {
     }
 
     public Travelogue persistTravelogue(Member author) {
-        Travelogue travelogue = TRAVELOGUE.create(author);
+        Travelogue travelogue = JEJU_TRAVELOGUE.getTravelogueOwnedBy(author);
 
         return travelogueRepository.save(travelogue);
     }
 
     public TravelogueDay persistTravelogueDay(Travelogue travelogue) {
-        TravelogueDay day = TRAVELOGUE_DAY.create(1, travelogue);
+        TravelogueDay day = FIRST_DAY.getTravelogueDayIncludedIn(travelogue);
 
         return travelogueDayRepository.save(day);
     }
 
     public TraveloguePlace persistTraveloguePlace(TravelogueDay day) {
-        TraveloguePlace place = TRAVELOGUE_PLACE.create(day);
+        TraveloguePlace place = HAMDEOK_BEACH.getTraveloguePlaceIncludedIn(day);
 
         return traveloguePlaceRepository.save(place);
     }
 
     public TraveloguePlace persistTraveloguePlaceWithNoneCountryCode(TravelogueDay day) {
-        TraveloguePlace place = TRAVELOGUE_PLACE_WITH_NONE_COUNTRY_CODE.create(day);
+        TraveloguePlace place = TRAVELOGUE_PLACE_WITH_NONE_COUNTRY_CODE.getTraveloguePlaceIncludedIn(day);
 
         return traveloguePlaceRepository.save(place);
     }
 
     public TravelogueCountry persistTravelogueCountry(Travelogue travelogue) {
-        TravelogueCountry travelogueCountry = TRAVELOGUE_COUNTRY.create(travelogue);
+        TravelogueCountry travelogueCountry = KOREA.getTravelogueCountryIncludedIn(travelogue);
 
         return travelogueCountryRepository.save(travelogueCountry);
     }
 
     public TraveloguePhoto persistTraveloguePhoto(TraveloguePlace place) {
-        TraveloguePhoto photo = TRAVELOGUE_PHOTO.create(place);
+        TraveloguePhoto photo = TRAVELOGUE_PHOTO.getTraveloguePhotoIncludedIn(place);
 
         return traveloguePhotoRepository.save(photo);
     }

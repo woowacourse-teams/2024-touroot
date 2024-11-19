@@ -1,6 +1,6 @@
 package kr.touroot.travelogue.fixture;
 
-import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
+import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.HAMDEOK_BEACH;
 
 import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum TraveloguePhotoFixture {
 
-    TRAVELOGUE_PHOTO(1, "https://dev.touroot.kr/temporary/image1.png", TRAVELOGUE_PLACE.get());
+    TRAVELOGUE_PHOTO(1, "https://dev.touroot.kr/temporary/image1.png", HAMDEOK_BEACH.get());
 
     private final int order;
     private final String url;
@@ -19,7 +19,7 @@ public enum TraveloguePhotoFixture {
         return new TraveloguePhoto(order, url, place);
     }
 
-    public TraveloguePhoto create(TraveloguePlace place) {
+    public TraveloguePhoto getTraveloguePhotoIncludedIn(TraveloguePlace place) {
         return new TraveloguePhoto(order, url, place);
     }
 }

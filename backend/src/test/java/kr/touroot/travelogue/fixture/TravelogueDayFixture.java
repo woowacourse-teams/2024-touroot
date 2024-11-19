@@ -1,6 +1,6 @@
 package kr.touroot.travelogue.fixture;
 
-import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
+import static kr.touroot.travelogue.fixture.TravelogueFixture.JEJU_TRAVELOGUE;
 
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueDay;
@@ -9,16 +9,16 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum TravelogueDayFixture {
 
-    TRAVELOGUE_DAY(1, TRAVELOGUE.get());
+    FIRST_DAY(1, JEJU_TRAVELOGUE.getTravelogue());
 
     private final int order;
     private final Travelogue travelogue;
 
-    public TravelogueDay get() {
+    public TravelogueDay getTravelogueDay() {
         return new TravelogueDay(order, travelogue);
     }
 
-    public TravelogueDay create(int order, Travelogue travelogue) {
+    public TravelogueDay getTravelogueDayIncludedIn(Travelogue travelogue) {
         return new TravelogueDay(order, travelogue);
     }
 }
