@@ -1,12 +1,12 @@
 package kr.touroot.travelogue.domain;
 
-import static kr.touroot.travelogue.fixture.TravelogueFixture.JEJU_TRAVELOGUE;
-import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.HAMDEOK_BEACH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.travelogue.fixture.TravelogueFixture;
+import kr.touroot.travelogue.fixture.TraveloguePlaceFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class TravelogueDayTest {
 
     private static final Integer VALID_ORDER = 0;
-    private static final Travelogue VALID_TRAVELOGUE = JEJU_TRAVELOGUE.getTravelogue();
+    private static final Travelogue VALID_TRAVELOGUE = TravelogueFixture.JEJU_TRAVELOGUE.getTravelogue();
 
     @DisplayName("유효한 여행 날짜 생성 시 예외가 발생하지 않는다")
     @Test
@@ -53,8 +53,8 @@ class TravelogueDayTest {
     @DisplayName("여행 장소를 추가할 수 있다")
     @Test
     void addDayInTravelogue() {
-        TravelogueDay travelogueDay = new TravelogueDay(1, JEJU_TRAVELOGUE.getTravelogue());
-        TraveloguePlace traveloguePlace = HAMDEOK_BEACH.get();
+        TravelogueDay travelogueDay = new TravelogueDay(1, VALID_TRAVELOGUE);
+        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.HAMDEOK_BEACH.get();
 
         travelogueDay.addPlace(traveloguePlace);
 
@@ -64,8 +64,8 @@ class TravelogueDayTest {
     @DisplayName("여행 날짜에 여행 장소를 추가하면 여행 장소의 여행 날짜 참조도 수정된다")
     @Test
     void addDayInTravelogueThenDayUpdated() {
-        TravelogueDay travelogueDay = new TravelogueDay(1, JEJU_TRAVELOGUE.getTravelogue());
-        TraveloguePlace traveloguePlace = HAMDEOK_BEACH.get();
+        TravelogueDay travelogueDay = new TravelogueDay(1, VALID_TRAVELOGUE);
+        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.HAMDEOK_BEACH.get();
 
         travelogueDay.addPlace(traveloguePlace);
 
