@@ -2,6 +2,7 @@ package kr.touroot.member.fixture;
 
 import kr.touroot.member.domain.LoginType;
 import kr.touroot.member.domain.Member;
+import kr.touroot.member.dto.request.MemberRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -39,5 +40,25 @@ public enum MemberFixture {
             return new Member(socialId, nickname, profileImageUrl, loginType);
         }
         return new Member(email, password, nickname, profileImageUrl, loginType);
+    }
+
+    public MemberRequest createRequest() {
+        return new MemberRequest(email, password, nickname, profileImageUrl);
+    }
+
+    public MemberRequest createRequestWithEmail(String email) {
+        return new MemberRequest(email, password, nickname, profileImageUrl);
+    }
+
+    public MemberRequest createRequestWithPassword(String password) {
+        return new MemberRequest(email, password, nickname, profileImageUrl);
+    }
+
+    public MemberRequest createRequestWithNickname(String nickname) {
+        return new MemberRequest(email, password, nickname, profileImageUrl);
+    }
+
+    public MemberRequest createRequestWithProfileImageUrl(String profileImageUrl) {
+        return new MemberRequest(email, password, nickname, profileImageUrl);
     }
 }
