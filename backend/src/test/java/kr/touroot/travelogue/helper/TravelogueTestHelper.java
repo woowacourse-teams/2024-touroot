@@ -3,7 +3,7 @@ package kr.touroot.travelogue.helper;
 import static kr.touroot.travelogue.fixture.TravelogueCountryFixture.KOREA;
 import static kr.touroot.travelogue.fixture.TravelogueDayFixture.FIRST_DAY;
 import static kr.touroot.travelogue.fixture.TravelogueFixture.JEJU_TRAVELOGUE;
-import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO_1;
 import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.HAMDEOK_BEACH;
 import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE_WITH_NONE_COUNTRY_CODE;
 
@@ -197,7 +197,7 @@ public class TravelogueTestHelper {
     }
 
     public TraveloguePhoto persistTraveloguePhoto(TraveloguePlace place) {
-        TraveloguePhoto photo = TRAVELOGUE_PHOTO.getTraveloguePhotoIncludedIn(place);
+        TraveloguePhoto photo = TRAVELOGUE_PHOTO_1.getTraveloguePhotoIncludedIn(place);
 
         return traveloguePhotoRepository.save(photo);
     }

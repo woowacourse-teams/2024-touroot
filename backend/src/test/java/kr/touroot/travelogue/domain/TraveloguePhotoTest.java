@@ -15,7 +15,7 @@ class TraveloguePhotoTest {
 
     private static final Integer VALID_ORDER = 0;
     private static final String VALID_KEY = "valid-key";
-    private static final TraveloguePlace VALID_TRAVELOGUE_PLACE = TraveloguePlaceFixture.HAMDEOK_BEACH.get();
+    private static final TraveloguePlace VALID_TRAVELOGUE_PLACE = TraveloguePlaceFixture.HAMDEOK_BEACH.getTraveloguePlace();
 
     @DisplayName("올바른 여행 장소 사진을 생성 시에는 예외가 발생하지 않는다")
     @Test

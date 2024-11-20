@@ -1,5 +1,23 @@
 package kr.touroot.travelogue.controller;
 
+import static kr.touroot.travelogue.fixture.TravelogueDayFixture.FIRST_DAY;
+import static kr.touroot.travelogue.fixture.TravelogueDayFixture.SECOND_DAY;
+import static kr.touroot.travelogue.fixture.TravelogueFixture.JEJU_TRAVELOGUE;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO_1;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO_10;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO_11;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO_2;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO_3;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO_4;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO_5;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO_6;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO_7;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO_8;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO_9;
+import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.HAMDEOK_BEACH;
+import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.JEJU_FOLK_VILLAGE;
+import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.MANJANG_CAVE;
+import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.SEONGSAN_ILCHULBONG;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -89,13 +107,21 @@ class TravelogueControllerTest {
         Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
-        List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
+        TravelogueRequest requestWithNoTags = JEJU_TRAVELOGUE.getCreateRequestWith(
+                FIRST_DAY.getCreateRequestWith(
+                        HAMDEOK_BEACH.getCreateRequestWith(TRAVELOGUE_PHOTO_1.getCreateRequest()),
+                        SEONGSAN_ILCHULBONG.getCreateRequestWith(TRAVELOGUE_PHOTO_2.getCreateRequest())
+                ),
+                SECOND_DAY.getCreateRequestWith(
+                        JEJU_FOLK_VILLAGE.getCreateRequestWith(TRAVELOGUE_PHOTO_3.getCreateRequest()),
+                        MANJANG_CAVE.getCreateRequestWith(TRAVELOGUE_PHOTO_4.getCreateRequest())
+                )
+        );
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .body(request)
+                .body(requestWithNoTags)
                 .when().post("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(201)
@@ -116,13 +142,22 @@ class TravelogueControllerTest {
 
         testHelper.initTagTestData();
 
-        List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days, List.of(1L));
+        TravelogueRequest requestWithTag = JEJU_TRAVELOGUE.getCreateRequestWith(
+                List.of(1L),
+                FIRST_DAY.getCreateRequestWith(
+                        HAMDEOK_BEACH.getCreateRequestWith(TRAVELOGUE_PHOTO_1.getCreateRequest()),
+                        SEONGSAN_ILCHULBONG.getCreateRequestWith(TRAVELOGUE_PHOTO_2.getCreateRequest())
+                ),
+                SECOND_DAY.getCreateRequestWith(
+                        JEJU_FOLK_VILLAGE.getCreateRequestWith(TRAVELOGUE_PHOTO_3.getCreateRequest()),
+                        MANJANG_CAVE.getCreateRequestWith(TRAVELOGUE_PHOTO_4.getCreateRequest())
+                )
+        );
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .body(request)
+                .body(requestWithTag)
                 .when().post("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(201)
@@ -135,20 +170,34 @@ class TravelogueControllerTest {
         Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
-        List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequestsOverLimit();
-        List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getTraveloguePlaceRequests(photos);
-        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(places);
-        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
-        Member member = testHelper.initKakaoMemberTestData();
-        String accessToken = jwtTokenProvider.createToken(member.getId())
-                .accessToken();
+        TravelogueRequest requestContainsExceedingPhotoCountPlace = JEJU_TRAVELOGUE.getCreateRequestWith(
+                FIRST_DAY.getCreateRequestWith(
+                        HAMDEOK_BEACH.getCreateRequestWith(
+                                TRAVELOGUE_PHOTO_1.getCreateRequest(),
+                                TRAVELOGUE_PHOTO_2.getCreateRequest(),
+                                TRAVELOGUE_PHOTO_3.getCreateRequest(),
+                                TRAVELOGUE_PHOTO_4.getCreateRequest(),
+                                TRAVELOGUE_PHOTO_5.getCreateRequest(),
+                                TRAVELOGUE_PHOTO_6.getCreateRequest(),
+                                TRAVELOGUE_PHOTO_7.getCreateRequest(),
+                                TRAVELOGUE_PHOTO_8.getCreateRequest(),
+                                TRAVELOGUE_PHOTO_9.getCreateRequest(),
+                                TRAVELOGUE_PHOTO_10.getCreateRequest(),
+                                TRAVELOGUE_PHOTO_11.getCreateRequest()),
+                        SEONGSAN_ILCHULBONG.getCreateRequestWith(TRAVELOGUE_PHOTO_2.getCreateRequest())
+                ),
+                SECOND_DAY.getCreateRequestWith(
+                        JEJU_FOLK_VILLAGE.getCreateRequestWith(TRAVELOGUE_PHOTO_3.getCreateRequest()),
+                        MANJANG_CAVE.getCreateRequestWith(TRAVELOGUE_PHOTO_4.getCreateRequest())
+                )
+        );
 
         ExceptionResponse response = new ExceptionResponse("여행기 장소 사진은 최대 10개입니다.");
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .body(request)
+                .body(requestContainsExceedingPhotoCountPlace)
                 .when().post("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(400).assertThat()
@@ -161,14 +210,14 @@ class TravelogueControllerTest {
         Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
-        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(List.of());
+        TravelogueRequest travelogueWithNoDays = JEJU_TRAVELOGUE.getCreateRequestWith();
 
         ExceptionResponse response = new ExceptionResponse("여행기 일자는 최소 1일은 포함되어야 합니다.");
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .body(request)
+                .body(travelogueWithNoDays)
                 .when().post("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(400).assertThat()
@@ -181,15 +230,21 @@ class TravelogueControllerTest {
         Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
                 .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
 
-        List<TravelogueDayRequest> days = TravelogueRequestFixture.getTravelogueDayRequests(List.of());
-        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
+        TravelogueRequest requestContainsNoPlacesDay = JEJU_TRAVELOGUE.getCreateRequestWith(
+                List.of(1L),
+                FIRST_DAY.getCreateRequestWith(),
+                SECOND_DAY.getCreateRequestWith(
+                        JEJU_FOLK_VILLAGE.getCreateRequestWith(TRAVELOGUE_PHOTO_3.getCreateRequest()),
+                        MANJANG_CAVE.getCreateRequestWith(TRAVELOGUE_PHOTO_4.getCreateRequest())
+                )
+        );
 
         ExceptionResponse response = new ExceptionResponse("여행기 장소는 최소 한 곳은 포함되어야 합니다.");
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .body(request)
+                .body(requestContainsNoPlacesDay)
                 .when().post("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(400).assertThat()
@@ -199,12 +254,20 @@ class TravelogueControllerTest {
     @DisplayName("여행기를 작성할 때 로그인 되어 있지 않으면 예외가 발생한다.")
     @Test
     void createTravelogueWithNotLoginThrowException() {
-        List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
+        TravelogueRequest jejuTravelogueRequest = JEJU_TRAVELOGUE.getCreateRequestWith(
+                FIRST_DAY.getCreateRequestWith(
+                        HAMDEOK_BEACH.getCreateRequestWith(TRAVELOGUE_PHOTO_1.getCreateRequest()),
+                        SEONGSAN_ILCHULBONG.getCreateRequestWith(TRAVELOGUE_PHOTO_2.getCreateRequest())
+                ),
+                SECOND_DAY.getCreateRequestWith(
+                        JEJU_FOLK_VILLAGE.getCreateRequestWith(TRAVELOGUE_PHOTO_3.getCreateRequest()),
+                        MANJANG_CAVE.getCreateRequestWith(TRAVELOGUE_PHOTO_4.getCreateRequest())
+                )
+        );
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .body(request)
+                .body(jejuTravelogueRequest)
                 .when().post("/api/v1/travelogues")
                 .then().log().all()
                 .statusCode(401)
@@ -215,12 +278,12 @@ class TravelogueControllerTest {
     @Test
     void likeTravelogue() throws JsonProcessingException {
         Member author = testHelper.initKakaoMemberTestData();
-        testHelper.initTravelogueTestData(author);
+        Travelogue travelogue = testHelper.initTravelogueTestData(author);
         TravelogueLikeResponse response = new TravelogueLikeResponse(true, 1L);
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .when().post("/api/v1/travelogues/1/like")
+                .when().post("/api/v1/travelogues/" + travelogue.getId() + "/like")
                 .then().log().all()
                 .statusCode(200).assertThat()
                 .body(is(objectMapper.writeValueAsString(response)));
@@ -241,19 +304,20 @@ class TravelogueControllerTest {
     @Test
     void likeTravelogueWithNotLoginThrowException() {
         Member author = testHelper.initKakaoMemberTestData();
-        testHelper.initTravelogueTestData(author);
+        Travelogue travelogue = testHelper.initTravelogueTestData(author);
 
         RestAssured.given().log().all()
-                .when().post("/api/v1/travelogues/1/like")
+                .when().post("/api/v1/travelogues/" + travelogue.getId() + "/like")
                 .then().log().all()
                 .statusCode(401)
                 .body("message", is("로그인을 해주세요."));
     }
 
+    //mark
     @DisplayName("여행기를 상세 조회한다.")
     @Test
     void findTravelogue() throws JsonProcessingException {
-        testHelper.initTravelogueTestData(member);
+        Travelogue travelogue = testHelper.initTravelogueTestData(member);
         TravelogueResponse response = TravelogueResponseFixture.getTravelogueResponse();
 
         RestAssured.given().log().all()

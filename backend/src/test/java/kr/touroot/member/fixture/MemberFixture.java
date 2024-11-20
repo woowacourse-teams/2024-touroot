@@ -42,27 +42,27 @@ public enum MemberFixture {
         return new Member(email, password, nickname, profileImageUrl, loginType);
     }
 
-    public MemberRequest getMemberRequest() {
+    public MemberRequest getCreateRequest() {
         return new MemberRequest(email, password, nickname, profileImageUrl);
     }
 
-    public MemberRequest getMemberRequestWithEmail(String email) {
+    public MemberRequest getCreateRequestWithEmail(String email) {
         return new MemberRequest(email, password, nickname, profileImageUrl);
     }
 
-    public MemberRequest getMemberRequestWithPassword(String password) {
+    public MemberRequest getCreateRequestWithPassword(String password) {
         return new MemberRequest(email, password, nickname, profileImageUrl);
     }
 
-    public MemberRequest getMemberRequestWithNickname(String nickname) {
+    public MemberRequest getCreateRequestWithNickname(String nickname) {
         return new MemberRequest(email, password, nickname, profileImageUrl);
     }
 
-    public MemberRequest getMemberRequestWithProfileImageUrl(String profileImageUrl) {
+    public MemberRequest getCreateRequestWithProfileImageUrl(String profileImageUrl) {
         return new MemberRequest(email, password, nickname, profileImageUrl);
     }
 
-    public MemberRequest getMemberRequestWithEmailAndNickname(String email, String nickname) {
+    public MemberRequest getCreateRequestWithEmailAndNickname(String email, String nickname) {
         return new MemberRequest(email, password, nickname, profileImageUrl);
     }
 }

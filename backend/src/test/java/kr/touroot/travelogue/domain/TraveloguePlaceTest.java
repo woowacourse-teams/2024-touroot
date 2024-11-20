@@ -136,8 +136,8 @@ class TraveloguePlaceTest {
     @DisplayName("장소 사진을 추가할 수 있다")
     @Test
     void addPhotoInTraveloguePlace() {
-        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.HAMDEOK_BEACH.get();
-        TraveloguePhoto traveloguePhoto = TraveloguePhotoFixture.TRAVELOGUE_PHOTO.get();
+        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.HAMDEOK_BEACH.getTraveloguePlace();
+        TraveloguePhoto traveloguePhoto = TraveloguePhotoFixture.TRAVELOGUE_PHOTO_1.get();
 
         traveloguePlace.addPhoto(traveloguePhoto);
 
@@ -147,8 +147,8 @@ class TraveloguePlaceTest {
     @DisplayName("여행 장소에 장소 사진을 추가하면 장소 사진의 여행 장소 참조도 수정된다")
     @Test
     void addDayInTravelogueThenDayUpdated() {
-        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.HAMDEOK_BEACH.get();
-        TraveloguePhoto traveloguePhoto = TraveloguePhotoFixture.TRAVELOGUE_PHOTO.get();
+        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.HAMDEOK_BEACH.getTraveloguePlace();
+        TraveloguePhoto traveloguePhoto = TraveloguePhotoFixture.TRAVELOGUE_PHOTO_1.get();
 
         traveloguePlace.addPhoto(traveloguePhoto);
 

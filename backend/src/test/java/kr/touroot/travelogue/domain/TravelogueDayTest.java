@@ -54,7 +54,7 @@ class TravelogueDayTest {
     @Test
     void addDayInTravelogue() {
         TravelogueDay travelogueDay = new TravelogueDay(1, VALID_TRAVELOGUE);
-        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.HAMDEOK_BEACH.get();
+        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.HAMDEOK_BEACH.getTraveloguePlace();
 
         travelogueDay.addPlace(traveloguePlace);
 
@@ -65,7 +65,7 @@ class TravelogueDayTest {
     @Test
     void addDayInTravelogueThenDayUpdated() {
         TravelogueDay travelogueDay = new TravelogueDay(1, VALID_TRAVELOGUE);
-        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.HAMDEOK_BEACH.get();
+        TraveloguePlace traveloguePlace = TraveloguePlaceFixture.HAMDEOK_BEACH.getTraveloguePlace();
 
         travelogueDay.addPlace(traveloguePlace);
 

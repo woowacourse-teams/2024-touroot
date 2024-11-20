@@ -74,7 +74,7 @@ class MemberServiceTest {
     @DisplayName("정상적인 값을 가진 요청이 주어지면 회원을 생성한다.")
     @Test
     void createMember() {
-        MemberRequest request = MemberFixture.DEFAULT_MEMBER.getMemberRequest();
+        MemberRequest request = MemberFixture.DEFAULT_MEMBER.getCreateRequest();
 
         Long id = memberService.createMember(request);
 
@@ -99,7 +99,7 @@ class MemberServiceTest {
         Member persistedMember = testHelper.persistMember();
         String nonDuplicatedEmail = "noDuplicate" + persistedMember.getEmail();
         String duplicatedNickname = persistedMember.getNickname();
-        MemberRequest request = MemberFixture.DEFAULT_MEMBER.getMemberRequestWithEmailAndNickname(
+        MemberRequest request = MemberFixture.DEFAULT_MEMBER.getCreateRequestWithEmailAndNickname(
                 nonDuplicatedEmail,
                 duplicatedNickname
         );
