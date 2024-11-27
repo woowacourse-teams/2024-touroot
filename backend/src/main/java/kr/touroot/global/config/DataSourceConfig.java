@@ -18,7 +18,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@Profile("prod")
+@Profile({"!prod", "!dev", "!local"})
 public class DataSourceConfig {
 
     public static final String WRITER = "writer";
