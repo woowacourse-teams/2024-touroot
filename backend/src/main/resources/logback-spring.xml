@@ -4,13 +4,8 @@
     <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%file:%line] - %msg%n"/>
     <property name="CONSOLE_PATTERN"
               value="%d{yyyy-MM-dd HH:mm:ss.SSS} %green([%thread])  %highlight(%-5level) %boldWhite([%file:%yellow(%line)]) - %msg%n"/>
-    <springProfile name="local">
-        <property name="LOKI_URL" value="http://localhost:3100/loki/api/v1/push"/>
-    </springProfile>
-    <springProfile name="dev">
-        <property name="LOKI_URL" value="http://loki:3100/loki/api/v1/push"/>
-    </springProfile>
 
+    <springProperty name="LOKI_URL" source="loki.loki-url"/>
     <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
         <http>
             <url>${LOKI_URL}</url>
@@ -108,7 +103,6 @@
 
     <springProfile name="prod">
         <root level="INFO">
-            <appender-ref ref="LOKI"/>
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE-INFO"/>
             <appender-ref ref="FILE-WARN"/>
