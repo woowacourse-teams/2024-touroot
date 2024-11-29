@@ -103,7 +103,6 @@
 
     <springProfile name="prod">
         <root level="INFO">
-            <appender-ref ref="LOKI"/>
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE-INFO"/>
             <appender-ref ref="FILE-WARN"/>
