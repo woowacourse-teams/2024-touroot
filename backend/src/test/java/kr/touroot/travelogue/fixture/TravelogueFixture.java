@@ -21,11 +21,9 @@ public enum TravelogueFixture {
     ),
     ;
 
-
     private final Member author;
     private final String title;
     private final String thumbnail;
-
 
     public Travelogue getTravelogue() {
         return new Travelogue(author, title, thumbnail);

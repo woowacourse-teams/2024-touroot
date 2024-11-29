@@ -27,7 +27,7 @@ public enum TraveloguePhotoFixture {
     private final String url;
     private final TraveloguePlace place;
 
-    public TraveloguePhoto get() {
+    public TraveloguePhoto getTraveloguePhoto() {
         return new TraveloguePhoto(order, url, place);
     }
 
