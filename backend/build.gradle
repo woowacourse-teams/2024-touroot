@@ -63,6 +63,12 @@ dependencies {
 
     // flyway 추가
     implementation 'org.flywaydb:flyway-mysql'
+
+    // Prometheus
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    // Loki
+    implementation 'com.github.loki4j:loki-logback-appender:1.5.2'
 }
 
 tasks.named('test') {
