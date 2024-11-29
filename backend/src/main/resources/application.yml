@@ -138,6 +138,9 @@ cloud:
     s3:
       image-base-uri: https://dev.touroot.kr/
       origin-storage-path: touroot-dev/
+
+loki:
+  loki-url: http://loki:3100/loki/api/v1/push
 ---
 # prod profile
 spring:
@@ -189,3 +192,4 @@ cloud:
     s3:
       image-base-uri: https://touroot.kr/
       origin-storage-path: touroot/
+
