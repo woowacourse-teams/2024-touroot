@@ -12,7 +12,7 @@ jasypt:
 cloud:
   aws:
     s3:
-      bucket: techcourse-project-2024
+      bucket: touroot
       image-base-uri: https://dev.touroot.kr/
       temporary-storage-path: temporary/
       image-storage-path: images/
