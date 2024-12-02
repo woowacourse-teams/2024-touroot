@@ -19,7 +19,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 class TravelogueDayTest {
 
     private static final Integer VALID_ORDER = 0;
-    private static final Member TRAVELOGUE_OWNER = MemberFixture.KAKAO_MEMBER.getMember();
 
     private Travelogue travelogue;
 

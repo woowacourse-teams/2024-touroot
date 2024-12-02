@@ -16,8 +16,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class TravelogueCountryTest {
 
-    private static final Member TRAVELOGUE_OWNER = MemberFixture.KAKAO_MEMBER.getMember();
-
     private Travelogue travelogue;
 
     @BeforeEach
