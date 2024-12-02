@@ -4,8 +4,10 @@ import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public enum TraveloguePhotoFixture {
 
     TRAVELOGUE_PHOTO_1(1, "https://dev.touroot.kr/temporary/image1.png"),
