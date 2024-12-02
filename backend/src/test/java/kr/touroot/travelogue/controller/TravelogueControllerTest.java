@@ -99,14 +99,14 @@ class TravelogueControllerTest {
         member = testHelper.initKakaoMemberTestData();
         accessToken = jwtTokenProvider.createToken(member.getId())
                 .accessToken();
+
+        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
+                .thenReturn(TRAVELOGUE_PHOTO_1.getUrl());
     }
 
     @DisplayName("태그가 없는 여행기를 작성한다.")
     @Test
     void createTravelogue() {
-        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
-
         TravelogueRequest requestWithNoTags = JEJU_TRAVELOGUE.getCreateRequestWith(
                 FIRST_DAY.getCreateRequestWith(
                         HAMDEOK_BEACH.getCreateRequestWith(TRAVELOGUE_PHOTO_1.getCreateRequest()),
@@ -137,9 +137,6 @@ class TravelogueControllerTest {
     @DisplayName("태그가 있는 여행기를 작성한다.")
     @Test
     void createTravelogueWithTags() {
-        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
-
         testHelper.initTagTestData();
 
         TravelogueRequest requestWithTag = JEJU_TRAVELOGUE.getCreateRequestWith(
@@ -167,9 +164,6 @@ class TravelogueControllerTest {
     @DisplayName("최대 업로드 가능 개수 이상의 사진을 포함한 여행기를 작성하면 예외가 발생한다.")
     @Test
     void createTravelogueWithOver10PhotosEachPlaces() throws JsonProcessingException {
-        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
-
         TravelogueRequest requestContainsExceedingPhotoCountPlace = JEJU_TRAVELOGUE.getCreateRequestWith(
                 FIRST_DAY.getCreateRequestWith(
                         HAMDEOK_BEACH.getCreateRequestWith(
@@ -207,9 +201,6 @@ class TravelogueControllerTest {
     @DisplayName("최소 여행 일자 개수를 만족하지 않은 여행기를 작성하려하면 예외가 발생한다.")
     @Test
     void createTravelogueWithNoDays() throws JsonProcessingException {
-        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
-
         TravelogueRequest travelogueWithNoDays = JEJU_TRAVELOGUE.getCreateRequestWith();
 
         ExceptionResponse response = new ExceptionResponse("여행기 일자는 최소 1일은 포함되어야 합니다.");
@@ -227,9 +218,6 @@ class TravelogueControllerTest {
     @DisplayName("최소 여행 장소 개수를 만족하지 않은 여행기를 작성하려하면 예외가 발생한다.")
     @Test
     void createTravelogueWithNoPlacesDay() throws JsonProcessingException {
-        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
-
         TravelogueRequest requestContainsNoPlacesDay = JEJU_TRAVELOGUE.getCreateRequestWith(
                 List.of(1L),
                 FIRST_DAY.getCreateRequestWith(),
@@ -553,9 +541,6 @@ class TravelogueControllerTest {
     @Test
     void updateTravelogueWithNotExist() {
         testHelper.initTravelogueTestData(member);
-        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
-
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
         TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
 
@@ -573,9 +558,6 @@ class TravelogueControllerTest {
     @Test
     void updateTravelogueWithNotAuthor() {
         Travelogue travelogue = testHelper.initTravelogueTestData();
-        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
-
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
         TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
 
