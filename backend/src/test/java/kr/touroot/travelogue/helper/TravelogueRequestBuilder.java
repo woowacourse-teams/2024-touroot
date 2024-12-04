@@ -1,10 +1,14 @@
-package kr.touroot.travelogue.fixture;
+package kr.touroot.travelogue.helper;
 
 import java.util.ArrayList;
 import java.util.List;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
+import kr.touroot.travelogue.fixture.TravelogueDayFixture;
+import kr.touroot.travelogue.fixture.TravelogueFixture;
+import kr.touroot.travelogue.fixture.TraveloguePhotoFixture;
+import kr.touroot.travelogue.fixture.TraveloguePlaceFixture;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
