@@ -14,7 +14,6 @@ public class TravelogueRequestBuilder {
     private final TravelogueFixture travelogueFixture;
     private final List<Long> tagIds = new ArrayList<>();
     private final List<TravelogueDayRequest> dayRequests = new ArrayList<>();
-    private TravelogueDayRequestBuilder currentDayBuilder;
 
     public static TravelogueRequestBuilder forTravelogue(TravelogueFixture travelogueFixture) {
         return new TravelogueRequestBuilder(travelogueFixture);
@@ -25,52 +24,40 @@ public class TravelogueRequestBuilder {
         return this;
     }
 
-    public TravelogueRequestBuilder addDay(TravelogueDayFixture travelogueDayFixture) {
-        // 이전 Day가 있으면 자동으로 처리
-        if (currentDayBuilder != null) {
-            dayRequests.add(currentDayBuilder.build());
-        }
-        currentDayBuilder = new TravelogueDayRequestBuilder(travelogueDayFixture);
-        return this;
-    }
-
-    public TravelogueRequestBuilder addPlaceWithPhotosIntoDay(
-            TraveloguePlaceFixture traveloguePlaceFixture,
-            List<TraveloguePhotoFixture> traveloguePhotoFixtures
-    ) {
-        if (currentDayBuilder == null) {
-            throw new IllegalStateException("You must add a day before adding places.");
-        }
-        currentDayBuilder.addPlaceWithPhotos(traveloguePlaceFixture, traveloguePhotoFixtures);
-        return this;
+    public TravelogueDayRequestBuilder addDay(TravelogueDayFixture travelogueDayFixture) {
+        return new TravelogueDayRequestBuilder(this, travelogueDayFixture);
     }
 
     public TravelogueRequest build() {
-        // 마지막 Day 처리
-        if (currentDayBuilder != null) {
-            dayRequests.add(currentDayBuilder.build());
-        }
         return travelogueFixture.getCreateRequestWith(
                 dayRequests.toArray(new TravelogueDayRequest[0])
         );
     }
 
+    void addDayRequest(TravelogueDayRequest dayRequest) {
+        dayRequests.add(dayRequest);
+    }
+
     @RequiredArgsConstructor
-    private static class TravelogueDayRequestBuilder {
+    public static class TravelogueDayRequestBuilder {
+        private final TravelogueRequestBuilder parentBuilder;
         private final TravelogueDayFixture travelogueDayFixture;
         private final List<TraveloguePlaceRequest> placeRequests = new ArrayList<>();
 
-        public void addPlaceWithPhotos(
+        public TravelogueDayRequestBuilder addPlaceWithPhotosIntoDay(
                 TraveloguePlaceFixture traveloguePlaceFixture,
                 List<TraveloguePhotoFixture> traveloguePhotoFixtures
         ) {
             placeRequests.add(traveloguePlaceFixture.getCreateRequestWith(traveloguePhotoFixtures));
+            return this;
         }
 
-        public TravelogueDayRequest build() {
-            return travelogueDayFixture.getCreateRequestWith(
+        public TravelogueRequestBuilder buildDay() {
+            TravelogueDayRequest dayRequest = travelogueDayFixture.getCreateRequestWith(
                     placeRequests.toArray(new TraveloguePlaceRequest[0])
             );
+            parentBuilder.addDayRequest(dayRequest);
+            return parentBuilder;
         }
     }
 }
