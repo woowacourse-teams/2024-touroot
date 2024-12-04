@@ -81,4 +81,17 @@ public enum TraveloguePlaceFixture {
                 countryCode
         );
     }
+
+    public TraveloguePlaceRequest getCreateRequestWith(List<TraveloguePhotoFixture> photoFixtures) {
+        List<TraveloguePhotoRequest> photoRequests = photoFixtures.stream()
+                .map(TraveloguePhotoFixture::getCreateRequest)
+                .toList();
+        return new TraveloguePlaceRequest(
+                name,
+                new TraveloguePositionRequest(latitude, longitude),
+                description,
+                photoRequests,
+                countryCode
+        );
+    }
 }
