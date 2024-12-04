@@ -13,8 +13,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum TravelPlanFixture {
 
-    //TODO: 비결정적 함수 정확한 값으로 바꾸기
-    JEJU_TRAVEL_PLAN("제주도 여행 계획", LocalDate.now().plusDays(2), UUID.randomUUID());
+    JEJU_TRAVEL_PLAN("제주도 여행 계획", LocalDate.now().plusDays(2), UUID.randomUUID()),
+    PAST_DATE_TRAVEL_PLAN("어제 시작하기로 정해진 여행 계획", LocalDate.now().minusDays(1), UUID.randomUUID()),
+    ;
 
     private final String title;
     private final LocalDate startDate;
