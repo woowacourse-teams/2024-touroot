@@ -45,6 +45,7 @@ server:
       max: 20
     max-connections: 100
     accept-count: 50
+  shutdown: graceful
 ---
 # local profile
 spring:
