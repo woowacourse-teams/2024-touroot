@@ -1,7 +1,5 @@
 package kr.touroot.travelplan.fixture;
 
-import static kr.touroot.travelplan.fixture.TravelPlanFixture.TRAVEL_PLAN;
-
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.domain.TravelPlanDay;
 import lombok.AllArgsConstructor;
@@ -9,12 +7,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum TravelPlanDayFixture {
 
-    TRAVEL_PLAN_DAY(0, TRAVEL_PLAN.get());
+    FIRST_DAY(1),
+    SECOND_DAY(2),
+    THIRD_DAY(3),
+    ;
 
     private final int order;
-    private final TravelPlan travelPlan;
 
-    public TravelPlanDay get() {
+    public TravelPlanDay getTravelPlanDayIncludedIn(TravelPlan travelPlan) {
         return new TravelPlanDay(order, travelPlan);
     }
 }

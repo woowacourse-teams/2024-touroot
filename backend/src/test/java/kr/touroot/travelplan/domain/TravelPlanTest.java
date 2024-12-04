@@ -115,7 +115,7 @@ class TravelPlanTest {
     void addDayInTravelPlan() {
         // given
         TravelPlan travelPlan = new TravelPlan(VALID_TITLE, VALID_START_DATE, VALID_UUID, VALID_AUTHOR);
-        TravelPlanDay travelPlanDay = TravelPlanDayFixture.TRAVEL_PLAN_DAY.get();
+        TravelPlanDay travelPlanDay = TravelPlanDayFixture.FIRST_DAY.getTravelPlanDayIncludedIn(travelPlan);
 
         // when
         travelPlan.addDay(travelPlanDay);
@@ -129,7 +129,7 @@ class TravelPlanTest {
     void addDayThenDaysPlanUpdated() {
         // given
         TravelPlan travelPlan = new TravelPlan(VALID_TITLE, VALID_START_DATE, VALID_UUID, VALID_AUTHOR);
-        TravelPlanDay travelPlanDay = TravelPlanDayFixture.TRAVEL_PLAN_DAY.get();
+        TravelPlanDay travelPlanDay = TravelPlanDayFixture.FIRST_DAY.getTravelPlanDayIncludedIn(travelPlan);
 
         // when
         travelPlan.addDay(travelPlanDay);
@@ -143,7 +143,7 @@ class TravelPlanTest {
     void updateDaysInTravelPlan() {
         // given
         TravelPlan travelPlan = new TravelPlan(VALID_TITLE, VALID_START_DATE, VALID_UUID, VALID_AUTHOR);
-        TravelPlanDay travelPlanDay = TravelPlanDayFixture.TRAVEL_PLAN_DAY.get();
+        TravelPlanDay travelPlanDay = TravelPlanDayFixture.FIRST_DAY.getTravelPlanDayIncludedIn(travelPlan);
 
         // when
         travelPlan.updateDays(List.of(travelPlanDay));
