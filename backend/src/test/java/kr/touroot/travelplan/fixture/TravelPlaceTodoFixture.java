@@ -2,6 +2,7 @@ package kr.touroot.travelplan.fixture;
 
 import kr.touroot.travelplan.domain.TravelPlaceTodo;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
+import kr.touroot.travelplan.dto.request.PlanPlaceTodoRequest;
 
 public enum TravelPlaceTodoFixture {
 
@@ -30,5 +31,9 @@ public enum TravelPlaceTodoFixture {
 
     public TravelPlaceTodo getTravelPlaceTodoIncludedIn(TravelPlanPlace travelPlanPlace) {
         return new TravelPlaceTodo(travelPlanPlace, content, order, isChecked);
+    }
+
+    public PlanPlaceTodoRequest getCreateRequest() {
+        return new PlanPlaceTodoRequest(content, isChecked);
     }
 }

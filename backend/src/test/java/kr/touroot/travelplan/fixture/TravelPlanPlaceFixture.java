@@ -1,7 +1,11 @@
 package kr.touroot.travelplan.fixture;
 
+import java.util.List;
 import kr.touroot.travelplan.domain.TravelPlanDay;
 import kr.touroot.travelplan.domain.TravelPlanPlace;
+import kr.touroot.travelplan.dto.request.PlanPlaceRequest;
+import kr.touroot.travelplan.dto.request.PlanPlaceTodoRequest;
+import kr.touroot.travelplan.dto.request.PlanPositionRequest;
 
 public enum TravelPlanPlaceFixture {
 
@@ -65,5 +69,14 @@ public enum TravelPlanPlaceFixture {
 
     public TravelPlanPlace getTravelPlanPlaceIncludedIn(TravelPlanDay travelPlanDay) {
         return new TravelPlanPlace(order, travelPlanDay, name, latitude, longitude, countryCode);
+    }
+
+    public PlanPlaceRequest getCreateRequestWith(List<PlanPlaceTodoRequest> todoCreateRequests) {
+        return new PlanPlaceRequest(
+                name,
+                new PlanPositionRequest(latitude, longitude),
+                todoCreateRequests,
+                countryCode
+        );
     }
 }
