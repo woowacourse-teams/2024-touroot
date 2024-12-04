@@ -75,6 +75,13 @@ public class TravelogueTestHelper {
         persistTravelogueLike(travelogue, author);
     }
 
+    public void initAllTravelogueTestData(List<Tag> tags) {
+        Member author = persistMember();
+        Travelogue travelogue = initTravelogueTestData(author);
+        initTravelogueTestDataWithTag(author, tags);
+        persistTravelogueLike(travelogue, author);
+    }
+
     public Travelogue initTravelogueTestData() {
         Member author = persistMember();
         return initTravelogueTestData(author);
@@ -116,17 +123,6 @@ public class TravelogueTestHelper {
         return travelogue;
     }
 
-    public Travelogue initTravelogueTestDataWithTag(Member author) {
-        Travelogue travelogue = persistTravelogue(author);
-        TravelogueDay day = persistTravelogueDay(travelogue);
-        TraveloguePlace place = persistTraveloguePlace(day);
-        persistTravelogueCountry(travelogue);
-        persistTraveloguePhoto(place);
-        persisTravelogueTag(travelogue, TagFixture.TAG_1.get());
-
-        return travelogue;
-    }
-
     public Travelogue initTravelogueTestDataWithTag(Member author, List<Tag> tags) {
         Travelogue travelogue = persistTravelogue(author);
         TravelogueDay day = persistTravelogueDay(travelogue);
@@ -134,6 +130,17 @@ public class TravelogueTestHelper {
         persistTraveloguePhoto(place);
 
         tags.forEach(tag -> persisTravelogueTag(travelogue, tag));
+
+        return travelogue;
+    }
+
+    public Travelogue initTravelogueTestDataWithTag(Member author) {
+        Travelogue travelogue = persistTravelogue(author);
+        TravelogueDay day = persistTravelogueDay(travelogue);
+        TraveloguePlace place = persistTraveloguePlace(day);
+        persistTravelogueCountry(travelogue);
+        persistTraveloguePhoto(place);
+        persisTravelogueTag(travelogue, TagFixture.TAG_1.get());
 
         return travelogue;
     }
