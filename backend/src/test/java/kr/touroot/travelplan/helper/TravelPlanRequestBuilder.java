@@ -44,8 +44,10 @@ public class TravelPlanRequestBuilder {
         private final TravelPlanDayFixture dayFixture;
         private final List<PlanPlaceRequest> placeRequests = new ArrayList<>();
 
-        public PlanDayRequestBuilder addPlanPlaceWithTodos(TravelPlanPlaceFixture placeFixture,
-                                                           List<TravelPlaceTodoFixture> todoFixtures) {
+        public PlanDayRequestBuilder addPlanPlaceWithTodos(
+                TravelPlanPlaceFixture placeFixture,
+                List<TravelPlaceTodoFixture> todoFixtures
+        ) {
             List<PlanPlaceTodoRequest> todoCreateRequests = todoFixtures.stream()
                     .map(TravelPlaceTodoFixture::getCreateRequest)
                     .toList();
