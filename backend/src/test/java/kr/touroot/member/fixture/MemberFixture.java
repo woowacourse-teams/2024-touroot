@@ -18,7 +18,7 @@ public enum MemberFixture {
             "리비",
             LoginType.KAKAO
     ),
-    DEFAULT_MEMBER(
+    TOUROOT_LOCAL_USER(
             null,
             "email@gmail.com",
             "password",
