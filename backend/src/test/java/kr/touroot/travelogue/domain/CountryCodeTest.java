@@ -1,9 +1,10 @@
-package kr.touroot.travelogue.domain.search;
+package kr.touroot.travelogue.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import kr.touroot.global.exception.BadRequestException;
+import kr.touroot.travelogue.domain.search.CountryCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

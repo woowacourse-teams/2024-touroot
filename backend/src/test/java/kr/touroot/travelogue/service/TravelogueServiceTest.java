@@ -37,8 +37,6 @@ import org.springframework.data.domain.Sort;
 @ServiceTest
 class TravelogueServiceTest {
 
-    public static final int BASIC_PAGE_SIZE = 5;
-
     private final TravelogueService travelogueService;
     private final DatabaseCleaner databaseCleaner;
     private final TravelogueTestHelper testHelper;
@@ -69,7 +67,7 @@ class TravelogueServiceTest {
     @Test
     void saveTravelogue() {
         Member member = testHelper.initKakaoMemberTestData();
-        Travelogue travelogue = TravelogueFixture.TRAVELOGUE.create(member);
+        Travelogue travelogue = TravelogueFixture.JEJU_TRAVELOGUE.getTravelogueOwnedBy(member);
 
         Travelogue saved = travelogueService.save(travelogue);
         assertThat(saved.isAuthor(member)).isTrue();

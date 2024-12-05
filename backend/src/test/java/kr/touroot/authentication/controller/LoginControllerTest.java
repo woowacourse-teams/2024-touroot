@@ -8,8 +8,9 @@ import static org.mockito.Mockito.when;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import kr.touroot.authentication.dto.request.TokenReissueRequest;
+import kr.touroot.authentication.dto.response.OauthUserInformationResponse;
 import kr.touroot.authentication.dto.response.TokenResponse;
-import kr.touroot.authentication.fixture.OauthUserInformationFixture;
+import kr.touroot.authentication.fixture.OauthUserFixture;
 import kr.touroot.authentication.helper.LoginTestHelper;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.authentication.infrastructure.KakaoOauthProvider;
@@ -47,8 +48,9 @@ class LoginControllerTest {
     @DisplayName("카카오 로그인 요청을 처리할 수 있다")
     @Test
     void loginTest() throws Exception {
+        OauthUserInformationResponse kakaoUserInformation = OauthUserFixture.KAKAO_USER.getOauthInformationResponse();
         when(oauthProvider.getUserInformation(any(String.class), any(String.class)))
-                .thenReturn(OauthUserInformationFixture.USER_1_OAUTH_INFORMATION);
+                .thenReturn(kakaoUserInformation);
 
         RestAssured.given().log().all()
                 .queryParam("code", "test")

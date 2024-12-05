@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @DisplayName("여행 계획")
 class TravelPlanTest {
 
-    private static final Member VALID_AUTHOR = MemberFixture.KAKAO_MEMBER.build();
+    private static final Member VALID_AUTHOR = MemberFixture.KAKAO_MEMBER.getMember();
     private static final String VALID_TITLE = "제주도 여행 계획";
     private static final UUID VALID_UUID = UUID.randomUUID();
     private static final LocalDate VALID_START_DATE = LocalDate.now().plusDays(2);
@@ -115,7 +115,7 @@ class TravelPlanTest {
     void addDayInTravelPlan() {
         // given
         TravelPlan travelPlan = new TravelPlan(VALID_TITLE, VALID_START_DATE, VALID_UUID, VALID_AUTHOR);
-        TravelPlanDay travelPlanDay = TravelPlanDayFixture.TRAVEL_PLAN_DAY.get();
+        TravelPlanDay travelPlanDay = TravelPlanDayFixture.FIRST_DAY.getTravelPlanDayIncludedIn(travelPlan);
 
         // when
         travelPlan.addDay(travelPlanDay);
@@ -129,7 +129,7 @@ class TravelPlanTest {
     void addDayThenDaysPlanUpdated() {
         // given
         TravelPlan travelPlan = new TravelPlan(VALID_TITLE, VALID_START_DATE, VALID_UUID, VALID_AUTHOR);
-        TravelPlanDay travelPlanDay = TravelPlanDayFixture.TRAVEL_PLAN_DAY.get();
+        TravelPlanDay travelPlanDay = TravelPlanDayFixture.FIRST_DAY.getTravelPlanDayIncludedIn(travelPlan);
 
         // when
         travelPlan.addDay(travelPlanDay);
@@ -143,7 +143,7 @@ class TravelPlanTest {
     void updateDaysInTravelPlan() {
         // given
         TravelPlan travelPlan = new TravelPlan(VALID_TITLE, VALID_START_DATE, VALID_UUID, VALID_AUTHOR);
-        TravelPlanDay travelPlanDay = TravelPlanDayFixture.TRAVEL_PLAN_DAY.get();
+        TravelPlanDay travelPlanDay = TravelPlanDayFixture.FIRST_DAY.getTravelPlanDayIncludedIn(travelPlan);
 
         // when
         travelPlan.updateDays(List.of(travelPlanDay));

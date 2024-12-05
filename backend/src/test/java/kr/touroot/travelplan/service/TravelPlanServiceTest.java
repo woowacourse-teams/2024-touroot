@@ -66,7 +66,7 @@ class TravelPlanServiceTest {
     @Test
     void createTravelPlan() {
         // given
-        TravelPlan travelPlan = TravelPlanFixture.TRAVEL_PLAN.get(author);
+        TravelPlan travelPlan = TravelPlanFixture.JEJU_TRAVEL_PLAN.getTravelPlanOwnedBy(author);
 
         // when
         TravelPlan actual = travelPlanService.save(travelPlan);
@@ -80,7 +80,7 @@ class TravelPlanServiceTest {
     void createTravelPlanWithInvalidStartDate() {
         // given
         LocalDate past = LocalDate.now().minusDays(1);
-        TravelPlan travelPlan = TravelPlanFixture.TRAVEL_PLAN.get(author, past);
+        TravelPlan travelPlan = TravelPlanFixture.JEJU_TRAVEL_PLAN.getTravelPlanOwnedBy(author, past);
 
         // when & then
         assertThatThrownBy(() -> travelPlanService.save(travelPlan))
@@ -92,7 +92,7 @@ class TravelPlanServiceTest {
     @Test
     void createTravelPlanStartsAtToday() {
         LocalDate today = LocalDate.now();
-        TravelPlan travelPlan = TravelPlanFixture.TRAVEL_PLAN.get(author, today);
+        TravelPlan travelPlan = TravelPlanFixture.JEJU_TRAVEL_PLAN.getTravelPlanOwnedBy(author, today);
 
         // when & then=
         assertThatCode(() -> travelPlanService.save(travelPlan))
