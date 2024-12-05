@@ -52,7 +52,8 @@ public enum TraveloguePlaceFixture {
             "126.53326",
             "KR"
     ),
-    TRAVELOGUE_PLACE_WITH_NONE_COUNTRY_CODE(1,
+    TRAVELOGUE_PLACE_WITH_NONE_COUNTRY_CODE(
+            1,
             "해변",
             "함덕",
             "34.54343",
@@ -70,16 +71,6 @@ public enum TraveloguePlaceFixture {
 
     public TraveloguePlace getTraveloguePlaceIncludedIn(TravelogueDay day) {
         return new TraveloguePlace(order, description, name, latitude, longitude, day, countryCode);
-    }
-
-    public TraveloguePlaceRequest getCreateRequestWith(TraveloguePhotoRequest... traveloguePhotoRequests) {
-        return new TraveloguePlaceRequest(
-                name,
-                new TraveloguePositionRequest(latitude, longitude),
-                description,
-                List.of(traveloguePhotoRequests),
-                countryCode
-        );
     }
 
     public TraveloguePlaceRequest getCreateRequestWith(List<TraveloguePhotoFixture> photoFixtures) {
