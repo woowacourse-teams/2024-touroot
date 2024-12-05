@@ -27,8 +27,7 @@ class TravelogueCountryTest {
     @DisplayName("검증 규칙에 어긋나지 않는 여행기 생성 시 예외가 발생하지 않는다")
     @Test
     void createTravelogueCountryWithValidData() {
-        assertThatCode(
-                () -> new TravelogueCountry(travelogue, CountryCode.KR, 1))
+        assertThatCode(() -> new TravelogueCountry(travelogue, CountryCode.KR, 1))
                 .doesNotThrowAnyException();
     }
 
@@ -51,8 +50,7 @@ class TravelogueCountryTest {
     @DisplayName("count가 null인 경우 여행기 국가 생성 시 예외가 발생한다")
     @Test
     void createTravelogueCountryWithNullCount() {
-        assertThatThrownBy(
-                () -> new TravelogueCountry(travelogue, CountryCode.KR, null))
+        assertThatThrownBy(() -> new TravelogueCountry(travelogue, CountryCode.KR, null))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("여행기와 국가 코드, 국가 코드의 count 는 null 일 수 없습니다.");
     }
@@ -61,8 +59,7 @@ class TravelogueCountryTest {
     @ValueSource(ints = {0, -1})
     @ParameterizedTest
     void createTravelogueCountryWithLessThanMinCount(int count) {
-        assertThatThrownBy(
-                () -> new TravelogueCountry(travelogue, CountryCode.KR, count))
+        assertThatThrownBy(() -> new TravelogueCountry(travelogue, CountryCode.KR, count))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("국가 코드의 개수는 1 보다 커야합니다.");
     }
