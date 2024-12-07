@@ -93,22 +93,6 @@ class MemberServiceTest {
                 .hasMessage("이미 회원 가입되어 있는 이메일입니다.");
     }
 
-    @DisplayName("중복된 닉네임을 가진 회원을 생성하려하면 예외가 발생한다.")
-    @Test
-    void createMemberWithDuplicatedNickname() {
-        Member persistedMember = testHelper.persistMember();
-        String nonDuplicatedEmail = "noDuplicate" + persistedMember.getEmail();
-        String duplicatedNickname = persistedMember.getNickname();
-        MemberRequest request = MemberFixture.TOUROOT_LOCAL_USER.getCreateRequestWithEmailAndNickname(
-                nonDuplicatedEmail,
-                duplicatedNickname
-        );
-
-        assertThatThrownBy(() -> memberService.createMember(request))
-                .isInstanceOf(BadRequestException.class)
-                .hasMessage("이미 사용 중인 닉네임입니다.");
-    }
-
     @DisplayName("멤버의 프로필을 업데이트 한다.")
     @Test
     void updateProfile() {

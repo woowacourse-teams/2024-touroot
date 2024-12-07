@@ -39,18 +39,11 @@ public class MemberService {
 
     private void validateRequest(MemberRequest request) {
         validateEmailDuplication(request.email());
-        validateNicknameDuplication(request.nickname());
     }
 
     private void validateEmailDuplication(String email) {
         if (memberRepository.findByEmail(email).isPresent()) {
             throw new BadRequestException("이미 회원 가입되어 있는 이메일입니다.");
-        }
-    }
-
-    private void validateNicknameDuplication(String nickname) {
-        if (memberRepository.findByNickname(nickname).isPresent()) {
-            throw new BadRequestException("이미 사용 중인 닉네임입니다.");
         }
     }
 
