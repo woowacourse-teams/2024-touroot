@@ -194,3 +194,5 @@ cloud:
       image-base-uri: https://touroot.kr/
       origin-storage-path: touroot/
 
+loki:
+  loki-url: ENC(FHJkwYBoGIuSifQd/92GjnWRS1nvcil2CPFCcWbTicu4rMe/gyFRYzQeqAMCyPkr)
