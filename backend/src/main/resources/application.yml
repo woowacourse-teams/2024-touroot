@@ -141,7 +141,7 @@ cloud:
       origin-storage-path: touroot-dev/
 
 loki:
-  loki-url: http://loki:3100/loki/api/v1/push
+  loki-url: ENC(4BSlONNK5dOy2fX12yswIMZvkYVEFy93a1fmDA2/p3z/zrOivXbO9h3On685umt1)
 ---
 # prod profile
 spring:
