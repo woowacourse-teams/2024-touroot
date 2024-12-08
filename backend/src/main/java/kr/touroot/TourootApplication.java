@@ -14,6 +14,7 @@ public class TourootApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder()
                 .environment(new StandardEncryptableEnvironment())
-                .sources(TourootApplication.class).run(args);
+                .sources(TourootApplication.class)
+                .run(args);
     }
 }
