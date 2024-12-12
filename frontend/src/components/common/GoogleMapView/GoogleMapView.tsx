@@ -1,4 +1,4 @@
-import { memo, useCallback, useRef } from "react";
+import { memo, useRef } from "react";
 
 import { GoogleMap, MarkerF, Polyline } from "@react-google-maps/api";
 
@@ -40,13 +40,13 @@ const GoogleMapView = ({ places }: GoogleMapViewProps) => {
 
   const debounceTimer = useRef<NodeJS.Timeout>();
 
-  const handleMapChange = useCallback(() => {
+  const handleMapChange = () => {
     if (debounceTimer.current) {
       clearTimeout(debounceTimer.current);
     }
 
     debounceTimer.current = setTimeout(() => {}, 500);
-  }, []);
+  };
 
   return (
     <div>
