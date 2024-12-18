@@ -24,7 +24,7 @@ server:
   port: 8081
 spring:
   flyway:
-    enabled: false
+    enabled: true
   datasource:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
     url: jdbc:tc:mysql:8://test
@@ -34,13 +34,11 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: create
-    defer-datasource-initialization: true
+      ddl-auto: validate
     open-in-view: false
   sql:
     init:
       mode: never
-
 cors:
   allowed-origins: http://localhost:3000
 
