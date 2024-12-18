@@ -26,11 +26,8 @@ spring:
   flyway:
     enabled: false
   datasource:
-    url: jdbc:h2:mem:test
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mysql:8://test
   jpa:
     show-sql: true
     properties:
