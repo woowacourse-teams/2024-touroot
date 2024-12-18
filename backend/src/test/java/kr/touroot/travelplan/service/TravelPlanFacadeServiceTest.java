@@ -9,7 +9,7 @@ import java.util.List;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
-import kr.touroot.global.config.EmbeddedS3Config;
+import kr.touroot.global.config.S3TestConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
@@ -37,7 +37,7 @@ import org.springframework.context.annotation.Import;
         PasswordEncryptor.class,
         TravelPlanTestHelper.class,
         AwsS3Provider.class,
-        EmbeddedS3Config.class
+        S3TestConfig.class
 })
 @ServiceTest
 class TravelPlanFacadeServiceTest {
