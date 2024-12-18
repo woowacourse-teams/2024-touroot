@@ -15,8 +15,8 @@ security:
 cloud:
   aws:
     s3:
-      bucket: techcourse-project-2024
-      image-base-uri: https://dev.touroot.kr/
+      bucket: test-bucket
+      image-base-uri: https://test.touroot.kr/
       origin-storage-path: touroot/
       temporary-storage-path: temporary/
       image-storage-path: images/
