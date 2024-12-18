@@ -55,6 +55,7 @@ dependencies {
     testImplementation "org.testcontainers:testcontainers:1.20.4"
     testImplementation "org.testcontainers:junit-jupiter:1.20.4"
     testImplementation "org.testcontainers:mysql"
+    testImplementation 'org.testcontainers:localstack'
 
     // cache
     implementation 'org.springframework.boot:spring-boot-starter-cache'
