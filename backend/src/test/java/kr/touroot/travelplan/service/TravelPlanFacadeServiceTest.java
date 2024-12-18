@@ -82,7 +82,7 @@ class TravelPlanFacadeServiceTest {
         PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
         PlanRequest request = PlanRequest.builder()
                 .title("신나는 한강 여행")
-                .startDate(LocalDate.MAX)
+                .startDate(LocalDate.now().plusDays(2))
                 .days(List.of(planDayRequest))
                 .build();
 
@@ -134,7 +134,7 @@ class TravelPlanFacadeServiceTest {
         PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
         PlanRequest request = PlanRequest.builder()
                 .title("수정된 한강 여행")
-                .startDate(LocalDate.MAX)
+                .startDate(LocalDate.now().plusDays(2))
                 .days(List.of(planDayRequest))
                 .build();
 

@@ -71,7 +71,7 @@ public class TravelPlanTestHelper {
 
     public TravelPlan initTravelPlanTestData() {
         Member author = initMemberTestData();
-        TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
+        TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.now().plusDays(2), author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
         TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, "장소", "37.5175896", "127.0867236", travelPlanDay, "KR");
         TravelPlaceTodo travelPlaceTodo = getTravelPlaceTodo(travelPlanPlace, "테스트짜기", 0, false);
@@ -85,7 +85,7 @@ public class TravelPlanTestHelper {
     }
 
     public TravelPlan initTravelPlanTestData(Member author) {
-        TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.MAX, author);
+        TravelPlan travelPlan = getTravelPlan("여행계획", LocalDate.now().plusDays(2), author);
         TravelPlanDay travelPlanDay = getTravelPlanDay(0, travelPlan);
         TravelPlanPlace travelPlanPlace = getTravelPlanPlace(0, "장소", "37.5175896", "127.0867236", travelPlanDay, "KR");
         TravelPlaceTodo travelPlaceTodo = getTravelPlaceTodo(travelPlanPlace, "테스트짜기", 0, false);
