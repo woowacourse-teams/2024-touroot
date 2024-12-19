@@ -14,7 +14,7 @@ public enum MemberFixture {
             1L,
             null,
             null,
-            "https://dev.touroot.kr/temporary/profile.png",
+            "https://dev.touroot.kr/images/profile.png",
             "리비",
             LoginType.KAKAO
     ),
@@ -22,7 +22,7 @@ public enum MemberFixture {
             null,
             "email@gmail.com",
             "password",
-            "https://dev.touroot.kr/temporary/profile.png",
+            "https://dev.touroot.kr/images/profile.png",
             "뚜리",
             LoginType.DEFAULT
     ),

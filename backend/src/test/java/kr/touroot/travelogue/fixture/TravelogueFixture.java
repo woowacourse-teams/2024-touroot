@@ -15,7 +15,7 @@ public enum TravelogueFixture {
 
     JEJU_TRAVELOGUE(
             "제주에 하영 옵서",
-            "https://dev.touroot.kr/temporary/jeju_thumbnail.png"
+            "https://dev.touroot.kr/images/jeju_thumbnail.png"
     ),
     ;
 
