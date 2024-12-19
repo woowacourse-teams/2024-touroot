@@ -23,6 +23,9 @@ cloud:
 server:
   port: 8081
 spring:
+  config:
+    activate:
+      on-profile: test
   flyway:
     enabled: true
   datasource:
