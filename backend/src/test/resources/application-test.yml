@@ -28,9 +28,6 @@ spring:
       on-profile: test
   flyway:
     enabled: true
-  datasource:
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: jdbc:tc:mysql:8://test
   jpa:
     show-sql: true
     properties:
