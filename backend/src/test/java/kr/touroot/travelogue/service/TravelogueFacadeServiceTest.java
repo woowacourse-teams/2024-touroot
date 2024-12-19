@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
+import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.config.S3TestConfig;
@@ -53,7 +54,7 @@ import org.springframework.data.domain.Sort;
         TestQueryDslConfig.class
 })
 @ServiceTest
-class TravelogueFacadeServiceTest {
+class TravelogueFacadeServiceTest extends IntegrationTest {
 
     private final TravelogueFacadeService service;
     private final TravelogueTestHelper testHelper;

@@ -7,6 +7,7 @@ import io.restassured.http.ContentType;
 import java.util.List;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
+import kr.touroot.global.IntegrationTest;
 import kr.touroot.image.domain.ImageFile;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
@@ -25,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @DisplayName("마이 페이지 컨트롤러")
 @AcceptanceTest
-class MyPageControllerTest {
+class MyPageControllerTest extends IntegrationTest {
 
     private final DatabaseCleaner databaseCleaner;
     private final JwtTokenProvider jwtTokenProvider;

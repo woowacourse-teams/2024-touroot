@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
+import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.config.S3TestConfig;
@@ -40,7 +41,7 @@ import org.springframework.context.annotation.Import;
         S3TestConfig.class
 })
 @ServiceTest
-class TravelPlanFacadeServiceTest {
+class TravelPlanFacadeServiceTest extends IntegrationTest {
 
     private final TravelPlanFacadeService travelPlanFacadeService;
     private final DatabaseCleaner databaseCleaner;

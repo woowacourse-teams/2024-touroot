@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.List;
+import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
@@ -35,7 +36,7 @@ import org.springframework.data.domain.Sort;
 @DisplayName("여행기 서비스")
 @Import(value = {TravelogueService.class, TravelogueTestHelper.class, TestQueryDslConfig.class})
 @ServiceTest
-class TravelogueServiceTest {
+class TravelogueServiceTest extends IntegrationTest {
 
     private final TravelogueService travelogueService;
     private final DatabaseCleaner databaseCleaner;

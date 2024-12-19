@@ -3,6 +3,7 @@ package kr.touroot.travelplan.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.config.TestQueryDslConfig;
@@ -22,7 +23,7 @@ import org.springframework.context.annotation.Import;
 @DisplayName("TODO 서비스")
 @Import({PlaceTodoService.class, TravelPlanTestHelper.class, TestQueryDslConfig.class})
 @ServiceTest
-class PlaceTodoServiceTest {
+class PlaceTodoServiceTest extends IntegrationTest {
 
     private final PlaceTodoService placeTodoService;
     private final DatabaseCleaner databaseCleaner;

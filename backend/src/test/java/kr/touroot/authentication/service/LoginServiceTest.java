@@ -12,6 +12,7 @@ import kr.touroot.authentication.dto.response.TokenResponse;
 import kr.touroot.authentication.fixture.OauthUserFixture;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.authentication.infrastructure.KakaoOauthProvider;
+import kr.touroot.global.IntegrationTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.fixture.MemberFixture;
 import kr.touroot.member.repository.MemberRepository;
@@ -24,7 +25,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @DisplayName("로그인 서비스")
 @ExtendWith(MockitoExtension.class)
-class LoginServiceTest {
+class LoginServiceTest extends IntegrationTest {
 
     private static final String AUTHENTICATION_CODE = "test-authentication-code";
     private static final String REDIRECT_URI = "http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fv1%2Flogin%2Foauth%2Fkakao";

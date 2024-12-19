@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
+import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.config.S3TestConfig;
@@ -36,7 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
         S3TestConfig.class
 })
 @ServiceTest
-class MemberServiceTest {
+class MemberServiceTest extends IntegrationTest {
 
     private final MemberService memberService;
     private final MemberTestHelper testHelper;

@@ -8,8 +8,8 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.ServiceTest;
-import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
@@ -31,14 +31,13 @@ import org.springframework.context.annotation.Import;
 @DisplayName("여행 계획 서비스")
 @Import(value = {TravelPlanService.class, TravelPlanTestHelper.class})
 @ServiceTest
-class TravelPlanServiceTest {
+class TravelPlanServiceTest extends IntegrationTest {
 
     private final TravelPlanService travelPlanService;
     private final TravelPlanRepository travelPlanRepository;
     private final DatabaseCleaner databaseCleaner;
     private final TravelPlanTestHelper testHelper;
 
-    private MemberAuth memberAuth;
     private Member author;
 
     @Autowired
@@ -59,7 +58,6 @@ class TravelPlanServiceTest {
         databaseCleaner.executeTruncate();
 
         author = testHelper.initMemberTestData();
-        memberAuth = new MemberAuth(author.getId());
     }
 
     @DisplayName("여행 계획을 저장할 수 있다")

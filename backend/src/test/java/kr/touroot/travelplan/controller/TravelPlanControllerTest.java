@@ -15,13 +15,13 @@ import static kr.touroot.travelplan.fixture.TravelPlanPlaceFixture.MANJANG_CAVE;
 import static kr.touroot.travelplan.fixture.TravelPlanPlaceFixture.SEONGSAN_ILCHULBONG;
 import static org.hamcrest.Matchers.is;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import java.util.List;
 import java.util.UUID;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
+import kr.touroot.global.IntegrationTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.dto.request.PlanRequest;
@@ -37,9 +37,8 @@ import org.springframework.http.HttpHeaders;
 
 @DisplayName("여행 계획 컨트롤러")
 @AcceptanceTest
-class TravelPlanControllerTest {
+class TravelPlanControllerTest extends IntegrationTest {
 
-    private final ObjectMapper objectMapper;
     private final DatabaseCleaner databaseCleaner;
     private final JwtTokenProvider jwtTokenProvider;
     private final TravelPlanTestHelper testHelper;
@@ -52,10 +51,8 @@ class TravelPlanControllerTest {
     public TravelPlanControllerTest(
             DatabaseCleaner databaseCleaner,
             TravelPlanTestHelper testHelper,
-            JwtTokenProvider jwtTokenProvider,
-            ObjectMapper objectMapper
+            JwtTokenProvider jwtTokenProvider
     ) {
-        this.objectMapper = objectMapper;
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
         this.jwtTokenProvider = jwtTokenProvider;
