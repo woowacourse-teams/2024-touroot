@@ -12,14 +12,14 @@ public abstract class IntegrationTest {
 
     private static final DockerImageName MYSQL_IMAGE_NAME = DockerImageName.parse("mysql:8");
     private static final DockerImageName LOCALSTACK_IMAGE_NAME = DockerImageName.parse("localstack/localstack");
+    private static final String S3_BUCKET_NAME = "test-bucket";
 
     private static final MySQLContainer<?> mySQLContainer;
-    protected static final LocalStackContainer localStackContainer;
+    private static final LocalStackContainer localStackContainer;
 
     static {
         mySQLContainer = new MySQLContainer<>(MYSQL_IMAGE_NAME);
-        localStackContainer = new LocalStackContainer(LOCALSTACK_IMAGE_NAME)
-                .withServices(Service.S3);
+        localStackContainer = new LocalStackContainer(LOCALSTACK_IMAGE_NAME).withServices(Service.S3);
 
         mySQLContainer.start();
         localStackContainer.start();
@@ -29,7 +29,7 @@ public abstract class IntegrationTest {
 
     private static void createS3Bucket() {
         try {
-            localStackContainer.execInContainer("awslocal", "s3", "mb", "s3://" + "test-bucket");
+            localStackContainer.execInContainer("awslocal", "s3", "mb", "s3://" + S3_BUCKET_NAME);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("S3 버킷을 생성하던 중 오류가 발생했습니다.");
         }
