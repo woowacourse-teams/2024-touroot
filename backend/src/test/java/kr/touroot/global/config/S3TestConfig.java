@@ -15,7 +15,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 
 @Configuration
-@Profile("default")
+@Profile("test")
 public class S3TestConfig {
 
     @Value("${cloud.aws.s3.bucket}")

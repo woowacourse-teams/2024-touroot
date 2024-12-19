@@ -85,7 +85,7 @@
         </rollingPolicy>
     </appender>
 
-    <springProfile name="default">
+    <springProfile name="test">
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
         </root>
