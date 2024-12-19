@@ -1,5 +1,6 @@
 package kr.touroot.global;
 
+import java.io.IOException;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
@@ -22,6 +23,16 @@ public abstract class IntegrationTest {
 
         mySQLContainer.start();
         localStackContainer.start();
+
+        createS3Bucket();
+    }
+
+    private static void createS3Bucket() {
+        try {
+            localStackContainer.execInContainer("awslocal", "s3", "mb", "s3://" + "test-bucket");
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException("S3 버킷을 생성하던 중 오류가 발생했습니다.");
+        }
     }
 
     @DynamicPropertySource

@@ -9,24 +9,20 @@ import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 
 @Configuration
 @Profile("test")
 public class S3TestConfig {
 
-    private final String bucketName;
     private final String s3AccessKey;
     private final String s3SecretKey;
     private final String s3Endpoint;
 
     public S3TestConfig(
-            @Value("${cloud.aws.s3.bucket}") String bucketName,
             @Value("${cloud.aws.s3.access-key}") String s3AccessKey,
             @Value("${cloud.aws.s3.secret-key}") String s3SecretKey,
             @Value("${cloud.aws.s3.endpoint}") String s3Endpoint
     ) {
-        this.bucketName = bucketName;
         this.s3AccessKey = s3AccessKey;
         this.s3SecretKey = s3SecretKey;
         this.s3Endpoint = s3Endpoint;
@@ -36,14 +32,10 @@ public class S3TestConfig {
     public S3Client s3Client() {
         AwsBasicCredentials awsBasicCredentials = AwsBasicCredentials.create(s3AccessKey, s3SecretKey);
 
-        S3Client s3Client = S3Client.builder()
+        return S3Client.builder()
                 .region(Region.AP_NORTHEAST_2)
                 .endpointOverride(URI.create(s3Endpoint))
                 .credentialsProvider(StaticCredentialsProvider.create(awsBasicCredentials))
                 .build();
-
-        s3Client.createBucket(CreateBucketRequest.builder().bucket(bucketName).build());
-
-        return s3Client;
     }
 }
