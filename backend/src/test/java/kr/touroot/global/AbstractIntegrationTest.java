@@ -1,13 +1,17 @@
 package kr.touroot.global;
 
 import java.io.IOException;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.containers.localstack.LocalStackContainer.Service;
 import org.testcontainers.utility.DockerImageName;
 
+@TestPropertySource(properties = {"spring.config.location = classpath:application-test.yml"})
+@ActiveProfiles("test")
 public abstract class AbstractIntegrationTest {
 
     private static final DockerImageName MYSQL_IMAGE_NAME = DockerImageName.parse("mysql:8");
