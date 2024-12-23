@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.util.List;
 import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.ServiceTest;
-import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
@@ -28,13 +27,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 @DisplayName("여행기 서비스")
-@Import(value = {TravelogueService.class, TravelogueTestHelper.class, TestQueryDslConfig.class})
 @ServiceTest
 class TravelogueServiceTest extends IntegrationTest {
 

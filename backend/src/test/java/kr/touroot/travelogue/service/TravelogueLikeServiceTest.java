@@ -12,11 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Pageable;
 
 @DisplayName("여행기 좋아요 서비스")
-@Import(value = {TravelogueLikeService.class, TravelogueTestHelper.class})
 @ServiceTest
 class TravelogueLikeServiceTest extends IntegrationTest {
 

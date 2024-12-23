@@ -4,17 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import kr.touroot.authentication.infrastructure.PasswordEncryptor;
 import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
-import kr.touroot.global.config.S3TestConfig;
-import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
-import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
-import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TravelogueFilterRequest;
@@ -33,26 +28,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 @DisplayName("여행기 Facade 서비스")
-@Import(value = {
-        TravelogueFacadeService.class,
-        TravelogueService.class,
-        S3TestConfig.class,
-        AwsS3Provider.class,
-        TravelogueImagePerpetuationService.class,
-        TravelogueTagService.class,
-        TravelogueLikeService.class,
-        TravelogueCountryService.class,
-        MemberService.class,
-        TravelogueTestHelper.class,
-        PasswordEncryptor.class,
-        TestQueryDslConfig.class
-})
 @ServiceTest
 class TravelogueFacadeServiceTest extends IntegrationTest {
 

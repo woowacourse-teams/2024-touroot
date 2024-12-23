@@ -20,10 +20,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 
 @DisplayName("여행기 국가 서비스")
-@Import(value = {TravelogueCountryService.class, TravelogueTestHelper.class})
 @ServiceTest
 class TravelogueCountryServiceTest extends IntegrationTest {
 

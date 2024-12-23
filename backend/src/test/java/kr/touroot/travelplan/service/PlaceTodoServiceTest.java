@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
-import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
@@ -18,10 +17,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 
 @DisplayName("TODO 서비스")
-@Import({PlaceTodoService.class, TravelPlanTestHelper.class, TestQueryDslConfig.class})
 @ServiceTest
 class PlaceTodoServiceTest extends IntegrationTest {
 
