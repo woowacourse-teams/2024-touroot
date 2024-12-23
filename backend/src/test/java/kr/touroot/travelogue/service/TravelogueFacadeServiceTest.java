@@ -2,13 +2,13 @@ package kr.touroot.travelogue.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 import java.util.List;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
+import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.global.config.S3TestConfig;
 import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
@@ -32,9 +32,7 @@ import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,6 +42,7 @@ import org.springframework.data.domain.Sort;
 @Import(value = {
         TravelogueFacadeService.class,
         TravelogueService.class,
+        S3TestConfig.class,
         AwsS3Provider.class,
         TravelogueImagePerpetuationService.class,
         TravelogueTagService.class,
@@ -55,25 +54,21 @@ import org.springframework.data.domain.Sort;
         TestQueryDslConfig.class
 })
 @ServiceTest
-class TravelogueFacadeServiceTest {
+class TravelogueFacadeServiceTest extends IntegrationTest {
 
     private final TravelogueFacadeService service;
     private final TravelogueTestHelper testHelper;
     private final DatabaseCleaner databaseCleaner;
-    @MockBean
-    private final AwsS3Provider s3Provider;
 
     @Autowired
     public TravelogueFacadeServiceTest(
             TravelogueFacadeService travelogueFacadeService,
             TravelogueTestHelper travelogueTestHelper,
-            DatabaseCleaner databaseCleaner,
-            AwsS3Provider s3Provider
+            DatabaseCleaner databaseCleaner
     ) {
         this.service = travelogueFacadeService;
         this.testHelper = travelogueTestHelper;
         this.databaseCleaner = databaseCleaner;
-        this.s3Provider = s3Provider;
     }
 
     @BeforeEach
@@ -81,15 +76,9 @@ class TravelogueFacadeServiceTest {
         databaseCleaner.executeTruncate();
     }
 
-    private void mockImageCopyProcess() {
-        when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn("https://dev.touroot.kr/image.png");
-    }
-
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
-        mockImageCopyProcess();
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
 
         testHelper.initKakaoMemberTestData();
@@ -263,9 +252,6 @@ class TravelogueFacadeServiceTest {
     @DisplayName("여행기를 수정할 수 있다.")
     @Test
     void updateTravelogue() {
-        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn(TravelogueResponseFixture.getUpdatedTravelogueResponse().thumbnail());
-
         List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
 
         Member author = testHelper.initKakaoMemberTestData();
@@ -289,7 +275,6 @@ class TravelogueFacadeServiceTest {
     @Test
     void updateTravelogueWithNotExist() {
         List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
-        mockImageCopyProcess();
 
         Member author = testHelper.initKakaoMemberTestData();
         testHelper.initTravelogueTestData(author);
@@ -309,7 +294,6 @@ class TravelogueFacadeServiceTest {
         MemberAuth notAuthorAuth = new MemberAuth(testHelper.initKakaoMemberTestData().getId());
 
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        mockImageCopyProcess();
 
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 

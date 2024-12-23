@@ -7,9 +7,10 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
+import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
-import kr.touroot.global.config.EmbeddedS3Config;
+import kr.touroot.global.config.S3TestConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
@@ -37,10 +38,10 @@ import org.springframework.context.annotation.Import;
         PasswordEncryptor.class,
         TravelPlanTestHelper.class,
         AwsS3Provider.class,
-        EmbeddedS3Config.class
+        S3TestConfig.class
 })
 @ServiceTest
-class TravelPlanFacadeServiceTest {
+class TravelPlanFacadeServiceTest extends IntegrationTest {
 
     private final TravelPlanFacadeService travelPlanFacadeService;
     private final DatabaseCleaner databaseCleaner;
@@ -82,7 +83,7 @@ class TravelPlanFacadeServiceTest {
         PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
         PlanRequest request = PlanRequest.builder()
                 .title("신나는 한강 여행")
-                .startDate(LocalDate.MAX)
+                .startDate(LocalDate.now().plusDays(2))
                 .days(List.of(planDayRequest))
                 .build();
 
@@ -134,7 +135,7 @@ class TravelPlanFacadeServiceTest {
         PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
         PlanRequest request = PlanRequest.builder()
                 .title("수정된 한강 여행")
-                .startDate(LocalDate.MAX)
+                .startDate(LocalDate.now().plusDays(2))
                 .days(List.of(planDayRequest))
                 .build();
 

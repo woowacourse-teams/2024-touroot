@@ -15,9 +15,9 @@ public class DatabaseCleaner {
     public static final String CAMEL_CASE = "([a-z])([A-Z])";
     public static final String SNAKE_CASE = "$1_$2";
     private static final String TRUNCATE_TABLE = "TRUNCATE TABLE %s";
-    private static final String ALTER_COLUMN_ID = "ALTER TABLE %s ALTER COLUMN id RESTART WITH 1";
-    public static final String INTEGRITY_FALSE = "SET REFERENTIAL_INTEGRITY FALSE";
-    public static final String INTEGRITY_TRUE = "SET REFERENTIAL_INTEGRITY TRUE";
+    private static final String ALTER_COLUMN_ID = "ALTER TABLE %s AUTO_INCREMENT = 1";
+    public static final String INTEGRITY_FALSE = "SET FOREIGN_KEY_CHECKS = 0";
+    public static final String INTEGRITY_TRUE = "SET FOREIGN_KEY_CHECKS = 1";
 
     @PersistenceContext
     private EntityManager entityManager;

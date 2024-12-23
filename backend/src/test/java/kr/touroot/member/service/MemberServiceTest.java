@@ -6,9 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import kr.touroot.authentication.infrastructure.PasswordEncryptor;
+import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
-import kr.touroot.global.config.EmbeddedS3Config;
+import kr.touroot.global.config.S3TestConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.image.domain.ImageFile;
 import kr.touroot.image.infrastructure.AwsS3Provider;
@@ -26,11 +27,17 @@ import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+
 @DisplayName("사용자 서비스")
-@Import(value = {MemberService.class, MemberTestHelper.class, PasswordEncryptor.class, AwsS3Provider.class,
-        EmbeddedS3Config.class})
+@Import(value = {
+        MemberService.class,
+        MemberTestHelper.class,
+        PasswordEncryptor.class,
+        AwsS3Provider.class,
+        S3TestConfig.class
+})
 @ServiceTest
-class MemberServiceTest {
+class MemberServiceTest extends IntegrationTest {
 
     private final MemberService memberService;
     private final MemberTestHelper testHelper;

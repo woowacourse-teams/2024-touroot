@@ -18,8 +18,6 @@ import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.HAMDEOK_BEACH
 import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.JEJU_FOLK_VILLAGE;
 import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.SEONGSAN_ILCHULBONG;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,8 +27,8 @@ import java.util.Collections;
 import java.util.List;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.global.AcceptanceTest;
+import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.exception.dto.ExceptionResponse;
-import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.tag.domain.Tag;
 import kr.touroot.tag.fixture.TagFixture;
@@ -54,23 +52,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 
 @DisplayName("여행기 컨트롤러")
 @AcceptanceTest
-class TravelogueControllerTest {
+class TravelogueControllerTest extends IntegrationTest {
 
     private final DatabaseCleaner databaseCleaner;
     private final TravelogueTestHelper testHelper;
     private final ObjectMapper objectMapper;
     private final JwtTokenProvider jwtTokenProvider;
-    @MockBean
-    private final AwsS3Provider s3Provider;
 
     @LocalServerPort
     private int port;
@@ -83,14 +77,12 @@ class TravelogueControllerTest {
             DatabaseCleaner databaseCleaner,
             TravelogueTestHelper testHelper,
             ObjectMapper objectMapper,
-            JwtTokenProvider jwtTokenProvider,
-            AwsS3Provider s3Provider
+            JwtTokenProvider jwtTokenProvider
     ) {
         this.databaseCleaner = databaseCleaner;
         this.testHelper = testHelper;
         this.objectMapper = objectMapper;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.s3Provider = s3Provider;
     }
 
     @BeforeEach
@@ -103,9 +95,6 @@ class TravelogueControllerTest {
         tag = testHelper.initTagTestData();
         travelogueWriterAccessToken = jwtTokenProvider.createToken(travelogueWriter.getId())
                 .accessToken();
-
-        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn(TRAVELOGUE_PHOTO_1.getUrl());
     }
 
     @DisplayName("태그가 없는 여행기를 작성한다.")
@@ -503,13 +492,9 @@ class TravelogueControllerTest {
     @DisplayName("여행기를 수정한다.")
     @Test
     void updateTravelogue() {
-        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn(TravelogueResponseFixture.getUpdatedTravelogueResponse().thumbnail());
-
         Travelogue travelogue = testHelper.initTravelogueTestData(travelogueWriter);
 
         List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
-        saveImages(days);
 
         TravelogueRequest request = TravelogueRequestFixture.getUpdateTravelogueRequest(days);
 
@@ -526,15 +511,6 @@ class TravelogueControllerTest {
         List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
         List<TraveloguePlaceRequest> places = TravelogueRequestFixture.getUpdateTraveloguePlaceRequests(photos);
         return TravelogueRequestFixture.getUpdateTravelogueDayRequests(places);
-    }
-
-    private void saveImages(List<TravelogueDayRequest> days) {
-        when(s3Provider.copyImageToPermanentStorage(
-                TravelogueRequestFixture.getTravelogueRequest(days).thumbnail())
-        ).thenReturn(TravelogueResponseFixture.getTravelogueResponse().thumbnail());
-        when(s3Provider.copyImageToPermanentStorage(
-                TravelogueRequestFixture.getTraveloguePhotoRequests().get(0).url())
-        ).thenReturn(TravelogueResponseFixture.getTraveloguePhotoUrls().get(0));
     }
 
     @DisplayName("존재하지 않는 여행기를 수정 시, 400을 응답한다.")

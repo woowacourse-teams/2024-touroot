@@ -17,7 +17,7 @@ public class TravelogueRequestFixture {
     public static TravelogueRequest getTravelogueRequest(List<TravelogueDayRequest> days) {
         return new TravelogueRequest(
                 "제주에 하영 옵서",
-                "https://dev.touroot.kr/temporary/jeju_thumbnail.png",
+                "https://dev.touroot.kr/images/jeju_thumbnail.png",
                 List.of(),
                 days
         );
@@ -26,7 +26,7 @@ public class TravelogueRequestFixture {
     public static TravelogueRequest getTravelogueRequest(List<TravelogueDayRequest> days, List<Long> tags) {
         return new TravelogueRequest(
                 "제주에 하영 옵서",
-                "https://dev.touroot.kr/temporary/jeju_thumbnail.png",
+                "https://dev.touroot.kr/images/jeju_thumbnail.png",
                 tags,
                 days
         );
@@ -35,7 +35,7 @@ public class TravelogueRequestFixture {
     public static TravelogueRequest getUpdateTravelogueRequest(List<TravelogueDayRequest> days) {
         return new TravelogueRequest(
                 "삼춘! 제주에 하영 옵서!",
-                "https://dev.touroot.kr/temporary/jeju_thumbnail_2.png",
+                "https://dev.touroot.kr/images/jeju_thumbnail_2.png",
                 List.of(),
                 days
         );
@@ -86,22 +86,22 @@ public class TravelogueRequestFixture {
     }
 
     public static List<TraveloguePhotoRequest> getTraveloguePhotoRequests() {
-        return List.of(new TraveloguePhotoRequest("https://dev.touroot.kr/temporary/image1.png"));
+        return List.of(new TraveloguePhotoRequest("https://dev.touroot.kr/images/image1.png"));
     }
 
     public static List<TraveloguePhotoRequest> getTraveloguePhotoRequestsOverLimit() {
         return List.of(
-                new TraveloguePhotoRequest("https://dev.touroot.kr/temporary/image1.png"),
-                new TraveloguePhotoRequest("https://dev.touroot.kr/temporary/image2.png"),
-                new TraveloguePhotoRequest("https://dev.touroot.kr/temporary/image3.png"),
-                new TraveloguePhotoRequest("https://dev.touroot.kr/temporary/image4.png"),
-                new TraveloguePhotoRequest("https://dev.touroot.kr/temporary/image5.png"),
-                new TraveloguePhotoRequest("https://dev.touroot.kr/temporary/image6.png"),
-                new TraveloguePhotoRequest("https://dev.touroot.kr/temporary/image7.png"),
-                new TraveloguePhotoRequest("https://dev.touroot.kr/temporary/image8.png"),
-                new TraveloguePhotoRequest("https://dev.touroot.kr/temporary/image9.png"),
-                new TraveloguePhotoRequest("https://dev.touroot.kr/temporary/image10.png"),
-                new TraveloguePhotoRequest("https://dev.touroot.kr/temporary/image11.png")
+                new TraveloguePhotoRequest("https://dev.touroot.kr/images/image1.png"),
+                new TraveloguePhotoRequest("https://dev.touroot.kr/images/image2.png"),
+                new TraveloguePhotoRequest("https://dev.touroot.kr/images/image3.png"),
+                new TraveloguePhotoRequest("https://dev.touroot.kr/images/image4.png"),
+                new TraveloguePhotoRequest("https://dev.touroot.kr/images/image5.png"),
+                new TraveloguePhotoRequest("https://dev.touroot.kr/images/image6.png"),
+                new TraveloguePhotoRequest("https://dev.touroot.kr/images/image7.png"),
+                new TraveloguePhotoRequest("https://dev.touroot.kr/images/image8.png"),
+                new TraveloguePhotoRequest("https://dev.touroot.kr/images/image9.png"),
+                new TraveloguePhotoRequest("https://dev.touroot.kr/images/image10.png"),
+                new TraveloguePhotoRequest("https://dev.touroot.kr/images/image11.png")
         );
     }
 }

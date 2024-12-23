@@ -14,7 +14,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 
 @Configuration
-@Profile({"default", "local"})
+@Profile("local")
 public class EmbeddedS3Config {
 
     private static final int DYNAMIC_PORT_NUMBER_LOWER = 49152;
