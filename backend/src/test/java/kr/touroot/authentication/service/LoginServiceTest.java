@@ -12,32 +12,29 @@ import kr.touroot.authentication.dto.response.TokenResponse;
 import kr.touroot.authentication.fixture.OauthUserFixture;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.authentication.infrastructure.KakaoOauthProvider;
-import kr.touroot.global.AbstractIntegrationTest;
+import kr.touroot.global.AbstractServiceIntegrationTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.fixture.MemberFixture;
 import kr.touroot.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @DisplayName("로그인 서비스")
-@ExtendWith(MockitoExtension.class)
-class LoginServiceTest extends AbstractIntegrationTest {
+class LoginServiceTest extends AbstractServiceIntegrationTest {
 
     private static final String AUTHENTICATION_CODE = "test-authentication-code";
     private static final String REDIRECT_URI = "http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fv1%2Flogin%2Foauth%2Fkakao";
     private static final Member MEMBER = MemberFixture.KAKAO_MEMBER.getMember();
 
-    @InjectMocks
+    @Autowired
     private LoginService loginService;
-    @Mock
+    @MockBean
     private MemberRepository memberRepository;
-    @Mock
+    @MockBean
     private KakaoOauthProvider kakaoOauthProvider;
-    @Mock
+    @MockBean
     private JwtTokenProvider jwtTokenProvider;
 
     @DisplayName("투룻 회원가입이 되어 있는 회원의 카카오 소셜 로그인을 처리할 수 있다")

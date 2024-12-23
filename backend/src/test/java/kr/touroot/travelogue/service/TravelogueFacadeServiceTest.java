@@ -4,8 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import kr.touroot.global.AbstractIntegrationTest;
-import kr.touroot.global.ServiceTest;
+import kr.touroot.global.AbstractServiceIntegrationTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
@@ -23,8 +22,6 @@ import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
-import kr.touroot.utils.DatabaseCleaner;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,28 +30,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 @DisplayName("여행기 Facade 서비스")
-@ServiceTest
-class TravelogueFacadeServiceTest extends AbstractIntegrationTest {
-
-    private final TravelogueFacadeService service;
-    private final TravelogueTestHelper testHelper;
-    private final DatabaseCleaner databaseCleaner;
+class TravelogueFacadeServiceTest extends AbstractServiceIntegrationTest {
 
     @Autowired
-    public TravelogueFacadeServiceTest(
-            TravelogueFacadeService travelogueFacadeService,
-            TravelogueTestHelper travelogueTestHelper,
-            DatabaseCleaner databaseCleaner
-    ) {
-        this.service = travelogueFacadeService;
-        this.testHelper = travelogueTestHelper;
-        this.databaseCleaner = databaseCleaner;
-    }
-
-    @BeforeEach
-    void setUp() {
-        databaseCleaner.executeTruncate();
-    }
+    private TravelogueFacadeService service;
+    @Autowired
+    private TravelogueTestHelper testHelper;
 
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
