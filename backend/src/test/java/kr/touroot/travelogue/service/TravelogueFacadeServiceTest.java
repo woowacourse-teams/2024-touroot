@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import kr.touroot.global.IntegrationTest;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
@@ -34,7 +34,7 @@ import org.springframework.data.domain.Sort;
 
 @DisplayName("여행기 Facade 서비스")
 @ServiceTest
-class TravelogueFacadeServiceTest extends IntegrationTest {
+class TravelogueFacadeServiceTest extends AbstractIntegrationTest {
 
     private final TravelogueFacadeService service;
     private final TravelogueTestHelper testHelper;

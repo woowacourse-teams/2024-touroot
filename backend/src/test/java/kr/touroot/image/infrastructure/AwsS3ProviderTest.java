@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.AcceptanceTest;
-import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.exception.S3UploadException;
 import kr.touroot.image.domain.ImageFile;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @DisplayName("Aws S3 프로바이더")
 @AcceptanceTest
-class AwsS3ProviderTest extends IntegrationTest {
+class AwsS3ProviderTest extends AbstractIntegrationTest {
 
     private final AwsS3Provider s3Provider;
     private final String temporaryStoragePath;

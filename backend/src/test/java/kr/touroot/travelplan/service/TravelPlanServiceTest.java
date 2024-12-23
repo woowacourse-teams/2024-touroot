@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import kr.touroot.global.IntegrationTest;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("여행 계획 서비스")
 @ServiceTest
-class TravelPlanServiceTest extends IntegrationTest {
+class TravelPlanServiceTest extends AbstractIntegrationTest {
 
     private final TravelPlanService travelPlanService;
     private final TravelPlanRepository travelPlanRepository;

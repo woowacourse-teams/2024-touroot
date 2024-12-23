@@ -2,7 +2,7 @@ package kr.touroot.travelogue.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import kr.touroot.global.IntegrationTest;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
@@ -16,7 +16,7 @@ import org.springframework.data.domain.Pageable;
 
 @DisplayName("여행기 좋아요 서비스")
 @ServiceTest
-class TravelogueLikeServiceTest extends IntegrationTest {
+class TravelogueLikeServiceTest extends AbstractIntegrationTest {
 
     public static final int BASIC_PAGE_SIZE = 5;
 

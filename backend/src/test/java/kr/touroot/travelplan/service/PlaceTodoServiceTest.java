@@ -3,7 +3,7 @@ package kr.touroot.travelplan.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import kr.touroot.global.IntegrationTest;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("TODO 서비스")
 @ServiceTest
-class PlaceTodoServiceTest extends IntegrationTest {
+class PlaceTodoServiceTest extends AbstractIntegrationTest {
 
     private final PlaceTodoService placeTodoService;
     private final DatabaseCleaner databaseCleaner;

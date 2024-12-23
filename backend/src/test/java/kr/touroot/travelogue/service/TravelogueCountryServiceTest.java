@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
-import kr.touroot.global.IntegrationTest;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueCountry;
@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("여행기 국가 서비스")
 @ServiceTest
-class TravelogueCountryServiceTest extends IntegrationTest {
+class TravelogueCountryServiceTest extends AbstractIntegrationTest {
 
     private final TravelogueCountryService travelogueCountryService;
     private final DatabaseCleaner databaseCleaner;

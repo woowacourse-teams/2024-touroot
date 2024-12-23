@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
-import kr.touroot.global.IntegrationTest;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("여행 계획 파사드 서비스 테스트")
 @ServiceTest
-class TravelPlanFacadeServiceTest extends IntegrationTest {
+class TravelPlanFacadeServiceTest extends AbstractIntegrationTest {
 
     private final TravelPlanFacadeService travelPlanFacadeService;
     private final DatabaseCleaner databaseCleaner;

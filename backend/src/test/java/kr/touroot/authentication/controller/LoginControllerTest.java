@@ -14,8 +14,8 @@ import kr.touroot.authentication.fixture.OauthUserFixture;
 import kr.touroot.authentication.helper.LoginTestHelper;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.authentication.infrastructure.KakaoOauthProvider;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.AcceptanceTest;
-import kr.touroot.global.IntegrationTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +27,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 @DisplayName("로그인 컨트롤러")
 @AcceptanceTest
-class LoginControllerTest extends IntegrationTest {
+class LoginControllerTest extends AbstractIntegrationTest {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;

@@ -6,8 +6,8 @@ import static org.hamcrest.Matchers.is;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.AcceptanceTest;
-import kr.touroot.global.IntegrationTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.dto.request.TodoStatusUpdateRequest;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
@@ -21,7 +21,7 @@ import org.springframework.http.HttpHeaders;
 
 @DisplayName("여행 계획 장소에 대한 TODO 컨트롤러")
 @AcceptanceTest
-class PlaceTodoControllerTest extends IntegrationTest {
+class PlaceTodoControllerTest extends AbstractIntegrationTest {
 
     private final DatabaseCleaner databaseCleaner;
     private final JwtTokenProvider jwtTokenProvider;

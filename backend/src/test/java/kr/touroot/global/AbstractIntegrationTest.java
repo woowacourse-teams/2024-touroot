@@ -8,7 +8,7 @@ import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.containers.localstack.LocalStackContainer.Service;
 import org.testcontainers.utility.DockerImageName;
 
-public abstract class IntegrationTest {
+public abstract class AbstractIntegrationTest {
 
     private static final DockerImageName MYSQL_IMAGE_NAME = DockerImageName.parse("mysql:8");
     private static final DockerImageName LOCALSTACK_IMAGE_NAME = DockerImageName.parse("localstack/localstack");

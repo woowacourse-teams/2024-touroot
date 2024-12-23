@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.List;
-import kr.touroot.global.IntegrationTest;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
@@ -33,7 +33,7 @@ import org.springframework.data.domain.Sort;
 
 @DisplayName("여행기 서비스")
 @ServiceTest
-class TravelogueServiceTest extends IntegrationTest {
+class TravelogueServiceTest extends AbstractIntegrationTest {
 
     private final TravelogueService travelogueService;
     private final DatabaseCleaner databaseCleaner;

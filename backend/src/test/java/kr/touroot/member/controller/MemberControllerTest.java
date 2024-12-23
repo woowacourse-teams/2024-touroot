@@ -4,8 +4,8 @@ import static org.hamcrest.Matchers.is;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.AcceptanceTest;
-import kr.touroot.global.IntegrationTest;
 import kr.touroot.member.dto.request.MemberRequest;
 import kr.touroot.member.fixture.MemberFixture;
 import kr.touroot.utils.DatabaseCleaner;
@@ -19,7 +19,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 @DisplayName("사용자 컨트롤러")
 @AcceptanceTest
-class MemberControllerTest extends IntegrationTest {
+class MemberControllerTest extends AbstractIntegrationTest {
 
     private final DatabaseCleaner databaseCleaner;
 

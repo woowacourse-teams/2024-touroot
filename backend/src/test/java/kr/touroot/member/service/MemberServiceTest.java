@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
-import kr.touroot.global.IntegrationTest;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.ServiceTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @DisplayName("사용자 서비스")
 @ServiceTest
-class MemberServiceTest extends IntegrationTest {
+class MemberServiceTest extends AbstractIntegrationTest {
 
     private final MemberService memberService;
     private final MemberTestHelper testHelper;

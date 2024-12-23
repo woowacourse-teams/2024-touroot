@@ -20,8 +20,8 @@ import io.restassured.http.ContentType;
 import java.util.List;
 import java.util.UUID;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.AcceptanceTest;
-import kr.touroot.global.IntegrationTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.dto.request.PlanRequest;
@@ -37,7 +37,7 @@ import org.springframework.http.HttpHeaders;
 
 @DisplayName("여행 계획 컨트롤러")
 @AcceptanceTest
-class TravelPlanControllerTest extends IntegrationTest {
+class TravelPlanControllerTest extends AbstractIntegrationTest {
 
     private final DatabaseCleaner databaseCleaner;
     private final JwtTokenProvider jwtTokenProvider;

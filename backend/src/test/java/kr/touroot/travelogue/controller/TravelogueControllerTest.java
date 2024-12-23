@@ -26,8 +26,8 @@ import io.restassured.http.ContentType;
 import java.util.Collections;
 import java.util.List;
 import kr.touroot.authentication.infrastructure.JwtTokenProvider;
+import kr.touroot.global.AbstractIntegrationTest;
 import kr.touroot.global.AcceptanceTest;
-import kr.touroot.global.IntegrationTest;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.member.domain.Member;
 import kr.touroot.tag.domain.Tag;
@@ -59,7 +59,7 @@ import org.springframework.http.HttpHeaders;
 
 @DisplayName("여행기 컨트롤러")
 @AcceptanceTest
-class TravelogueControllerTest extends IntegrationTest {
+class TravelogueControllerTest extends AbstractIntegrationTest {
 
     private final DatabaseCleaner databaseCleaner;
     private final TravelogueTestHelper testHelper;
