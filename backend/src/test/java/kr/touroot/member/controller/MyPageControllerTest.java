@@ -5,60 +5,36 @@ import static org.hamcrest.Matchers.is;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import java.util.List;
-import kr.touroot.authentication.infrastructure.JwtTokenProvider;
-import kr.touroot.global.AbstractIntegrationTest;
-import kr.touroot.global.AcceptanceTest;
+import kr.touroot.global.AbstractControllerIntegrationTest;
 import kr.touroot.image.domain.ImageFile;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.dto.request.ProfileUpdateRequest;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
-import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 @DisplayName("마이 페이지 컨트롤러")
-@AcceptanceTest
-class MyPageControllerTest extends AbstractIntegrationTest {
-
-    private final DatabaseCleaner databaseCleaner;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final TravelogueTestHelper travelogueTestHelper;
-    private final TravelPlanTestHelper travelPlanTestHelper;
-
-    @LocalServerPort
-    private int port;
-    private String accessToken;
-    private Member member;
-    private final AwsS3Provider s3Provider;
+class MyPageControllerTest extends AbstractControllerIntegrationTest {
 
     @Autowired
-    public MyPageControllerTest(
-            DatabaseCleaner databaseCleaner,
-            JwtTokenProvider jwtTokenProvider,
-            TravelogueTestHelper travelogueTestHelper,
-            TravelPlanTestHelper travelPlanTestHelper,
-            AwsS3Provider s3Provider
-    ) {
-        this.databaseCleaner = databaseCleaner;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.travelogueTestHelper = travelogueTestHelper;
-        this.travelPlanTestHelper = travelPlanTestHelper;
-        this.s3Provider = s3Provider;
-    }
+    private TravelogueTestHelper travelogueTestHelper;
+    @Autowired
+    private TravelPlanTestHelper travelPlanTestHelper;
+    @Autowired
+    private AwsS3Provider s3Provider;
+
+    private String accessToken;
+    private Member member;
 
     @BeforeEach
     void setUp() {
-        RestAssured.port = port;
-        databaseCleaner.executeTruncate();
-
         member = travelogueTestHelper.initKakaoMemberTestData();
         accessToken = jwtTokenProvider.createToken(member.getId())
                 .accessToken();

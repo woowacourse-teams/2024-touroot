@@ -4,39 +4,16 @@ import static org.hamcrest.Matchers.is;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import kr.touroot.global.AbstractIntegrationTest;
-import kr.touroot.global.AcceptanceTest;
+import kr.touroot.global.AbstractControllerIntegrationTest;
 import kr.touroot.member.dto.request.MemberRequest;
 import kr.touroot.member.fixture.MemberFixture;
-import kr.touroot.utils.DatabaseCleaner;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.server.LocalServerPort;
 
 @DisplayName("사용자 컨트롤러")
-@AcceptanceTest
-class MemberControllerTest extends AbstractIntegrationTest {
-
-    private final DatabaseCleaner databaseCleaner;
-
-    @LocalServerPort
-    private int port;
-
-    @Autowired
-    public MemberControllerTest(DatabaseCleaner databaseCleaner) {
-        this.databaseCleaner = databaseCleaner;
-    }
-
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-
-        databaseCleaner.executeTruncate();
-    }
+class MemberControllerTest extends AbstractControllerIntegrationTest {
 
     @DisplayName("회원 가입을 한다.")
     @Test

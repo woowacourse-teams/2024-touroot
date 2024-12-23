@@ -20,14 +20,12 @@ import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.SEONGSAN_ILCH
 import static org.hamcrest.Matchers.is;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import java.util.Collections;
 import java.util.List;
-import kr.touroot.authentication.infrastructure.JwtTokenProvider;
-import kr.touroot.global.AbstractIntegrationTest;
-import kr.touroot.global.AcceptanceTest;
+import kr.touroot.authentication.dto.response.TokenResponse;
+import kr.touroot.global.AbstractControllerIntegrationTest;
 import kr.touroot.global.exception.dto.ExceptionResponse;
 import kr.touroot.member.domain.Member;
 import kr.touroot.tag.domain.Tag;
@@ -44,7 +42,6 @@ import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueRequestBuilder;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
-import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -53,48 +50,25 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 
 @DisplayName("여행기 컨트롤러")
-@AcceptanceTest
-class TravelogueControllerTest extends AbstractIntegrationTest {
+class TravelogueControllerTest extends AbstractControllerIntegrationTest {
 
-    private final DatabaseCleaner databaseCleaner;
-    private final TravelogueTestHelper testHelper;
-    private final ObjectMapper objectMapper;
-    private final JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private TravelogueTestHelper testHelper;
 
-    @LocalServerPort
-    private int port;
     private Member travelogueWriter;
     private Tag tag;
     private String travelogueWriterAccessToken;
 
-    @Autowired
-    public TravelogueControllerTest(
-            DatabaseCleaner databaseCleaner,
-            TravelogueTestHelper testHelper,
-            ObjectMapper objectMapper,
-            JwtTokenProvider jwtTokenProvider
-    ) {
-        this.databaseCleaner = databaseCleaner;
-        this.testHelper = testHelper;
-        this.objectMapper = objectMapper;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
-
     @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-
-        databaseCleaner.executeTruncate();
-
+    public void setUp() {
         travelogueWriter = testHelper.initKakaoMemberTestData();
         tag = testHelper.initTagTestData();
-        travelogueWriterAccessToken = jwtTokenProvider.createToken(travelogueWriter.getId())
-                .accessToken();
+        TokenResponse travelogueWriterToken = jwtTokenProvider.createToken(travelogueWriter.getId());
+        travelogueWriterAccessToken = travelogueWriterToken.accessToken();
     }
 
     @DisplayName("태그가 없는 여행기를 작성한다.")

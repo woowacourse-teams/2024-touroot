@@ -19,50 +19,29 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import java.util.List;
 import java.util.UUID;
-import kr.touroot.authentication.infrastructure.JwtTokenProvider;
-import kr.touroot.global.AbstractIntegrationTest;
-import kr.touroot.global.AcceptanceTest;
+import kr.touroot.global.AbstractControllerIntegrationTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
 import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.helper.TravelPlanRequestBuilder;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
-import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 
 @DisplayName("여행 계획 컨트롤러")
-@AcceptanceTest
-class TravelPlanControllerTest extends AbstractIntegrationTest {
+class TravelPlanControllerTest extends AbstractControllerIntegrationTest {
 
-    private final DatabaseCleaner databaseCleaner;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final TravelPlanTestHelper testHelper;
-    @LocalServerPort
-    private int port;
+    @Autowired
+    private TravelPlanTestHelper testHelper;
+
     private String accessToken;
     private Member planWriter;
 
-    @Autowired
-    public TravelPlanControllerTest(
-            DatabaseCleaner databaseCleaner,
-            TravelPlanTestHelper testHelper,
-            JwtTokenProvider jwtTokenProvider
-    ) {
-        this.databaseCleaner = databaseCleaner;
-        this.testHelper = testHelper;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
-
     @BeforeEach
     void setUp() {
-        RestAssured.port = port;
-        databaseCleaner.executeTruncate();
-
         planWriter = testHelper.initMemberTestData();
         accessToken = jwtTokenProvider.createToken(planWriter.getId()).accessToken();
     }
