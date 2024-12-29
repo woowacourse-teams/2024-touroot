@@ -26,7 +26,7 @@ class LoginControllerTest extends AbstractControllerIntegrationTest {
     @Autowired
     private LoginTestHelper testHelper;
     @MockBean
-    protected KakaoOauthProvider oauthProvider;
+    private KakaoOauthProvider oauthProvider;
 
     @DisplayName("카카오 로그인 요청을 처리할 수 있다")
     @Test

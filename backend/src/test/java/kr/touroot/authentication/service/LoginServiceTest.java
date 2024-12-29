@@ -26,7 +26,7 @@ class LoginServiceTest extends AbstractServiceIntegrationTest {
     @Autowired
     private MemberRepository memberRepository;
     @MockBean
-    protected KakaoOauthProvider oauthProvider;
+    private KakaoOauthProvider oauthProvider;
 
     @DisplayName("투룻 회원가입이 되어 있는 회원의 카카오 소셜 로그인을 처리할 수 있다")
     @Test
