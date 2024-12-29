@@ -19,6 +19,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
     protected ObjectMapper objectMapper;
     @Autowired
     protected JwtTokenProvider jwtTokenProvider;
+
     @LocalServerPort
     protected int port;
 

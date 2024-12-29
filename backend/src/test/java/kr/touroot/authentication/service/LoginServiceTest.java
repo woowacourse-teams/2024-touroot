@@ -2,19 +2,13 @@ package kr.touroot.authentication.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
 import kr.touroot.authentication.dto.response.LoginResponse;
-import kr.touroot.authentication.dto.response.TokenResponse;
 import kr.touroot.authentication.fixture.OauthUserFixture;
-import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.authentication.infrastructure.KakaoOauthProvider;
 import kr.touroot.global.AbstractServiceIntegrationTest;
 import kr.touroot.member.domain.Member;
-import kr.touroot.member.fixture.MemberFixture;
 import kr.touroot.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,61 +20,41 @@ class LoginServiceTest extends AbstractServiceIntegrationTest {
 
     private static final String AUTHENTICATION_CODE = "test-authentication-code";
     private static final String REDIRECT_URI = "http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fv1%2Flogin%2Foauth%2Fkakao";
-    private static final Member MEMBER = MemberFixture.KAKAO_MEMBER.getMember();
 
     @Autowired
     private LoginService loginService;
-    @MockBean
+    @Autowired
     private MemberRepository memberRepository;
     @MockBean
-    private KakaoOauthProvider kakaoOauthProvider;
-    @MockBean
-    private JwtTokenProvider jwtTokenProvider;
+    protected KakaoOauthProvider oauthProvider;
 
     @DisplayName("투룻 회원가입이 되어 있는 회원의 카카오 소셜 로그인을 처리할 수 있다")
     @Test
     void existUserKakaoSocialLoginTest() {
         // given
-        String accessToken = "aaa";
-        String refreshToken = "bbb";
+        OauthUserFixture kakaoUser = OauthUserFixture.KAKAO_USER;
+        Member preSignedUpUser = loginService.signUp(kakaoUser.getOauthInformationResponse());
+        when(oauthProvider.getUserInformation(any(String.class), any(String.class)))
+                .thenReturn(kakaoUser.getOauthInformationResponse());
 
-        when(kakaoOauthProvider.getUserInformation(any(String.class), any(String.class)))
-                .thenReturn(OauthUserFixture.KAKAO_USER.getOauthInformationResponse());
-        when(memberRepository.findByKakaoId(any(Long.class)))
-                .thenReturn(Optional.of(MEMBER));
-        when(jwtTokenProvider.createToken(MEMBER.getId()))
-                .thenReturn(new TokenResponse(accessToken, refreshToken));
-
+        // when
         LoginResponse response = loginService.login(AUTHENTICATION_CODE, REDIRECT_URI);
 
-        // when & then
-        assertThat(response).isEqualTo(
-                LoginResponse.of(MEMBER, new TokenResponse(response.accessToken(), response.refreshToken()))
-        );
+        // then
+        assertThat(response.memberId()).isEqualTo(preSignedUpUser.getId());
     }
 
     @DisplayName("투룻 회원가입이 되어 있지 않은 회원은 소셜 로그인 과정에서 회원가입 후 로그인 된다")
     @Test
     void nonExistUserKakaoSocialLoginTest() {
         // given
-        String accessToken = "aaa";
-        String refreshToken = "bbb";
-
-        when(kakaoOauthProvider.getUserInformation(any(String.class), any(String.class)))
+        when(oauthProvider.getUserInformation(any(String.class), any(String.class)))
                 .thenReturn(OauthUserFixture.KAKAO_USER.getOauthInformationResponse());
-        when(memberRepository.findByKakaoId(any(Long.class)))
-                .thenReturn(Optional.empty());
-        when(memberRepository.save(any(Member.class)))
-                .thenReturn(MEMBER);
-        when(jwtTokenProvider.createToken(MEMBER.getId()))
-                .thenReturn(new TokenResponse(accessToken, refreshToken));
 
+        // when
         LoginResponse response = loginService.login(AUTHENTICATION_CODE, REDIRECT_URI);
 
-        // when & then
-        assertThat(response).isEqualTo(
-                LoginResponse.of(MEMBER, new TokenResponse(response.accessToken(), response.refreshToken()))
-        );
-        verify(memberRepository, times(1)).save(any(Member.class));
+        // then
+        assertThat(response.memberId()).isNotNull();
     }
 }
