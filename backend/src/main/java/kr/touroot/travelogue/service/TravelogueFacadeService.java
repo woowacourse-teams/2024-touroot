@@ -5,10 +5,16 @@ import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.domain.Travelogue;
+import kr.touroot.travelogue.domain.TravelogueDay;
 import kr.touroot.travelogue.domain.TravelogueFilterCondition;
+import kr.touroot.travelogue.domain.TraveloguePhoto;
+import kr.touroot.travelogue.domain.TraveloguePlace;
 import kr.touroot.travelogue.domain.TravelogueTag;
 import kr.touroot.travelogue.domain.search.SearchCondition;
+import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TravelogueFilterRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
+import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.dto.request.TravelogueSearchRequest;
 import kr.touroot.travelogue.dto.response.TravelogueCreateResponse;
@@ -26,6 +32,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelogueFacadeService {
 
     private final TravelogueService travelogueService;
+    private final TravelogueDayService travelogueDayService;
+    private final TraveloguePlaceService traveloguePlaceService;
+    private final TraveloguePhotoService traveloguePhotoService;
     private final TravelogueImagePerpetuationService travelogueImagePerpetuationService;
     private final TravelogueTagService travelogueTagService;
     private final TravelogueLikeService travelogueLikeService;
@@ -35,12 +44,45 @@ public class TravelogueFacadeService {
     @Transactional
     public TravelogueCreateResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
         Member author = memberService.getMemberById(member.memberId());
-        Travelogue travelogue = travelogueService.save(request.toTravelogue(author));
+        Travelogue travelogue = saveTravelogue(author, request);
         travelogueImagePerpetuationService.copyTravelogueImagesToPermanentStorage(travelogue);
         travelogueTagService.createTravelogueTags(travelogue, request.tags());
         travelogueCountryService.createTravelogueCountries(travelogue, request);
 
         return TravelogueCreateResponse.from(travelogue);
+    }
+
+    private Travelogue saveTravelogue(Member travelogueOwner, TravelogueRequest travelogueRequest) {
+        Travelogue travelogue = travelogueRequest.toTravelogue(travelogueOwner);
+        Travelogue saved = travelogueService.save(travelogue);
+        saveTravelogueDays(travelogue, travelogueRequest.days());
+        return saved;
+    }
+
+    private void saveTravelogueDays(Travelogue dayOwner, List<TravelogueDayRequest> travelogueDayRequests) {
+        for (int order = 0; order < travelogueDayRequests.size(); order++) {
+            TravelogueDayRequest dayRequest = travelogueDayRequests.get(order);
+            TravelogueDay travelogueDay = dayRequest.toTravelogueDay(order, dayOwner);
+            travelogueDayService.save(travelogueDay);
+            saveTraveloguePlaces(travelogueDay, dayRequest.places());
+        }
+    }
+
+    private void saveTraveloguePlaces(TravelogueDay placeOwner, List<TraveloguePlaceRequest> places) {
+        for (int order = 0; order < places.size(); order++) {
+            TraveloguePlaceRequest placeRequest = places.get(order);
+            TraveloguePlace traveloguePlace = placeRequest.toTraveloguePlace(order, placeOwner);
+            traveloguePlaceService.save(traveloguePlace);
+            saveTraveloguePhotos(traveloguePlace, placeRequest.photoUrls());
+        }
+    }
+
+    private void saveTraveloguePhotos(TraveloguePlace photoOwner, List<TraveloguePhotoRequest> photoRequests) {
+        for (int order = 0; order < photoRequests.size(); order++) {
+            TraveloguePhotoRequest photoRequest = photoRequests.get(order);
+            TraveloguePhoto traveloguePhoto = photoRequest.toTraveloguePhoto(order, photoOwner);
+            traveloguePhotoService.save(traveloguePhoto);
+        }
     }
 
     @Transactional(readOnly = true)
