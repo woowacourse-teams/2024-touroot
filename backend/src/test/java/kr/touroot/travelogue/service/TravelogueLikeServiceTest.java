@@ -2,45 +2,27 @@ package kr.touroot.travelogue.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import kr.touroot.global.IntegrationTest;
-import kr.touroot.global.ServiceTest;
+import kr.touroot.global.AbstractServiceIntegrationTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import kr.touroot.utils.DatabaseCleaner;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Pageable;
 
 @DisplayName("여행기 좋아요 서비스")
-@Import(value = {TravelogueLikeService.class, TravelogueTestHelper.class})
-@ServiceTest
-class TravelogueLikeServiceTest extends IntegrationTest {
+class TravelogueLikeServiceTest extends AbstractServiceIntegrationTest {
 
     public static final int BASIC_PAGE_SIZE = 5;
 
-    private final TravelogueLikeService travelogueLikeService;
-    private final DatabaseCleaner databaseCleaner;
-    private final TravelogueTestHelper testHelper;
-
     @Autowired
-    public TravelogueLikeServiceTest(
-            TravelogueLikeService travelogueLikeService,
-            DatabaseCleaner databaseCleaner,
-            TravelogueTestHelper testHelper
-    ) {
-        this.travelogueLikeService = travelogueLikeService;
-        this.databaseCleaner = databaseCleaner;
-        this.testHelper = testHelper;
-    }
-
-    @BeforeEach
-    void setUp() {
-        databaseCleaner.executeTruncate();
-    }
+    private TravelogueLikeService travelogueLikeService;
+    @Autowired
+    private DatabaseCleaner databaseCleaner;
+    @Autowired
+    private TravelogueTestHelper testHelper;
 
     @DisplayName("특정 멤버가 좋아요 한 여행기를 조회할 수 있다.")
     @Test

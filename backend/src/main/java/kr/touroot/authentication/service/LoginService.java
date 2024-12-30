@@ -34,7 +34,7 @@ public class LoginService {
         return LoginResponse.of(member, tokenProvider.createToken(member.getId()));
     }
 
-    private Member signUp(OauthUserInformationResponse userInformation) {
+    public Member signUp(OauthUserInformationResponse userInformation) {
         return memberRepository.save(userInformation.toMember());
     }
 

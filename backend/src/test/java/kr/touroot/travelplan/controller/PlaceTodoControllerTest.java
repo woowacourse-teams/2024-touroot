@@ -5,45 +5,27 @@ import static org.hamcrest.Matchers.is;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import kr.touroot.authentication.infrastructure.JwtTokenProvider;
-import kr.touroot.global.AcceptanceTest;
-import kr.touroot.global.IntegrationTest;
+import kr.touroot.global.AbstractControllerIntegrationTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.dto.request.TodoStatusUpdateRequest;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
-import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 
 @DisplayName("여행 계획 장소에 대한 TODO 컨트롤러")
-@AcceptanceTest
-class PlaceTodoControllerTest extends IntegrationTest {
+class PlaceTodoControllerTest extends AbstractControllerIntegrationTest {
 
-    private final DatabaseCleaner databaseCleaner;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final TravelPlanTestHelper testHelper;
-    @LocalServerPort
-    private int port;
+    @Autowired
+    private TravelPlanTestHelper testHelper;
+
     private String accessToken;
     private Member member;
 
-    @Autowired
-    public PlaceTodoControllerTest(DatabaseCleaner databaseCleaner, JwtTokenProvider jwtTokenProvider,
-                                   TravelPlanTestHelper testHelper) {
-        this.databaseCleaner = databaseCleaner;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.testHelper = testHelper;
-    }
-
     @BeforeEach
     void setUp() {
-        RestAssured.port = port;
-        databaseCleaner.executeTruncate();
-
         member = testHelper.initMemberTestData();
         accessToken = jwtTokenProvider.createToken(member.getId()).accessToken();
     }
