@@ -56,9 +56,11 @@ dependencies {
     testImplementation "org.testcontainers:junit-jupiter:1.20.4"
     testImplementation "org.testcontainers:mysql"
     testImplementation 'org.testcontainers:localstack'
+    testImplementation 'com.redis:testcontainers-redis:2.2.2'
 
     // cache
     implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
 
     // QueryDSL

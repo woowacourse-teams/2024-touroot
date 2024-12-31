@@ -49,6 +49,10 @@ server:
 ---
 # local profile
 spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
   flyway:
     enabled: false
   config:
@@ -89,6 +93,10 @@ cloud:
 ---
 # dev profile
 spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
   flyway:
     enabled: true
     baseline-version: 1
@@ -145,6 +153,10 @@ loki:
 ---
 # prod profile
 spring:
+  data:
+    redis:
+      host: ENC(otCSAgc44Iy/31eLWwIb/WjJwH8YAjfQ)
+      port: 6379
   flyway:
     enabled: true
     baseline-version: 1
