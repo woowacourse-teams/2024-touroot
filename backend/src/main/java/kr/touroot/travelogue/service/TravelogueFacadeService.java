@@ -16,6 +16,7 @@ import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -61,12 +62,18 @@ public class TravelogueFacadeService {
         return TravelogueResponse.of(travelogue, travelogueTags, likeFromAccessor);
     }
 
+    @Cacheable(
+            cacheNames = "traveloguePage",
+            key = "#pageable",
+            condition = "#filterRequest.toFilterCondition().emptyCondition && #searchRequest.toSearchCondition().emptyCondition"
+    )
     @Transactional(readOnly = true)
     public Page<TravelogueSimpleResponse> findSimpleTravelogues(
             TravelogueFilterRequest filterRequest,
             TravelogueSearchRequest searchRequest,
             Pageable pageable
     ) {
+        System.out.println("Cache MISS!!");
         TravelogueFilterCondition filter = filterRequest.toFilterCondition();
         SearchCondition searchCondition = searchRequest.toSearchCondition();
 
