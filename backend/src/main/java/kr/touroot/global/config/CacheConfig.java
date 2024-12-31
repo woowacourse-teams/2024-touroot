@@ -1,4 +1,4 @@
-package kr.touroot.tag.cache;
+package kr.touroot.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
