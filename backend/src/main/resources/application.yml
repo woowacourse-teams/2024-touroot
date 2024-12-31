@@ -97,7 +97,6 @@ spring:
     redis:
       host: localhost
       port: 6379
-
   flyway:
     enabled: true
     baseline-version: 1
