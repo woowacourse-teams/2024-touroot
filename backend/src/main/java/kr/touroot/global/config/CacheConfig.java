@@ -3,12 +3,15 @@ package kr.touroot.global.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.Duration;
+import kr.touroot.global.dto.PageDeserializer;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -43,9 +46,12 @@ public class CacheConfig {
     private ObjectMapper getObjectMapperForRedisCacheManager() {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        objectMapper.registerModule(new JavaTimeModule());
+        SimpleModule pageModule = new SimpleModule();
+        pageModule.addDeserializer(PageImpl.class, new PageDeserializer());
+
+        objectMapper.registerModules(new JavaTimeModule(), pageModule);
         objectMapper.activateDefaultTyping(
-                BasicPolymorphicTypeValidator.builder().allowIfBaseType(Object.class).build(),
+                BasicPolymorphicTypeValidator.builder().allowIfBaseType(Object.class).allowIfBaseType(PageImpl.class).build(),
                 DefaultTyping.EVERYTHING
         );
 
