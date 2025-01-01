@@ -65,7 +65,7 @@ public class TravelogueFacadeService {
     @Cacheable(
             cacheNames = "traveloguePage",
             key = "#pageable",
-            condition = "#filterRequest.toFilterCondition().emptyCondition && #searchRequest.toSearchCondition().emptyCondition"
+            condition = "#pageable.pageNumber <= 4 && #filterRequest.toFilterCondition().emptyCondition && #searchRequest.toSearchCondition().emptyCondition"
     )
     @Transactional(readOnly = true)
     public Page<TravelogueSimpleResponse> findSimpleTravelogues(
