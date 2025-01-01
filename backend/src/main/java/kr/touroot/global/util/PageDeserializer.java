@@ -1,5 +1,6 @@
 package kr.touroot.global.util;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -21,42 +22,51 @@ public class PageDeserializer extends JsonDeserializer<PageImpl<?>> {
         long totalElements = 0;
         Sort sort = Sort.unsorted();
 
-        if (p.getCurrentToken() == JsonToken.START_OBJECT) {
-            while (p.nextToken() != JsonToken.END_OBJECT) {
-                String fieldName = p.getCurrentName();
-                p.nextToken();
+        if (p.getCurrentToken() != JsonToken.START_OBJECT) {
+            throw new JsonParseException("Page 객체를 역직렬화하는 과정에서 예외가 발생했습니다.");
+        }
 
-                if (fieldName != null) {
-                    switch (fieldName) {
-                        case "content":
-                            if (p.getCurrentToken() == JsonToken.START_ARRAY) {
-                                content = ctxt.readValue(p, ctxt.getTypeFactory().constructCollectionType(List.class, Object.class));
-                            }
-                            break;
-                        case "number":
-                            pageNumber = p.getIntValue();
-                            break;
-                        case "size":
-                            pageSize = p.getIntValue();
-                            break;
-                        case "totalElements":
-                            totalElements = p.getLongValue();
-                            break;
-                        case "sort":
-                            if (p.getCurrentToken() == JsonToken.START_OBJECT) {
-                                sort = ctxt.readValue(p, Sort.class);
-                            }
-                            break;
-                        default:
-                            p.skipChildren();
-                            break;
-                    }
-                }
+        while (p.nextToken() != JsonToken.END_OBJECT) {
+            String fieldName = p.getCurrentName();
+            p.nextToken();
+
+            if (fieldName == null) {
+                continue;
             }
+
+            if (fieldName.equals("content") && p.getCurrentToken() == JsonToken.START_ARRAY) {
+                content = ctxt.readValue(
+                        p,
+                        ctxt.getTypeFactory().constructCollectionType(List.class, Object.class)
+                );
+                continue;
+            }
+
+            if (fieldName.equals("number")) {
+                pageNumber = p.getIntValue();
+                continue;
+            }
+
+            if (fieldName.equals("size")) {
+                pageSize = p.getIntValue();
+                continue;
+            }
+
+            if (fieldName.equals("totalElements")) {
+                totalElements = p.getLongValue();
+                continue;
+            }
+
+            if (fieldName.equals("sort") && p.getCurrentToken() == JsonToken.START_OBJECT) {
+                sort = ctxt.readValue(p, Sort.class);
+                continue;
+            }
+
+            p.skipChildren();
         }
 
         PageRequest pageable = PageRequest.of(pageNumber, pageSize, sort);
-        return new PageImpl<>(content != null ? content : new ArrayList<>(), pageable, totalElements);
+        return new PageImpl<>(content, pageable, totalElements);
     }
 }
 
