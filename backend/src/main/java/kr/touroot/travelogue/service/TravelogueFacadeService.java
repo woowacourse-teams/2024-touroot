@@ -73,7 +73,6 @@ public class TravelogueFacadeService {
             TravelogueSearchRequest searchRequest,
             Pageable pageable
     ) {
-        System.out.println("Cache MISS!!");
         TravelogueFilterCondition filter = filterRequest.toFilterCondition();
         SearchCondition searchCondition = searchRequest.toSearchCondition();
 
