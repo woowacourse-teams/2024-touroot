@@ -1,0 +1,62 @@
+package kr.touroot.global.util;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
+public class PageDeserializer extends JsonDeserializer<PageImpl<?>> {
+
+    @Override
+    public PageImpl<?> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+        List<Object> content = new ArrayList<>();
+        int pageNumber = 0;
+        int pageSize = 0;
+        long totalElements = 0;
+        Sort sort = Sort.unsorted();
+
+        if (p.getCurrentToken() == JsonToken.START_OBJECT) {
+            while (p.nextToken() != JsonToken.END_OBJECT) {
+                String fieldName = p.getCurrentName();
+                p.nextToken();
+
+                if (fieldName != null) {
+                    switch (fieldName) {
+                        case "content":
+                            if (p.getCurrentToken() == JsonToken.START_ARRAY) {
+                                content = ctxt.readValue(p, ctxt.getTypeFactory().constructCollectionType(List.class, Object.class));
+                            }
+                            break;
+                        case "number":
+                            pageNumber = p.getIntValue();
+                            break;
+                        case "size":
+                            pageSize = p.getIntValue();
+                            break;
+                        case "totalElements":
+                            totalElements = p.getLongValue();
+                            break;
+                        case "sort":
+                            if (p.getCurrentToken() == JsonToken.START_OBJECT) {
+                                sort = ctxt.readValue(p, Sort.class);
+                            }
+                            break;
+                        default:
+                            p.skipChildren();
+                            break;
+                    }
+                }
+            }
+        }
+
+        PageRequest pageable = PageRequest.of(pageNumber, pageSize, sort);
+        return new PageImpl<>(content != null ? content : new ArrayList<>(), pageable, totalElements);
+    }
+}
+
