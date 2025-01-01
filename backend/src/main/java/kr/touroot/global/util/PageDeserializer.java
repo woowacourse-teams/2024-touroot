@@ -57,7 +57,10 @@ public class PageDeserializer extends JsonDeserializer<PageImpl<?>> {
                 continue;
             }
 
-            if (fieldName.equals("sort") && p.getCurrentToken() == JsonToken.START_OBJECT) {
+            if (fieldName.equals("sort")) {
+                while (p.getCurrentToken() == JsonToken.START_OBJECT) {
+                    p.nextToken();
+                }
                 sort = ctxt.readValue(p, Sort.class);
                 continue;
             }
