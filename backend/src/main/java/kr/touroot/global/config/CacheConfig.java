@@ -23,6 +23,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class CacheConfig {
 
+    private static final Duration CACHE_TTL = Duration.ofMinutes(30);
+
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         return RedisCacheManager.builder(connectionFactory)
@@ -39,7 +41,7 @@ public class CacheConfig {
         return RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(keySerializationPair)
                 .serializeValuesWith(valueSerializationPair)
-                .entryTtl(Duration.ofHours(1L))
+                .entryTtl(CACHE_TTL)
                 .disableCachingNullValues();
     }
 
