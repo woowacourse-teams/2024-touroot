@@ -211,7 +211,7 @@ class TravelogueFacadeServiceTest extends AbstractServiceIntegrationTest {
         String key = "traveloguePage::" + pageRequest.toString();
         Long ttl = redisTemplate.getExpire(key, TimeUnit.MINUTES);
         Assertions.assertAll(
-                () -> assertThat(ttl).isGreaterThan(0),
+                () -> assertThat(ttl).isGreaterThanOrEqualTo(29),
                 () -> assertThat(ttl).isLessThanOrEqualTo(30)
         );
     }
