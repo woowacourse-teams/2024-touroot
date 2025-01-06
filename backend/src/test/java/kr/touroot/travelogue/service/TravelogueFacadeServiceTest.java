@@ -128,16 +128,64 @@ class TravelogueFacadeServiceTest extends AbstractServiceIntegrationTest {
         Pageable pageRequest = PageRequest.of(pageNumber, 5, Sort.by("id"));
 
         // when
-        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(
-                filterRequest,
-                searchRequest,
-                pageRequest
-        );
+        service.findSimpleTravelogues(filterRequest, searchRequest, pageRequest);
 
         // then
         String key = "traveloguePage::" + pageRequest.toString();
         String cachedValue = redisTemplate.opsForValue().get(key);
         assertThat(cachedValue).isNotEmpty();
+    }
+
+    @DisplayName("여행기 컨텐츠 페이징 응답 시 페이지 번호가 5이상이면 응답을 캐싱하지 않는다.")
+    @ParameterizedTest
+    @ValueSource(ints = {5, 6, 7, 8, 9})
+    void noCacheTraveloguePage(int pageNumber) {
+        // given
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest(null, null);
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
+        Pageable pageRequest = PageRequest.of(pageNumber, 5, Sort.by("id"));
+
+        // when
+        service.findSimpleTravelogues(filterRequest, searchRequest, pageRequest);
+
+        // then
+        String key = "traveloguePage::" + pageRequest.toString();
+        String cachedValue = redisTemplate.opsForValue().get(key);
+        assertThat(cachedValue).isNull();
+    }
+
+    @DisplayName("여행기 컨텐츠 페이징 응답 시 검색 조건이 있다면 응답을 캐싱하지 않는다.")
+    @Test
+    void noCacheTraveloguePageWhenSearchConditionExist() {
+        // given
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("멋쟁이 리비의 여행", null);
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
+        Pageable pageRequest = PageRequest.of(1, 5, Sort.by("id"));
+
+        // when
+        service.findSimpleTravelogues(filterRequest, searchRequest, pageRequest);
+
+        // then
+        String key = "traveloguePage::" + pageRequest.toString();
+        String cachedValue = redisTemplate.opsForValue().get(key);
+        assertThat(cachedValue).isNull();
+    }
+
+    @DisplayName("여행기 컨텐츠 페이징 응답 시 필터링 조건이 있다면 응답을 캐싱하지 않는다.")
+    @Test
+    void noCacheTraveloguePageWhenFilterConditionExist() {
+        // given
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest(null, null);
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, 3);
+        Pageable pageRequest = PageRequest.of(1, 5, Sort.by("id"));
+
+        // when
+        service.findSimpleTravelogues(filterRequest, searchRequest, pageRequest);
+
+        // then
+        String key = "traveloguePage::" + pageRequest.toString();
+        String cachedValue = redisTemplate.opsForValue().get(key);
+        assertThat(cachedValue).isNull();
     }
 
     @DisplayName("필터링된 여행기 목록을 조회한다.")
