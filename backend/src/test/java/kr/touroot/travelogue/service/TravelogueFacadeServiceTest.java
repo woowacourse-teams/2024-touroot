@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import kr.touroot.global.AbstractServiceIntegrationTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
@@ -22,6 +23,7 @@ import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -186,6 +188,26 @@ class TravelogueFacadeServiceTest extends AbstractServiceIntegrationTest {
         String key = "traveloguePage::" + pageRequest.toString();
         String cachedValue = redisTemplate.opsForValue().get(key);
         assertThat(cachedValue).isNull();
+    }
+
+    @DisplayName("여행기 컨텐츠 페이징 응답 캐시는 30분 동안 유지된다.")
+    @Test
+    void pageCacheExpiration() {
+        // given
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest(null, null);
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
+        Pageable pageRequest = PageRequest.of(1, 5, Sort.by("id"));
+
+        // when
+        service.findSimpleTravelogues(filterRequest, searchRequest, pageRequest);
+
+        // then
+        String key = "traveloguePage::" + pageRequest.toString();
+        Long ttl = redisTemplate.getExpire(key, TimeUnit.MINUTES);
+        Assertions.assertAll(
+                () -> assertThat(ttl).isGreaterThan(0),
+                () -> assertThat(ttl).isLessThanOrEqualTo(30)
+        );
     }
 
     @DisplayName("필터링된 여행기 목록을 조회한다.")
