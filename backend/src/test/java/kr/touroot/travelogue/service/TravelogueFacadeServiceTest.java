@@ -24,6 +24,7 @@ import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -44,6 +45,11 @@ class TravelogueFacadeServiceTest extends AbstractServiceIntegrationTest {
     private RedisTemplate<String, String> redisTemplate;
     @Autowired
     private TravelogueTestHelper testHelper;
+
+    @BeforeEach
+    void setUp() {
+        redisTemplate.getConnectionFactory().getConnection().flushAll();
+    }
 
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
