@@ -24,16 +24,22 @@ import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisTemplate;
 
 @DisplayName("여행기 Facade 서비스")
 class TravelogueFacadeServiceTest extends AbstractServiceIntegrationTest {
 
     @Autowired
     private TravelogueFacadeService service;
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
     @Autowired
     private TravelogueTestHelper testHelper;
 
@@ -110,6 +116,28 @@ class TravelogueFacadeServiceTest extends AbstractServiceIntegrationTest {
         );
 
         assertThat(result).containsAll(expect);
+    }
+
+    @DisplayName("여행기 컨텐츠 페이징 응답 시 페이지 번호가 4이하이고 필터 조건과 검색 조건이 없으면 응답을 캐싱한다.")
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3, 4})
+    void cacheTraveloguePage(int pageNumber) {
+        // given
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest(null, null);
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
+        Pageable pageRequest = PageRequest.of(pageNumber, 5, Sort.by("id"));
+
+        // when
+        Page<TravelogueSimpleResponse> result = service.findSimpleTravelogues(
+                filterRequest,
+                searchRequest,
+                pageRequest
+        );
+
+        // then
+        String key = "traveloguePage::" + pageRequest.toString();
+        String cachedValue = redisTemplate.opsForValue().get(key);
+        assertThat(cachedValue).isNotEmpty();
     }
 
     @DisplayName("필터링된 여행기 목록을 조회한다.")
