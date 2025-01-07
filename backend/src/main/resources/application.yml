@@ -95,7 +95,7 @@ cloud:
 spring:
   data:
     redis:
-      host: localhost
+      host: redis
       port: 6379
   flyway:
     enabled: true
