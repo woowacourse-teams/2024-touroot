@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 import kr.touroot.global.AbstractServiceIntegrationTest;
 import kr.touroot.global.auth.dto.MemberAuth;
 import kr.touroot.global.exception.BadRequestException;
@@ -30,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -45,6 +47,8 @@ class TravelogueFacadeServiceTest extends AbstractServiceIntegrationTest {
     private RedisTemplate<String, String> redisTemplate;
     @Autowired
     private TravelogueTestHelper testHelper;
+    @Autowired
+    private CacheManager cacheManager;
 
     @BeforeEach
     void setUp() {
@@ -418,5 +422,52 @@ class TravelogueFacadeServiceTest extends AbstractServiceIntegrationTest {
         assertThatThrownBy(() -> service.unlikeTravelogue(1L, new MemberAuth(liker.getId())))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행기입니다.");
+    }
+
+
+    @DisplayName("여행기의 좋아요 수가 바뀔 때 해당 여행기가 캐싱되는 기준 이상의 좋아요 수를 가진다면 해당 캐시를 무효화 한다")
+    @Test
+    void cacheEviction() {
+        // given
+        Member liker = testHelper.initKakaoMemberTestData();
+        Travelogue travelogue = testHelper.initTravelogueTestDataWithLike(liker);
+        redisTemplate.opsForValue().set("traveloguePage::1", "cached");
+        // when
+        service.likeTravelogue(travelogue.getId(), new MemberAuth(liker.getId()));
+
+        // then
+        assertThat(redisTemplate.opsForValue().get("traveloguePage::1")).isNull();
+    }
+
+    @DisplayName("여행기의 좋아요 수가 바뀔 때 해당 여행기가 캐싱되는 기준 이하의 좋아요 수를 가진다면 해당 캐시를 무효화 하지 않는다")
+    @Test
+    void cacheNoEviction() {
+        // given
+        Member liker1 = testHelper.initKakaoMemberTestData();
+        Member liker2 = testHelper.initKakaoMemberTestData();
+        Member liker3 = testHelper.initKakaoMemberTestData();
+
+        List<Travelogue> travelogues = createTravelogues(20);
+        travelogues.forEach(travelogue -> likeTravelogueByMember(travelogue, liker1));
+        travelogues.forEach(travelogue -> likeTravelogueByMember(travelogue, liker2));
+
+        Travelogue rank21Travelogue = testHelper.initTravelogueTestData();
+        redisTemplate.opsForValue().set("traveloguePage::1", "cached");
+
+        // when
+        service.likeTravelogue(rank21Travelogue.getId(), new MemberAuth(liker3.getId()));
+
+        // then
+        assertThat(redisTemplate.opsForValue().get("traveloguePage::1")).isNotNull();
+    }
+
+    private List<Travelogue> createTravelogues(int count) {
+        return IntStream.range(0, count)
+                .mapToObj(i -> testHelper.initTravelogueTestData())
+                .toList();
+    }
+
+    private void likeTravelogueByMember(Travelogue travelogue, Member member) {
+        service.likeTravelogue(travelogue.getId(), new MemberAuth(member.getId())); // 특정 여행기에 좋아요 추가
     }
 }
