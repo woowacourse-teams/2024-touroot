@@ -3,6 +3,7 @@ package kr.touroot.travelogue.repository.query;
 import static kr.touroot.travelogue.domain.QTravelogueLike.travelogueLike;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,7 @@ public class TravelogueLikeQueryRepositoryImpl implements TravelogueLikeQueryRep
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public int countTravelougeLikeByRank(int rank) {
+    public long countTravelougeLikeByRank(int rank) {
         Long likeCount = jpaQueryFactory.select(travelogueLike.count())
                 .from(travelogueLike)
                 .groupBy(travelogueLike.travelogue.id)
@@ -22,9 +23,7 @@ public class TravelogueLikeQueryRepositoryImpl implements TravelogueLikeQueryRep
                 .offset(rank - 1L)
                 .limit(1)
                 .fetchOne();
-        if (likeCount == null) {
-            return 0;
-        }
-        return likeCount.intValue();
+
+        return Optional.ofNullable(likeCount).orElse(0L);
     }
 }
