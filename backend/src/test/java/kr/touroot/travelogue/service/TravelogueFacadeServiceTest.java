@@ -133,7 +133,7 @@ class TravelogueFacadeServiceTest extends AbstractServiceIntegrationTest {
         // given
         TravelogueSearchRequest searchRequest = new TravelogueSearchRequest(null, null);
         TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
-        Pageable pageRequest = PageRequest.of(pageNumber, 5, Sort.by("id"));
+        Pageable pageRequest = PageRequest.of(pageNumber, 5, Sort.by("likeCount").descending());
 
         // when
         service.findSimpleTravelogues(filterRequest, searchRequest, pageRequest);
@@ -202,7 +202,7 @@ class TravelogueFacadeServiceTest extends AbstractServiceIntegrationTest {
         // given
         TravelogueSearchRequest searchRequest = new TravelogueSearchRequest(null, null);
         TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
-        Pageable pageRequest = PageRequest.of(1, 5, Sort.by("id"));
+        Pageable pageRequest = PageRequest.of(1, 5, Sort.by("likeCount").descending());
 
         // when
         service.findSimpleTravelogues(filterRequest, searchRequest, pageRequest);
