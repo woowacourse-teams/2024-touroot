@@ -121,6 +121,10 @@ public class Travelogue extends BaseEntity {
         travelogueDays.forEach(this::addDay);
     }
 
+    public boolean isLikeCountBiggerThan(long targetLikeCount) {
+        return likeCount > targetLikeCount;
+    }
+
     public void increaseLikeCount() {
         likeCount += LIKE_COUNT_WEIGHT;
     }
