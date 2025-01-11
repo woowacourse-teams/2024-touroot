@@ -26,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TravelogueFacadeService {
 
+    public static final int MAX_CACHING_PAGE = 4;
+
     private final TravelogueService travelogueService;
     private final TravelogueImagePerpetuationService travelogueImagePerpetuationService;
     private final TravelogueTagService travelogueTagService;
@@ -65,7 +67,7 @@ public class TravelogueFacadeService {
     @Cacheable(
             cacheNames = "traveloguePage",
             key = "#pageable",
-            condition = "#pageable.pageNumber <= 4 && " +
+            condition = "#pageable.pageNumber <= " + MAX_CACHING_PAGE + " && " +
                     "#filterRequest.toFilterCondition().emptyCondition && " +
                     "#searchRequest.toSearchCondition().emptyCondition && " +
                     "#pageable.sort.toString() == 'likeCount: DESC'"
