@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelogueFacadeService {
 
     public static final int MAX_CACHING_PAGE = 4;
+    public static final String TRAVELOGUE_PAGE_CACHE_NAME = "traveloguePage";
 
     private final TravelogueService travelogueService;
     private final TravelogueImagePerpetuationService travelogueImagePerpetuationService;
@@ -68,7 +69,7 @@ public class TravelogueFacadeService {
     }
 
     @Cacheable(
-            cacheNames = "traveloguePage",
+            cacheNames = TRAVELOGUE_PAGE_CACHE_NAME,
             key = "#pageable",
             condition = "#pageable.pageNumber <= " + MAX_CACHING_PAGE + " && " +
                     "#filterRequest.toFilterCondition().emptyCondition && " +
@@ -156,7 +157,7 @@ public class TravelogueFacadeService {
     }
 
     private void invalidateTraveloguePageCache() {
-        Cache cache = cacheManager.getCache("traveloguePage");
+        Cache cache = cacheManager.getCache(TRAVELOGUE_PAGE_CACHE_NAME);
         if (cache != null) {
             cache.clear();
         }
