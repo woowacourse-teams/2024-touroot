@@ -122,7 +122,7 @@ public class TravelogueFacadeService {
         Member author = memberService.getMemberById(member.memberId());
         Travelogue travelogue = travelogueService.getTravelogueById(id);
 
-        processTraveloguePageCache(travelogue);
+        evictTraveloguePageCacheIfAffected(travelogue);
         travelogueTagService.deleteAllByTravelogue(travelogue);
         travelogueLikeService.deleteAllByTravelogue(travelogue);
         travelogueCountryService.deleteAllByTravelogue(travelogue);
@@ -134,7 +134,7 @@ public class TravelogueFacadeService {
         Travelogue travelogue = travelogueService.getTravelogueById(travelogueId);
         Member liker = memberService.getMemberById(member.memberId());
         travelogueLikeService.likeTravelogue(travelogue, liker);
-        processTraveloguePageCache(travelogue);
+        evictTraveloguePageCacheIfAffected(travelogue);
 
         return new TravelogueLikeResponse(true, travelogue.getLikeCount());
     }
@@ -142,14 +142,14 @@ public class TravelogueFacadeService {
     @Transactional
     public TravelogueLikeResponse unlikeTravelogue(Long travelogueId, MemberAuth member) {
         Travelogue travelogue = travelogueService.getTravelogueById(travelogueId);
-        processTraveloguePageCache(travelogue);
+        evictTraveloguePageCacheIfAffected(travelogue);
         Member liker = memberService.getMemberById(member.memberId());
         travelogueLikeService.unlikeTravelogue(travelogue, liker);
 
         return new TravelogueLikeResponse(false, travelogue.getLikeCount());
     }
 
-    private void processTraveloguePageCache(Travelogue travelogue) {
+    private void evictTraveloguePageCacheIfAffected(Travelogue travelogue) {
         long minimumLikeCountForCacheEviction = travelogueLikeService.getMinimumLikeCountForCacheEviction();
         if (travelogue.isLikeCountBiggerThan(minimumLikeCountForCacheEviction)) {
             invalidateTraveloguePageCache();
