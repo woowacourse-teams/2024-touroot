@@ -432,6 +432,7 @@ class TravelogueFacadeServiceTest extends AbstractServiceIntegrationTest {
         Member liker = testHelper.initKakaoMemberTestData();
         Travelogue travelogue = testHelper.initTravelogueTestDataWithLike(liker);
         redisTemplate.opsForValue().set("traveloguePage::1", "cached");
+
         // when
         service.likeTravelogue(travelogue.getId(), new MemberAuth(liker.getId()));
 
