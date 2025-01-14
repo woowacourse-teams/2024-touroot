@@ -1,7 +1,5 @@
 package kr.touroot.travelogue.service;
 
-import static kr.touroot.travelogue.service.TravelogueFacadeService.MAX_CACHING_PAGE;
-
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueLike;
@@ -17,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TravelogueLikeService {
 
-    private static final int CACHE_EVICTION_LIKE_RANK = MAX_CACHING_PAGE * 5;
+    private static final int CACHE_EVICTION_LIKE_RANK = TravelogueFacadeService.MAX_CACHING_PAGE * 5;
 
     private final TravelogueLikeRepository travelogueLikeRepository;
     private final TravelogueLikeQueryRepository travelogueLikeQueryRepository;
