@@ -4,6 +4,7 @@ import kr.touroot.member.domain.Member;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueLike;
 import kr.touroot.travelogue.repository.TravelogueLikeRepository;
+import kr.touroot.travelogue.repository.query.TravelogueLikeQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TravelogueLikeService {
 
+    private static final int CACHE_EVICTION_LIKE_RANK = TravelogueFacadeService.MAX_CACHING_PAGE * 5;
+
     private final TravelogueLikeRepository travelogueLikeRepository;
+    private final TravelogueLikeQueryRepository travelogueLikeQueryRepository;
 
     @Transactional(readOnly = true)
     public Page<TravelogueLike> findByLiker(Member liker, Pageable pageable) {
@@ -48,5 +52,9 @@ public class TravelogueLikeService {
     @Transactional
     public void deleteAllByTravelogue(Travelogue travelogue) {
         travelogueLikeRepository.deleteAllByTravelogue(travelogue);
+    }
+
+    public long getMinimumLikeCountForCacheEviction() {
+        return travelogueLikeQueryRepository.countTravelougeLikeByRank(CACHE_EVICTION_LIKE_RANK);
     }
 }

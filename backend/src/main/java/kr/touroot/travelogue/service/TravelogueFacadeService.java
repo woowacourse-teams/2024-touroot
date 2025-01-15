@@ -16,6 +16,8 @@ import kr.touroot.travelogue.dto.response.TravelogueLikeResponse;
 import kr.touroot.travelogue.dto.response.TravelogueResponse;
 import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,12 +28,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TravelogueFacadeService {
 
+    public static final int MAX_CACHING_PAGE = 4;
+    public static final String TRAVELOGUE_PAGE_CACHE_NAME = "traveloguePage";
+
     private final TravelogueService travelogueService;
     private final TravelogueImagePerpetuationService travelogueImagePerpetuationService;
     private final TravelogueTagService travelogueTagService;
     private final TravelogueLikeService travelogueLikeService;
     private final TravelogueCountryService travelogueCountryService;
     private final MemberService memberService;
+    private final CacheManager cacheManager;
 
     @Transactional
     public TravelogueCreateResponse createTravelogue(MemberAuth member, TravelogueRequest request) {
@@ -63,9 +69,12 @@ public class TravelogueFacadeService {
     }
 
     @Cacheable(
-            cacheNames = "traveloguePage",
+            cacheNames = TRAVELOGUE_PAGE_CACHE_NAME,
             key = "#pageable",
-            condition = "#pageable.pageNumber <= 4 && #filterRequest.toFilterCondition().emptyCondition && #searchRequest.toSearchCondition().emptyCondition"
+            condition = "#pageable.pageNumber <= " + MAX_CACHING_PAGE + " && " +
+                    "#filterRequest.toFilterCondition().emptyCondition && " +
+                    "#searchRequest.toSearchCondition().emptyCondition && " +
+                    "#pageable.sort.toString() == 'likeCount: DESC'"
     )
     @Transactional(readOnly = true)
     public Page<TravelogueSimpleResponse> findSimpleTravelogues(
@@ -113,6 +122,7 @@ public class TravelogueFacadeService {
         Member author = memberService.getMemberById(member.memberId());
         Travelogue travelogue = travelogueService.getTravelogueById(id);
 
+        evictTraveloguePageCacheIfAffected(travelogue);
         travelogueTagService.deleteAllByTravelogue(travelogue);
         travelogueLikeService.deleteAllByTravelogue(travelogue);
         travelogueCountryService.deleteAllByTravelogue(travelogue);
@@ -124,6 +134,7 @@ public class TravelogueFacadeService {
         Travelogue travelogue = travelogueService.getTravelogueById(travelogueId);
         Member liker = memberService.getMemberById(member.memberId());
         travelogueLikeService.likeTravelogue(travelogue, liker);
+        evictTraveloguePageCacheIfAffected(travelogue);
 
         return new TravelogueLikeResponse(true, travelogue.getLikeCount());
     }
@@ -131,9 +142,24 @@ public class TravelogueFacadeService {
     @Transactional
     public TravelogueLikeResponse unlikeTravelogue(Long travelogueId, MemberAuth member) {
         Travelogue travelogue = travelogueService.getTravelogueById(travelogueId);
+        evictTraveloguePageCacheIfAffected(travelogue);
         Member liker = memberService.getMemberById(member.memberId());
         travelogueLikeService.unlikeTravelogue(travelogue, liker);
 
         return new TravelogueLikeResponse(false, travelogue.getLikeCount());
+    }
+
+    private void evictTraveloguePageCacheIfAffected(Travelogue travelogue) {
+        long minimumLikeCountForCacheEviction = travelogueLikeService.getMinimumLikeCountForCacheEviction();
+        if (travelogue.isLikeCountBiggerThan(minimumLikeCountForCacheEviction)) {
+            invalidateTraveloguePageCache();
+        }
+    }
+
+    private void invalidateTraveloguePageCache() {
+        Cache cache = cacheManager.getCache(TRAVELOGUE_PAGE_CACHE_NAME);
+        if (cache != null) {
+            cache.clear();
+        }
     }
 }
