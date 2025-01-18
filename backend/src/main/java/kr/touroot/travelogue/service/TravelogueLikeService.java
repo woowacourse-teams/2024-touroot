@@ -22,7 +22,7 @@ public class TravelogueLikeService {
 
     @Transactional(readOnly = true)
     public Page<TravelogueLike> findByLiker(Member liker, Pageable pageable) {
-        return travelogueLikeRepository.findAllByLiker(liker, pageable);
+        return travelogueLikeQueryRepository.findAllByLiker(liker, pageable);
     }
 
     @Transactional(readOnly = true)
