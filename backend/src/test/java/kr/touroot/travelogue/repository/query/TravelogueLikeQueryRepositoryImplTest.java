@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 @DisplayName("TravelogueLikeQueryRepositoryImpl 테스트")
 class TravelogueLikeQueryRepositoryImplTest extends AbstractRepositoryIntegrationTest {
@@ -47,5 +49,26 @@ class TravelogueLikeQueryRepositoryImplTest extends AbstractRepositoryIntegratio
                 () -> assertThat(travelogueLikeQueryRepository.countTravelougeLikeByRank(2)).isZero(),
                 () -> assertThat(travelogueLikeQueryRepository.countTravelougeLikeByRank(20)).isZero()
         );
+    }
+
+    @DisplayName("특정 멤버가 좋아요한 여행기를 조회한다.")
+    @Test
+    void findAllByLiker() {
+        // given
+        Member member = MemberFixture.KAKAO_MEMBER.getMember();
+        memberRepository.save(member);
+
+        Travelogue likedTravelogue = TravelogueFixture.JEJU_TRAVELOGUE.getTravelogueOwnedBy(member);
+        Travelogue unlikedTravelogue = TravelogueFixture.JEJU_TRAVELOGUE.getTravelogueOwnedBy(member);
+        travelogueRepository.save(likedTravelogue);
+        travelogueRepository.save(unlikedTravelogue);
+
+        travelogueLikeRepository.save(new TravelogueLike(likedTravelogue, member));
+
+        // when
+        Page<TravelogueLike> allByLiker = travelogueLikeQueryRepository.findAllByLiker(member, PageRequest.of(0, 5));
+
+        // then
+        assertThat(allByLiker).hasSize(1);
     }
 }
