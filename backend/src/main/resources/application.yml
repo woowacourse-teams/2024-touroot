@@ -1,0 +1,195 @@
+oauth:
+  kakao:
+    user-information-request-uri: https://kapi.kakao.com/v2/user/me
+    access-token-request-uri: https://kauth.kakao.com/oauth/token
+    rest-api-key: ENC(i6J7NWUsDpXVbJrbSUcNFI3h0oc6v8PxuHShU9UA7EVuUNLtQN/ANII+8j5HjhGO)
+
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
+cloud:
+  aws:
+    s3:
+      bucket: touroot
+      image-base-uri: https://dev.touroot.kr/
+      temporary-storage-path: temporary/
+      image-storage-path: images/
+
+management:
+  endpoint:
+    health:
+      show-components: always
+      enabled: true
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, info, health, metrics
+      base-path: ENC(zc5tP1eNIEjv3uN5Kuih7wlo5zILgWxq)
+    enabled-by-default: false
+
+spring:
+  jpa:
+    open-in-view: false
+
+server:
+  tomcat:
+    threads:
+      max: 20
+    max-connections: 100
+    accept-count: 50
+---
+# local profile
+spring:
+  flyway:
+    enabled: false
+  config:
+    activate:
+      on-profile: local
+  h2:
+    console:
+      enabled: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:touroot
+    username: sa
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+
+security:
+  jwt:
+    token:
+      secret-key: ENC(SNwFG2NQDZkmIK3nNoZFdwQ0ZxKuoe+qcw10ljdW941YEx/Qky9PEEl+wvAN9S1KR26D3a83SnU=)
+      expire-length: 1800000 # 30 min
+    refresh:
+      secret-key: ENC(tneEW6IKq9XuDoxAoKvBEVER4xjLHCycWXMa+Rnzb700ndTnrkJ2mOtBPP5hEIJLRNgj5MLIhYs=)
+      expire-length: 1209600000 # 14 days
+
+cors:
+  allowed-origins: http://localhost:3000, https://dev.touroot.kr
+
+cloud:
+  aws:
+    s3:
+      image-base-uri: https://dev.touroot.kr/
+      origin-storage-path: touroot/
+---
+# dev profile
+spring:
+  flyway:
+    enabled: true
+    baseline-version: 1
+    baseline-on-migrate: true
+  config:
+    activate:
+      on-profile: dev
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 250MB
+  h2:
+    console:
+      enabled: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ENC(FgbVXdH4a5/EkMxdmYfPhFKAOwn1w+/CnmWDcN9p6fOVP6mP9coMEYezCPCNf95h)
+    username: ENC(SJznQPqjlZuw3qf8kv9IJQ==)
+    password: ENC(HsOo6wWp//egPPsSG6Wf40eF1Q2sVKfGuH4zGTL81Mw=)
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: validate
+
+server:
+  ssl:
+    key-store-type: PKCS12
+    key-store-password: ENC(faQYah2QoIaNVRZD9J6/junPRWkc5gaiAs+mEbxDk+I=)
+    key-store: ENC(7VQCNdI7mXATwc4AiymZoyf3mz9SiskXpLnenpMSFBI=)
+
+security:
+  jwt:
+    token:
+      secret-key: ENC(L36WWjoZtP2nHHkqxDGlYLsMHMp+EBL2Fnl+X2de2KHk+PIfViyVM7rCYcbcFpo7yB4MaP++atU=)
+      expire-length: 1800000 # 30 min
+    refresh:
+      secret-key: ENC(cDstTL4/ajLm3NohJwMR9vEBsIZeD9Vt+jE1obdwL8Q6gMnWvY3N+bmNsC9N0csaa6AaYIZLbFM=)
+      expire-length: 1209600000 # 14 days
+
+cors:
+  allowed-origins: http://localhost:3000, https://dev.touroot.kr
+
+cloud:
+  aws:
+    s3:
+      image-base-uri: https://dev.touroot.kr/
+      origin-storage-path: touroot-dev/
+
+loki:
+  loki-url: http://loki:3100/loki/api/v1/push
+---
+# prod profile
+spring:
+  flyway:
+    enabled: true
+    baseline-version: 1
+    baseline-on-migrate: true
+  config:
+    activate:
+      on-profile: prod
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 250MB
+  h2:
+    console:
+      enabled: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ENC(zfwbTfLkDkl/NeNTemoN+aK/VoS0rd6H2yFh+r6rKRIfj3IlYgVy32Y/0CfSdqXJaN6TyOOcVRs=)
+    username: ENC(JR+N+a5mb3AomBo+3xUE9A==)
+    password: ENC(3dbjjcIxMU86kQ3iU6zId/hLJzLM6KF+82dEd4g7/+c=)
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: validate
+
+security:
+  jwt:
+    token:
+      secret-key: ENC(1oFbXL7gi5RoZ3477IE75WnKK6t/Mq18IRzKB4TjRI/kb5ViYqbkBesMhPzjakFnAeqwiIWg0cQ=)
+      expire-length: 1800000 # 30 min
+    refresh:
+      secret-key: ENC(KzrDzCSz4dIMMP6Vsyd9cYvOvGXMbetrCDAX0/IpHfVW7kdsbV2+ZlGcBz+RCS2whMPuoCxdhyE=)
+      expire-length: 1209600000 # 14 days
+
+springdoc:
+  api-docs:
+    enabled: false
+
+cors:
+  allowed-origins: https://touroot.kr, https://www.touroot.kr
+
+cloud:
+  aws:
+    s3:
+      image-base-uri: https://touroot.kr/
+      origin-storage-path: touroot/
+
