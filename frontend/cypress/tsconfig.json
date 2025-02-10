@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "lib": ["es2020", "dom"],
+    "types": ["cypress", "node"],
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "baseUrl": "../src",
+    "paths": {
+      "@styles/*": ["styles/*"],
+      "@assets/*": ["assets/*"],
+      "@components/*": ["components/*"],
+      "@apis/*": ["apis/*"],
+      "@mocks/*": ["mocks/*"],
+      "@constants/*": ["constants/*"],
+      "@type/*": ["types/*"],
+      "@queries/*": ["queries/*"],
+      "@hooks/*": ["hooks/*"],
+      "@contexts/*": ["contexts/*"],
+      "@utils/*": ["utils/*"]
+    },
+    "resolveJsonModule": true
+  },
+  "include": ["**/*.ts"]
+}
