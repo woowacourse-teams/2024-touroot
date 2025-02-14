@@ -152,7 +152,7 @@ loki:
 spring:
   data:
     redis:
-      host: ENC(otCSAgc44Iy/31eLWwIb/WjJwH8YAjfQ)
+      host: ENC(Q8H+REeNNSB5FQnB4gcjyzj0hE0XhipyOpwsuPFQNKAgEUM9YypOU3SPCwIFMY6o2CMnI2JtQm99z2C6lUY8xURqkDHhgKC6)
       port: 6379
   flyway:
     enabled: true
