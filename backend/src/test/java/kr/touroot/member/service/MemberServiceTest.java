@@ -1,60 +1,36 @@
 package kr.touroot.member.service;
 
-import static kr.touroot.member.fixture.MemberRequestFixture.DUPLICATE_NICKNAME_MEMBER;
-import static kr.touroot.member.fixture.MemberRequestFixture.VALID_MEMBER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
-import kr.touroot.authentication.infrastructure.PasswordEncryptor;
-import kr.touroot.global.ServiceTest;
+import kr.touroot.global.AbstractServiceIntegrationTest;
 import kr.touroot.global.auth.dto.MemberAuth;
-import kr.touroot.global.config.EmbeddedS3Config;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.image.domain.ImageFile;
 import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
 import kr.touroot.member.dto.request.MemberRequest;
 import kr.touroot.member.dto.request.ProfileUpdateRequest;
+import kr.touroot.member.fixture.MemberFixture;
 import kr.touroot.member.helper.MemberTestHelper;
-import kr.touroot.utils.DatabaseCleaner;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-@DisplayName("사용자 서비스")
-@Import(value = {MemberService.class, MemberTestHelper.class, PasswordEncryptor.class, AwsS3Provider.class,
-        EmbeddedS3Config.class})
-@ServiceTest
-class MemberServiceTest {
 
-    private final MemberService memberService;
-    private final MemberTestHelper testHelper;
-    private final DatabaseCleaner databaseCleaner;
-    private final AwsS3Provider s3Provider;
+@DisplayName("사용자 서비스")
+class MemberServiceTest extends AbstractServiceIntegrationTest {
 
     @Autowired
-    public MemberServiceTest(
-            MemberService memberService,
-            MemberTestHelper testHelper,
-            DatabaseCleaner databaseCleaner,
-            AwsS3Provider s3Provider
-    ) {
-        this.memberService = memberService;
-        this.testHelper = testHelper;
-        this.databaseCleaner = databaseCleaner;
-        this.s3Provider = s3Provider;
-    }
-
-    @BeforeEach
-    void setUp() {
-        databaseCleaner.executeTruncate();
-    }
+    private MemberService memberService;
+    @Autowired
+    private MemberTestHelper testHelper;
+    @Autowired
+    private AwsS3Provider s3Provider;
 
     @DisplayName("ID를 기준으로 회원을 조회한다.")
     @Test
@@ -75,7 +51,7 @@ class MemberServiceTest {
     @DisplayName("정상적인 값을 가진 요청이 주어지면 회원을 생성한다.")
     @Test
     void createMember() {
-        MemberRequest request = VALID_MEMBER.getRequest();
+        MemberRequest request = MemberFixture.TOUROOT_LOCAL_USER.getCreateRequest();
 
         Long id = memberService.createMember(request);
 
@@ -92,17 +68,6 @@ class MemberServiceTest {
         assertThatThrownBy(() -> memberService.createMember(duplicateRequest))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("이미 회원 가입되어 있는 이메일입니다.");
-    }
-
-    @DisplayName("중복된 이메일을 가진 회원을 생성하려하면 예외가 발생한다.")
-    @Test
-    void createMemberWithDuplicatedNickname() {
-        testHelper.persistMember();
-        MemberRequest request = DUPLICATE_NICKNAME_MEMBER.getRequest();
-
-        assertThatThrownBy(() -> memberService.createMember(request))
-                .isInstanceOf(BadRequestException.class)
-                .hasMessage("이미 사용 중인 닉네임입니다.");
     }
 
     @DisplayName("멤버의 프로필을 업데이트 한다.")

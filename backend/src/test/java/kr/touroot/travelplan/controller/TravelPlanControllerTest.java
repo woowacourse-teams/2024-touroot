@@ -1,83 +1,63 @@
 package kr.touroot.travelplan.controller;
 
+import static kr.touroot.travelplan.fixture.TravelPlaceTodoFixture.BUY_LOCAL_SNACKS;
+import static kr.touroot.travelplan.fixture.TravelPlaceTodoFixture.BUY_SOUVENIRS;
+import static kr.touroot.travelplan.fixture.TravelPlaceTodoFixture.ENJOY_SUNSET;
+import static kr.touroot.travelplan.fixture.TravelPlaceTodoFixture.EXPLORE_ON_FOOT;
+import static kr.touroot.travelplan.fixture.TravelPlaceTodoFixture.RELAX_IN_CAFE;
+import static kr.touroot.travelplan.fixture.TravelPlaceTodoFixture.TAKE_PHOTOS;
+import static kr.touroot.travelplan.fixture.TravelPlanDayFixture.FIRST_DAY;
+import static kr.touroot.travelplan.fixture.TravelPlanDayFixture.SECOND_DAY;
+import static kr.touroot.travelplan.fixture.TravelPlanFixture.JEJU_TRAVEL_PLAN;
+import static kr.touroot.travelplan.fixture.TravelPlanFixture.PAST_DATE_TRAVEL_PLAN;
+import static kr.touroot.travelplan.fixture.TravelPlanPlaceFixture.HAMDEOK_BEACH;
+import static kr.touroot.travelplan.fixture.TravelPlanPlaceFixture.MANJANG_CAVE;
+import static kr.touroot.travelplan.fixture.TravelPlanPlaceFixture.SEONGSAN_ILCHULBONG;
 import static org.hamcrest.Matchers.is;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import kr.touroot.authentication.infrastructure.JwtTokenProvider;
-import kr.touroot.global.AcceptanceTest;
+import kr.touroot.global.AbstractControllerIntegrationTest;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.domain.TravelPlan;
-import kr.touroot.travelplan.dto.request.PlanDayRequest;
-import kr.touroot.travelplan.dto.request.PlanPlaceRequest;
-import kr.touroot.travelplan.dto.request.PlanPositionRequest;
 import kr.touroot.travelplan.dto.request.PlanRequest;
+import kr.touroot.travelplan.helper.TravelPlanRequestBuilder;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
-import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 
 @DisplayName("여행 계획 컨트롤러")
-@AcceptanceTest
-class TravelPlanControllerTest {
-
-    private final ObjectMapper objectMapper;
-    private final DatabaseCleaner databaseCleaner;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final TravelPlanTestHelper testHelper;
-    @LocalServerPort
-    private int port;
-    private String accessToken;
-    private Member member;
+class TravelPlanControllerTest extends AbstractControllerIntegrationTest {
 
     @Autowired
-    public TravelPlanControllerTest(
-            DatabaseCleaner databaseCleaner,
-            TravelPlanTestHelper testHelper,
-            JwtTokenProvider jwtTokenProvider,
-            ObjectMapper objectMapper
-    ) {
-        this.objectMapper = objectMapper;
-        this.databaseCleaner = databaseCleaner;
-        this.testHelper = testHelper;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
+    private TravelPlanTestHelper testHelper;
+
+    private String accessToken;
+    private Member planWriter;
 
     @BeforeEach
     void setUp() {
-        RestAssured.port = port;
-        databaseCleaner.executeTruncate();
-
-        member = testHelper.initMemberTestData();
-        accessToken = jwtTokenProvider.createToken(member.getId()).accessToken();
+        planWriter = testHelper.initMemberTestData();
+        accessToken = jwtTokenProvider.createToken(planWriter.getId()).accessToken();
     }
 
     @DisplayName("여행 계획 컨트롤러는 생성 요청이 들어올 때 201을 응답한다.")
     @Test
     void createTravelPlan() {
         // given
-        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
-        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
-                .placeName("잠실한강공원")
-                .todos(Collections.EMPTY_LIST)
-                .position(locationRequest)
-                .countryCode("KR")
-                .build();
-
-        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
-        PlanRequest request = PlanRequest.builder()
-                .title("신나는 한강 여행")
-                .startDate(LocalDate.MAX)
-                .days(List.of(planDayRequest))
+        PlanRequest request = TravelPlanRequestBuilder.forTravelPlan(JEJU_TRAVEL_PLAN)
+                .addDay(FIRST_DAY)
+                .addPlanPlaceWithTodos(HAMDEOK_BEACH, List.of(RELAX_IN_CAFE, BUY_LOCAL_SNACKS))
+                .addPlanPlaceWithTodos(MANJANG_CAVE, List.of(BUY_SOUVENIRS, TAKE_PHOTOS))
+                .buildDay()
+                .addDay(SECOND_DAY)
+                .addPlanPlaceWithTodos(SEONGSAN_ILCHULBONG, List.of(ENJOY_SUNSET, EXPLORE_ON_FOOT))
+                .buildDay()
                 .build();
 
         // when & then
@@ -96,18 +76,14 @@ class TravelPlanControllerTest {
     @Test
     void createTravelPlanWithInvalidStartDate() {
         // given
-        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
-        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
-                .placeName("잠실한강공원")
-                .todos(Collections.EMPTY_LIST)
-                .position(locationRequest)
-                .countryCode("KR")
-                .build();
-        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
-        PlanRequest request = PlanRequest.builder()
-                .title("신나는 한강 여행")
-                .startDate(LocalDate.MIN)
-                .days(List.of(planDayRequest))
+        PlanRequest request = TravelPlanRequestBuilder.forTravelPlan(PAST_DATE_TRAVEL_PLAN)
+                .addDay(FIRST_DAY)
+                .addPlanPlaceWithTodos(HAMDEOK_BEACH, List.of(RELAX_IN_CAFE, BUY_LOCAL_SNACKS))
+                .addPlanPlaceWithTodos(MANJANG_CAVE, List.of(BUY_SOUVENIRS, TAKE_PHOTOS))
+                .buildDay()
+                .addDay(SECOND_DAY)
+                .addPlanPlaceWithTodos(SEONGSAN_ILCHULBONG, List.of(ENJOY_SUNSET, EXPLORE_ON_FOOT))
+                .buildDay()
                 .build();
 
         // when & then
@@ -126,15 +102,14 @@ class TravelPlanControllerTest {
     @Test
     void readTravelPlan() {
         // given
-        testHelper.initTravelPlanTestData(member);
-        long id = 1L;
+        TravelPlan savedTravelPlan = testHelper.initTravelPlanTestData(planWriter);
 
         // when & then
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .when().log().all()
-                .get("/api/v1/travel-plans/" + id)
+                .get("/api/v1/travel-plans/" + savedTravelPlan.getId())
                 .then().log().all()
                 .statusCode(200)
                 .body("id", is(1));
@@ -144,14 +119,14 @@ class TravelPlanControllerTest {
     @Test
     void readTravelPlanWithNonExist() {
         // given
-        long id = 1L;
+        long noExistingId = 1L;
 
         // when & then
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .when().log().all()
-                .get("/api/v1/travel-plans/" + id)
+                .get("/api/v1/travel-plans/" + noExistingId)
                 .then().log().all()
                 .statusCode(400)
                 .body("message", is("존재하지 않는 여행 계획입니다."));
@@ -161,7 +136,7 @@ class TravelPlanControllerTest {
     @Test
     void readTravelPlanWithNotAuthor() {
         // given
-        long id = testHelper.initTravelPlanTestData(member).getId();
+        long id = testHelper.initTravelPlanTestData(planWriter).getId();
         Member notAuthor = testHelper.initMemberTestData();
         String notAuthorAccessToken = jwtTokenProvider.createToken(notAuthor.getId())
                 .accessToken();
@@ -181,7 +156,7 @@ class TravelPlanControllerTest {
     @Test
     void readTravelPlanByShareKey() {
         // given
-        TravelPlan travelPlan = testHelper.initTravelPlanTestData(member);
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(planWriter);
 
         // when & then
         RestAssured.given().log().all()
@@ -198,7 +173,7 @@ class TravelPlanControllerTest {
     @Test
     void readTravelPlanByShareKeyFromNoAuthor() {
         // given
-        TravelPlan travelPlan = testHelper.initTravelPlanTestData(member);
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(planWriter);
         Member notAuthor = testHelper.initMemberTestData();
         String notAuthorAccessToken = jwtTokenProvider.createToken(notAuthor.getId())
                 .accessToken();
@@ -218,7 +193,7 @@ class TravelPlanControllerTest {
     @Test
     void readTravelPlanByNotLoginUser() {
         // given
-        TravelPlan travelPlan = testHelper.initTravelPlanTestData(member);
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(planWriter);
         Member notAuthor = testHelper.initMemberTestData();
 
         // when & then
@@ -235,7 +210,7 @@ class TravelPlanControllerTest {
     @Test
     void readTravelPlanByInvalidShareKey() {
         // given
-        testHelper.initTravelPlanTestData(member);
+        testHelper.initTravelPlanTestData(planWriter);
 
         // when & then
         RestAssured.given().log().all()
@@ -248,24 +223,20 @@ class TravelPlanControllerTest {
                 .body("message", is("존재하지 않는 여행 계획입니다."));
     }
 
-    @DisplayName("여행기를 수정한다.")
+    @DisplayName("여행계획을 수정한다.")
     @Test
     void updateTravelPlan() {
         // given
-        TravelPlan travelPlan = testHelper.initTravelPlanTestData(member);
-        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
-        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
-                .placeName("잠실한강공원")
-                .todos(Collections.EMPTY_LIST)
-                .countryCode("KR")
-                .position(locationRequest)
-                .build();
+        TravelPlan travelPlan = testHelper.initTravelPlanTestData(planWriter);
 
-        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
-        PlanRequest request = PlanRequest.builder()
-                .title("신나는 한강 여행")
-                .startDate(LocalDate.MAX)
-                .days(List.of(planDayRequest))
+        PlanRequest request = TravelPlanRequestBuilder.forTravelPlan(PAST_DATE_TRAVEL_PLAN)
+                .addDay(FIRST_DAY)
+                .addPlanPlaceWithTodos(HAMDEOK_BEACH, List.of(RELAX_IN_CAFE, BUY_LOCAL_SNACKS))
+                .addPlanPlaceWithTodos(MANJANG_CAVE, List.of(BUY_SOUVENIRS, TAKE_PHOTOS))
+                .buildDay()
+                .addDay(SECOND_DAY)
+                .addPlanPlaceWithTodos(SEONGSAN_ILCHULBONG, List.of(ENJOY_SUNSET, EXPLORE_ON_FOOT))
+                .buildDay()
                 .build();
 
         // when & then
@@ -282,19 +253,14 @@ class TravelPlanControllerTest {
     @Test
     void updateTravelPlanWithNonExist() {
         // given
-        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
-        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
-                .placeName("잠실한강공원")
-                .todos(Collections.EMPTY_LIST)
-                .position(locationRequest)
-                .countryCode("KR")
-                .build();
-
-        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
-        PlanRequest request = PlanRequest.builder()
-                .title("신나는 한강 여행")
-                .startDate(LocalDate.MAX)
-                .days(List.of(planDayRequest))
+        PlanRequest request = TravelPlanRequestBuilder.forTravelPlan(PAST_DATE_TRAVEL_PLAN)
+                .addDay(FIRST_DAY)
+                .addPlanPlaceWithTodos(HAMDEOK_BEACH, List.of(RELAX_IN_CAFE, BUY_LOCAL_SNACKS))
+                .addPlanPlaceWithTodos(MANJANG_CAVE, List.of(BUY_SOUVENIRS, TAKE_PHOTOS))
+                .buildDay()
+                .addDay(SECOND_DAY)
+                .addPlanPlaceWithTodos(SEONGSAN_ILCHULBONG, List.of(ENJOY_SUNSET, EXPLORE_ON_FOOT))
+                .buildDay()
                 .build();
 
         // when & then
@@ -312,22 +278,18 @@ class TravelPlanControllerTest {
     @Test
     void updateTravelPlanWithNotAuthor() {
         // given
-        long id = testHelper.initTravelPlanTestData(member).getId();
+        long id = testHelper.initTravelPlanTestData(planWriter).getId();
         Member notAuthor = testHelper.initMemberTestData();
-        String notAuthorAccessToken = jwtTokenProvider.createToken(notAuthor.getId()).accessToken();
-        PlanPositionRequest locationRequest = new PlanPositionRequest("37.5175896", "127.0867236");
-        PlanPlaceRequest planPlaceRequest = PlanPlaceRequest.builder()
-                .placeName("잠실한강공원")
-                .todos(Collections.EMPTY_LIST)
-                .position(locationRequest)
-                .countryCode("KR")
-                .build();
 
-        PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
-        PlanRequest request = PlanRequest.builder()
-                .title("신나는 한강 여행")
-                .startDate(LocalDate.MAX)
-                .days(List.of(planDayRequest))
+        String notAuthorAccessToken = jwtTokenProvider.createToken(notAuthor.getId()).accessToken();
+        PlanRequest request = TravelPlanRequestBuilder.forTravelPlan(PAST_DATE_TRAVEL_PLAN)
+                .addDay(FIRST_DAY)
+                .addPlanPlaceWithTodos(HAMDEOK_BEACH, List.of(RELAX_IN_CAFE, BUY_LOCAL_SNACKS))
+                .addPlanPlaceWithTodos(MANJANG_CAVE, List.of(BUY_SOUVENIRS, TAKE_PHOTOS))
+                .buildDay()
+                .addDay(SECOND_DAY)
+                .addPlanPlaceWithTodos(SEONGSAN_ILCHULBONG, List.of(ENJOY_SUNSET, EXPLORE_ON_FOOT))
+                .buildDay()
                 .build();
 
         // when & then
@@ -344,7 +306,7 @@ class TravelPlanControllerTest {
     @DisplayName("여행계획을 삭제한다.")
     @Test
     void deleteTravelPlan() {
-        long id = testHelper.initTravelPlanTestData(member).getId();
+        long id = testHelper.initTravelPlanTestData(planWriter).getId();
 
         RestAssured.given().log().all()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
@@ -369,7 +331,7 @@ class TravelPlanControllerTest {
     @DisplayName("작성자가 아닌 사용자가 여행 계획 삭제시 403을 응답한다.")
     @Test
     void deleteTravelPlanWithNotAuthor() {
-        long id = testHelper.initTravelPlanTestData(member).getId();
+        long id = testHelper.initTravelPlanTestData(planWriter).getId();
         Member notAuthor = testHelper.initMemberTestData();
         String notAuthorAccessToken = jwtTokenProvider.createToken(notAuthor.getId()).accessToken();
 

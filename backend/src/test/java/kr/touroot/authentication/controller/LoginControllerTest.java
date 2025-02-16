@@ -8,47 +8,32 @@ import static org.mockito.Mockito.when;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import kr.touroot.authentication.dto.request.TokenReissueRequest;
+import kr.touroot.authentication.dto.response.OauthUserInformationResponse;
 import kr.touroot.authentication.dto.response.TokenResponse;
-import kr.touroot.authentication.fixture.OauthUserInformationFixture;
+import kr.touroot.authentication.fixture.OauthUserFixture;
 import kr.touroot.authentication.helper.LoginTestHelper;
-import kr.touroot.authentication.infrastructure.JwtTokenProvider;
 import kr.touroot.authentication.infrastructure.KakaoOauthProvider;
-import kr.touroot.global.AcceptanceTest;
+import kr.touroot.global.AbstractControllerIntegrationTest;
 import kr.touroot.member.domain.Member;
-import kr.touroot.utils.DatabaseCleaner;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.server.LocalServerPort;
 
 @DisplayName("로그인 컨트롤러")
-@AcceptanceTest
-class LoginControllerTest {
+class LoginControllerTest extends AbstractControllerIntegrationTest {
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-    @Autowired
-    private DatabaseCleaner databaseCleaner;
     @Autowired
     private LoginTestHelper testHelper;
     @MockBean
     private KakaoOauthProvider oauthProvider;
-    @LocalServerPort
-    private int port;
-
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-        databaseCleaner.executeTruncate();
-    }
 
     @DisplayName("카카오 로그인 요청을 처리할 수 있다")
     @Test
     void loginTest() throws Exception {
+        OauthUserInformationResponse kakaoUserInformation = OauthUserFixture.KAKAO_USER.getOauthInformationResponse();
         when(oauthProvider.getUserInformation(any(String.class), any(String.class)))
-                .thenReturn(OauthUserInformationFixture.USER_1_OAUTH_INFORMATION);
+                .thenReturn(kakaoUserInformation);
 
         RestAssured.given().log().all()
                 .queryParam("code", "test")

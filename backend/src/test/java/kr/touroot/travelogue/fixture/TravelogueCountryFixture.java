@@ -7,12 +7,12 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum TravelogueCountryFixture {
-    TRAVELOGUE_COUNTRY(CountryCode.KR, 1L);
+    KOREA(CountryCode.KR, 1L);
 
     private final CountryCode countryCode;
     private final Long count;
 
-    public TravelogueCountry create(Travelogue travelogue) {
+    public TravelogueCountry getTravelogueCountryIncludedIn(Travelogue travelogue) {
         return new TravelogueCountry(travelogue, countryCode, count.intValue());
     }
 }

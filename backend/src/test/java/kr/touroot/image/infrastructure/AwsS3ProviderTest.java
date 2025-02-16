@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import kr.touroot.global.AcceptanceTest;
+import kr.touroot.global.AbstractServiceIntegrationTest;
 import kr.touroot.global.exception.S3UploadException;
 import kr.touroot.image.domain.ImageFile;
 import org.junit.jupiter.api.DisplayName;
@@ -14,22 +14,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-@AcceptanceTest
-class AwsS3ProviderTest {
+@DisplayName("Aws S3 프로바이더")
+class AwsS3ProviderTest extends AbstractServiceIntegrationTest {
 
-    private final AwsS3Provider s3Provider;
-    private final String temporaryStoragePath;
-    private final String imageStoragePath;
-
-    public AwsS3ProviderTest(
-            @Autowired AwsS3Provider s3Provider,
-            @Value("${cloud.aws.s3.temporary-storage-path}") String temporaryStoragePath,
-            @Value("${cloud.aws.s3.image-storage-path}") String imageStoragePath
-    ) {
-        this.s3Provider = s3Provider;
-        this.temporaryStoragePath = temporaryStoragePath;
-        this.imageStoragePath = imageStoragePath;
-    }
+    @Autowired
+    private AwsS3Provider s3Provider;
+    @Value("${cloud.aws.s3.temporary-storage-path}")
+    private String temporaryStoragePath;
+    @Value("${cloud.aws.s3.image-storage-path}")
+    private String imageStoragePath;
 
     @DisplayName("유효한 url을 통해 이미지를 영구 폴더로 복사하면 새로운 url을 반환한다.")
     @Test

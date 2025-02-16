@@ -6,8 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.List;
-import kr.touroot.global.ServiceTest;
-import kr.touroot.global.config.TestQueryDslConfig;
+import kr.touroot.global.AbstractServiceIntegrationTest;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
@@ -22,42 +21,20 @@ import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.fixture.TravelogueFixture;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
-import kr.touroot.utils.DatabaseCleaner;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 @DisplayName("여행기 서비스")
-@Import(value = {TravelogueService.class, TravelogueTestHelper.class, TestQueryDslConfig.class})
-@ServiceTest
-class TravelogueServiceTest {
-
-    public static final int BASIC_PAGE_SIZE = 5;
-
-    private final TravelogueService travelogueService;
-    private final DatabaseCleaner databaseCleaner;
-    private final TravelogueTestHelper testHelper;
+class TravelogueServiceTest extends AbstractServiceIntegrationTest {
 
     @Autowired
-    public TravelogueServiceTest(
-            TravelogueService travelogueService,
-            DatabaseCleaner databaseCleaner,
-            TravelogueTestHelper testHelper
-    ) {
-        this.travelogueService = travelogueService;
-        this.databaseCleaner = databaseCleaner;
-        this.testHelper = testHelper;
-    }
-
-    @BeforeEach
-    void setUp() {
-        databaseCleaner.executeTruncate();
-    }
+    private TravelogueService travelogueService;
+    @Autowired
+    private TravelogueTestHelper testHelper;
 
     private static List<TravelogueDayRequest> getTravelogueDayRequests() {
         List<TraveloguePhotoRequest> photos = TravelogueRequestFixture.getTraveloguePhotoRequests();
@@ -69,7 +46,7 @@ class TravelogueServiceTest {
     @Test
     void saveTravelogue() {
         Member member = testHelper.initKakaoMemberTestData();
-        Travelogue travelogue = TravelogueFixture.TRAVELOGUE.create(member);
+        Travelogue travelogue = TravelogueFixture.JEJU_TRAVELOGUE.getTravelogueOwnedBy(member);
 
         Travelogue saved = travelogueService.save(travelogue);
         assertThat(saved.isAuthor(member)).isTrue();

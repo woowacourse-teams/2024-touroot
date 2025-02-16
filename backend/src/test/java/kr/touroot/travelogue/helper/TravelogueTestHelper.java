@@ -1,10 +1,10 @@
 package kr.touroot.travelogue.helper;
 
-import static kr.touroot.travelogue.fixture.TravelogueCountryFixture.TRAVELOGUE_COUNTRY;
-import static kr.touroot.travelogue.fixture.TravelogueDayFixture.TRAVELOGUE_DAY;
-import static kr.touroot.travelogue.fixture.TravelogueFixture.TRAVELOGUE;
-import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO;
-import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
+import static kr.touroot.travelogue.fixture.TravelogueCountryFixture.KOREA;
+import static kr.touroot.travelogue.fixture.TravelogueDayFixture.FIRST_DAY;
+import static kr.touroot.travelogue.fixture.TravelogueFixture.JEJU_TRAVELOGUE;
+import static kr.touroot.travelogue.fixture.TraveloguePhotoFixture.TRAVELOGUE_PHOTO_1;
+import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.HAMDEOK_BEACH;
 import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE_WITH_NONE_COUNTRY_CODE;
 
 import java.util.List;
@@ -75,6 +75,13 @@ public class TravelogueTestHelper {
         persistTravelogueLike(travelogue, author);
     }
 
+    public void initAllTravelogueTestData(List<Tag> tags) {
+        Member author = persistMember();
+        Travelogue travelogue = initTravelogueTestData(author);
+        initTravelogueTestDataWithTag(author, tags);
+        persistTravelogueLike(travelogue, author);
+    }
+
     public Travelogue initTravelogueTestData() {
         Member author = persistMember();
         return initTravelogueTestData(author);
@@ -116,17 +123,6 @@ public class TravelogueTestHelper {
         return travelogue;
     }
 
-    public Travelogue initTravelogueTestDataWithTag(Member author) {
-        Travelogue travelogue = persistTravelogue(author);
-        TravelogueDay day = persistTravelogueDay(travelogue);
-        TraveloguePlace place = persistTraveloguePlace(day);
-        persistTravelogueCountry(travelogue);
-        persistTraveloguePhoto(place);
-        persisTravelogueTag(travelogue, TagFixture.TAG_1.get());
-
-        return travelogue;
-    }
-
     public Travelogue initTravelogueTestDataWithTag(Member author, List<Tag> tags) {
         Travelogue travelogue = persistTravelogue(author);
         TravelogueDay day = persistTravelogueDay(travelogue);
@@ -134,6 +130,17 @@ public class TravelogueTestHelper {
         persistTraveloguePhoto(place);
 
         tags.forEach(tag -> persisTravelogueTag(travelogue, tag));
+
+        return travelogue;
+    }
+
+    public Travelogue initTravelogueTestDataWithTag(Member author) {
+        Travelogue travelogue = persistTravelogue(author);
+        TravelogueDay day = persistTravelogueDay(travelogue);
+        TraveloguePlace place = persistTraveloguePlace(day);
+        persistTravelogueCountry(travelogue);
+        persistTraveloguePhoto(place);
+        persisTravelogueTag(travelogue, TagFixture.TAG_1.get());
 
         return travelogue;
     }
@@ -161,43 +168,43 @@ public class TravelogueTestHelper {
     }
 
     public Member persistMember() {
-        Member author = MemberFixture.KAKAO_MEMBER.build();
+        Member author = MemberFixture.KAKAO_MEMBER.getMember();
 
         return memberRepository.save(author);
     }
 
     public Travelogue persistTravelogue(Member author) {
-        Travelogue travelogue = TRAVELOGUE.create(author);
+        Travelogue travelogue = JEJU_TRAVELOGUE.getTravelogueOwnedBy(author);
 
         return travelogueRepository.save(travelogue);
     }
 
     public TravelogueDay persistTravelogueDay(Travelogue travelogue) {
-        TravelogueDay day = TRAVELOGUE_DAY.create(1, travelogue);
+        TravelogueDay day = FIRST_DAY.getTravelogueDayIncludedIn(travelogue);
 
         return travelogueDayRepository.save(day);
     }
 
     public TraveloguePlace persistTraveloguePlace(TravelogueDay day) {
-        TraveloguePlace place = TRAVELOGUE_PLACE.create(day);
+        TraveloguePlace place = HAMDEOK_BEACH.getTraveloguePlaceIncludedIn(day);
 
         return traveloguePlaceRepository.save(place);
     }
 
     public TraveloguePlace persistTraveloguePlaceWithNoneCountryCode(TravelogueDay day) {
-        TraveloguePlace place = TRAVELOGUE_PLACE_WITH_NONE_COUNTRY_CODE.create(day);
+        TraveloguePlace place = TRAVELOGUE_PLACE_WITH_NONE_COUNTRY_CODE.getTraveloguePlaceIncludedIn(day);
 
         return traveloguePlaceRepository.save(place);
     }
 
     public TravelogueCountry persistTravelogueCountry(Travelogue travelogue) {
-        TravelogueCountry travelogueCountry = TRAVELOGUE_COUNTRY.create(travelogue);
+        TravelogueCountry travelogueCountry = KOREA.getTravelogueCountryIncludedIn(travelogue);
 
         return travelogueCountryRepository.save(travelogueCountry);
     }
 
     public TraveloguePhoto persistTraveloguePhoto(TraveloguePlace place) {
-        TraveloguePhoto photo = TRAVELOGUE_PHOTO.create(place);
+        TraveloguePhoto photo = TRAVELOGUE_PHOTO_1.getTraveloguePhotoIncludedIn(place);
 
         return traveloguePhotoRepository.save(photo);
     }
@@ -211,7 +218,7 @@ public class TravelogueTestHelper {
     }
 
     public Member initKakaoMemberTestData() {
-        Member member = new Member(1L, "리비", "https://dev.touroot.kr/temporary/profile.png", LoginType.KAKAO);
+        Member member = new Member(1L, "리비", "https://dev.touroot.kr/images/profile.png", LoginType.KAKAO);
         return memberRepository.save(member);
     }
 

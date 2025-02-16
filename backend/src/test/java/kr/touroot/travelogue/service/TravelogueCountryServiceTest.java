@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
-import kr.touroot.global.ServiceTest;
+import kr.touroot.global.AbstractServiceIntegrationTest;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueCountry;
 import kr.touroot.travelogue.domain.search.CountryCode;
@@ -14,39 +14,17 @@ import kr.touroot.travelogue.dto.request.TraveloguePlaceRequest;
 import kr.touroot.travelogue.dto.request.TravelogueRequest;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
-import kr.touroot.utils.DatabaseCleaner;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 
 @DisplayName("여행기 국가 서비스")
-@Import(value = {TravelogueCountryService.class, TravelogueTestHelper.class})
-@ServiceTest
-class TravelogueCountryServiceTest {
-
-    public static final int BASIC_PAGE_SIZE = 5;
-
-    private final TravelogueCountryService travelogueCountryService;
-    private final DatabaseCleaner databaseCleaner;
-    private final TravelogueTestHelper testHelper;
+class TravelogueCountryServiceTest extends AbstractServiceIntegrationTest {
 
     @Autowired
-    public TravelogueCountryServiceTest(
-            TravelogueCountryService travelogueCountryService,
-            DatabaseCleaner databaseCleaner,
-            TravelogueTestHelper testHelper
-    ) {
-        this.travelogueCountryService = travelogueCountryService;
-        this.databaseCleaner = databaseCleaner;
-        this.testHelper = testHelper;
-    }
-
-    @BeforeEach
-    void setUp() {
-        databaseCleaner.executeTruncate();
-    }
+    private TravelogueCountryService travelogueCountryService;
+    @Autowired
+    private TravelogueTestHelper testHelper;
 
     @DisplayName("여행기 국가들을 생성할 수 있다.")
     @Test

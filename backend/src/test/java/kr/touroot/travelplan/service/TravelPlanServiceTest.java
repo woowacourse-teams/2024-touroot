@@ -8,8 +8,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import kr.touroot.global.ServiceTest;
-import kr.touroot.global.auth.dto.MemberAuth;
+import kr.touroot.global.AbstractServiceIntegrationTest;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
@@ -21,52 +20,33 @@ import kr.touroot.travelplan.dto.request.PlanRequest;
 import kr.touroot.travelplan.fixture.TravelPlanFixture;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
 import kr.touroot.travelplan.repository.TravelPlanRepository;
-import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 
 @DisplayName("여행 계획 서비스")
-@Import(value = {TravelPlanService.class, TravelPlanTestHelper.class})
-@ServiceTest
-class TravelPlanServiceTest {
-
-    private final TravelPlanService travelPlanService;
-    private final TravelPlanRepository travelPlanRepository;
-    private final DatabaseCleaner databaseCleaner;
-    private final TravelPlanTestHelper testHelper;
-
-    private MemberAuth memberAuth;
-    private Member author;
+class TravelPlanServiceTest extends AbstractServiceIntegrationTest {
 
     @Autowired
-    public TravelPlanServiceTest(
-            TravelPlanService travelPlanService,
-            TravelPlanRepository travelPlanRepository,
-            DatabaseCleaner databaseCleaner,
-            TravelPlanTestHelper testHelper
-    ) {
-        this.travelPlanService = travelPlanService;
-        this.travelPlanRepository = travelPlanRepository;
-        this.databaseCleaner = databaseCleaner;
-        this.testHelper = testHelper;
-    }
+    private TravelPlanService travelPlanService;
+    @Autowired
+    private TravelPlanRepository travelPlanRepository;
+    @Autowired
+    private TravelPlanTestHelper testHelper;
+
+    private Member author;
 
     @BeforeEach
     void setUp() {
-        databaseCleaner.executeTruncate();
-
         author = testHelper.initMemberTestData();
-        memberAuth = new MemberAuth(author.getId());
     }
 
     @DisplayName("여행 계획을 저장할 수 있다")
     @Test
     void createTravelPlan() {
         // given
-        TravelPlan travelPlan = TravelPlanFixture.TRAVEL_PLAN.get(author);
+        TravelPlan travelPlan = TravelPlanFixture.JEJU_TRAVEL_PLAN.getTravelPlanOwnedBy(author);
 
         // when
         TravelPlan actual = travelPlanService.save(travelPlan);
@@ -80,7 +60,7 @@ class TravelPlanServiceTest {
     void createTravelPlanWithInvalidStartDate() {
         // given
         LocalDate past = LocalDate.now().minusDays(1);
-        TravelPlan travelPlan = TravelPlanFixture.TRAVEL_PLAN.get(author, past);
+        TravelPlan travelPlan = TravelPlanFixture.JEJU_TRAVEL_PLAN.getTravelPlanOwnedBy(author, past);
 
         // when & then
         assertThatThrownBy(() -> travelPlanService.save(travelPlan))
@@ -92,7 +72,7 @@ class TravelPlanServiceTest {
     @Test
     void createTravelPlanStartsAtToday() {
         LocalDate today = LocalDate.now();
-        TravelPlan travelPlan = TravelPlanFixture.TRAVEL_PLAN.get(author, today);
+        TravelPlan travelPlan = TravelPlanFixture.JEJU_TRAVEL_PLAN.getTravelPlanOwnedBy(author, today);
 
         // when & then=
         assertThatCode(() -> travelPlanService.save(travelPlan))
@@ -152,7 +132,7 @@ class TravelPlanServiceTest {
         PlanDayRequest planDayRequest = new PlanDayRequest(List.of(planPlaceRequest));
         PlanRequest request = PlanRequest.builder()
                 .title("수정된 한강 여행")
-                .startDate(LocalDate.MAX)
+                .startDate(LocalDate.now().plusDays(2))
                 .days(List.of(planDayRequest))
                 .build();
 

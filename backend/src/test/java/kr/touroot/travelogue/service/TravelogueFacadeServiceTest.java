@@ -2,19 +2,15 @@ package kr.touroot.travelogue.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 import java.util.List;
-import kr.touroot.authentication.infrastructure.PasswordEncryptor;
-import kr.touroot.global.ServiceTest;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
+import kr.touroot.global.AbstractServiceIntegrationTest;
 import kr.touroot.global.auth.dto.MemberAuth;
-import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
-import kr.touroot.image.infrastructure.AwsS3Provider;
 import kr.touroot.member.domain.Member;
-import kr.touroot.member.service.MemberService;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.dto.request.TravelogueDayRequest;
 import kr.touroot.travelogue.dto.request.TravelogueFilterRequest;
@@ -28,68 +24,40 @@ import kr.touroot.travelogue.dto.response.TravelogueSimpleResponse;
 import kr.touroot.travelogue.fixture.TravelogueRequestFixture;
 import kr.touroot.travelogue.fixture.TravelogueResponseFixture;
 import kr.touroot.travelogue.helper.TravelogueTestHelper;
-import kr.touroot.utils.DatabaseCleaner;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisTemplate;
 
 @DisplayName("여행기 Facade 서비스")
-@Import(value = {
-        TravelogueFacadeService.class,
-        TravelogueService.class,
-        AwsS3Provider.class,
-        TravelogueImagePerpetuationService.class,
-        TravelogueTagService.class,
-        TravelogueLikeService.class,
-        TravelogueCountryService.class,
-        MemberService.class,
-        TravelogueTestHelper.class,
-        PasswordEncryptor.class,
-        TestQueryDslConfig.class
-})
-@ServiceTest
-class TravelogueFacadeServiceTest {
-
-    private final TravelogueFacadeService service;
-    private final TravelogueTestHelper testHelper;
-    private final DatabaseCleaner databaseCleaner;
-    @MockBean
-    private final AwsS3Provider s3Provider;
+class TravelogueFacadeServiceTest extends AbstractServiceIntegrationTest {
 
     @Autowired
-    public TravelogueFacadeServiceTest(
-            TravelogueFacadeService travelogueFacadeService,
-            TravelogueTestHelper travelogueTestHelper,
-            DatabaseCleaner databaseCleaner,
-            AwsS3Provider s3Provider
-    ) {
-        this.service = travelogueFacadeService;
-        this.testHelper = travelogueTestHelper;
-        this.databaseCleaner = databaseCleaner;
-        this.s3Provider = s3Provider;
-    }
+    private TravelogueFacadeService service;
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+    @Autowired
+    private TravelogueTestHelper testHelper;
+    @Autowired
+    private CacheManager cacheManager;
 
     @BeforeEach
     void setUp() {
-        databaseCleaner.executeTruncate();
-    }
-
-    private void mockImageCopyProcess() {
-        when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn("https://dev.touroot.kr/image.png");
+        redisTemplate.getConnectionFactory().getConnection().flushAll();
     }
 
     @DisplayName("여행기를 생성할 수 있다.")
     @Test
     void createTravelogue() {
-        mockImageCopyProcess();
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
 
         testHelper.initKakaoMemberTestData();
@@ -160,6 +128,96 @@ class TravelogueFacadeServiceTest {
         );
 
         assertThat(result).containsAll(expect);
+    }
+
+    @DisplayName("여행기 컨텐츠 페이징 응답 시 페이지 번호가 4이하이고 필터 조건과 검색 조건이 없으면 응답을 캐싱한다.")
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3, 4})
+    void cacheTraveloguePage(int pageNumber) {
+        // given
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest(null, null);
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
+        Pageable pageRequest = PageRequest.of(pageNumber, 5, Sort.by("likeCount").descending());
+
+        // when
+        service.findSimpleTravelogues(filterRequest, searchRequest, pageRequest);
+
+        // then
+        String key = "traveloguePage::" + pageRequest.toString();
+        String cachedValue = redisTemplate.opsForValue().get(key);
+        assertThat(cachedValue).isNotEmpty();
+    }
+
+    @DisplayName("여행기 컨텐츠 페이징 응답 시 페이지 번호가 5이상이면 응답을 캐싱하지 않는다.")
+    @ParameterizedTest
+    @ValueSource(ints = {5, 6, 7, 8, 9})
+    void noCacheTraveloguePage(int pageNumber) {
+        // given
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest(null, null);
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
+        Pageable pageRequest = PageRequest.of(pageNumber, 5, Sort.by("id"));
+
+        // when
+        service.findSimpleTravelogues(filterRequest, searchRequest, pageRequest);
+
+        // then
+        String key = "traveloguePage::" + pageRequest.toString();
+        String cachedValue = redisTemplate.opsForValue().get(key);
+        assertThat(cachedValue).isNull();
+    }
+
+    @DisplayName("여행기 컨텐츠 페이징 응답 시 검색 조건이 있다면 응답을 캐싱하지 않는다.")
+    @Test
+    void noCacheTraveloguePageWhenSearchConditionExist() {
+        // given
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest("멋쟁이 리비의 여행", null);
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
+        Pageable pageRequest = PageRequest.of(1, 5, Sort.by("id"));
+
+        // when
+        service.findSimpleTravelogues(filterRequest, searchRequest, pageRequest);
+
+        // then
+        String key = "traveloguePage::" + pageRequest.toString();
+        String cachedValue = redisTemplate.opsForValue().get(key);
+        assertThat(cachedValue).isNull();
+    }
+
+    @DisplayName("여행기 컨텐츠 페이징 응답 시 필터링 조건이 있다면 응답을 캐싱하지 않는다.")
+    @Test
+    void noCacheTraveloguePageWhenFilterConditionExist() {
+        // given
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest(null, null);
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, 3);
+        Pageable pageRequest = PageRequest.of(1, 5, Sort.by("id"));
+
+        // when
+        service.findSimpleTravelogues(filterRequest, searchRequest, pageRequest);
+
+        // then
+        String key = "traveloguePage::" + pageRequest.toString();
+        String cachedValue = redisTemplate.opsForValue().get(key);
+        assertThat(cachedValue).isNull();
+    }
+
+    @DisplayName("여행기 컨텐츠 페이징 응답 캐시는 30분 동안 유지된다.")
+    @Test
+    void pageCacheExpiration() {
+        // given
+        TravelogueSearchRequest searchRequest = new TravelogueSearchRequest(null, null);
+        TravelogueFilterRequest filterRequest = new TravelogueFilterRequest(null, null);
+        Pageable pageRequest = PageRequest.of(1, 5, Sort.by("likeCount").descending());
+
+        // when
+        service.findSimpleTravelogues(filterRequest, searchRequest, pageRequest);
+
+        // then
+        String key = "traveloguePage::" + pageRequest.toString();
+        Long ttl = redisTemplate.getExpire(key, TimeUnit.MINUTES);
+        Assertions.assertAll(
+                () -> assertThat(ttl).isGreaterThanOrEqualTo(29),
+                () -> assertThat(ttl).isLessThanOrEqualTo(30)
+        );
     }
 
     @DisplayName("필터링된 여행기 목록을 조회한다.")
@@ -263,9 +321,6 @@ class TravelogueFacadeServiceTest {
     @DisplayName("여행기를 수정할 수 있다.")
     @Test
     void updateTravelogue() {
-        Mockito.when(s3Provider.copyImageToPermanentStorage(any(String.class)))
-                .thenReturn(TravelogueResponseFixture.getUpdatedTravelogueResponse().thumbnail());
-
         List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
 
         Member author = testHelper.initKakaoMemberTestData();
@@ -289,7 +344,6 @@ class TravelogueFacadeServiceTest {
     @Test
     void updateTravelogueWithNotExist() {
         List<TravelogueDayRequest> days = getUpdateTravelogueDayRequests();
-        mockImageCopyProcess();
 
         Member author = testHelper.initKakaoMemberTestData();
         testHelper.initTravelogueTestData(author);
@@ -309,7 +363,6 @@ class TravelogueFacadeServiceTest {
         MemberAuth notAuthorAuth = new MemberAuth(testHelper.initKakaoMemberTestData().getId());
 
         List<TravelogueDayRequest> days = getTravelogueDayRequests();
-        mockImageCopyProcess();
 
         TravelogueRequest request = TravelogueRequestFixture.getTravelogueRequest(days);
 
@@ -369,5 +422,53 @@ class TravelogueFacadeServiceTest {
         assertThatThrownBy(() -> service.unlikeTravelogue(1L, new MemberAuth(liker.getId())))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("존재하지 않는 여행기입니다.");
+    }
+
+
+    @DisplayName("여행기의 좋아요 수가 바뀔 때 해당 여행기가 캐싱되는 기준 이상의 좋아요 수를 가진다면 해당 캐시를 무효화 한다")
+    @Test
+    void cacheEviction() {
+        // given
+        Member liker = testHelper.initKakaoMemberTestData();
+        Travelogue travelogue = testHelper.initTravelogueTestDataWithLike(liker);
+        redisTemplate.opsForValue().set("traveloguePage::1", "cached");
+
+        // when
+        service.likeTravelogue(travelogue.getId(), new MemberAuth(liker.getId()));
+
+        // then
+        assertThat(redisTemplate.opsForValue().get("traveloguePage::1")).isNull();
+    }
+
+    @DisplayName("여행기의 좋아요 수가 바뀔 때 해당 여행기가 캐싱되는 기준 이하의 좋아요 수를 가진다면 해당 캐시를 무효화 하지 않는다")
+    @Test
+    void cacheNoEviction() {
+        // given
+        Member liker1 = testHelper.initKakaoMemberTestData();
+        Member liker2 = testHelper.initKakaoMemberTestData();
+        Member liker3 = testHelper.initKakaoMemberTestData();
+
+        List<Travelogue> travelogues = createTravelogues(20);
+        travelogues.forEach(travelogue -> likeTravelogueByMember(travelogue, liker1));
+        travelogues.forEach(travelogue -> likeTravelogueByMember(travelogue, liker2));
+
+        Travelogue rank21Travelogue = testHelper.initTravelogueTestData();
+        redisTemplate.opsForValue().set("traveloguePage::1", "cached");
+
+        // when
+        service.likeTravelogue(rank21Travelogue.getId(), new MemberAuth(liker3.getId()));
+
+        // then
+        assertThat(redisTemplate.opsForValue().get("traveloguePage::1")).isNotNull();
+    }
+
+    private List<Travelogue> createTravelogues(int count) {
+        return IntStream.range(0, count)
+                .mapToObj(i -> testHelper.initTravelogueTestData())
+                .toList();
+    }
+
+    private void likeTravelogueByMember(Travelogue travelogue, Member member) {
+        service.likeTravelogue(travelogue.getId(), new MemberAuth(member.getId())); // 특정 여행기에 좋아요 추가
     }
 }

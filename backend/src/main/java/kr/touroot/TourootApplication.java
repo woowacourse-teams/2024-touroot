@@ -1,7 +1,8 @@
 package kr.touroot;
 
-import org.springframework.boot.SpringApplication;
+import com.ulisesbocchio.jasyptspringboot.environment.StandardEncryptableEnvironment;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
@@ -11,6 +12,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class TourootApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TourootApplication.class, args);
+        new SpringApplicationBuilder()
+                .environment(new StandardEncryptableEnvironment())
+                .sources(TourootApplication.class)
+                .run(args);
     }
 }

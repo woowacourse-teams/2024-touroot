@@ -38,6 +38,9 @@ management:
 spring:
   jpa:
     open-in-view: false
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
 
 server:
   tomcat:
@@ -45,9 +48,14 @@ server:
       max: 20
     max-connections: 100
     accept-count: 50
+  shutdown: graceful
 ---
 # local profile
 spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
   flyway:
     enabled: false
   config:
@@ -88,6 +96,10 @@ cloud:
 ---
 # dev profile
 spring:
+  data:
+    redis:
+      host: redis
+      port: 6379
   flyway:
     enabled: true
     baseline-version: 1
@@ -115,12 +127,6 @@ spring:
     hibernate:
       ddl-auto: validate
 
-server:
-  ssl:
-    key-store-type: PKCS12
-    key-store-password: ENC(faQYah2QoIaNVRZD9J6/junPRWkc5gaiAs+mEbxDk+I=)
-    key-store: ENC(7VQCNdI7mXATwc4AiymZoyf3mz9SiskXpLnenpMSFBI=)
-
 security:
   jwt:
     token:
@@ -140,10 +146,14 @@ cloud:
       origin-storage-path: touroot-dev/
 
 loki:
-  loki-url: http://loki:3100/loki/api/v1/push
+  loki-url: ENC(4BSlONNK5dOy2fX12yswIMZvkYVEFy93a1fmDA2/p3z/zrOivXbO9h3On685umt1)
 ---
 # prod profile
 spring:
+  data:
+    redis:
+      host: ENC(Q8H+REeNNSB5FQnB4gcjyzj0hE0XhipyOpwsuPFQNKAgEUM9YypOU3SPCwIFMY6o2CMnI2JtQm99z2C6lUY8xURqkDHhgKC6)
+      port: 6379
   flyway:
     enabled: true
     baseline-version: 1
@@ -160,9 +170,9 @@ spring:
       enabled: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ENC(zfwbTfLkDkl/NeNTemoN+aK/VoS0rd6H2yFh+r6rKRIfj3IlYgVy32Y/0CfSdqXJaN6TyOOcVRs=)
-    username: ENC(JR+N+a5mb3AomBo+3xUE9A==)
-    password: ENC(3dbjjcIxMU86kQ3iU6zId/hLJzLM6KF+82dEd4g7/+c=)
+    url: ENC(zbNmL4uAmhtfg0ZI7TMWMseJIBc/6Lf97jdLbwdWhCeRn7+kRiCpNQBF3au08YHXkJ1Bat2jIkmZ/h7U3ObgKdffRBcosuFf3pFx4Fhm4oqkP4qs2AipV07RUNpph0GV)
+    username: ENC(fP7iDevf2QPIhokKlAPmbg==)
+    password: ENC(oxMoi7tI5PNdbrTIrLeLjiwQalgqL1gGb7S+wt/6TDA=)
   jpa:
     show-sql: false
     properties:
@@ -193,3 +203,5 @@ cloud:
       image-base-uri: https://touroot.kr/
       origin-storage-path: touroot/
 
+loki:
+  loki-url: ENC(JTagwgNAOqA2l2uOvQQHzQAkmSPLUUDSdloHQp3QIIa9Z9zyTrtcHpdQfwPzjBqC)

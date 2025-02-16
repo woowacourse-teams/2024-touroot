@@ -3,48 +3,32 @@ package kr.touroot.travelplan.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import kr.touroot.global.ServiceTest;
+import kr.touroot.global.AbstractServiceIntegrationTest;
 import kr.touroot.global.auth.dto.MemberAuth;
-import kr.touroot.global.config.TestQueryDslConfig;
 import kr.touroot.global.exception.BadRequestException;
 import kr.touroot.global.exception.ForbiddenException;
 import kr.touroot.member.domain.Member;
 import kr.touroot.travelplan.dto.request.TodoStatusUpdateRequest;
 import kr.touroot.travelplan.dto.response.PlanPlaceTodoResponse;
 import kr.touroot.travelplan.helper.TravelPlanTestHelper;
-import kr.touroot.utils.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 
 @DisplayName("TODO 서비스")
-@Import({PlaceTodoService.class, TravelPlanTestHelper.class, TestQueryDslConfig.class})
-@ServiceTest
-class PlaceTodoServiceTest {
+class PlaceTodoServiceTest extends AbstractServiceIntegrationTest {
 
-    private final PlaceTodoService placeTodoService;
-    private final DatabaseCleaner databaseCleaner;
-    private final TravelPlanTestHelper testHelper;
+    @Autowired
+    private PlaceTodoService placeTodoService;
+    @Autowired
+    private TravelPlanTestHelper testHelper;
 
     private MemberAuth memberAuth;
     private Member author;
 
-    @Autowired
-    public PlaceTodoServiceTest(
-            PlaceTodoService placeTodoService,
-            DatabaseCleaner databaseCleaner,
-            TravelPlanTestHelper testHelper
-    ) {
-        this.placeTodoService = placeTodoService;
-        this.databaseCleaner = databaseCleaner;
-        this.testHelper = testHelper;
-    }
-
     @BeforeEach
     void setUp() {
-        databaseCleaner.executeTruncate();
         author = testHelper.initMemberTestData();
         memberAuth = new MemberAuth(author.getId());
     }

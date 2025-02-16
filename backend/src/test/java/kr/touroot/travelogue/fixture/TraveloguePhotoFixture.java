@@ -1,25 +1,36 @@
 package kr.touroot.travelogue.fixture;
 
-import static kr.touroot.travelogue.fixture.TraveloguePlaceFixture.TRAVELOGUE_PLACE;
-
 import kr.touroot.travelogue.domain.TraveloguePhoto;
 import kr.touroot.travelogue.domain.TraveloguePlace;
+import kr.touroot.travelogue.dto.request.TraveloguePhotoRequest;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public enum TraveloguePhotoFixture {
 
-    TRAVELOGUE_PHOTO(1, "https://dev.touroot.kr/temporary/image1.png", TRAVELOGUE_PLACE.get());
+    TRAVELOGUE_PHOTO_1(1, "https://dev.touroot.kr/images/image1.png"),
+    TRAVELOGUE_PHOTO_2(2, "https://dev.touroot.kr/images/image2.png"),
+    TRAVELOGUE_PHOTO_3(3, "https://dev.touroot.kr/images/image3.png"),
+    TRAVELOGUE_PHOTO_4(4, "https://dev.touroot.kr/images/image4.png"),
+    TRAVELOGUE_PHOTO_5(5, "https://dev.touroot.kr/images/image5.png"),
+    TRAVELOGUE_PHOTO_6(6, "https://dev.touroot.kr/images/image6.png"),
+    TRAVELOGUE_PHOTO_7(7, "https://dev.touroot.kr/images/image7.png"),
+    TRAVELOGUE_PHOTO_8(8, "https://dev.touroot.kr/images/image8.png"),
+    TRAVELOGUE_PHOTO_9(9, "https://dev.touroot.kr/images/image9.png"),
+    TRAVELOGUE_PHOTO_10(10, "https://dev.touroot.kr/images/image10.png"),
+    TRAVELOGUE_PHOTO_11(11, "https://dev.touroot.kr/images/image11.png"),
+    ;
 
     private final int order;
     private final String url;
-    private final TraveloguePlace place;
 
-    public TraveloguePhoto get() {
+    public TraveloguePhoto getTraveloguePhotoIncludedIn(TraveloguePlace place) {
         return new TraveloguePhoto(order, url, place);
     }
 
-    public TraveloguePhoto create(TraveloguePlace place) {
-        return new TraveloguePhoto(order, url, place);
+    public TraveloguePhotoRequest getCreateRequest() {
+        return new TraveloguePhotoRequest(url);
     }
 }
