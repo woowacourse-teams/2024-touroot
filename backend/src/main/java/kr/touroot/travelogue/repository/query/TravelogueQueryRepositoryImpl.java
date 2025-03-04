@@ -2,7 +2,6 @@ package kr.touroot.travelogue.repository.query;
 
 import static kr.touroot.travelogue.domain.QTravelogue.travelogue;
 import static kr.touroot.travelogue.domain.QTravelogueCountry.travelogueCountry;
-import static kr.touroot.travelogue.domain.QTravelogueTag.travelogueTag;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -11,6 +10,7 @@ import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import kr.touroot.travelogue.domain.QTravelogueTag;
 import kr.touroot.travelogue.domain.Travelogue;
 import kr.touroot.travelogue.domain.TravelogueFilterCondition;
 import kr.touroot.travelogue.domain.search.CountryCode;
@@ -95,12 +95,15 @@ public class TravelogueQueryRepositoryImpl implements TravelogueQueryRepository 
             return;
         }
 
-        List<Long> tags = filter.getTag();
+        List<Long> tagIds = filter.getTag();
+        tagIds.forEach(tagId -> joinTravelogueTag(query, tagId));
+    }
 
-        query.join(travelogueTag).on(travelogueTag.travelogue.eq(travelogue))
-                .where(travelogueTag.tag.id.in(tags))
-                .groupBy(travelogue)
-                .having(travelogueTag.count().eq(Long.valueOf(tags.size())));
+    private void joinTravelogueTag(JPAQuery<Travelogue> query, Long tagId) {
+        QTravelogueTag travelogueTag = new QTravelogueTag("travelogueTag" + tagId);
+        query.join(travelogueTag)
+                .on(travelogueTag.travelogue.eq(travelogue)
+                        .and(travelogueTag.tag.id.eq(tagId)));
     }
 
     public void addPeriodFilter(JPAQuery<Travelogue> query, TravelogueFilterCondition filter) {
