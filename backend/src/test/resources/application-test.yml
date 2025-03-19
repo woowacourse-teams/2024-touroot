@@ -23,6 +23,8 @@ cloud:
 server:
   port: 8081
 spring:
+  main:
+    lazy-initialization: true
   config:
     activate:
       on-profile: test
